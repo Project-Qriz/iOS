@@ -7,11 +7,13 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		54DB0D992D0950DE00ABD458 /* ViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54DB0D982D0950DE00ABD458 /* ViewModel.swift */; };
+		54DB0D9D2D09513300ABD458 /* AppCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54DB0D9C2D09513300ABD458 /* AppCoordinator.swift */; };
+		54DB0DA12D0951C000ABD458 /* Font+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54DB0DA02D0951C000ABD458 /* Font+.swift */; };
 		E23963092D083B900092B39B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E23963082D083B900092B39B /* AppDelegate.swift */; };
 		E239630B2D083B900092B39B /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E239630A2D083B900092B39B /* SceneDelegate.swift */; };
 		E239630D2D083B900092B39B /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E239630C2D083B900092B39B /* ViewController.swift */; };
 		E23963122D083B900092B39B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E23963112D083B900092B39B /* Assets.xcassets */; };
-		E23963152D083B900092B39B /* Base in Resources */ = {isa = PBXBuildFile; fileRef = E23963142D083B900092B39B /* Base */; };
 		E23963202D083B910092B39B /* QRIZTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E239631F2D083B910092B39B /* QRIZTests.swift */; };
 		E239632A2D083B910092B39B /* QRIZUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E23963292D083B910092B39B /* QRIZUITests.swift */; };
 		E239632C2D083B910092B39B /* QRIZUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E239632B2D083B910092B39B /* QRIZUITestsLaunchTests.swift */; };
@@ -42,12 +44,14 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		54DB0D982D0950DE00ABD458 /* ViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModel.swift; sourceTree = "<group>"; };
+		54DB0D9C2D09513300ABD458 /* AppCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppCoordinator.swift; sourceTree = "<group>"; };
+		54DB0DA02D0951C000ABD458 /* Font+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Font+.swift"; sourceTree = "<group>"; };
 		E23963052D083B8F0092B39B /* QRIZ.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = QRIZ.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E23963082D083B900092B39B /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		E239630A2D083B900092B39B /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		E239630C2D083B900092B39B /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		E23963112D083B900092B39B /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		E23963142D083B900092B39B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		E23963162D083B900092B39B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		E239631B2D083B910092B39B /* QRIZTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = QRIZTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		E239631F2D083B910092B39B /* QRIZTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QRIZTests.swift; sourceTree = "<group>"; };
@@ -89,6 +93,72 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		54DB0D952D094FAA00ABD458 /* App */ = {
+			isa = PBXGroup;
+			children = (
+				E23963082D083B900092B39B /* AppDelegate.swift */,
+				E239630A2D083B900092B39B /* SceneDelegate.swift */,
+			);
+			path = App;
+			sourceTree = "<group>";
+		};
+		54DB0D962D09506C00ABD458 /* Feature */ = {
+			isa = PBXGroup;
+			children = (
+				54DB0D972D0950A500ABD458 /* Home */,
+			);
+			path = Feature;
+			sourceTree = "<group>";
+		};
+		54DB0D972D0950A500ABD458 /* Home */ = {
+			isa = PBXGroup;
+			children = (
+				E239630C2D083B900092B39B /* ViewController.swift */,
+				54DB0D982D0950DE00ABD458 /* ViewModel.swift */,
+			);
+			path = Home;
+			sourceTree = "<group>";
+		};
+		54DB0D9B2D09510A00ABD458 /* Coordinator */ = {
+			isa = PBXGroup;
+			children = (
+				54DB0D9C2D09513300ABD458 /* AppCoordinator.swift */,
+			);
+			path = Coordinator;
+			sourceTree = "<group>";
+		};
+		54DB0D9E2D09514000ABD458 /* Utils */ = {
+			isa = PBXGroup;
+			children = (
+				54DB0D9F2D09519D00ABD458 /* Extensions */,
+			);
+			path = Utils;
+			sourceTree = "<group>";
+		};
+		54DB0D9F2D09519D00ABD458 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				54DB0DA02D0951C000ABD458 /* Font+.swift */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
+		54DB0DA22D0951D400ABD458 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				E23963112D083B900092B39B /* Assets.xcassets */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		54DB0DA32D09524E00ABD458 /* SupportingFiles */ = {
+			isa = PBXGroup;
+			children = (
+				E23963162D083B900092B39B /* Info.plist */,
+			);
+			path = SupportingFiles;
+			sourceTree = "<group>";
+		};
 		E23962FC2D083B8F0092B39B = {
 			isa = PBXGroup;
 			children = (
@@ -113,12 +183,12 @@
 		E23963072D083B8F0092B39B /* QRIZ */ = {
 			isa = PBXGroup;
 			children = (
-				E23963082D083B900092B39B /* AppDelegate.swift */,
-				E239630A2D083B900092B39B /* SceneDelegate.swift */,
-				E239630C2D083B900092B39B /* ViewController.swift */,
-				E23963112D083B900092B39B /* Assets.xcassets */,
-				E23963132D083B900092B39B /* LaunchScreen.storyboard */,
-				E23963162D083B900092B39B /* Info.plist */,
+				54DB0D952D094FAA00ABD458 /* App */,
+				54DB0D962D09506C00ABD458 /* Feature */,
+				54DB0D9B2D09510A00ABD458 /* Coordinator */,
+				54DB0D9E2D09514000ABD458 /* Utils */,
+				54DB0DA22D0951D400ABD458 /* Resources */,
+				54DB0DA32D09524E00ABD458 /* SupportingFiles */,
 			);
 			path = QRIZ;
 			sourceTree = "<group>";
@@ -268,7 +338,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				E23963122D083B900092B39B /* Assets.xcassets in Resources */,
-				E23963152D083B900092B39B /* Base in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -300,8 +369,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				54DB0DA12D0951C000ABD458 /* Font+.swift in Sources */,
 				E239630D2D083B900092B39B /* ViewController.swift in Sources */,
 				E23963092D083B900092B39B /* AppDelegate.swift in Sources */,
+				54DB0D9D2D09513300ABD458 /* AppCoordinator.swift in Sources */,
+				54DB0D992D0950DE00ABD458 /* ViewModel.swift in Sources */,
 				E239630B2D083B900092B39B /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -349,17 +421,6 @@
 			targetProxy = E23963402D083BC30092B39B /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
-
-/* Begin PBXVariantGroup section */
-		E23963132D083B900092B39B /* LaunchScreen.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				E23963142D083B900092B39B /* Base */,
-			);
-			name = LaunchScreen.storyboard;
-			sourceTree = "<group>";
-		};
-/* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
 		E239632D2D083B910092B39B /* Debug */ = {
@@ -490,7 +551,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 876W82FDBV;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = QRIZ/Info.plist;
+				INFOPLIST_FILE = QRIZ/SupportingFiles/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
@@ -518,7 +579,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 876W82FDBV;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = QRIZ/Info.plist;
+				INFOPLIST_FILE = QRIZ/SupportingFiles/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
