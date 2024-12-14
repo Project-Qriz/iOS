@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		541878542D0E21620089F478 /* HTTPMethod.swift in Sources */ = {isa = PBXBuildFile; fileRef = 541878532D0E21620089F478 /* HTTPMethod.swift */; };
 		54DB0D992D0950DE00ABD458 /* ViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54DB0D982D0950DE00ABD458 /* ViewModel.swift */; };
 		54DB0D9D2D09513300ABD458 /* AppCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54DB0D9C2D09513300ABD458 /* AppCoordinator.swift */; };
 		54DB0DA12D0951C000ABD458 /* Font+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54DB0DA02D0951C000ABD458 /* Font+.swift */; };
@@ -45,6 +46,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		541878532D0E21620089F478 /* HTTPMethod.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTPMethod.swift; sourceTree = "<group>"; };
 		54DB0D982D0950DE00ABD458 /* ViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModel.swift; sourceTree = "<group>"; };
 		54DB0D9C2D09513300ABD458 /* AppCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppCoordinator.swift; sourceTree = "<group>"; };
 		54DB0DA02D0951C000ABD458 /* Font+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Font+.swift"; sourceTree = "<group>"; };
@@ -95,6 +97,22 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		541878522D0E21250089F478 /* Network */ = {
+			isa = PBXGroup;
+			children = (
+				541878552D0E22080089F478 /* Base */,
+			);
+			path = Network;
+			sourceTree = "<group>";
+		};
+		541878552D0E22080089F478 /* Base */ = {
+			isa = PBXGroup;
+			children = (
+				541878532D0E21620089F478 /* HTTPMethod.swift */,
+			);
+			path = Base;
+			sourceTree = "<group>";
+		};
 		54DB0D952D094FAA00ABD458 /* App */ = {
 			isa = PBXGroup;
 			children = (
@@ -165,6 +183,7 @@
 		E23962FC2D083B8F0092B39B = {
 			isa = PBXGroup;
 			children = (
+				541878522D0E21250089F478 /* Network */,
 				E23963072D083B8F0092B39B /* QRIZ */,
 				E239631E2D083B910092B39B /* QRIZTests */,
 				E23963282D083B910092B39B /* QRIZUITests */,
@@ -375,6 +394,7 @@
 			files = (
 				54DB0DA12D0951C000ABD458 /* Font+.swift in Sources */,
 				E239630D2D083B900092B39B /* ViewController.swift in Sources */,
+				541878542D0E21620089F478 /* HTTPMethod.swift in Sources */,
 				E23963092D083B900092B39B /* AppDelegate.swift in Sources */,
 				54DB0D9D2D09513300ABD458 /* AppCoordinator.swift in Sources */,
 				54DB0D992D0950DE00ABD458 /* ViewModel.swift in Sources */,
