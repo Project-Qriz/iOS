@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		541878542D0E21620089F478 /* HTTPMethod.swift in Sources */ = {isa = PBXBuildFile; fileRef = 541878532D0E21620089F478 /* HTTPMethod.swift */; };
 		541878572D0E22700089F478 /* NetworkError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 541878562D0E22700089F478 /* NetworkError.swift */; };
+		541878612D0EC2970089F478 /* HTTPHeaderField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 541878602D0EC2970089F478 /* HTTPHeaderField.swift */; };
 		54DB0D992D0950DE00ABD458 /* ViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54DB0D982D0950DE00ABD458 /* ViewModel.swift */; };
 		54DB0D9D2D09513300ABD458 /* AppCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54DB0D9C2D09513300ABD458 /* AppCoordinator.swift */; };
 		54DB0DA12D0951C000ABD458 /* Font+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54DB0DA02D0951C000ABD458 /* Font+.swift */; };
@@ -49,6 +50,7 @@
 /* Begin PBXFileReference section */
 		541878532D0E21620089F478 /* HTTPMethod.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTPMethod.swift; sourceTree = "<group>"; };
 		541878562D0E22700089F478 /* NetworkError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkError.swift; sourceTree = "<group>"; };
+		541878602D0EC2970089F478 /* HTTPHeaderField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTPHeaderField.swift; sourceTree = "<group>"; };
 		54DB0D982D0950DE00ABD458 /* ViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModel.swift; sourceTree = "<group>"; };
 		54DB0D9C2D09513300ABD458 /* AppCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppCoordinator.swift; sourceTree = "<group>"; };
 		54DB0DA02D0951C000ABD458 /* Font+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Font+.swift"; sourceTree = "<group>"; };
@@ -112,6 +114,7 @@
 			children = (
 				541878532D0E21620089F478 /* HTTPMethod.swift */,
 				541878562D0E22700089F478 /* NetworkError.swift */,
+				541878602D0EC2970089F478 /* HTTPHeaderField.swift */,
 			);
 			path = Base;
 			sourceTree = "<group>";
@@ -402,6 +405,7 @@
 				E23963092D083B900092B39B /* AppDelegate.swift in Sources */,
 				54DB0D9D2D09513300ABD458 /* AppCoordinator.swift in Sources */,
 				54DB0D992D0950DE00ABD458 /* ViewModel.swift in Sources */,
+				541878612D0EC2970089F478 /* HTTPHeaderField.swift in Sources */,
 				E239630B2D083B900092B39B /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
