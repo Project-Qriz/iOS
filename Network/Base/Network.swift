@@ -9,8 +9,7 @@ import Foundation
 import Combine
 
 protocol Network {
-    func send<T: Request>(_ request: T) -> AnyPublisher<T.Response, NetworkError>
-    func sendAsync<T: Request>(_ request: T) async throws -> T.Response
+    func send<T: Request>(_ request: T) async throws -> T.Response
 }
 
 final class NetworkImp: Network {
@@ -21,23 +20,7 @@ final class NetworkImp: Network {
         self.session = session
     }
     
-    func send<T>(_ request: T) -> AnyPublisher<T.Response, NetworkError> where T: Request {
-        guard let urlRequest = try? RequestFactory(request: request).urlRequestRepresentation() else {
-            return Fail(error: NetworkError.invalidURL(message: "URL 생성에 실패했습니다."))
-                .eraseToAnyPublisher()
-        }
-        
-        return session.dataTaskPublisher(for: urlRequest)
-            .tryMap { data, response in
-                try self.validate(response)
-                return data
-            }
-            .decode(type: T.Response.self, decoder: JSONDecoder())
-            .mapError { self.mapToNetworkError($0) }
-            .eraseToAnyPublisher()
-    }
-    
-    func sendAsync<T>(_ request: T) async throws -> T.Response where T: Request {
+    func send<T>(_ request: T) async throws -> T.Response where T: Request {
         do {
             let urlRequest = try RequestFactory(request: request).urlRequestRepresentation()
             let (data, response) = try await session.data(for: urlRequest)
@@ -83,3 +66,23 @@ extension NetworkImp {
         return .unknownError
     }
 }
+
+
+// MARK: - Combine
+
+//func send<T>(_ request: T) -> AnyPublisher<T.Response, NetworkError> where T: Request {
+//    guard let urlRequest = try? RequestFactory(request: request).urlRequestRepresentation() else {
+//        return Fail(error: NetworkError.invalidURL(message: "URL 생성에 실패했습니다."))
+//            .eraseToAnyPublisher()
+//    }
+//    
+//    return session.dataTaskPublisher(for: urlRequest)
+//        .tryMap { data, response in
+//            try self.validate(response)
+//            return data
+//        }
+//        .decode(type: T.Response.self, decoder: JSONDecoder())
+//        .mapError { self.mapToNetworkError($0) }
+//        .eraseToAnyPublisher()
+//}
+

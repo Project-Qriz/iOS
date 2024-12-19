@@ -9,8 +9,7 @@ import Foundation
 import Combine
 
 protocol ExampleServiceProtocol {
-    func fetchData() -> AnyPublisher<ExampleResponse, NetworkError>
-    func fetchDataAsync() async -> Result<ExampleResponse, NetworkError>
+    func fetchData() async throws -> ExampleResponse
 }
 
 final class ExampleService: ExampleServiceProtocol {
@@ -21,25 +20,8 @@ final class ExampleService: ExampleServiceProtocol {
         self.network = network
     }
     
-    func fetchData() -> AnyPublisher<ExampleResponse, NetworkError> {
+    func fetchData() async throws -> ExampleResponse {
         let request = ExampleRequest()
-        return network.send(request)
-    }
-    
-    func fetchDataAsync() async -> Result<ExampleResponse, NetworkError> {
-        do {
-            let request = ExampleRequest()
-            let response = try await network.sendAsync(request)
-            return .success(response)
-        } catch let error as NetworkError {
-            return .failure(error)
-        } catch {
-            return .failure(.unknownError)
-        }
-    }
-    
-    func fetchDataAsync() async throws -> ExampleResponse {
-        let request = ExampleRequest()
-        return try await network.sendAsync(request)
+        return try await network.send(request)
     }
 }
