@@ -12,7 +12,6 @@ final class LoginLogoView: UIView {
     // MARK: - Enums
     
     private enum Metric {
-        static let horizontalPadding: CGFloat = 64.0
         static let logoHeightMultiplier: CGFloat = 0.5
     }
     
@@ -53,10 +52,10 @@ extension LoginLogoView {
         
         NSLayoutConstraint.activate([
             appLogoImageView.topAnchor.constraint(equalTo: self.topAnchor),
-            appLogoImageView.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: Metric.horizontalPadding),
-            appLogoImageView.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -Metric.horizontalPadding),
-            appLogoImageView.heightAnchor.constraint(equalTo: appLogoImageView.widthAnchor, multiplier: Metric.logoHeightMultiplier),
-            appLogoImageView.bottomAnchor.constraint(equalTo: self.bottomAnchor)
+            appLogoImageView.leadingAnchor.constraint(equalTo: self.leadingAnchor),
+            appLogoImageView.trailingAnchor.constraint(equalTo: self.trailingAnchor),
+            appLogoImageView.bottomAnchor.constraint(equalTo: self.bottomAnchor),
+            appLogoImageView.heightAnchor.constraint(equalTo: appLogoImageView.widthAnchor, multiplier: Metric.logoHeightMultiplier)
         ])
     }
 }

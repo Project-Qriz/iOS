@@ -13,6 +13,7 @@ final class LoginMainView: UIView {
     
     private enum Metric {
         static let logoViewTopOffset: CGFloat = 48.0
+        static let logoViewHorizontalMargin: CGFloat = 64.0
     }
     
     
@@ -52,7 +53,8 @@ extension LoginMainView {
         
         NSLayoutConstraint.activate([
             loginLogoView.topAnchor.constraint(equalTo: self.safeAreaLayoutGuide.topAnchor, constant: Metric.logoViewTopOffset),
-            loginLogoView.centerXAnchor.constraint(equalTo: self.centerXAnchor),
+            loginLogoView.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: Metric.logoViewHorizontalMargin),
+            loginLogoView.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -Metric.logoViewHorizontalMargin),
         ])
     }
 }
