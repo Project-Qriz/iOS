@@ -7,6 +7,14 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		541878542D0E21620089F478 /* HTTPMethod.swift in Sources */ = {isa = PBXBuildFile; fileRef = 541878532D0E21620089F478 /* HTTPMethod.swift */; };
+		541878572D0E22700089F478 /* NetworkError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 541878562D0E22700089F478 /* NetworkError.swift */; };
+		541878612D0EC2970089F478 /* HTTPHeaderField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 541878602D0EC2970089F478 /* HTTPHeaderField.swift */; };
+		548566492D123C94002BAEE3 /* NetworkRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 548566482D123C94002BAEE3 /* NetworkRequest.swift */; };
+		5485664B2D123FC2002BAEE3 /* Network.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5485664A2D123FC2002BAEE3 /* Network.swift */; };
+		548566502D1241A4002BAEE3 /* ExampleRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5485664F2D1241A4002BAEE3 /* ExampleRequest.swift */; };
+		548566522D1241BA002BAEE3 /* ExampleResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 548566512D1241BA002BAEE3 /* ExampleResponse.swift */; };
+		548566552D124260002BAEE3 /* ExampleService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 548566542D124260002BAEE3 /* ExampleService.swift */; };
 		54DB0D992D0950DE00ABD458 /* ViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54DB0D982D0950DE00ABD458 /* ViewModel.swift */; };
 		54DB0D9D2D09513300ABD458 /* AppCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54DB0D9C2D09513300ABD458 /* AppCoordinator.swift */; };
 		54DB0DA12D0951C000ABD458 /* Font+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54DB0DA02D0951C000ABD458 /* Font+.swift */; };
@@ -45,6 +53,14 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		541878532D0E21620089F478 /* HTTPMethod.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTPMethod.swift; sourceTree = "<group>"; };
+		541878562D0E22700089F478 /* NetworkError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkError.swift; sourceTree = "<group>"; };
+		541878602D0EC2970089F478 /* HTTPHeaderField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTPHeaderField.swift; sourceTree = "<group>"; };
+		548566482D123C94002BAEE3 /* NetworkRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkRequest.swift; sourceTree = "<group>"; };
+		5485664A2D123FC2002BAEE3 /* Network.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Network.swift; sourceTree = "<group>"; };
+		5485664F2D1241A4002BAEE3 /* ExampleRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExampleRequest.swift; sourceTree = "<group>"; };
+		548566512D1241BA002BAEE3 /* ExampleResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExampleResponse.swift; sourceTree = "<group>"; };
+		548566542D124260002BAEE3 /* ExampleService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExampleService.swift; sourceTree = "<group>"; };
 		54DB0D982D0950DE00ABD458 /* ViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModel.swift; sourceTree = "<group>"; };
 		54DB0D9C2D09513300ABD458 /* AppCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppCoordinator.swift; sourceTree = "<group>"; };
 		54DB0DA02D0951C000ABD458 /* Font+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Font+.swift"; sourceTree = "<group>"; };
@@ -95,6 +111,53 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		541878522D0E21250089F478 /* Network */ = {
+			isa = PBXGroup;
+			children = (
+				541878552D0E22080089F478 /* Base */,
+				5485664D2D12411F002BAEE3 /* DTOs */,
+				548566532D1241CB002BAEE3 /* Service */,
+			);
+			path = Network;
+			sourceTree = "<group>";
+		};
+		541878552D0E22080089F478 /* Base */ = {
+			isa = PBXGroup;
+			children = (
+				541878532D0E21620089F478 /* HTTPMethod.swift */,
+				541878562D0E22700089F478 /* NetworkError.swift */,
+				541878602D0EC2970089F478 /* HTTPHeaderField.swift */,
+				548566482D123C94002BAEE3 /* NetworkRequest.swift */,
+				5485664A2D123FC2002BAEE3 /* Network.swift */,
+			);
+			path = Base;
+			sourceTree = "<group>";
+		};
+		5485664D2D12411F002BAEE3 /* DTOs */ = {
+			isa = PBXGroup;
+			children = (
+				5485664E2D124150002BAEE3 /* Example */,
+			);
+			path = DTOs;
+			sourceTree = "<group>";
+		};
+		5485664E2D124150002BAEE3 /* Example */ = {
+			isa = PBXGroup;
+			children = (
+				5485664F2D1241A4002BAEE3 /* ExampleRequest.swift */,
+				548566512D1241BA002BAEE3 /* ExampleResponse.swift */,
+			);
+			path = Example;
+			sourceTree = "<group>";
+		};
+		548566532D1241CB002BAEE3 /* Service */ = {
+			isa = PBXGroup;
+			children = (
+				548566542D124260002BAEE3 /* ExampleService.swift */,
+			);
+			path = Service;
+			sourceTree = "<group>";
+		};
 		54DB0D952D094FAA00ABD458 /* App */ = {
 			isa = PBXGroup;
 			children = (
@@ -165,6 +228,7 @@
 		E23962FC2D083B8F0092B39B = {
 			isa = PBXGroup;
 			children = (
+				541878522D0E21250089F478 /* Network */,
 				E23963072D083B8F0092B39B /* QRIZ */,
 				E239631E2D083B910092B39B /* QRIZTests */,
 				E23963282D083B910092B39B /* QRIZUITests */,
@@ -374,10 +438,18 @@
 			buildActionMask = 2147483647;
 			files = (
 				54DB0DA12D0951C000ABD458 /* Font+.swift in Sources */,
+				541878572D0E22700089F478 /* NetworkError.swift in Sources */,
 				E239630D2D083B900092B39B /* ViewController.swift in Sources */,
+				541878542D0E21620089F478 /* HTTPMethod.swift in Sources */,
+				548566502D1241A4002BAEE3 /* ExampleRequest.swift in Sources */,
+				548566522D1241BA002BAEE3 /* ExampleResponse.swift in Sources */,
+				548566492D123C94002BAEE3 /* NetworkRequest.swift in Sources */,
+				5485664B2D123FC2002BAEE3 /* Network.swift in Sources */,
 				E23963092D083B900092B39B /* AppDelegate.swift in Sources */,
 				54DB0D9D2D09513300ABD458 /* AppCoordinator.swift in Sources */,
 				54DB0D992D0950DE00ABD458 /* ViewModel.swift in Sources */,
+				541878612D0EC2970089F478 /* HTTPHeaderField.swift in Sources */,
+				548566552D124260002BAEE3 /* ExampleService.swift in Sources */,
 				E239630B2D083B900092B39B /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
