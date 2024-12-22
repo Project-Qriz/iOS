@@ -21,7 +21,7 @@ final class LoginInputView: UIView {
         static let passwordPlaceholder = "비밀번호를 입력해 주세요"
         static let loginButtonTitle = "로그인"
     }
-
+    
     // MARK: - UI
     
     private lazy var idTextField: UITextField = {

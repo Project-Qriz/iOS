@@ -65,16 +65,16 @@ extension LoginMainView {
         accountOptionsView.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
-            loginLogoView.topAnchor.constraint(equalTo: self.safeAreaLayoutGuide.topAnchor, constant: Metric.logoViewTopOffset),
-            loginLogoView.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: Metric.logoViewHorizontalMargin),
-            loginLogoView.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -Metric.logoViewHorizontalMargin),
+            loginLogoView.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor, constant: Metric.logoViewTopOffset),
+            loginLogoView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Metric.logoViewHorizontalMargin),
+            loginLogoView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -Metric.logoViewHorizontalMargin),
             
-            loginInputView.topAnchor.constraint(equalTo: self.loginLogoView.bottomAnchor, constant: Metric.inputViewTopOffset),
-            loginInputView.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: Metric.inputViewHorizontalMargin),
-            loginInputView.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -Metric.inputViewHorizontalMargin),
+            loginInputView.topAnchor.constraint(equalTo: loginLogoView.bottomAnchor, constant: Metric.inputViewTopOffset),
+            loginInputView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Metric.inputViewHorizontalMargin),
+            loginInputView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -Metric.inputViewHorizontalMargin),
             
-            accountOptionsView.topAnchor.constraint(equalTo: self.loginInputView.bottomAnchor, constant: Metric.accountOptionsViewTopOffset),
-            accountOptionsView.centerXAnchor.constraint(equalTo: self.centerXAnchor),
+            accountOptionsView.topAnchor.constraint(equalTo: loginInputView.bottomAnchor, constant: Metric.accountOptionsViewTopOffset),
+            accountOptionsView.centerXAnchor.constraint(equalTo: centerXAnchor),
         ])
     }
 }

@@ -51,10 +51,10 @@ extension LoginLogoView {
         appLogoImageView.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
-            appLogoImageView.topAnchor.constraint(equalTo: self.topAnchor),
-            appLogoImageView.leadingAnchor.constraint(equalTo: self.leadingAnchor),
-            appLogoImageView.trailingAnchor.constraint(equalTo: self.trailingAnchor),
-            appLogoImageView.bottomAnchor.constraint(equalTo: self.bottomAnchor),
+            appLogoImageView.topAnchor.constraint(equalTo: topAnchor),
+            appLogoImageView.leadingAnchor.constraint(equalTo: leadingAnchor),
+            appLogoImageView.trailingAnchor.constraint(equalTo: trailingAnchor),
+            appLogoImageView.bottomAnchor.constraint(equalTo: bottomAnchor),
             appLogoImageView.heightAnchor.constraint(equalTo: appLogoImageView.widthAnchor, multiplier: Metric.logoHeightMultiplier)
         ])
     }
