@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		54BC61552D14AFB70094DC45 /* LoginInputView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54BC61542D14AFB70094DC45 /* LoginInputView.swift */; };
+		54BC61572D18141B0094DC45 /* AccountOptionsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54BC61562D18141B0094DC45 /* AccountOptionsView.swift */; };
 		54C7A3102D146190001175D9 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54C7A30F2D146190001175D9 /* LoginViewController.swift */; };
 		54C7A3132D1461A6001175D9 /* LoginMainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54C7A3122D1461A6001175D9 /* LoginMainView.swift */; };
 		54C7A3162D14A5A6001175D9 /* LoginLogoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54C7A3152D14A5A6001175D9 /* LoginLogoView.swift */; };
@@ -50,6 +51,7 @@
 
 /* Begin PBXFileReference section */
 		54BC61542D14AFB70094DC45 /* LoginInputView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginInputView.swift; sourceTree = "<group>"; };
+		54BC61562D18141B0094DC45 /* AccountOptionsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountOptionsView.swift; sourceTree = "<group>"; };
 		54C7A30F2D146190001175D9 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		54C7A3122D1461A6001175D9 /* LoginMainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginMainView.swift; sourceTree = "<group>"; };
 		54C7A3152D14A5A6001175D9 /* LoginLogoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginLogoView.swift; sourceTree = "<group>"; };
@@ -126,6 +128,7 @@
 			children = (
 				54C7A3152D14A5A6001175D9 /* LoginLogoView.swift */,
 				54BC61542D14AFB70094DC45 /* LoginInputView.swift */,
+				54BC61562D18141B0094DC45 /* AccountOptionsView.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -416,6 +419,7 @@
 				54DB0D9D2D09513300ABD458 /* AppCoordinator.swift in Sources */,
 				54DB0D992D0950DE00ABD458 /* ViewModel.swift in Sources */,
 				E239630B2D083B900092B39B /* SceneDelegate.swift in Sources */,
+				54BC61572D18141B0094DC45 /* AccountOptionsView.swift in Sources */,
 				54BC61552D14AFB70094DC45 /* LoginInputView.swift in Sources */,
 				54C7A3162D14A5A6001175D9 /* LoginLogoView.swift in Sources */,
 				54C7A3132D1461A6001175D9 /* LoginMainView.swift in Sources */,
