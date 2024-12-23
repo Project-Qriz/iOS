@@ -55,7 +55,7 @@ final class AccountOptionsView: UIView {
     private func buildButton(title: String) -> UIButton {
         let button = UIButton()
         button.setTitle(title, for: .normal)
-        button.titleLabel?.font = .systemFont(ofSize: 14, weight: .semibold) // 폰트 수정 semibold/14
+        button.titleLabel?.font = .systemFont(ofSize: 14, weight: .semibold)
         button.setTitleColor(.coolNeutral500, for: .normal)
         button.addAction(UIAction { _ in
             print(button.titleLabel?.text ?? "타이틀이 없는 버튼")

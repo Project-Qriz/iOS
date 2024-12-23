@@ -37,7 +37,7 @@ final class LoginInputView: UIView {
     private let loginButton: UIButton = {
         let button = UIButton(type: .system)
         button.setTitle(Attributes.loginButtonTitle, for: .normal)
-        button.titleLabel?.font = .systemFont(ofSize: 16, weight: .bold) // 폰트 수정 bold/16
+        button.titleLabel?.font = .systemFont(ofSize: 16, weight: .bold)
         button.setTitleColor(.coolNeutral500, for: .normal)
         button.backgroundColor = .coolNeutral200
         button.layer.cornerRadius = 8
@@ -77,7 +77,7 @@ final class LoginInputView: UIView {
             string: placeholder,
             attributes: [
                 .foregroundColor: UIColor.coolNeutral300,
-                .font: UIFont.systemFont(ofSize: 16, weight: .semibold) // 폰트 수정 semibold/16
+                .font: UIFont.systemFont(ofSize: 16, weight: .semibold)
             ]
         )
         textField.backgroundColor = .customBlue100

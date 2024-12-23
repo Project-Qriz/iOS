@@ -19,6 +19,9 @@ final class LoginMainView: UIView {
         static let inputViewHorizontalMargin: CGFloat = 18.0
         
         static let accountOptionsViewTopOffset: CGFloat = 32.0
+        
+        static let socialLoginViewTopOffset: CGFloat = 84.0
+        static let socialLoginViewHorizontalMargin: CGFloat = 18.0
     }
     
     
@@ -27,6 +30,7 @@ final class LoginMainView: UIView {
     private let loginLogoView = LoginLogoView()
     private let loginInputView = LoginInputView()
     private let accountOptionsView = AccountOptionsView()
+    private let socialLoginView = SocialLoginView()
     
     // MARK: - initialize
     
@@ -55,7 +59,8 @@ extension LoginMainView {
         [
             loginLogoView,
             loginInputView,
-            accountOptionsView
+            accountOptionsView,
+            socialLoginView
         ].forEach(addSubview(_:))
     }
     
@@ -63,6 +68,7 @@ extension LoginMainView {
         loginLogoView.translatesAutoresizingMaskIntoConstraints = false
         loginInputView.translatesAutoresizingMaskIntoConstraints = false
         accountOptionsView.translatesAutoresizingMaskIntoConstraints = false
+        socialLoginView.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
             loginLogoView.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor, constant: Metric.logoViewTopOffset),
@@ -75,6 +81,10 @@ extension LoginMainView {
             
             accountOptionsView.topAnchor.constraint(equalTo: loginInputView.bottomAnchor, constant: Metric.accountOptionsViewTopOffset),
             accountOptionsView.centerXAnchor.constraint(equalTo: centerXAnchor),
+            
+            socialLoginView.topAnchor.constraint(equalTo: accountOptionsView.bottomAnchor, constant: Metric.socialLoginViewTopOffset),
+            socialLoginView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Metric.socialLoginViewHorizontalMargin),
+            socialLoginView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -Metric.socialLoginViewHorizontalMargin),
         ])
     }
 }
