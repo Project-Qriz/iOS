@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 56;
+	objectVersion = 70;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -18,7 +18,6 @@
 		54BC61552D14AFB70094DC45 /* LoginInputView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54BC61542D14AFB70094DC45 /* LoginInputView.swift */; };
 		54BC61572D18141B0094DC45 /* AccountOptionsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54BC61562D18141B0094DC45 /* AccountOptionsView.swift */; };
 		54BC61592D1823F50094DC45 /* SocialLoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54BC61582D1823F50094DC45 /* SocialLoginView.swift */; };
-		54C7A3102D146190001175D9 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54C7A30F2D146190001175D9 /* LoginViewController.swift */; };
 		54C7A3132D1461A6001175D9 /* LoginMainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54C7A3122D1461A6001175D9 /* LoginMainView.swift */; };
 		54C7A3162D14A5A6001175D9 /* LoginLogoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54C7A3152D14A5A6001175D9 /* LoginLogoView.swift */; };
 		54DB0D992D0950DE00ABD458 /* ViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54DB0D982D0950DE00ABD458 /* ViewModel.swift */; };
@@ -71,7 +70,6 @@
 		54BC61542D14AFB70094DC45 /* LoginInputView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginInputView.swift; sourceTree = "<group>"; };
 		54BC61562D18141B0094DC45 /* AccountOptionsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountOptionsView.swift; sourceTree = "<group>"; };
 		54BC61582D1823F50094DC45 /* SocialLoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SocialLoginView.swift; sourceTree = "<group>"; };
-		54C7A30F2D146190001175D9 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		54C7A3122D1461A6001175D9 /* LoginMainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginMainView.swift; sourceTree = "<group>"; };
 		54C7A3152D14A5A6001175D9 /* LoginLogoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginLogoView.swift; sourceTree = "<group>"; };
 		54DB0D982D0950DE00ABD458 /* ViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModel.swift; sourceTree = "<group>"; };
@@ -92,6 +90,11 @@
 		E239632B2D083B910092B39B /* QRIZUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QRIZUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		E239633C2D083BC30092B39B /* QRIZUnitTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = QRIZUnitTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
+
+/* Begin PBXFileSystemSynchronizedRootGroup section */
+		B141E83E2D20340C00EE9BB1 /* ViewController */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = ViewController; sourceTree = "<group>"; };
+		B141E83F2D20342000EE9BB1 /* ViewModel */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = ViewModel; sourceTree = "<group>"; };
+/* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
 		E23963022D083B8F0092B39B /* Frameworks */ = {
@@ -170,13 +173,14 @@
 				548566542D124260002BAEE3 /* ExampleService.swift */,
 			);
 			path = Service;
-            sourceTree = "<group>";
-        };
+			sourceTree = "<group>";
+		};
 		54C7A30E2D14613B001175D9 /* Login */ = {
 			isa = PBXGroup;
 			children = (
 				54C7A3112D146193001175D9 /* View */,
-				54C7A30F2D146190001175D9 /* LoginViewController.swift */,
+				B141E83E2D20340C00EE9BB1 /* ViewController */,
+				B141E83F2D20342000EE9BB1 /* ViewModel */,
 			);
 			path = Login;
 			sourceTree = "<group>";
@@ -345,6 +349,10 @@
 			);
 			dependencies = (
 			);
+			fileSystemSynchronizedGroups = (
+				B141E83E2D20340C00EE9BB1 /* ViewController */,
+				B141E83F2D20342000EE9BB1 /* ViewModel */,
+			);
 			name = QRIZ;
 			productName = QRIZ;
 			productReference = E23963052D083B8F0092B39B /* QRIZ.app */;
@@ -490,7 +498,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				54C7A3102D146190001175D9 /* LoginViewController.swift in Sources */,
 				54DB0DA12D0951C000ABD458 /* Font+.swift in Sources */,
 				541878572D0E22700089F478 /* NetworkError.swift in Sources */,
 				E239630D2D083B900092B39B /* ViewController.swift in Sources */,
@@ -743,7 +750,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 876W82FDBV;
 				GENERATE_INFOPLIST_FILE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 17.5;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.6;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = kr.QRIZTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -763,7 +770,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 876W82FDBV;
 				GENERATE_INFOPLIST_FILE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 17.5;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.6;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = kr.QRIZTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -782,6 +789,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 876W82FDBV;
 				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.6;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = kr.QRIZUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -800,6 +808,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 876W82FDBV;
 				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.6;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = kr.QRIZUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -818,6 +827,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 876W82FDBV;
 				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.6;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = kr.QRIZUnitTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -836,6 +846,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 876W82FDBV;
 				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.6;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = kr.QRIZUnitTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
