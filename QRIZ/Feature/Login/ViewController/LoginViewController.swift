@@ -6,16 +6,20 @@
 //
 
 import UIKit
+import Combine
 
 final class LoginViewController: UIViewController {
     
     // MARK: - Properties
     
     private let rootView: LoginMainView
+    private let loginVM: LoginViewModel
+    private var cancellables = Set<AnyCancellable>()
     
     // MARK: - initialize
     
-    init() {
+    init(loginVM: LoginViewModel) {
+        self.loginVM = loginVM
         self.rootView = LoginMainView()
         super.init(nibName: nil, bundle: nil)
     }
@@ -28,9 +32,42 @@ final class LoginViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        bind()
     }
     
     override func loadView() {
         self.view = rootView
+    }
+    
+    // MARK: - Functions
+    
+    private func bind() {
+        let idInput = rootView.loginInputView.idTextPublisher
+            .map { LoginViewModel.Input.idTextChanged($0) }
+        
+        let passwordInput = rootView.loginInputView.passwordTextPublisher
+            .map { LoginViewModel.Input.passwordTextChanged($0) }
+        
+        let loginButtonInput = rootView.loginInputView.loginButtonTapPublisher
+            .map { LoginViewModel.Input.loginButtonTapped }
+        
+        let input = Publishers.Merge3(
+            idInput,
+            passwordInput,
+            loginButtonInput
+        )
+            .eraseToAnyPublisher()
+        
+        let output = loginVM.transform(input: input)
+        
+        output
+            .sink { [weak self] output in
+                guard let self = self else { return }
+                switch output {
+                case .isLoginButtonEnabled(let isEnabled):
+                    self.rootView.loginInputView.setLoginButtonEnabled(isEnabled)
+                }
+            }
+            .store(in: &cancellables)
     }
 }
