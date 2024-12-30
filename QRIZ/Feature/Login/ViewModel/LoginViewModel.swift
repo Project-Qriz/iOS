@@ -35,6 +35,8 @@ final class LoginViewModel {
                     print("ViewModel에서 로그인 버튼 클릭 이벤트를 입력 받았습니다.")
                 case .accountActionSelected(let action):
                     self.handleAccountAction(action)
+                case .socialLoginSelected(let socialLogin):
+                    self.handleSocialLogin(socialLogin)
                 }
             }
             .store(in: &cancellables)
@@ -57,6 +59,18 @@ final class LoginViewModel {
             print("회원가입 뷰로 이동")
         }
     }
+    
+    private func handleSocialLogin(_ socialLogin: SocialLogin) {
+        switch socialLogin {
+        case .google:
+            print("구글 로그인")
+        case .naver:
+            print("네이버 로그인")
+        case .facebook:
+            print("페이스북 로그인")
+        }
+    }
+    
 }
 
 extension LoginViewModel {
@@ -65,6 +79,7 @@ extension LoginViewModel {
         case passwordTextChanged(String)
         case loginButtonTapped
         case accountActionSelected(AccountAction)
+        case socialLoginSelected(SocialLogin)
     }
     
     enum Output {
@@ -75,5 +90,11 @@ extension LoginViewModel {
         case findId = "아이디 찾기"
         case findPassword = "비밀번호 찾기"
         case signUp = "회원가입"
+    }
+    
+    enum SocialLogin: String {
+        case google = "구글"
+        case naver = "네이버"
+        case facebook = "페북"
     }
 }

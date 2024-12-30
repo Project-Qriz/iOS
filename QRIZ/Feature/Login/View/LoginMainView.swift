@@ -29,7 +29,7 @@ final class LoginMainView: UIView {
     private let loginLogoView = LoginLogoView()
     let loginInputView = LoginInputView()
     let accountOptionsView = AccountOptionsView()
-    private let socialLoginView = SocialLoginView()
+    let socialLoginView = SocialLoginView()
     
     // MARK: - initialize
     
