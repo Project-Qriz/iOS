@@ -51,10 +51,14 @@ final class LoginViewController: UIViewController {
         let loginButtonInput = rootView.loginInputView.loginButtonTapPublisher
             .map { LoginViewModel.Input.loginButtonTapped }
         
-        let input = Publishers.Merge3(
+        let accountActionInput = rootView.accountOptionsView.accountActionTapPublisher
+            .map { LoginViewModel.Input.accountActionSelected($0) }
+        
+        let input = Publishers.Merge4(
             idInput,
             passwordInput,
-            loginButtonInput
+            loginButtonInput,
+            accountActionInput
         )
             .eraseToAnyPublisher()
         

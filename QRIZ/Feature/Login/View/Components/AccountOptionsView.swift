@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Combine
 
 final class AccountOptionsView: UIView {
     
@@ -16,10 +17,12 @@ final class AccountOptionsView: UIView {
         static let separatorHeight: CGFloat = 14.0
     }
     
-    private enum Attributes {
-        static let findIdButtonTitle = "아이디 찾기"
-        static let findPasswordButtonTitle = "비밀번호 찾기"
-        static let signUpButtonTitle = "회원가입"
+    // MARK: - Properties
+    
+    private let accountActionTapSubject = PassthroughSubject<LoginViewModel.AccountAction, Never>()
+    
+    var accountActionTapPublisher: AnyPublisher<LoginViewModel.AccountAction, Never> {
+        accountActionTapSubject.eraseToAnyPublisher()
     }
     
     // MARK: - UI
@@ -27,11 +30,11 @@ final class AccountOptionsView: UIView {
     private lazy var stackView: UIStackView = {
         let stackView = UIStackView(
             arrangedSubviews: [
-                buildButton(title: Attributes.findIdButtonTitle),
+                buildButton(action: .findId),
                 buildSeparator(),
-                buildButton(title: Attributes.findPasswordButtonTitle),
+                buildButton(action: .findPassword),
                 buildSeparator(),
-                buildButton(title: Attributes.signUpButtonTitle)
+                buildButton(action: .signUp)
             ]
         )
         stackView.axis = .horizontal
@@ -52,13 +55,13 @@ final class AccountOptionsView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    private func buildButton(title: String) -> UIButton {
+    private func buildButton(action: LoginViewModel.AccountAction) -> UIButton {
         let button = UIButton()
-        button.setTitle(title, for: .normal)
+        button.setTitle(action.rawValue, for: .normal)
         button.titleLabel?.font = .systemFont(ofSize: 14, weight: .semibold)
         button.setTitleColor(.coolNeutral500, for: .normal)
-        button.addAction(UIAction { _ in
-            print(button.titleLabel?.text ?? "타이틀이 없는 버튼")
+        button.addAction(UIAction { [weak self] _ in
+            self?.accountActionTapSubject.send(action)
         }, for: .touchUpInside)
         return button
     }
