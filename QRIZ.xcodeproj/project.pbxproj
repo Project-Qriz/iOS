@@ -98,6 +98,7 @@
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		B141E83E2D20340C00EE9BB1 /* ViewController */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = ViewController; sourceTree = "<group>"; };
 		B141E83F2D20342000EE9BB1 /* ViewModel */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = ViewModel; sourceTree = "<group>"; };
+		B141E8502D23901A00EE9BB1 /* Signup */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Signup; sourceTree = "<group>"; };
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -223,6 +224,7 @@
 			children = (
 				54E91B742D18FA9600474D0A /* CommonViews */,
 				54C7A30E2D14613B001175D9 /* Login */,
+				B141E8502D23901A00EE9BB1 /* Signup */,
 				54DB0D972D0950A500ABD458 /* Home */,
 			);
 			path = Feature;
@@ -358,6 +360,7 @@
 			fileSystemSynchronizedGroups = (
 				B141E83E2D20340C00EE9BB1 /* ViewController */,
 				B141E83F2D20342000EE9BB1 /* ViewModel */,
+				B141E8502D23901A00EE9BB1 /* Signup */,
 			);
 			name = QRIZ;
 			productName = QRIZ;
