@@ -44,9 +44,15 @@ final class LoginInputView: UIView {
     
     // MARK: - UI
     
-    private lazy var idTextField = buildTextField(
+    private lazy var idTextField = CustomTextField(
         placeholder: Attributes.idPlaceholder,
         rightView: wrapButtonInPaddingView(button: clearButton)
+    )
+    
+    private lazy var passwordTextField = CustomTextField(
+        placeholder: Attributes.passwordPlaceholder,
+        isSecure: true,
+        rightView: wrapButtonInPaddingView(button: passwordToggleButton)
     )
     
     private lazy var clearButton: UIButton = {
@@ -61,13 +67,7 @@ final class LoginInputView: UIView {
         return button
     }()
     
-    private lazy var passwordTextField = buildTextField(
-        placeholder: Attributes.passwordPlaceholder,
-        isSecure: true,
-        rightView: wrapButtonInPaddingView(button: PasswordToggleButton)
-    )
-    
-    private lazy var PasswordToggleButton: UIButton = {
+    private lazy var passwordToggleButton: UIButton = {
         let button = UIButton()
         button.setImage(.eyeSlash, for: .normal)
         button.tintColor = .gray
@@ -125,32 +125,6 @@ final class LoginInputView: UIView {
         loginButton.isEnabled = isEnabled
         loginButton.backgroundColor = isEnabled ? .customBlue500 : .coolNeutral200
         loginButton.setTitleColor(isEnabled ? .white : .coolNeutral500, for: .normal)
-    }
-    
-    // build
-    private func buildTextField(
-        placeholder: String,
-        isSecure: Bool = false,
-        rightView: UIView? = nil
-    ) -> UITextField {
-        let textField = UITextField()
-        textField.attributedPlaceholder = NSAttributedString(
-            string: placeholder,
-            attributes: [
-                .foregroundColor: UIColor.coolNeutral300,
-                .font: UIFont.systemFont(ofSize: 14, weight: .medium)
-            ]
-        )
-        textField.backgroundColor = .customBlue100
-        textField.layer.cornerRadius = 8
-        textField.isSecureTextEntry = isSecure
-        
-        let leftPaddingView = UIView(frame: CGRect(x: 0, y: 0, width: 16, height: Metric.textFieldHeight))
-        textField.leftView = leftPaddingView
-        textField.leftViewMode = .always
-        textField.rightView = rightView
-        textField.rightViewMode = rightView != nil ? .whileEditing : .never
-        return textField
     }
     
     private func wrapButtonInPaddingView(

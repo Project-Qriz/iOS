@@ -27,6 +27,7 @@
 		54E91B762D18FACD00474D0A /* RoundButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54E91B752D18FACD00474D0A /* RoundButton.swift */; };
 		B141E8472D204AFB00EE9BB1 /* UITextField+.swift in Sources */ = {isa = PBXBuildFile; fileRef = B141E8462D204AFB00EE9BB1 /* UITextField+.swift */; };
 		B141E8492D204BE600EE9BB1 /* String+.swift in Sources */ = {isa = PBXBuildFile; fileRef = B141E8482D204BE600EE9BB1 /* String+.swift */; };
+		B141E86E2D2421E900EE9BB1 /* CustomTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = B141E86D2D2421E900EE9BB1 /* CustomTextField.swift */; };
 		E23963092D083B900092B39B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E23963082D083B900092B39B /* AppDelegate.swift */; };
 		E239630B2D083B900092B39B /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E239630A2D083B900092B39B /* SceneDelegate.swift */; };
 		E239630D2D083B900092B39B /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E239630C2D083B900092B39B /* ViewController.swift */; };
@@ -81,6 +82,7 @@
 		54E91B752D18FACD00474D0A /* RoundButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoundButton.swift; sourceTree = "<group>"; };
 		B141E8462D204AFB00EE9BB1 /* UITextField+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITextField+.swift"; sourceTree = "<group>"; };
 		B141E8482D204BE600EE9BB1 /* String+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+.swift"; sourceTree = "<group>"; };
+		B141E86D2D2421E900EE9BB1 /* CustomTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTextField.swift; sourceTree = "<group>"; };
 		E23963052D083B8F0092B39B /* QRIZ.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = QRIZ.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E23963082D083B900092B39B /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		E239630A2D083B900092B39B /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -286,6 +288,7 @@
 			isa = PBXGroup;
 			children = (
 				54E91B752D18FACD00474D0A /* RoundButton.swift */,
+				B141E86D2D2421E900EE9BB1 /* CustomTextField.swift */,
 			);
 			path = CommonViews;
 			sourceTree = "<group>";
@@ -511,6 +514,7 @@
 				541878572D0E22700089F478 /* NetworkError.swift in Sources */,
 				E239630D2D083B900092B39B /* ViewController.swift in Sources */,
 				541878542D0E21620089F478 /* HTTPMethod.swift in Sources */,
+				B141E86E2D2421E900EE9BB1 /* CustomTextField.swift in Sources */,
 				548566502D1241A4002BAEE3 /* ExampleRequest.swift in Sources */,
 				548566522D1241BA002BAEE3 /* ExampleResponse.swift in Sources */,
 				548566492D123C94002BAEE3 /* NetworkRequest.swift in Sources */,
