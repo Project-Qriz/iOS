@@ -12,15 +12,14 @@ final class LoginMainView: UIView {
     // MARK: - Enums
     
     private enum Metric {
-        static let logoViewTopOffset: CGFloat = 48.0
-        static let logoViewHorizontalMargin: CGFloat = 64.0
+        static let logoViewTopOffset: CGFloat = 32.0
         
-        static let inputViewTopOffset: CGFloat = 32.0
+        static let inputViewTopOffset: CGFloat = 24.0
         static let inputViewHorizontalMargin: CGFloat = 18.0
         
-        static let accountOptionsViewTopOffset: CGFloat = 32.0
+        static let accountOptionsViewTopOffset: CGFloat = 24.0
         
-        static let socialLoginViewTopOffset: CGFloat = 84.0
+        static let socialLoginViewTopOffset: CGFloat = 64.0
         static let socialLoginViewHorizontalMargin: CGFloat = 18.0
     }
     
@@ -28,9 +27,9 @@ final class LoginMainView: UIView {
     // MARK: - Properties
     
     private let loginLogoView = LoginLogoView()
-    private let loginInputView = LoginInputView()
-    private let accountOptionsView = AccountOptionsView()
-    private let socialLoginView = SocialLoginView()
+    let loginInputView = LoginInputView()
+    let accountOptionsView = AccountOptionsView()
+    let socialLoginView = SocialLoginView()
     
     // MARK: - initialize
     
@@ -72,8 +71,7 @@ extension LoginMainView {
         
         NSLayoutConstraint.activate([
             loginLogoView.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor, constant: Metric.logoViewTopOffset),
-            loginLogoView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Metric.logoViewHorizontalMargin),
-            loginLogoView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -Metric.logoViewHorizontalMargin),
+            loginLogoView.centerXAnchor.constraint(equalTo: centerXAnchor),
             
             loginInputView.topAnchor.constraint(equalTo: loginLogoView.bottomAnchor, constant: Metric.inputViewTopOffset),
             loginInputView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Metric.inputViewHorizontalMargin),
