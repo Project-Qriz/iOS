@@ -96,7 +96,7 @@ extension SignupHeaderView {
             
             descriptionLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: Metric.descriptionLabelTopOffset),
             descriptionLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Metric.leadingMargin),
+            descriptionLabel.bottomAnchor.constraint(equalTo: bottomAnchor),
         ])
     }
 }
-
