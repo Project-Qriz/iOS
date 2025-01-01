@@ -1,5 +1,5 @@
 //
-//  NameInputView.swift
+//  SingleInputView.swift
 //  QRIZ
 //
 //  Created by 김세훈 on 12/31/24.
@@ -8,7 +8,7 @@
 import UIKit
 import Combine
 
-final class NameInputView: UIView {
+final class SingleInputView: UIView {
     
     // MARK: - Enums
     
@@ -17,17 +17,11 @@ final class NameInputView: UIView {
         static let inputErrorLabelTopOffset: CGFloat = 8.0
     }
     
-    private enum Attributes {
-        static let namePlaceholder = "이름을 입력"
-    }
-    
     // MARK: - UI
     
-    private let nameTextField = CustomTextField(placeholder: Attributes.namePlaceholder)
-    
+    private let nameTextField: UITextField = CustomTextField(placeholder: "")
     private let inputErrorLabel: UILabel = {
         let label = UILabel()
-        label.text = "이름을 다시 확인해주세요."
         label.font = .systemFont(ofSize: 14, weight: .regular)
         label.textColor = .customRed500
         return label
@@ -36,7 +30,7 @@ final class NameInputView: UIView {
     // MARK: - initialize
     
     override init(frame: CGRect) {
-        super.init(frame: frame)
+        super.init(frame: .zero)
         addSubviews()
         setupConstraints()
         setupUI()
@@ -51,11 +45,22 @@ final class NameInputView: UIView {
     private func setupUI() {
         self.backgroundColor = .white
     }
+    
+    func configure(placeholder: String, errorText: String) {
+        nameTextField.attributedPlaceholder = NSAttributedString(
+            string: placeholder,
+            attributes: [
+                .foregroundColor: UIColor.coolNeutral300,
+                .font: UIFont.systemFont(ofSize: 14, weight: .medium)
+            ]
+        )
+        inputErrorLabel.text = errorText
+    }
 }
 
 // MARK: - Layout Setup
 
-extension NameInputView {
+extension SingleInputView {
     private func addSubviews() {
         [
             nameTextField,
