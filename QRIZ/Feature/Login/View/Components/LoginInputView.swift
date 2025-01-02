@@ -46,13 +46,15 @@ final class LoginInputView: UIView {
     
     private lazy var idTextField = CustomTextField(
         placeholder: Attributes.idPlaceholder,
-        rightView: wrapButtonInPaddingView(button: clearButton)
+        rightView: wrapButtonInPaddingView(button: clearButton),
+        rightViewMode: .whileEditing
     )
     
     private lazy var passwordTextField = CustomTextField(
         placeholder: Attributes.passwordPlaceholder,
         isSecure: true,
-        rightView: wrapButtonInPaddingView(button: passwordToggleButton)
+        rightView: wrapButtonInPaddingView(button: passwordToggleButton),
+        rightViewMode: .whileEditing
     )
     
     private lazy var clearButton: UIButton = {

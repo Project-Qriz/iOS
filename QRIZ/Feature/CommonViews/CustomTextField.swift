@@ -13,17 +13,23 @@ final class CustomTextField: UITextField {
     init(
         placeholder: String,
         isSecure: Bool = false,
-        rightView: UIView? = nil
+        rightView: UIView? = nil,
+        rightViewMode: UITextField.ViewMode = .never
     ) {
         super.init(frame: .zero)
-        setupUI(placeholder: placeholder, isSecure: isSecure, rightView: rightView)
+        setupUI(placeholder: placeholder, isSecure: isSecure, rightView: rightView, rightViewMode: rightViewMode)
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
-    private func setupUI(placeholder: String, isSecure: Bool, rightView: UIView?) {
+    private func setupUI(
+        placeholder: String,
+        isSecure: Bool,
+        rightView: UIView?,
+        rightViewMode: UITextField.ViewMode
+    ) {
         self.attributedPlaceholder = NSAttributedString(
             string: placeholder,
             attributes: [
@@ -39,6 +45,6 @@ final class CustomTextField: UITextField {
         self.leftView = leftPaddingView
         self.leftViewMode = .always
         self.rightView = rightView
-        self.rightViewMode = rightView != nil ? .whileEditing : .never
+        self.rightViewMode = rightViewMode
     }
 }
