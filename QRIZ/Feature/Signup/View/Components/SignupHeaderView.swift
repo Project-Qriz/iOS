@@ -12,6 +12,7 @@ final class SignupHeaderView: UIView {
     // MARK: - Enums
     
     private enum Metric {
+        static let progressViewHeight: CGFloat = 4.0
         static let titleLabelTopOffset: CGFloat = 24.0
         static let descriptionLabelTopOffset: CGFloat = 10.0
         static let leadingMargin: CGFloat = 18.0
@@ -87,9 +88,10 @@ extension SignupHeaderView {
         descriptionLabel.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
-            progressView.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor),
+            progressView.topAnchor.constraint(equalTo: topAnchor),
             progressView.leadingAnchor.constraint(equalTo: leadingAnchor),
             progressView.trailingAnchor.constraint(equalTo: trailingAnchor),
+            progressView.heightAnchor.constraint(equalToConstant: Metric.progressViewHeight),
             
             titleLabel.topAnchor.constraint(equalTo: progressView.bottomAnchor, constant: Metric.titleLabelTopOffset),
             titleLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Metric.leadingMargin),
