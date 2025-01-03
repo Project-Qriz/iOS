@@ -35,6 +35,9 @@
 		B168B7692D2807470000F32E /* EmailInputViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B168B7652D2807470000F32E /* EmailInputViewController.swift */; };
 		B168B76A2D2807470000F32E /* NameInputViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B168B7662D2807470000F32E /* NameInputViewController.swift */; };
 		B168B76B2D2807470000F32E /* VerificationCodeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B168B7672D2807470000F32E /* VerificationCodeViewController.swift */; };
+		B168B76D2D2824BD0000F32E /* IdInputViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B168B76C2D2824BD0000F32E /* IdInputViewController.swift */; };
+		B168B76F2D2826010000F32E /* IdInputMainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B168B76E2D2826010000F32E /* IdInputMainView.swift */; };
+		B168B7712D28276F0000F32E /* IdInputView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B168B7702D28276F0000F32E /* IdInputView.swift */; };
 		B17FE3062D27F85C002EC7D7 /* LoginViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B17FE3052D27F85C002EC7D7 /* LoginViewModel.swift */; };
 		B17FE3082D27F87E002EC7D7 /* String+.swift in Sources */ = {isa = PBXBuildFile; fileRef = B17FE3072D27F87E002EC7D7 /* String+.swift */; };
 		B17FE30A2D27F8E9002EC7D7 /* UITextField+.swift in Sources */ = {isa = PBXBuildFile; fileRef = B17FE3092D27F8E9002EC7D7 /* UITextField+.swift */; };
@@ -101,6 +104,9 @@
 		B168B7652D2807470000F32E /* EmailInputViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EmailInputViewController.swift; sourceTree = "<group>"; };
 		B168B7662D2807470000F32E /* NameInputViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NameInputViewController.swift; sourceTree = "<group>"; };
 		B168B7672D2807470000F32E /* VerificationCodeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VerificationCodeViewController.swift; sourceTree = "<group>"; };
+		B168B76C2D2824BD0000F32E /* IdInputViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IdInputViewController.swift; sourceTree = "<group>"; };
+		B168B76E2D2826010000F32E /* IdInputMainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IdInputMainView.swift; sourceTree = "<group>"; };
+		B168B7702D28276F0000F32E /* IdInputView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IdInputView.swift; sourceTree = "<group>"; };
 		B17FE3052D27F85C002EC7D7 /* LoginViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewModel.swift; sourceTree = "<group>"; };
 		B17FE3072D27F87E002EC7D7 /* String+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+.swift"; sourceTree = "<group>"; };
 		B17FE3092D27F8E9002EC7D7 /* UITextField+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITextField+.swift"; sourceTree = "<group>"; };
@@ -325,6 +331,7 @@
 				B168B7592D28073C0000F32E /* SingleInputView.swift */,
 				B168B75A2D28073C0000F32E /* VerificationCodeInputView.swift */,
 				B168B7572D28073C0000F32E /* SignupFooterView.swift */,
+				B168B7702D28276F0000F32E /* IdInputView.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -335,6 +342,7 @@
 				B168B75B2D28073C0000F32E /* Components */,
 				B168B75C2D28073C0000F32E /* SingleInputMainView.swift */,
 				B168B75D2D28073C0000F32E /* VerificationCodeMainView.swift */,
+				B168B76E2D2826010000F32E /* IdInputMainView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -345,6 +353,7 @@
 				B168B7652D2807470000F32E /* EmailInputViewController.swift */,
 				B168B7662D2807470000F32E /* NameInputViewController.swift */,
 				B168B7672D2807470000F32E /* VerificationCodeViewController.swift */,
+				B168B76C2D2824BD0000F32E /* IdInputViewController.swift */,
 			);
 			path = ViewController;
 			sourceTree = "<group>";
@@ -579,8 +588,10 @@
 			files = (
 				B168B76B2D2807470000F32E /* VerificationCodeViewController.swift in Sources */,
 				B168B7602D28073C0000F32E /* SignupHeaderView.swift in Sources */,
+				B168B7712D28276F0000F32E /* IdInputView.swift in Sources */,
 				54C7A3102D146190001175D9 /* LoginViewController.swift in Sources */,
 				54DB0DA12D0951C000ABD458 /* Font+.swift in Sources */,
+				B168B76D2D2824BD0000F32E /* IdInputViewController.swift in Sources */,
 				B17FE3062D27F85C002EC7D7 /* LoginViewModel.swift in Sources */,
 				541878572D0E22700089F478 /* NetworkError.swift in Sources */,
 				E239630D2D083B900092B39B /* ViewController.swift in Sources */,
@@ -605,6 +616,7 @@
 				548566552D124260002BAEE3 /* ExampleService.swift in Sources */,
 				E239630B2D083B900092B39B /* SceneDelegate.swift in Sources */,
 				54BC61572D18141B0094DC45 /* AccountOptionsView.swift in Sources */,
+				B168B76F2D2826010000F32E /* IdInputMainView.swift in Sources */,
 				B168B7632D28073C0000F32E /* SingleInputMainView.swift in Sources */,
 				54BC61552D14AFB70094DC45 /* LoginInputView.swift in Sources */,
 				B17FE3082D27F87E002EC7D7 /* String+.swift in Sources */,
