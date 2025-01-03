@@ -11,6 +11,10 @@ final class LoginLogoView: UIView {
     
     // MARK: - Enums
     
+    private enum Metric {
+        static let logoHeightMultiplier: CGFloat = 0.5
+    }
+    
     private enum Attributes {
         static let loginLogo: String = "loginLogo"
     }
@@ -51,6 +55,7 @@ extension LoginLogoView {
             appLogoImageView.leadingAnchor.constraint(equalTo: leadingAnchor),
             appLogoImageView.trailingAnchor.constraint(equalTo: trailingAnchor),
             appLogoImageView.bottomAnchor.constraint(equalTo: bottomAnchor),
+            appLogoImageView.heightAnchor.constraint(equalTo: appLogoImageView.widthAnchor, multiplier: Metric.logoHeightMultiplier)
         ])
     }
 }

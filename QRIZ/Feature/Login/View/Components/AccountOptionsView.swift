@@ -6,7 +6,6 @@
 //
 
 import UIKit
-import Combine
 
 final class AccountOptionsView: UIView {
     
@@ -17,12 +16,10 @@ final class AccountOptionsView: UIView {
         static let separatorHeight: CGFloat = 14.0
     }
     
-    // MARK: - Properties
-    
-    private let accountActionTapSubject = PassthroughSubject<LoginViewModel.AccountAction, Never>()
-    
-    var accountActionTapPublisher: AnyPublisher<LoginViewModel.AccountAction, Never> {
-        accountActionTapSubject.eraseToAnyPublisher()
+    private enum Attributes {
+        static let findIdButtonTitle = "아이디 찾기"
+        static let findPasswordButtonTitle = "비밀번호 찾기"
+        static let signUpButtonTitle = "회원가입"
     }
     
     // MARK: - UI
@@ -30,11 +27,11 @@ final class AccountOptionsView: UIView {
     private lazy var stackView: UIStackView = {
         let stackView = UIStackView(
             arrangedSubviews: [
-                buildButton(action: .findId),
+                buildButton(title: Attributes.findIdButtonTitle),
                 buildSeparator(),
-                buildButton(action: .findPassword),
+                buildButton(title: Attributes.findPasswordButtonTitle),
                 buildSeparator(),
-                buildButton(action: .signUp)
+                buildButton(title: Attributes.signUpButtonTitle)
             ]
         )
         stackView.axis = .horizontal
@@ -55,13 +52,13 @@ final class AccountOptionsView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    private func buildButton(action: LoginViewModel.AccountAction) -> UIButton {
+    private func buildButton(title: String) -> UIButton {
         let button = UIButton()
-        button.setTitle(action.rawValue, for: .normal)
+        button.setTitle(title, for: .normal)
         button.titleLabel?.font = .systemFont(ofSize: 14, weight: .semibold)
         button.setTitleColor(.coolNeutral500, for: .normal)
-        button.addAction(UIAction { [weak self] _ in
-            self?.accountActionTapSubject.send(action)
+        button.addAction(UIAction { _ in
+            print(button.titleLabel?.text ?? "타이틀이 없는 버튼")
         }, for: .touchUpInside)
         return button
     }

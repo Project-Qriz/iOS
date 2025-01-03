@@ -6,7 +6,6 @@
 //
 
 import UIKit
-import Combine
 
 final class SocialLoginView: UIView {
     
@@ -20,14 +19,9 @@ final class SocialLoginView: UIView {
     
     private enum Attributes {
         static let socialLoginLabelText: String = "다른 방법으로 로그인하기"
-    }
-    
-    // MARK: - Properties
-    
-    private let socialLoginTapSubject = PassthroughSubject<LoginViewModel.SocialLogin, Never>()
-    
-    var socialLoginPublisher: AnyPublisher<LoginViewModel.SocialLogin, Never> {
-        socialLoginTapSubject.eraseToAnyPublisher()
+        static let googleLoginButtonTitle: String = "구글"
+        static let naverLoginButtonTitle: String = "네이버"
+        static let facebookLoginButtonTitle: String = "페북"
     }
     
     // MARK: - UI
@@ -61,9 +55,9 @@ final class SocialLoginView: UIView {
     
     private lazy var socialLoginHStackView: UIStackView = {
         let stackView = UIStackView(arrangedSubviews: [
-            buildButton(socialLogin: .google),
-            buildButton(socialLogin: .naver),
-            buildButton(socialLogin: .facebook)
+            buildButton(title: Attributes.googleLoginButtonTitle),
+            buildButton(title: Attributes.naverLoginButtonTitle),
+            buildButton(title: Attributes.facebookLoginButtonTitle)
         ])
         stackView.axis = .horizontal
         stackView.spacing = 20
@@ -95,9 +89,9 @@ final class SocialLoginView: UIView {
         return separator
     }
     
-    private func buildButton(socialLogin: LoginViewModel.SocialLogin) -> UIButton {
+    private func buildButton(title: String) -> UIButton {
         let button = RoundButton()
-        button.setTitle(socialLogin.rawValue, for: .normal)
+        button.setTitle(title, for: .normal)
         button.titleLabel?.font = .systemFont(ofSize: 16.8, weight: .regular)
         button.setTitleColor(.white, for: .normal)
         button.backgroundColor = .coolNeutral500
@@ -109,8 +103,8 @@ final class SocialLoginView: UIView {
             button.heightAnchor.constraint(equalToConstant: Metric.roundButtonSize)
         ])
         
-        button.addAction(UIAction { [weak self] _ in
-            self?.socialLoginTapSubject.send(socialLogin)
+        button.addAction(UIAction { _ in
+            print(button.titleLabel?.text ?? "타이틀이 없는 버튼")
         }, for: .touchUpInside)
         return button
     }
