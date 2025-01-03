@@ -10,6 +10,8 @@ import Combine
 
 final class NameInputViewController: UIViewController {
     
+    // MARK: - Enums
+    
     private enum Attributes {
         static let headerTitle: String = "이름을 입력해주세요!"
         static let headerDescription: String = "가입을 위해 실명을 입력해주세요."

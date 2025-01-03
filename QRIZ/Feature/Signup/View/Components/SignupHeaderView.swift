@@ -64,10 +64,7 @@ final class SignupHeaderView: UIView {
     func configure(title: String, description: String, progress: Float) {
         titleLabel.text = title
         descriptionLabel.text = description
-        
-        UIView.animate(withDuration: 0.3) {
-            self.progressView.setProgress(max(0.0, min(progress, 1.0)), animated: true)
-        }
+        progressView.setProgress(max(0.0, min(progress, 1.0)), animated: false)
     }
 }
 
