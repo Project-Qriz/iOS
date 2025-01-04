@@ -8,7 +8,7 @@
 import UIKit
 import Combine
 
-class CheckConceptViewController: UIViewController {
+final class CheckConceptViewController: UIViewController {
     
     private let checkConceptTitleLabel: UILabel = OnboardingTitleLabel(labelText: "아는 개념을 체크해주세요!", fontSize: 24, numberOfLines: 1)
     private let checkConceptSubTitleLabel: UILabel = OnboardingSubtitleLabel("체크하신 결과를 토대로\n추후 진행할 테스트의 레벨이 조정됩니다! ")

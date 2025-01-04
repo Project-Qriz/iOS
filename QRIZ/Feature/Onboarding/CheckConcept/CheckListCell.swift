@@ -7,7 +7,7 @@
 
 import UIKit
 
-class CheckListCell: UICollectionViewCell {
+final class CheckListCell: UICollectionViewCell {
 
     static let identifier = "CheckListCell"
     
