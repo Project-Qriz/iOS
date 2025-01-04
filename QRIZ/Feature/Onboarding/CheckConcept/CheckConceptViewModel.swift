@@ -52,49 +52,59 @@ final class CheckConceptViewModel {
     private func checkboxStateHandler(_ idx: Int) {
         
         if selectedSet.contains(idx) {
-            if idx == 0 {
-                isSelectedSetEmpty = false
-            } else if idx == 1 {
-                isSelectedSetFull = false
-                for i in 2..<SurveyCheckList.list.count {
-                    selectedSet.remove(i)
-                    self.output.send(.checkboxToOff(idx: i))
-                }
-            } else if idx != 0 && isSelectedSetFull {
-                isSelectedSetFull = false
-                selectedSet.remove(1)
-                self.output.send(.checkboxToOff(idx: 1))
-            }
-            selectedSet.remove(idx)
-            self.output.send(.checkboxToOff(idx: idx))
+            deselectCheckboxHandler(idx)
         } else {
-            if idx == 0 {
-                isSelectedSetEmpty = true
-                if selectedSet.count > 0 {
-                    if isSelectedSetFull { isSelectedSetFull = false }
-                    selectedSet.removeAll()
-                    for i in 1..<SurveyCheckList.list.count { output.send(.checkboxToOff(idx: i)) }
-                }
-            } else {
-                if idx == 1 {
-                    isSelectedSetFull = true
-                    for i in 2..<SurveyCheckList.list.count {
-                        selectedSet.insert(i)
-                        output.send(.checkboxToOn(idx: i))
-                    }
-                }
-                if isSelectedSetEmpty {
-                    isSelectedSetEmpty = false
-                    selectedSet.remove(0)
-                    output.send(.checkboxToOff(idx: 0))
-                }
+            selectCheckboxHandler(idx)
+        }
+    }
+    
+    private func deselectCheckboxHandler(_ idx: Int) {
+
+        if idx == 0 {
+            isSelectedSetEmpty = false
+        } else if idx == 1 {
+            isSelectedSetFull = false
+            for i in 2..<SurveyCheckList.list.count {
+                selectedSet.remove(i)
+                self.output.send(.checkboxToOff(idx: i))
             }
-            selectedSet.insert(idx)
-            self.output.send(.checkboxToOn(idx: idx))
-            if selectedSet.count == SurveyCheckList.list.count - 2 && !isSelectedSetFull && !isSelectedSetEmpty {
+        } else if idx != 0 && isSelectedSetFull {
+            isSelectedSetFull = false
+            selectedSet.remove(1)
+            self.output.send(.checkboxToOff(idx: 1))
+        }
+        selectedSet.remove(idx)
+        self.output.send(.checkboxToOff(idx: idx))
+    }
+    
+    private func selectCheckboxHandler(_ idx: Int) {
+
+        if idx == 0 {
+            isSelectedSetEmpty = true
+            if selectedSet.count > 0 {
+                if isSelectedSetFull { isSelectedSetFull = false }
+                selectedSet.removeAll()
+                for i in 1..<SurveyCheckList.list.count { output.send(.checkboxToOff(idx: i)) }
+            }
+        } else {
+            if idx == 1 {
                 isSelectedSetFull = true
-                output.send(.checkboxToOn(idx: 1))
+                for i in 2..<SurveyCheckList.list.count {
+                    selectedSet.insert(i)
+                    output.send(.checkboxToOn(idx: i))
+                }
             }
+            if isSelectedSetEmpty {
+                isSelectedSetEmpty = false
+                selectedSet.remove(0)
+                output.send(.checkboxToOff(idx: 0))
+            }
+        }
+        selectedSet.insert(idx)
+        self.output.send(.checkboxToOn(idx: idx))
+        if selectedSet.count == SurveyCheckList.list.count - 2 && !isSelectedSetFull && !isSelectedSetEmpty {
+            isSelectedSetFull = true
+            output.send(.checkboxToOn(idx: 1))
         }
     }
     
