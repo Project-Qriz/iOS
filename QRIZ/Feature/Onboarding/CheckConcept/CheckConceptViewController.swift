@@ -48,9 +48,9 @@ class CheckConceptViewController: UIViewController {
                     // if selected 'no nothing' -> pushViewController(HomeViewController)
                     self.navigationController?.pushViewController(BeginTestViewController(), animated: true)
                 case .checkboxToOn(let idx):
-                    changeCheckboxState(idx: idx, nextState: .on)
+                    changeCheckboxState(idx: idx, isNextStateOn: true)
                 case .checkboxToOff(let idx):
-                    changeCheckboxState(idx: idx, nextState: .off)
+                    changeCheckboxState(idx: idx, isNextStateOn: false)
                 case .setDoneButtonState(let isActive):
                     checkDoneButtonHandler(isActive: isActive)
                 case .requestFailed:
@@ -128,9 +128,8 @@ extension CheckConceptViewController: UICollectionViewDataSource {
         }
 
         let isSelected = viewModel.selectedSet.contains(indexPath.item)
-        let nextState: CheckBoxState = isSelected ? .on : .off
         cell.configure(SurveyCheckList.list[indexPath.item])
-        cell.toggleCheckbox(nextState)
+        cell.toggleCheckbox(isSelected)
         return cell
     }
 }
@@ -149,10 +148,10 @@ extension CheckConceptViewController: UICollectionViewDelegateFlowLayout {
         self.input.send(.someCheckboxClicked(idx: indexPath.item))
     }
     
-    func changeCheckboxState(idx: Int, nextState: CheckBoxState) {
+    func changeCheckboxState(idx: Int, isNextStateOn: Bool) {
         let indexPath = IndexPath(item: idx, section: 0)
         guard let selectedCell = self.checkListCollectionView.cellForItem(at: indexPath) as? CheckListCell else { return }
-        selectedCell.toggleCheckbox(nextState)
+        selectedCell.toggleCheckbox(isNextStateOn)
 //        self.checkListCollectionView.
     }
 }

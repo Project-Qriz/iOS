@@ -28,7 +28,6 @@
 		E25F94CF2D0CB61C00BA765F /* OnboardingImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E25F94CE2D0CB61C00BA765F /* OnboardingImageView.swift */; };
 		E25F94D12D0CB74700BA765F /* OnboardingButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = E25F94D02D0CB74700BA765F /* OnboardingButton.swift */; };
 		E29BF8552D117CF1006DC6D0 /* SurveyCheckList.swift in Sources */ = {isa = PBXBuildFile; fileRef = E29BF8542D117CF1006DC6D0 /* SurveyCheckList.swift */; };
-		E29BF8572D11B81E006DC6D0 /* CheckBoxState.swift in Sources */ = {isa = PBXBuildFile; fileRef = E29BF8562D11B81E006DC6D0 /* CheckBoxState.swift */; };
 		E29BF86D2D16895B006DC6D0 /* QuestionData.swift in Sources */ = {isa = PBXBuildFile; fileRef = E29BF86C2D16895B006DC6D0 /* QuestionData.swift */; };
 		E2D70FE82D0DD322005A3F51 /* BeginTestViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2D70FE72D0DD322005A3F51 /* BeginTestViewModel.swift */; };
 		E2D70FEC2D0EBDDD005A3F51 /* CheckListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2D70FEB2D0EBDDD005A3F51 /* CheckListCell.swift */; };
@@ -88,7 +87,6 @@
 		E25F94CE2D0CB61C00BA765F /* OnboardingImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingImageView.swift; sourceTree = "<group>"; };
 		E25F94D02D0CB74700BA765F /* OnboardingButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingButton.swift; sourceTree = "<group>"; };
 		E29BF8542D117CF1006DC6D0 /* SurveyCheckList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SurveyCheckList.swift; sourceTree = "<group>"; };
-		E29BF8562D11B81E006DC6D0 /* CheckBoxState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckBoxState.swift; sourceTree = "<group>"; };
 		E29BF86C2D16895B006DC6D0 /* QuestionData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuestionData.swift; sourceTree = "<group>"; };
 		E2D70FE72D0DD322005A3F51 /* BeginTestViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BeginTestViewModel.swift; sourceTree = "<group>"; };
 		E2D70FEB2D0EBDDD005A3F51 /* CheckListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckListCell.swift; sourceTree = "<group>"; };
@@ -312,7 +310,6 @@
 			isa = PBXGroup;
 			children = (
 				E29BF8542D117CF1006DC6D0 /* SurveyCheckList.swift */,
-				E29BF8562D11B81E006DC6D0 /* CheckBoxState.swift */,
 				E23066992D2126B9001B509A /* PreviewScoresData.swift */,
 				E2DD0E832D2144D000DA3D18 /* PreviewConceptsData.swift */,
 				E2DD0E852D2146D900DA3D18 /* IncorrectCountData.swift */,
@@ -492,7 +489,6 @@
 				E25F94D12D0CB74700BA765F /* OnboardingButton.swift in Sources */,
 				54DB0DA12D0951C000ABD458 /* Font+.swift in Sources */,
 				E239630D2D083B900092B39B /* ViewController.swift in Sources */,
-				E29BF8572D11B81E006DC6D0 /* CheckBoxState.swift in Sources */,
 				E23824E12D0C3157009E7989 /* BeginOnboardingViewController.swift in Sources */,
 				E2D70FEE2D0EC037005A3F51 /* CheckConceptViewModel.swift in Sources */,
 				E23963092D083B900092B39B /* AppDelegate.swift in Sources */,

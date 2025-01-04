@@ -26,8 +26,8 @@ class CheckListCell: UICollectionViewCell {
         fatalError("no initializer for coder: CheckListCell")
     }
     
-    func toggleCheckbox(_ nextState: CheckBoxState) {
-        self.checkbox.image = nextState == .on ? UIImage(named: "checkboxOnIcon") : UIImage(named: "checkboxOffIcon")
+    func toggleCheckbox(_ isNextStateOn: Bool) {
+        self.checkbox.image = isNextStateOn == true ? UIImage(named: "checkboxOnIcon") : UIImage(named: "checkboxOffIcon")
     }
     
     private func addViews() {
