@@ -37,8 +37,8 @@ final class BeginTestViewController: UIViewController {
                 guard let self = self else { return }
                 switch event {
                 case .moveToPreviewTest:
-//                    self.navigationController?.pushViewController(PreviewTestViewController(), animated: true)
-                    print("PreviewTestViewController called")
+                    self.navigationController?.pushViewController(PreviewTestViewController(), animated: true)
+                    // coordinator
                 }
             }
             .store(in: &subscriptions)
