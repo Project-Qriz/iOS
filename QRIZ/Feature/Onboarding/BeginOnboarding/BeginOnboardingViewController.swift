@@ -12,7 +12,7 @@ final class BeginOnboardingViewController: UIViewController {
     
     private let beginOnboardingTitleLabel: UILabel = OnboardingTitleLabel(labelText: "SQLD를 어느정도\n알고 계신가요?")
     private let beginOnboardingSubtitleLabel: UILabel = OnboardingSubtitleLabel("선택하신 체크사항을 기반으로\n맞춤 프리뷰 테스트를 제공해 드려요!")
-    private let beginOnboardingImageView: UIImageView = OnboardingImageView("onboarding1")
+    private let beginOnboardingImageView: UIImageView = UIImageView(image: UIImage(named: "onboarding1"))
     private let beginOnboardingStartButton: UIButton = OnboardingButton("시작하기")
     
     private var viewModel: BeginOnboardingViewModel = BeginOnboardingViewModel()

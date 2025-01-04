@@ -25,7 +25,6 @@
 		E25F94C82D0CAF1B00BA765F /* BeginTestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E25F94C72D0CAF1B00BA765F /* BeginTestViewController.swift */; };
 		E25F94CB2D0CB1DB00BA765F /* OnboardingTitleLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E25F94CA2D0CB1DB00BA765F /* OnboardingTitleLabel.swift */; };
 		E25F94CD2D0CB50F00BA765F /* OnboardingSubtitleLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E25F94CC2D0CB50F00BA765F /* OnboardingSubtitleLabel.swift */; };
-		E25F94CF2D0CB61C00BA765F /* OnboardingImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E25F94CE2D0CB61C00BA765F /* OnboardingImageView.swift */; };
 		E25F94D12D0CB74700BA765F /* OnboardingButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = E25F94D02D0CB74700BA765F /* OnboardingButton.swift */; };
 		E29BF8552D117CF1006DC6D0 /* SurveyCheckList.swift in Sources */ = {isa = PBXBuildFile; fileRef = E29BF8542D117CF1006DC6D0 /* SurveyCheckList.swift */; };
 		E29BF86D2D16895B006DC6D0 /* QuestionData.swift in Sources */ = {isa = PBXBuildFile; fileRef = E29BF86C2D16895B006DC6D0 /* QuestionData.swift */; };
@@ -84,7 +83,6 @@
 		E25F94C72D0CAF1B00BA765F /* BeginTestViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BeginTestViewController.swift; sourceTree = "<group>"; };
 		E25F94CA2D0CB1DB00BA765F /* OnboardingTitleLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingTitleLabel.swift; sourceTree = "<group>"; };
 		E25F94CC2D0CB50F00BA765F /* OnboardingSubtitleLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingSubtitleLabel.swift; sourceTree = "<group>"; };
-		E25F94CE2D0CB61C00BA765F /* OnboardingImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingImageView.swift; sourceTree = "<group>"; };
 		E25F94D02D0CB74700BA765F /* OnboardingButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingButton.swift; sourceTree = "<group>"; };
 		E29BF8542D117CF1006DC6D0 /* SurveyCheckList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SurveyCheckList.swift; sourceTree = "<group>"; };
 		E29BF86C2D16895B006DC6D0 /* QuestionData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuestionData.swift; sourceTree = "<group>"; };
@@ -291,7 +289,6 @@
 			children = (
 				E25F94CA2D0CB1DB00BA765F /* OnboardingTitleLabel.swift */,
 				E25F94CC2D0CB50F00BA765F /* OnboardingSubtitleLabel.swift */,
-				E25F94CE2D0CB61C00BA765F /* OnboardingImageView.swift */,
 				E25F94D02D0CB74700BA765F /* OnboardingButton.swift */,
 			);
 			path = OnboardingUtil;
@@ -502,7 +499,6 @@
 				E2D70FEC2D0EBDDD005A3F51 /* CheckListCell.swift in Sources */,
 				E2DD0E842D2144D000DA3D18 /* PreviewConceptsData.swift in Sources */,
 				E25856DE2D0DADD300355667 /* BeginOnboardingViewModel.swift in Sources */,
-				E25F94CF2D0CB61C00BA765F /* OnboardingImageView.swift in Sources */,
 				E230669A2D2126B9001B509A /* PreviewScoresData.swift in Sources */,
 				E29BF8552D117CF1006DC6D0 /* SurveyCheckList.swift in Sources */,
 				E2DD0E862D2146D900DA3D18 /* IncorrectCountData.swift in Sources */,
