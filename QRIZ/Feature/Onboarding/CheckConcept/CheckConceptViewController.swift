@@ -27,9 +27,7 @@ class CheckConceptViewController: UIViewController {
         super.viewDidLoad()
         self.view.backgroundColor = .customBlue50
         self.navigationItem.hidesBackButton = true
-        checkListCollectionView.dataSource = self
-        checkListCollectionView.delegate = self
-        checkListCollectionView.register(CheckListCell.self, forCellWithReuseIdentifier: CheckListCell.identifier)
+        setCollectionView()
         bind()
         addViews()
         addButtonAction()
@@ -58,6 +56,12 @@ class CheckConceptViewController: UIViewController {
                 }
             }
             .store(in: &subscriptions)
+    }
+    
+    private func setCollectionView() {
+        checkListCollectionView.dataSource = self
+        checkListCollectionView.delegate = self
+        checkListCollectionView.register(CheckListCell.self, forCellWithReuseIdentifier: CheckListCell.identifier)
     }
     
     private func checkDoneButtonHandler(isActive: Bool) {
