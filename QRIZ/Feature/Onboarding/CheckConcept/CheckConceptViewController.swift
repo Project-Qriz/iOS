@@ -65,7 +65,7 @@ final class CheckConceptViewController: UIViewController {
     }
     
     private func checkDoneButtonHandler(isActive: Bool) {
-        isActive ? checkDoneButton.setButtonState(isActive: true) : checkDoneButton.setButtonState(isActive: false)
+        checkDoneButton.setButtonState(isActive: isActive)
     }
     
     private func addButtonAction() {
