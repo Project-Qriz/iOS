@@ -29,7 +29,8 @@ struct QuestionData {
         case 4:
             return option4
         default:
-            fatalError("QuestionData: selected option doesn't exist")
+            print("QuestionData: selected option doesn't exist")
+            return ""
         }
     }
     
