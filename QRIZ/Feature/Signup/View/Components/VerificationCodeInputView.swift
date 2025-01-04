@@ -23,11 +23,6 @@ final class VerificationCodeInputView: UIView {
         static let inputErrorText: String = "인증번호가 다르게 입력되었어요"
     }
     
-    // MARK: - Properties
-    
-    private var timer: Timer?
-    private var remainingSeconds: Int = 180
-    
     // MARK: - UI
     
     private lazy var codeTextField: UITextField = CustomTextField(

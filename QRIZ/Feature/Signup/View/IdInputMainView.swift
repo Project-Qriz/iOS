@@ -17,8 +17,6 @@ final class IdInputMainView: UIView {
         static let horizontalMargin: CGFloat = 18.0
     }
     
-    // MARK: - Enums
-    
     private enum Attributes {
         static let headerTitle: String = "아이디를 입력해주세요!"
         static let headerDescription: String = "사용할 아이디를 입력해주세요."
@@ -45,7 +43,6 @@ final class IdInputMainView: UIView {
         addSubviews()
         setupConstraints()
     }
-    
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")

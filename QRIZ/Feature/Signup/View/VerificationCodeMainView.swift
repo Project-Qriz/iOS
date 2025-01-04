@@ -17,8 +17,6 @@ final class VerificationCodeMainView: UIView {
         static let horizontalMargin: CGFloat = 18.0
     }
     
-    // MARK: - Enums
-    
     private enum Attributes {
         static let headerTitle: String = "이메일로 받은\n인증번호를 입력해주세요"
         static let headerDescription: String = "이메일을 받지 못하셨다면 다시 보내기를 클릭해주세요."
@@ -45,7 +43,6 @@ final class VerificationCodeMainView: UIView {
         addSubviews()
         setupConstraints()
     }
-    
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
