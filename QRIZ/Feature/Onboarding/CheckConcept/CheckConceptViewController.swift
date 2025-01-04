@@ -156,7 +156,6 @@ extension CheckConceptViewController: UICollectionViewDelegateFlowLayout {
         let indexPath = IndexPath(item: idx, section: 0)
         guard let selectedCell = self.checkListCollectionView.cellForItem(at: indexPath) as? CheckListCell else { return }
         selectedCell.toggleCheckbox(isNextStateOn)
-//        self.checkListCollectionView.
     }
 }
 
