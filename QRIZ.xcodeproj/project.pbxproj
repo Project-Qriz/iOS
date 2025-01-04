@@ -25,6 +25,8 @@
 		54DB0D9D2D09513300ABD458 /* AppCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54DB0D9C2D09513300ABD458 /* AppCoordinator.swift */; };
 		54DB0DA12D0951C000ABD458 /* Font+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54DB0DA02D0951C000ABD458 /* Font+.swift */; };
 		54DB0DA52D099D6700ABD458 /* Colors.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 54DB0DA42D099D6700ABD458 /* Colors.xcassets */; };
+		E230669A2D2126B9001B509A /* PreviewScoresData.swift in Sources */ = {isa = PBXBuildFile; fileRef = E23066992D2126B9001B509A /* PreviewScoresData.swift */; };
+		E23824E12D0C3157009E7989 /* BeginOnboardingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E23824E02D0C3157009E7989 /* BeginOnboardingViewController.swift */; };
 		54E91B762D18FACD00474D0A /* RoundButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54E91B752D18FACD00474D0A /* RoundButton.swift */; };
 		B17FE3062D27F85C002EC7D7 /* LoginViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B17FE3052D27F85C002EC7D7 /* LoginViewModel.swift */; };
 		B17FE3082D27F87E002EC7D7 /* String+.swift in Sources */ = {isa = PBXBuildFile; fileRef = B17FE3072D27F87E002EC7D7 /* String+.swift */; };
@@ -37,6 +39,19 @@
 		E23963202D083B910092B39B /* QRIZTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E239631F2D083B910092B39B /* QRIZTests.swift */; };
 		E239632A2D083B910092B39B /* QRIZUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E23963292D083B910092B39B /* QRIZUITests.swift */; };
 		E239632C2D083B910092B39B /* QRIZUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E239632B2D083B910092B39B /* QRIZUITestsLaunchTests.swift */; };
+		E25856D42D0D766900355667 /* CheckConceptViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E25856D32D0D766900355667 /* CheckConceptViewController.swift */; };
+		E25856DE2D0DADD300355667 /* BeginOnboardingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E25856DD2D0DADD300355667 /* BeginOnboardingViewModel.swift */; };
+		E25F94C82D0CAF1B00BA765F /* BeginTestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E25F94C72D0CAF1B00BA765F /* BeginTestViewController.swift */; };
+		E25F94CB2D0CB1DB00BA765F /* OnboardingTitleLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E25F94CA2D0CB1DB00BA765F /* OnboardingTitleLabel.swift */; };
+		E25F94CD2D0CB50F00BA765F /* OnboardingSubtitleLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E25F94CC2D0CB50F00BA765F /* OnboardingSubtitleLabel.swift */; };
+		E25F94D12D0CB74700BA765F /* OnboardingButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = E25F94D02D0CB74700BA765F /* OnboardingButton.swift */; };
+		E29BF8552D117CF1006DC6D0 /* SurveyCheckList.swift in Sources */ = {isa = PBXBuildFile; fileRef = E29BF8542D117CF1006DC6D0 /* SurveyCheckList.swift */; };
+		E29BF86D2D16895B006DC6D0 /* QuestionData.swift in Sources */ = {isa = PBXBuildFile; fileRef = E29BF86C2D16895B006DC6D0 /* QuestionData.swift */; };
+		E2D70FE82D0DD322005A3F51 /* BeginTestViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2D70FE72D0DD322005A3F51 /* BeginTestViewModel.swift */; };
+		E2D70FEC2D0EBDDD005A3F51 /* CheckListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2D70FEB2D0EBDDD005A3F51 /* CheckListCell.swift */; };
+		E2D70FEE2D0EC037005A3F51 /* CheckConceptViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2D70FED2D0EC037005A3F51 /* CheckConceptViewModel.swift */; };
+		E2DD0E842D2144D000DA3D18 /* PreviewConceptsData.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2DD0E832D2144D000DA3D18 /* PreviewConceptsData.swift */; };
+		E2DD0E862D2146D900DA3D18 /* IncorrectCountData.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2DD0E852D2146D900DA3D18 /* IncorrectCountData.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -82,6 +97,8 @@
 		54DB0D9C2D09513300ABD458 /* AppCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppCoordinator.swift; sourceTree = "<group>"; };
 		54DB0DA02D0951C000ABD458 /* Font+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Font+.swift"; sourceTree = "<group>"; };
 		54DB0DA42D099D6700ABD458 /* Colors.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Colors.xcassets; sourceTree = "<group>"; };
+		E23066992D2126B9001B509A /* PreviewScoresData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreviewScoresData.swift; sourceTree = "<group>"; };
+		E23824E02D0C3157009E7989 /* BeginOnboardingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BeginOnboardingViewController.swift; sourceTree = "<group>"; };
 		54E91B752D18FACD00474D0A /* RoundButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoundButton.swift; sourceTree = "<group>"; };
 		B17FE3052D27F85C002EC7D7 /* LoginViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewModel.swift; sourceTree = "<group>"; };
 		B17FE3072D27F87E002EC7D7 /* String+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+.swift"; sourceTree = "<group>"; };
@@ -99,6 +116,19 @@
 		E23963292D083B910092B39B /* QRIZUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QRIZUITests.swift; sourceTree = "<group>"; };
 		E239632B2D083B910092B39B /* QRIZUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QRIZUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		E239633C2D083BC30092B39B /* QRIZUnitTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = QRIZUnitTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		E25856D32D0D766900355667 /* CheckConceptViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = CheckConceptViewController.swift; path = QRIZ/Feature/Onboarding/CheckConcept/CheckConceptViewController.swift; sourceTree = SOURCE_ROOT; };
+		E25856DD2D0DADD300355667 /* BeginOnboardingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BeginOnboardingViewModel.swift; sourceTree = "<group>"; };
+		E25F94C72D0CAF1B00BA765F /* BeginTestViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BeginTestViewController.swift; sourceTree = "<group>"; };
+		E25F94CA2D0CB1DB00BA765F /* OnboardingTitleLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingTitleLabel.swift; sourceTree = "<group>"; };
+		E25F94CC2D0CB50F00BA765F /* OnboardingSubtitleLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingSubtitleLabel.swift; sourceTree = "<group>"; };
+		E25F94D02D0CB74700BA765F /* OnboardingButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingButton.swift; sourceTree = "<group>"; };
+		E29BF8542D117CF1006DC6D0 /* SurveyCheckList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SurveyCheckList.swift; sourceTree = "<group>"; };
+		E29BF86C2D16895B006DC6D0 /* QuestionData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuestionData.swift; sourceTree = "<group>"; };
+		E2D70FE72D0DD322005A3F51 /* BeginTestViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BeginTestViewModel.swift; sourceTree = "<group>"; };
+		E2D70FEB2D0EBDDD005A3F51 /* CheckListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckListCell.swift; sourceTree = "<group>"; };
+		E2D70FED2D0EC037005A3F51 /* CheckConceptViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckConceptViewModel.swift; sourceTree = "<group>"; };
+		E2DD0E832D2144D000DA3D18 /* PreviewConceptsData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreviewConceptsData.swift; sourceTree = "<group>"; };
+		E2DD0E852D2146D900DA3D18 /* IncorrectCountData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IncorrectCountData.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -222,6 +252,7 @@
 		54DB0D962D09506C00ABD458 /* Feature */ = {
 			isa = PBXGroup;
 			children = (
+				E23824DF2D0C1FA7009E7989 /* Onboarding */,
 				54E91B742D18FA9600474D0A /* CommonViews */,
 				54C7A30E2D14613B001175D9 /* Login */,
 				54DB0D972D0950A500ABD458 /* Home */,
@@ -249,6 +280,7 @@
 		54DB0D9E2D09514000ABD458 /* Utils */ = {
 			isa = PBXGroup;
 			children = (
+				E29BF8532D117CD5006DC6D0 /* Model */,
 				54DB0D9F2D09519D00ABD458 /* Extensions */,
 			);
 			path = Utils;
@@ -281,6 +313,15 @@
 			path = SupportingFiles;
 			sourceTree = "<group>";
 		};
+		E23824DF2D0C1FA7009E7989 /* Onboarding */ = {
+			isa = PBXGroup;
+			children = (
+				E25F94C92D0CB1BF00BA765F /* OnboardingUtil */,
+				E25856D72D0DA97400355667 /* BeginOnboarding */,
+				E25856D82D0DAA0400355667 /* CheckConcept */,
+				E25856D92D0DAA2800355667 /* BeginTest */,
+			);
+			path = Onboarding;
 		54E91B742D18FA9600474D0A /* CommonViews */ = {
 			isa = PBXGroup;
 			children = (
@@ -356,6 +397,72 @@
 				E239632B2D083B910092B39B /* QRIZUITestsLaunchTests.swift */,
 			);
 			path = QRIZUITests;
+			sourceTree = "<group>";
+		};
+		E25856D72D0DA97400355667 /* BeginOnboarding */ = {
+			isa = PBXGroup;
+			children = (
+				E23824E02D0C3157009E7989 /* BeginOnboardingViewController.swift */,
+				E25856DD2D0DADD300355667 /* BeginOnboardingViewModel.swift */,
+			);
+			path = BeginOnboarding;
+			sourceTree = "<group>";
+		};
+		E25856D82D0DAA0400355667 /* CheckConcept */ = {
+			isa = PBXGroup;
+			children = (
+				E25856D32D0D766900355667 /* CheckConceptViewController.swift */,
+				E2D70FED2D0EC037005A3F51 /* CheckConceptViewModel.swift */,
+				E2D70FEB2D0EBDDD005A3F51 /* CheckListCell.swift */,
+			);
+			path = CheckConcept;
+			sourceTree = "<group>";
+		};
+		E25856D92D0DAA2800355667 /* BeginTest */ = {
+			isa = PBXGroup;
+			children = (
+				E25F94C72D0CAF1B00BA765F /* BeginTestViewController.swift */,
+				E2D70FE72D0DD322005A3F51 /* BeginTestViewModel.swift */,
+			);
+			path = BeginTest;
+			sourceTree = "<group>";
+		};
+		E25F94C92D0CB1BF00BA765F /* OnboardingUtil */ = {
+			isa = PBXGroup;
+			children = (
+				E25F94CA2D0CB1DB00BA765F /* OnboardingTitleLabel.swift */,
+				E25F94CC2D0CB50F00BA765F /* OnboardingSubtitleLabel.swift */,
+				E25F94D02D0CB74700BA765F /* OnboardingButton.swift */,
+			);
+			path = OnboardingUtil;
+			sourceTree = "<group>";
+		};
+		E29BF8532D117CD5006DC6D0 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				E29BF86B2D16894C006DC6D0 /* TestModel */,
+				E29BF85A2D11D3B2006DC6D0 /* OnboardingModel */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		E29BF85A2D11D3B2006DC6D0 /* OnboardingModel */ = {
+			isa = PBXGroup;
+			children = (
+				E29BF8542D117CF1006DC6D0 /* SurveyCheckList.swift */,
+				E23066992D2126B9001B509A /* PreviewScoresData.swift */,
+				E2DD0E832D2144D000DA3D18 /* PreviewConceptsData.swift */,
+				E2DD0E852D2146D900DA3D18 /* IncorrectCountData.swift */,
+			);
+			path = OnboardingModel;
+			sourceTree = "<group>";
+		};
+		E29BF86B2D16894C006DC6D0 /* TestModel */ = {
+			isa = PBXGroup;
+			children = (
+				E29BF86C2D16895B006DC6D0 /* QuestionData.swift */,
+			);
+			path = TestModel;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -518,11 +625,15 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E25F94CB2D0CB1DB00BA765F /* OnboardingTitleLabel.swift in Sources */,
+				E25F94D12D0CB74700BA765F /* OnboardingButton.swift in Sources */,
 				54C7A3102D146190001175D9 /* LoginViewController.swift in Sources */,
 				54DB0DA12D0951C000ABD458 /* Font+.swift in Sources */,
 				B17FE3062D27F85C002EC7D7 /* LoginViewModel.swift in Sources */,
 				541878572D0E22700089F478 /* NetworkError.swift in Sources */,
 				E239630D2D083B900092B39B /* ViewController.swift in Sources */,
+				E23824E12D0C3157009E7989 /* BeginOnboardingViewController.swift in Sources */,
+				E2D70FEE2D0EC037005A3F51 /* CheckConceptViewModel.swift in Sources */,
 				541878542D0E21620089F478 /* HTTPMethod.swift in Sources */,
 				548566502D1241A4002BAEE3 /* ExampleRequest.swift in Sources */,
 				548566522D1241BA002BAEE3 /* ExampleResponse.swift in Sources */,
@@ -531,6 +642,10 @@
 				5485664B2D123FC2002BAEE3 /* Network.swift in Sources */,
 				54BC61592D1823F50094DC45 /* SocialLoginView.swift in Sources */,
 				E23963092D083B900092B39B /* AppDelegate.swift in Sources */,
+				E2D70FE82D0DD322005A3F51 /* BeginTestViewModel.swift in Sources */,
+				E29BF86D2D16895B006DC6D0 /* QuestionData.swift in Sources */,
+				E25856D42D0D766900355667 /* CheckConceptViewController.swift in Sources */,
+				E25F94C82D0CAF1B00BA765F /* BeginTestViewController.swift in Sources */,
 				54DB0D9D2D09513300ABD458 /* AppCoordinator.swift in Sources */,
 				54E91B762D18FACD00474D0A /* RoundButton.swift in Sources */,
 				54DB0D992D0950DE00ABD458 /* ViewModel.swift in Sources */,
@@ -538,6 +653,13 @@
 				541878612D0EC2970089F478 /* HTTPHeaderField.swift in Sources */,
 				548566552D124260002BAEE3 /* ExampleService.swift in Sources */,
 				E239630B2D083B900092B39B /* SceneDelegate.swift in Sources */,
+				E2D70FEC2D0EBDDD005A3F51 /* CheckListCell.swift in Sources */,
+				E2DD0E842D2144D000DA3D18 /* PreviewConceptsData.swift in Sources */,
+				E25856DE2D0DADD300355667 /* BeginOnboardingViewModel.swift in Sources */,
+				E230669A2D2126B9001B509A /* PreviewScoresData.swift in Sources */,
+				E29BF8552D117CF1006DC6D0 /* SurveyCheckList.swift in Sources */,
+				E2DD0E862D2146D900DA3D18 /* IncorrectCountData.swift in Sources */,
+				E25F94CD2D0CB50F00BA765F /* OnboardingSubtitleLabel.swift in Sources */,
 				54BC61572D18141B0094DC45 /* AccountOptionsView.swift in Sources */,
 				54BC61552D14AFB70094DC45 /* LoginInputView.swift in Sources */,
 				B17FE3082D27F87E002EC7D7 /* String+.swift in Sources */,
@@ -643,7 +765,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 17.5;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
@@ -700,7 +822,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 17.5;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
