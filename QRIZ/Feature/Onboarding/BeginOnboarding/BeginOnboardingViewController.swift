@@ -44,7 +44,8 @@ final class BeginOnboardingViewController: UIViewController {
     }
     
     private func addButtonAction() {
-        beginOnboardingStartButton.addAction(UIAction(handler: { _ in
+        beginOnboardingStartButton.addAction(UIAction(handler: { [weak self] _ in
+            guard let self = self else { return }
             self.input.send(.didButtonClicked)
         }), for: .touchUpInside)
     }
