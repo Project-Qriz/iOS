@@ -29,7 +29,7 @@ final class PreviewResultViewController: UIViewController {
         let label = UILabel()
         label.text = "보충하면 좋은 개념 top2"
         label.font = .systemFont(ofSize: 16)
-        label.textColor = .coolNeutral500
+        label.textColor = .coolNeutral700
         label.textAlignment = .left
         label.numberOfLines = 1
         return label
@@ -76,6 +76,8 @@ final class PreviewResultViewController: UIViewController {
                     navigationController?.pushViewController(GreetingViewController(), animated: true)
                 case .removeConceptBarGraphView:
                     setLayoutWithoutBarGraph()
+                case .resizeConceptBarGraphView:
+                    resizeConceptBarGarphView()
                 }
             }
             .store(in: &subscriptions)
@@ -203,7 +205,7 @@ final class PreviewResultViewController: UIViewController {
         self.view.bringSubviewToFront(moveToHomeButton)
     }
     
-    func setLayoutWithoutBarGraph() {
+    private func setLayoutWithoutBarGraph() {
         
         resultConceptLabel.removeFromSuperview()
         conceptBarHostingController.view.removeFromSuperview()
@@ -211,5 +213,22 @@ final class PreviewResultViewController: UIViewController {
         NSLayoutConstraint.activate([
             conceptSupplementLabel.topAnchor.constraint(equalTo: scoreCircularChartHostingController.view.bottomAnchor, constant: 32)
         ])
+    }
+    
+    private func resizeConceptBarGarphView() {
+
+        NSLayoutConstraint.deactivate([
+            conceptBarHostingController.view.heightAnchor.constraint(greaterThanOrEqualTo: conceptBarHostingController.view.widthAnchor)
+        ])
+        
+        conceptBarHostingController.view.removeConstraints(conceptBarHostingController.view.constraints)
+        
+        NSLayoutConstraint.activate([
+            conceptBarHostingController.view.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+            conceptBarHostingController.view.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
+            conceptBarHostingController.view.heightAnchor.constraint(equalToConstant: 202)
+        ])
+        
+        conceptBarHostingController.view.layoutIfNeeded()
     }
 }

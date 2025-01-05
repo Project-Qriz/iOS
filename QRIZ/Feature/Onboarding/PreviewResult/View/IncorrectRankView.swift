@@ -17,7 +17,7 @@ struct IncorrectRankView: View {
         HStack(spacing: 8) {
             
             Text("\(rank)위")
-                .font(rankTextFont(rank))
+                .font(.system(size: 12, weight: .bold))
                 .foregroundColor(rankTextColor(rank))
                 .frame(width: 33, height: 28)
                 .background(rankBgColor(rank))
@@ -30,8 +30,8 @@ struct IncorrectRankView: View {
             Spacer()
             
             Text("\(incorrectNum)문제")
-                .font(.system(size: 16))
-                .foregroundColor(rankTextColor(rank))
+                .font(.system(size: 16, weight: .medium))
+                .foregroundColor(topicTextColor(rank))
         }
         
     }
@@ -47,23 +47,12 @@ struct IncorrectRankView: View {
         }
     }
     
-    private func rankTextFont(_ rank: Int) -> Font {
-        switch rank {
-        case 1:
-            return .system(size: 12, weight: .bold)
-        case 2:
-            return .system(size: 12)
-        default:
-            return .system(size: 0)
-        }
-    }
-    
     private func rankBgColor(_ rank: Int) -> Color {
         switch rank {
         case 1:
-            return .customBlue200
+            return .customBlue100
         case 2:
-            return .coolNeutral200
+            return .coolNeutral100
         default:
             return .clear
         }
