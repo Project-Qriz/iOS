@@ -73,7 +73,7 @@ final class BeginTestViewController: UIViewController {
             beginImageView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
             beginImageView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor),
             beginImageView.topAnchor.constraint(equalTo: beginTestSubtitleLabel.bottomAnchor, constant: 40),
-            beginTestButton.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor, constant: -16),
+            beginTestButton.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor, constant: -30),
             beginTestButton.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 18),
             beginTestButton.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: -18),
             beginTestButton.heightAnchor.constraint(equalToConstant: 48)

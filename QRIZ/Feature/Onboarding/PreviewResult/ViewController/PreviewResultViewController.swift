@@ -194,7 +194,7 @@ final class PreviewResultViewController: UIViewController {
             secondTopicLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
             secondTopicLabel.heightAnchor.constraint(equalToConstant: 70),
             secondTopicLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -60),
-            moveToHomeButton.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor, constant: -16),
+            moveToHomeButton.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor, constant: -30),
             moveToHomeButton.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
             moveToHomeButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
             moveToHomeButton.heightAnchor.constraint(equalToConstant: 48)
