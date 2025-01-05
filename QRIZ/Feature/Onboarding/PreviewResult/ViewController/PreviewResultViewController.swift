@@ -10,7 +10,7 @@ import SwiftUI
 import Combine
 
 final class PreviewResultViewController: UIViewController {
-    
+
     private var resultTitleLabel = PreviewResultTitleLabel(isTitleLabel: true)
     private var resultConceptLabel = PreviewResultTitleLabel(isTitleLabel: false)
     private var scoreCircularChartHostingController: ScoreCircularChartHostingController!
@@ -82,7 +82,13 @@ final class PreviewResultViewController: UIViewController {
     }
     
     private func setNavigationItems() {
-        self.navigationItem.title = "시험결과"
+        let titleView = UILabel()
+        titleView.text = "시험 결과"
+        titleView.font = .boldSystemFont(ofSize: 18)
+        titleView.textAlignment = .left
+        titleView.textColor = .coolNeutral700
+        
+        self.navigationItem.leftBarButtonItem = UIBarButtonItem(customView: titleView)
     }
     
     private func setButtonAction() {
