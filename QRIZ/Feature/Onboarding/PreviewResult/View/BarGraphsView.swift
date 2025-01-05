@@ -28,7 +28,6 @@ struct BarGraphsView: View {
                                     .frame(width: 28, height: CGFloat(data.incorrectCount * 15))
                                     .cornerRadius(8, corners: [.topLeft, .topRight])
                                     .animation(.easeInOut(duration: 1), value: CGFloat(data.incorrectCount))
-                                    .alignmentGuide(.bottom) { _ in 0 }
                             }
                         }
                     }
