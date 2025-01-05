@@ -26,6 +26,7 @@ final class CustomTextField: UITextField {
     
     private func setupUI(
         placeholder: String,
+        font: UIFont? = UIFont.systemFont(ofSize: 14, weight: .medium),
         isSecure: Bool,
         rightView: UIView?,
         rightViewMode: UITextField.ViewMode
@@ -34,9 +35,11 @@ final class CustomTextField: UITextField {
             string: placeholder,
             attributes: [
                 .foregroundColor: UIColor.coolNeutral300,
-                .font: UIFont.systemFont(ofSize: 14, weight: .medium)
+                .font: font
             ]
         )
+        self.textColor = .black
+        self.font = font
         self.backgroundColor = .customBlue100
         self.layer.cornerRadius = 8
         self.isSecureTextEntry = isSecure
