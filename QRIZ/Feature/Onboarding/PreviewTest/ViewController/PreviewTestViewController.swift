@@ -22,7 +22,8 @@ final class PreviewTestViewController: UIViewController {
     private var timeLabel: TestTimeLabel = TestTimeLabel()
     private var totalTimeRemainingLabel: TestTotalTimeRemainingLabel = TestTotalTimeRemainingLabel()
     private var pageIndicatorLabel: TestPageIndicatorLabel = TestPageIndicatorLabel()
-    private var submitAlert: UIAlertController!
+    private let submitAlert = CustomAlertView(alertType: .canCancel, title: "제출하시겠습니까", description: "확인 버튼을 누르면 다시 돌아올 수 없어요.", descriptionLine: 1)
+    private var submitAlertViewController = CustomAlertViewController()
     
     private let viewModel: PreviewTestViewModel = PreviewTestViewModel()
     private var subscriptions = Set<AnyCancellable>()
@@ -36,6 +37,7 @@ final class PreviewTestViewController: UIViewController {
         addViews()
         setOptionActions()
         setButtonActions()
+        setAlertController()
         input.send(.viewDidLoad)
     }
     
@@ -67,17 +69,35 @@ final class PreviewTestViewController: UIViewController {
                 case .moveToHome:
                     self.dismiss(animated: true)
                 case .popUpAlert:
-                    setupAlert()
-                    //coordinator role
+                    present(submitAlertViewController, animated: true) // coordniator role
                 case .cancelAlert:
-                    submitAlert.dismiss(animated: true)
+                    submitAlertViewController.dismiss(animated: true) // coordinator role
                 case .submitSuccess:
-                    submitAlert.dismiss(animated: true)
+                    submitAlertViewController.dismiss(animated: true) // coordinator role
+                    print("submit success")
                 case .submitFail:
-                    print("Preview test submit failed..")
+                    print("Preview test submit failed..") // network error
                 }
             }
             .store(in: &subscriptions)
+    }
+    
+    private func setAlertController() {
+        setAlertButtonActions()
+        submitAlertViewController.setAlertView(alertView: submitAlert)
+        submitAlertViewController.modalPresentationStyle = .overFullScreen
+        submitAlertViewController.modalTransitionStyle = .crossDissolve
+    }
+    
+    private func setAlertButtonActions() {
+        submitAlert.setButtonAction(true, action: UIAction(handler: { [weak self] _ in
+            guard let self = self else { return }
+            self.input.send(.alertSubmitButtonClicked)
+        }))
+        submitAlert.setButtonAction(false, action: UIAction(handler: { [weak self] _ in
+            guard let self = self else { return }
+            self.input.send(.alertCancelButtonClicked)
+        }))
     }
     
     private func setNavigationItem() {
@@ -155,26 +175,6 @@ final class PreviewTestViewController: UIViewController {
             guard let self = self else { return }
             self.input.send(.nextButtonClicked)
         }), for: .touchUpInside)
-    }
-    
-    private func setupAlert() {
-        submitAlert = UIAlertController(title: "제출하시겠습니까?", message: "확인 버튼을 누르면 다시 돌아올 수 없어요.", preferredStyle: .alert)
-        let doneAction = UIAlertAction(title: "확인", style: .default) { [weak self] _ in
-            guard let self = self else { return }
-            self.input.send(.alertSubmitButtonClicked)
-        }
-        let cancelAction = UIAlertAction(title: "취소", style: .cancel) { [weak self] _ in
-            guard let self = self else { return }
-            self.input.send(.alertCancelButtonClicked)
-        }
-        submitAlert.addAction(cancelAction)
-        submitAlert.addAction(doneAction)
-        
-        submitAlert.view.backgroundColor = .white
-        submitAlert.view.layer.cornerRadius = 8
-        submitAlert.view.clipsToBounds = true
-        
-        self.present(submitAlert, animated: true)
     }
     
     private func setNextButtonTitle(isLastQuestion: Bool) {
