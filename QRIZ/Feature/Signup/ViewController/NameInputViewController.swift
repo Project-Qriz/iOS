@@ -24,11 +24,12 @@ final class NameInputViewController: UIViewController {
     // MARK: - Properties
     
     private let rootView: SingleInputMainView
+    private let nameInputVM: NameInputViewModel
     private var cancellables = Set<AnyCancellable>()
     
     // MARK: - initialize
     
-    init() {
+    init(nameInputVM: NameInputViewModel) {
         self.rootView = SingleInputMainView(
             title: Attributes.headerTitle,
             description: Attributes.headerDescription,
@@ -37,6 +38,7 @@ final class NameInputViewController: UIViewController {
             inputPlaceholder: Attributes.inputPlaceholder,
             inputErrorText: Attributes.inputErrorText
         )
+        self.nameInputVM = nameInputVM
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -58,6 +60,22 @@ final class NameInputViewController: UIViewController {
     // MARK: - Functions
     
     private func bind() {
+        let nameTextChanged = rootView.singleInputView.nameTextChangedPublisher
+            .map { NameInputViewModel.Input.nameTextChanged($0) }
+            .eraseToAnyPublisher()
+        
+        let output = nameInputVM.transform(input: nameTextChanged)
+        
+        output
+            .sink { [weak self] output in
+                guard let self = self else { return }
+                switch output {
+                case .isNameValid(let isValid):
+                    self.rootView.singleInputView.updateErrorState(isValid: isValid)
+                    self.rootView.signupFooterView.updateButtonState(isValid: isValid)
+                }
+            }
+            .store(in: &cancellables)
     }
 }
 

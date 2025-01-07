@@ -20,8 +20,8 @@ final class SingleInputMainView: UIView {
     // MARK: - Properties
     
     private let signupHeaderView = SignupHeaderView()
-    private let singleInputView = SingleInputView()
-    private let signupFooterView = SignupFooterView()
+    let singleInputView = SingleInputView()
+    let signupFooterView = SignupFooterView()
     
     // MARK: - initialize
     

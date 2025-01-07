@@ -52,6 +52,12 @@ final class SignupFooterView: UIView {
     func configure(buttonTitle: String) {
         nextButton.setTitle(buttonTitle, for: .normal)
     }
+    
+    func updateButtonState(isValid: Bool) {
+        nextButton.isEnabled = isValid
+        nextButton.backgroundColor = isValid ? .customBlue500 : .coolNeutral200
+        nextButton.setTitleColor(isValid ? .white : .coolNeutral500, for: .normal)
+    }
 }
 
 // MARK: - Layout Setup

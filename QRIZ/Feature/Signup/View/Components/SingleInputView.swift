@@ -19,7 +19,7 @@ final class SingleInputView: UIView {
     
     // MARK: - Properties
     
-    var textDidEndEditingPublisher: AnyPublisher<String, Never> {
+    var nameTextChangedPublisher: AnyPublisher<String, Never> {
         nameTextField.textPublisher
     }
     
@@ -62,6 +62,11 @@ final class SingleInputView: UIView {
             ]
         )
         inputErrorLabel.text = errorText
+    }
+    
+    func updateErrorState(isValid: Bool) {
+        inputErrorLabel.isHidden = isValid
+        nameTextField.layer.borderColor = isValid ? UIColor.clear.cgColor : UIColor.customRed500.cgColor
     }
 }
 
