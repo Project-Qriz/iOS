@@ -8,7 +8,7 @@
 import UIKit
 import Combine
 
-class GreetingViewController: UIViewController {
+final class GreetingViewController: UIViewController {
     
     private var nickname: String = "임시"
     private var greetingTitleLabel: UILabel = OnboardingTitleLabel(labelText: "님\n환영합니다")

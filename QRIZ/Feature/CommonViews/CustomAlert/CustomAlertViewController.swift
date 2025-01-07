@@ -7,7 +7,7 @@
 
 import UIKit
 
-class CustomAlertViewController: UIViewController {
+final class CustomAlertViewController: UIViewController {
     
     private var alertView: CustomAlertView = CustomAlertView(alertType: .onlyConfirm, title: "", description: "", descriptionLine: 0)
 
