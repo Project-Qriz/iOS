@@ -17,6 +17,12 @@ final class SingleInputView: UIView {
         static let inputErrorLabelTopOffset: CGFloat = 8.0
     }
     
+    // MARK: - Properties
+    
+    var textDidEndEditingPublisher: AnyPublisher<String, Never> {
+        nameTextField.textPublisher
+    }
+    
     // MARK: - UI
     
     private let nameTextField: UITextField = CustomTextField(placeholder: "")
