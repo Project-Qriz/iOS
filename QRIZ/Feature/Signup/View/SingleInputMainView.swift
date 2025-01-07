@@ -13,7 +13,7 @@ final class SingleInputMainView: UIView {
     
     private enum Metric {
         static let singleInputViewTopOffset: CGFloat = 32.0
-        static let signupFooterViewTopOffset: CGFloat = 129.0
+        static let signupFooterViewBottomOffset: CGFloat = -16.0
         static let horizontalMargin: CGFloat = 18.0
     }
     
@@ -92,9 +92,9 @@ extension SingleInputMainView {
             singleInputView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Metric.horizontalMargin),
             singleInputView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -Metric.horizontalMargin),
             
-            signupFooterView.topAnchor.constraint(equalTo: singleInputView.bottomAnchor, constant: Metric.signupFooterViewTopOffset),
             signupFooterView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Metric.horizontalMargin),
             signupFooterView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -Metric.horizontalMargin),
+            signupFooterView.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor, constant: Metric.signupFooterViewBottomOffset)
         ])
     }
 }

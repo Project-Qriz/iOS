@@ -24,6 +24,7 @@ final class SingleInputView: UIView {
         let label = UILabel()
         label.font = .systemFont(ofSize: 14, weight: .regular)
         label.textColor = .customRed500
+        label.isHidden = true
         return label
     }()
     
