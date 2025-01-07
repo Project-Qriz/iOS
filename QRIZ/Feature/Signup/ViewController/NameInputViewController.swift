@@ -51,6 +51,7 @@ final class NameInputViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         bind()
+        observe()
     }
     
     override func loadView() {
@@ -74,6 +75,14 @@ final class NameInputViewController: UIViewController {
                     self.rootView.singleInputView.updateErrorState(isValid: isValid)
                     self.rootView.signupFooterView.updateButtonState(isValid: isValid)
                 }
+            }
+            .store(in: &cancellables)
+    }
+    
+    private func observe() {
+        view.tapGestureEndedPublisher()
+            .sink { [weak self] _ in
+                self?.view.endEditing(true)
             }
             .store(in: &cancellables)
     }
