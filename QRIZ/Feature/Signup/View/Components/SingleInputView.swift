@@ -25,7 +25,12 @@ final class SingleInputView: UIView {
     
     // MARK: - UI
     
-    private let textField: UITextField = CustomTextField(placeholder: "")
+    private lazy var textField: UITextField = {
+        let textField = CustomTextField(placeholder: "")
+        textField.delegate = self
+        return textField
+    }()
+    
     private let inputErrorLabel: UILabel = {
         let label = UILabel()
         label.font = .systemFont(ofSize: 14, weight: .regular)
@@ -95,5 +100,15 @@ extension SingleInputView {
             inputErrorLabel.trailingAnchor.constraint(equalTo: trailingAnchor),
             inputErrorLabel.bottomAnchor.constraint(equalTo: bottomAnchor),
         ])
+    }
+}
+
+
+// MARK: - UITextFieldDelegate
+
+extension SingleInputView: UITextFieldDelegate {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        return true
     }
 }
