@@ -19,4 +19,10 @@ extension String {
         let passwordRegex = "^[A-Za-z0-9!@#$%^&*()_+\\-=\\[\\]{};':\"\\\\|,.<>/?]{8,30}$"
         return NSPredicate(format: "SELF MATCHES %@", passwordRegex).evaluate(with: self)
     }
+    
+    /// 이름 유효성 체크 (1~20자 + 한글/영문만 가능)
+    var isValidName: Bool {
+        let nameRegex = "^[가-힣A-Za-z]{1,20}$"
+        return NSPredicate(format: "SELF MATCHES %@", nameRegex).evaluate(with: self)
+    }
 }
