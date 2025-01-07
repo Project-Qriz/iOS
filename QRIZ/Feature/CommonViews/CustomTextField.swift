@@ -35,13 +35,15 @@ final class CustomTextField: UITextField {
             string: placeholder,
             attributes: [
                 .foregroundColor: UIColor.coolNeutral300,
-                .font: font
+                .font: font ?? UIFont.systemFont(ofSize: 14, weight: .medium)
             ]
         )
         self.textColor = .black
         self.font = font
         self.backgroundColor = .customBlue100
         self.layer.cornerRadius = 8
+        self.layer.borderWidth = 1
+        self.layer.borderColor = UIColor.clear.cgColor
         self.isSecureTextEntry = isSecure
         
         let leftPaddingView = UIView(frame: CGRect(x: 0, y: 0, width: 16, height: 1))
