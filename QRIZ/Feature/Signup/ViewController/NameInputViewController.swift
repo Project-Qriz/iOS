@@ -61,7 +61,7 @@ final class NameInputViewController: UIViewController {
     // MARK: - Functions
     
     private func bind() {
-        let nameTextChanged = rootView.singleInputView.nameTextChangedPublisher
+        let nameTextChanged = rootView.singleInputView.textChangedPublisher
             .map { NameInputViewModel.Input.nameTextChanged($0) }
             .eraseToAnyPublisher()
         
