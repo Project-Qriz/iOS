@@ -13,6 +13,7 @@ final class NameInputViewController: UIViewController {
     // MARK: - Enums
     
     private enum Attributes {
+        static let navigationTitle: String = "이름 입력"
         static let headerTitle: String = "이름을 입력해주세요!"
         static let headerDescription: String = "가입을 위해 실명을 입력해주세요."
         static let footerTitle: String = "다음"
@@ -50,6 +51,7 @@ final class NameInputViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        setNavigationBarTitle(title: Attributes.navigationTitle)
         bind()
         observe()
     }
