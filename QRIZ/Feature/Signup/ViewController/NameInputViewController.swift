@@ -70,9 +70,17 @@ final class NameInputViewController: UIViewController {
     private func bind() {
         let nameTextChanged = rootView.singleInputView.textChangedPublisher
             .map { NameInputViewModel.Input.nameTextChanged($0) }
+        
+        let nextButtonTapped = rootView.signupFooterView.buttonTappedPublisher
+            .map { NameInputViewModel.Input.buttonTapped }
+        
+        let input = Publishers.Merge(
+            nameTextChanged,
+            nextButtonTapped
+        )
             .eraseToAnyPublisher()
         
-        let output = nameInputVM.transform(input: nameTextChanged)
+        let output = nameInputVM.transform(input: input)
         
         output
             .sink { [weak self] output in
@@ -81,6 +89,9 @@ final class NameInputViewController: UIViewController {
                 case .isNameValid(let isValid):
                     self.rootView.singleInputView.updateErrorState(isValid: isValid)
                     self.rootView.signupFooterView.updateButtonState(isValid: isValid)
+                case .navigateToEmailInputView:
+                    // MARK: - 코디네이터 적용 필요
+                    navigationController?.pushViewController(EmailInputViewController(), animated: true)
                 }
             }
             .store(in: &cancellables)

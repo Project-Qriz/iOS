@@ -24,6 +24,9 @@ final class NameInputViewModel {
                 switch event {
                 case .nameTextChanged(let text):
                     self.validateName(text)
+                case .buttonTapped:
+                    print("name 저장")
+                    outputSubject.send(.navigateToEmailInputView)
                 }
             }
             .store(in: &cancellables)
@@ -40,9 +43,11 @@ final class NameInputViewModel {
 extension NameInputViewModel {
     enum Input {
         case nameTextChanged(String)
+        case buttonTapped
     }
     
     enum Output {
         case isNameValid(Bool)
+        case navigateToEmailInputView
     }
 }
