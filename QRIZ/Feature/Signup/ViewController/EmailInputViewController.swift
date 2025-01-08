@@ -26,6 +26,7 @@ final class EmailInputViewController: UIViewController {
     
     private let rootView: SingleInputMainView
     private var cancellables = Set<AnyCancellable>()
+    private var keyboardCancellable: AnyCancellable?
     
     // MARK: - initialize
     
@@ -51,6 +52,7 @@ final class EmailInputViewController: UIViewController {
         super.viewDidLoad()
         setNavigationBarTitle(title: Attributes.navigationTitle)
         bind()
+        observe()
     }
     
     override func loadView() {
@@ -60,5 +62,9 @@ final class EmailInputViewController: UIViewController {
     // MARK: - Functions
     
     private func bind() {
+    }
+    
+    private func observe() {
+        keyboardCancellable = observeKeyboardNotifications(for: rootView.signupFooterView)
     }
 }
