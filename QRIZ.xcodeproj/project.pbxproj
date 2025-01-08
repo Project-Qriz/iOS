@@ -29,6 +29,8 @@
 		B16288182D2CDB85008057D0 /* NameInputViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B16288172D2CDB85008057D0 /* NameInputViewModel.swift */; };
 		B162881C2D2CFC63008057D0 /* UIView+.swift in Sources */ = {isa = PBXBuildFile; fileRef = B162881B2D2CFC63008057D0 /* UIView+.swift */; };
 		B162881E2D2D6624008057D0 /* UIViewController+.swift in Sources */ = {isa = PBXBuildFile; fileRef = B162881D2D2D6624008057D0 /* UIViewController+.swift */; };
+		B16288202D2E2595008057D0 /* EmailInputViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B162881F2D2E2595008057D0 /* EmailInputViewModel.swift */; };
+		B16288222D2E3CAB008057D0 /* UINavigationBar+.swift in Sources */ = {isa = PBXBuildFile; fileRef = B16288212D2E3CAB008057D0 /* UINavigationBar+.swift */; };
 		B168B75F2D28073C0000F32E /* SignupFooterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B168B7572D28073C0000F32E /* SignupFooterView.swift */; };
 		B168B7602D28073C0000F32E /* SignupHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B168B7582D28073C0000F32E /* SignupHeaderView.swift */; };
 		B168B7612D28073C0000F32E /* SingleInputView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B168B7592D28073C0000F32E /* SingleInputView.swift */; };
@@ -119,6 +121,8 @@
 		B16288172D2CDB85008057D0 /* NameInputViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NameInputViewModel.swift; sourceTree = "<group>"; };
 		B162881B2D2CFC63008057D0 /* UIView+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+.swift"; sourceTree = "<group>"; };
 		B162881D2D2D6624008057D0 /* UIViewController+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+.swift"; sourceTree = "<group>"; };
+		B162881F2D2E2595008057D0 /* EmailInputViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmailInputViewModel.swift; sourceTree = "<group>"; };
+		B16288212D2E3CAB008057D0 /* UINavigationBar+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UINavigationBar+.swift"; sourceTree = "<group>"; };
 		B168B7572D28073C0000F32E /* SignupFooterView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignupFooterView.swift; sourceTree = "<group>"; };
 		B168B7582D28073C0000F32E /* SignupHeaderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignupHeaderView.swift; sourceTree = "<group>"; };
 		B168B7592D28073C0000F32E /* SingleInputView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SingleInputView.swift; sourceTree = "<group>"; };
@@ -331,6 +335,7 @@
 				B17FE3092D27F8E9002EC7D7 /* UITextField+.swift */,
 				B162881B2D2CFC63008057D0 /* UIView+.swift */,
 				B162881D2D2D6624008057D0 /* UIViewController+.swift */,
+				B16288212D2E3CAB008057D0 /* UINavigationBar+.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -365,6 +370,7 @@
 			isa = PBXGroup;
 			children = (
 				B16288172D2CDB85008057D0 /* NameInputViewModel.swift */,
+				B162881F2D2E2595008057D0 /* EmailInputViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -724,6 +730,7 @@
 				E25F94CB2D0CB1DB00BA765F /* OnboardingTitleLabel.swift in Sources */,
 				E25F94D12D0CB74700BA765F /* OnboardingButton.swift in Sources */,
 				B168B76B2D2807470000F32E /* VerificationCodeViewController.swift in Sources */,
+				B16288222D2E3CAB008057D0 /* UINavigationBar+.swift in Sources */,
 				B168B7602D28073C0000F32E /* SignupHeaderView.swift in Sources */,
 				B168B7712D28276F0000F32E /* IdInputView.swift in Sources */,
 				54C7A3102D146190001175D9 /* LoginViewController.swift in Sources */,
@@ -775,6 +782,7 @@
 				B168B7632D28073C0000F32E /* SingleInputMainView.swift in Sources */,
 				54BC61552D14AFB70094DC45 /* LoginInputView.swift in Sources */,
 				B168B7752D2846DD0000F32E /* PasswordInputMainView.swift in Sources */,
+				B16288202D2E2595008057D0 /* EmailInputViewModel.swift in Sources */,
 				B17FE3082D27F87E002EC7D7 /* String+.swift in Sources */,
 				B168B7612D28073C0000F32E /* SingleInputView.swift in Sources */,
 				54C7A3162D14A5A6001175D9 /* LoginLogoView.swift in Sources */,
@@ -953,7 +961,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 876W82FDBV;
+				DEVELOPMENT_TEAM = 7G8HP2JBMK;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = QRIZ/SupportingFiles/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -981,7 +989,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 876W82FDBV;
+				DEVELOPMENT_TEAM = 7G8HP2JBMK;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = QRIZ/SupportingFiles/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
