@@ -66,5 +66,11 @@ final class EmailInputViewController: UIViewController {
     
     private func observe() {
         keyboardCancellable = observeKeyboardNotifications(for: rootView.signupFooterView)
+        
+        view.tapGestureEndedPublisher()
+            .sink { [weak self] _ in
+                self?.view.endEditing(true)
+            }
+            .store(in: &cancellables)
     }
 }
