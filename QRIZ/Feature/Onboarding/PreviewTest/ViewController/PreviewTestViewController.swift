@@ -85,8 +85,6 @@ final class PreviewTestViewController: UIViewController {
     private func setAlertController() {
         setAlertButtonActions()
         submitAlertViewController.setAlertView(alertView: submitAlert)
-        submitAlertViewController.modalPresentationStyle = .overFullScreen
-        submitAlertViewController.modalTransitionStyle = .crossDissolve
     }
     
     private func setAlertButtonActions() {

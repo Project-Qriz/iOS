@@ -10,6 +10,16 @@ import UIKit
 final class CustomAlertViewController: UIViewController {
     
     private var alertView: CustomAlertView = CustomAlertView(alertType: .onlyConfirm, title: "", description: "", descriptionLine: 0)
+    
+    init() {
+        super.init(nibName: nil, bundle: nil)
+        self.modalPresentationStyle = .overFullScreen
+        self.modalTransitionStyle = .crossDissolve
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("no initializer for coder: CustomAlertViewController")
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
