@@ -13,6 +13,7 @@ final class EmailInputViewController: UIViewController {
     // MARK: - Enums
     
     private enum Attributes {
+        static let navigationTitle: String = "이메일 인증"
         static let headerTitle: String = "이메일로\n본인확인을 진행할게요!"
         static let headerDescription: String = "이메일 형식을 맞춰 입력해주세요."
         static let footerTitle: String = "다음"
@@ -48,6 +49,7 @@ final class EmailInputViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        setNavigationBarTitle(title: Attributes.navigationTitle)
         bind()
     }
     
