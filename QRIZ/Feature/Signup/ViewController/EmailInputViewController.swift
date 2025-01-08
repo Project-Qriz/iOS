@@ -25,12 +25,13 @@ final class EmailInputViewController: UIViewController {
     // MARK: - Properties
     
     private let rootView: SingleInputMainView
+    private let emailInputVM: EmailInputViewModel
     private var cancellables = Set<AnyCancellable>()
     private var keyboardCancellable: AnyCancellable?
     
     // MARK: - initialize
     
-    init() {
+    init(emailInputVM: EmailInputViewModel) {
         self.rootView = SingleInputMainView(
             title: Attributes.headerTitle,
             description: Attributes.headerDescription,
@@ -39,6 +40,7 @@ final class EmailInputViewController: UIViewController {
             inputPlaceholder: Attributes.inputPlaceholder,
             inputErrorText: Attributes.inputErrorText
         )
+        self.emailInputVM = emailInputVM
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -62,6 +64,33 @@ final class EmailInputViewController: UIViewController {
     // MARK: - Functions
     
     private func bind() {
+        let emailTextChanged = rootView.singleInputView.textChangedPublisher
+            .map { EmailInputViewModel.Input.emailTextChanged($0) }
+        
+        let nextButtonTapped = rootView.signupFooterView.buttonTappedPublisher
+            .map { EmailInputViewModel.Input.buttonTapped }
+        
+        let input = Publishers.Merge(
+            emailTextChanged,
+            nextButtonTapped
+        )
+            .eraseToAnyPublisher()
+        
+        let output = emailInputVM.transform(input: input)
+        
+        output
+            .sink { [weak self] output in
+                guard let self = self else { return }
+                switch output {
+                case .isNameValid(let isValid):
+                    self.rootView.singleInputView.updateErrorState(isValid: isValid)
+                    self.rootView.signupFooterView.updateButtonState(isValid: isValid)
+                case .navigateToVerificationCodeView:
+                    // MARK: - 코디네이터 적용 필요
+                    navigationController?.pushViewController(VerificationCodeViewController(), animated: true)
+                }
+            }
+            .store(in: &cancellables)
     }
     
     private func observe() {
