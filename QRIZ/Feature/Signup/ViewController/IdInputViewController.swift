@@ -10,6 +10,12 @@ import Combine
 
 final class IdInputViewController: UIViewController {
     
+    // MARK: - Enums
+    
+    private enum Attributes {
+        static let navigationTitle: String = "회원가입"
+    }
+    
     // MARK: - Properties
     
     private let rootView: IdInputMainView
@@ -30,6 +36,7 @@ final class IdInputViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        setNavigationBarTitle(title: Attributes.navigationTitle)
         bind()
     }
     
