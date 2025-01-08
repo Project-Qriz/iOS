@@ -108,3 +108,12 @@ extension IdInputView {
         ])
     }
 }
+
+// MARK: - UITextFieldDelegate
+
+extension IdInputView: UITextFieldDelegate {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        return true
+    }
+}
