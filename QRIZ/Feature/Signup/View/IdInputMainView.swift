@@ -27,7 +27,7 @@ final class IdInputMainView: UIView {
     // MARK: - Properties
     
     private let signupHeaderView = SignupHeaderView()
-    private let idInputView = IdInputView()
+    let idInputView = IdInputView()
     let signupFooterView = SignupFooterView()
     
     // MARK: - initialize
