@@ -27,7 +27,7 @@ final class PasswordInputMainView: UIView {
     // MARK: - Properties
     
     private let signupHeaderView = SignupHeaderView()
-    private let passwordInputView = PasswordInputView()
+    let passwordInputView = PasswordInputView()
     let signupFooterView = SignupFooterView()
     
     // MARK: - initialize

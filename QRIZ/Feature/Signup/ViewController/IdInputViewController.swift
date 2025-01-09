@@ -91,7 +91,7 @@ final class IdInputViewController: UIViewController {
                     
                 case .navigateToPasswordInputView:
                     // MARK: - 코디네이터 적용 필요
-                    navigationController?.pushViewController(PasswordInputViewController(), animated: true)
+                    navigationController?.pushViewController(PasswordInputViewController(passwordInputVM: PasswordInputViewModel()), animated: true)
                 }
             }
             .store(in: &cancellables)
