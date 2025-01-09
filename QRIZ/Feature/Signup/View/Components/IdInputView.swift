@@ -81,6 +81,7 @@ final class IdInputView: UIView {
         addSubviews()
         setupConstraints()
         setupUI()
+        setupDelegate()
     }
     
     required init?(coder: NSCoder) {
@@ -91,6 +92,10 @@ final class IdInputView: UIView {
     
     private func setupUI() {
         self.backgroundColor = .white
+    }
+    
+    private func setupDelegate() {
+        idTextField.delegate = self
     }
     
     func updateCheckMessage(message: String, isAvailable: Bool) {
