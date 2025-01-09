@@ -13,7 +13,7 @@ final class PasswordInputMainView: UIView {
     
     private enum Metric {
         static let passwordInputViewTopOffset: CGFloat = 24.0
-        static let signupFooterViewTopOffset: CGFloat = 77.0
+        static let signupFooterViewBottomOffset: CGFloat = -16.0
         static let horizontalMargin: CGFloat = 18.0
     }
     
@@ -28,7 +28,7 @@ final class PasswordInputMainView: UIView {
     
     private let signupHeaderView = SignupHeaderView()
     private let passwordInputView = PasswordInputView()
-    private let signupFooterView = SignupFooterView()
+    let signupFooterView = SignupFooterView()
     
     // MARK: - initialize
     
@@ -87,9 +87,9 @@ extension PasswordInputMainView {
             passwordInputView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Metric.horizontalMargin),
             passwordInputView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -Metric.horizontalMargin),
             
-            signupFooterView.topAnchor.constraint(equalTo: passwordInputView.bottomAnchor, constant: Metric.signupFooterViewTopOffset),
             signupFooterView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Metric.horizontalMargin),
             signupFooterView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -Metric.horizontalMargin),
+            signupFooterView.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor, constant: Metric.signupFooterViewBottomOffset)
         ])
     }
 }

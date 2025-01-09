@@ -51,6 +51,7 @@ final class PasswordInputView: UIView {
         addSubviews()
         setupConstraints()
         setupUI()
+        setupDelegate()
     }
     
     required init?(coder: NSCoder) {
@@ -61,6 +62,11 @@ final class PasswordInputView: UIView {
     
     private func setupUI() {
         self.backgroundColor = .white
+    }
+    
+    private func setupDelegate() {
+        passwordTextField.delegate = self
+        confirmPasswordTextField.delegate = self
     }
     
     private func buildErrorLabel(text: String) -> UILabel {
@@ -93,5 +99,14 @@ extension PasswordInputView {
             passwordTextField.heightAnchor.constraint(equalToConstant: Metric.textFieldHeight),
             confirmPasswordTextField.heightAnchor.constraint(equalToConstant: Metric.textFieldHeight),
         ])
+    }
+}
+
+// MARK: - UITextFieldDelegate
+
+extension PasswordInputView: UITextFieldDelegate {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        return true
     }
 }
