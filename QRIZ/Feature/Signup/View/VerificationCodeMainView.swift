@@ -13,7 +13,7 @@ final class VerificationCodeMainView: UIView {
     
     private enum Metric {
         static let singleInputViewTopOffset: CGFloat = 24.0
-        static let signupFooterViewTopOffset: CGFloat = 20.0
+        static let signupFooterViewBottomOffset: CGFloat = -16.0
         static let horizontalMargin: CGFloat = 18.0
     }
     
@@ -27,8 +27,8 @@ final class VerificationCodeMainView: UIView {
     // MARK: - Properties
     
     private let signupHeaderView = SignupHeaderView()
-    private let verificationCodeInputView = VerificationCodeInputView()
-    private let signupFooterView = SignupFooterView()
+    let verificationCodeInputView = VerificationCodeInputView()
+    let signupFooterView = SignupFooterView()
     
     // MARK: - initialize
     
@@ -87,9 +87,9 @@ extension VerificationCodeMainView {
             verificationCodeInputView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Metric.horizontalMargin),
             verificationCodeInputView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -Metric.horizontalMargin),
             
-            signupFooterView.topAnchor.constraint(equalTo: verificationCodeInputView.bottomAnchor, constant: Metric.signupFooterViewTopOffset),
             signupFooterView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Metric.horizontalMargin),
             signupFooterView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -Metric.horizontalMargin),
+            signupFooterView.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor, constant: Metric.signupFooterViewBottomOffset)
         ])
     }
 }

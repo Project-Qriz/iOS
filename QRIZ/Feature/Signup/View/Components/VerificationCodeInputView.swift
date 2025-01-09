@@ -25,11 +25,15 @@ final class VerificationCodeInputView: UIView {
     
     // MARK: - UI
     
-    private lazy var codeTextField: UITextField = CustomTextField(
-        placeholder: Attributes.placeholder,
-        rightView: wrapLabelInPaddingView(label: timerLabel),
-        rightViewMode: .always
-    )
+    private lazy var codeTextField: UITextField = {
+        let textField = CustomTextField(
+            placeholder: Attributes.placeholder,
+            rightView: wrapLabelInPaddingView(label: timerLabel),
+            rightViewMode: .always
+        )
+        textField.delegate = self
+        return  textField
+    }()
     
     private let timerLabel: UILabel = {
         let label = UILabel()
@@ -44,6 +48,7 @@ final class VerificationCodeInputView: UIView {
         label.text = Attributes.inputErrorText
         label.font = .systemFont(ofSize: 14, weight: .regular)
         label.textColor = .customRed500
+        label.isHidden = true
         return label
     }()
     
@@ -145,5 +150,14 @@ extension VerificationCodeInputView {
             resendCodeLabel.centerXAnchor.constraint(equalTo: centerXAnchor),
             resendCodeLabel.bottomAnchor.constraint(equalTo: bottomAnchor)
         ])
+    }
+}
+
+// MARK: - UITextFieldDelegate
+
+extension VerificationCodeInputView: UITextFieldDelegate {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        return true
     }
 }
