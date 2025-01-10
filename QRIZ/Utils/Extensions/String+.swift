@@ -9,10 +9,12 @@ import Foundation
 
 extension String {
     /// 아이디 유효성 체크 조건:
-    /// 1. 길이: 2~20자
-    /// 2. 영문 대소문자 및 숫자만 사용 가능
-    var isValidID: Bool {
-        let idRegex = "^[a-zA-Z0-9]{2,20}$"
+    /// 1. 길이: 6~20자
+    /// 2. 영문과 숫자를 반드시 포함
+    /// 3. 공백 불가
+    /// 4. 특수문자 불포함
+    var isValidId: Bool {
+        let idRegex = "^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]{6,20}$"
         return NSPredicate(format: "SELF MATCHES %@", idRegex).evaluate(with: self)
     }
     

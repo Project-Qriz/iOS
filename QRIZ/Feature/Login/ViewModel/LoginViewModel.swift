@@ -45,7 +45,7 @@ final class LoginViewModel {
     }
     
     private func validateFields() {
-        let isValid = id.isValidID && password.isValidPassword
+        let isValid = id.isValidId && password.isValidPassword
         outputSubject.send(.isLoginButtonEnabled(isValid))
     }
     
