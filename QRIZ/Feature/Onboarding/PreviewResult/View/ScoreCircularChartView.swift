@@ -23,18 +23,8 @@ struct ScoreCircularChartView: View {
                 Circle()
                     .stroke(style: StrokeStyle(lineWidth: 45))
                     .foregroundColor(.customBlue700)
-                Circle()
-                    .trim(from: 0.0, to: 1.0 - previewScoresData.subject1Score)
-                    .stroke(style: StrokeStyle(lineWidth: 45, lineCap: .butt, lineJoin: .round))
-                    .foregroundColor(.customBlue400)
-                    .rotationEffect(.degrees(-90))
-                    .animation(.easeInOut(duration: 1), value: 1.0 - previewScoresData.subject1Score)
-                Circle()
-                    .trim(from: 0.0, to: 1.0 - previewScoresData.subject1Score - previewScoresData.subject2Score)
-                    .stroke(style: StrokeStyle(lineWidth: 45, lineCap: .butt, lineJoin: .round))
-                    .foregroundColor(.coolNeutral300)
-                    .rotationEffect(.degrees(-90))
-                    .animation(.easeInOut(duration: 1), value: previewScoresData.subject1Score)
+                createTrimmedCircle(subject1Score: previewScoresData.subject1Score)
+                createTrimmedCircle(subject1Score: previewScoresData.subject1Score, subject2Score: previewScoresData.subject2Score)
                 Text("\(previewScoresData.expectScore)점")
                     .font(.system(size: 16, weight: .bold))
                     .foregroundColor(expectScoreColor(score: previewScoresData.expectScore))
@@ -95,6 +85,22 @@ struct ScoreCircularChartView: View {
     
     private func expectScoreColor(score: Int) -> Color {
         score == 100 ? .customBlue500 : .coolNeutral800
+    }
+    
+    private func createTrimmedCircle(subject1Score: CGFloat, subject2Score: CGFloat = -1.0) -> some View {
+        subject2Score == -1.0 ?
+        Circle()
+            .trim(from: 0.0, to: 1.0 - subject1Score)
+            .stroke(style: StrokeStyle(lineWidth: 45, lineCap: .butt, lineJoin: .round))
+            .foregroundColor(.customBlue400)
+            .rotationEffect(.degrees(-90))
+            .animation(.easeInOut(duration: 1), value: 1.0 - subject1Score)
+        : Circle()
+            .trim(from: 0.0, to: 1.0 - subject1Score - subject2Score)
+            .stroke(style: StrokeStyle(lineWidth: 45, lineCap: .butt, lineJoin: .round))
+            .foregroundColor(.coolNeutral300)
+            .rotationEffect(.degrees(-90))
+            .animation(.easeInOut(duration: 1), value: subject1Score)
     }
 }
 
