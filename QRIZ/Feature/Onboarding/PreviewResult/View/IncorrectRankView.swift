@@ -18,54 +18,50 @@ struct IncorrectRankView: View {
             
             Text("\(rank)위")
                 .font(.system(size: 12, weight: .bold))
-                .foregroundColor(rankTextColor(rank))
+                .foregroundColor(RankColors.colors(for: rank).textColor)
                 .frame(width: 33, height: 28)
-                .background(rankBgColor(rank))
+                .background(RankColors.colors(for: rank).bgColor)
                 .cornerRadius(4)
             
             Text("\(topic)")
                 .font(.system(size: 14, weight: .bold))
-                .foregroundColor(topicTextColor(rank))
+                .foregroundColor(RankColors.colors(for: rank).topicTextColor)
             
             Spacer()
             
             Text("\(incorrectNum)문제")
                 .font(.system(size: 16, weight: .medium))
-                .foregroundColor(topicTextColor(rank))
+                .foregroundColor(RankColors.colors(for: rank).topicTextColor)
         }
         
     }
     
-    private func rankTextColor(_ rank: Int) -> Color {
-        switch rank {
-        case 1:
-            return .customBlue500
-        case 2:
-            return .coolNeutral500
-        default:
-            return .clear
-        }
-    }
-    
-    private func rankBgColor(_ rank: Int) -> Color {
-        switch rank {
-        case 1:
-            return .customBlue100
-        case 2:
-            return .coolNeutral100
-        default:
-            return .clear
-        }
-    }
-    
-    private func topicTextColor(_ rank: Int) -> Color {
-        switch rank {
-        case 1:
-            return .customBlue500
-        case 2:
-            return .coolNeutral600
-        default:
-            return .clear
+    private struct RankColors {
+        let textColor: Color
+        let bgColor: Color
+        let topicTextColor: Color
+        
+        static func colors(for rank: Int) -> RankColors {
+            switch rank {
+            case 1:
+                return RankColors(
+                    textColor: .customBlue500,
+                    bgColor: .customBlue100,
+                    topicTextColor: .customBlue500
+                )
+            case 2:
+                return RankColors(
+                    textColor: .coolNeutral500,
+                    bgColor: .coolNeutral100,
+                    topicTextColor: .coolNeutral600
+                )
+            default:
+                return RankColors(
+                    textColor: .clear,
+                    bgColor: .clear,
+                    topicTextColor: .clear
+                )
+            }
         }
     }
 }
