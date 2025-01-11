@@ -21,11 +21,18 @@ final class GreetingViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+
         self.view.backgroundColor = .customBlue50
         self.navigationItem.hidesBackButton = true
+        setTitleLabelText()
+
         bind()
-        greetingTitleLabel.text = self.nickname + greetingTitleLabel.text!
+
         addViews()
+    }
+    
+    private func setTitleLabelText() {
+        greetingTitleLabel.text = "\(nickname)\(greetingTitleLabel.text ?? "님\n환영합니다")"
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -61,15 +68,16 @@ final class GreetingViewController: UIViewController {
         NSLayoutConstraint.activate([
             greetingTitleLabel.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 24),
             greetingTitleLabel.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: -24),
-            greetingTitleLabel.topAnchor.constraint(lessThanOrEqualTo: self.view.safeAreaLayoutGuide.topAnchor, constant: 50),
+            greetingTitleLabel.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor, constant: 40),
             greetingTitleLabel.heightAnchor.constraint(equalToConstant: 76),
             greetingSubtitleLabel.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 24),
             greetingSubtitleLabel.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: -24),
-            greetingSubtitleLabel.topAnchor.constraint(equalTo: greetingTitleLabel.bottomAnchor, constant: 8),
+            greetingSubtitleLabel.topAnchor.constraint(equalTo: greetingTitleLabel.bottomAnchor, constant: 12),
             greetingSubtitleLabel.heightAnchor.constraint(equalToConstant: 48),
             greetingImageView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
             greetingImageView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor),
-            greetingImageView.topAnchor.constraint(equalTo: greetingSubtitleLabel.bottomAnchor, constant: 40)
+            greetingImageView.topAnchor.constraint(equalTo: greetingSubtitleLabel.bottomAnchor, constant: 40),
+            greetingImageView.heightAnchor.constraint(equalToConstant: self.view.frame.width)
         ])
     }
 }
