@@ -111,7 +111,7 @@ final class PreviewTestViewController: UIViewController {
     }
     
     private func setOptionActions() {
-
+        
         let optionLabels = [option1Label, option2Label, option3Label, option4Label]
         
         for (index, optionLabel) in optionLabels.enumerated() {
@@ -123,7 +123,7 @@ final class PreviewTestViewController: UIViewController {
     }
     
     @objc private func sendOptionTouchEvent(_ sender: UITapGestureRecognizer) {
-
+        
         let idx = sender.view?.tag ?? 0
         input.send(.optionSelected(idx: idx))
     }
@@ -219,22 +219,6 @@ final class PreviewTestViewController: UIViewController {
             questionTitleLabel.leadingAnchor.constraint(equalTo: questionNumberLabel.trailingAnchor, constant: 9),
             questionTitleLabel.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: -18),
             questionTitleLabel.heightAnchor.constraint(greaterThanOrEqualToConstant: 22),
-            option1Label.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 18),
-            option1Label.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: -18),
-            option1Label.bottomAnchor.constraint(equalTo: option2Label.topAnchor, constant: -10),
-            option1Label.heightAnchor.constraint(equalToConstant: 50),
-            option2Label.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 18),
-            option2Label.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: -18),
-            option2Label.bottomAnchor.constraint(equalTo: option3Label.topAnchor, constant: -10),
-            option2Label.heightAnchor.constraint(equalToConstant: 50),
-            option3Label.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 18),
-            option3Label.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: -18),
-            option3Label.bottomAnchor.constraint(equalTo: option4Label.topAnchor, constant: -10),
-            option3Label.heightAnchor.constraint(equalToConstant: 50),
-            option4Label.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 18),
-            option4Label.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: -18),
-            option4Label.bottomAnchor.constraint(equalTo: previousButton.topAnchor, constant:  -8),
-            option4Label.heightAnchor.constraint(equalToConstant: 50),
             previousButton.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 18),
             previousButton.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor, constant: -30),
             previousButton.widthAnchor.constraint(equalToConstant: 90),
@@ -249,6 +233,27 @@ final class PreviewTestViewController: UIViewController {
             pageIndicatorLabel.heightAnchor.constraint(equalToConstant: 22)
         ])
         
+        setOptionLabelLayout()
+        
         self.view.bringSubviewToFront(questionTitleLabel)
+    }
+    
+    private func setOptionLabelLayout() {
+        
+        let optionLabels: [QuestionOptionLabel] = [option1Label, option2Label, option3Label, option4Label]
+        
+        for (idx, option) in optionLabels.enumerated() {
+            NSLayoutConstraint.activate([
+                option.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 18),
+                option.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: -18),
+                option.heightAnchor.constraint(equalToConstant: 50),
+            ])
+            
+            if idx != 3 {
+                option.bottomAnchor.constraint(equalTo: optionLabels[idx + 1].topAnchor, constant: -8).isActive = true
+            } else {
+                option4Label.bottomAnchor.constraint(equalTo: previousButton.topAnchor, constant:  -8).isActive = true
+            }
+        }
     }
 }
