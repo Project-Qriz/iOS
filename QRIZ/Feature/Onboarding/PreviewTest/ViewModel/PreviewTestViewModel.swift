@@ -46,6 +46,10 @@ final class PreviewTestViewModel {
     private let output: PassthroughSubject<Output, Never> = .init()
     private var subscriptions = Set<AnyCancellable>()
     
+    deinit {
+        exitTimer()
+    }
+    
     func transform(input: AnyPublisher<Input, Never>) -> AnyPublisher<Output, Never> {
         input.sink { [weak self] event in
             guard let self = self else { return }
@@ -154,7 +158,6 @@ final class PreviewTestViewModel {
             output.send(.updateTime(timeLimit: totalTimeLimit, timeRemaining: timeRemaining))
             print(totalTimeLimit, timeRemaining)
         } else {
-            exitTimer()
             // send result
             output.send(.moveToPreviewResult)
         }
