@@ -23,8 +23,7 @@ struct ConceptBarGraphView: View {
                 .foregroundColor(.customBlue500)
             
             if previewConceptsData.incorrectCountDataArr.count > 1 {
-                BarGraphsView()
-                    .environmentObject(previewConceptsData)
+                BarGraphsView(previewConceptsData: previewConceptsData)
             } else {
                 Text("하나의 개념만 틀린 경우\n틀린 개념과 문제 개수만 보입니다.")
                     .font(.system(size: 14))
@@ -34,8 +33,7 @@ struct ConceptBarGraphView: View {
             
             Spacer()
             
-            IncorrectConceptsRankView()
-                .environmentObject(previewConceptsData)
+            IncorrectConceptsRankView(previewConceptsData: previewConceptsData)
             
             if previewConceptsData.incorrectCountDataArr.count > 3 {
                 VStack(spacing: 4) {

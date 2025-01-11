@@ -9,7 +9,7 @@ import SwiftUI
 
 struct BarGraphsView: View {
     
-    @EnvironmentObject var previewConceptsData: PreviewConceptsData
+    @ObservedObject var previewConceptsData: PreviewConceptsData
     
     var body: some View {
         HStack {
@@ -54,10 +54,8 @@ struct BarGraphsView: View {
 }
 
 #Preview {
-    BarGraphsView()
-        .environmentObject(PreviewConceptsData(totalQuestions: 3, incorrectCountDataArr: [
-            IncorrectCountData(id: 1, topic: "DDL", incorrectCount: 5),
-            IncorrectCountData(id: 2, topic: "조인", incorrectCount: 3),
-            IncorrectCountData(id: 3, topic: "모델이 표현하는 트랜잭션의 이해", incorrectCount: 1)
-        ]))
+    BarGraphsView(previewConceptsData: PreviewConceptsData(totalQuestions: 3, incorrectCountDataArr: [
+                    IncorrectCountData(id: 1, topic: "DDL", incorrectCount: 5),
+                    IncorrectCountData(id: 2, topic: "조인", incorrectCount: 3),
+                    IncorrectCountData(id: 3, topic: "모델이 표현하는 트랜잭션의 이해", incorrectCount: 1)]))
 }
