@@ -16,19 +16,17 @@ struct BarGraphsView: View {
             ZStack(alignment: .bottom) {
                 HStack(alignment: .bottom, spacing: 72) {
                     Spacer()
-                    ForEach(previewConceptsData.incorrectCountDataArr) { data in
-                        if data.id <= 3 {
-                            VStack {
-                                Text("\(data.topic)")
-                                    .foregroundColor(setBarColor(rank: data.id))
-                                    .font(.system(size: 14, weight: .bold))
-                                    .frame(width: 47, height: 22)
-                                Rectangle()
-                                    .foregroundColor(setBarColor(rank: data.id))
-                                    .frame(width: 28, height: CGFloat(data.incorrectCount * 15))
-                                    .cornerRadius(8, corners: [.topLeft, .topRight])
-                                    .animation(.easeInOut(duration: 1), value: CGFloat(data.incorrectCount))
-                            }
+                    ForEach(previewConceptsData.incorrectCountDataArr.filter { $0.id <= 3 }) { data in
+                        VStack {
+                            Text("\(data.topic)")
+                                .foregroundColor(setBarColor(rank: data.id))
+                                .font(.system(size: 14, weight: .bold))
+                                .frame(width: 47, height: 22)
+                            Rectangle()
+                                .foregroundColor(setBarColor(rank: data.id))
+                                .frame(width: 28, height: CGFloat(data.incorrectCount * 15))
+                                .cornerRadius(8, corners: [.topLeft, .topRight])
+                                .animation(.easeInOut(duration: 1), value: CGFloat(data.incorrectCount))
                         }
                     }
                     Spacer()
