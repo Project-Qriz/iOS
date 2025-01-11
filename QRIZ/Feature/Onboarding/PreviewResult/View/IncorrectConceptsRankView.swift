@@ -13,12 +13,11 @@ struct IncorrectConceptsRankView: View {
     
     var body: some View {
         VStack(spacing: 8) {
-            if previewConceptsData.incorrectCountDataArr.count > 0 {
-                IncorrectRankView(rank: previewConceptsData.incorrectCountDataArr[0].id, topic: previewConceptsData.incorrectCountDataArr[0].topic, incorrectNum: previewConceptsData.incorrectCountDataArr[0].incorrectCount)
-            }
-            
-            if previewConceptsData.incorrectCountDataArr.count > 1 {
-                IncorrectRankView(rank: previewConceptsData.incorrectCountDataArr[1].id, topic: previewConceptsData.incorrectCountDataArr[1].topic, incorrectNum: previewConceptsData.incorrectCountDataArr[1].incorrectCount)
+
+            ForEach(0..<2) { idx in
+                if previewConceptsData.incorrectCountDataArr.count > idx {
+                    IncorrectRankView(rank: previewConceptsData.incorrectCountDataArr[idx].id, topic: previewConceptsData.incorrectCountDataArr[idx].topic, incorrectNum: previewConceptsData.incorrectCountDataArr[idx].incorrectCount)
+                }
             }
             
             if previewConceptsData.incorrectCountDataArr.count > 2 {
