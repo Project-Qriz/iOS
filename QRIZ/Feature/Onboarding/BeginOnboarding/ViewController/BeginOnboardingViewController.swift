@@ -73,7 +73,7 @@ final class BeginOnboardingViewController: UIViewController {
             beginOnboardingImageView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
             beginOnboardingImageView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor),
             beginOnboardingImageView.topAnchor.constraint(equalTo: beginOnboardingSubtitleLabel.bottomAnchor, constant: 40),
-            beginOnboardingStartButton.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor, constant: -16),
+            beginOnboardingStartButton.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor, constant: -30),
             beginOnboardingStartButton.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 18),
             beginOnboardingStartButton.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: -18),
             beginOnboardingStartButton.heightAnchor.constraint(equalToConstant: 48)

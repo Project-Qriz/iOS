@@ -108,8 +108,8 @@ final class CheckConceptViewController: UIViewController {
             checkListCollectionView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 16),
             checkListCollectionView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: -16),
             checkListCollectionView.topAnchor.constraint(equalTo: checkConceptSubTitleLabel.bottomAnchor, constant: 40),
-            checkListCollectionView.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor, constant: -60),
-            checkDoneButton.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor, constant: -16),
+            checkListCollectionView.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor, constant: -65),
+            checkDoneButton.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor, constant: -30),
             checkDoneButton.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 18),
             checkDoneButton.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: -18),
             checkDoneButton.heightAnchor.constraint(equalToConstant: 48)
