@@ -411,7 +411,6 @@
 			path = Onboarding;
             sourceTree = "<group>";
         };
-    };
 		54E91B742D18FA9600474D0A /* CommonViews */ = {
 			isa = PBXGroup;
 			children = (
