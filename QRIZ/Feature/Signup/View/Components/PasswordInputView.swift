@@ -18,7 +18,7 @@ final class PasswordInputView: UIView {
     }
     
     private enum Attributes {
-        static let passwordPlaceholder: String = "비밀번호 (영문/숫자 조합 8~10자)"
+        static let passwordPlaceholder: String = "영문, 숫자, 특수 문자를 조합하여 8~16자로 입력해 주세요."
         static let confirmPasswordPlaceholder: String = "비밀번호 재확인"
         static let passwordErrorLabelText: String = "영문과 숫자를 조합하여 8~10자로 입력해주세요."
         static let confirmPasswordErrorLabelText: String = "비밀번호가 일치하지 않습니다."
