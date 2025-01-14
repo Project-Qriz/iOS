@@ -12,18 +12,23 @@ import Combine
 /// - Combine 구독을 통해 UI 업데이트
 final class CountdownTimer {
     
-    private(set) var remainingTime = CurrentValueSubject<Int, Never>(0)
+    // MARK: - Properties
     
+    private let remainingTime: CurrentValueSubject<Int, Never>
     private var timer: Timer?
     private let initialTime: Int
     
+    // MARK: - Initialize
+    
     init(totalTime: Int) {
         self.initialTime = totalTime
-        self.remainingTime.send(totalTime)
+        self.remainingTime = CurrentValueSubject<Int, Never>(totalTime)
     }
     
+    // MARK: - Functions
+    
     func start() {
-        stop()  // 기존 타이머 해제
+        stop() // 기존 타이머 해제
         timer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { [weak self] _ in
             guard let self = self else { return }
             let newTime = self.remainingTime.value - 1
@@ -33,6 +38,10 @@ final class CountdownTimer {
                 self.stop()
                 self.remainingTime.send(0)
             }
+        }
+        
+        if let timer = timer {
+            RunLoop.main.add(timer, forMode: .common)
         }
     }
     
@@ -44,5 +53,9 @@ final class CountdownTimer {
     func reset() {
         stop()
         remainingTime.send(initialTime)
+    }
+    
+    func remainingTimePublisher() -> AnyPublisher<Int, Never> {
+        return remainingTime.eraseToAnyPublisher()
     }
 }

@@ -15,13 +15,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         guard let windowScene = (scene as? UIWindowScene) else { return }
         
         UINavigationBar.configureNavigationBackButton()
-        let name = NameInputViewController(nameInputVM: NameInputViewModel())
-        let email = EmailInputViewController()
-        let code = VerificationCodeViewController()
-        let id = IdInputViewController()
-        let password = PasswordInputViewController()
-        
-        let navi = UINavigationController(rootViewController: password)
+        let navi = UINavigationController(rootViewController: ViewController())
         
         window = UIWindow(windowScene: windowScene)
         window?.rootViewController = navi

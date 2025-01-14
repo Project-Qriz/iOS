@@ -87,7 +87,7 @@ final class EmailInputViewController: UIViewController {
                     self.rootView.signupFooterView.updateButtonState(isValid: isValid)
                 case .navigateToVerificationCodeView:
                     // MARK: - 코디네이터 적용 필요
-                    navigationController?.pushViewController(VerificationCodeViewController(), animated: true)
+                    navigationController?.pushViewController(VerificationCodeViewController(verificationCodeVM: VerificationCodeViewModel()), animated: true)
                 }
             }
             .store(in: &cancellables)

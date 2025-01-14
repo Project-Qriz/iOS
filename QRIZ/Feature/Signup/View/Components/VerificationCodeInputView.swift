@@ -20,7 +20,21 @@ final class VerificationCodeInputView: UIView {
     
     private enum Attributes {
         static let placeholder: String = "인증번호 6자리 입력"
+        static let timerLabelText: String = "03:00"
         static let inputErrorText: String = "인증번호가 다르게 입력되었어요"
+        static let resendCodeLabelText: String = "인증번호 다시 받기"
+    }
+    
+    // MARK: - Properties
+    
+    private let resendCodeSubject = PassthroughSubject<Void, Never>()
+    
+    var resendCodePublisher: AnyPublisher<Void, Never> {
+        resendCodeSubject.eraseToAnyPublisher()
+    }
+    
+    var textChangedPublisher: AnyPublisher<String, Never> {
+        codeTextField.textPublisher
     }
     
     // MARK: - UI
@@ -31,6 +45,7 @@ final class VerificationCodeInputView: UIView {
             rightView: wrapLabelInPaddingView(label: timerLabel),
             rightViewMode: .always
         )
+        textField.keyboardType = .numberPad
         textField.delegate = self
         return  textField
     }()
@@ -39,7 +54,7 @@ final class VerificationCodeInputView: UIView {
         let label = UILabel()
         label.font = .systemFont(ofSize: 16, weight: .medium)
         label.textColor = .coolNeutral300
-        label.text = "03:00"
+        label.text = Attributes.timerLabelText
         return label
     }()
     
@@ -58,7 +73,7 @@ final class VerificationCodeInputView: UIView {
         label.textColor = .coolNeutral500
         label.isUserInteractionEnabled = true
         
-        let text = "인증번호 다시 받기"
+        let text = Attributes.resendCodeLabelText
         let attributedString = NSMutableAttributedString(string: text)
         attributedString.addAttribute(
             .underlineStyle,
@@ -89,6 +104,17 @@ final class VerificationCodeInputView: UIView {
         self.backgroundColor = .white
     }
     
+    func updateErrorState(_ hasError: Bool) {
+        inputErrorLabel.isHidden = !hasError
+        codeTextField.layer.borderColor = hasError ? UIColor.customRed500.cgColor : UIColor.clear.cgColor
+    }
+    
+    func updateTimerLabel(_ remainingTime: Int) {
+        let minutes = remainingTime / 60
+        let seconds = remainingTime % 60
+        timerLabel.text = String(format: "%02d:%02d", minutes, seconds)
+    }
+    
     private func wrapLabelInPaddingView(
         label: UILabel,
         horizontalPadding: CGFloat = 6,
@@ -116,7 +142,7 @@ final class VerificationCodeInputView: UIView {
     // MARK: - Actions
     
     @objc private func resendCodeTapped() {
-        print("인증번호 다시 받기 클릭")
+        resendCodeSubject.send()
     }
 }
 
