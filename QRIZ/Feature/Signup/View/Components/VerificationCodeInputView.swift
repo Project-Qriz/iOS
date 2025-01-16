@@ -131,7 +131,7 @@ final class VerificationCodeInputView: UIView {
         label.frame = CGRect(
             x: horizontalPadding,
             y: (height - label.intrinsicContentSize.height) / 2,
-            width: label.intrinsicContentSize.width,
+            width: label.intrinsicContentSize.width + 5,
             height: label.intrinsicContentSize.height
         )
         
