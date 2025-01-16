@@ -18,17 +18,33 @@ final class PasswordInputView: UIView {
     }
     
     private enum Attributes {
-        static let passwordPlaceholder: String = "비밀번호 (영문/숫자 조합 8~10자)"
+        static let passwordPlaceholder: String = "영문, 숫자, 특수 문자를 조합하여 8~16자로 입력해 주세요."
         static let confirmPasswordPlaceholder: String = "비밀번호 재확인"
         static let passwordErrorLabelText: String = "영문과 숫자를 조합하여 8~10자로 입력해주세요."
         static let confirmPasswordErrorLabelText: String = "비밀번호가 일치하지 않습니다."
     }
     
+    // MARK: - Properties
+    
+    var passwordTextChangedPublisher: AnyPublisher<String, Never> {
+        passwordTextField.textPublisher
+    }
+    
+    var confirmTextChangedPublisher: AnyPublisher<String, Never> {
+        confirmPasswordTextField.textPublisher
+    }
+    
     // MARK: - UI
     
-    private let passwordTextField = CustomTextField(placeholder: Attributes.passwordPlaceholder)
+    private let passwordTextField = CustomTextField(
+        placeholder: Attributes.passwordPlaceholder,
+        isSecure: true
+    )
     private lazy var passwordErrorLabel = buildErrorLabel(text: Attributes.passwordErrorLabelText)
-    private let confirmPasswordTextField = CustomTextField(placeholder: Attributes.confirmPasswordPlaceholder)
+    private let confirmPasswordTextField = CustomTextField(
+        placeholder: Attributes.confirmPasswordPlaceholder,
+        isSecure: true
+    )
     private lazy var confirmPasswordErrorLabel = buildErrorLabel(text: Attributes.confirmPasswordErrorLabelText)
     
     private lazy var stackView: UIStackView = {
@@ -51,6 +67,7 @@ final class PasswordInputView: UIView {
         addSubviews()
         setupConstraints()
         setupUI()
+        setupDelegate()
     }
     
     required init?(coder: NSCoder) {
@@ -63,12 +80,28 @@ final class PasswordInputView: UIView {
         self.backgroundColor = .white
     }
     
+    private func setupDelegate() {
+        passwordTextField.delegate = self
+        confirmPasswordTextField.delegate = self
+    }
+    
     private func buildErrorLabel(text: String) -> UILabel {
         let label = UILabel()
         label.text = text
         label.font = .systemFont(ofSize: 14, weight: .regular)
         label.textColor = .customRed500
+        label.isHidden = true
         return label
+    }
+    
+    func updatePasswordErrorState(_ isValid: Bool) {
+        passwordErrorLabel.isHidden = isValid
+        passwordTextField.layer.borderColor = isValid ? UIColor.clear.cgColor : UIColor.customRed500.cgColor
+    }
+    
+    func updateconfirmErrorState(_ isValid: Bool) {
+        confirmPasswordErrorLabel.isHidden = isValid
+        confirmPasswordTextField.layer.borderColor = isValid ? UIColor.clear.cgColor : UIColor.customRed500.cgColor
     }
 }
 
@@ -93,5 +126,14 @@ extension PasswordInputView {
             passwordTextField.heightAnchor.constraint(equalToConstant: Metric.textFieldHeight),
             confirmPasswordTextField.heightAnchor.constraint(equalToConstant: Metric.textFieldHeight),
         ])
+    }
+}
+
+// MARK: - UITextFieldDelegate
+
+extension PasswordInputView: UITextFieldDelegate {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        return true
     }
 }

@@ -13,6 +13,7 @@ final class EmailInputViewController: UIViewController {
     // MARK: - Enums
     
     private enum Attributes {
+        static let navigationTitle: String = "이메일 인증"
         static let headerTitle: String = "이메일로\n본인확인을 진행할게요!"
         static let headerDescription: String = "이메일 형식을 맞춰 입력해주세요."
         static let footerTitle: String = "다음"
@@ -24,11 +25,13 @@ final class EmailInputViewController: UIViewController {
     // MARK: - Properties
     
     private let rootView: SingleInputMainView
+    private let emailInputVM: EmailInputViewModel
     private var cancellables = Set<AnyCancellable>()
+    private var keyboardCancellable: AnyCancellable?
     
     // MARK: - initialize
     
-    init() {
+    init(emailInputVM: EmailInputViewModel) {
         self.rootView = SingleInputMainView(
             title: Attributes.headerTitle,
             description: Attributes.headerDescription,
@@ -37,6 +40,7 @@ final class EmailInputViewController: UIViewController {
             inputPlaceholder: Attributes.inputPlaceholder,
             inputErrorText: Attributes.inputErrorText
         )
+        self.emailInputVM = emailInputVM
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -48,7 +52,9 @@ final class EmailInputViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        setNavigationBarTitle(title: Attributes.navigationTitle)
         bind()
+        observe()
     }
     
     override func loadView() {
@@ -58,5 +64,42 @@ final class EmailInputViewController: UIViewController {
     // MARK: - Functions
     
     private func bind() {
+        let emailTextChanged = rootView.singleInputView.textChangedPublisher
+            .map { EmailInputViewModel.Input.emailTextChanged($0) }
+        
+        let nextButtonTapped = rootView.signupFooterView.buttonTappedPublisher
+            .map { EmailInputViewModel.Input.buttonTapped }
+        
+        let input = Publishers.Merge(
+            emailTextChanged,
+            nextButtonTapped
+        )
+            .eraseToAnyPublisher()
+        
+        let output = emailInputVM.transform(input: input)
+        
+        output
+            .sink { [weak self] output in
+                guard let self = self else { return }
+                switch output {
+                case .isNameValid(let isValid):
+                    self.rootView.singleInputView.updateErrorState(isValid: isValid)
+                    self.rootView.signupFooterView.updateButtonState(isValid: isValid)
+                case .navigateToVerificationCodeView:
+                    // MARK: - 코디네이터 적용 필요
+                    navigationController?.pushViewController(VerificationCodeViewController(verificationCodeVM: VerificationCodeViewModel()), animated: true)
+                }
+            }
+            .store(in: &cancellables)
+    }
+    
+    private func observe() {
+        keyboardCancellable = observeKeyboardNotifications(for: rootView.signupFooterView)
+        
+        view.tapGestureEndedPublisher()
+            .sink { [weak self] _ in
+                self?.view.endEditing(true)
+            }
+            .store(in: &cancellables)
     }
 }

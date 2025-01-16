@@ -1,5 +1,5 @@
 //
-//  IDInputView.swift
+//  IdInputView.swift
 //  QRIZ
 //
 //  Created by 김세훈 on 1/3/25.
@@ -16,19 +16,31 @@ final class IdInputView: UIView {
         static let stackViewHeight: CGFloat = 48.0
         static let buttonWidthMultiplier: CGFloat = 1.9
         static let idCountLabelTopOffset: CGFloat = 8.0
-        
     }
     
     private enum Attributes {
         static let placeholder: String = "아이디 입력"
         static let buttonTitle: String = "중복확인"
-        static let idCountLabelText: String = "0/8"
+        static let noticeLabelText: String = "0/8"
+    }
+    
+    // MARK: - Properties
+    
+    private let buttonTappedSubject = PassthroughSubject<Void, Never>()
+    
+    var buttonTappedPublisher: AnyPublisher<Void, Never> {
+        buttonTappedSubject.eraseToAnyPublisher()
+    }
+    
+    var textChangedPublisher: AnyPublisher<String, Never> {
+        idTextField.textPublisher
     }
     
     // MARK: - UI
     
-    private let nameTextField: UITextField = CustomTextField(placeholder: Attributes.placeholder)
-    private let duplicateCheckButton: UIButton = {
+    private let idTextField: UITextField = CustomTextField(placeholder: Attributes.placeholder)
+    
+    private lazy var duplicateCheckButton: UIButton = {
         let button = UIButton()
         button.setTitle(Attributes.buttonTitle, for: .normal)
         button.titleLabel?.font = .systemFont(ofSize: 14, weight: .semibold)
@@ -37,12 +49,15 @@ final class IdInputView: UIView {
         button.layer.cornerRadius = 8
         button.layer.borderColor = UIColor.customBlue500.cgColor
         button.layer.masksToBounds = true
+        button.addAction(UIAction { [weak self] _ in
+            self?.buttonTappedSubject.send()
+        }, for: .touchUpInside)
         return button
     }()
     
     private lazy var stackView: UIStackView = {
         let stackView = UIStackView(arrangedSubviews: [
-            nameTextField,
+            idTextField,
             duplicateCheckButton
         ])
         stackView.axis = .horizontal
@@ -51,9 +66,9 @@ final class IdInputView: UIView {
         return stackView
     }()
     
-    private let idCountLabel: UILabel = {
+    private let noticeLabel: UILabel = {
         let label = UILabel()
-        label.text = Attributes.idCountLabelText
+        label.text = Attributes.noticeLabelText
         label.font = .systemFont(ofSize: 12, weight: .regular)
         label.textColor = .coolNeutral800
         return label
@@ -66,6 +81,7 @@ final class IdInputView: UIView {
         addSubviews()
         setupConstraints()
         setupUI()
+        setupDelegate()
     }
     
     required init?(coder: NSCoder) {
@@ -77,6 +93,25 @@ final class IdInputView: UIView {
     private func setupUI() {
         self.backgroundColor = .white
     }
+    
+    private func setupDelegate() {
+        idTextField.delegate = self
+    }
+    
+    func updateCheckMessage(message: String, isAvailable: Bool) {
+        noticeLabel.text = message
+        noticeLabel.textColor = isAvailable ? .customMint800 : .customRed500
+        idTextField.layer.borderColor = isAvailable ? UIColor.customMint800.cgColor : UIColor.customRed500.cgColor
+    }
+    
+    func updateTextCountLabel(current: Int, min: Int) {
+        noticeLabel.text = "\(current)/\(min)"
+    }
+    
+    func resetColors() {
+        noticeLabel.textColor = .coolNeutral800
+        idTextField.layer.borderColor = UIColor.clear.cgColor
+    }
 }
 
 // MARK: - Layout Setup
@@ -85,13 +120,13 @@ extension IdInputView {
     private func addSubviews() {
         [
             stackView,
-            idCountLabel
+            noticeLabel
         ].forEach(addSubview(_:))
     }
     
     private func setupConstraints() {
         stackView.translatesAutoresizingMaskIntoConstraints = false
-        idCountLabel.translatesAutoresizingMaskIntoConstraints = false
+        noticeLabel.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
             stackView.topAnchor.constraint(equalTo: topAnchor),
@@ -101,10 +136,19 @@ extension IdInputView {
             
             duplicateCheckButton.widthAnchor.constraint(equalTo: duplicateCheckButton.heightAnchor, multiplier: Metric.buttonWidthMultiplier),
             
-            idCountLabel.topAnchor.constraint(equalTo: stackView.bottomAnchor, constant: Metric.idCountLabelTopOffset),
-            idCountLabel.leadingAnchor.constraint(equalTo: leadingAnchor),
-            idCountLabel.trailingAnchor.constraint(equalTo: trailingAnchor),
-            idCountLabel.bottomAnchor.constraint(equalTo: bottomAnchor),
+            noticeLabel.topAnchor.constraint(equalTo: stackView.bottomAnchor, constant: Metric.idCountLabelTopOffset),
+            noticeLabel.leadingAnchor.constraint(equalTo: leadingAnchor),
+            noticeLabel.trailingAnchor.constraint(equalTo: trailingAnchor),
+            noticeLabel.bottomAnchor.constraint(equalTo: bottomAnchor),
         ])
+    }
+}
+
+// MARK: - UITextFieldDelegate
+
+extension IdInputView: UITextFieldDelegate {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        return true
     }
 }

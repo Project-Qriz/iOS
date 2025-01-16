@@ -15,4 +15,11 @@ extension UITextField {
             .map { _ in self.text ?? "" }
             .eraseToAnyPublisher()
     }
+    
+    /// `UITextField 텍스트 입력 완료 시 발행되는 퍼블리셔입니다.`
+    var textDidEndEditingPublisher: AnyPublisher<String, Never> {
+        NotificationCenter.default.publisher(for: UITextField.textDidEndEditingNotification, object: self)
+            .map { _ in self.text ?? "" }
+            .eraseToAnyPublisher()
+    }
 }

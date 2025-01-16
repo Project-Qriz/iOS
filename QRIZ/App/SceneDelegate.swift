@@ -14,13 +14,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         guard let windowScene = (scene as? UIWindowScene) else { return }
         
-        let name = NameInputViewController()
-        let email = EmailInputViewController()
-        let code = VerificationCodeViewController()
-        let id = IdInputViewController()
-        let password = PasswordInputViewController()
-        
-        let navi = UINavigationController(rootViewController: password)
+        UINavigationBar.configureNavigationBackButton()
+        let navi = UINavigationController(rootViewController: ViewController())
         
         window = UIWindow(windowScene: windowScene)
         window?.rootViewController = navi

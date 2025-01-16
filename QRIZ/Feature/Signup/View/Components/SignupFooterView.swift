@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Combine
 
 final class SignupFooterView: UIView {
     
@@ -13,6 +14,14 @@ final class SignupFooterView: UIView {
     
     private enum Metric {
         static let buttonHeight: CGFloat = 48.0
+    }
+    
+    // MARK: - Properties
+    
+    private let buttonTappedSubject = PassthroughSubject<Void, Never>()
+
+    var buttonTappedPublisher: AnyPublisher<Void, Never> {
+        buttonTappedSubject.eraseToAnyPublisher()
     }
     
     // MARK: - UI
@@ -24,9 +33,8 @@ final class SignupFooterView: UIView {
         button.backgroundColor = .coolNeutral200
         button.layer.cornerRadius = 8
         button.addAction(UIAction { [weak self] _ in
-            print(button.titleLabel!.text ?? "타이틀이 없습니다.")
+            self?.buttonTappedSubject.send()
         }, for: .touchUpInside)
-        
         return button
     }()
     
@@ -51,6 +59,12 @@ final class SignupFooterView: UIView {
     
     func configure(buttonTitle: String) {
         nextButton.setTitle(buttonTitle, for: .normal)
+    }
+    
+    func updateButtonState(isValid: Bool) {
+        nextButton.isEnabled = isValid
+        nextButton.backgroundColor = isValid ? .customBlue500 : .coolNeutral200
+        nextButton.setTitleColor(isValid ? .white : .coolNeutral500, for: .normal)
     }
 }
 

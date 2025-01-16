@@ -17,13 +17,25 @@ final class SingleInputView: UIView {
         static let inputErrorLabelTopOffset: CGFloat = 8.0
     }
     
+    // MARK: - Properties
+    
+    var textChangedPublisher: AnyPublisher<String, Never> {
+        textField.textPublisher
+    }
+    
     // MARK: - UI
     
-    private let nameTextField: UITextField = CustomTextField(placeholder: "")
+    private lazy var textField: UITextField = {
+        let textField = CustomTextField(placeholder: "")
+        textField.delegate = self
+        return textField
+    }()
+    
     private let inputErrorLabel: UILabel = {
         let label = UILabel()
         label.font = .systemFont(ofSize: 14, weight: .regular)
         label.textColor = .customRed500
+        label.isHidden = true
         return label
     }()
     
@@ -47,7 +59,7 @@ final class SingleInputView: UIView {
     }
     
     func configure(placeholder: String, errorText: String) {
-        nameTextField.attributedPlaceholder = NSAttributedString(
+        textField.attributedPlaceholder = NSAttributedString(
             string: placeholder,
             attributes: [
                 .foregroundColor: UIColor.coolNeutral300,
@@ -56,6 +68,11 @@ final class SingleInputView: UIView {
         )
         inputErrorLabel.text = errorText
     }
+    
+    func updateErrorState(isValid: Bool) {
+        inputErrorLabel.isHidden = isValid
+        textField.layer.borderColor = isValid ? UIColor.clear.cgColor : UIColor.customRed500.cgColor
+    }
 }
 
 // MARK: - Layout Setup
@@ -63,25 +80,35 @@ final class SingleInputView: UIView {
 extension SingleInputView {
     private func addSubviews() {
         [
-            nameTextField,
+            textField,
             inputErrorLabel
         ].forEach(addSubview(_:))
     }
     
     private func setupConstraints() {
-        nameTextField.translatesAutoresizingMaskIntoConstraints = false
+        textField.translatesAutoresizingMaskIntoConstraints = false
         inputErrorLabel.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
-            nameTextField.topAnchor.constraint(equalTo: topAnchor),
-            nameTextField.leadingAnchor.constraint(equalTo: leadingAnchor),
-            nameTextField.trailingAnchor.constraint(equalTo: trailingAnchor),
-            nameTextField.heightAnchor.constraint(equalToConstant: Metric.textFieldHeight),
+            textField.topAnchor.constraint(equalTo: topAnchor),
+            textField.leadingAnchor.constraint(equalTo: leadingAnchor),
+            textField.trailingAnchor.constraint(equalTo: trailingAnchor),
+            textField.heightAnchor.constraint(equalToConstant: Metric.textFieldHeight),
             
-            inputErrorLabel.topAnchor.constraint(equalTo: nameTextField.bottomAnchor, constant: Metric.inputErrorLabelTopOffset),
+            inputErrorLabel.topAnchor.constraint(equalTo: textField.bottomAnchor, constant: Metric.inputErrorLabelTopOffset),
             inputErrorLabel.leadingAnchor.constraint(equalTo: leadingAnchor),
             inputErrorLabel.trailingAnchor.constraint(equalTo: trailingAnchor),
             inputErrorLabel.bottomAnchor.constraint(equalTo: bottomAnchor),
         ])
+    }
+}
+
+
+// MARK: - UITextFieldDelegate
+
+extension SingleInputView: UITextFieldDelegate {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        return true
     }
 }
