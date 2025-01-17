@@ -39,14 +39,29 @@ final class FindIdViewController: UIViewController {
         super.viewDidLoad()
         setNavigationBarTitle(title: Attributes.navigationTitle)
         bind()
+        observe()
     }
     
     override func loadView() {
         self.view = rootView
     }
     
+    deinit {
+        keyboardCancellable?.cancel()
+    }
+    
     // MARK: - Functions
     
     private func bind() {
+    }
+    
+    private func observe() {
+        keyboardCancellable = observeKeyboardNotifications(for: rootView.signupFooterView)
+        
+        view.tapGestureEndedPublisher()
+            .sink { [weak self] _ in
+                self?.view.endEditing(true)
+            }
+            .store(in: &cancellables)
     }
 }
