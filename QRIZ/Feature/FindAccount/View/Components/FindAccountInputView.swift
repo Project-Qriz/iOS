@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Combine
 
 final class FindAccountInputView: UIView {
     
@@ -27,6 +28,9 @@ final class FindAccountInputView: UIView {
     
     // MARK: - Properties
     
+    var textChangedPublisher: AnyPublisher<String, Never> {
+        textField.textPublisher
+    }
     
     // MARK: - UI
     

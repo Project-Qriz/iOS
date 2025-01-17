@@ -58,6 +58,7 @@
 		B18F45102D3997280030F7DB /* FindAccountHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B18F450F2D3997280030F7DB /* FindAccountHeaderView.swift */; };
 		B18F45122D3A26520030F7DB /* FindAccountInputView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B18F45112D3A26520030F7DB /* FindAccountInputView.swift */; };
 		B18F45152D3A40BE0030F7DB /* FindAccountType.swift in Sources */ = {isa = PBXBuildFile; fileRef = B18F45142D3A40BE0030F7DB /* FindAccountType.swift */; };
+		B18F45182D3A528B0030F7DB /* FindIdViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B18F45172D3A528B0030F7DB /* FindIdViewModel.swift */; };
 		B1D9A0E72D3686BA00E84934 /* CountdownTimer.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1D9A0E62D3686BA00E84934 /* CountdownTimer.swift */; };
 		E230669A2D2126B9001B509A /* PreviewScoresData.swift in Sources */ = {isa = PBXBuildFile; fileRef = E23066992D2126B9001B509A /* PreviewScoresData.swift */; };
 		E23824E12D0C3157009E7989 /* BeginOnboardingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E23824E02D0C3157009E7989 /* BeginOnboardingViewController.swift */; };
@@ -186,6 +187,7 @@
 		B18F450F2D3997280030F7DB /* FindAccountHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FindAccountHeaderView.swift; sourceTree = "<group>"; };
 		B18F45112D3A26520030F7DB /* FindAccountInputView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FindAccountInputView.swift; sourceTree = "<group>"; };
 		B18F45142D3A40BE0030F7DB /* FindAccountType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FindAccountType.swift; sourceTree = "<group>"; };
+		B18F45172D3A528B0030F7DB /* FindIdViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FindIdViewModel.swift; sourceTree = "<group>"; };
 		B1D9A0E62D3686BA00E84934 /* CountdownTimer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountdownTimer.swift; sourceTree = "<group>"; };
 		E23066992D2126B9001B509A /* PreviewScoresData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreviewScoresData.swift; sourceTree = "<group>"; };
 		E23824E02D0C3157009E7989 /* BeginOnboardingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BeginOnboardingViewController.swift; sourceTree = "<group>"; };
@@ -524,6 +526,7 @@
 			children = (
 				B18F450B2D3992C10030F7DB /* View */,
 				B18F45082D398FFD0030F7DB /* ViewController */,
+				B18F45162D3A52680030F7DB /* ViewModel */,
 			);
 			path = FindAccount;
 			sourceTree = "<group>";
@@ -560,6 +563,14 @@
 				B18F45142D3A40BE0030F7DB /* FindAccountType.swift */,
 			);
 			path = Types;
+			sourceTree = "<group>";
+		};
+		B18F45162D3A52680030F7DB /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				B18F45172D3A528B0030F7DB /* FindIdViewModel.swift */,
+			);
+			path = ViewModel;
 			sourceTree = "<group>";
 		};
 		B1D9A0E52D3686A100E84934 /* Manager */ = {
@@ -1052,6 +1063,7 @@
 				E29CCD2F2D29855B004AA30A /* TestTimeLabel.swift in Sources */,
 				B168B7732D2846C80000F32E /* PasswordInputViewController.swift in Sources */,
 				E239630D2D083B900092B39B /* ViewController.swift in Sources */,
+				B18F45182D3A528B0030F7DB /* FindIdViewModel.swift in Sources */,
 				B16288262D300CBA008057D0 /* PasswordInputViewModel.swift in Sources */,
 				E23824E12D0C3157009E7989 /* BeginOnboardingViewController.swift in Sources */,
 				E29CCD292D29855B004AA30A /* QuestionNumberLabel.swift in Sources */,
