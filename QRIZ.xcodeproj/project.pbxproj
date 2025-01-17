@@ -57,6 +57,7 @@
 		B18F450D2D3994380030F7DB /* FindAccountMainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B18F450C2D3994380030F7DB /* FindAccountMainView.swift */; };
 		B18F45102D3997280030F7DB /* FindAccountHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B18F450F2D3997280030F7DB /* FindAccountHeaderView.swift */; };
 		B18F45122D3A26520030F7DB /* FindAccountInputView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B18F45112D3A26520030F7DB /* FindAccountInputView.swift */; };
+		B18F45152D3A40BE0030F7DB /* FindAccountType.swift in Sources */ = {isa = PBXBuildFile; fileRef = B18F45142D3A40BE0030F7DB /* FindAccountType.swift */; };
 		B1D9A0E72D3686BA00E84934 /* CountdownTimer.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1D9A0E62D3686BA00E84934 /* CountdownTimer.swift */; };
 		E230669A2D2126B9001B509A /* PreviewScoresData.swift in Sources */ = {isa = PBXBuildFile; fileRef = E23066992D2126B9001B509A /* PreviewScoresData.swift */; };
 		E23824E12D0C3157009E7989 /* BeginOnboardingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E23824E02D0C3157009E7989 /* BeginOnboardingViewController.swift */; };
@@ -184,6 +185,7 @@
 		B18F450C2D3994380030F7DB /* FindAccountMainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FindAccountMainView.swift; sourceTree = "<group>"; };
 		B18F450F2D3997280030F7DB /* FindAccountHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FindAccountHeaderView.swift; sourceTree = "<group>"; };
 		B18F45112D3A26520030F7DB /* FindAccountInputView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FindAccountInputView.swift; sourceTree = "<group>"; };
+		B18F45142D3A40BE0030F7DB /* FindAccountType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FindAccountType.swift; sourceTree = "<group>"; };
 		B1D9A0E62D3686BA00E84934 /* CountdownTimer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountdownTimer.swift; sourceTree = "<group>"; };
 		E23066992D2126B9001B509A /* PreviewScoresData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreviewScoresData.swift; sourceTree = "<group>"; };
 		E23824E02D0C3157009E7989 /* BeginOnboardingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BeginOnboardingViewController.swift; sourceTree = "<group>"; };
@@ -393,9 +395,10 @@
 		54DB0D9E2D09514000ABD458 /* Utils */ = {
 			isa = PBXGroup;
 			children = (
+				54DB0D9F2D09519D00ABD458 /* Extensions */,
 				B1D9A0E52D3686A100E84934 /* Manager */,
 				E29BF8532D117CD5006DC6D0 /* Model */,
-				54DB0D9F2D09519D00ABD458 /* Extensions */,
+				B18F45132D3A406C0030F7DB /* Types */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -549,6 +552,14 @@
 				B18F45112D3A26520030F7DB /* FindAccountInputView.swift */,
 			);
 			path = Components;
+			sourceTree = "<group>";
+		};
+		B18F45132D3A406C0030F7DB /* Types */ = {
+			isa = PBXGroup;
+			children = (
+				B18F45142D3A40BE0030F7DB /* FindAccountType.swift */,
+			);
+			path = Types;
 			sourceTree = "<group>";
 		};
 		B1D9A0E52D3686A100E84934 /* Manager */ = {
@@ -1080,6 +1091,7 @@
 				B168B76A2D2807470000F32E /* NameInputViewController.swift in Sources */,
 				548566552D124260002BAEE3 /* ExampleService.swift in Sources */,
 				E29CCD3F2D298656004AA30A /* IncorrectRankView.swift in Sources */,
+				B18F45152D3A40BE0030F7DB /* FindAccountType.swift in Sources */,
 				E239630B2D083B900092B39B /* SceneDelegate.swift in Sources */,
 				E2D70FEC2D0EBDDD005A3F51 /* CheckListCell.swift in Sources */,
 				E28BAD772D2C111100B8388D /* CustomAlertView.swift in Sources */,
