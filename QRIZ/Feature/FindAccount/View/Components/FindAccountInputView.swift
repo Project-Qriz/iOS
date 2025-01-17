@@ -17,6 +17,14 @@ final class FindAccountInputView: UIView {
         static let inputErrorLabelTopOffset: CGFloat = 8.0
     }
     
+    // MARK: - Enums
+    
+    private enum Attributes {
+        static let titleLabelText: String = "이메일"
+        static let placeholder: String = "chaeyoung1106@qriz.com"
+        static let errorLabelText: String = "이메일을 다시 확인해 주세요."
+    }
+    
     // MARK: - Properties
     
     
@@ -24,19 +32,21 @@ final class FindAccountInputView: UIView {
     
     private let titleLabel: UILabel = {
         let label = UILabel()
+        label.text = Attributes.titleLabelText
         label.font = .systemFont(ofSize: 16, weight: .bold)
         label.textColor = .coolNeutral600
         return label
     }()
     
     private lazy var textField: UITextField = {
-        let textField = CustomTextField(placeholder: "")
+        let textField = CustomTextField(placeholder: Attributes.placeholder)
         textField.delegate = self
         return textField
     }()
     
     private let inputErrorLabel: UILabel = {
         let label = UILabel()
+        label.text = Attributes.errorLabelText
         label.font = .systemFont(ofSize: 14, weight: .regular)
         label.textColor = .customRed500
         label.isHidden = true
@@ -60,18 +70,6 @@ final class FindAccountInputView: UIView {
     
     private func setupUI() {
         self.backgroundColor = .white
-    }
-    
-    func configure(titleText: String, placeholder: String, errorText: String) {
-        textField.attributedPlaceholder = NSAttributedString(
-            string: placeholder,
-            attributes: [
-                .foregroundColor: UIColor.coolNeutral300,
-                .font: UIFont.systemFont(ofSize: 14, weight: .medium)
-            ]
-        )
-        titleLabel.text = titleText
-        inputErrorLabel.text = errorText
     }
     
     func updateErrorState(isValid: Bool) {

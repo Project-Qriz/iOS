@@ -14,12 +14,6 @@ final class FindIdViewController: UIViewController {
     
     private enum Attributes {
         static let navigationTitle: String = "아이디 찾기"
-        static let headerTitle: String = "아이디를 잊으셨나요?"
-        static let headerDescription: String = "Qriz에 가입했던 이메일을 입력하시면\n아이디를 메일로 보내드립니다."
-        static let inputTitle: String = "이메일"
-        static let placeholder: String = "chaeyoung1106@qriz.com"
-        static let errorText: String = "이메일을 다시 확인해 주세요."
-        static let buttonTitle: String = "이메일 발송"
     }
     
     // MARK: - Properties
@@ -31,14 +25,7 @@ final class FindIdViewController: UIViewController {
     // MARK: - initialize
     
     init() {
-        self.rootView = FindAccountMainView(
-            title: Attributes.headerTitle,
-            description: Attributes.headerDescription,
-            inputTitle: Attributes.inputTitle,
-            placeholder: Attributes.placeholder,
-            errorText: Attributes.errorText,
-            buttonTitle: Attributes.buttonTitle
-        )
+        self.rootView = FindAccountMainView(type: .findId)
         super.init(nibName: nil, bundle: nil)
     }
     

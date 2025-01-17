@@ -18,6 +18,10 @@ final class FindAccountMainView: UIView {
         static let signupFooterViewBottomOffset: CGFloat = -16.0
     }
     
+    private enum Attributes {
+        static let buttonTitle: String = "이메일 발송"
+    }
+    
     // MARK: - Properties
     
     private let findAccountHeaderView = FindAccountHeaderView()
@@ -26,23 +30,9 @@ final class FindAccountMainView: UIView {
     
     // MARK: - Initialize
     
-    init(
-        title: String,
-        description: String,
-        inputTitle: String,
-        placeholder: String,
-        errorText: String,
-        buttonTitle: String
-    ) {
+    init(type: FindAccountType) {
         super.init(frame: .zero)
-        setupUI(
-            headerTitle: title,
-            description: description,
-            inputTitle: inputTitle,
-            placeholder: placeholder,
-            errorText: errorText,
-            buttonTitle: buttonTitle
-        )
+        setupUI(with: type)
         addSubviews()
         setupConstraints()
     }
@@ -53,22 +43,13 @@ final class FindAccountMainView: UIView {
     
     // MARK: - Functions
     
-    private func setupUI(
-        headerTitle: String,
-        description: String,
-        inputTitle: String,
-        placeholder: String,
-        errorText: String,
-        buttonTitle: String
-    ) {
+    private func setupUI(with type: FindAccountType) {
         self.backgroundColor = .white
-        findAccountHeaderView.configure(title: headerTitle, description: description)
-        findAccountInputView.configure(
-            titleText: inputTitle,
-            placeholder: placeholder,
-            errorText: errorText
+        findAccountHeaderView.configure(
+            title: type.headerTitle,
+            description: type.headerDescription
         )
-        signupFooterView.configure(buttonTitle: buttonTitle)
+        signupFooterView.configure(buttonTitle: Attributes.buttonTitle)
     }
 }
 
