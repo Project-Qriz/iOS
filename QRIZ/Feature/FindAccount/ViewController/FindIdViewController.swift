@@ -19,6 +19,7 @@ final class FindIdViewController: UIViewController {
         static let inputTitle: String = "이메일"
         static let placeholder: String = "chaeyoung1106@qriz.com"
         static let errorText: String = "이메일을 다시 확인해 주세요."
+        static let buttonTitle: String = "이메일 발송"
     }
     
     // MARK: - Properties
@@ -35,7 +36,8 @@ final class FindIdViewController: UIViewController {
             description: Attributes.headerDescription,
             inputTitle: Attributes.inputTitle,
             placeholder: Attributes.placeholder,
-            errorText: Attributes.errorText
+            errorText: Attributes.errorText,
+            buttonTitle: Attributes.buttonTitle
         )
         super.init(nibName: nil, bundle: nil)
     }

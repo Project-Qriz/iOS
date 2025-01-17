@@ -15,12 +15,14 @@ final class FindAccountMainView: UIView {
         static let headerViewTopOffset: CGFloat = 24.0
         static let inputViewTopOffset: CGFloat = 32.0
         static let horizontalMargin: CGFloat = 18.0
+        static let signupFooterViewBottomOffset: CGFloat = -16.0
     }
     
     // MARK: - Properties
     
     private let findAccountHeaderView = FindAccountHeaderView()
-    private let findAccountInputView = FindAccountInputView()
+    let findAccountInputView = FindAccountInputView()
+    let signupFooterView = SignupFooterView()
     
     // MARK: - Initialize
     
@@ -29,7 +31,8 @@ final class FindAccountMainView: UIView {
         description: String,
         inputTitle: String,
         placeholder: String,
-        errorText: String
+        errorText: String,
+        buttonTitle: String
     ) {
         super.init(frame: .zero)
         setupUI(
@@ -37,7 +40,8 @@ final class FindAccountMainView: UIView {
             description: description,
             inputTitle: inputTitle,
             placeholder: placeholder,
-            errorText: errorText
+            errorText: errorText,
+            buttonTitle: buttonTitle
         )
         addSubviews()
         setupConstraints()
@@ -54,7 +58,8 @@ final class FindAccountMainView: UIView {
         description: String,
         inputTitle: String,
         placeholder: String,
-        errorText: String
+        errorText: String,
+        buttonTitle: String
     ) {
         self.backgroundColor = .white
         findAccountHeaderView.configure(title: headerTitle, description: description)
@@ -63,6 +68,7 @@ final class FindAccountMainView: UIView {
             placeholder: placeholder,
             errorText: errorText
         )
+        signupFooterView.configure(buttonTitle: buttonTitle)
     }
 }
 
@@ -72,13 +78,15 @@ extension FindAccountMainView {
     private func addSubviews() {
         [
             findAccountHeaderView,
-            findAccountInputView
+            findAccountInputView,
+            signupFooterView
         ].forEach(addSubview(_:))
     }
     
     private func setupConstraints() {
         findAccountHeaderView.translatesAutoresizingMaskIntoConstraints = false
         findAccountInputView.translatesAutoresizingMaskIntoConstraints = false
+        signupFooterView.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
             findAccountHeaderView.topAnchor.constraint(
@@ -106,6 +114,19 @@ extension FindAccountMainView {
                 equalTo: trailingAnchor,
                 constant: -Metric.horizontalMargin
             ),
+            
+            signupFooterView.leadingAnchor.constraint(
+                equalTo: leadingAnchor,
+                constant: Metric.horizontalMargin
+            ),
+            signupFooterView.trailingAnchor.constraint(
+                equalTo: trailingAnchor,
+                constant: -Metric.horizontalMargin
+            ),
+            signupFooterView.bottomAnchor.constraint(
+                equalTo: safeAreaLayoutGuide.bottomAnchor,
+                constant: Metric.signupFooterViewBottomOffset
+            )
         ])
     }
 }
