@@ -79,16 +79,7 @@ final class FindIdViewController: UIViewController {
                     
                 case .navigateToAlerView:
                     // MARK: - 코디네이터 적용 필요
-                    let alert = CustomAlertViewController()
-                    alert.setAlertView(
-                        alertView: CustomAlertView(
-                            alertType: .onlyConfirm,
-                            title: "이메일 발송 완료!",
-                            description: "입력해주신 이메일 주소로아이디가\n발송되었습니다. 메일함을 확인해주세요.",
-                            descriptionLine: 3
-                        )
-                    )
-                    self.present(alert, animated: true)
+                    self.showEmailSentAlert()
                 }
             }
             .store(in: &cancellables)
@@ -102,5 +93,23 @@ final class FindIdViewController: UIViewController {
                 self?.view.endEditing(true)
             }
             .store(in: &cancellables)
+    }
+    
+    private func showEmailSentAlert() {
+        let confirmAction = UIAction { [weak self] _ in
+            guard let self = self else { return }
+            print("확인 버튼 클릭")
+            self.dismiss(animated: true)
+        }
+        
+        let alertVC = CustomAlertViewController(
+            alertType: .onlyConfirm,
+            title: "이메일 발송 완료!",
+            description: "입력해주신 이메일 주소로 아이디가\n발송되었습니다. 메일함을 확인해주세요.",
+            descriptionLine: 2,
+            confirmAction: confirmAction
+        )
+        
+        self.present(alertVC, animated: true)
     }
 }

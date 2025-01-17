@@ -22,8 +22,7 @@ final class PreviewTestViewController: UIViewController {
     private let timeLabel: TestTimeLabel = TestTimeLabel()
     private let totalTimeRemainingLabel: TestTotalTimeRemainingLabel = TestTotalTimeRemainingLabel()
     private let pageIndicatorLabel: TestPageIndicatorLabel = TestPageIndicatorLabel()
-    private let submitAlert = CustomAlertView(alertType: .canCancel, title: "제출하시겠습니까", description: "확인 버튼을 누르면 다시 돌아올 수 없어요.", descriptionLine: 1)
-    private let submitAlertViewController = CustomAlertViewController()
+    private let submitAlertViewController = CustomAlertViewController(alertType: .canCancel, title: "제출하시겠습니까?", description: "확인 버튼을 누르면 다시 돌아올 수 없어요.")
     
     private let viewModel: PreviewTestViewModel = PreviewTestViewModel()
     private var subscriptions = Set<AnyCancellable>()
@@ -37,7 +36,7 @@ final class PreviewTestViewController: UIViewController {
         addViews()
         setOptionActions()
         setButtonActions()
-        setAlertController()
+        setAlertButtonActions()
         input.send(.viewDidLoad)
     }
     
@@ -82,20 +81,18 @@ final class PreviewTestViewController: UIViewController {
             .store(in: &subscriptions)
     }
     
-    private func setAlertController() {
-        setAlertButtonActions()
-        submitAlertViewController.setAlertView(alertView: submitAlert)
-    }
-    
     private func setAlertButtonActions() {
-        submitAlert.setButtonAction(true, action: UIAction(handler: { [weak self] _ in
+        let confirmAction = UIAction { [weak self] _ in
             guard let self = self else { return }
             self.input.send(.alertSubmitButtonClicked)
-        }))
-        submitAlert.setButtonAction(false, action: UIAction(handler: { [weak self] _ in
+        }
+        
+        let cancelAction = UIAction { [weak self] _ in
             guard let self = self else { return }
             self.input.send(.alertCancelButtonClicked)
-        }))
+        }
+        
+        submitAlertViewController.setupButtonActions(confirmAction: confirmAction, cancelAction: cancelAction)
     }
     
     private func setNavigationItem() {
