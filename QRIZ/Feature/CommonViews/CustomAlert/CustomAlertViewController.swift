@@ -6,15 +6,32 @@
 //
 
 import UIKit
+import Combine
 
 final class CustomAlertViewController: UIViewController {
     
-    private var alertView: CustomAlertView = CustomAlertView(alertType: .onlyConfirm, title: "", description: "", descriptionLine: 0)
+    private let alertView: CustomAlertView
     
-    init() {
+    init(
+        alertType: AlertType,
+        title: String,
+        titleLine: Int = 1,
+        description: String,
+        descriptionLine: Int = 2,
+        confirmAction: UIAction? = nil,
+        cancelAction: UIAction? = nil
+    ) {
+        self.alertView = CustomAlertView(
+            alertType: alertType,
+            title: title,
+            titleLine: titleLine,
+            description: description,
+            descriptionLine: descriptionLine
+        )
         super.init(nibName: nil, bundle: nil)
         self.modalPresentationStyle = .overFullScreen
         self.modalTransitionStyle = .crossDissolve
+        setupButtonActions(confirmAction: confirmAction, cancelAction: cancelAction)
     }
     
     required init?(coder: NSCoder) {
@@ -27,8 +44,15 @@ final class CustomAlertViewController: UIViewController {
         addViews()
     }
     
-    func setAlertView(alertView: CustomAlertView) {
-        self.alertView = alertView
+    func setupButtonActions(confirmAction: UIAction?, cancelAction: UIAction?) {
+        
+        if let confirmAction = confirmAction {
+            alertView.setButtonAction(true, action: confirmAction)
+        }
+        
+        if let cancelAction = cancelAction {
+            alertView.setButtonAction(false, action: cancelAction)
+        }
     }
     
     private func addViews() {
@@ -40,8 +64,8 @@ final class CustomAlertViewController: UIViewController {
         NSLayoutConstraint.activate([
             alertView.centerXAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.centerXAnchor),
             alertView.centerYAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.centerYAnchor),
-            alertView.widthAnchor.constraint(equalToConstant: 295),
-            alertView.heightAnchor.constraint(equalToConstant: 146)
+            alertView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 40),
+            alertView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: -40),
         ])
     }
 }
