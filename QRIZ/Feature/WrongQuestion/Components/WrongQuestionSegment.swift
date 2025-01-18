@@ -42,7 +42,7 @@ final class WrongQuestionSegment: UIView {
     }
     
     required init?(coder: NSCoder) {
-        fatalError()
+        fatalError("no initializer for coder: WrongQuestionSegment")
     }
     
     func setUnderlineState(_ isDailyTestClicked: Bool) {

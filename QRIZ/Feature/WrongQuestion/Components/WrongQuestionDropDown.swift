@@ -38,7 +38,7 @@ final class WrongQuestionDropDown: UIView {
     }
     
     required init?(coder: NSCoder) {
-        fatalError()
+        fatalError("no initializer for coder: WrongQuestionDropDown")
     }
     
     func setLabelText(_ text: String) {

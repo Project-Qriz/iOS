@@ -19,6 +19,6 @@ final class WrongQuestionTitleLabel: UILabel {
     }
     
     required init?(coder: NSCoder) {
-        fatalError()
+        fatalError("no initializer for coder: WrongQuestionTitleLabel")
     }
 }
