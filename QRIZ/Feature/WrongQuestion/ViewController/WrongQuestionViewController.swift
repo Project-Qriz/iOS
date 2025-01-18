@@ -10,7 +10,6 @@ import UIKit
 final class WrongQuestionViewController: UIViewController {
     
     // MARK: - Properties
-    private let wrongQuestionTitleLabel = WrongQuestionTitleLabel()
     private let wrongQuestionSegment =  WrongQuestionSegment()
     private let segmentBorder: UIView = {
         let view = UIView()
@@ -18,6 +17,7 @@ final class WrongQuestionViewController: UIViewController {
         return view
     }()
     private let wrongQuestionDropDown = WrongQuestionDropDown()
+    private let categoryChoiceButton = CategoryChoiceButton()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -31,25 +31,21 @@ final class WrongQuestionViewController: UIViewController {
 extension WrongQuestionViewController {
 
     private func addViews() {
-        self.view.addSubview(wrongQuestionTitleLabel)
         self.view.addSubview(wrongQuestionSegment)
         self.view.addSubview(segmentBorder)
         self.view.addSubview(wrongQuestionDropDown)
+        self.view.addSubview(categoryChoiceButton)
 
-        wrongQuestionTitleLabel.translatesAutoresizingMaskIntoConstraints = false
         wrongQuestionSegment.translatesAutoresizingMaskIntoConstraints = false
         segmentBorder.translatesAutoresizingMaskIntoConstraints = false
         wrongQuestionDropDown.translatesAutoresizingMaskIntoConstraints = false
+        categoryChoiceButton.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
-            wrongQuestionTitleLabel.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor),
-            wrongQuestionTitleLabel.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
-            wrongQuestionTitleLabel.trailingAnchor.constraint(equalTo: self.view.trailingAnchor),
-            wrongQuestionTitleLabel.heightAnchor.constraint(equalToConstant: 48),
 
             wrongQuestionSegment.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 18),
             wrongQuestionSegment.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: -18),
-            wrongQuestionSegment.topAnchor.constraint(equalTo: wrongQuestionTitleLabel.bottomAnchor),
+            wrongQuestionSegment.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor, constant: 10),
             wrongQuestionSegment.heightAnchor.constraint(equalToConstant: 48),
             
             segmentBorder.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
@@ -60,10 +56,13 @@ extension WrongQuestionViewController {
             wrongQuestionDropDown.topAnchor.constraint(equalTo: segmentBorder.bottomAnchor),
             wrongQuestionDropDown.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
             wrongQuestionDropDown.trailingAnchor.constraint(equalTo: self.view.trailingAnchor),
-            wrongQuestionDropDown.heightAnchor.constraint(equalToConstant: 94)
+            wrongQuestionDropDown.heightAnchor.constraint(equalToConstant: 94),
+            
+            categoryChoiceButton.topAnchor.constraint(equalTo: wrongQuestionDropDown.bottomAnchor, constant: 16),
+            categoryChoiceButton.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: -18),
+            categoryChoiceButton.widthAnchor.constraint(equalToConstant: 40),
+            categoryChoiceButton.heightAnchor.constraint(equalToConstant: 40)
             
         ])
-        
-        self.view.bringSubviewToFront(wrongQuestionTitleLabel)
     }
 }

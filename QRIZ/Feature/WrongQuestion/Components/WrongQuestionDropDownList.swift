@@ -13,6 +13,6 @@ final class WrongQuestionDropDownList: UIView {
     }
     
     required init?(coder: NSCoder) {
-        fatalError()
+        fatalError("no initializer for coder: WrongQuestionDropDownList")
     }
 }
