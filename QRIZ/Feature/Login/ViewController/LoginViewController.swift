@@ -74,6 +74,20 @@ final class LoginViewController: UIViewController {
                 switch output {
                 case .isLoginButtonEnabled(let isEnabled):
                     self.rootView.loginInputView.setLoginButtonEnabled(isEnabled)
+                    
+                case .navigateToAccountAction(let accountAction):
+                    // MARK: - 코디네이터 적용 필요
+                    let nextVC: UIViewController
+                    switch accountAction {
+                    case .findId:
+                        nextVC = FindIdViewController(findIdInputVM: FindIdViewModel())
+                    case .findPassword:
+                        nextVC = FindIdViewController(findIdInputVM: FindIdViewModel())
+                        print("패스워드뷰 호출(임시 아이디뷰 호출)")
+                    case .signUp:
+                        nextVC = NameInputViewController(nameInputVM: NameInputViewModel())
+                    }
+                    navigationController?.pushViewController(nextVC, animated: true)
                 }
             }
             .store(in: &cancellables)

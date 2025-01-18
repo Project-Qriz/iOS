@@ -100,6 +100,7 @@ final class FindIdViewController: UIViewController {
             guard let self = self else { return }
             print("확인 버튼 클릭")
             self.dismiss(animated: true)
+            self.navigationController?.popToRootViewController(animated: true)
         }
         
         let alertVC = CustomAlertViewController(

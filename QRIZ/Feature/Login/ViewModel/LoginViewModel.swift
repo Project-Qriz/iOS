@@ -34,7 +34,7 @@ final class LoginViewModel {
                 case .loginButtonTapped:
                     print("ViewModel에서 로그인 버튼 클릭 이벤트를 입력 받았습니다.")
                 case .accountActionSelected(let action):
-                    self.handleAccountAction(action)
+                    self.outputSubject.send(.navigateToAccountAction(action))
                 case .socialLoginSelected(let socialLogin):
                     self.handleSocialLogin(socialLogin)
                 }
@@ -47,17 +47,6 @@ final class LoginViewModel {
     private func validateFields() {
         let isValid = id.isValidId && password.isValidPassword
         outputSubject.send(.isLoginButtonEnabled(isValid))
-    }
-    
-    private func handleAccountAction(_ action: AccountAction) {
-        switch action {
-        case .findId:
-            print("아이디 찾기 뷰로 이동")
-        case .findPassword:
-            print("비밀번호 찾기 뷰로 이동")
-        case .signUp:
-            print("회원가입 뷰로 이동")
-        }
     }
     
     private func handleSocialLogin(_ socialLogin: SocialLogin) {
@@ -84,6 +73,7 @@ extension LoginViewModel {
     
     enum Output {
         case isLoginButtonEnabled(Bool)
+        case navigateToAccountAction(AccountAction)
     }
     
     enum AccountAction: String {
