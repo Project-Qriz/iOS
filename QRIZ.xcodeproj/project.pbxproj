@@ -62,7 +62,6 @@
 		E25F94D12D0CB74700BA765F /* OnboardingButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = E25F94D02D0CB74700BA765F /* OnboardingButton.swift */; };
 		E271CFAF2D3B9C560036BF29 /* WrongQuestionDropDown.swift in Sources */ = {isa = PBXBuildFile; fileRef = E271CFA62D3B9C560036BF29 /* WrongQuestionDropDown.swift */; };
 		E271CFB02D3B9C560036BF29 /* WrongQuestionSegment.swift in Sources */ = {isa = PBXBuildFile; fileRef = E271CFA72D3B9C560036BF29 /* WrongQuestionSegment.swift */; };
-		E271CFB12D3B9C560036BF29 /* WrongQuestionTitleLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E271CFA82D3B9C560036BF29 /* WrongQuestionTitleLabel.swift */; };
 		E271CFB22D3B9C560036BF29 /* WrongQuestionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E271CFA92D3B9C560036BF29 /* WrongQuestionViewController.swift */; };
 		E271CFB62D3B9E230036BF29 /* WrongQuestionDropDownList.swift in Sources */ = {isa = PBXBuildFile; fileRef = E271CFB52D3B9E230036BF29 /* WrongQuestionDropDownList.swift */; };
 		E271CFB82D3BA1760036BF29 /* ConceptCategory.swift in Sources */ = {isa = PBXBuildFile; fileRef = E271CFB72D3BA1760036BF29 /* ConceptCategory.swift */; };
@@ -188,7 +187,6 @@
 		E25F94D02D0CB74700BA765F /* OnboardingButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingButton.swift; sourceTree = "<group>"; };
 		E271CFA62D3B9C560036BF29 /* WrongQuestionDropDown.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WrongQuestionDropDown.swift; sourceTree = "<group>"; };
 		E271CFA72D3B9C560036BF29 /* WrongQuestionSegment.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WrongQuestionSegment.swift; sourceTree = "<group>"; };
-		E271CFA82D3B9C560036BF29 /* WrongQuestionTitleLabel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WrongQuestionTitleLabel.swift; sourceTree = "<group>"; };
 		E271CFA92D3B9C560036BF29 /* WrongQuestionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WrongQuestionViewController.swift; sourceTree = "<group>"; };
 		E271CFB52D3B9E230036BF29 /* WrongQuestionDropDownList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WrongQuestionDropDownList.swift; sourceTree = "<group>"; };
 		E271CFB72D3BA1760036BF29 /* ConceptCategory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConceptCategory.swift; sourceTree = "<group>"; };
@@ -605,7 +603,6 @@
 			children = (
 				E271CFA62D3B9C560036BF29 /* WrongQuestionDropDown.swift */,
 				E271CFA72D3B9C560036BF29 /* WrongQuestionSegment.swift */,
-				E271CFA82D3B9C560036BF29 /* WrongQuestionTitleLabel.swift */,
 				E271CFB52D3B9E230036BF29 /* WrongQuestionDropDownList.swift */,
 				E271CFB92D3BB1930036BF29 /* CategoryChoiceButton.swift */,
 			);
@@ -1010,7 +1007,6 @@
 				B168B7622D28073C0000F32E /* VerificationCodeInputView.swift in Sources */,
 				E271CFB22D3B9C560036BF29 /* WrongQuestionViewController.swift in Sources */,
 				548566492D123C94002BAEE3 /* NetworkRequest.swift in Sources */,
-				E271CFB12D3B9C560036BF29 /* WrongQuestionTitleLabel.swift in Sources */,
 				B168B7772D28481D0000F32E /* PasswordInputView.swift in Sources */,
 				B17FE30C2D27F931002EC7D7 /* CustomTextField.swift in Sources */,
 				E29CCD412D298656004AA30A /* PreviewResultViewController.swift in Sources */,
