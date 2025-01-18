@@ -64,6 +64,8 @@
 		E271CFB02D3B9C560036BF29 /* WrongQuestionSegment.swift in Sources */ = {isa = PBXBuildFile; fileRef = E271CFA72D3B9C560036BF29 /* WrongQuestionSegment.swift */; };
 		E271CFB12D3B9C560036BF29 /* WrongQuestionTitleLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E271CFA82D3B9C560036BF29 /* WrongQuestionTitleLabel.swift */; };
 		E271CFB22D3B9C560036BF29 /* WrongQuestionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E271CFA92D3B9C560036BF29 /* WrongQuestionViewController.swift */; };
+		E271CFB62D3B9E230036BF29 /* WrongQuestionDropDownList.swift in Sources */ = {isa = PBXBuildFile; fileRef = E271CFB52D3B9E230036BF29 /* WrongQuestionDropDownList.swift */; };
+		E271CFB82D3BA1760036BF29 /* TotalConcept.swift in Sources */ = {isa = PBXBuildFile; fileRef = E271CFB72D3BA1760036BF29 /* TotalConcept.swift */; };
 		E28BAD772D2C111100B8388D /* CustomAlertView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E28BAD762D2C111100B8388D /* CustomAlertView.swift */; };
 		E28BAD792D2C2DEB00B8388D /* CustomAlertViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E28BAD782D2C2DEB00B8388D /* CustomAlertViewController.swift */; };
 		E28BAD7C2D2C339100B8388D /* AlertType.swift in Sources */ = {isa = PBXBuildFile; fileRef = E28BAD7B2D2C339100B8388D /* AlertType.swift */; };
@@ -187,6 +189,8 @@
 		E271CFA72D3B9C560036BF29 /* WrongQuestionSegment.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WrongQuestionSegment.swift; sourceTree = "<group>"; };
 		E271CFA82D3B9C560036BF29 /* WrongQuestionTitleLabel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WrongQuestionTitleLabel.swift; sourceTree = "<group>"; };
 		E271CFA92D3B9C560036BF29 /* WrongQuestionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WrongQuestionViewController.swift; sourceTree = "<group>"; };
+		E271CFB52D3B9E230036BF29 /* WrongQuestionDropDownList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WrongQuestionDropDownList.swift; sourceTree = "<group>"; };
+		E271CFB72D3BA1760036BF29 /* TotalConcept.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TotalConcept.swift; sourceTree = "<group>"; };
 		E28BAD762D2C111100B8388D /* CustomAlertView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomAlertView.swift; sourceTree = "<group>"; };
 		E28BAD782D2C2DEB00B8388D /* CustomAlertViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomAlertViewController.swift; sourceTree = "<group>"; };
 		E28BAD7B2D2C339100B8388D /* AlertType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertType.swift; sourceTree = "<group>"; };
@@ -600,6 +604,7 @@
 				E271CFA62D3B9C560036BF29 /* WrongQuestionDropDown.swift */,
 				E271CFA72D3B9C560036BF29 /* WrongQuestionSegment.swift */,
 				E271CFA82D3B9C560036BF29 /* WrongQuestionTitleLabel.swift */,
+				E271CFB52D3B9E230036BF29 /* WrongQuestionDropDownList.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -627,6 +632,7 @@
 				E29BF86B2D16894C006DC6D0 /* TestModel */,
 				E29BF85A2D11D3B2006DC6D0 /* OnboardingModel */,
 				E28BAD7B2D2C339100B8388D /* AlertType.swift */,
+				E271CFB72D3BA1760036BF29 /* TotalConcept.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -986,6 +992,7 @@
 				E29CCD4A2D29867F004AA30A /* GreetingViewModel.swift in Sources */,
 				E29CCD3D2D298656004AA30A /* ConceptBarGraphHostingController.swift in Sources */,
 				E29CCD2F2D29855B004AA30A /* TestTimeLabel.swift in Sources */,
+				E271CFB82D3BA1760036BF29 /* TotalConcept.swift in Sources */,
 				B168B7732D2846C80000F32E /* PasswordInputViewController.swift in Sources */,
 				E239630D2D083B900092B39B /* ViewController.swift in Sources */,
 				E23824E12D0C3157009E7989 /* BeginOnboardingViewController.swift in Sources */,
@@ -1021,6 +1028,7 @@
 				E29CCD402D298656004AA30A /* PreviewResultTitleLabel.swift in Sources */,
 				541878612D0EC2970089F478 /* HTTPHeaderField.swift in Sources */,
 				B168B7642D28073C0000F32E /* VerificationCodeMainView.swift in Sources */,
+				E271CFB62D3B9E230036BF29 /* WrongQuestionDropDownList.swift in Sources */,
 				B168B76A2D2807470000F32E /* NameInputViewController.swift in Sources */,
 				548566552D124260002BAEE3 /* ExampleService.swift in Sources */,
 				E29CCD3F2D298656004AA30A /* IncorrectRankView.swift in Sources */,

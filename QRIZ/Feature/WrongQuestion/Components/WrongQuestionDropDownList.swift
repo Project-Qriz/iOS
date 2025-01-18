@@ -5,4 +5,14 @@
 //  Created by ch on 1/18/25.
 //
 
-import Foundation
+import UIKit
+
+final class WrongQuestionDropDownList: UIView {
+    init() {
+        super.init(frame: .zero)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError()
+    }
+}
