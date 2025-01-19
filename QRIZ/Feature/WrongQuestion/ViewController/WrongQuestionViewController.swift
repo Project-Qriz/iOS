@@ -18,12 +18,26 @@ final class WrongQuestionViewController: UIViewController {
     }()
     private let wrongQuestionDropDown = WrongQuestionDropDown()
     private let categoryChoiceButton = CategoryChoiceButton()
+    private let onlyIncorrectButton = OnlyIncorrectButton()
 
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = .white
-        self.navigationItem.title = "오답노트"
+        setNavigationTitle()
         addViews()
+    }
+    
+    private func setNavigationTitle() {
+        guard let navigationBar = navigationController?.navigationBar else {
+            return
+        }
+        
+        navigationBar.titleTextAttributes = [
+            .font: UIFont.boldSystemFont(ofSize: 18),
+            .foregroundColor: UIColor.coolNeutral800
+        ]
+        
+        navigationItem.title = "오답노트"
     }
 }
 
@@ -35,11 +49,13 @@ extension WrongQuestionViewController {
         self.view.addSubview(segmentBorder)
         self.view.addSubview(wrongQuestionDropDown)
         self.view.addSubview(categoryChoiceButton)
+        self.view.addSubview(onlyIncorrectButton)
 
         wrongQuestionSegment.translatesAutoresizingMaskIntoConstraints = false
         segmentBorder.translatesAutoresizingMaskIntoConstraints = false
         wrongQuestionDropDown.translatesAutoresizingMaskIntoConstraints = false
         categoryChoiceButton.translatesAutoresizingMaskIntoConstraints = false
+        onlyIncorrectButton.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
 
@@ -61,8 +77,14 @@ extension WrongQuestionViewController {
             categoryChoiceButton.topAnchor.constraint(equalTo: wrongQuestionDropDown.bottomAnchor, constant: 16),
             categoryChoiceButton.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: -18),
             categoryChoiceButton.widthAnchor.constraint(equalToConstant: 40),
-            categoryChoiceButton.heightAnchor.constraint(equalToConstant: 40)
+            categoryChoiceButton.heightAnchor.constraint(equalToConstant: 40),
+            
+            onlyIncorrectButton.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: -18),
+            onlyIncorrectButton.topAnchor.constraint(equalTo: categoryChoiceButton.bottomAnchor, constant: 10),
+            onlyIncorrectButton.widthAnchor.constraint(greaterThanOrEqualToConstant: 43),
+            onlyIncorrectButton.heightAnchor.constraint(equalToConstant: 21)
             
         ])
+        
     }
 }

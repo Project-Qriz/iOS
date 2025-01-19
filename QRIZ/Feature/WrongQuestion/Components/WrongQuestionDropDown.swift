@@ -35,6 +35,7 @@ final class WrongQuestionDropDown: UIView {
         super.init(frame: .zero)
         backgroundColor = .coolNeutral100
         addViews()
+        dropDownLabel.isUserInteractionEnabled = true
     }
     
     required init?(coder: NSCoder) {
