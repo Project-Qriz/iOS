@@ -59,6 +59,7 @@
 		B18F45122D3A26520030F7DB /* FindAccountInputView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B18F45112D3A26520030F7DB /* FindAccountInputView.swift */; };
 		B18F45152D3A40BE0030F7DB /* FindAccountType.swift in Sources */ = {isa = PBXBuildFile; fileRef = B18F45142D3A40BE0030F7DB /* FindAccountType.swift */; };
 		B18F45182D3A528B0030F7DB /* FindIdViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B18F45172D3A528B0030F7DB /* FindIdViewModel.swift */; };
+		B18F451A2D4139B00030F7DB /* UILabel+.swift in Sources */ = {isa = PBXBuildFile; fileRef = B18F45192D4139B00030F7DB /* UILabel+.swift */; };
 		B1D9A0E72D3686BA00E84934 /* CountdownTimer.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1D9A0E62D3686BA00E84934 /* CountdownTimer.swift */; };
 		E230669A2D2126B9001B509A /* PreviewScoresData.swift in Sources */ = {isa = PBXBuildFile; fileRef = E23066992D2126B9001B509A /* PreviewScoresData.swift */; };
 		E23824E12D0C3157009E7989 /* BeginOnboardingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E23824E02D0C3157009E7989 /* BeginOnboardingViewController.swift */; };
@@ -188,6 +189,7 @@
 		B18F45112D3A26520030F7DB /* FindAccountInputView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FindAccountInputView.swift; sourceTree = "<group>"; };
 		B18F45142D3A40BE0030F7DB /* FindAccountType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FindAccountType.swift; sourceTree = "<group>"; };
 		B18F45172D3A528B0030F7DB /* FindIdViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FindIdViewModel.swift; sourceTree = "<group>"; };
+		B18F45192D4139B00030F7DB /* UILabel+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UILabel+.swift"; sourceTree = "<group>"; };
 		B1D9A0E62D3686BA00E84934 /* CountdownTimer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountdownTimer.swift; sourceTree = "<group>"; };
 		E23066992D2126B9001B509A /* PreviewScoresData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreviewScoresData.swift; sourceTree = "<group>"; };
 		E23824E02D0C3157009E7989 /* BeginOnboardingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BeginOnboardingViewController.swift; sourceTree = "<group>"; };
@@ -415,6 +417,7 @@
 				B162881B2D2CFC63008057D0 /* UIView+.swift */,
 				B162881D2D2D6624008057D0 /* UIViewController+.swift */,
 				B16288212D2E3CAB008057D0 /* UINavigationBar+.swift */,
+				B18F45192D4139B00030F7DB /* UILabel+.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -1084,6 +1087,7 @@
 				5485664B2D123FC2002BAEE3 /* Network.swift in Sources */,
 				B162881E2D2D6624008057D0 /* UIViewController+.swift in Sources */,
 				54BC61592D1823F50094DC45 /* SocialLoginView.swift in Sources */,
+				B18F451A2D4139B00030F7DB /* UILabel+.swift in Sources */,
 				E23963092D083B900092B39B /* AppDelegate.swift in Sources */,
 				E2D70FE82D0DD322005A3F51 /* BeginTestViewModel.swift in Sources */,
 				E29BF86D2D16895B006DC6D0 /* QuestionData.swift in Sources */,
