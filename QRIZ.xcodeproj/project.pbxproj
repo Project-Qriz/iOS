@@ -99,6 +99,8 @@
 		E2D70FE82D0DD322005A3F51 /* BeginTestViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2D70FE72D0DD322005A3F51 /* BeginTestViewModel.swift */; };
 		E2D70FEC2D0EBDDD005A3F51 /* CheckListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2D70FEB2D0EBDDD005A3F51 /* CheckListCell.swift */; };
 		E2D70FEE2D0EC037005A3F51 /* CheckConceptViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2D70FED2D0EC037005A3F51 /* CheckConceptViewModel.swift */; };
+		E2D821152D40EAD90062B182 /* OnlyIncorrectMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2D821142D40EAD90062B182 /* OnlyIncorrectMenu.swift */; };
+		E2D821172D4105170062B182 /* OnlyIncorrectMenuItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2D821162D4105170062B182 /* OnlyIncorrectMenuItem.swift */; };
 		E2DD0E842D2144D000DA3D18 /* PreviewConceptsData.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2DD0E832D2144D000DA3D18 /* PreviewConceptsData.swift */; };
 		E2DD0E862D2146D900DA3D18 /* IncorrectCountData.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2DD0E852D2146D900DA3D18 /* IncorrectCountData.swift */; };
 /* End PBXBuildFile section */
@@ -225,6 +227,8 @@
 		E2D70FE72D0DD322005A3F51 /* BeginTestViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BeginTestViewModel.swift; sourceTree = "<group>"; };
 		E2D70FEB2D0EBDDD005A3F51 /* CheckListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckListCell.swift; sourceTree = "<group>"; };
 		E2D70FED2D0EC037005A3F51 /* CheckConceptViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckConceptViewModel.swift; sourceTree = "<group>"; };
+		E2D821142D40EAD90062B182 /* OnlyIncorrectMenu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnlyIncorrectMenu.swift; sourceTree = "<group>"; };
+		E2D821162D4105170062B182 /* OnlyIncorrectMenuItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnlyIncorrectMenuItem.swift; sourceTree = "<group>"; };
 		E2DD0E832D2144D000DA3D18 /* PreviewConceptsData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreviewConceptsData.swift; sourceTree = "<group>"; };
 		E2DD0E852D2146D900DA3D18 /* IncorrectCountData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IncorrectCountData.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -608,6 +612,8 @@
 				E271CFB52D3B9E230036BF29 /* WrongQuestionDropDownList.swift */,
 				E271CFB92D3BB1930036BF29 /* CategoryChoiceButton.swift */,
 				E271CFBB2D3BCA910036BF29 /* OnlyIncorrectButton.swift */,
+				E2D821142D40EAD90062B182 /* OnlyIncorrectMenu.swift */,
+				E2D821162D4105170062B182 /* OnlyIncorrectMenuItem.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -992,6 +998,7 @@
 				541878572D0E22700089F478 /* NetworkError.swift in Sources */,
 				E29CCD522D299AD5004AA30A /* IncorrectConceptsRankView.swift in Sources */,
 				E29CCD492D29867F004AA30A /* GreetingViewController.swift in Sources */,
+				E2D821172D4105170062B182 /* OnlyIncorrectMenuItem.swift in Sources */,
 				E29CCD1C2D298303004AA30A /* PreviewTestViewController.swift in Sources */,
 				E29CCD4A2D29867F004AA30A /* GreetingViewModel.swift in Sources */,
 				E29CCD3D2D298656004AA30A /* ConceptBarGraphHostingController.swift in Sources */,
@@ -1052,6 +1059,7 @@
 				E29CCD3E2D298656004AA30A /* ConceptBarGraphView.swift in Sources */,
 				E25F94CD2D0CB50F00BA765F /* OnboardingSubtitleLabel.swift in Sources */,
 				54BC61572D18141B0094DC45 /* AccountOptionsView.swift in Sources */,
+				E2D821152D40EAD90062B182 /* OnlyIncorrectMenu.swift in Sources */,
 				E29CCD1E2D298316004AA30A /* PreviewTestViewModel.swift in Sources */,
 				E271CFB02D3B9C560036BF29 /* WrongQuestionSegment.swift in Sources */,
 				E29CCD442D298656004AA30A /* ScoreCircularChartView.swift in Sources */,

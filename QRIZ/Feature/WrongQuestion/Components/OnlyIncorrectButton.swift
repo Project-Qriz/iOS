@@ -10,45 +10,60 @@ import UIKit
 final class OnlyIncorrectButton: UIButton {
     
     // MARK: - Properties
-    private lazy var menuItems: UIMenu = UIMenu(title: "", options: [], children: [
-        UIAction(title: "모두", handler: { [weak self] _ in
-            guard let self = self else { return }
-
-            self.setTitleText(isIncorrectOnly: false)
-        }),
-        UIAction(title: "오답만",  handler: { [weak self] _ in
-            guard let self = self else { return }
-            
-            setTitleText(isIncorrectOnly: true)
-        })
-    ])
+    private let optionLabel: UILabel = {
+        let label = UILabel()
+        label.font = .systemFont(ofSize: 14, weight: .medium)
+        label.textColor = .coolNeutral800
+        label.textAlignment = .right
+        label.text = "모두"
+        return label
+    }()
+    
+    private let chevronImageView: UIImageView = {
+        let image = UIImage(systemName: "chevron.down")?.withRenderingMode(.alwaysTemplate) ?? UIImage()
+        let imageView = UIImageView(image: image)
+        imageView.tintColor = .coolNeutral800
+        return imageView
+    }()
     
     // MARK: - Intializer
     init() {
         super.init(frame: .zero)
-        menu = menuItems
-        setTitleText(isIncorrectOnly: false)
-        self.showsMenuAsPrimaryAction = true
+        addViews()
     }
     
     required init?(coder: NSCoder) {
         fatalError("no initializer for coder: OnlyIncorrectButton")
     }
+    
+    // MARK: - Public Method
+    func setOptionLabelTitle(isCorrectOnly: Bool) {
+        if isCorrectOnly {
+            optionLabel.text = "오답만"
+        } else {
+            optionLabel.text = "전체"
+        }
+    }
 }
 
-// MARK: - UI
+// MARK: - Auto Layout
 extension OnlyIncorrectButton {
-    private func setTitleText(isIncorrectOnly: Bool) {
-        isIncorrectOnly ?
-        setAttributedTitle(NSAttributedString(string: "오답만", attributes: [
-            .font: UIFont.systemFont(ofSize: 14, weight: .medium),
-            .foregroundColor: UIColor.coolNeutral800
-        ]), for: .normal) :
-        setAttributedTitle(NSAttributedString(string: "모두", attributes: [
-            .font: UIFont.systemFont(ofSize: 14, weight: .medium),
-            .foregroundColor: UIColor.coolNeutral800
-        ]), for: .normal)
+    private func addViews() {
+
+        addSubview(optionLabel)
+        addSubview(chevronImageView)
         
-        imageView?.image = UIImage(systemName: "chevron.down")
+        optionLabel.translatesAutoresizingMaskIntoConstraints = false
+        chevronImageView.translatesAutoresizingMaskIntoConstraints = false
+        
+        NSLayoutConstraint.activate([
+            chevronImageView.widthAnchor.constraint(equalToConstant: 9),
+            chevronImageView.heightAnchor.constraint(equalToConstant: 4.5),
+            chevronImageView.trailingAnchor.constraint(equalTo: self.trailingAnchor),
+            chevronImageView.centerYAnchor.constraint(equalTo: self.centerYAnchor),
+            
+            optionLabel.centerYAnchor.constraint(equalTo: chevronImageView.centerYAnchor),
+            optionLabel.trailingAnchor.constraint(equalTo: chevronImageView.leadingAnchor, constant: -6)
+        ])
     }
 }

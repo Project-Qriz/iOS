@@ -19,6 +19,7 @@ final class WrongQuestionViewController: UIViewController {
     private let wrongQuestionDropDown = WrongQuestionDropDown()
     private let categoryChoiceButton = CategoryChoiceButton()
     private let onlyIncorrectButton = OnlyIncorrectButton()
+    private let onlyIncorrectMenu = OnlyIncorrectMenu()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -50,12 +51,14 @@ extension WrongQuestionViewController {
         self.view.addSubview(wrongQuestionDropDown)
         self.view.addSubview(categoryChoiceButton)
         self.view.addSubview(onlyIncorrectButton)
+        self.view.addSubview(onlyIncorrectMenu)
 
         wrongQuestionSegment.translatesAutoresizingMaskIntoConstraints = false
         segmentBorder.translatesAutoresizingMaskIntoConstraints = false
         wrongQuestionDropDown.translatesAutoresizingMaskIntoConstraints = false
         categoryChoiceButton.translatesAutoresizingMaskIntoConstraints = false
         onlyIncorrectButton.translatesAutoresizingMaskIntoConstraints = false
+        onlyIncorrectMenu.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
 
@@ -80,11 +83,16 @@ extension WrongQuestionViewController {
             categoryChoiceButton.heightAnchor.constraint(equalToConstant: 40),
             
             onlyIncorrectButton.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: -18),
-            onlyIncorrectButton.topAnchor.constraint(equalTo: categoryChoiceButton.bottomAnchor, constant: 10),
+            onlyIncorrectButton.topAnchor.constraint(equalTo: categoryChoiceButton.bottomAnchor, constant: 24),
             onlyIncorrectButton.widthAnchor.constraint(greaterThanOrEqualToConstant: 43),
-            onlyIncorrectButton.heightAnchor.constraint(equalToConstant: 21)
+            onlyIncorrectButton.heightAnchor.constraint(equalToConstant: 21),
             
+            onlyIncorrectMenu.topAnchor.constraint(equalTo: onlyIncorrectButton.bottomAnchor, constant: 16),
+            onlyIncorrectMenu.trailingAnchor.constraint(equalTo: onlyIncorrectButton.trailingAnchor),
+            onlyIncorrectMenu.widthAnchor.constraint(equalToConstant: 123),
+            onlyIncorrectMenu.heightAnchor.constraint(equalToConstant: 82)
         ])
         
+//        onlyIncorrectMenu.isHidden = true
     }
 }
