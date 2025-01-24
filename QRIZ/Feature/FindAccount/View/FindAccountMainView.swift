@@ -12,14 +12,14 @@ final class FindAccountMainView: UIView {
     // MARK: - Enums
     
     private enum Metric {
-        static let headerViewTopOffset: CGFloat = 24.0
-        static let inputViewTopOffset: CGFloat = 32.0
+        static let headerViewTopOffset: CGFloat = 40.0
+        static let inputViewTopOffset: CGFloat = 20.0
         static let horizontalMargin: CGFloat = 18.0
         static let signupFooterViewBottomOffset: CGFloat = -16.0
     }
     
     private enum Attributes {
-        static let buttonTitle: String = "이메일 발송"
+        static let buttonTitle: String = "아이디 찾기"
     }
     
     // MARK: - Properties
@@ -47,7 +47,7 @@ final class FindAccountMainView: UIView {
         self.backgroundColor = .white
         findAccountHeaderView.configure(
             title: type.headerTitle,
-            description: type.headerDescription
+            description: UILabel.setLineSpacing(8, text: type.headerDescription)
         )
         signupFooterView.configure(buttonTitle: Attributes.buttonTitle)
     }

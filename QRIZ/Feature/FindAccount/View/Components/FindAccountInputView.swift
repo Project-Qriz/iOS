@@ -14,16 +14,14 @@ final class FindAccountInputView: UIView {
     
     private enum Metric {
         static let textFieldHeight: CGFloat = 48.0
-        static let textFieldTopOffset: CGFloat = 12.0
-        static let inputErrorLabelTopOffset: CGFloat = 8.0
+        static let inputErrorLabelTopOffset: CGFloat = 4.0
     }
     
     // MARK: - Enums
     
     private enum Attributes {
-        static let titleLabelText: String = "이메일"
-        static let placeholder: String = "chaeyoung1106@qriz.com"
-        static let errorLabelText: String = "이메일을 다시 확인해 주세요."
+        static let placeholder: String = "qriz@gmail.com"
+        static let errorLabelText: String = "올바른 이메일 형식으로 입력해주세요."
     }
     
     // MARK: - Properties
@@ -34,16 +32,11 @@ final class FindAccountInputView: UIView {
     
     // MARK: - UI
     
-    private let titleLabel: UILabel = {
-        let label = UILabel()
-        label.text = Attributes.titleLabelText
-        label.font = .systemFont(ofSize: 16, weight: .bold)
-        label.textColor = .coolNeutral600
-        return label
-    }()
-    
     private lazy var textField: UITextField = {
-        let textField = CustomTextField(placeholder: Attributes.placeholder)
+        let textField = CustomTextField(
+            placeholder: Attributes.placeholder,
+            rightViewType: .clearButton
+        )
         textField.delegate = self
         return textField
     }()
@@ -79,7 +72,7 @@ final class FindAccountInputView: UIView {
     func updateErrorState(isValid: Bool) {
         inputErrorLabel.isHidden = isValid
         textField.layer.borderColor = isValid
-        ? UIColor.clear.cgColor
+        ? UIColor.coolNeutral600.cgColor
         : UIColor.customRed500.cgColor
     }
 }
@@ -89,24 +82,17 @@ final class FindAccountInputView: UIView {
 extension FindAccountInputView {
     private func addSubviews() {
         [
-            titleLabel,
             textField,
             inputErrorLabel
         ].forEach(addSubview(_:))
     }
     
     private func setupConstraints() {
-        titleLabel.translatesAutoresizingMaskIntoConstraints = false
         textField.translatesAutoresizingMaskIntoConstraints = false
         inputErrorLabel.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
-            titleLabel.topAnchor.constraint(equalTo: topAnchor),
-            titleLabel.leadingAnchor.constraint(equalTo: leadingAnchor),
-            
-            textField.topAnchor.constraint(
-                equalTo: titleLabel.bottomAnchor, constant: Metric.textFieldTopOffset
-            ),
+            textField.topAnchor.constraint(equalTo: topAnchor),
             textField.leadingAnchor.constraint(equalTo: leadingAnchor),
             textField.trailingAnchor.constraint(equalTo: trailingAnchor),
             textField.heightAnchor.constraint(equalToConstant: Metric.textFieldHeight),

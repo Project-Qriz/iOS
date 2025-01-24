@@ -14,7 +14,7 @@ enum FindAccountType {
     var headerTitle: String {
         switch self {
         case .findId:
-            return "아이디를 잊으셨나요?"
+            return "이메일로 아이디를 전송해 드릴게요."
         case .findPassword:
             return "비밀번호를 잊으셨나요?"
         }
@@ -23,9 +23,9 @@ enum FindAccountType {
     var headerDescription: String {
         switch self {
         case .findId:
-            return "Qriz에 가입했던 이메일을 입력하시면\n아이디를 메일로 보내드립니다."
+            return "가입했던 이메일을 입력하고\n'아이디 찾기' 버튼을 눌러주세요."
         case .findPassword:
-            return "기존에 가입할때 사용한 이메일을 입력하시면\n비밀번호 변경 메일을 전송해드립니다."
+            return "이메일로 인증과정을 거친 후,\n재설정 할 수 있도록 도와드릴게요."
         }
     }
 }
