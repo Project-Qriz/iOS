@@ -66,7 +66,8 @@
 		E271CFB62D3B9E230036BF29 /* WrongQuestionDropDownList.swift in Sources */ = {isa = PBXBuildFile; fileRef = E271CFB52D3B9E230036BF29 /* WrongQuestionDropDownList.swift */; };
 		E271CFB82D3BA1760036BF29 /* ConceptCategory.swift in Sources */ = {isa = PBXBuildFile; fileRef = E271CFB72D3BA1760036BF29 /* ConceptCategory.swift */; };
 		E271CFBA2D3BB1930036BF29 /* CategoryChoiceButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = E271CFB92D3BB1930036BF29 /* CategoryChoiceButton.swift */; };
-		E271CFBC2D3BCA910036BF29 /* OnlyIncorrectButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = E271CFBB2D3BCA910036BF29 /* OnlyIncorrectButton.swift */; };
+		E271CFBC2D3BCA910036BF29 /* WrongQuestionMenuButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = E271CFBB2D3BCA910036BF29 /* WrongQuestionMenuButton.swift */; };
+		E271CFBE2D424A9F0036BF29 /* WrongQuestionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E271CFBD2D424A9F0036BF29 /* WrongQuestionViewModel.swift */; };
 		E28BAD772D2C111100B8388D /* CustomAlertView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E28BAD762D2C111100B8388D /* CustomAlertView.swift */; };
 		E28BAD792D2C2DEB00B8388D /* CustomAlertViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E28BAD782D2C2DEB00B8388D /* CustomAlertViewController.swift */; };
 		E28BAD7C2D2C339100B8388D /* AlertType.swift in Sources */ = {isa = PBXBuildFile; fileRef = E28BAD7B2D2C339100B8388D /* AlertType.swift */; };
@@ -99,8 +100,8 @@
 		E2D70FE82D0DD322005A3F51 /* BeginTestViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2D70FE72D0DD322005A3F51 /* BeginTestViewModel.swift */; };
 		E2D70FEC2D0EBDDD005A3F51 /* CheckListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2D70FEB2D0EBDDD005A3F51 /* CheckListCell.swift */; };
 		E2D70FEE2D0EC037005A3F51 /* CheckConceptViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2D70FED2D0EC037005A3F51 /* CheckConceptViewModel.swift */; };
-		E2D821152D40EAD90062B182 /* OnlyIncorrectMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2D821142D40EAD90062B182 /* OnlyIncorrectMenu.swift */; };
-		E2D821172D4105170062B182 /* OnlyIncorrectMenuItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2D821162D4105170062B182 /* OnlyIncorrectMenuItem.swift */; };
+		E2D821152D40EAD90062B182 /* WrongQuestionMenuItems.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2D821142D40EAD90062B182 /* WrongQuestionMenuItems.swift */; };
+		E2D821172D4105170062B182 /* WrongQuestionMenuItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2D821162D4105170062B182 /* WrongQuestionMenuItem.swift */; };
 		E2DD0E842D2144D000DA3D18 /* PreviewConceptsData.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2DD0E832D2144D000DA3D18 /* PreviewConceptsData.swift */; };
 		E2DD0E862D2146D900DA3D18 /* IncorrectCountData.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2DD0E852D2146D900DA3D18 /* IncorrectCountData.swift */; };
 /* End PBXBuildFile section */
@@ -194,7 +195,8 @@
 		E271CFB52D3B9E230036BF29 /* WrongQuestionDropDownList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WrongQuestionDropDownList.swift; sourceTree = "<group>"; };
 		E271CFB72D3BA1760036BF29 /* ConceptCategory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConceptCategory.swift; sourceTree = "<group>"; };
 		E271CFB92D3BB1930036BF29 /* CategoryChoiceButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryChoiceButton.swift; sourceTree = "<group>"; };
-		E271CFBB2D3BCA910036BF29 /* OnlyIncorrectButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnlyIncorrectButton.swift; sourceTree = "<group>"; };
+		E271CFBB2D3BCA910036BF29 /* WrongQuestionMenuButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WrongQuestionMenuButton.swift; sourceTree = "<group>"; };
+		E271CFBD2D424A9F0036BF29 /* WrongQuestionViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WrongQuestionViewModel.swift; sourceTree = "<group>"; };
 		E28BAD762D2C111100B8388D /* CustomAlertView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomAlertView.swift; sourceTree = "<group>"; };
 		E28BAD782D2C2DEB00B8388D /* CustomAlertViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomAlertViewController.swift; sourceTree = "<group>"; };
 		E28BAD7B2D2C339100B8388D /* AlertType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertType.swift; sourceTree = "<group>"; };
@@ -227,8 +229,8 @@
 		E2D70FE72D0DD322005A3F51 /* BeginTestViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BeginTestViewModel.swift; sourceTree = "<group>"; };
 		E2D70FEB2D0EBDDD005A3F51 /* CheckListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckListCell.swift; sourceTree = "<group>"; };
 		E2D70FED2D0EC037005A3F51 /* CheckConceptViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckConceptViewModel.swift; sourceTree = "<group>"; };
-		E2D821142D40EAD90062B182 /* OnlyIncorrectMenu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnlyIncorrectMenu.swift; sourceTree = "<group>"; };
-		E2D821162D4105170062B182 /* OnlyIncorrectMenuItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnlyIncorrectMenuItem.swift; sourceTree = "<group>"; };
+		E2D821142D40EAD90062B182 /* WrongQuestionMenuItems.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WrongQuestionMenuItems.swift; sourceTree = "<group>"; };
+		E2D821162D4105170062B182 /* WrongQuestionMenuItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WrongQuestionMenuItem.swift; sourceTree = "<group>"; };
 		E2DD0E832D2144D000DA3D18 /* PreviewConceptsData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreviewConceptsData.swift; sourceTree = "<group>"; };
 		E2DD0E852D2146D900DA3D18 /* IncorrectCountData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IncorrectCountData.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -598,6 +600,7 @@
 		E271CFAA2D3B9C560036BF29 /* WrongQuestion */ = {
 			isa = PBXGroup;
 			children = (
+				E271CFBF2D424AA70036BF29 /* ViewModel */,
 				E271CFB42D3B9D1A0036BF29 /* ViewController */,
 				E271CFB32D3B9D0D0036BF29 /* Components */,
 			);
@@ -611,9 +614,9 @@
 				E271CFA72D3B9C560036BF29 /* WrongQuestionSegment.swift */,
 				E271CFB52D3B9E230036BF29 /* WrongQuestionDropDownList.swift */,
 				E271CFB92D3BB1930036BF29 /* CategoryChoiceButton.swift */,
-				E271CFBB2D3BCA910036BF29 /* OnlyIncorrectButton.swift */,
-				E2D821142D40EAD90062B182 /* OnlyIncorrectMenu.swift */,
-				E2D821162D4105170062B182 /* OnlyIncorrectMenuItem.swift */,
+				E271CFBB2D3BCA910036BF29 /* WrongQuestionMenuButton.swift */,
+				E2D821142D40EAD90062B182 /* WrongQuestionMenuItems.swift */,
+				E2D821162D4105170062B182 /* WrongQuestionMenuItem.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -624,6 +627,14 @@
 				E271CFA92D3B9C560036BF29 /* WrongQuestionViewController.swift */,
 			);
 			path = ViewController;
+			sourceTree = "<group>";
+		};
+		E271CFBF2D424AA70036BF29 /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				E271CFBD2D424A9F0036BF29 /* WrongQuestionViewModel.swift */,
+			);
+			path = ViewModel;
 			sourceTree = "<group>";
 		};
 		E28BAD7A2D2C326400B8388D /* CustomAlert */ = {
@@ -994,11 +1005,11 @@
 				B17FE3062D27F85C002EC7D7 /* LoginViewModel.swift in Sources */,
 				E28BAD792D2C2DEB00B8388D /* CustomAlertViewController.swift in Sources */,
 				E271CFAF2D3B9C560036BF29 /* WrongQuestionDropDown.swift in Sources */,
-				E271CFBC2D3BCA910036BF29 /* OnlyIncorrectButton.swift in Sources */,
+				E271CFBC2D3BCA910036BF29 /* WrongQuestionMenuButton.swift in Sources */,
 				541878572D0E22700089F478 /* NetworkError.swift in Sources */,
 				E29CCD522D299AD5004AA30A /* IncorrectConceptsRankView.swift in Sources */,
 				E29CCD492D29867F004AA30A /* GreetingViewController.swift in Sources */,
-				E2D821172D4105170062B182 /* OnlyIncorrectMenuItem.swift in Sources */,
+				E2D821172D4105170062B182 /* WrongQuestionMenuItem.swift in Sources */,
 				E29CCD1C2D298303004AA30A /* PreviewTestViewController.swift in Sources */,
 				E29CCD4A2D29867F004AA30A /* GreetingViewModel.swift in Sources */,
 				E29CCD3D2D298656004AA30A /* ConceptBarGraphHostingController.swift in Sources */,
@@ -1032,6 +1043,7 @@
 				E25F94C82D0CAF1B00BA765F /* BeginTestViewController.swift in Sources */,
 				B168B7692D2807470000F32E /* EmailInputViewController.swift in Sources */,
 				54DB0D9D2D09513300ABD458 /* AppCoordinator.swift in Sources */,
+				E271CFBE2D424A9F0036BF29 /* WrongQuestionViewModel.swift in Sources */,
 				54E91B762D18FACD00474D0A /* RoundButton.swift in Sources */,
 				54DB0D992D0950DE00ABD458 /* ViewModel.swift in Sources */,
 				B17FE30A2D27F8E9002EC7D7 /* UITextField+.swift in Sources */,
@@ -1059,7 +1071,7 @@
 				E29CCD3E2D298656004AA30A /* ConceptBarGraphView.swift in Sources */,
 				E25F94CD2D0CB50F00BA765F /* OnboardingSubtitleLabel.swift in Sources */,
 				54BC61572D18141B0094DC45 /* AccountOptionsView.swift in Sources */,
-				E2D821152D40EAD90062B182 /* OnlyIncorrectMenu.swift in Sources */,
+				E2D821152D40EAD90062B182 /* WrongQuestionMenuItems.swift in Sources */,
 				E29CCD1E2D298316004AA30A /* PreviewTestViewModel.swift in Sources */,
 				E271CFB02D3B9C560036BF29 /* WrongQuestionSegment.swift in Sources */,
 				E29CCD442D298656004AA30A /* ScoreCircularChartView.swift in Sources */,

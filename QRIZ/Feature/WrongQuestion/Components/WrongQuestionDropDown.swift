@@ -33,7 +33,7 @@ final class WrongQuestionDropDown: UIView {
     // MARK: - initializer
     init() {
         super.init(frame: .zero)
-        backgroundColor = .coolNeutral100
+        backgroundColor = .customBlue50
         addViews()
         dropDownLabel.isUserInteractionEnabled = true
     }

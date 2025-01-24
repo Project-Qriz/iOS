@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Combine
 
 final class WrongQuestionViewController: UIViewController {
     
@@ -18,15 +19,56 @@ final class WrongQuestionViewController: UIViewController {
     }()
     private let wrongQuestionDropDown = WrongQuestionDropDown()
     private let categoryChoiceButton = CategoryChoiceButton()
-    private let onlyIncorrectButton = OnlyIncorrectButton()
-    private let onlyIncorrectMenu = OnlyIncorrectMenu()
+    private let menuButton = WrongQuestionMenuButton()
+    private let menuItems = WrongQuestionMenuItems()
+    
+    private let viewModel = WrongQuestionViewModel()
+    private let input: PassthroughSubject<WrongQuestionViewModel.Input, Never> = .init()
+    private var subscriptions = Set<AnyCancellable>()
 
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = .white
+        bind()
         setNavigationTitle()
         addViews()
     }
+    
+    private func bind() {
+        
+        let mergedInput = Publishers.Merge4(input, wrongQuestionSegment.input, menuButton.input, menuItems.input)
+        let output = viewModel.transform(input: mergedInput.eraseToAnyPublisher())
+        
+        output
+            .receive(on: RunLoop.main)
+            .sink { [weak self] event in
+                guard let self = self else { return }
+                switch event {
+                case .foldDropDown:
+                    print("fold drop down")
+                    // drop down collectionView hidden
+                case .unfoldDropDown:
+                    print("unfold drop down")
+                    // drop down collectionView !hidden
+                case .foldMenu:
+                    menuItems.isHidden = true
+                case .unfoldMenu:
+                    menuItems.isHidden = false
+                case .setMenuItemState(let isIncorrectOnly):
+                    menuButton.setOptionLabelTitle(isCorrectOnly: isIncorrectOnly)
+                    menuItems.setItemsState(isIncorrectOnly: isIncorrectOnly)
+                case .setSegmentState(let isDaily):
+                    wrongQuestionSegment.setUnderlineState(isDailyClicked: isDaily)
+                case .showModal:
+                    print("show modal")
+                }
+            }
+            .store(in: &subscriptions)
+    }
+}
+
+// MARK: - UI Methods
+extension WrongQuestionViewController {
     
     private func setNavigationTitle() {
         guard let navigationBar = navigationController?.navigationBar else {
@@ -40,6 +82,8 @@ final class WrongQuestionViewController: UIViewController {
         
         navigationItem.title = "오답노트"
     }
+    
+    
 }
 
 // MARK: - Auto Layout
@@ -50,15 +94,15 @@ extension WrongQuestionViewController {
         self.view.addSubview(segmentBorder)
         self.view.addSubview(wrongQuestionDropDown)
         self.view.addSubview(categoryChoiceButton)
-        self.view.addSubview(onlyIncorrectButton)
-        self.view.addSubview(onlyIncorrectMenu)
+        self.view.addSubview(menuButton)
+        self.view.addSubview(menuItems)
 
         wrongQuestionSegment.translatesAutoresizingMaskIntoConstraints = false
         segmentBorder.translatesAutoresizingMaskIntoConstraints = false
         wrongQuestionDropDown.translatesAutoresizingMaskIntoConstraints = false
         categoryChoiceButton.translatesAutoresizingMaskIntoConstraints = false
-        onlyIncorrectButton.translatesAutoresizingMaskIntoConstraints = false
-        onlyIncorrectMenu.translatesAutoresizingMaskIntoConstraints = false
+        menuButton.translatesAutoresizingMaskIntoConstraints = false
+        menuItems.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
 
@@ -82,17 +126,15 @@ extension WrongQuestionViewController {
             categoryChoiceButton.widthAnchor.constraint(equalToConstant: 40),
             categoryChoiceButton.heightAnchor.constraint(equalToConstant: 40),
             
-            onlyIncorrectButton.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: -18),
-            onlyIncorrectButton.topAnchor.constraint(equalTo: categoryChoiceButton.bottomAnchor, constant: 24),
-            onlyIncorrectButton.widthAnchor.constraint(greaterThanOrEqualToConstant: 43),
-            onlyIncorrectButton.heightAnchor.constraint(equalToConstant: 21),
+            menuButton.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: -18),
+            menuButton.topAnchor.constraint(equalTo: categoryChoiceButton.bottomAnchor, constant: 24),
+            menuButton.widthAnchor.constraint(greaterThanOrEqualToConstant: 43),
+            menuButton.heightAnchor.constraint(equalToConstant: 21),
             
-            onlyIncorrectMenu.topAnchor.constraint(equalTo: onlyIncorrectButton.bottomAnchor, constant: 16),
-            onlyIncorrectMenu.trailingAnchor.constraint(equalTo: onlyIncorrectButton.trailingAnchor),
-            onlyIncorrectMenu.widthAnchor.constraint(equalToConstant: 123),
-            onlyIncorrectMenu.heightAnchor.constraint(equalToConstant: 82)
+            menuItems.topAnchor.constraint(equalTo: menuButton.bottomAnchor, constant: 16),
+            menuItems.trailingAnchor.constraint(equalTo: menuButton.trailingAnchor)
         ])
         
-//        onlyIncorrectMenu.isHidden = true
+        menuItems.isHidden = true
     }
 }

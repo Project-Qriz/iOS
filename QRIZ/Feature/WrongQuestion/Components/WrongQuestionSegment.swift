@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Combine
 
 final class WrongQuestionSegment: UIView {
     
@@ -20,7 +21,8 @@ final class WrongQuestionSegment: UIView {
         segmentedControl.setTitleTextAttributes([.foregroundColor: UIColor.coolNeutral800, .font: UIFont.systemFont(ofSize: 16, weight: .bold)], for: .selected)
         segmentedControl.setBackgroundImage(UIImage(), for: .normal, barMetrics: .default)
         segmentedControl.setDividerImage(UIImage(), forLeftSegmentState: .normal, rightSegmentState: .normal, barMetrics: .default)
-        
+        segmentedControl.selectedSegmentIndex = 0
+
         return segmentedControl
     }()
     private let dailyTestUnderline: UIView = {
@@ -34,19 +36,22 @@ final class WrongQuestionSegment: UIView {
         return view
     }()
     
+    let input: PassthroughSubject<WrongQuestionViewModel.Input, Never> = .init()
+    
     // MARK: - Initializer
     init() {
         super.init(frame: .zero)
         addViews()
-
+        setUnderlineState(isDailyClicked: true)
+        setSegmentAction()
     }
     
     required init?(coder: NSCoder) {
         fatalError("no initializer for coder: WrongQuestionSegment")
     }
     
-    func setUnderlineState(_ isDailyTestClicked: Bool) {
-        if isDailyTestClicked {
+    func setUnderlineState(isDailyClicked: Bool) {
+        if isDailyClicked {
             dailyTestUnderline.isHidden = false
             mockExamUnderline.isHidden = true
         } else {
@@ -55,6 +60,13 @@ final class WrongQuestionSegment: UIView {
         }
     }
     
+    func setSegmentAction() {
+        segmentedControl.addTarget(self, action: #selector(sendSegmentClicked(_:)), for: .valueChanged)
+    }
+    
+    @objc func sendSegmentClicked(_ sender: UISegmentedControl) {
+        sender.selectedSegmentIndex == 0 ? input.send(.segmentClicked(isDaily: true)) : input.send(.segmentClicked(isDaily: false))
+    }
 }
 
 // MARK: - Auto Layout, View settings
@@ -84,15 +96,11 @@ extension WrongQuestionSegment {
             mockExamUnderline.leadingAnchor.constraint(equalTo: self.centerXAnchor),
             mockExamUnderline.trailingAnchor.constraint(equalTo: self.trailingAnchor),
             mockExamUnderline.bottomAnchor.constraint(equalTo: segmentedControl.bottomAnchor),
-            dailyTestUnderline.heightAnchor.constraint(equalToConstant: 3)
+            mockExamUnderline.heightAnchor.constraint(equalToConstant: 3)
         ])
-    }
-    
-    private func setUnderlinesInitState() {
+        
         bringSubviewToFront(dailyTestUnderline)
         bringSubviewToFront(mockExamUnderline)
-        
-        mockExamUnderline.isHidden = true
     }
 }
 

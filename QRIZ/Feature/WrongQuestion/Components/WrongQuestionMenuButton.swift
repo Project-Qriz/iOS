@@ -6,8 +6,9 @@
 //
 
 import UIKit
+import Combine
 
-final class OnlyIncorrectButton: UIButton {
+final class WrongQuestionMenuButton: UIView {
     
     // MARK: - Properties
     private let optionLabel: UILabel = {
@@ -26,10 +27,13 @@ final class OnlyIncorrectButton: UIButton {
         return imageView
     }()
     
+    let input: PassthroughSubject<WrongQuestionViewModel.Input, Never> = .init()
+    
     // MARK: - Intializer
     init() {
         super.init(frame: .zero)
         addViews()
+        setButtonAction()
     }
     
     required init?(coder: NSCoder) {
@@ -41,13 +45,22 @@ final class OnlyIncorrectButton: UIButton {
         if isCorrectOnly {
             optionLabel.text = "오답만"
         } else {
-            optionLabel.text = "전체"
+            optionLabel.text = "모두"
         }
+    }
+    
+    // MARK: - Action
+    private func setButtonAction() {
+        addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(sendMenuButtonClicked)))
+    }
+    
+    @objc private func sendMenuButtonClicked() {
+        input.send(.menuButtonClicked)
     }
 }
 
 // MARK: - Auto Layout
-extension OnlyIncorrectButton {
+extension WrongQuestionMenuButton {
     private func addViews() {
 
         addSubview(optionLabel)

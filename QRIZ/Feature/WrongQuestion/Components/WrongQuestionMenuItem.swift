@@ -7,7 +7,7 @@
 
 import UIKit
 
-final class OnlyIncorrectMenuItem: UILabel {
+final class WrongQuestionMenuItem: UILabel {
 
     init(title: String) {
         super.init(frame: .zero)
@@ -16,6 +16,7 @@ final class OnlyIncorrectMenuItem: UILabel {
         textColor = .coolNeutral800
         textAlignment = .left
         text = title
+        isUserInteractionEnabled = true
     }
     
     required init?(coder: NSCoder) {
