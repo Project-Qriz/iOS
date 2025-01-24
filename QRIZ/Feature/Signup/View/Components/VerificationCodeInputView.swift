@@ -42,8 +42,8 @@ final class VerificationCodeInputView: UIView {
     private lazy var codeTextField: UITextField = {
         let textField = CustomTextField(
             placeholder: Attributes.placeholder,
-            rightView: wrapLabelInPaddingView(label: timerLabel),
-            rightViewMode: .always
+            isSecure: false,
+            rightViewType: .custom(wrapLabelInPaddingView(label: timerLabel))
         )
         textField.keyboardType = .numberPad
         textField.delegate = self

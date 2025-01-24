@@ -23,7 +23,6 @@ final class LoginInputView: UIView {
         static let idPlaceholder = "아이디를 입력해 주세요"
         static let passwordPlaceholder = "비밀번호를 입력해 주세요"
         static let loginButtonTitle = "로그인"
-        static let xmarkImage = "xmark.circle.fill"
     }
     
     // MARK: - Properties
@@ -46,41 +45,15 @@ final class LoginInputView: UIView {
     
     private lazy var idTextField = CustomTextField(
         placeholder: Attributes.idPlaceholder,
-        rightView: wrapButtonInPaddingView(button: clearButton),
-        rightViewMode: .whileEditing
+        isSecure: false,
+        rightViewType: .clearButton
     )
     
     private lazy var passwordTextField = CustomTextField(
         placeholder: Attributes.passwordPlaceholder,
         isSecure: true,
-        rightView: wrapButtonInPaddingView(button: passwordToggleButton),
-        rightViewMode: .whileEditing
+        rightViewType: .passwordToggle
     )
-    
-    private lazy var clearButton: UIButton = {
-        let button = UIButton(type: .system)
-        button.setImage(UIImage(systemName: Attributes.xmarkImage), for: .normal)
-        button.tintColor = .gray
-        button.frame = CGRect(x: 0, y: 0, width: Metric.clearButtonSize, height: Metric.clearButtonSize)
-        
-        button.addAction(UIAction { [weak self] _ in
-            self?.clearButtonTapped()
-        }, for: .touchUpInside)
-        return button
-    }()
-    
-    private lazy var passwordToggleButton: UIButton = {
-        let button = UIButton()
-        button.setImage(.eyeSlash, for: .normal)
-        button.tintColor = .gray
-        button.frame = CGRect(x: 0, y: 0, width: Metric.showPwButtonSize, height: Metric.showPwButtonSize)
-        
-        button.addAction(UIAction { [weak self] _ in
-            guard let self = self else { return }
-            self.showPwButtonTapped(button: button)
-        }, for: .touchUpInside)
-        return button
-    }()
     
     private lazy var loginButton: UIButton = {
         let button = UIButton(type: .system)
@@ -127,17 +100,6 @@ final class LoginInputView: UIView {
         loginButton.isEnabled = isEnabled
         loginButton.backgroundColor = isEnabled ? .customBlue500 : .coolNeutral200
         loginButton.setTitleColor(isEnabled ? .white : .coolNeutral500, for: .normal)
-    }
-    
-    private func wrapButtonInPaddingView(
-        button: UIButton,
-        paddingWidth: CGFloat = 40,
-        paddingHeight: CGFloat = Metric.textFieldHeight
-    ) -> UIView {
-        let paddingView = UIView(frame: CGRect(x: 0, y: 0, width: paddingWidth, height: paddingHeight))
-        button.center = CGPoint(x: paddingView.frame.width / 2, y: paddingView.frame.height / 2)
-        paddingView.addSubview(button)
-        return paddingView
     }
     
     // MARK: - Actions
