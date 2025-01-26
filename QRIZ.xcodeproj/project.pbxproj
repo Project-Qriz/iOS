@@ -62,6 +62,8 @@
 		B18F451A2D4139B00030F7DB /* UILabel+.swift in Sources */ = {isa = PBXBuildFile; fileRef = B18F45192D4139B00030F7DB /* UILabel+.swift */; };
 		B18F451C2D441E150030F7DB /* FindPasswordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B18F451B2D441E150030F7DB /* FindPasswordViewController.swift */; };
 		B18F451E2D44D4080030F7DB /* FindPasswordViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B18F451D2D44D4080030F7DB /* FindPasswordViewModel.swift */; };
+		B18F45202D4643B40030F7DB /* FindPasswordMainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B18F451F2D4643B40030F7DB /* FindPasswordMainView.swift */; };
+		B18F45222D4645EC0030F7DB /* FindPasswordInputView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B18F45212D4645EC0030F7DB /* FindPasswordInputView.swift */; };
 		B1D9A0E72D3686BA00E84934 /* CountdownTimer.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1D9A0E62D3686BA00E84934 /* CountdownTimer.swift */; };
 		E230669A2D2126B9001B509A /* PreviewScoresData.swift in Sources */ = {isa = PBXBuildFile; fileRef = E23066992D2126B9001B509A /* PreviewScoresData.swift */; };
 		E23824E12D0C3157009E7989 /* BeginOnboardingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E23824E02D0C3157009E7989 /* BeginOnboardingViewController.swift */; };
@@ -194,6 +196,8 @@
 		B18F45192D4139B00030F7DB /* UILabel+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UILabel+.swift"; sourceTree = "<group>"; };
 		B18F451B2D441E150030F7DB /* FindPasswordViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FindPasswordViewController.swift; sourceTree = "<group>"; };
 		B18F451D2D44D4080030F7DB /* FindPasswordViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FindPasswordViewModel.swift; sourceTree = "<group>"; };
+		B18F451F2D4643B40030F7DB /* FindPasswordMainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FindPasswordMainView.swift; sourceTree = "<group>"; };
+		B18F45212D4645EC0030F7DB /* FindPasswordInputView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FindPasswordInputView.swift; sourceTree = "<group>"; };
 		B1D9A0E62D3686BA00E84934 /* CountdownTimer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountdownTimer.swift; sourceTree = "<group>"; };
 		E23066992D2126B9001B509A /* PreviewScoresData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreviewScoresData.swift; sourceTree = "<group>"; };
 		E23824E02D0C3157009E7989 /* BeginOnboardingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BeginOnboardingViewController.swift; sourceTree = "<group>"; };
@@ -552,6 +556,7 @@
 			children = (
 				B18F450E2D3996F80030F7DB /* Components */,
 				B18F450C2D3994380030F7DB /* FindAccountMainView.swift */,
+				B18F451F2D4643B40030F7DB /* FindPasswordMainView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -561,6 +566,7 @@
 			children = (
 				B18F450F2D3997280030F7DB /* FindAccountHeaderView.swift */,
 				B18F45112D3A26520030F7DB /* FindAccountInputView.swift */,
+				B18F45212D4645EC0030F7DB /* FindPasswordInputView.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -1082,6 +1088,7 @@
 				B162881C2D2CFC63008057D0 /* UIView+.swift in Sources */,
 				B18F45122D3A26520030F7DB /* FindAccountInputView.swift in Sources */,
 				541878542D0E21620089F478 /* HTTPMethod.swift in Sources */,
+				B18F45222D4645EC0030F7DB /* FindPasswordInputView.swift in Sources */,
 				548566502D1241A4002BAEE3 /* ExampleRequest.swift in Sources */,
 				E29CCD422D298656004AA30A /* PreviewResultViewModel.swift in Sources */,
 				548566522D1241BA002BAEE3 /* ExampleResponse.swift in Sources */,
@@ -1134,6 +1141,7 @@
 				E2DD0E862D2146D900DA3D18 /* IncorrectCountData.swift in Sources */,
 				E29CCD3E2D298656004AA30A /* ConceptBarGraphView.swift in Sources */,
 				E25F94CD2D0CB50F00BA765F /* OnboardingSubtitleLabel.swift in Sources */,
+				B18F45202D4643B40030F7DB /* FindPasswordMainView.swift in Sources */,
 				54BC61572D18141B0094DC45 /* AccountOptionsView.swift in Sources */,
 				E29CCD1E2D298316004AA30A /* PreviewTestViewModel.swift in Sources */,
 				E29CCD442D298656004AA30A /* ScoreCircularChartView.swift in Sources */,
