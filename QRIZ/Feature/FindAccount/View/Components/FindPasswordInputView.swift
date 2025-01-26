@@ -25,8 +25,10 @@ final class FindPasswordInputView: UIView {
         static let emailPlaceholder: String = "qriz@gmail.com"
         static let codePlaceholder: String = "인증번호 입력"
         static let sendButtonTitle: String = "전송"
+        static let resendButtonTitle: String = "재전송"
         static let confirmButtonTitle: String = "확인"
         static let errorLabelText: String = "올바른 이메일 형식으로 입력해주세요."
+        static let toastMessage: String = "인증번호가 이메일로 전송됐습니다!"
     }
     
     // MARK: - Properties
@@ -121,6 +123,7 @@ final class FindPasswordInputView: UIView {
         stackView.axis = .horizontal
         stackView.distribution = .fillProportionally
         stackView.spacing = 8
+        stackView.isHidden = true
         return stackView
     }()
     
@@ -154,6 +157,13 @@ final class FindPasswordInputView: UIView {
         ? UIColor.coolNeutral600.cgColor
         : UIColor.customRed500.cgColor
     }
+    
+    func handleVerificationSuccess() {
+        emailTextField.isEnabled = false
+        codeHStackView.isHidden = false
+        sendButton.setTitle(Attributes.resendButtonTitle, for: .normal)
+        self.showToast(message: Attributes.toastMessage)
+    }
 }
 
 // MARK: - Layout Setup
@@ -178,9 +188,15 @@ extension FindPasswordInputView {
             emailHStackView.trailingAnchor.constraint(equalTo: trailingAnchor),
             emailHStackView.heightAnchor.constraint(equalToConstant: Metric.textFieldHeight),
             
-            sendButton.widthAnchor.constraint(equalTo: emailHStackView.heightAnchor, multiplier: Metric.sendButtonWidthMultiplier),
+            sendButton.widthAnchor.constraint(
+                equalTo: emailHStackView.heightAnchor,
+                multiplier: Metric.sendButtonWidthMultiplier
+            ),
             
-            inputErrorLabel.topAnchor.constraint(equalTo: emailTextField.bottomAnchor, constant: Metric.inputErrorLabelTopOffset),
+            inputErrorLabel.topAnchor.constraint(
+                equalTo: emailTextField.bottomAnchor,
+                constant: Metric.inputErrorLabelTopOffset
+            ),
             inputErrorLabel.leadingAnchor.constraint(equalTo: leadingAnchor),
             inputErrorLabel.trailingAnchor.constraint(equalTo: trailingAnchor),
             

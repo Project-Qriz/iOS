@@ -25,8 +25,10 @@ final class FindPasswordViewModel {
                 case .emailTextChanged(let text):
                     self.validateEmail(text)
                     
-                case .buttonTapped:
-                    print("이메일 발송API 호출")
+                case .sendButtonTapped:
+                    self.tempAPI()
+                    
+                case .nextButtonTapped:
                     outputSubject.send(.navigateToPasswordResetView)
                 }
             }
@@ -39,16 +41,26 @@ final class FindPasswordViewModel {
         let isValid = text.isValidEmail
         outputSubject.send(.isNameValid(isValid))
     }
+    
+    // 이메일 전송 api
+    private func tempAPI() {
+        let apiResult = Bool.random()
+        let result: Output = apiResult ? .passwordVerificationSuccess : .passwordVerificationFailure
+        outputSubject.send(result)
+    }
 }
 
 extension FindPasswordViewModel {
     enum Input {
         case emailTextChanged(String)
-        case buttonTapped
+        case sendButtonTapped
+        case nextButtonTapped
     }
     
     enum Output {
         case isNameValid(Bool)
+        case passwordVerificationSuccess
+        case passwordVerificationFailure
         case navigateToPasswordResetView
     }
 }

@@ -18,7 +18,7 @@ final class FindPasswordViewController: UIViewController {
     
     // MARK: - Properties
     
-    private let rootView: FindAccountMainView
+    private let rootView: FindPasswordMainView
     private let findPasswordVM: FindPasswordViewModel
     private var cancellables = Set<AnyCancellable>()
     private var keyboardCancellable: AnyCancellable?
@@ -26,7 +26,7 @@ final class FindPasswordViewController: UIViewController {
     // MARK: - initialize
     
     init(findPasswordVM: FindPasswordViewModel) {
-        self.rootView = FindAccountMainView(type: .findPassword)
+        self.rootView = FindPasswordMainView()
         self.findPasswordVM = findPasswordVM
         super.init(nibName: nil, bundle: nil)
     }
@@ -55,6 +55,44 @@ final class FindPasswordViewController: UIViewController {
     // MARK: - Functions
     
     private func bind() {
+        let emailTextChanged = rootView.findPasswordInputView.emailTextChangedPublisher
+            .map { FindPasswordViewModel.Input.emailTextChanged($0) }
+        
+        let sendButtonTapped = rootView.findPasswordInputView.buttonTappedPublisher
+            .map { FindPasswordViewModel.Input.sendButtonTapped }
+        
+        let nextButtonTapped = rootView.signupFooterView.buttonTappedPublisher
+            .map { FindPasswordViewModel.Input.nextButtonTapped }
+        
+        let input = Publishers.Merge3(
+            emailTextChanged,
+            sendButtonTapped,
+            nextButtonTapped
+        )
+            .eraseToAnyPublisher()
+        
+        let output = findPasswordVM.transform(input: input)
+        
+        output
+            .sink { [weak self] output in
+                guard let self = self else { return }
+                switch output {
+                case .isNameValid(let isValid):
+                    self.rootView.findPasswordInputView.updateErrorState(isValid: isValid)
+                    self.rootView.findPasswordInputView.updateSendButton(isValid: isValid)
+                    
+                case .passwordVerificationSuccess:
+                    self.rootView.findPasswordInputView.handleVerificationSuccess()
+                    
+                case .passwordVerificationFailure:
+                    print("실패")
+                    
+                case .navigateToPasswordResetView:
+                    // MARK: - 코디네이터 적용 필요
+                    print("nextView")
+                }
+            }
+            .store(in: &cancellables)
     }
     
     private func observe() {
@@ -66,5 +104,4 @@ final class FindPasswordViewController: UIViewController {
             }
             .store(in: &cancellables)
     }
-
 }
