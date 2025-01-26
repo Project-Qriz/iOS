@@ -32,6 +32,8 @@ final class WrongQuestionViewController: UIViewController {
         bind()
         setNavigationTitle()
         addViews()
+        input.send(.viewDidLoad)
+        addViewAction()
     }
     
     private func bind() {
@@ -55,15 +57,26 @@ final class WrongQuestionViewController: UIViewController {
                 case .unfoldMenu:
                     menuItems.isHidden = false
                 case .setMenuItemState(let isIncorrectOnly):
-                    menuButton.setOptionLabelTitle(isCorrectOnly: isIncorrectOnly)
-                    menuItems.setItemsState(isIncorrectOnly: isIncorrectOnly)
+                    setMenuText(isIncorrectOnly: isIncorrectOnly)
                 case .setSegmentState(let isDaily):
                     wrongQuestionSegment.setUnderlineState(isDailyClicked: isDaily)
+                case .setSegmentItems(let isIncorrectOnly):
+                    setUIState(isIncorrectOnly: isIncorrectOnly)
                 case .showModal:
                     print("show modal")
                 }
             }
             .store(in: &subscriptions)
+    }
+    
+    private func addViewAction() {
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(viewTouchAction))
+        tapGesture.cancelsTouchesInView = false
+        view.addGestureRecognizer(tapGesture)
+    }
+    
+    @objc private func viewTouchAction() {
+        input.send(.viewTouched)
     }
 }
 
@@ -83,7 +96,15 @@ extension WrongQuestionViewController {
         navigationItem.title = "오답노트"
     }
     
+    private func setUIState(isIncorrectOnly: Bool) {
+        // setdropdownstate
+        setMenuText(isIncorrectOnly: isIncorrectOnly)
+    }
     
+    private func setMenuText(isIncorrectOnly: Bool) {
+        menuButton.setOptionLabelTitle(isCorrectOnly: isIncorrectOnly)
+        menuItems.setItemsState(isIncorrectOnly: isIncorrectOnly)
+    }
 }
 
 // MARK: - Auto Layout

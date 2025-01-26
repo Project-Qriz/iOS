@@ -43,10 +43,9 @@ final class WrongQuestionMenuItems: UIStackView {
     private func initStack() {
         axis = .vertical
         distribution = .fillEqually
-        alignment = .leading
+        alignment = .fill
         isLayoutMarginsRelativeArrangement = true
         layoutMargins = UIEdgeInsets(top: 0, left: 8, bottom: 0, right: 0)
-        
     }
     
     private func setUI() {
