@@ -58,17 +58,9 @@ final class WrongQuestionViewModel {
             case .viewTouched:
                 setFoldItemsState(foldMenu: true, foldDropDown: true)
             case .dropDownClicked:
-                if isDropDownFolded {
-                    setFoldItemsState(foldMenu: true, foldDropDown: false)
-                } else {
-                    setFoldItemsState(foldMenu: true, foldDropDown: true)
-                }
+                isDropDownFolded ? setFoldItemsState(foldMenu: true, foldDropDown: false) : setFoldItemsState(foldMenu: true, foldDropDown: true)
             case .menuButtonClicked:
-                if isMenuFolded {
-                    setFoldItemsState(foldMenu: false, foldDropDown: true)
-                } else {
-                    setFoldItemsState(foldMenu: true, foldDropDown: true)
-                }
+                isMenuFolded ? setFoldItemsState(foldMenu: false, foldDropDown: true) : setFoldItemsState(foldMenu: true, foldDropDown: true)
             case .menuItemClicked(let isIncorrectOnly):
                 setFoldItemsState(foldMenu: true, foldDropDown: true)
                 output.send(.setMenuItemState(isIncorrectOnly: isIncorrectOnly))
