@@ -27,20 +27,30 @@ final class FindPasswordInputView: UIView {
         static let sendButtonTitle: String = "전송"
         static let resendButtonTitle: String = "재전송"
         static let confirmButtonTitle: String = "확인"
-        static let errorLabelText: String = "올바른 이메일 형식으로 입력해주세요."
+        static let emailErrorText: String = "올바른 이메일 형식으로 입력해주세요."
+        static let codeErrorText: String = "인증번호가 올바르지 않습니다."
         static let toastMessage: String = "인증번호가 이메일로 전송됐습니다!"
     }
     
     // MARK: - Properties
     
-    private let buttonTappedSubject = PassthroughSubject<Void, Never>()
+    private let sendButtonTappedSubject = PassthroughSubject<Void, Never>()
+    private let confirmButtonTappedSubject = PassthroughSubject<Void, Never>()
 
-    var buttonTappedPublisher: AnyPublisher<Void, Never> {
-        buttonTappedSubject.eraseToAnyPublisher()
+    var sendButtonTappedPublisher: AnyPublisher<Void, Never> {
+        sendButtonTappedSubject.eraseToAnyPublisher()
+    }
+    
+    var confirmButtonPublisher: AnyPublisher<Void, Never> {
+        confirmButtonTappedSubject.eraseToAnyPublisher()
     }
     
     var emailTextChangedPublisher: AnyPublisher<String, Never> {
         emailTextField.textPublisher
+    }
+    
+    var codeTextChangedPublisher: AnyPublisher<String, Never> {
+        codeTextField.textPublisher
     }
     
     // MARK: - UI
@@ -65,7 +75,7 @@ final class FindPasswordInputView: UIView {
         button.layer.masksToBounds = true
         button.isEnabled = false
         button.addAction(UIAction { [weak self] _ in
-            self?.buttonTappedSubject.send()
+            self?.sendButtonTappedSubject.send()
         }, for: .touchUpInside)
         return button
     }()
@@ -76,18 +86,9 @@ final class FindPasswordInputView: UIView {
             sendButton
         ])
         stackView.axis = .horizontal
-        stackView.distribution = .fillProportionally
+        stackView.distribution = .fill
         stackView.spacing = 8
         return stackView
-    }()
-    
-    private let inputErrorLabel: UILabel = {
-        let label = UILabel()
-        label.text = Attributes.errorLabelText
-        label.font = .systemFont(ofSize: 14, weight: .regular)
-        label.textColor = .customRed500
-        label.isHidden = true
-        return label
     }()
     
     private lazy var codeTextField: UITextField = {
@@ -95,6 +96,7 @@ final class FindPasswordInputView: UIView {
             placeholder: Attributes.codePlaceholder,
             rightViewType: .clearButton
         )
+        textField.keyboardType = .numberPad
         textField.delegate = self
         return textField
     }()
@@ -110,7 +112,7 @@ final class FindPasswordInputView: UIView {
         button.layer.masksToBounds = true
         button.isEnabled = false
         button.addAction(UIAction { [weak self] _ in
-            self?.buttonTappedSubject.send()
+            self?.confirmButtonTappedSubject.send()
         }, for: .touchUpInside)
         return button
     }()
@@ -121,9 +123,30 @@ final class FindPasswordInputView: UIView {
             confirmButton
         ])
         stackView.axis = .horizontal
-        stackView.distribution = .fillProportionally
+        stackView.distribution = .fill
         stackView.spacing = 8
         stackView.isHidden = true
+        return stackView
+    }()
+    
+    private let inputErrorLabel: UILabel = {
+        let label = UILabel()
+        label.text = Attributes.emailErrorText
+        label.font = .systemFont(ofSize: 14, weight: .regular)
+        label.textColor = .customRed500
+        label.isHidden = true
+        return label
+    }()
+    
+    private lazy var mainVStackView: UIStackView = {
+        let stackView = UIStackView(arrangedSubviews: [
+            emailHStackView,
+            codeHStackView,
+            inputErrorLabel
+        ])
+        stackView.axis = .vertical
+        stackView.distribution = .fill
+        stackView.spacing = 8
         return stackView
     }()
     
@@ -151,6 +174,11 @@ final class FindPasswordInputView: UIView {
         sendButton.setTitleColor(isValid ? .coolNeutral800 : .coolNeutral300, for: .normal)
     }
     
+    func updateConfirmButton(isValid: Bool) {
+        confirmButton.isEnabled = isValid
+        confirmButton.setTitleColor(isValid ? .coolNeutral800 : .coolNeutral300, for: .normal)
+    }
+    
     func updateErrorState(isValid: Bool) {
         inputErrorLabel.isHidden = isValid
         emailTextField.layer.borderColor = isValid
@@ -158,11 +186,18 @@ final class FindPasswordInputView: UIView {
         : UIColor.customRed500.cgColor
     }
     
-    func handleVerificationSuccess() {
+    func handleEmailVerificationSuccess() {
         emailTextField.isEnabled = false
         codeHStackView.isHidden = false
         sendButton.setTitle(Attributes.resendButtonTitle, for: .normal)
+        inputErrorLabel.text = Attributes.codeErrorText
         self.showToast(message: Attributes.toastMessage)
+    }
+    
+    func handleCodeVerificationSuccess() {
+        codeTextField.isEnabled = false
+        updateSendButton(isValid: false)
+        updateConfirmButton(isValid: false)
     }
 }
 
@@ -171,43 +206,26 @@ final class FindPasswordInputView: UIView {
 extension FindPasswordInputView {
     private func addSubviews() {
         [
-            emailHStackView,
-            codeHStackView,
-            inputErrorLabel
+            mainVStackView
         ].forEach(addSubview(_:))
     }
     
     private func setupConstraints() {
-        emailHStackView.translatesAutoresizingMaskIntoConstraints = false
-        codeHStackView.translatesAutoresizingMaskIntoConstraints = false
-        inputErrorLabel.translatesAutoresizingMaskIntoConstraints = false
+        mainVStackView.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
-            emailHStackView.topAnchor.constraint(equalTo: topAnchor),
-            emailHStackView.leadingAnchor.constraint(equalTo: leadingAnchor),
-            emailHStackView.trailingAnchor.constraint(equalTo: trailingAnchor),
+            mainVStackView.topAnchor.constraint(equalTo: topAnchor),
+            mainVStackView.leadingAnchor.constraint(equalTo: leadingAnchor),
+            mainVStackView.trailingAnchor.constraint(equalTo: trailingAnchor),
+            mainVStackView.bottomAnchor.constraint(equalTo: bottomAnchor),
+            
             emailHStackView.heightAnchor.constraint(equalToConstant: Metric.textFieldHeight),
+            codeHStackView.heightAnchor.constraint(equalToConstant: Metric.textFieldHeight),
             
             sendButton.widthAnchor.constraint(
                 equalTo: emailHStackView.heightAnchor,
                 multiplier: Metric.sendButtonWidthMultiplier
             ),
-            
-            inputErrorLabel.topAnchor.constraint(
-                equalTo: emailTextField.bottomAnchor,
-                constant: Metric.inputErrorLabelTopOffset
-            ),
-            inputErrorLabel.leadingAnchor.constraint(equalTo: leadingAnchor),
-            inputErrorLabel.trailingAnchor.constraint(equalTo: trailingAnchor),
-            
-            codeHStackView.topAnchor.constraint(
-                equalTo: emailHStackView.bottomAnchor,
-                constant: Metric.codeHStackViewTopOffset
-            ),
-            codeHStackView.leadingAnchor.constraint(equalTo: leadingAnchor),
-            codeHStackView.trailingAnchor.constraint(equalTo: trailingAnchor),
-            codeHStackView.bottomAnchor.constraint(equalTo: bottomAnchor),
-            codeHStackView.heightAnchor.constraint(equalToConstant: Metric.textFieldHeight),
             
             confirmButton.widthAnchor.constraint(
                 equalTo: codeHStackView.heightAnchor,
@@ -225,4 +243,3 @@ extension FindPasswordInputView: UITextFieldDelegate {
         return true
     }
 }
-
