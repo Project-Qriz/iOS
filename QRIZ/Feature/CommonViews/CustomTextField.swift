@@ -20,8 +20,18 @@ final class CustomTextField: UITextField {
         case none
         case clearButton
         case passwordToggle
+        case timerLabel
         case custom(UIView?)
     }
+    
+    // MARK: - UI
+    
+    private lazy var timerLabel: UILabel = {
+        let label = UILabel()
+        label.font = .systemFont(ofSize: 12, weight: .medium)
+        label.textColor = .coolNeutral800
+        return label
+    }()
     
     // MARK: - Initialize
     
@@ -32,7 +42,7 @@ final class CustomTextField: UITextField {
     ) {
         super.init(frame: .zero)
         setupUI(placeholder: placeholder, isSecure: isSecure)
-        setRightViewType(rightViewType)
+        setupRightView(rightViewType)
     }
     
     required init?(coder: NSCoder) {
@@ -41,10 +51,7 @@ final class CustomTextField: UITextField {
     
     // MARK: - Functions
     
-    private func setupUI(
-        placeholder: String,
-        isSecure: Bool
-    ) {
+    private func setupUI(placeholder: String, isSecure: Bool) {
         self.attributedPlaceholder = NSAttributedString(
             string: placeholder,
             attributes: [
@@ -65,64 +72,88 @@ final class CustomTextField: UITextField {
         self.leftViewMode = .always
     }
     
-    private func setRightViewType(_ type: RightViewType) {
-        switch type {
-        case .none:
-            self.rightView = nil
-            self.rightViewMode = .never
-            
-        case .clearButton:
-            let button = UIButton(type: .system)
-            button.setImage(UIImage(systemName: Attributes.xmarkImage), for: .normal)
-            button.tintColor = .coolNeutral300
-            button.frame = CGRect(x: 0, y: 0, width: 20, height: 20)
-            
-            button.addAction(
-                UIAction { [weak self] _ in
-                    self?.text = ""
-                },
-                for: .touchUpInside
-            )
-            
-            configRightButton(button)
-            
-        case .passwordToggle:
-            let button = UIButton(type: .system)
-            button.setImage(UIImage.eyeSlash, for: .normal)
-            button.tintColor = .coolNeutral700
-            button.frame = CGRect(x: 0, y: 0, width: 24, height: 24)
+    func setTimerText(_ text: String) {
+        timerLabel.text = text
+    }
+}
 
-            button.addAction(
-                UIAction { [weak self] _ in
-                    guard let self = self else { return }
-                    self.isSecureTextEntry.toggle()
-                    let newImage = self.isSecureTextEntry ? UIImage.eyeSlash : UIImage.eye
-                    button.setImage(newImage, for: .normal)
-                },
-                for: .touchUpInside
-            )
-            
-            configRightButton(button)
-            
-        case .custom(let rightView):
-            self.rightView = rightView
+// MARK: - RightView Configuration
+
+extension CustomTextField {
+    private func setupRightView(_ type: RightViewType) {
+        switch type {
+        case .none: resetRightView()
+        case .clearButton: setupClearButton()
+        case .passwordToggle: setupPasswordToggle()
+        case .timerLabel: setupTimerLabel()
+        case .custom(let view): setupCustomView(view)
         }
     }
     
-    private func configRightButton(
-        _ button: UIButton,
-        paddingWidth: CGFloat = 50,
-        paddingHeight: CGFloat = 54,
-        viewMode: UITextField.ViewMode = .whileEditing
-    ) {
-        let paddingView = UIView(
-            frame: CGRect(x: 0, y: 0, width: paddingWidth, height: paddingHeight)
+    private func resetRightView() {
+        rightView = nil
+        rightViewMode = .never
+    }
+    
+    private func setupCustomView(_ view: UIView?) {
+        rightView = view
+        rightViewMode = (view != nil) ? .always : .never
+    }
+    
+    private func setupClearButton() {
+        let button = UIButton(type: .system)
+        button.setImage(UIImage(systemName: Attributes.xmarkImage), for: .normal)
+        button.tintColor = .coolNeutral300
+        button.addAction(UIAction { [weak self] _ in self?.text = "" }, for: .touchUpInside)
+        configureRightView(
+            with: button,
+            subviewSize: CGSize(width: 20, height: 20)
         )
+    }
+    
+    private func setupPasswordToggle() {
+        let button = UIButton(type: .system)
+        button.setImage(UIImage.eyeSlash, for: .normal)
+        button.tintColor = .coolNeutral700
+        button.addAction(
+            UIAction { [weak self] _ in
+                guard let self = self else { return }
+                self.isSecureTextEntry.toggle()
+                let newImage = self.isSecureTextEntry ? UIImage.eyeSlash : UIImage.eye
+                button.setImage(newImage, for: .normal)
+            },
+            for: .touchUpInside
+        )
+        configureRightView(
+            with: button,
+            subviewSize: CGSize(width: 24, height: 24)
+        )
+    }
+    
+    private func setupTimerLabel() {
+        configureRightView(
+            with: timerLabel,
+            viewMode: .always,
+            subviewSize: CGSize(width: 50, height: 48)
+        )
+    }
+    
+    private func configureRightView(
+        with subview: UIView,
+        viewMode: ViewMode = .whileEditing,
+        containerSize: CGSize = CGSize(width: 50, height: 54),
+        subviewSize: CGSize? = nil
+    ) {
+        let container = UIView(frame: CGRect(origin: .zero, size: containerSize))
         
-        button.center = CGPoint(x: paddingView.frame.width / 2, y: paddingView.frame.height / 2)
-        paddingView.addSubview(button)
+        if let subviewSize = subviewSize {
+            subview.frame.size = subviewSize
+        }
         
-        self.rightView = paddingView
-        self.rightViewMode = viewMode
+        subview.center = CGPoint(x: container.bounds.midX, y: container.bounds.midY)
+        container.addSubview(subview)
+        
+        rightView = container
+        rightViewMode = viewMode
     }
 }
