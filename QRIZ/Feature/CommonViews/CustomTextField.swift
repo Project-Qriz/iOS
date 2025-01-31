@@ -22,6 +22,7 @@ final class CustomTextField: UITextField {
         case passwordToggle
         case timerLabel
         case clearButtonWithTimer
+        case checkmark
         case custom(UIView?)
     }
     
@@ -61,11 +62,17 @@ final class CustomTextField: UITextField {
         return button
     }()
     
-    private lazy var timerLabel: UILabel = {
+    private let timerLabel: UILabel = {
         let label = UILabel()
         label.font = .systemFont(ofSize: 12, weight: .medium)
         label.textColor = .coolNeutral800
         return label
+    }()
+    
+    private let checkmarkImageView: UIImageView = {
+        let imageView = UIImageView(image: .chekmarkGreen)
+        imageView.tintColor = .customMint800
+        return imageView
     }()
     
     // MARK: - Initialize
@@ -113,6 +120,10 @@ final class CustomTextField: UITextField {
         timerLabel.text = String(format: "%02d:%02d", minutes, seconds)
     }
     
+    func updateRightView(_ type: RightViewType) {
+        setupRightView(type)
+    }
+    
     override func becomeFirstResponder() -> Bool {
         let didBecome = super.becomeFirstResponder()
         if didBecome {
@@ -142,6 +153,7 @@ extension CustomTextField {
         case .passwordToggle: setupPasswordToggle()
         case .timerLabel: setupTimerLabel()
         case .clearButtonWithTimer: setupClearButtonWithTimer()
+        case .checkmark: setupCheckmark()
         case .custom(let view): setupCustomView(view)
         }
     }
@@ -187,6 +199,15 @@ extension CustomTextField {
         rightViewMode = .always
     }
     
+    private func setupCheckmark() {
+        containerView.frame.size = CGSize(width: 36, height: 48)
+        checkmarkImageView.frame = CGRect(x: 0, y: 12, width: 24, height: 24)
+        
+        containerView.addSubview(checkmarkImageView)
+        
+        rightView = containerView
+        rightViewMode = .always
+    }
     
     private func setupClearButtonWithTimer() {
         containerView.frame.size = CGSize(width: 80, height: 48)
