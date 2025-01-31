@@ -36,6 +36,7 @@ final class FindPasswordInputView: UIView {
         static let codeErrorText: String = "인증번호가 올바르지 않습니다."
         static let expiredErrorText: String = "인증 시간이 만료되었어요. 재전송을 눌러주세요."
         static let emailVerificationSentMessage: String = "인증번호가 이메일로 전송됐습니다!"
+        static let codeVerificationSuccessMessage: String = "인증 완료되었습니다."
         static let timerDuration: Int = 180
     }
     
@@ -43,6 +44,7 @@ final class FindPasswordInputView: UIView {
     
     private let sendButtonTappedSubject = PassthroughSubject<Void, Never>()
     private let confirmButtonTappedSubject = PassthroughSubject<Void, Never>()
+    private var cancellables = Set<AnyCancellable>()
 
     var sendButtonTappedPublisher: AnyPublisher<Void, Never> {
         sendButtonTappedSubject.eraseToAnyPublisher()
@@ -164,6 +166,7 @@ final class FindPasswordInputView: UIView {
         addSubviews()
         setupConstraints()
         setupUI()
+        observe()
     }
     
     required init?(coder: NSCoder) {
@@ -174,6 +177,13 @@ final class FindPasswordInputView: UIView {
     
     private func setupUI() {
         self.backgroundColor = .white
+    }
+    
+    private func observe() {
+        codeTextField.textPublisher
+            .removeDuplicates()
+            .sink { [weak self] _ in self?.inputErrorLabel.isHidden = true }
+            .store(in: &cancellables)
     }
     
     func updateSendButton(isValid: Bool) {
@@ -220,7 +230,15 @@ final class FindPasswordInputView: UIView {
     
     func handleCodeVerificationSuccess() {
         codeTextField.isEnabled = false
-        updateSendButton(isValid: false)
+        confirmButton.isEnabled = false
+        confirmButton.setTitleColor(.coolNeutral300, for: .normal)
+        confirmButton.layer.borderColor = UIColor.coolNeutral200.cgColor
+        
+        codeTextField.updateRightView(.checkmark)
+        
+        inputErrorLabel.text = Attributes.codeVerificationSuccessMessage
+        inputErrorLabel.textColor = .customMint800
+        inputErrorLabel.isHidden = false
     }
     
     func handleTimerExpired() {

@@ -89,7 +89,6 @@ final class FindPasswordViewController: UIViewController {
                     self.rootView.findPasswordInputView.updateSendButton(isValid: isValid)
                     
                 case .isCodeValid(let isValid):
-                    self.rootView.findPasswordInputView.updateErrorState(for: .code, isValid: isValid)
                     self.rootView.findPasswordInputView.updateConfirmButton(isValid: isValid)
                     
                 case .emailVerificationSuccess:

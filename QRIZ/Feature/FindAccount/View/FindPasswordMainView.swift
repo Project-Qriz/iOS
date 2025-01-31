@@ -50,6 +50,7 @@ final class FindPasswordMainView: UIView {
             description: UILabel.setLineSpacing(8, text: FindAccountType.findPassword.headerDescription)
         )
         signupFooterView.configure(buttonTitle: Attributes.buttonTitle)
+        signupFooterView.updateButtonState(isValid: false)
     }
 }
 
