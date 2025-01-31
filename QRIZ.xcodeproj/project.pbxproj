@@ -54,13 +54,14 @@
 		E23963202D083B910092B39B /* QRIZTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E239631F2D083B910092B39B /* QRIZTests.swift */; };
 		E239632A2D083B910092B39B /* QRIZUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E23963292D083B910092B39B /* QRIZUITests.swift */; };
 		E239632C2D083B910092B39B /* QRIZUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E239632B2D083B910092B39B /* QRIZUITestsLaunchTests.swift */; };
+		E24572AE2D4CEF1000175A78 /* WrongQuestionCategoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E24572AD2D4CEF1000175A78 /* WrongQuestionCategoryViewController.swift */; };
 		E25856D42D0D766900355667 /* CheckConceptViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E25856D32D0D766900355667 /* CheckConceptViewController.swift */; };
 		E25856DE2D0DADD300355667 /* BeginOnboardingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E25856DD2D0DADD300355667 /* BeginOnboardingViewModel.swift */; };
 		E25F94C82D0CAF1B00BA765F /* BeginTestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E25F94C72D0CAF1B00BA765F /* BeginTestViewController.swift */; };
 		E25F94CB2D0CB1DB00BA765F /* OnboardingTitleLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E25F94CA2D0CB1DB00BA765F /* OnboardingTitleLabel.swift */; };
 		E25F94CD2D0CB50F00BA765F /* OnboardingSubtitleLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E25F94CC2D0CB50F00BA765F /* OnboardingSubtitleLabel.swift */; };
 		E25F94D12D0CB74700BA765F /* OnboardingButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = E25F94D02D0CB74700BA765F /* OnboardingButton.swift */; };
-		E271CFAF2D3B9C560036BF29 /* WrongQuestionDropDown.swift in Sources */ = {isa = PBXBuildFile; fileRef = E271CFA62D3B9C560036BF29 /* WrongQuestionDropDown.swift */; };
+		E271CFAF2D3B9C560036BF29 /* WrongQuestionDropDownButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = E271CFA62D3B9C560036BF29 /* WrongQuestionDropDownButton.swift */; };
 		E271CFB02D3B9C560036BF29 /* WrongQuestionSegment.swift in Sources */ = {isa = PBXBuildFile; fileRef = E271CFA72D3B9C560036BF29 /* WrongQuestionSegment.swift */; };
 		E271CFB22D3B9C560036BF29 /* WrongQuestionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E271CFA92D3B9C560036BF29 /* WrongQuestionViewController.swift */; };
 		E271CFB62D3B9E230036BF29 /* WrongQuestionDropDownList.swift in Sources */ = {isa = PBXBuildFile; fileRef = E271CFB52D3B9E230036BF29 /* WrongQuestionDropDownList.swift */; };
@@ -183,13 +184,14 @@
 		E23963292D083B910092B39B /* QRIZUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QRIZUITests.swift; sourceTree = "<group>"; };
 		E239632B2D083B910092B39B /* QRIZUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QRIZUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		E239633C2D083BC30092B39B /* QRIZUnitTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = QRIZUnitTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		E24572AD2D4CEF1000175A78 /* WrongQuestionCategoryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WrongQuestionCategoryViewController.swift; sourceTree = "<group>"; };
 		E25856D32D0D766900355667 /* CheckConceptViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = CheckConceptViewController.swift; path = QRIZ/Feature/Onboarding/CheckConcept/ViewController/CheckConceptViewController.swift; sourceTree = SOURCE_ROOT; };
 		E25856DD2D0DADD300355667 /* BeginOnboardingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BeginOnboardingViewModel.swift; sourceTree = "<group>"; };
 		E25F94C72D0CAF1B00BA765F /* BeginTestViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BeginTestViewController.swift; sourceTree = "<group>"; };
 		E25F94CA2D0CB1DB00BA765F /* OnboardingTitleLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingTitleLabel.swift; sourceTree = "<group>"; };
 		E25F94CC2D0CB50F00BA765F /* OnboardingSubtitleLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingSubtitleLabel.swift; sourceTree = "<group>"; };
 		E25F94D02D0CB74700BA765F /* OnboardingButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingButton.swift; sourceTree = "<group>"; };
-		E271CFA62D3B9C560036BF29 /* WrongQuestionDropDown.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WrongQuestionDropDown.swift; sourceTree = "<group>"; };
+		E271CFA62D3B9C560036BF29 /* WrongQuestionDropDownButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WrongQuestionDropDownButton.swift; sourceTree = "<group>"; };
 		E271CFA72D3B9C560036BF29 /* WrongQuestionSegment.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WrongQuestionSegment.swift; sourceTree = "<group>"; };
 		E271CFA92D3B9C560036BF29 /* WrongQuestionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WrongQuestionViewController.swift; sourceTree = "<group>"; };
 		E271CFB52D3B9E230036BF29 /* WrongQuestionDropDownList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WrongQuestionDropDownList.swift; sourceTree = "<group>"; };
@@ -559,6 +561,41 @@
 			path = QRIZUITests;
 			sourceTree = "<group>";
 		};
+		E24572A92D4CE7C800175A78 /* DropDown */ = {
+			isa = PBXGroup;
+			children = (
+				E271CFA62D3B9C560036BF29 /* WrongQuestionDropDownButton.swift */,
+				E271CFB52D3B9E230036BF29 /* WrongQuestionDropDownList.swift */,
+			);
+			path = DropDown;
+			sourceTree = "<group>";
+		};
+		E24572AA2D4CE7DD00175A78 /* Menu */ = {
+			isa = PBXGroup;
+			children = (
+				E271CFBB2D3BCA910036BF29 /* WrongQuestionMenuButton.swift */,
+				E2D821142D40EAD90062B182 /* WrongQuestionMenuItems.swift */,
+				E2D821162D4105170062B182 /* WrongQuestionMenuItem.swift */,
+			);
+			path = Menu;
+			sourceTree = "<group>";
+		};
+		E24572AB2D4CE7F500175A78 /* Segment */ = {
+			isa = PBXGroup;
+			children = (
+				E271CFA72D3B9C560036BF29 /* WrongQuestionSegment.swift */,
+			);
+			path = Segment;
+			sourceTree = "<group>";
+		};
+		E24572AC2D4CE7FD00175A78 /* CategoryButton */ = {
+			isa = PBXGroup;
+			children = (
+				E271CFB92D3BB1930036BF29 /* CategoryChoiceButton.swift */,
+			);
+			path = CategoryButton;
+			sourceTree = "<group>";
+		};
 		E25856D72D0DA97400355667 /* BeginOnboarding */ = {
 			isa = PBXGroup;
 			children = (
@@ -610,13 +647,10 @@
 		E271CFB32D3B9D0D0036BF29 /* Components */ = {
 			isa = PBXGroup;
 			children = (
-				E271CFA62D3B9C560036BF29 /* WrongQuestionDropDown.swift */,
-				E271CFA72D3B9C560036BF29 /* WrongQuestionSegment.swift */,
-				E271CFB52D3B9E230036BF29 /* WrongQuestionDropDownList.swift */,
-				E271CFB92D3BB1930036BF29 /* CategoryChoiceButton.swift */,
-				E271CFBB2D3BCA910036BF29 /* WrongQuestionMenuButton.swift */,
-				E2D821142D40EAD90062B182 /* WrongQuestionMenuItems.swift */,
-				E2D821162D4105170062B182 /* WrongQuestionMenuItem.swift */,
+				E24572AC2D4CE7FD00175A78 /* CategoryButton */,
+				E24572AB2D4CE7F500175A78 /* Segment */,
+				E24572AA2D4CE7DD00175A78 /* Menu */,
+				E24572A92D4CE7C800175A78 /* DropDown */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -625,6 +659,7 @@
 			isa = PBXGroup;
 			children = (
 				E271CFA92D3B9C560036BF29 /* WrongQuestionViewController.swift */,
+				E24572AD2D4CEF1000175A78 /* WrongQuestionCategoryViewController.swift */,
 			);
 			path = ViewController;
 			sourceTree = "<group>";
@@ -1004,7 +1039,7 @@
 				B168B76D2D2824BD0000F32E /* IdInputViewController.swift in Sources */,
 				B17FE3062D27F85C002EC7D7 /* LoginViewModel.swift in Sources */,
 				E28BAD792D2C2DEB00B8388D /* CustomAlertViewController.swift in Sources */,
-				E271CFAF2D3B9C560036BF29 /* WrongQuestionDropDown.swift in Sources */,
+				E271CFAF2D3B9C560036BF29 /* WrongQuestionDropDownButton.swift in Sources */,
 				E271CFBC2D3BCA910036BF29 /* WrongQuestionMenuButton.swift in Sources */,
 				541878572D0E22700089F478 /* NetworkError.swift in Sources */,
 				E29CCD522D299AD5004AA30A /* IncorrectConceptsRankView.swift in Sources */,
@@ -1063,6 +1098,7 @@
 				E29CCD2B2D29855B004AA30A /* QuestionTitleLabel.swift in Sources */,
 				E2DD0E842D2144D000DA3D18 /* PreviewConceptsData.swift in Sources */,
 				E29CCD302D29855B004AA30A /* TestTotalTimeRemainingLabel.swift in Sources */,
+				E24572AE2D4CEF1000175A78 /* WrongQuestionCategoryViewController.swift in Sources */,
 				E29CCD2D2D29855B004AA30A /* TestPageIndicatorLabel.swift in Sources */,
 				E25856DE2D0DADD300355667 /* BeginOnboardingViewModel.swift in Sources */,
 				E230669A2D2126B9001B509A /* PreviewScoresData.swift in Sources */,

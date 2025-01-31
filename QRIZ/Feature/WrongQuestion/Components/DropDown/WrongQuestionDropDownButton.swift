@@ -7,7 +7,7 @@
 
 import UIKit
 
-final class WrongQuestionDropDown: UIView {
+final class WrongQuestionDropDownButton: UIView {
     
     // MARK: - Properties
     private let dropDownLabel: UILabel = {
@@ -48,7 +48,7 @@ final class WrongQuestionDropDown: UIView {
 }
 
 // MARK: - Auto Layout
-extension WrongQuestionDropDown {
+extension WrongQuestionDropDownButton {
     private func addViews() {
         addSubview(dropDownLabel)
         dropDownLabel.addSubview(chevronImageView)
