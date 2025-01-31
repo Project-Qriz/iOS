@@ -7,7 +7,7 @@
 
 import UIKit
 
-final class CategoryChoiceButton: UIView {
+final class CategorySliderButton: UIView {
     
     // MARK: - Properties
     private let sliderImageView: UIImageView = {
@@ -32,7 +32,7 @@ final class CategoryChoiceButton: UIView {
 }
 
 // MARK: - Auto Layout
-extension CategoryChoiceButton {
+extension CategorySliderButton {
     private func addViews() {
         addSubview(sliderImageView)
         

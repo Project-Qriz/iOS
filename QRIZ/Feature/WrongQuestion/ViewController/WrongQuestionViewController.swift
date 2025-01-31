@@ -18,7 +18,7 @@ final class WrongQuestionViewController: UIViewController {
         return view
     }()
     private let wrongQuestionDropDownButton = WrongQuestionDropDownButton()
-    private let categoryChoiceButton = CategoryChoiceButton()
+    private let categorySliderButton = CategorySliderButton()
     private let menuButton = WrongQuestionMenuButton()
     private let menuItems = WrongQuestionMenuItems()
     
@@ -114,14 +114,14 @@ extension WrongQuestionViewController {
         self.view.addSubview(wrongQuestionSegment)
         self.view.addSubview(segmentBorder)
         self.view.addSubview(wrongQuestionDropDownButton)
-        self.view.addSubview(categoryChoiceButton)
+        self.view.addSubview(categorySliderButton)
         self.view.addSubview(menuButton)
         self.view.addSubview(menuItems)
 
         wrongQuestionSegment.translatesAutoresizingMaskIntoConstraints = false
         segmentBorder.translatesAutoresizingMaskIntoConstraints = false
         wrongQuestionDropDownButton.translatesAutoresizingMaskIntoConstraints = false
-        categoryChoiceButton.translatesAutoresizingMaskIntoConstraints = false
+        categorySliderButton.translatesAutoresizingMaskIntoConstraints = false
         menuButton.translatesAutoresizingMaskIntoConstraints = false
         menuItems.translatesAutoresizingMaskIntoConstraints = false
         
@@ -142,13 +142,13 @@ extension WrongQuestionViewController {
             wrongQuestionDropDownButton.trailingAnchor.constraint(equalTo: self.view.trailingAnchor),
             wrongQuestionDropDownButton.heightAnchor.constraint(equalToConstant: 94),
             
-            categoryChoiceButton.topAnchor.constraint(equalTo: wrongQuestionDropDownButton.bottomAnchor, constant: 16),
-            categoryChoiceButton.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: -18),
-            categoryChoiceButton.widthAnchor.constraint(equalToConstant: 40),
-            categoryChoiceButton.heightAnchor.constraint(equalToConstant: 40),
+            categorySliderButton.topAnchor.constraint(equalTo: wrongQuestionDropDownButton.bottomAnchor, constant: 16),
+            categorySliderButton.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: -18),
+            categorySliderButton.widthAnchor.constraint(equalToConstant: 40),
+            categorySliderButton.heightAnchor.constraint(equalToConstant: 40),
             
             menuButton.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: -18),
-            menuButton.topAnchor.constraint(equalTo: categoryChoiceButton.bottomAnchor, constant: 24),
+            menuButton.topAnchor.constraint(equalTo: categorySliderButton.bottomAnchor, constant: 24),
             menuButton.widthAnchor.constraint(greaterThanOrEqualToConstant: 43),
             menuButton.heightAnchor.constraint(equalToConstant: 21),
             
