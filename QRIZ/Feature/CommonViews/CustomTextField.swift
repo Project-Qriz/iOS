@@ -64,7 +64,7 @@ final class CustomTextField: UITextField {
         self.backgroundColor = .white
         self.layer.cornerRadius = 8
         self.layer.borderWidth = 1
-        self.layer.borderColor = UIColor.coolNeutral600.cgColor
+        self.layer.borderColor = UIColor.coolNeutral200.cgColor
         self.isSecureTextEntry = isSecure
         
         let leftPaddingView = UIView(frame: CGRect(x: 0, y: 0, width: 16, height: 1))
@@ -72,8 +72,26 @@ final class CustomTextField: UITextField {
         self.leftViewMode = .always
     }
     
-    func setTimerText(_ text: String) {
-        timerLabel.text = text
+    func updateTimerLabel(_ remainingTime: Int) {
+        let minutes = remainingTime / 60
+        let seconds = remainingTime % 60
+        timerLabel.text = String(format: "%02d:%02d", minutes, seconds)
+    }
+    
+    override func becomeFirstResponder() -> Bool {
+        let didBecome = super.becomeFirstResponder()
+        if didBecome {
+            layer.borderColor = UIColor.coolNeutral600.cgColor
+        }
+        return didBecome
+    }
+    
+    override func resignFirstResponder() -> Bool {
+        let didResign = super.resignFirstResponder()
+        if didResign {
+            layer.borderColor = UIColor.coolNeutral200.cgColor
+        }
+        return didResign
     }
 }
 
@@ -104,7 +122,12 @@ extension CustomTextField {
         let button = UIButton(type: .system)
         button.setImage(UIImage(systemName: Attributes.xmarkImage), for: .normal)
         button.tintColor = .coolNeutral300
-        button.addAction(UIAction { [weak self] _ in self?.text = "" }, for: .touchUpInside)
+        button.addAction(UIAction { [weak self] _ in
+            guard let self = self else { return }
+            self.text = ""
+            NotificationCenter.default.post(name: UITextField.textDidChangeNotification, object: self)
+        }, for: .touchUpInside)
+        
         configureRightView(
             with: button,
             subviewSize: CGSize(width: 20, height: 20)
