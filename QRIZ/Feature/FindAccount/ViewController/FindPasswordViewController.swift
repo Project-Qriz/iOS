@@ -58,38 +58,62 @@ final class FindPasswordViewController: UIViewController {
         let emailTextChanged = rootView.findPasswordInputView.emailTextChangedPublisher
             .map { FindPasswordViewModel.Input.emailTextChanged($0) }
         
-        let sendButtonTapped = rootView.findPasswordInputView.buttonTappedPublisher
+        let sendButtonTapped = rootView.findPasswordInputView.sendButtonTappedPublisher
             .map { FindPasswordViewModel.Input.sendButtonTapped }
+        
+        let codeTextChanged = rootView.findPasswordInputView.codeTextChangedPublisher
+            .map { FindPasswordViewModel.Input.codeTextChanged($0) }
+        
+        let confirmButtonTapped = rootView.findPasswordInputView.confirmButtonPublisher
+            .map { FindPasswordViewModel.Input.confirmButtonTapped }
         
         let nextButtonTapped = rootView.signupFooterView.buttonTappedPublisher
             .map { FindPasswordViewModel.Input.nextButtonTapped }
         
-        let input = Publishers.Merge3(
-            emailTextChanged,
-            sendButtonTapped,
-            nextButtonTapped
-        )
+        let input = emailTextChanged
+            .merge(with: sendButtonTapped)
+            .merge(with: codeTextChanged)
+            .merge(with: confirmButtonTapped)
+            .merge(with: nextButtonTapped)
             .eraseToAnyPublisher()
         
         let output = findPasswordVM.transform(input: input)
         
         output
+            .receive(on: DispatchQueue.main)
             .sink { [weak self] output in
                 guard let self = self else { return }
                 switch output {
-                case .isNameValid(let isValid):
-                    self.rootView.findPasswordInputView.updateErrorState(isValid: isValid)
+                case .isEmailValid(let isValid):
+                    self.rootView.findPasswordInputView.updateErrorState(for: .email, isValid: isValid)
                     self.rootView.findPasswordInputView.updateSendButton(isValid: isValid)
                     
-                case .passwordVerificationSuccess:
-                    self.rootView.findPasswordInputView.handleVerificationSuccess()
+                case .isCodeValid(let isValid):
+                    self.rootView.findPasswordInputView.updateErrorState(for: .code, isValid: isValid)
+                    self.rootView.findPasswordInputView.updateConfirmButton(isValid: isValid)
                     
-                case .passwordVerificationFailure:
-                    print("실패")
+                case .emailVerificationSuccess:
+                    self.rootView.findPasswordInputView.handleEmailVerificationSuccess()
+                    
+                case .updateRemainingTime(let remainingTime):
+                    self.rootView.findPasswordInputView.updateTimerLabel(remainingTime)
+                    
+                case .timerExpired:
+                    self.rootView.findPasswordInputView.handleTimerExpired()
+                    
+                case .emailVerificationFailure:
+                    print("이메일 인증 실패")
+                    
+                case .codeVerificationSuccess:
+                    self.rootView.findPasswordInputView.handleCodeVerificationSuccess()
+                    self.rootView.signupFooterView.updateButtonState(isValid: true)
+                    
+                case .codeVerificationFailure:
+                    print("인증 코드 실패")
                     
                 case .navigateToPasswordResetView:
                     // MARK: - 코디네이터 적용 필요
-                    print("nextView")
+                    print("비밀번호 재설정 화면으로 이동")
                 }
             }
             .store(in: &cancellables)
