@@ -19,25 +19,27 @@ final class FindPasswordInputView: UIView {
     
     private enum Metric {
         static let textFieldHeight: CGFloat = 48.0
-        static let inputErrorLabelTopOffset: CGFloat = 4.0
         static let sendButtonWidthMultiplier: CGFloat = 80 / 48
-        static let codeHStackViewTopOffset: CGFloat = 16.0
     }
     
     // MARK: - Enums
     
     private enum Attributes {
-        static let emailPlaceholder: String = "qriz@gmail.com"
-        static let codePlaceholder: String = "인증번호 입력"
-        static let sendButtonTitle: String = "전송"
-        static let resendButtonTitle: String = "재전송"
-        static let confirmButtonTitle: String = "확인"
-        static let emailErrorText: String = "올바른 이메일 형식으로 입력해주세요."
-        static let codeErrorText: String = "인증번호가 올바르지 않습니다."
-        static let expiredErrorText: String = "인증 시간이 만료되었어요. 재전송을 눌러주세요."
-        static let emailVerificationSentMessage: String = "인증번호가 이메일로 전송됐습니다!"
-        static let codeVerificationSuccessMessage: String = "인증 완료되었습니다."
-        static let timerDuration: Int = 180
+        static let emailPlaceholder = "qriz@gmail.com"
+        static let codePlaceholder = "인증번호 입력"
+        
+        static let sendButtonTitle = "전송"
+        static let resendButtonTitle = "재전송"
+        static let confirmButtonTitle = "확인"
+        
+        static let emailErrorText = "올바른 이메일 형식으로 입력해주세요."
+        static let codeErrorText = "인증번호가 올바르지 않습니다."
+        static let expiredErrorText = "인증 시간이 만료되었어요. 재전송을 눌러주세요."
+        
+        static let emailVerificationSentMessage = "인증번호가 이메일로 전송됐습니다!"
+        static let codeVerificationSuccessMessage = "인증 완료되었습니다."
+        
+        static let timerDuration = 180
     }
     
     // MARK: - Properties
@@ -190,16 +192,25 @@ final class FindPasswordInputView: UIView {
     }
     
     func updateSendButton(isValid: Bool) {
-        sendButton.isEnabled = isValid
-        sendButton.setTitleColor(isValid ? .coolNeutral800 : .coolNeutral300, for: .normal)
+        setButtonState(
+            button: sendButton,
+            isEnabled: isValid,
+            enabledTitleColor: .coolNeutral800,
+            disabledTitleColor: .coolNeutral300,
+            enabledBorderColor: UIColor.customBlue200.cgColor,
+            disabledBorderColor: UIColor.customBlue200.cgColor
+        )
     }
     
     func updateConfirmButton(isValid: Bool) {
-        confirmButton.isEnabled = isValid
-        confirmButton.setTitleColor(isValid ? .customBlue500 : .coolNeutral300, for: .normal)
-        confirmButton.layer.borderColor = isValid
-        ? UIColor.customBlue500.cgColor
-        : UIColor.coolNeutral200.cgColor
+        setButtonState(
+            button: confirmButton,
+            isEnabled: isValid,
+            enabledTitleColor: .customBlue500,
+            disabledTitleColor: .coolNeutral300,
+            enabledBorderColor: UIColor.customBlue500.cgColor,
+            disabledBorderColor: UIColor.coolNeutral200.cgColor
+        )
     }
     
     func updateErrorState(for type: textFieldType, isValid: Bool) {
@@ -215,62 +226,118 @@ final class FindPasswordInputView: UIView {
             errorText = Attributes.codeErrorText
         }
         
-        inputErrorLabel.text = isValid ? nil : errorText
-        inputErrorLabel.isHidden = isValid
-        
-        textField.layer.borderColor = isValid
-            ? UIColor.coolNeutral600.cgColor
-            : UIColor.customRed500.cgColor
+        if isValid {
+            hideMessage()
+            textField.layer.borderColor = UIColor.coolNeutral600.cgColor
+        } else {
+            showErrorMessage(errorText)
+            textField.layer.borderColor = UIColor.customRed500.cgColor
+        }
     }
     
     func handleEmailVerificationSuccess() {
         emailTextField.isEnabled = false
         codeHStackView.isHidden = false
-        inputErrorLabel.isHidden = false
         sendButton.setTitle(Attributes.resendButtonTitle, for: .normal)
-        inputErrorLabel.text = Attributes.emailVerificationSentMessage
+        
+        showMessage(Attributes.emailVerificationSentMessage, textColor: .customRed500)
     }
     
     func handleCodeVerificationSuccess() {
-        codeTextField.isEnabled = false
-        confirmButton.isEnabled = false
-        confirmButton.setTitleColor(.coolNeutral300, for: .normal)
-        confirmButton.layer.borderColor = UIColor.coolNeutral200.cgColor
-        
-        sendButton.isEnabled = false
-        sendButton.setTitleColor(.coolNeutral300, for: .normal)
-        sendButton.layer.borderColor = UIColor.coolNeutral200.cgColor
-        
+        setTextFieldState(codeTextField, enabled: false, borderColor: UIColor.coolNeutral200.cgColor)
+        setButtonState(
+            button: confirmButton,
+            isEnabled: false,
+            enabledTitleColor: .customBlue500,
+            disabledTitleColor: .coolNeutral300,
+            enabledBorderColor: UIColor.customBlue200.cgColor,
+            disabledBorderColor: UIColor.coolNeutral200.cgColor
+        )
+        setButtonState(
+            button: sendButton,
+            isEnabled: false,
+            enabledTitleColor: .coolNeutral800,
+            disabledTitleColor: .coolNeutral300,
+            enabledBorderColor: UIColor.customBlue200.cgColor,
+            disabledBorderColor: UIColor.coolNeutral200.cgColor
+        )
         codeTextField.updateRightView(.checkmark)
-        
-        inputErrorLabel.text = Attributes.codeVerificationSuccessMessage
-        inputErrorLabel.textColor = .customMint800
-        inputErrorLabel.isHidden = false
+        showSuccessMessage(Attributes.codeVerificationSuccessMessage)
     }
     
     func handleCodeVerificationFailure() {
         codeTextField.layer.borderColor = UIColor.customRed500.cgColor
-        
-        inputErrorLabel.text = Attributes.codeErrorText
-        inputErrorLabel.textColor = .customRed500
-        inputErrorLabel.isHidden = false
+        showErrorMessage(Attributes.codeErrorText)
     }
     
     func handleTimerExpired() {
-        codeTextField.isEnabled = false
-        codeTextField.layer.borderColor = UIColor.coolNeutral100.cgColor
-        codeTextField.backgroundColor = UIColor.coolNeutral100
+        setTextFieldState(
+            codeTextField,
+            enabled: false,
+            borderColor: UIColor.coolNeutral100.cgColor,
+            backgroundColor: .coolNeutral100
+        )
+        setButtonState(
+            button: confirmButton,
+            isEnabled: false,
+            enabledTitleColor: .customBlue500,
+            disabledTitleColor: .coolNeutral300,
+            enabledBorderColor: UIColor.customBlue200.cgColor,
+            disabledBorderColor: UIColor.customBlue200.cgColor
+        )
         
-        confirmButton.isEnabled = false
-        confirmButton.setTitleColor(.coolNeutral300, for: .normal)
-        confirmButton.layer.borderColor = UIColor.customBlue200.cgColor
-        
-        inputErrorLabel.text = Attributes.expiredErrorText
-        inputErrorLabel.isHidden = false
+        showErrorMessage(Attributes.expiredErrorText)
     }
     
     func updateTimerLabel(_ remainingTime: Int) {
         codeTextField.updateTimerLabel(remainingTime)
+    }
+    
+    /// 버튼 상태 관리 메서드
+    private func setButtonState(
+        button: UIButton,
+        isEnabled: Bool,
+        enabledTitleColor: UIColor,
+        disabledTitleColor: UIColor,
+        enabledBorderColor: CGColor,
+        disabledBorderColor: CGColor
+    ) {
+        button.isEnabled = isEnabled
+        button.setTitleColor(isEnabled ? enabledTitleColor : disabledTitleColor, for: .normal)
+        button.layer.borderColor = isEnabled ? enabledBorderColor : disabledBorderColor
+    }
+    
+    /// 텍스트필드 상태 관리 메서드
+    private func setTextFieldState(
+        _ textField: UITextField,
+        enabled: Bool,
+        borderColor: CGColor? = nil,
+        backgroundColor: UIColor = .white
+    ) {
+        textField.isEnabled = enabled
+        textField.backgroundColor = backgroundColor
+        if let borderColor = borderColor {
+            textField.layer.borderColor = borderColor
+        }
+    }
+    
+    private func showErrorMessage(_ text: String) {
+        showMessage(text, textColor: .customRed500)
+    }
+    
+    private func showSuccessMessage(_ text: String) {
+        showMessage(text, textColor: .customMint800)
+    }
+    
+    private func showMessage(_ text: String, textColor: UIColor) {
+        inputErrorLabel.text = text
+        inputErrorLabel.textColor = textColor
+        inputErrorLabel.isHidden = false
+    }
+    
+    private func hideMessage() {
+        inputErrorLabel.text = nil
+        inputErrorLabel.isHidden = true
     }
 }
 
