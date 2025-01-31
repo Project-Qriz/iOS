@@ -101,7 +101,7 @@ final class FindPasswordInputView: UIView {
     private lazy var codeTextField: CustomTextField = {
         let textField = CustomTextField(
             placeholder: Attributes.codePlaceholder,
-            rightViewType: .timerLabel
+            rightViewType: .clearButtonWithTimer
         )
         textField.keyboardType = .numberPad
         textField.delegate = self
@@ -185,8 +185,8 @@ final class FindPasswordInputView: UIView {
         confirmButton.isEnabled = isValid
         confirmButton.setTitleColor(isValid ? .customBlue500 : .coolNeutral300, for: .normal)
         confirmButton.layer.borderColor = isValid
-        ? UIColor.coolNeutral800.cgColor
-        : UIColor.customBlue300.cgColor
+        ? UIColor.customBlue500.cgColor
+        : UIColor.coolNeutral200.cgColor
     }
     
     func updateErrorState(for type: textFieldType, isValid: Bool) {
