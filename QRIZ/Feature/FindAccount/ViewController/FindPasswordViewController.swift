@@ -108,7 +108,7 @@ final class FindPasswordViewController: UIViewController {
                     self.rootView.signupFooterView.updateButtonState(isValid: true)
                     
                 case .codeVerificationFailure:
-                    print("인증 코드 실패")
+                    self.rootView.findPasswordInputView.handleCodeVerificationFailure()
                     
                 case .navigateToPasswordResetView:
                     // MARK: - 코디네이터 적용 필요

@@ -89,8 +89,13 @@ final class FindPasswordViewModel {
     // 인증 API 호출
     private func verifyCode() {
         let apiResult = Bool.random()
-        let result: Output = apiResult ? .codeVerificationSuccess : .codeVerificationFailure
-        outputSubject.send(result)
+        
+        if apiResult {
+            outputSubject.send(.codeVerificationSuccess)
+            countdownTimer.stop()
+        } else {
+            outputSubject.send(.codeVerificationFailure)
+        }
     }
 }
 

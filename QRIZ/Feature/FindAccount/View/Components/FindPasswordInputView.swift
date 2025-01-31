@@ -182,7 +182,10 @@ final class FindPasswordInputView: UIView {
     private func observe() {
         codeTextField.textPublisher
             .removeDuplicates()
-            .sink { [weak self] _ in self?.inputErrorLabel.isHidden = true }
+            .sink { [weak self] _ in
+                self?.inputErrorLabel.isHidden = true
+                self?.codeTextField.layer.borderColor = UIColor.coolNeutral600.cgColor
+            }
             .store(in: &cancellables)
     }
     
@@ -234,10 +237,22 @@ final class FindPasswordInputView: UIView {
         confirmButton.setTitleColor(.coolNeutral300, for: .normal)
         confirmButton.layer.borderColor = UIColor.coolNeutral200.cgColor
         
+        sendButton.isEnabled = false
+        sendButton.setTitleColor(.coolNeutral300, for: .normal)
+        sendButton.layer.borderColor = UIColor.coolNeutral200.cgColor
+        
         codeTextField.updateRightView(.checkmark)
         
         inputErrorLabel.text = Attributes.codeVerificationSuccessMessage
         inputErrorLabel.textColor = .customMint800
+        inputErrorLabel.isHidden = false
+    }
+    
+    func handleCodeVerificationFailure() {
+        codeTextField.layer.borderColor = UIColor.customRed500.cgColor
+        
+        inputErrorLabel.text = Attributes.codeErrorText
+        inputErrorLabel.textColor = .customRed500
         inputErrorLabel.isHidden = false
     }
     
