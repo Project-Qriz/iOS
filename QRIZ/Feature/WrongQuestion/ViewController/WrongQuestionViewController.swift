@@ -38,7 +38,13 @@ final class WrongQuestionViewController: UIViewController {
     
     private func bind() {
         
-        let mergedInput = Publishers.Merge4(input, wrongQuestionSegment.input, menuButton.input, menuItems.input)
+        let mergedInput = Publishers.Merge5(
+            input,
+            wrongQuestionSegment.input,
+            menuButton.input,
+            menuItems.input,
+            categorySliderButton.input
+        )
         let output = viewModel.transform(input: mergedInput.eraseToAnyPublisher())
         
         output
@@ -63,6 +69,7 @@ final class WrongQuestionViewController: UIViewController {
                 case .setSegmentItems(let isIncorrectOnly):
                     setUIState(isIncorrectOnly: isIncorrectOnly)
                 case .showModal:
+                    present(WrongQuestionCategoryViewController(), animated: true)
                     print("show modal")
                 }
             }

@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Combine
 
 final class CategorySliderButton: UIView {
     
@@ -17,6 +18,7 @@ final class CategorySliderButton: UIView {
         return imageView
     }()
     
+    let input: PassthroughSubject<WrongQuestionViewModel.Input, Never> = .init()
     // MARK: - Initializer
     init() {
         super.init(frame: .zero)
@@ -24,10 +26,19 @@ final class CategorySliderButton: UIView {
         self.layer.masksToBounds = true
         self.layer.cornerRadius = 8
         addViews()
+        addButtonAction()
     }
     
     required init?(coder: NSCoder) {
         fatalError("no initializer for coder: CategoryChoiceButton")
+    }
+    
+    private func addButtonAction() {
+        addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(sendButtonClicked)))
+    }
+    
+    @objc private func sendButtonClicked() {
+        input.send(.sliderButtonClicked)
     }
 }
 
