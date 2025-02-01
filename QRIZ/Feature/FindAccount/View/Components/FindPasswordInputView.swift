@@ -66,7 +66,7 @@ final class FindPasswordInputView: UIView {
     
     // MARK: - UI
     
-    private lazy var emailTextField: UITextField = {
+    private lazy var emailTextField: CustomTextField = {
         let textField = CustomTextField(
             placeholder: Attributes.emailPlaceholder,
             rightViewType: .clearButton
@@ -236,11 +236,11 @@ final class FindPasswordInputView: UIView {
     }
     
     func handleEmailVerificationSuccess() {
-        emailTextField.isEnabled = false
         codeHStackView.isHidden = false
+        emailTextField.isEnabled = false
+        emailTextField.updateRightView(.checkmark)
         sendButton.setTitle(Attributes.resendButtonTitle, for: .normal)
-        
-        showMessage(Attributes.emailVerificationSentMessage, textColor: .customRed500)
+        showMessage(Attributes.emailVerificationSentMessage, textColor: .customMint800)
     }
     
     func handleCodeVerificationSuccess() {
