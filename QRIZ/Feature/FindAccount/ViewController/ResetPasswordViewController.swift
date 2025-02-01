@@ -55,6 +55,45 @@ final class ResetPasswordViewController: UIViewController {
     // MARK: - Functions
     
     private func bind() {
+        let passwordTextChanged = rootView.passwordInputView.passwordTextChangedPublisher
+            .map { ResetPasswordViewModel.Input.passwordTextChanged($0) }
+        
+        let confirmTextChanged = rootView.passwordInputView.confirmTextChangedPublisher
+            .map { ResetPasswordViewModel.Input.confirmPasswordTextChanged($0) }
+        
+        let signupButtonTapped = rootView.signupFooterView.buttonTappedPublisher
+            .map { ResetPasswordViewModel.Input.buttonTapped }
+        
+        let input = passwordTextChanged
+            .merge(with: confirmTextChanged)
+            .merge(with: signupButtonTapped)
+            .eraseToAnyPublisher()
+        
+        let output = resetPasswordVM.transform(input: input)
+        
+        output
+            .sink { [weak self] output in
+                guard let self = self else { return }
+                switch output {
+                    
+                case .characterRequirementChanged(let isValid):
+                    self.rootView.passwordInputView.updateCharacterRequirementUI(isValid)
+                    
+                case .lengthRequirementChanged(let isValid):
+                    self.rootView.passwordInputView.updateLengthRequirementUI(isValid)
+                    
+                case .confirmValidChanged(let isValid):
+                    self.rootView.passwordInputView.updateConfirmPasswordUI(isValid)
+                    
+                case .updateSignupButtonState(let canSignUp):
+                    self.rootView.signupFooterView.updateButtonState(isValid: canSignUp)
+                    
+                case .navigateToAlertView:
+                    let loginVC = LoginViewController(loginVM: LoginViewModel())
+                    self.navigationController?.pushViewController(loginVC, animated: true)
+                }
+            }
+            .store(in: &cancellables)
     }
     
     private func observe() {
@@ -67,4 +106,3 @@ final class ResetPasswordViewController: UIViewController {
             .store(in: &cancellables)
     }
 }
-

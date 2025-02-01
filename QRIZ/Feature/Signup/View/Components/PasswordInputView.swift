@@ -16,7 +16,8 @@ final class PasswordInputView: UIView {
         static let textFieldHeight: CGFloat = 48.0
         static let requirementVStackViewTopOffset: CGFloat = 4.0
         static let confirmPasswordTextFieldTopOffset: CGFloat = 16.0
-        static let checkmarkSize: CGFloat = 16.0
+        static let confirmCheckmarkTrailingOffset: CGFloat = -40.0
+        static let checkmarkSize: CGFloat = 22.0
     }
     
     private enum Attributes {
@@ -30,6 +31,9 @@ final class PasswordInputView: UIView {
     }
     
     // MARK: - Properties
+    
+    private var isCharacterValid: Bool = false
+    private var isLengthValid: Bool = false
     
     var passwordTextChangedPublisher: AnyPublisher<String, Never> {
         passwordTextField.textPublisher
@@ -65,12 +69,6 @@ final class PasswordInputView: UIView {
         label: lengthRequirementLabel
     )
     
-    private let confirmPasswordTextField = CustomTextField(
-        placeholder: Attributes.confirmPasswordPlaceholder,
-        isSecure: true,
-        rightViewType: .passwordToggle
-    )
-    
     private lazy var requirementVStackView: UIStackView = {
         let stackView = UIStackView(arrangedSubviews: [
             characterRequirementHStack,
@@ -80,6 +78,18 @@ final class PasswordInputView: UIView {
         stackView.distribution = .fillProportionally
         stackView.spacing = 2
         return stackView
+    }()
+    
+    private let confirmPasswordTextField = CustomTextField(
+        placeholder: Attributes.confirmPasswordPlaceholder,
+        isSecure: true,
+        rightViewType: .passwordToggle
+    )
+    
+    private let confirmCheckmark: UIImageView = {
+        let imageView = buildCheckmarkImageView(tintColor: UIColor.customBlue500)
+        imageView.isHidden = true
+        return imageView
     }()
     
     // MARK: - initialize
@@ -107,6 +117,36 @@ final class PasswordInputView: UIView {
         confirmPasswordTextField.delegate = self
     }
     
+    func updateCharacterRequirementUI(_ isValid: Bool) {
+        isCharacterValid = isValid
+        
+        let color: UIColor = isValid ? .customMint800 : .coolNeutral500
+        characterCheckImageView.tintColor = color
+        characterRequirementLabel.textColor = color
+        updatePasswordTextFieldBorderColor()
+    }
+    
+    func updateLengthRequirementUI(_ isValid: Bool) {
+        isLengthValid = isValid
+        
+        let color: UIColor = isValid ? .customMint800 : .coolNeutral500
+        lengthCheckImageView.tintColor = color
+        lengthRequirementLabel.textColor = color
+        updatePasswordTextFieldBorderColor()
+    }
+    
+    func updateConfirmPasswordUI(_ isValid: Bool) {
+        confirmCheckmark.isHidden = !isValid
+    }
+    
+    private func updatePasswordTextFieldBorderColor() {
+        if isCharacterValid && isLengthValid {
+            passwordTextField.layer.borderColor = UIColor.customMint800.cgColor
+        } else {
+            passwordTextField.layer.borderColor = UIColor.coolNeutral600.cgColor
+        }
+    }
+    
     private static func buildRequirementLabel(text: String) -> UILabel {
         let label = UILabel()
         label.text = text
@@ -115,9 +155,11 @@ final class PasswordInputView: UIView {
         return label
     }
     
-    private static func buildCheckmarkImageView() -> UIImageView {
+    private static func buildCheckmarkImageView(tintColor: UIColor? = .coolNeutral500) -> UIImageView {
         let imageView = UIImageView(image: UIImage(systemName: Attributes.checkmark))
-        imageView.tintColor = .coolNeutral500
+        let config = UIImage.SymbolConfiguration(pointSize: 15, weight: .medium)
+        imageView.preferredSymbolConfiguration = config
+        imageView.tintColor = tintColor
         imageView.contentMode = .scaleAspectFit
         return imageView
     }
@@ -128,16 +170,6 @@ final class PasswordInputView: UIView {
         stackView.distribution = .fillProportionally
         stackView.spacing = 5
         return stackView
-    }
-    
-    func updatePasswordErrorState(_ isValid: Bool) {
-        characterRequirementLabel.isHidden = isValid
-        passwordTextField.layer.borderColor = isValid ? UIColor.clear.cgColor : UIColor.customRed500.cgColor
-    }
-    
-    func updateconfirmErrorState(_ isValid: Bool) {
-        lengthRequirementLabel.isHidden = isValid
-        confirmPasswordTextField.layer.borderColor = isValid ? UIColor.clear.cgColor : UIColor.customRed500.cgColor
     }
 }
 
@@ -150,12 +182,15 @@ extension PasswordInputView {
             requirementVStackView,
             confirmPasswordTextField
         ].forEach(addSubview(_:))
+        
+        confirmPasswordTextField.addSubview(confirmCheckmark)
     }
     
     private func setupConstraints() {
         passwordTextField.translatesAutoresizingMaskIntoConstraints = false
         requirementVStackView.translatesAutoresizingMaskIntoConstraints = false
         confirmPasswordTextField.translatesAutoresizingMaskIntoConstraints = false
+        confirmCheckmark.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
             passwordTextField.topAnchor.constraint(equalTo: topAnchor),
@@ -179,11 +214,13 @@ extension PasswordInputView {
             confirmPasswordTextField.bottomAnchor.constraint(equalTo: bottomAnchor),
             confirmPasswordTextField.heightAnchor.constraint(equalToConstant: Metric.textFieldHeight),
             
-            characterCheckImageView.widthAnchor.constraint(equalToConstant: Metric.checkmarkSize),
-            characterCheckImageView.heightAnchor.constraint(equalToConstant: Metric.checkmarkSize),
-            
-            lengthCheckImageView.widthAnchor.constraint(equalToConstant: Metric.checkmarkSize),
-            lengthCheckImageView.heightAnchor.constraint(equalToConstant: Metric.checkmarkSize),
+            confirmCheckmark.centerYAnchor.constraint(equalTo: confirmPasswordTextField.centerYAnchor),
+            confirmCheckmark.trailingAnchor.constraint(
+                equalTo: confirmPasswordTextField.trailingAnchor,
+                constant: Metric.confirmCheckmarkTrailingOffset
+            ),
+            confirmCheckmark.widthAnchor.constraint(equalToConstant: Metric.checkmarkSize),
+            confirmCheckmark.heightAnchor.constraint(equalToConstant: Metric.checkmarkSize),
         ])
     }
 }

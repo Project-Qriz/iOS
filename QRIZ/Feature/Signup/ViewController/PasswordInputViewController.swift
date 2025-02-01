@@ -80,10 +80,12 @@ final class PasswordInputViewController: UIViewController {
                 
                 switch output {
                 case .isPasswordValid(let isValid):
-                    self.rootView.passwordInputView.updatePasswordErrorState(isValid)
+//                    self.rootView.passwordInputView.updatePasswordErrorState(isValid)
+                    break
                     
                 case .isConfirmValid(let isValid):
-                    self.rootView.passwordInputView.updateconfirmErrorState(isValid)
+//                    self.rootView.passwordInputView.updateconfirmErrorState(isValid)
+                    break
                     
                 case .updateSignupButtonState(let canSignUp):
                     self.rootView.signupFooterView.updateButtonState(isValid: canSignUp)
