@@ -18,6 +18,22 @@ extension String {
         return NSPredicate(format: "SELF MATCHES %@", idRegex).evaluate(with: self)
     }
     
+    
+    /// 1.. 최소 1개 이상의 대문자 포함
+    /// 2. 최소 1개 이상의 소문자 포함
+    /// 3. 최소 1개 이상의 숫자 포함
+    /// 4. 최소 1개 이상의 특수문자 포함
+    var isValidCharacterRequirement: Bool {
+        let characterRegex = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=*!])"
+        return NSPredicate(format: "SELF MATCHES %@", characterRegex).evaluate(with: self)
+    }
+    
+    /// 1. 길이: 8~16자
+    var isValidLengthRequirement: Bool {
+        let lengthRegex = "^(?=\\S+$).{8,16}$"
+        return NSPredicate(format: "SELF MATCHES %@", lengthRegex).evaluate(with: self)
+    }
+    
     /// 비밀번호 유효성 체크 조건:
     /// 1. 길이: 8~16자
     /// 2. 최소 1개 이상의 대문자 포함
@@ -25,8 +41,7 @@ extension String {
     /// 4. 최소 1개 이상의 숫자 포함
     /// 5. 최소 1개 이상의 특수문자 포함
     var isValidPassword: Bool {
-        let passwordRegex = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=*!])(?=\\S+$).{8,16}$"
-        return NSPredicate(format: "SELF MATCHES %@", passwordRegex).evaluate(with: self)
+        return isValidCharacterRequirement && isValidLengthRequirement
     }
     
     /// 이름 유효성 체크 조건:
