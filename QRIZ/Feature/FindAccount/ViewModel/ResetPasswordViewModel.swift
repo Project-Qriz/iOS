@@ -33,7 +33,7 @@ final class ResetPasswordViewModel {
                     self.validate()
                     
                 case .buttonTapped:
-                    print("회원가입API 호출")
+                    print("비밀번호 변경API 호출")
                     outputSubject.send(.navigateToAlertView)
                 }
             }

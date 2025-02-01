@@ -89,8 +89,7 @@ final class ResetPasswordViewController: UIViewController {
                     self.rootView.signupFooterView.updateButtonState(isValid: canSignUp)
                     
                 case .navigateToAlertView:
-                    let loginVC = LoginViewController(loginVM: LoginViewModel())
-                    self.navigationController?.pushViewController(loginVC, animated: true)
+                    self.showEmailSentAlert()
                 }
             }
             .store(in: &cancellables)
@@ -104,5 +103,24 @@ final class ResetPasswordViewController: UIViewController {
                 self?.view.endEditing(true)
             }
             .store(in: &cancellables)
+    }
+    
+    private func showEmailSentAlert() {
+        let confirmAction = UIAction { [weak self] _ in
+            guard let self = self else { return }
+            print("확인 버튼 클릭")
+            self.dismiss(animated: true)
+            self.navigationController?.popToRootViewController(animated: true)
+        }
+        
+        let alertVC = CustomAlertViewController(
+            alertType: .onlyConfirm,
+            title: "비밀번호 변경 완료",
+            description: "변경이 완료되었습니다.\n보안을 위해 재로그인을 진행해 주세요.",
+            descriptionLine: 2,
+            confirmAction: confirmAction
+        )
+        
+        self.present(alertVC, animated: true)
     }
 }

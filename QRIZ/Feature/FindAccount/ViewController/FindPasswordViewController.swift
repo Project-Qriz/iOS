@@ -112,7 +112,7 @@ final class FindPasswordViewController: UIViewController {
                     
                 case .navigateToPasswordResetView:
                     // MARK: - 코디네이터 적용 필요
-                    print("비밀번호 재설정 화면으로 이동")
+                    self.navigationController?.pushViewController(ResetPasswordViewController(resetPasswordVM: ResetPasswordViewModel()), animated: true)
                 }
             }
             .store(in: &cancellables)

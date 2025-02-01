@@ -82,8 +82,7 @@ final class LoginViewController: UIViewController {
                     case .findId:
                         nextVC = FindIdViewController(findIdInputVM: FindIdViewModel())
                     case .findPassword:
-                        nextVC = FindIdViewController(findIdInputVM: FindIdViewModel())
-                        print("패스워드뷰 호출(임시 아이디뷰 호출)")
+                        nextVC = FindPasswordViewController(findPasswordVM: FindPasswordViewModel())
                     case .signUp:
                         nextVC = NameInputViewController(nameInputVM: NameInputViewModel())
                     }
