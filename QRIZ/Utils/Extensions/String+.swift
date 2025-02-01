@@ -18,19 +18,18 @@ extension String {
         return NSPredicate(format: "SELF MATCHES %@", idRegex).evaluate(with: self)
     }
     
-    
-    /// 1.. 최소 1개 이상의 대문자 포함
+    /// 1. 최소 1개 이상의 대문자 포함
     /// 2. 최소 1개 이상의 소문자 포함
     /// 3. 최소 1개 이상의 숫자 포함
     /// 4. 최소 1개 이상의 특수문자 포함
     var isValidCharacterRequirement: Bool {
-        let characterRegex = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=*!])"
+        let characterRegex = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=*!]).*$"
         return NSPredicate(format: "SELF MATCHES %@", characterRegex).evaluate(with: self)
     }
     
     /// 1. 길이: 8~16자
     var isValidLengthRequirement: Bool {
-        let lengthRegex = "^(?=\\S+$).{8,16}$"
+        let lengthRegex = "^\\S{8,16}$"
         return NSPredicate(format: "SELF MATCHES %@", lengthRegex).evaluate(with: self)
     }
     
