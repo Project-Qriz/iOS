@@ -14,6 +14,6 @@ extension UIControl {
     ///  - events: 감지하고 싶은 이벤트(touchUpInside, valueChanged 등등)를 입력받습니다.
     func controlEventPublisher(for events: UIControl.Event) -> AnyPublisher<Void, Never> {
         Publishers.ControlEvent(control: self, events: events)
-                  .eraseToAnyPublisher()
+            .eraseToAnyPublisher()
     }
 }
