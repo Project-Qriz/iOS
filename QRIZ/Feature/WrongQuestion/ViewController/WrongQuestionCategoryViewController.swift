@@ -9,7 +9,7 @@ import UIKit
 import Combine
 
 final class WrongQuestionCategoryViewController: UIViewController {
-
+    
     // MARK: - Properties
     private let titleLabel: UILabel = {
         let label = UILabel()
@@ -20,7 +20,6 @@ final class WrongQuestionCategoryViewController: UIViewController {
         label.textColor = .coolNeutral800
         return label
     }()
-    
     private let cancelButton: UIButton = {
         let button = UIButton()
         let image = UIImage(systemName: "xmark")?.withRenderingMode(.alwaysTemplate)
@@ -29,7 +28,6 @@ final class WrongQuestionCategoryViewController: UIViewController {
         button.backgroundColor = .white
         return button
     }()
-    
     private let submitButton: UIButton = {
         let button = UIButton()
         button.setTitle("적용하기", for: .normal)
@@ -39,13 +37,26 @@ final class WrongQuestionCategoryViewController: UIViewController {
         button.layer.cornerRadius = 8
         return button
     }()
-    
     private let grabberView: UIView = {
         let view = UIView()
         view.backgroundColor = .coolNeutral200
         view.layer.cornerRadius = 4
         view.layer.masksToBounds = true
         return view
+    }()
+    private let collectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
+    
+    private enum Section: String, CaseIterable {
+        case DataModeling = "데이터 모델링의 이해"
+        case DataModelAndSQL = "데이터 모델과 SQL"
+        case SQLBasic = "SQL 기본"
+        case SQLAdvanced = "SQL 활용"
+        case SQLCommands = "관리 구문"
+    }
+    private let items: [[String]] = {
+        var arr: [[String]] = ConceptCategory.getAllConceptList()
+        for i in 0..<arr.count { arr[i].insert("전체", at: 0) }
+        return arr
     }()
     
     // MARK: - Initializer
@@ -58,28 +69,39 @@ final class WrongQuestionCategoryViewController: UIViewController {
     required init?(coder: NSCoder) {
         fatalError("no initializer for coder: WrongQuestionCategoryViewController")
     }
-
+    
+    // MARK: - Methods
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = .white
         configureSheetPresentation()
         addViews()
         addButtonsAction()
+        setCollectionView()
     }
     
-    // MARK: - Methods
     private func configureSheetPresentation() {
         if let sheetPresentationController = sheetPresentationController {
             sheetPresentationController.detents = [.medium()]
             sheetPresentationController.preferredCornerRadius = 32.0
-//            sheetPresentationController.prefersGrabberVisible = true
+            //            sheetPresentationController.prefersGrabberVisible = true
             sheetPresentationController.largestUndimmedDetentIdentifier = .none
         }
     }
-
+    
     private func addButtonsAction() {
         cancelButton.addTarget(self, action: #selector(cancelButtonAction), for: .touchUpInside)
         submitButton.addTarget(self, action: #selector(submitButtonAction), for: .touchUpInside)
+    }
+    
+    private func setCollectionView() {
+        collectionView.dataSource = self
+        collectionView.collectionViewLayout = layout()
+    }
+    
+    private func layout() -> UICollectionViewFlowLayout {
+        let layout = UICollectionViewFlowLayout()
+        return layout
     }
     
     @objc private func cancelButtonAction() {
@@ -92,6 +114,32 @@ final class WrongQuestionCategoryViewController: UIViewController {
         // Coordinator & network
     }
 }
+
+// MARK: - CollectionView DataSource
+extension WrongQuestionCategoryViewController: UICollectionViewDataSource {
+    
+    func numberOfSections(in collectionView: UICollectionView) -> Int {
+        return 5
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return items[section].count
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "WrongQuestionCategoryCollectionViewCell", for: indexPath)
+                as? WrongQuestionCategoryCollectionViewCell else { return UICollectionViewCell() }
+
+        let item = items[indexPath.section][indexPath.item]
+        cell.configure(item)
+
+        return cell
+    }
+}
+
+// MARK: - CollectionView Delegate
+
 
 // MARK: - Auto Layout
 extension WrongQuestionCategoryViewController {

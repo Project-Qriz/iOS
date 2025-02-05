@@ -14,12 +14,20 @@ enum ConceptCategory: CaseIterable {
         for elem in category.allCases {
             arr.append(elem.rawValue)
         }
-        arr.removeFirst()
+        return arr
+    }
+    
+    static func getAllConceptList() -> [[String]] {
+        var arr: [[String]] = [[]]
+        arr.append(getConceptList(for: DataModeling.self))
+        arr.append(getConceptList(for: DataModelAndSQL.self))
+        arr.append(getConceptList(for: SQLBasic.self))
+        arr.append(getConceptList(for: SQLAdvanced.self))
+        arr.append(getConceptList(for: SQLCommands.self))
         return arr
     }
     
     enum DataModeling: String, CaseIterable {
-        case total = "전체"
         case understandOfDataModel = "데이터 모델의 이해"
         case entity = "엔터티"
         case attribute = "속성"
@@ -28,7 +36,6 @@ enum ConceptCategory: CaseIterable {
     }
     
     enum DataModelAndSQL: String, CaseIterable {
-        case total = "전체"
         case normalization = "정규화"
         case relationAndJoin = "관계와 조인의 이해"
         case understandOfTransaction = "모델이 표현하는 트랜잭션의 이해"
@@ -37,7 +44,6 @@ enum ConceptCategory: CaseIterable {
     }
     
     enum SQLBasic: String, CaseIterable {
-        case total = "전체"
         case rdbms = "관계형 데이터베이스 개요"
         case selectQuery = "SELECT문"
         case function = "함수"
@@ -49,7 +55,6 @@ enum ConceptCategory: CaseIterable {
     }
     
     enum SQLAdvanced: String, CaseIterable {
-        case total = "전체"
         case subQuery = "서브 쿼리"
         case unionOperator = "집합 연산자"
         case groupFunction = "그룹 함수"
@@ -61,7 +66,6 @@ enum ConceptCategory: CaseIterable {
     }
     
     enum SQLCommands: String, CaseIterable {
-        case all = "전체"
         case dml = "DML"
         case tcl = "TCL"
         case ddl = "DDL"
