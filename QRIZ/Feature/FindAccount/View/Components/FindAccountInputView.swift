@@ -26,6 +26,8 @@ final class FindAccountInputView: UIView {
     
     // MARK: - Properties
     
+    private var cancellables = Set<AnyCancellable>()
+    
     var textChangedPublisher: AnyPublisher<String, Never> {
         textField.textPublisher
     }
@@ -37,7 +39,6 @@ final class FindAccountInputView: UIView {
             placeholder: Attributes.placeholder,
             rightViewType: .clearButton
         )
-        textField.delegate = self
         return textField
     }()
     
@@ -57,6 +58,7 @@ final class FindAccountInputView: UIView {
         addSubviews()
         setupConstraints()
         setupUI()
+        observe()
     }
     
     required init?(coder: NSCoder) {
@@ -67,6 +69,14 @@ final class FindAccountInputView: UIView {
     
     private func setupUI() {
         self.backgroundColor = .white
+    }
+    
+    private func observe() {
+        textField.controlEventPublisher(for: .editingDidEndOnExit)
+            .sink { [weak self] _ in
+                self?.resignFirstResponder()
+            }
+            .store(in: &cancellables)
     }
     
     func updateErrorState(isValid: Bool) {
@@ -102,14 +112,5 @@ extension FindAccountInputView {
             inputErrorLabel.trailingAnchor.constraint(equalTo: trailingAnchor),
             inputErrorLabel.bottomAnchor.constraint(equalTo: bottomAnchor),
         ])
-    }
-}
-
-// MARK: - UITextFieldDelegate
-
-extension FindAccountInputView: UITextFieldDelegate {
-    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        textField.resignFirstResponder()
-        return true
     }
 }

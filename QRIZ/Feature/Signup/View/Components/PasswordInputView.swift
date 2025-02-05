@@ -34,6 +34,7 @@ final class PasswordInputView: UIView {
     
     private var isCharacterValid: Bool = false
     private var isLengthValid: Bool = false
+    private var cancellables = Set<AnyCancellable>()
     
     var passwordTextChangedPublisher: AnyPublisher<String, Never> {
         passwordTextField.textPublisher
@@ -99,7 +100,7 @@ final class PasswordInputView: UIView {
         addSubviews()
         setupConstraints()
         setupUI()
-        setupDelegate()
+        observe()
     }
     
     required init?(coder: NSCoder) {
@@ -112,9 +113,18 @@ final class PasswordInputView: UIView {
         self.backgroundColor = .white
     }
     
-    private func setupDelegate() {
-        passwordTextField.delegate = self
-        confirmPasswordTextField.delegate = self
+    private func observe() {
+        passwordTextField.controlEventPublisher(for: .editingDidEndOnExit)
+            .sink { [weak self] _ in
+                self?.resignFirstResponder()
+            }
+            .store(in: &cancellables)
+        
+        confirmPasswordTextField.controlEventPublisher(for: .editingDidEndOnExit)
+            .sink { [weak self] _ in
+                self?.resignFirstResponder()
+            }
+            .store(in: &cancellables)
     }
     
     func updateCharacterRequirementUI(_ isValid: Bool) {
@@ -222,14 +232,5 @@ extension PasswordInputView {
             confirmCheckmark.widthAnchor.constraint(equalToConstant: Metric.checkmarkSize),
             confirmCheckmark.heightAnchor.constraint(equalToConstant: Metric.checkmarkSize),
         ])
-    }
-}
-
-// MARK: - UITextFieldDelegate
-
-extension PasswordInputView: UITextFieldDelegate {
-    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        textField.resignFirstResponder()
-        return true
     }
 }

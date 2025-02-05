@@ -71,7 +71,6 @@ final class FindPasswordInputView: UIView {
             placeholder: Attributes.emailPlaceholder,
             rightViewType: .clearButton
         )
-        textField.delegate = self
         return textField
     }()
     
@@ -108,7 +107,6 @@ final class FindPasswordInputView: UIView {
             rightViewType: .clearButtonWithTimer
         )
         textField.keyboardType = .numberPad
-        textField.delegate = self
         return textField
     }()
     
@@ -187,6 +185,18 @@ final class FindPasswordInputView: UIView {
             .sink { [weak self] _ in
                 self?.inputErrorLabel.isHidden = true
                 self?.codeTextField.layer.borderColor = UIColor.coolNeutral600.cgColor
+            }
+            .store(in: &cancellables)
+        
+        codeTextField.controlEventPublisher(for: .editingDidEndOnExit)
+            .sink { [weak self] _ in
+                self?.resignFirstResponder()
+            }
+            .store(in: &cancellables)
+        
+        emailTextField.controlEventPublisher(for: .editingDidEndOnExit)
+            .sink { [weak self] _ in
+                self?.resignFirstResponder()
             }
             .store(in: &cancellables)
     }
@@ -372,14 +382,5 @@ extension FindPasswordInputView {
                 multiplier: Metric.sendButtonWidthMultiplier
             ),
         ])
-    }
-}
-
-// MARK: - UITextFieldDelegate
-
-extension FindPasswordInputView: UITextFieldDelegate {
-    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        textField.resignFirstResponder()
-        return true
     }
 }

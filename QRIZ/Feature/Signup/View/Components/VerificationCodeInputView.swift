@@ -28,6 +28,7 @@ final class VerificationCodeInputView: UIView {
     // MARK: - Properties
     
     private let resendCodeSubject = PassthroughSubject<Void, Never>()
+    private var cancellables = Set<AnyCancellable>()
     
     var resendCodePublisher: AnyPublisher<Void, Never> {
         resendCodeSubject.eraseToAnyPublisher()
@@ -46,7 +47,6 @@ final class VerificationCodeInputView: UIView {
             rightViewType: .custom(wrapLabelInPaddingView(label: timerLabel))
         )
         textField.keyboardType = .numberPad
-        textField.delegate = self
         return  textField
     }()
     
@@ -92,6 +92,7 @@ final class VerificationCodeInputView: UIView {
         addSubviews()
         setupConstraints()
         setupUI()
+        observe()
     }
     
     required init?(coder: NSCoder) {
@@ -102,6 +103,14 @@ final class VerificationCodeInputView: UIView {
     
     private func setupUI() {
         self.backgroundColor = .white
+    }
+    
+    private func observe() {
+        codeTextField.controlEventPublisher(for: .editingDidEndOnExit)
+            .sink { [weak self] _ in
+                self?.resignFirstResponder()
+            }
+            .store(in: &cancellables)
     }
     
     func updateErrorState(_ hasError: Bool) {
@@ -176,14 +185,5 @@ extension VerificationCodeInputView {
             resendCodeLabel.centerXAnchor.constraint(equalTo: centerXAnchor),
             resendCodeLabel.bottomAnchor.constraint(equalTo: bottomAnchor)
         ])
-    }
-}
-
-// MARK: - UITextFieldDelegate
-
-extension VerificationCodeInputView: UITextFieldDelegate {
-    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        textField.resignFirstResponder()
-        return true
     }
 }
