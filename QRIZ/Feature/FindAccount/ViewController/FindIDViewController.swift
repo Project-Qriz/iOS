@@ -1,5 +1,5 @@
 //
-//  FindIdViewController.swift
+//  FindIDViewController.swift
 //  QRIZ
 //
 //  Created by 김세훈 on 1/17/25.
@@ -8,7 +8,7 @@
 import UIKit
 import Combine
 
-final class FindIdViewController: UIViewController {
+final class FindIDViewController: UIViewController {
     
     // MARK: - Enums
     
@@ -18,16 +18,16 @@ final class FindIdViewController: UIViewController {
     
     // MARK: - Properties
     
-    private let rootView: FindAccountMainView
-    private let findIdInputVM: FindIdViewModel
+    private let rootView: FindIDMainView
+    private let findIDInputVM: FindIDViewModel
     private var cancellables = Set<AnyCancellable>()
     private var keyboardCancellable: AnyCancellable?
     
     // MARK: - initialize
     
-    init(findIdInputVM: FindIdViewModel) {
-        self.rootView = FindAccountMainView(type: .findId)
-        self.findIdInputVM = findIdInputVM
+    init(findIDInputVM: FindIDViewModel) {
+        self.rootView = FindIDMainView()
+        self.findIDInputVM = findIDInputVM
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -55,11 +55,11 @@ final class FindIdViewController: UIViewController {
     // MARK: - Functions
     
     private func bind() {
-        let emailTextChanged = rootView.findAccountInputView.textChangedPublisher
-            .map { FindIdViewModel.Input.emailTextChanged($0) }
+        let emailTextChanged = rootView.findIDInputView.textChangedPublisher
+            .map { FindIDViewModel.Input.emailTextChanged($0) }
         
         let nextButtonTapped = rootView.signupFooterView.buttonTappedPublisher
-            .map { FindIdViewModel.Input.buttonTapped }
+            .map { FindIDViewModel.Input.buttonTapped }
         
         let input = Publishers.Merge(
             emailTextChanged,
@@ -67,14 +67,14 @@ final class FindIdViewController: UIViewController {
         )
             .eraseToAnyPublisher()
         
-        let output = findIdInputVM.transform(input: input)
+        let output = findIDInputVM.transform(input: input)
         
         output
             .sink { [weak self] output in
                 guard let self = self else { return }
                 switch output {
                 case .isNameValid(let isValid):
-                    self.rootView.findAccountInputView.updateErrorState(isValid: isValid)
+                    self.rootView.findIDInputView.updateErrorState(isValid: isValid)
                     self.rootView.signupFooterView.updateButtonState(isValid: isValid)
                     
                 case .navigateToAlerView:

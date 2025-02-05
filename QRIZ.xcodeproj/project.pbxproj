@@ -53,12 +53,12 @@
 		B17FE3082D27F87E002EC7D7 /* String+.swift in Sources */ = {isa = PBXBuildFile; fileRef = B17FE3072D27F87E002EC7D7 /* String+.swift */; };
 		B17FE30A2D27F8E9002EC7D7 /* UITextField+.swift in Sources */ = {isa = PBXBuildFile; fileRef = B17FE3092D27F8E9002EC7D7 /* UITextField+.swift */; };
 		B17FE30C2D27F931002EC7D7 /* CustomTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = B17FE30B2D27F931002EC7D7 /* CustomTextField.swift */; };
-		B18F450A2D39901D0030F7DB /* FindIdViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B18F45092D39901D0030F7DB /* FindIdViewController.swift */; };
-		B18F450D2D3994380030F7DB /* FindAccountMainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B18F450C2D3994380030F7DB /* FindAccountMainView.swift */; };
+		B18F450A2D39901D0030F7DB /* FindIDViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B18F45092D39901D0030F7DB /* FindIDViewController.swift */; };
+		B18F450D2D3994380030F7DB /* FindIDMainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B18F450C2D3994380030F7DB /* FindIDMainView.swift */; };
 		B18F45102D3997280030F7DB /* FindAccountHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B18F450F2D3997280030F7DB /* FindAccountHeaderView.swift */; };
-		B18F45122D3A26520030F7DB /* FindAccountInputView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B18F45112D3A26520030F7DB /* FindAccountInputView.swift */; };
+		B18F45122D3A26520030F7DB /* FindIDInputView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B18F45112D3A26520030F7DB /* FindIDInputView.swift */; };
 		B18F45152D3A40BE0030F7DB /* FindAccountType.swift in Sources */ = {isa = PBXBuildFile; fileRef = B18F45142D3A40BE0030F7DB /* FindAccountType.swift */; };
-		B18F45182D3A528B0030F7DB /* FindIdViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B18F45172D3A528B0030F7DB /* FindIdViewModel.swift */; };
+		B18F45182D3A528B0030F7DB /* FindIDViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B18F45172D3A528B0030F7DB /* FindIDViewModel.swift */; };
 		B18F451A2D4139B00030F7DB /* UILabel+.swift in Sources */ = {isa = PBXBuildFile; fileRef = B18F45192D4139B00030F7DB /* UILabel+.swift */; };
 		B18F451C2D441E150030F7DB /* FindPasswordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B18F451B2D441E150030F7DB /* FindPasswordViewController.swift */; };
 		B18F451E2D44D4080030F7DB /* FindPasswordViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B18F451D2D44D4080030F7DB /* FindPasswordViewModel.swift */; };
@@ -192,12 +192,12 @@
 		B17FE3072D27F87E002EC7D7 /* String+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+.swift"; sourceTree = "<group>"; };
 		B17FE3092D27F8E9002EC7D7 /* UITextField+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITextField+.swift"; sourceTree = "<group>"; };
 		B17FE30B2D27F931002EC7D7 /* CustomTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTextField.swift; sourceTree = "<group>"; };
-		B18F45092D39901D0030F7DB /* FindIdViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FindIdViewController.swift; sourceTree = "<group>"; };
-		B18F450C2D3994380030F7DB /* FindAccountMainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FindAccountMainView.swift; sourceTree = "<group>"; };
+		B18F45092D39901D0030F7DB /* FindIDViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FindIDViewController.swift; sourceTree = "<group>"; };
+		B18F450C2D3994380030F7DB /* FindIDMainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FindIDMainView.swift; sourceTree = "<group>"; };
 		B18F450F2D3997280030F7DB /* FindAccountHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FindAccountHeaderView.swift; sourceTree = "<group>"; };
-		B18F45112D3A26520030F7DB /* FindAccountInputView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FindAccountInputView.swift; sourceTree = "<group>"; };
+		B18F45112D3A26520030F7DB /* FindIDInputView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FindIDInputView.swift; sourceTree = "<group>"; };
 		B18F45142D3A40BE0030F7DB /* FindAccountType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FindAccountType.swift; sourceTree = "<group>"; };
-		B18F45172D3A528B0030F7DB /* FindIdViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FindIdViewModel.swift; sourceTree = "<group>"; };
+		B18F45172D3A528B0030F7DB /* FindIDViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FindIDViewModel.swift; sourceTree = "<group>"; };
 		B18F45192D4139B00030F7DB /* UILabel+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UILabel+.swift"; sourceTree = "<group>"; };
 		B18F451B2D441E150030F7DB /* FindPasswordViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FindPasswordViewController.swift; sourceTree = "<group>"; };
 		B18F451D2D44D4080030F7DB /* FindPasswordViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FindPasswordViewModel.swift; sourceTree = "<group>"; };
@@ -557,7 +557,7 @@
 		B18F45082D398FFD0030F7DB /* ViewController */ = {
 			isa = PBXGroup;
 			children = (
-				B18F45092D39901D0030F7DB /* FindIdViewController.swift */,
+				B18F45092D39901D0030F7DB /* FindIDViewController.swift */,
 				B18F451B2D441E150030F7DB /* FindPasswordViewController.swift */,
 				B18F45292D4D5B200030F7DB /* ResetPasswordViewController.swift */,
 			);
@@ -568,7 +568,7 @@
 			isa = PBXGroup;
 			children = (
 				B18F450E2D3996F80030F7DB /* Components */,
-				B18F450C2D3994380030F7DB /* FindAccountMainView.swift */,
+				B18F450C2D3994380030F7DB /* FindIDMainView.swift */,
 				B18F451F2D4643B40030F7DB /* FindPasswordMainView.swift */,
 				B18F452D2D4D5D640030F7DB /* ResetPasswordMainView.swift */,
 			);
@@ -579,7 +579,7 @@
 			isa = PBXGroup;
 			children = (
 				B18F450F2D3997280030F7DB /* FindAccountHeaderView.swift */,
-				B18F45112D3A26520030F7DB /* FindAccountInputView.swift */,
+				B18F45112D3A26520030F7DB /* FindIDInputView.swift */,
 				B18F45212D4645EC0030F7DB /* FindPasswordInputView.swift */,
 			);
 			path = Components;
@@ -596,7 +596,7 @@
 		B18F45162D3A52680030F7DB /* ViewModel */ = {
 			isa = PBXGroup;
 			children = (
-				B18F45172D3A528B0030F7DB /* FindIdViewModel.swift */,
+				B18F45172D3A528B0030F7DB /* FindIDViewModel.swift */,
 				B18F451D2D44D4080030F7DB /* FindPasswordViewModel.swift */,
 				B18F452B2D4D5CF00030F7DB /* ResetPasswordViewModel.swift */,
 			);
@@ -1074,7 +1074,7 @@
 				E29CCD452D298656004AA30A /* SingleSupplementConceptView.swift in Sources */,
 				B168B76B2D2807470000F32E /* VerificationCodeViewController.swift in Sources */,
 				B16288222D2E3CAB008057D0 /* UINavigationBar+.swift in Sources */,
-				B18F450A2D39901D0030F7DB /* FindIdViewController.swift in Sources */,
+				B18F450A2D39901D0030F7DB /* FindIDViewController.swift in Sources */,
 				B168B7602D28073C0000F32E /* SignupHeaderView.swift in Sources */,
 				B168B7712D28276F0000F32E /* IdInputView.swift in Sources */,
 				B19C4F6D2D5262D900CD008A /* Combine+.swift in Sources */,
@@ -1095,7 +1095,7 @@
 				E29CCD2F2D29855B004AA30A /* TestTimeLabel.swift in Sources */,
 				B168B7732D2846C80000F32E /* PasswordInputViewController.swift in Sources */,
 				E239630D2D083B900092B39B /* ViewController.swift in Sources */,
-				B18F45182D3A528B0030F7DB /* FindIdViewModel.swift in Sources */,
+				B18F45182D3A528B0030F7DB /* FindIDViewModel.swift in Sources */,
 				B18F452A2D4D5B200030F7DB /* ResetPasswordViewController.swift in Sources */,
 				B16288262D300CBA008057D0 /* PasswordInputViewModel.swift in Sources */,
 				E23824E12D0C3157009E7989 /* BeginOnboardingViewController.swift in Sources */,
@@ -1104,7 +1104,7 @@
 				E29CCD2C2D29855B004AA30A /* TestButton.swift in Sources */,
 				B168B75F2D28073C0000F32E /* SignupFooterView.swift in Sources */,
 				B162881C2D2CFC63008057D0 /* UIView+.swift in Sources */,
-				B18F45122D3A26520030F7DB /* FindAccountInputView.swift in Sources */,
+				B18F45122D3A26520030F7DB /* FindIDInputView.swift in Sources */,
 				541878542D0E21620089F478 /* HTTPMethod.swift in Sources */,
 				B18F45222D4645EC0030F7DB /* FindPasswordInputView.swift in Sources */,
 				548566502D1241A4002BAEE3 /* ExampleRequest.swift in Sources */,
@@ -1126,7 +1126,7 @@
 				E25856D42D0D766900355667 /* CheckConceptViewController.swift in Sources */,
 				B18F451C2D441E150030F7DB /* FindPasswordViewController.swift in Sources */,
 				E25F94C82D0CAF1B00BA765F /* BeginTestViewController.swift in Sources */,
-				B18F450D2D3994380030F7DB /* FindAccountMainView.swift in Sources */,
+				B18F450D2D3994380030F7DB /* FindIDMainView.swift in Sources */,
 				B168B7692D2807470000F32E /* EmailInputViewController.swift in Sources */,
 				54DB0D9D2D09513300ABD458 /* AppCoordinator.swift in Sources */,
 				54E91B762D18FACD00474D0A /* RoundButton.swift in Sources */,

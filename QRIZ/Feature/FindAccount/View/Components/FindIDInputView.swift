@@ -1,5 +1,5 @@
 //
-//  FindAccountInputView.swift
+//  FindIDInputView.swift
 //  QRIZ
 //
 //  Created by 김세훈 on 1/17/25.
@@ -8,7 +8,7 @@
 import UIKit
 import Combine
 
-final class FindAccountInputView: UIView {
+final class FindIDInputView: UIView {
     
     // MARK: - Enums
     
@@ -89,7 +89,7 @@ final class FindAccountInputView: UIView {
 
 // MARK: - Layout Setup
 
-extension FindAccountInputView {
+extension FindIDInputView {
     private func addSubviews() {
         [
             textField,

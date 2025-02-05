@@ -80,7 +80,7 @@ final class LoginViewController: UIViewController {
                     let nextVC: UIViewController
                     switch accountAction {
                     case .findId:
-                        nextVC = FindIdViewController(findIdInputVM: FindIdViewModel())
+                        nextVC = FindIDViewController(findIDInputVM: FindIDViewModel())
                     case .findPassword:
                         nextVC = FindPasswordViewController(findPasswordVM: FindPasswordViewModel())
                     case .signUp:

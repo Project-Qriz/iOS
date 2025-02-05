@@ -7,7 +7,7 @@
 
 import UIKit
 
-final class FindAccountMainView: UIView {
+final class FindIDMainView: UIView {
     
     // MARK: - Enums
     
@@ -25,14 +25,14 @@ final class FindAccountMainView: UIView {
     // MARK: - Properties
     
     private let findAccountHeaderView = FindAccountHeaderView()
-    let findAccountInputView = FindAccountInputView()
+    let findIDInputView = FindIDInputView()
     let signupFooterView = SignupFooterView()
     
     // MARK: - Initialize
     
-    init(type: FindAccountType) {
+    init() {
         super.init(frame: .zero)
-        setupUI(with: type)
+        setupUI()
         addSubviews()
         setupConstraints()
     }
@@ -43,11 +43,11 @@ final class FindAccountMainView: UIView {
     
     // MARK: - Functions
     
-    private func setupUI(with type: FindAccountType) {
+    private func setupUI() {
         self.backgroundColor = .white
         findAccountHeaderView.configure(
-            title: type.headerTitle,
-            description: UILabel.setLineSpacing(8, text: type.headerDescription)
+            title: FindAccountType.findId.headerTitle,
+            description: UILabel.setLineSpacing(8, text: FindAccountType.findId.headerDescription)
         )
         signupFooterView.configure(buttonTitle: Attributes.buttonTitle)
     }
@@ -55,18 +55,18 @@ final class FindAccountMainView: UIView {
 
 // MARK: - Layout Setup
 
-extension FindAccountMainView {
+extension FindIDMainView {
     private func addSubviews() {
         [
             findAccountHeaderView,
-            findAccountInputView,
+            findIDInputView,
             signupFooterView
         ].forEach(addSubview(_:))
     }
     
     private func setupConstraints() {
         findAccountHeaderView.translatesAutoresizingMaskIntoConstraints = false
-        findAccountInputView.translatesAutoresizingMaskIntoConstraints = false
+        findIDInputView.translatesAutoresizingMaskIntoConstraints = false
         signupFooterView.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
@@ -83,15 +83,15 @@ extension FindAccountMainView {
                 constant: -Metric.horizontalMargin
             ),
             
-            findAccountInputView.topAnchor.constraint(
+            findIDInputView.topAnchor.constraint(
                 equalTo: findAccountHeaderView.bottomAnchor,
                 constant: Metric.inputViewTopOffset
             ),
-            findAccountInputView.leadingAnchor.constraint(
+            findIDInputView.leadingAnchor.constraint(
                 equalTo: leadingAnchor,
                 constant: Metric.horizontalMargin
             ),
-            findAccountInputView.trailingAnchor.constraint(
+            findIDInputView.trailingAnchor.constraint(
                 equalTo: trailingAnchor,
                 constant: -Metric.horizontalMargin
             ),
