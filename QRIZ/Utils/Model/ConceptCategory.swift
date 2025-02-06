@@ -18,7 +18,7 @@ enum ConceptCategory: CaseIterable {
     }
     
     static func getAllConceptList() -> [[String]] {
-        var arr: [[String]] = [[]]
+        var arr: [[String]] = []
         arr.append(getConceptList(for: DataModeling.self))
         arr.append(getConceptList(for: DataModelAndSQL.self))
         arr.append(getConceptList(for: SQLBasic.self))

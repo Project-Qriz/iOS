@@ -99,6 +99,8 @@
 		E29CCD4A2D29867F004AA30A /* GreetingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E29CCD472D29867F004AA30A /* GreetingViewModel.swift */; };
 		E29CCD4C2D299297004AA30A /* SwiftUIViews+.swift in Sources */ = {isa = PBXBuildFile; fileRef = E29CCD4B2D299297004AA30A /* SwiftUIViews+.swift */; };
 		E29CCD522D299AD5004AA30A /* IncorrectConceptsRankView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E29CCD512D299AD5004AA30A /* IncorrectConceptsRankView.swift */; };
+		E2AFED662D53383A00583359 /* WrongQuestionCategoryReusableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2AFED652D53383A00583359 /* WrongQuestionCategoryReusableView.swift */; };
+		E2AFED6A2D53926900583359 /* WrongQuestionCategoryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2AFED692D53926900583359 /* WrongQuestionCategoryViewModel.swift */; };
 		E2D70FE82D0DD322005A3F51 /* BeginTestViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2D70FE72D0DD322005A3F51 /* BeginTestViewModel.swift */; };
 		E2D70FEC2D0EBDDD005A3F51 /* CheckListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2D70FEB2D0EBDDD005A3F51 /* CheckListCell.swift */; };
 		E2D70FEE2D0EC037005A3F51 /* CheckConceptViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2D70FED2D0EC037005A3F51 /* CheckConceptViewModel.swift */; };
@@ -230,6 +232,8 @@
 		E29CCD472D29867F004AA30A /* GreetingViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GreetingViewModel.swift; sourceTree = "<group>"; };
 		E29CCD4B2D299297004AA30A /* SwiftUIViews+.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "SwiftUIViews+.swift"; sourceTree = "<group>"; };
 		E29CCD512D299AD5004AA30A /* IncorrectConceptsRankView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IncorrectConceptsRankView.swift; sourceTree = "<group>"; };
+		E2AFED652D53383A00583359 /* WrongQuestionCategoryReusableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WrongQuestionCategoryReusableView.swift; sourceTree = "<group>"; };
+		E2AFED692D53926900583359 /* WrongQuestionCategoryViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WrongQuestionCategoryViewModel.swift; sourceTree = "<group>"; };
 		E2D70FE72D0DD322005A3F51 /* BeginTestViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BeginTestViewModel.swift; sourceTree = "<group>"; };
 		E2D70FEB2D0EBDDD005A3F51 /* CheckListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckListCell.swift; sourceTree = "<group>"; };
 		E2D70FED2D0EC037005A3F51 /* CheckConceptViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckConceptViewModel.swift; sourceTree = "<group>"; };
@@ -654,6 +658,7 @@
 				E24572AA2D4CE7DD00175A78 /* Menu */,
 				E24572A92D4CE7C800175A78 /* DropDown */,
 				E21979ED2D4F788B005451E6 /* WrongQuestionCategoryCollectionViewCell.swift */,
+				E2AFED652D53383A00583359 /* WrongQuestionCategoryReusableView.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -671,6 +676,7 @@
 			isa = PBXGroup;
 			children = (
 				E271CFBD2D424A9F0036BF29 /* WrongQuestionViewModel.swift */,
+				E2AFED692D53926900583359 /* WrongQuestionCategoryViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -1043,6 +1049,7 @@
 				B17FE3062D27F85C002EC7D7 /* LoginViewModel.swift in Sources */,
 				E28BAD792D2C2DEB00B8388D /* CustomAlertViewController.swift in Sources */,
 				E271CFAF2D3B9C560036BF29 /* WrongQuestionDropDownButton.swift in Sources */,
+				E2AFED6A2D53926900583359 /* WrongQuestionCategoryViewModel.swift in Sources */,
 				E271CFBC2D3BCA910036BF29 /* WrongQuestionMenuButton.swift in Sources */,
 				541878572D0E22700089F478 /* NetworkError.swift in Sources */,
 				E29CCD522D299AD5004AA30A /* IncorrectConceptsRankView.swift in Sources */,
@@ -1084,6 +1091,7 @@
 				E271CFBE2D424A9F0036BF29 /* WrongQuestionViewModel.swift in Sources */,
 				54E91B762D18FACD00474D0A /* RoundButton.swift in Sources */,
 				54DB0D992D0950DE00ABD458 /* ViewModel.swift in Sources */,
+				E2AFED662D53383A00583359 /* WrongQuestionCategoryReusableView.swift in Sources */,
 				B17FE30A2D27F8E9002EC7D7 /* UITextField+.swift in Sources */,
 				E29CCD4C2D299297004AA30A /* SwiftUIViews+.swift in Sources */,
 				E29CCD402D298656004AA30A /* PreviewResultTitleLabel.swift in Sources */,

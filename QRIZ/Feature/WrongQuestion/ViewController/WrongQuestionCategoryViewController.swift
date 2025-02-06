@@ -8,7 +8,37 @@
 import UIKit
 import Combine
 
+fileprivate class LeftAlignedCollectionViewFlowLayout: UICollectionViewFlowLayout {
+    
+    override func layoutAttributesForElements(in rect: CGRect) -> [UICollectionViewLayoutAttributes]? {
+        
+        let minimumSpacing: CGFloat = 4
+        
+        let attributes = super.layoutAttributesForElements(in: rect)
+        
+        var leftMargin = sectionInset.left
+        var maxY: CGFloat = -1.0
+        attributes?.forEach { layoutAttribute in
+            guard layoutAttribute.representedElementCategory == .cell else {
+                return
+            }
+            
+            if layoutAttribute.frame.origin.y >= maxY {
+                leftMargin = sectionInset.left
+            }
+            
+            layoutAttribute.frame.origin.x = leftMargin
+            
+            leftMargin += layoutAttribute.frame.width + minimumSpacing
+            maxY = max(layoutAttribute.frame.maxY , maxY)
+        }
+        
+        return attributes
+    }
+}
+
 final class WrongQuestionCategoryViewController: UIViewController {
+    
     
     // MARK: - Properties
     private let titleLabel: UILabel = {
@@ -46,24 +76,46 @@ final class WrongQuestionCategoryViewController: UIViewController {
     }()
     private let collectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
     
-    private enum Section: String, CaseIterable {
-        case DataModeling = "데이터 모델링의 이해"
-        case DataModelAndSQL = "데이터 모델과 SQL"
-        case SQLBasic = "SQL 기본"
-        case SQLAdvanced = "SQL 활용"
-        case SQLCommands = "관리 구문"
-    }
+    private var startProcess: () -> Void = { }
+    private var completion: () -> Void = { }
+
+    // sample data of conceptSet
+    private var conceptSet: Set<String> = {
+        var set = Set<String>()
+        let arr = ConceptCategory.getAllConceptList()
+        for row in arr {
+            for elem in row {
+                set.insert(elem)
+            }
+        }
+        set.remove("식별자")
+        return set
+    }()
+    private let sectionTitles: [String] = [
+        "데이터 모델링의 이해",
+        "데이터 모델과 SQL",
+        "SQL 기본",
+        "SQL 활용",
+        "관리 구문"
+    ]
     private let items: [[String]] = {
         var arr: [[String]] = ConceptCategory.getAllConceptList()
         for i in 0..<arr.count { arr[i].insert("전체", at: 0) }
         return arr
     }()
     
+    private var viewModel: WrongQuestionCategoryViewModel!
+    private let input: PassthroughSubject<WrongQuestionCategoryViewModel.Input, Never> = .init()
+    private var subscriptions = Set<AnyCancellable>()
+    
     // MARK: - Initializer
-    init() {
+    init(_ starter: @escaping () -> Void, _ completion: @escaping () -> Void) {
+        // set will be given by argument -> init(conceptSet: Set<String>, _ starter: @escaping () -> Void, _ completion: @escaping () -> Void)
         super.init(nibName: nil, bundle: nil)
         modalTransitionStyle = .coverVertical
         modalPresentationStyle = .pageSheet
+        self.startProcess = starter
+        self.completion = completion
     }
     
     required init?(coder: NSCoder) {
@@ -74,18 +126,49 @@ final class WrongQuestionCategoryViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = .white
+        self.viewModel = WrongQuestionCategoryViewModel(conceptSet: conceptSet, items: items)
         configureSheetPresentation()
         addViews()
-        addButtonsAction()
         setCollectionView()
+        bind()
+        addButtonsAction()
+    }
+    
+    private func bind() {
+        let output = viewModel.transform(input: input.eraseToAnyPublisher())
+        output
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] event in
+                guard let self = self else { return }
+                switch event {
+                case .setCellState(let section, let item, let isAvailable, let isClicked):
+                    guard let cell = self.collectionView.cellForItem(at: IndexPath(item: item, section: section)) as? WrongQuestionCategoryCollectionViewCell else { return }
+                    cell.setState(isAvailable: isAvailable, isClicked: isClicked)
+                case .submitSuccess:
+                    print("Submit Success")
+                case .submitFail:
+                    print("Submit Failed")
+                }
+            }
+            .store(in: &subscriptions)
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        startProcess()
+        input.send(.viewWillAppear)
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        completion()
     }
     
     private func configureSheetPresentation() {
         if let sheetPresentationController = sheetPresentationController {
             sheetPresentationController.detents = [.medium()]
             sheetPresentationController.preferredCornerRadius = 32.0
-            //            sheetPresentationController.prefersGrabberVisible = true
-            sheetPresentationController.largestUndimmedDetentIdentifier = .none
+            sheetPresentationController.largestUndimmedDetentIdentifier = .large
         }
     }
     
@@ -95,12 +178,20 @@ final class WrongQuestionCategoryViewController: UIViewController {
     }
     
     private func setCollectionView() {
+        collectionView.backgroundColor = .white
         collectionView.dataSource = self
+        collectionView.delegate = self
         collectionView.collectionViewLayout = layout()
+        collectionView.register(WrongQuestionCategoryCollectionViewCell.self, forCellWithReuseIdentifier: "WrongQuestionCategoryCollectionViewCell")
+        collectionView.register(WrongQuestionCategoryReusableView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: "WrongQuestionCategoryReusableView")
     }
     
     private func layout() -> UICollectionViewFlowLayout {
-        let layout = UICollectionViewFlowLayout()
+        
+        let layout = LeftAlignedCollectionViewFlowLayout()
+        layout.scrollDirection = .vertical
+        layout.sectionInset = UIEdgeInsets(top: 0, left: 0, bottom: 32, right: 0)
+        
         return layout
     }
     
@@ -132,14 +223,58 @@ extension WrongQuestionCategoryViewController: UICollectionViewDataSource {
                 as? WrongQuestionCategoryCollectionViewCell else { return UICollectionViewCell() }
 
         let item = items[indexPath.section][indexPath.item]
-        cell.configure(item)
-
+        cell.configure(item, isAvailable: true, isClicked: false)
         return cell
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
+
+        if kind == UICollectionView.elementKindSectionHeader {
+            guard let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: WrongQuestionCategoryReusableView.identifier, for: indexPath) as? WrongQuestionCategoryReusableView else {
+                return UICollectionReusableView(frame: .zero)
+            }
+            header.configure(sectionTitles[indexPath.item])
+            return header
+        }
+
+        return UICollectionReusableView(frame: .zero)
     }
 }
 
 // MARK: - CollectionView Delegate
+extension WrongQuestionCategoryViewController: UICollectionViewDelegateFlowLayout {
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
 
+        let width = getLabelSize(indexPath)
+        let height = 40.0
+
+        return CGSize(width: width, height: height)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
+        return 4
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+        return 8
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
+        return CGSize(width: collectionView.frame.width, height: 28)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        input.send(.cellClicked(section: indexPath.section, item: indexPath.item))
+    }
+    
+    private func getLabelSize(_ indexPath: IndexPath) -> CGFloat {
+        let label = UILabel()
+        label.text = items[indexPath.section][indexPath.item]
+        label.numberOfLines = 1
+        let size = label.sizeThatFits(CGSize(width: collectionView.frame.width, height: 40))
+        return (size.width + 23)
+    }
+}
 
 // MARK: - Auto Layout
 extension WrongQuestionCategoryViewController {
@@ -149,11 +284,13 @@ extension WrongQuestionCategoryViewController {
         self.view.addSubview(cancelButton)
         self.view.addSubview(submitButton)
         self.view.addSubview(grabberView)
+        self.view.addSubview(collectionView)
         
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
         cancelButton.translatesAutoresizingMaskIntoConstraints = false
         submitButton.translatesAutoresizingMaskIntoConstraints = false
         grabberView.translatesAutoresizingMaskIntoConstraints = false
+        collectionView.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
             titleLabel.centerXAnchor.constraint(equalTo: self.view.centerXAnchor),
@@ -172,7 +309,12 @@ extension WrongQuestionCategoryViewController {
             grabberView.widthAnchor.constraint(equalToConstant: 46),
             grabberView.heightAnchor.constraint(equalToConstant: 4),
             grabberView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            grabberView.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor, constant: 12)
+            grabberView.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor, constant: 12),
+            
+            collectionView.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 28),
+            collectionView.bottomAnchor.constraint(equalTo: submitButton.topAnchor, constant: -16),
+            collectionView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 18),
+            collectionView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: -18)
         ])
     }
 }

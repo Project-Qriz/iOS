@@ -7,7 +7,7 @@
 
 import UIKit
 
-class WrongQuestionCategoryCollectionViewCell: UICollectionViewCell {
+final class WrongQuestionCategoryCollectionViewCell: UICollectionViewCell {
     
     // MARK: - Properties
     static let identifier = "WrongQuestionCategoryCollectionViewCell"
@@ -23,8 +23,8 @@ class WrongQuestionCategoryCollectionViewCell: UICollectionViewCell {
     }()
     
     // MARK: - Initializers
-    init() {
-        super.init(frame: .zero)
+    override init(frame: CGRect) {
+        super.init(frame: frame)
         setUI()
         addViews()
     }
@@ -34,21 +34,28 @@ class WrongQuestionCategoryCollectionViewCell: UICollectionViewCell {
     }
     
     // MARK: - Methods
-    func configure(_ text: String) {
+    func configure(_ text: String, isAvailable: Bool, isClicked: Bool) {
         textLabel.text = text
+        
     }
     
-    func setState(_ isClicked: Bool) {
-        if isClicked {
-            backgroundColor = .white
-            layer.borderColor = UIColor.customBlue500.cgColor
-            layer.borderWidth = 1.5
-            textLabel.textColor = .customBlue500
-            textLabel.font = .systemFont(ofSize: 14, weight: .semibold)
+    func setState(isAvailable: Bool, isClicked: Bool) {
+        if isAvailable {
+            if isClicked {
+                backgroundColor = .white
+                layer.borderColor = UIColor.customBlue500.cgColor
+                layer.borderWidth = 1.5
+                textLabel.font = .systemFont(ofSize: 14, weight: .semibold)
+            } else {
+                backgroundColor = .coolNeutral100
+                layer.borderWidth = 0
+                textLabel.textColor = .coolNeutral700
+                textLabel.font = .systemFont(ofSize: 14, weight: .medium)
+            }
         } else {
-            backgroundColor = .coolNeutral100
+            backgroundColor = .customBlue50
             layer.borderWidth = 0
-            textLabel.textColor = .customBlue500
+            textLabel.textColor = .coolNeutral300
             textLabel.font = .systemFont(ofSize: 14, weight: .medium)
         }
     }
@@ -56,7 +63,8 @@ class WrongQuestionCategoryCollectionViewCell: UICollectionViewCell {
     private func setUI() {
         layer.masksToBounds = true
         layer.cornerRadius = 8
-        setState(false)
+        layer.borderColor = UIColor.customBlue500.cgColor
+        setState(isAvailable: true, isClicked: false)
     }
 }
 
@@ -69,8 +77,7 @@ extension WrongQuestionCategoryCollectionViewCell {
         textLabel.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
-            textLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 15),
-            textLabel.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -15),
+            textLabel.centerXAnchor.constraint(equalTo: self.centerXAnchor),
             textLabel.topAnchor.constraint(equalTo: self.topAnchor, constant: 10),
             textLabel.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -10)
         ])

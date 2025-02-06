@@ -19,12 +19,21 @@ final class WrongQuestionViewController: UIViewController {
     }()
     private let wrongQuestionDropDownButton = WrongQuestionDropDownButton()
     private let categorySliderButton = CategorySliderButton()
+    private let modalBgView: UIView = {
+        let view = UIView()
+        view.backgroundColor = .black.withAlphaComponent(0.8)
+        view.isHidden = true
+        return view
+    }()
     private let menuButton = WrongQuestionMenuButton()
     private let menuItems = WrongQuestionMenuItems()
     
     private let viewModel = WrongQuestionViewModel()
     private let input: PassthroughSubject<WrongQuestionViewModel.Input, Never> = .init()
     private var subscriptions = Set<AnyCancellable>()
+    
+    private var dimBg: (() -> Void)!
+    private var completion: (() -> Void)!
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -69,7 +78,8 @@ final class WrongQuestionViewController: UIViewController {
                 case .setSegmentItems(let isIncorrectOnly):
                     setUIState(isIncorrectOnly: isIncorrectOnly)
                 case .showModal:
-                    present(WrongQuestionCategoryViewController(), animated: true)
+                    makeModalHandler()
+                    present(WrongQuestionCategoryViewController(dimBg, completion), animated: true)
                     print("show modal")
                 }
             }
@@ -84,6 +94,17 @@ final class WrongQuestionViewController: UIViewController {
     
     @objc private func viewTouchAction() {
         input.send(.viewTouched)
+    }
+    
+    private func makeModalHandler() {
+        dimBg = { [weak self] in
+            guard let self = self else { return }
+            self.modalBgView.isHidden = false
+        }
+        completion = { [weak self] in
+            guard let self = self else { return }
+            self.modalBgView.isHidden = true
+        }
     }
 }
 
@@ -124,6 +145,7 @@ extension WrongQuestionViewController {
         self.view.addSubview(categorySliderButton)
         self.view.addSubview(menuButton)
         self.view.addSubview(menuItems)
+        self.view.addSubview(modalBgView)
 
         wrongQuestionSegment.translatesAutoresizingMaskIntoConstraints = false
         segmentBorder.translatesAutoresizingMaskIntoConstraints = false
@@ -131,6 +153,7 @@ extension WrongQuestionViewController {
         categorySliderButton.translatesAutoresizingMaskIntoConstraints = false
         menuButton.translatesAutoresizingMaskIntoConstraints = false
         menuItems.translatesAutoresizingMaskIntoConstraints = false
+        modalBgView.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
 
@@ -160,7 +183,12 @@ extension WrongQuestionViewController {
             menuButton.heightAnchor.constraint(equalToConstant: 21),
             
             menuItems.topAnchor.constraint(equalTo: menuButton.bottomAnchor, constant: 16),
-            menuItems.trailingAnchor.constraint(equalTo: menuButton.trailingAnchor)
+            menuItems.trailingAnchor.constraint(equalTo: menuButton.trailingAnchor),
+            
+            modalBgView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
+            modalBgView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor),
+            modalBgView.topAnchor.constraint(equalTo: self.view.topAnchor),
+            modalBgView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor)
         ])
         
         menuItems.isHidden = true
