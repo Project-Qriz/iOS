@@ -78,6 +78,7 @@ final class WrongQuestionCategoryViewController: UIViewController {
     
     private var startProcess: () -> Void = { }
     private var completion: () -> Void = { }
+    private var stateArr: [[WrongQuestionCategoryCellState]] = []
 
     // sample data of conceptSet
     private var conceptSet: Set<String> = {
@@ -89,6 +90,9 @@ final class WrongQuestionCategoryViewController: UIViewController {
             }
         }
         set.remove("식별자")
+        set.remove("데이터 모델의 이해")
+        set.remove("엔터티")
+        set.remove("관계")
         return set
     }()
     private let sectionTitles: [String] = [
@@ -126,7 +130,8 @@ final class WrongQuestionCategoryViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = .white
-        self.viewModel = WrongQuestionCategoryViewModel(conceptSet: conceptSet, items: items)
+        setStateArr(conceptSet: conceptSet)
+        self.viewModel = WrongQuestionCategoryViewModel(stateArr: stateArr)
         configureSheetPresentation()
         addViews()
         setCollectionView()
@@ -144,6 +149,8 @@ final class WrongQuestionCategoryViewController: UIViewController {
                 case .setCellState(let section, let item, let isAvailable, let isClicked):
                     guard let cell = self.collectionView.cellForItem(at: IndexPath(item: item, section: section)) as? WrongQuestionCategoryCollectionViewCell else { return }
                     cell.setState(isAvailable: isAvailable, isClicked: isClicked)
+                    stateArr[section][item].isAvailable = isAvailable
+                    stateArr[section][item].isClicked = isClicked
                 case .submitSuccess:
                     print("Submit Success")
                 case .submitFail:
@@ -156,7 +163,6 @@ final class WrongQuestionCategoryViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         startProcess()
-        input.send(.viewWillAppear)
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -204,6 +210,26 @@ final class WrongQuestionCategoryViewController: UIViewController {
         self.dismiss(animated: true)
         // Coordinator & network
     }
+    
+    private func setStateArr(conceptSet: Set<String>) {
+        for row in items {
+            var arr: [WrongQuestionCategoryCellState] = []
+            var count: Int = 0
+            for elem in row {
+                if conceptSet.contains(elem) {
+                    arr.append(WrongQuestionCategoryCellState())
+                    count += 1
+                } else {
+                    arr.append(WrongQuestionCategoryCellState(isAvailable: false))
+                }
+            }
+            if count > 0 {
+                arr[0].isAvailable = true
+                arr[0].isClicked = true
+            }
+            stateArr.append(arr)
+        }
+    }
 }
 
 // MARK: - CollectionView DataSource
@@ -222,8 +248,13 @@ extension WrongQuestionCategoryViewController: UICollectionViewDataSource {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "WrongQuestionCategoryCollectionViewCell", for: indexPath)
                 as? WrongQuestionCategoryCollectionViewCell else { return UICollectionViewCell() }
 
-        let item = items[indexPath.section][indexPath.item]
-        cell.configure(item, isAvailable: true, isClicked: false)
+        let section = indexPath.section
+        let item = indexPath.item
+
+        let cellText = items[section][item]
+
+        cell.configure(cellText, isAvailable: true, isClicked: false)
+        cell.setState(isAvailable: stateArr[section][item].isAvailable, isClicked: stateArr[section][item].isClicked)
         return cell
     }
     

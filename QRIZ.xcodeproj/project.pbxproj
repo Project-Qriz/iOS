@@ -46,6 +46,7 @@
 		B17FE30A2D27F8E9002EC7D7 /* UITextField+.swift in Sources */ = {isa = PBXBuildFile; fileRef = B17FE3092D27F8E9002EC7D7 /* UITextField+.swift */; };
 		B17FE30C2D27F931002EC7D7 /* CustomTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = B17FE30B2D27F931002EC7D7 /* CustomTextField.swift */; };
 		E21979EE2D4F788B005451E6 /* WrongQuestionCategoryCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E21979ED2D4F788B005451E6 /* WrongQuestionCategoryCollectionViewCell.swift */; };
+		E21979F02D54D628005451E6 /* WrongQuestionCategoryCellState.swift in Sources */ = {isa = PBXBuildFile; fileRef = E21979EF2D54D628005451E6 /* WrongQuestionCategoryCellState.swift */; };
 		E230669A2D2126B9001B509A /* PreviewScoresData.swift in Sources */ = {isa = PBXBuildFile; fileRef = E23066992D2126B9001B509A /* PreviewScoresData.swift */; };
 		E23824E12D0C3157009E7989 /* BeginOnboardingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E23824E02D0C3157009E7989 /* BeginOnboardingViewController.swift */; };
 		E23963092D083B900092B39B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E23963082D083B900092B39B /* AppDelegate.swift */; };
@@ -174,6 +175,7 @@
 		B17FE3092D27F8E9002EC7D7 /* UITextField+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITextField+.swift"; sourceTree = "<group>"; };
 		B17FE30B2D27F931002EC7D7 /* CustomTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTextField.swift; sourceTree = "<group>"; };
 		E21979ED2D4F788B005451E6 /* WrongQuestionCategoryCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WrongQuestionCategoryCollectionViewCell.swift; sourceTree = "<group>"; };
+		E21979EF2D54D628005451E6 /* WrongQuestionCategoryCellState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WrongQuestionCategoryCellState.swift; sourceTree = "<group>"; };
 		E23066992D2126B9001B509A /* PreviewScoresData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreviewScoresData.swift; sourceTree = "<group>"; };
 		E23824E02D0C3157009E7989 /* BeginOnboardingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BeginOnboardingViewController.swift; sourceTree = "<group>"; };
 		E23963052D083B8F0092B39B /* QRIZ.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = QRIZ.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -697,6 +699,7 @@
 				E29BF85A2D11D3B2006DC6D0 /* OnboardingModel */,
 				E28BAD7B2D2C339100B8388D /* AlertType.swift */,
 				E271CFB72D3BA1760036BF29 /* ConceptCategory.swift */,
+				E21979EF2D54D628005451E6 /* WrongQuestionCategoryCellState.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -1122,6 +1125,7 @@
 				E29CCD1E2D298316004AA30A /* PreviewTestViewModel.swift in Sources */,
 				E271CFB02D3B9C560036BF29 /* WrongQuestionSegment.swift in Sources */,
 				E29CCD442D298656004AA30A /* ScoreCircularChartView.swift in Sources */,
+				E21979F02D54D628005451E6 /* WrongQuestionCategoryCellState.swift in Sources */,
 				B168B76F2D2826010000F32E /* IdInputMainView.swift in Sources */,
 				B168B7632D28073C0000F32E /* SingleInputMainView.swift in Sources */,
 				54BC61552D14AFB70094DC45 /* LoginInputView.swift in Sources */,
