@@ -17,7 +17,7 @@ final class NameInputViewController: UIViewController {
         static let headerTitle: String = "이름을 입력해주세요!"
         static let headerDescription: String = "가입을 위해 실명을 입력해주세요."
         static let footerTitle: String = "다음"
-        static let progressValue: Float = 0.25
+        static let progressValue: Float = 0.5
         static let inputPlaceholder: String = "이름을 입력"
         static let inputErrorText: String = "이름을 다시 확인해 주세요."
     }
@@ -91,7 +91,7 @@ final class NameInputViewController: UIViewController {
                     self.rootView.signupFooterView.updateButtonState(isValid: isValid)
                 case .navigateToEmailInputView:
                     // MARK: - 코디네이터 적용 필요
-                    navigationController?.pushViewController(EmailInputViewController(emailInputVM: EmailInputViewModel()), animated: true)
+                    navigationController?.pushViewController(IdInputViewController(idInputVM: IdInputViewModel()), animated: true)
                 }
             }
             .store(in: &cancellables)

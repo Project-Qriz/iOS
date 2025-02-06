@@ -17,7 +17,7 @@ final class EmailInputViewController: UIViewController {
         static let headerTitle: String = "이메일로\n본인확인을 진행할게요!"
         static let headerDescription: String = "이메일 형식을 맞춰 입력해주세요."
         static let footerTitle: String = "다음"
-        static let progressValue: Float = 0.5
+        static let progressValue: Float = 0.25
         static let inputPlaceholder: String = "이메일 입력"
         static let inputErrorText: String = "이메일을 다시 확인해 주세요."
     }
@@ -87,7 +87,7 @@ final class EmailInputViewController: UIViewController {
                     self.rootView.signupFooterView.updateButtonState(isValid: isValid)
                 case .navigateToVerificationCodeView:
                     // MARK: - 코디네이터 적용 필요
-                    navigationController?.pushViewController(VerificationCodeViewController(verificationCodeVM: VerificationCodeViewModel()), animated: true)
+                    navigationController?.pushViewController(NameInputViewController(nameInputVM: NameInputViewModel()), animated: true)
                 }
             }
             .store(in: &cancellables)
