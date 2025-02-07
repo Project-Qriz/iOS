@@ -69,6 +69,7 @@
 		B18F452E2D4D5D640030F7DB /* ResetPasswordMainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B18F452D2D4D5D640030F7DB /* ResetPasswordMainView.swift */; };
 		B19C4F6B2D5260DD00CD008A /* UIControl+.swift in Sources */ = {isa = PBXBuildFile; fileRef = B19C4F6A2D5260DD00CD008A /* UIControl+.swift */; };
 		B19C4F6D2D5262D900CD008A /* Combine+.swift in Sources */ = {isa = PBXBuildFile; fileRef = B19C4F6C2D5262D900CD008A /* Combine+.swift */; };
+		B19C4F6F2D55DCA400CD008A /* EmailInputMainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B19C4F6E2D55DCA400CD008A /* EmailInputMainView.swift */; };
 		B1D9A0E72D3686BA00E84934 /* CountdownTimer.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1D9A0E62D3686BA00E84934 /* CountdownTimer.swift */; };
 		E230669A2D2126B9001B509A /* PreviewScoresData.swift in Sources */ = {isa = PBXBuildFile; fileRef = E23066992D2126B9001B509A /* PreviewScoresData.swift */; };
 		E23824E12D0C3157009E7989 /* BeginOnboardingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E23824E02D0C3157009E7989 /* BeginOnboardingViewController.swift */; };
@@ -208,6 +209,7 @@
 		B18F452D2D4D5D640030F7DB /* ResetPasswordMainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResetPasswordMainView.swift; sourceTree = "<group>"; };
 		B19C4F6A2D5260DD00CD008A /* UIControl+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIControl+.swift"; sourceTree = "<group>"; };
 		B19C4F6C2D5262D900CD008A /* Combine+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Combine+.swift"; sourceTree = "<group>"; };
+		B19C4F6E2D55DCA400CD008A /* EmailInputMainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmailInputMainView.swift; sourceTree = "<group>"; };
 		B1D9A0E62D3686BA00E84934 /* CountdownTimer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountdownTimer.swift; sourceTree = "<group>"; };
 		E23066992D2126B9001B509A /* PreviewScoresData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreviewScoresData.swift; sourceTree = "<group>"; };
 		E23824E02D0C3157009E7989 /* BeginOnboardingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BeginOnboardingViewController.swift; sourceTree = "<group>"; };
@@ -512,6 +514,7 @@
 				B168B75D2D28073C0000F32E /* VerificationCodeMainView.swift */,
 				B168B76E2D2826010000F32E /* IdInputMainView.swift */,
 				B168B7742D2846DD0000F32E /* PasswordInputMainView.swift */,
+				B19C4F6E2D55DCA400CD008A /* EmailInputMainView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -1175,6 +1178,7 @@
 				B168B7612D28073C0000F32E /* SingleInputView.swift in Sources */,
 				54C7A3162D14A5A6001175D9 /* LoginLogoView.swift in Sources */,
 				54C7A3132D1461A6001175D9 /* LoginMainView.swift in Sources */,
+				B19C4F6F2D55DCA400CD008A /* EmailInputMainView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
