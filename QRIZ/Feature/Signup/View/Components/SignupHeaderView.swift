@@ -13,8 +13,7 @@ final class SignupHeaderView: UIView {
     
     private enum Metric {
         static let progressViewHeight: CGFloat = 4.0
-        static let titleLabelTopOffset: CGFloat = 24.0
-        static let descriptionLabelTopOffset: CGFloat = 10.0
+        static let titleLabelTopOffset: CGFloat = 40.0
         static let leadingMargin: CGFloat = 18.0
     }
     
@@ -32,13 +31,6 @@ final class SignupHeaderView: UIView {
         label.font = .systemFont(ofSize: 22, weight: .bold)
         label.textColor = .coolNeutral800
         label.numberOfLines = 2
-        return label
-    }()
-    
-    private let descriptionLabel: UILabel = {
-        let label = UILabel()
-        label.font = .systemFont(ofSize: 16, weight: .regular)
-        label.textColor = .coolNeutral500
         return label
     }()
     
@@ -61,9 +53,8 @@ final class SignupHeaderView: UIView {
         self.backgroundColor = .white
     }
     
-    func configure(title: String, description: String, progress: Float) {
-        titleLabel.text = title
-        descriptionLabel.text = description
+    func configure(title: NSAttributedString, progress: Float) {
+        titleLabel.attributedText = title
         progressView.setProgress(max(0.0, min(progress, 1.0)), animated: false)
     }
 }
@@ -75,14 +66,12 @@ extension SignupHeaderView {
         [
             progressView,
             titleLabel,
-            descriptionLabel
         ].forEach(addSubview(_:))
     }
     
     private func setupConstraints() {
         progressView.translatesAutoresizingMaskIntoConstraints = false
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
-        descriptionLabel.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
             progressView.topAnchor.constraint(equalTo: topAnchor),
@@ -92,10 +81,7 @@ extension SignupHeaderView {
             
             titleLabel.topAnchor.constraint(equalTo: progressView.bottomAnchor, constant: Metric.titleLabelTopOffset),
             titleLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Metric.leadingMargin),
-            
-            descriptionLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: Metric.descriptionLabelTopOffset),
-            descriptionLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Metric.leadingMargin),
-            descriptionLabel.bottomAnchor.constraint(equalTo: bottomAnchor),
+            titleLabel.bottomAnchor.constraint(equalTo: bottomAnchor),
         ])
     }
 }
