@@ -51,33 +51,67 @@ final class EmailInputViewController: UIViewController {
     // MARK: - Functions
     
     private func bind() {
-//        let emailTextChanged = rootView.singleInputView.textChangedPublisher
-//            .map { EmailInputViewModel.Input.emailTextChanged($0) }
-//        
-//        let nextButtonTapped = rootView.signupFooterView.buttonTappedPublisher
-//            .map { EmailInputViewModel.Input.buttonTapped }
-//        
-//        let input = Publishers.Merge(
-//            emailTextChanged,
-//            nextButtonTapped
-//        )
-//            .eraseToAnyPublisher()
-//        
-//        let output = emailInputVM.transform(input: input)
-//        
-//        output
-//            .sink { [weak self] output in
-//                guard let self = self else { return }
-//                switch output {
-//                case .isNameValid(let isValid):
-//                    self.rootView.singleInputView.updateErrorState(isValid: isValid)
-//                    self.rootView.signupFooterView.updateButtonState(isValid: isValid)
-//                case .navigateToVerificationCodeView:
-//                    // MARK: - 코디네이터 적용 필요
-//                    navigationController?.pushViewController(NameInputViewController(nameInputVM: NameInputViewModel()), animated: true)
-//                }
-//            }
-//            .store(in: &cancellables)
+        let emailTextChanged = rootView.findPasswordInputView.emailTextChangedPublisher
+            .map { EmailInputViewModel.Input.emailTextChanged($0) }
+        
+        let sendButtonTapped = rootView.findPasswordInputView.sendButtonTappedPublisher
+            .map { EmailInputViewModel.Input.sendButtonTapped }
+        
+        let codeTextChanged = rootView.findPasswordInputView.codeTextChangedPublisher
+            .map { EmailInputViewModel.Input.codeTextChanged($0) }
+        
+        let confirmButtonTapped = rootView.findPasswordInputView.confirmButtonPublisher
+            .map { EmailInputViewModel.Input.confirmButtonTapped }
+        
+        let nextButtonTapped = rootView.signupFooterView.buttonTappedPublisher
+            .map { EmailInputViewModel.Input.nextButtonTapped }
+        
+        let input = emailTextChanged
+            .merge(with: sendButtonTapped)
+            .merge(with: codeTextChanged)
+            .merge(with: confirmButtonTapped)
+            .merge(with: nextButtonTapped)
+            .eraseToAnyPublisher()
+        
+        let output = emailInputVM.transform(input: input)
+        
+        output
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] output in
+                guard let self = self else { return }
+                switch output {
+                case .isEmailValid(let isValid):
+                    self.rootView.findPasswordInputView.updateErrorState(for: .email, isValid: isValid)
+                    self.rootView.findPasswordInputView.updateSendButton(isValid: isValid)
+                    
+                case .isCodeValid(let isValid):
+                    self.rootView.findPasswordInputView.updateConfirmButton(isValid: isValid)
+                    
+                case .emailVerificationSuccess:
+                    self.rootView.findPasswordInputView.handleEmailVerificationSuccess()
+                    
+                case .updateRemainingTime(let remainingTime):
+                    self.rootView.findPasswordInputView.updateTimerLabel(remainingTime)
+                    
+                case .timerExpired:
+                    self.rootView.findPasswordInputView.handleTimerExpired()
+                    
+                case .emailVerificationFailure:
+                    print("이메일 인증 실패")
+                    
+                case .codeVerificationSuccess:
+                    self.rootView.findPasswordInputView.handleCodeVerificationSuccess()
+                    self.rootView.signupFooterView.updateButtonState(isValid: true)
+                    
+                case .codeVerificationFailure:
+                    self.rootView.findPasswordInputView.handleCodeVerificationFailure()
+                    
+                case .navigateToPasswordResetView:
+                    // MARK: - 코디네이터 적용 필요
+                    self.navigationController?.pushViewController(NameInputViewController(nameInputVM: NameInputViewModel()), animated: true)
+                }
+            }
+            .store(in: &cancellables)
     }
     
     private func observe() {

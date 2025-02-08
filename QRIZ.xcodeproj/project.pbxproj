@@ -474,8 +474,8 @@
 		B16288162D2CDB4D008057D0 /* ViewModel */ = {
 			isa = PBXGroup;
 			children = (
-				B16288172D2CDB85008057D0 /* NameInputViewModel.swift */,
 				B162881F2D2E2595008057D0 /* EmailInputViewModel.swift */,
+				B16288172D2CDB85008057D0 /* NameInputViewModel.swift */,
 				B16288272D30EB45008057D0 /* VerificationCodeViewModel.swift */,
 				B16288232D2E8914008057D0 /* IdInputViewModel.swift */,
 				B16288252D300CBA008057D0 /* PasswordInputViewModel.swift */,
@@ -510,11 +510,11 @@
 			isa = PBXGroup;
 			children = (
 				B168B75B2D28073C0000F32E /* Components */,
+				B19C4F6E2D55DCA400CD008A /* EmailInputMainView.swift */,
 				B168B75C2D28073C0000F32E /* SingleInputMainView.swift */,
 				B168B75D2D28073C0000F32E /* VerificationCodeMainView.swift */,
 				B168B76E2D2826010000F32E /* IdInputMainView.swift */,
 				B168B7742D2846DD0000F32E /* PasswordInputMainView.swift */,
-				B19C4F6E2D55DCA400CD008A /* EmailInputMainView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -522,8 +522,8 @@
 		B168B7682D2807470000F32E /* ViewController */ = {
 			isa = PBXGroup;
 			children = (
-				B168B7662D2807470000F32E /* NameInputViewController.swift */,
 				B168B7652D2807470000F32E /* EmailInputViewController.swift */,
+				B168B7662D2807470000F32E /* NameInputViewController.swift */,
 				B168B7672D2807470000F32E /* VerificationCodeViewController.swift */,
 				B168B76C2D2824BD0000F32E /* IdInputViewController.swift */,
 				B168B7722D2846C80000F32E /* PasswordInputViewController.swift */,
