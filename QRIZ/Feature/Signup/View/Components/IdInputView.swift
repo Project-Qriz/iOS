@@ -27,6 +27,7 @@ final class IdInputView: UIView {
     // MARK: - Properties
     
     private let buttonTappedSubject = PassthroughSubject<Void, Never>()
+    private var cancellables = Set<AnyCancellable>()
     
     var buttonTappedPublisher: AnyPublisher<Void, Never> {
         buttonTappedSubject.eraseToAnyPublisher()
@@ -81,7 +82,7 @@ final class IdInputView: UIView {
         addSubviews()
         setupConstraints()
         setupUI()
-        setupDelegate()
+        observe()
     }
     
     required init?(coder: NSCoder) {
@@ -94,8 +95,12 @@ final class IdInputView: UIView {
         self.backgroundColor = .white
     }
     
-    private func setupDelegate() {
-        idTextField.delegate = self
+    private func observe() {
+        idTextField.controlEventPublisher(for: .editingDidEndOnExit)
+            .sink { [weak self] _ in
+                self?.resignFirstResponder()
+            }
+            .store(in: &cancellables)
     }
     
     func updateCheckMessage(message: String, isAvailable: Bool) {
@@ -141,14 +146,5 @@ extension IdInputView {
             noticeLabel.trailingAnchor.constraint(equalTo: trailingAnchor),
             noticeLabel.bottomAnchor.constraint(equalTo: bottomAnchor),
         ])
-    }
-}
-
-// MARK: - UITextFieldDelegate
-
-extension IdInputView: UITextFieldDelegate {
-    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        textField.resignFirstResponder()
-        return true
     }
 }

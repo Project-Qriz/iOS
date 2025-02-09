@@ -18,4 +18,41 @@ extension UIView {
             .map { _ in }
             .eraseToAnyPublisher()
     }
+    
+    /// `토스트 메시지 생성을 도와주는 메서드입니다.`
+    func showToast(message: String, duration: TimeInterval = 2.0) {
+        let toastLabel = UILabel()
+        toastLabel.text = message
+        toastLabel.textColor = .white
+        toastLabel.textAlignment = .center
+        toastLabel.font = .systemFont(ofSize: 12, weight: .regular)
+        toastLabel.backgroundColor = .coolNeutral800
+        toastLabel.numberOfLines = 0
+        
+        let textSize = toastLabel.intrinsicContentSize
+        let labelWidth = min(textSize.width + 40, self.bounds.width - 40)
+        let labelHeight = textSize.height + 20
+        
+        toastLabel.frame = CGRect(
+            x: (self.bounds.width - labelWidth) / 2,
+            y: self.bounds.height - (labelHeight + 100),
+            width: labelWidth,
+            height: labelHeight
+        )
+        
+        toastLabel.layer.cornerRadius = 6
+        toastLabel.layer.masksToBounds = true
+        
+        self.addSubview(toastLabel)
+        
+        UIView.animate(withDuration: 0.5, animations: {
+            toastLabel.alpha = 1.0
+        }) { _ in
+            UIView.animate(withDuration: 0.5, delay: duration, options: .curveEaseOut, animations: {
+                toastLabel.alpha = 0.0
+            }, completion: { _ in
+                toastLabel.removeFromSuperview()
+            })
+        }
+    }
 }

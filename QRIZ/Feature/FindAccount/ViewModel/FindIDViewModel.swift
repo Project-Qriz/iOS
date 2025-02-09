@@ -8,7 +8,7 @@
 import Foundation
 import Combine
 
-final class FindIdViewModel {
+final class FindIDViewModel {
     
     // MARK: - Properties
     
@@ -41,7 +41,7 @@ final class FindIdViewModel {
     }
 }
 
-extension FindIdViewModel {
+extension FindIDViewModel {
     enum Input {
         case emailTextChanged(String)
         case buttonTapped

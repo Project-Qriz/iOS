@@ -1,33 +1,33 @@
 //
-//  FindIdViewController.swift
+//  ResetPasswordViewController.swift
 //  QRIZ
 //
-//  Created by 김세훈 on 1/17/25.
+//  Created by 김세훈 on 2/1/25.
 //
 
 import UIKit
 import Combine
 
-final class FindIdViewController: UIViewController {
+final class ResetPasswordViewController: UIViewController {
     
     // MARK: - Enums
     
     private enum Attributes {
-        static let navigationTitle: String = "아이디 찾기"
+        static let navigationTitle: String = "비밀번호 찾기"
     }
     
     // MARK: - Properties
     
-    private let rootView: FindAccountMainView
-    private let findIdInputVM: FindIdViewModel
+    private let rootView: ResetPasswordMainView
+    private let resetPasswordVM: ResetPasswordViewModel
     private var cancellables = Set<AnyCancellable>()
     private var keyboardCancellable: AnyCancellable?
     
     // MARK: - initialize
     
-    init(findIdInputVM: FindIdViewModel) {
-        self.rootView = FindAccountMainView(type: .findId)
-        self.findIdInputVM = findIdInputVM
+    init(resetPasswordVM: ResetPasswordViewModel) {
+        self.rootView = ResetPasswordMainView()
+        self.resetPasswordVM = resetPasswordVM
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -55,30 +55,40 @@ final class FindIdViewController: UIViewController {
     // MARK: - Functions
     
     private func bind() {
-        let emailTextChanged = rootView.findAccountInputView.textChangedPublisher
-            .map { FindIdViewModel.Input.emailTextChanged($0) }
+        let passwordTextChanged = rootView.passwordInputView.passwordTextChangedPublisher
+            .map { ResetPasswordViewModel.Input.passwordTextChanged($0) }
         
-        let nextButtonTapped = rootView.signupFooterView.buttonTappedPublisher
-            .map { FindIdViewModel.Input.buttonTapped }
+        let confirmTextChanged = rootView.passwordInputView.confirmTextChangedPublisher
+            .map { ResetPasswordViewModel.Input.confirmPasswordTextChanged($0) }
         
-        let input = Publishers.Merge(
-            emailTextChanged,
-            nextButtonTapped
-        )
+        let signupButtonTapped = rootView.signupFooterView.buttonTappedPublisher
+            .map { ResetPasswordViewModel.Input.buttonTapped }
+        
+        let input = passwordTextChanged
+            .merge(with: confirmTextChanged)
+            .merge(with: signupButtonTapped)
             .eraseToAnyPublisher()
         
-        let output = findIdInputVM.transform(input: input)
+        let output = resetPasswordVM.transform(input: input)
         
         output
             .sink { [weak self] output in
                 guard let self = self else { return }
                 switch output {
-                case .isNameValid(let isValid):
-                    self.rootView.findAccountInputView.updateErrorState(isValid: isValid)
-                    self.rootView.signupFooterView.updateButtonState(isValid: isValid)
                     
-                case .navigateToAlerView:
-                    // MARK: - 코디네이터 적용 필요
+                case .characterRequirementChanged(let isValid):
+                    self.rootView.passwordInputView.updateCharacterRequirementUI(isValid)
+                    
+                case .lengthRequirementChanged(let isValid):
+                    self.rootView.passwordInputView.updateLengthRequirementUI(isValid)
+                    
+                case .confirmValidChanged(let isValid):
+                    self.rootView.passwordInputView.updateConfirmPasswordUI(isValid)
+                    
+                case .updateSignupButtonState(let canSignUp):
+                    self.rootView.signupFooterView.updateButtonState(isValid: canSignUp)
+                    
+                case .navigateToAlertView:
                     self.showEmailSentAlert()
                 }
             }
@@ -105,8 +115,8 @@ final class FindIdViewController: UIViewController {
         
         let alertVC = CustomAlertViewController(
             alertType: .onlyConfirm,
-            title: "이메일 발송 완료!",
-            description: "입력해주신 이메일 주소로 아이디가\n발송되었습니다. 메일함을 확인해주세요.",
+            title: "비밀번호 변경 완료",
+            description: "변경이 완료되었습니다.\n보안을 위해 재로그인을 진행해 주세요.",
             descriptionLine: 2,
             confirmAction: confirmAction
         )

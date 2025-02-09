@@ -19,6 +19,8 @@ final class SingleInputView: UIView {
     
     // MARK: - Properties
     
+    private var cancellables = Set<AnyCancellable>()
+    
     var textChangedPublisher: AnyPublisher<String, Never> {
         textField.textPublisher
     }
@@ -27,7 +29,6 @@ final class SingleInputView: UIView {
     
     private lazy var textField: UITextField = {
         let textField = CustomTextField(placeholder: "")
-        textField.delegate = self
         return textField
     }()
     
@@ -46,6 +47,7 @@ final class SingleInputView: UIView {
         addSubviews()
         setupConstraints()
         setupUI()
+        observe()
     }
     
     required init?(coder: NSCoder) {
@@ -56,6 +58,14 @@ final class SingleInputView: UIView {
     
     private func setupUI() {
         self.backgroundColor = .white
+    }
+    
+    private func observe() {
+        textField.controlEventPublisher(for: .editingDidEndOnExit)
+            .sink { [weak self] _ in
+                self?.resignFirstResponder()
+            }
+            .store(in: &cancellables)
     }
     
     func configure(placeholder: String, errorText: String) {
@@ -100,15 +110,5 @@ extension SingleInputView {
             inputErrorLabel.trailingAnchor.constraint(equalTo: trailingAnchor),
             inputErrorLabel.bottomAnchor.constraint(equalTo: bottomAnchor),
         ])
-    }
-}
-
-
-// MARK: - UITextFieldDelegate
-
-extension SingleInputView: UITextFieldDelegate {
-    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        textField.resignFirstResponder()
-        return true
     }
 }

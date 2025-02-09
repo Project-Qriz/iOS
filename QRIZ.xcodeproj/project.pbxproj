@@ -53,12 +53,22 @@
 		B17FE3082D27F87E002EC7D7 /* String+.swift in Sources */ = {isa = PBXBuildFile; fileRef = B17FE3072D27F87E002EC7D7 /* String+.swift */; };
 		B17FE30A2D27F8E9002EC7D7 /* UITextField+.swift in Sources */ = {isa = PBXBuildFile; fileRef = B17FE3092D27F8E9002EC7D7 /* UITextField+.swift */; };
 		B17FE30C2D27F931002EC7D7 /* CustomTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = B17FE30B2D27F931002EC7D7 /* CustomTextField.swift */; };
-		B18F450A2D39901D0030F7DB /* FindIdViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B18F45092D39901D0030F7DB /* FindIdViewController.swift */; };
-		B18F450D2D3994380030F7DB /* FindAccountMainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B18F450C2D3994380030F7DB /* FindAccountMainView.swift */; };
+		B18F450A2D39901D0030F7DB /* FindIDViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B18F45092D39901D0030F7DB /* FindIDViewController.swift */; };
+		B18F450D2D3994380030F7DB /* FindIDMainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B18F450C2D3994380030F7DB /* FindIDMainView.swift */; };
 		B18F45102D3997280030F7DB /* FindAccountHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B18F450F2D3997280030F7DB /* FindAccountHeaderView.swift */; };
-		B18F45122D3A26520030F7DB /* FindAccountInputView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B18F45112D3A26520030F7DB /* FindAccountInputView.swift */; };
+		B18F45122D3A26520030F7DB /* FindIDInputView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B18F45112D3A26520030F7DB /* FindIDInputView.swift */; };
 		B18F45152D3A40BE0030F7DB /* FindAccountType.swift in Sources */ = {isa = PBXBuildFile; fileRef = B18F45142D3A40BE0030F7DB /* FindAccountType.swift */; };
-		B18F45182D3A528B0030F7DB /* FindIdViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B18F45172D3A528B0030F7DB /* FindIdViewModel.swift */; };
+		B18F45182D3A528B0030F7DB /* FindIDViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B18F45172D3A528B0030F7DB /* FindIDViewModel.swift */; };
+		B18F451A2D4139B00030F7DB /* UILabel+.swift in Sources */ = {isa = PBXBuildFile; fileRef = B18F45192D4139B00030F7DB /* UILabel+.swift */; };
+		B18F451C2D441E150030F7DB /* FindPasswordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B18F451B2D441E150030F7DB /* FindPasswordViewController.swift */; };
+		B18F451E2D44D4080030F7DB /* FindPasswordViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B18F451D2D44D4080030F7DB /* FindPasswordViewModel.swift */; };
+		B18F45202D4643B40030F7DB /* FindPasswordMainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B18F451F2D4643B40030F7DB /* FindPasswordMainView.swift */; };
+		B18F45222D4645EC0030F7DB /* FindPasswordInputView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B18F45212D4645EC0030F7DB /* FindPasswordInputView.swift */; };
+		B18F452A2D4D5B200030F7DB /* ResetPasswordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B18F45292D4D5B200030F7DB /* ResetPasswordViewController.swift */; };
+		B18F452C2D4D5CF00030F7DB /* ResetPasswordViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B18F452B2D4D5CF00030F7DB /* ResetPasswordViewModel.swift */; };
+		B18F452E2D4D5D640030F7DB /* ResetPasswordMainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B18F452D2D4D5D640030F7DB /* ResetPasswordMainView.swift */; };
+		B19C4F6B2D5260DD00CD008A /* UIControl+.swift in Sources */ = {isa = PBXBuildFile; fileRef = B19C4F6A2D5260DD00CD008A /* UIControl+.swift */; };
+		B19C4F6D2D5262D900CD008A /* Combine+.swift in Sources */ = {isa = PBXBuildFile; fileRef = B19C4F6C2D5262D900CD008A /* Combine+.swift */; };
 		B1D9A0E72D3686BA00E84934 /* CountdownTimer.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1D9A0E62D3686BA00E84934 /* CountdownTimer.swift */; };
 		E230669A2D2126B9001B509A /* PreviewScoresData.swift in Sources */ = {isa = PBXBuildFile; fileRef = E23066992D2126B9001B509A /* PreviewScoresData.swift */; };
 		E23824E12D0C3157009E7989 /* BeginOnboardingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E23824E02D0C3157009E7989 /* BeginOnboardingViewController.swift */; };
@@ -182,12 +192,22 @@
 		B17FE3072D27F87E002EC7D7 /* String+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+.swift"; sourceTree = "<group>"; };
 		B17FE3092D27F8E9002EC7D7 /* UITextField+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITextField+.swift"; sourceTree = "<group>"; };
 		B17FE30B2D27F931002EC7D7 /* CustomTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTextField.swift; sourceTree = "<group>"; };
-		B18F45092D39901D0030F7DB /* FindIdViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FindIdViewController.swift; sourceTree = "<group>"; };
-		B18F450C2D3994380030F7DB /* FindAccountMainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FindAccountMainView.swift; sourceTree = "<group>"; };
+		B18F45092D39901D0030F7DB /* FindIDViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FindIDViewController.swift; sourceTree = "<group>"; };
+		B18F450C2D3994380030F7DB /* FindIDMainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FindIDMainView.swift; sourceTree = "<group>"; };
 		B18F450F2D3997280030F7DB /* FindAccountHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FindAccountHeaderView.swift; sourceTree = "<group>"; };
-		B18F45112D3A26520030F7DB /* FindAccountInputView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FindAccountInputView.swift; sourceTree = "<group>"; };
+		B18F45112D3A26520030F7DB /* FindIDInputView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FindIDInputView.swift; sourceTree = "<group>"; };
 		B18F45142D3A40BE0030F7DB /* FindAccountType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FindAccountType.swift; sourceTree = "<group>"; };
-		B18F45172D3A528B0030F7DB /* FindIdViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FindIdViewModel.swift; sourceTree = "<group>"; };
+		B18F45172D3A528B0030F7DB /* FindIDViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FindIDViewModel.swift; sourceTree = "<group>"; };
+		B18F45192D4139B00030F7DB /* UILabel+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UILabel+.swift"; sourceTree = "<group>"; };
+		B18F451B2D441E150030F7DB /* FindPasswordViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FindPasswordViewController.swift; sourceTree = "<group>"; };
+		B18F451D2D44D4080030F7DB /* FindPasswordViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FindPasswordViewModel.swift; sourceTree = "<group>"; };
+		B18F451F2D4643B40030F7DB /* FindPasswordMainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FindPasswordMainView.swift; sourceTree = "<group>"; };
+		B18F45212D4645EC0030F7DB /* FindPasswordInputView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FindPasswordInputView.swift; sourceTree = "<group>"; };
+		B18F45292D4D5B200030F7DB /* ResetPasswordViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResetPasswordViewController.swift; sourceTree = "<group>"; };
+		B18F452B2D4D5CF00030F7DB /* ResetPasswordViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResetPasswordViewModel.swift; sourceTree = "<group>"; };
+		B18F452D2D4D5D640030F7DB /* ResetPasswordMainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResetPasswordMainView.swift; sourceTree = "<group>"; };
+		B19C4F6A2D5260DD00CD008A /* UIControl+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIControl+.swift"; sourceTree = "<group>"; };
+		B19C4F6C2D5262D900CD008A /* Combine+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Combine+.swift"; sourceTree = "<group>"; };
 		B1D9A0E62D3686BA00E84934 /* CountdownTimer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountdownTimer.swift; sourceTree = "<group>"; };
 		E23066992D2126B9001B509A /* PreviewScoresData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreviewScoresData.swift; sourceTree = "<group>"; };
 		E23824E02D0C3157009E7989 /* BeginOnboardingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BeginOnboardingViewController.swift; sourceTree = "<group>"; };
@@ -415,6 +435,9 @@
 				B162881B2D2CFC63008057D0 /* UIView+.swift */,
 				B162881D2D2D6624008057D0 /* UIViewController+.swift */,
 				B16288212D2E3CAB008057D0 /* UINavigationBar+.swift */,
+				B18F45192D4139B00030F7DB /* UILabel+.swift */,
+				B19C4F6A2D5260DD00CD008A /* UIControl+.swift */,
+				B19C4F6C2D5262D900CD008A /* Combine+.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -534,7 +557,9 @@
 		B18F45082D398FFD0030F7DB /* ViewController */ = {
 			isa = PBXGroup;
 			children = (
-				B18F45092D39901D0030F7DB /* FindIdViewController.swift */,
+				B18F45092D39901D0030F7DB /* FindIDViewController.swift */,
+				B18F451B2D441E150030F7DB /* FindPasswordViewController.swift */,
+				B18F45292D4D5B200030F7DB /* ResetPasswordViewController.swift */,
 			);
 			path = ViewController;
 			sourceTree = "<group>";
@@ -543,7 +568,9 @@
 			isa = PBXGroup;
 			children = (
 				B18F450E2D3996F80030F7DB /* Components */,
-				B18F450C2D3994380030F7DB /* FindAccountMainView.swift */,
+				B18F450C2D3994380030F7DB /* FindIDMainView.swift */,
+				B18F451F2D4643B40030F7DB /* FindPasswordMainView.swift */,
+				B18F452D2D4D5D640030F7DB /* ResetPasswordMainView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -552,7 +579,8 @@
 			isa = PBXGroup;
 			children = (
 				B18F450F2D3997280030F7DB /* FindAccountHeaderView.swift */,
-				B18F45112D3A26520030F7DB /* FindAccountInputView.swift */,
+				B18F45112D3A26520030F7DB /* FindIDInputView.swift */,
+				B18F45212D4645EC0030F7DB /* FindPasswordInputView.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -568,7 +596,9 @@
 		B18F45162D3A52680030F7DB /* ViewModel */ = {
 			isa = PBXGroup;
 			children = (
-				B18F45172D3A528B0030F7DB /* FindIdViewModel.swift */,
+				B18F45172D3A528B0030F7DB /* FindIDViewModel.swift */,
+				B18F451D2D44D4080030F7DB /* FindPasswordViewModel.swift */,
+				B18F452B2D4D5CF00030F7DB /* ResetPasswordViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -1044,9 +1074,11 @@
 				E29CCD452D298656004AA30A /* SingleSupplementConceptView.swift in Sources */,
 				B168B76B2D2807470000F32E /* VerificationCodeViewController.swift in Sources */,
 				B16288222D2E3CAB008057D0 /* UINavigationBar+.swift in Sources */,
-				B18F450A2D39901D0030F7DB /* FindIdViewController.swift in Sources */,
+				B18F450A2D39901D0030F7DB /* FindIDViewController.swift in Sources */,
 				B168B7602D28073C0000F32E /* SignupHeaderView.swift in Sources */,
 				B168B7712D28276F0000F32E /* IdInputView.swift in Sources */,
+				B19C4F6D2D5262D900CD008A /* Combine+.swift in Sources */,
+				B18F452C2D4D5CF00030F7DB /* ResetPasswordViewModel.swift in Sources */,
 				54C7A3102D146190001175D9 /* LoginViewController.swift in Sources */,
 				E29CCD432D298656004AA30A /* ScoreCircularChartHostingController.swift in Sources */,
 				E29CCD3C2D298656004AA30A /* BarGraphsView.swift in Sources */,
@@ -1063,7 +1095,8 @@
 				E29CCD2F2D29855B004AA30A /* TestTimeLabel.swift in Sources */,
 				B168B7732D2846C80000F32E /* PasswordInputViewController.swift in Sources */,
 				E239630D2D083B900092B39B /* ViewController.swift in Sources */,
-				B18F45182D3A528B0030F7DB /* FindIdViewModel.swift in Sources */,
+				B18F45182D3A528B0030F7DB /* FindIDViewModel.swift in Sources */,
+				B18F452A2D4D5B200030F7DB /* ResetPasswordViewController.swift in Sources */,
 				B16288262D300CBA008057D0 /* PasswordInputViewModel.swift in Sources */,
 				E23824E12D0C3157009E7989 /* BeginOnboardingViewController.swift in Sources */,
 				E29CCD292D29855B004AA30A /* QuestionNumberLabel.swift in Sources */,
@@ -1071,8 +1104,9 @@
 				E29CCD2C2D29855B004AA30A /* TestButton.swift in Sources */,
 				B168B75F2D28073C0000F32E /* SignupFooterView.swift in Sources */,
 				B162881C2D2CFC63008057D0 /* UIView+.swift in Sources */,
-				B18F45122D3A26520030F7DB /* FindAccountInputView.swift in Sources */,
+				B18F45122D3A26520030F7DB /* FindIDInputView.swift in Sources */,
 				541878542D0E21620089F478 /* HTTPMethod.swift in Sources */,
+				B18F45222D4645EC0030F7DB /* FindPasswordInputView.swift in Sources */,
 				548566502D1241A4002BAEE3 /* ExampleRequest.swift in Sources */,
 				E29CCD422D298656004AA30A /* PreviewResultViewModel.swift in Sources */,
 				548566522D1241BA002BAEE3 /* ExampleResponse.swift in Sources */,
@@ -1084,13 +1118,15 @@
 				5485664B2D123FC2002BAEE3 /* Network.swift in Sources */,
 				B162881E2D2D6624008057D0 /* UIViewController+.swift in Sources */,
 				54BC61592D1823F50094DC45 /* SocialLoginView.swift in Sources */,
+				B18F451A2D4139B00030F7DB /* UILabel+.swift in Sources */,
 				E23963092D083B900092B39B /* AppDelegate.swift in Sources */,
 				E2D70FE82D0DD322005A3F51 /* BeginTestViewModel.swift in Sources */,
 				E29BF86D2D16895B006DC6D0 /* QuestionData.swift in Sources */,
 				E29CCD2A2D29855B004AA30A /* QuestionOptionLabel.swift in Sources */,
 				E25856D42D0D766900355667 /* CheckConceptViewController.swift in Sources */,
+				B18F451C2D441E150030F7DB /* FindPasswordViewController.swift in Sources */,
 				E25F94C82D0CAF1B00BA765F /* BeginTestViewController.swift in Sources */,
-				B18F450D2D3994380030F7DB /* FindAccountMainView.swift in Sources */,
+				B18F450D2D3994380030F7DB /* FindIDMainView.swift in Sources */,
 				B168B7692D2807470000F32E /* EmailInputViewController.swift in Sources */,
 				54DB0D9D2D09513300ABD458 /* AppCoordinator.swift in Sources */,
 				54E91B762D18FACD00474D0A /* RoundButton.swift in Sources */,
@@ -1102,6 +1138,7 @@
 				B168B7642D28073C0000F32E /* VerificationCodeMainView.swift in Sources */,
 				B168B76A2D2807470000F32E /* NameInputViewController.swift in Sources */,
 				548566552D124260002BAEE3 /* ExampleService.swift in Sources */,
+				B18F451E2D44D4080030F7DB /* FindPasswordViewModel.swift in Sources */,
 				E29CCD3F2D298656004AA30A /* IncorrectRankView.swift in Sources */,
 				B18F45152D3A40BE0030F7DB /* FindAccountType.swift in Sources */,
 				E239630B2D083B900092B39B /* SceneDelegate.swift in Sources */,
@@ -1122,13 +1159,16 @@
 				E2DD0E862D2146D900DA3D18 /* IncorrectCountData.swift in Sources */,
 				E29CCD3E2D298656004AA30A /* ConceptBarGraphView.swift in Sources */,
 				E25F94CD2D0CB50F00BA765F /* OnboardingSubtitleLabel.swift in Sources */,
+				B18F45202D4643B40030F7DB /* FindPasswordMainView.swift in Sources */,
 				54BC61572D18141B0094DC45 /* AccountOptionsView.swift in Sources */,
 				E29CCD1E2D298316004AA30A /* PreviewTestViewModel.swift in Sources */,
 				E29CCD442D298656004AA30A /* ScoreCircularChartView.swift in Sources */,
+				B18F452E2D4D5D640030F7DB /* ResetPasswordMainView.swift in Sources */,
 				B168B76F2D2826010000F32E /* IdInputMainView.swift in Sources */,
 				B16288182D2CDB85008057D0 /* NameInputViewModel.swift in Sources */,
 				B168B7632D28073C0000F32E /* SingleInputMainView.swift in Sources */,
 				54BC61552D14AFB70094DC45 /* LoginInputView.swift in Sources */,
+				B19C4F6B2D5260DD00CD008A /* UIControl+.swift in Sources */,
 				B168B7752D2846DD0000F32E /* PasswordInputMainView.swift in Sources */,
 				B16288202D2E2595008057D0 /* EmailInputViewModel.swift in Sources */,
 				B17FE3082D27F87E002EC7D7 /* String+.swift in Sources */,

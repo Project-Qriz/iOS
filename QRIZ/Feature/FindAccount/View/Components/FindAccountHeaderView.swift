@@ -51,9 +51,9 @@ final class FindAccountHeaderView: UIView {
         self.backgroundColor = .white
     }
     
-    func configure(title: String, description: String) {
+    func configure(title: String, description: NSAttributedString) {
         titleLabel.text = title
-        descriptionLabel.text = description
+        descriptionLabel.attributedText = description
     }
 }
 
