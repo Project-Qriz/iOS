@@ -179,10 +179,16 @@ final class FindPasswordInputView: UIView {
     
     private func observe() {
         codeTextField.textPublisher
-            .removeDuplicates()
-            .sink { [weak self] _ in
-                self?.inputErrorLabel.isHidden = true
-                self?.codeTextField.layer.borderColor = UIColor.coolNeutral600.cgColor
+            .sink { [weak self] text in
+                guard let self else { return }
+                let trimmedText = text.count > 6 ? String(text.prefix(6)) : text
+                
+                if trimmedText != text {
+                    self.codeTextField.text = trimmedText
+                }
+                
+                self.inputErrorLabel.isHidden = true
+                self.codeTextField.layer.borderColor = UIColor.coolNeutral600.cgColor
             }
             .store(in: &cancellables)
         
