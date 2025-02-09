@@ -14,7 +14,7 @@ final class WrongQuestionCategoryReusableView: UICollectionReusableView {
     private let titleLabel: UILabel = {
         let label = UILabel()
         label.textColor = .coolNeutral800
-        label.font = .systemFont(ofSize: 14, weight: .semibold)
+        label.font = .systemFont(ofSize: 14, weight: .regular)
         return label
     }()
     

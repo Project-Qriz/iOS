@@ -16,10 +16,23 @@ final class WrongQuestionCategoryCollectionViewCell: UICollectionViewCell {
         let label = UILabel()
         label.text = ""
         label.font = .systemFont(ofSize: 14, weight: .medium)
-        label.textColor = .coolNeutral700
+        label.textColor = .coolNeutral800
         label.textAlignment = .center
         label.numberOfLines = 1
         return label
+    }()
+
+    private var textStr: String = ""
+    private let checkmarkString: NSAttributedString = {
+        let checkmarkImage = UIImage(systemName: "checkmark")?.withTintColor(.coolNeutral800, renderingMode: .alwaysTemplate)
+
+        let attachment = NSTextAttachment()
+        attachment.image = checkmarkImage
+        attachment.bounds.size = CGSize(width: 12, height: 10)
+
+        let imageString = NSAttributedString(attachment: attachment)
+
+        return imageString
     }()
     
     // MARK: - Initializers
@@ -35,36 +48,46 @@ final class WrongQuestionCategoryCollectionViewCell: UICollectionViewCell {
     
     // MARK: - Methods
     func configure(_ text: String, isAvailable: Bool, isClicked: Bool) {
-        textLabel.text = text
-        
+        textStr = text
+        setState(isAvailable: isAvailable, isClicked: isClicked)
     }
     
     func setState(isAvailable: Bool, isClicked: Bool) {
         if isAvailable {
             if isClicked {
-                backgroundColor = .white
-                layer.borderColor = UIColor.customBlue500.cgColor
-                layer.borderWidth = 1.5
-                textLabel.font = .systemFont(ofSize: 14, weight: .semibold)
+                textLabel.attributedText = getCheckedString()
+                layer.borderWidth = 1.2
+                layer.borderColor = UIColor.coolNeutral800.cgColor
+                textLabel.textColor = .coolNeutral800
+                textLabel.font = .systemFont(ofSize: 14, weight: .bold)
             } else {
-                backgroundColor = .coolNeutral100
-                layer.borderWidth = 0
-                textLabel.textColor = .coolNeutral700
+                textLabel.text = textStr
+                layer.borderWidth = 1
+                layer.borderColor = UIColor.coolNeutral200.cgColor
+                textLabel.textColor = .coolNeutral800
                 textLabel.font = .systemFont(ofSize: 14, weight: .medium)
             }
         } else {
-            backgroundColor = .customBlue50
-            layer.borderWidth = 0
-            textLabel.textColor = .coolNeutral300
+            textLabel.text = textStr
+            layer.borderWidth = 1
+            layer.borderColor = UIColor.coolNeutral200.withAlphaComponent(0.7).cgColor
+            textLabel.textColor = .coolNeutral800.withAlphaComponent(0.7)
             textLabel.font = .systemFont(ofSize: 14, weight: .medium)
         }
     }
     
     private func setUI() {
+        backgroundColor = .white
         layer.masksToBounds = true
         layer.cornerRadius = 8
-        layer.borderColor = UIColor.customBlue500.cgColor
+        layer.masksToBounds = true
         setState(isAvailable: true, isClicked: false)
+    }
+    
+    private func getCheckedString() -> NSAttributedString {
+        let str = NSMutableAttributedString(string: " \(textStr)")
+        str.insert(checkmarkString, at: 0)
+        return str
     }
 }
 

@@ -43,10 +43,19 @@ final class WrongQuestionCategoryViewController: UIViewController {
     // MARK: - Properties
     private let titleLabel: UILabel = {
         let label = UILabel()
-        label.text = "카테고리 선택"
+        label.text = "필터"
         label.textAlignment = .center
         label.numberOfLines = 1
         label.font = .systemFont(ofSize: 18, weight: .bold)
+        label.textColor = .coolNeutral800
+        return label
+    }()
+    private let subtitleLabel: UILabel = {
+        let label = UILabel()
+        label.text = "카테고리"
+        label.textAlignment = .center
+        label.numberOfLines = 1
+        label.font = .systemFont(ofSize: 16, weight: .bold)
         label.textColor = .coolNeutral800
         return label
     }()
@@ -65,18 +74,31 @@ final class WrongQuestionCategoryViewController: UIViewController {
         button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 16)
         button.backgroundColor = .customBlue500
         button.layer.cornerRadius = 8
+        button.layer.masksToBounds = true
         return button
     }()
-    private let grabberView: UIView = {
+    private let resetButton: UIButton = {
+        let button = UIButton()
+        button.setTitle("초기화", for: .normal)
+        button.setTitleColor(.coolNeutral700, for: .normal)
+        button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 16)
+        button.backgroundColor = .white
+        button.layer.cornerRadius = 8
+        button.layer.borderWidth = 1
+        button.layer.borderColor = UIColor.coolNeutral400.cgColor
+        button.layer.masksToBounds = true
+        return button
+    }()
+    private let buttonBgView: UIView = {
         let view = UIView()
-        view.backgroundColor = .coolNeutral200
-        view.layer.cornerRadius = 4
-        view.layer.masksToBounds = true
+        view.backgroundColor = .white
+        view.layer.borderWidth = 1
+        view.layer.borderColor = UIColor.coolNeutral100.cgColor
         return view
     }()
-    private let collectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
     
-    private var startProcess: () -> Void = { }
+    private let collectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
+
     private var completion: () -> Void = { }
     private var stateArr: [[WrongQuestionCategoryCellState]] = []
 
@@ -113,12 +135,11 @@ final class WrongQuestionCategoryViewController: UIViewController {
     private var subscriptions = Set<AnyCancellable>()
     
     // MARK: - Initializer
-    init(_ starter: @escaping () -> Void, _ completion: @escaping () -> Void) {
-        // set will be given by argument -> init(conceptSet: Set<String>, _ starter: @escaping () -> Void, _ completion: @escaping () -> Void)
+    init(_ completion: @escaping () -> Void) {
+        // set will be given by argument -> init(conceptSet: Set<String>, _ completion: @escaping () -> Void)
         super.init(nibName: nil, bundle: nil)
         modalTransitionStyle = .coverVertical
-        modalPresentationStyle = .pageSheet
-        self.startProcess = starter
+        modalPresentationStyle = .overFullScreen
         self.completion = completion
     }
     
@@ -151,6 +172,7 @@ final class WrongQuestionCategoryViewController: UIViewController {
                     cell.setState(isAvailable: isAvailable, isClicked: isClicked)
                     stateArr[section][item].isAvailable = isAvailable
                     stateArr[section][item].isClicked = isClicked
+                    collectionView.reloadItems(at: [IndexPath(item: item, section: section)])
                 case .submitSuccess:
                     print("Submit Success")
                 case .submitFail:
@@ -160,17 +182,12 @@ final class WrongQuestionCategoryViewController: UIViewController {
             .store(in: &subscriptions)
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        startProcess()
-    }
-    
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         completion()
     }
     
-    private func configureSheetPresentation() {
+    private func configureSheetPresentation() { // 변경해야할 부분
         if let sheetPresentationController = sheetPresentationController {
             sheetPresentationController.detents = [.medium()]
             sheetPresentationController.preferredCornerRadius = 32.0
@@ -252,9 +269,10 @@ extension WrongQuestionCategoryViewController: UICollectionViewDataSource {
         let item = indexPath.item
 
         let cellText = items[section][item]
+        let state = stateArr[section][item]
 
-        cell.configure(cellText, isAvailable: true, isClicked: false)
-        cell.setState(isAvailable: stateArr[section][item].isAvailable, isClicked: stateArr[section][item].isClicked)
+        cell.configure(cellText, isAvailable: state.isAvailable, isClicked: state.isClicked)
+
         return cell
     }
     
@@ -301,9 +319,14 @@ extension WrongQuestionCategoryViewController: UICollectionViewDelegateFlowLayou
     private func getLabelSize(_ indexPath: IndexPath) -> CGFloat {
         let label = UILabel()
         label.text = items[indexPath.section][indexPath.item]
+        label.font = .systemFont(ofSize: 14, weight: .medium)
         label.numberOfLines = 1
-        let size = label.sizeThatFits(CGSize(width: collectionView.frame.width, height: 40))
-        return (size.width + 23)
+        label.sizeToFit()
+        if stateArr[indexPath.section][indexPath.item].isClicked {
+            return (label.frame.width + 40)
+        } else {
+            return (label.frame.width + 24)
+        }
     }
 }
 
@@ -312,38 +335,50 @@ extension WrongQuestionCategoryViewController {
     private func addViews() {
         
         self.view.addSubview(titleLabel)
+        self.view.addSubview(subtitleLabel)
         self.view.addSubview(cancelButton)
+        self.view.addSubview(buttonBgView)
+        self.view.addSubview(resetButton)
         self.view.addSubview(submitButton)
-        self.view.addSubview(grabberView)
         self.view.addSubview(collectionView)
         
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
+        subtitleLabel.translatesAutoresizingMaskIntoConstraints = false
         cancelButton.translatesAutoresizingMaskIntoConstraints = false
+        buttonBgView.translatesAutoresizingMaskIntoConstraints = false
+        resetButton.translatesAutoresizingMaskIntoConstraints = false
         submitButton.translatesAutoresizingMaskIntoConstraints = false
-        grabberView.translatesAutoresizingMaskIntoConstraints = false
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
             titleLabel.centerXAnchor.constraint(equalTo: self.view.centerXAnchor),
-            titleLabel.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor, constant: 40),
+            titleLabel.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor, constant: 12),
+            
+            subtitleLabel.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 18),
+            subtitleLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 36),
             
             cancelButton.centerYAnchor.constraint(equalTo: titleLabel.centerYAnchor),
             cancelButton.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 24),
             cancelButton.widthAnchor.constraint(equalToConstant: 14),
             cancelButton.heightAnchor.constraint(equalToConstant: 14),
             
-            submitButton.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 18),
+            buttonBgView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
+            buttonBgView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor),
+            buttonBgView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor),
+            buttonBgView.heightAnchor.constraint(equalToConstant: 106),
+            
+            resetButton.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 18),
+            resetButton.trailingAnchor.constraint(equalTo: self.view.centerXAnchor, constant: -70),
+            resetButton.topAnchor.constraint(equalTo: self.buttonBgView.topAnchor, constant: 12),
+            resetButton.heightAnchor.constraint(equalToConstant: 48),
+            
+            submitButton.leadingAnchor.constraint(equalTo: resetButton.trailingAnchor, constant: 8),
             submitButton.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: -18),
-            submitButton.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor, constant: -40),
+            submitButton.topAnchor.constraint(equalTo: resetButton.topAnchor),
             submitButton.heightAnchor.constraint(equalToConstant: 48),
             
-            grabberView.widthAnchor.constraint(equalToConstant: 46),
-            grabberView.heightAnchor.constraint(equalToConstant: 4),
-            grabberView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            grabberView.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor, constant: 12),
-            
-            collectionView.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 28),
-            collectionView.bottomAnchor.constraint(equalTo: submitButton.topAnchor, constant: -16),
+            collectionView.topAnchor.constraint(equalTo: subtitleLabel.bottomAnchor, constant: 24),
+            collectionView.bottomAnchor.constraint(equalTo: buttonBgView.topAnchor, constant: -5),
             collectionView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 18),
             collectionView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: -18)
         ])

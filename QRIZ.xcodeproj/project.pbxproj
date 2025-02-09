@@ -503,6 +503,15 @@
 			path = ViewModel;
 			sourceTree = "<group>";
 		};
+		E21979F12D58F1A8005451E6 /* ModalCollectionView */ = {
+			isa = PBXGroup;
+			children = (
+				E21979ED2D4F788B005451E6 /* WrongQuestionCategoryCollectionViewCell.swift */,
+				E2AFED652D53383A00583359 /* WrongQuestionCategoryReusableView.swift */,
+			);
+			path = ModalCollectionView;
+			sourceTree = "<group>";
+		};
 		E23824DF2D0C1FA7009E7989 /* Onboarding */ = {
 			isa = PBXGroup;
 			children = (
@@ -655,12 +664,11 @@
 		E271CFB32D3B9D0D0036BF29 /* Components */ = {
 			isa = PBXGroup;
 			children = (
+				E21979F12D58F1A8005451E6 /* ModalCollectionView */,
 				E24572AC2D4CE7FD00175A78 /* CategoryButton */,
 				E24572AB2D4CE7F500175A78 /* Segment */,
 				E24572AA2D4CE7DD00175A78 /* Menu */,
 				E24572A92D4CE7C800175A78 /* DropDown */,
-				E21979ED2D4F788B005451E6 /* WrongQuestionCategoryCollectionViewCell.swift */,
-				E2AFED652D53383A00583359 /* WrongQuestionCategoryReusableView.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
