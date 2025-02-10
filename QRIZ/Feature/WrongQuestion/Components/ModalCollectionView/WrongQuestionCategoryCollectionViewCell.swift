@@ -70,8 +70,8 @@ final class WrongQuestionCategoryCollectionViewCell: UICollectionViewCell {
         } else {
             textLabel.text = textStr
             layer.borderWidth = 1
-            layer.borderColor = UIColor.coolNeutral200.withAlphaComponent(0.7).cgColor
-            textLabel.textColor = .coolNeutral800.withAlphaComponent(0.7)
+            layer.borderColor = UIColor.coolNeutral200.withAlphaComponent(0.3).cgColor
+            textLabel.textColor = .coolNeutral800.withAlphaComponent(0.3)
             textLabel.font = .systemFont(ofSize: 14, weight: .medium)
         }
     }
