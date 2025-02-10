@@ -9,6 +9,7 @@ import UIKit
 
 final class WrongQuestionCategoryReusableView: UICollectionReusableView {
     
+    // MARK: - Properties
     static let identifier = "WrongQuestionCategoryReusableView"
     
     private let titleLabel: UILabel = {
@@ -18,6 +19,7 @@ final class WrongQuestionCategoryReusableView: UICollectionReusableView {
         return label
     }()
     
+    // MARK: - Intializer
     override init(frame: CGRect) {
         super.init(frame: frame)
         addViews()
@@ -27,6 +29,7 @@ final class WrongQuestionCategoryReusableView: UICollectionReusableView {
         fatalError("no initializer for coder: WrongQuestionCategoryReusableView")
     }
     
+    // MARK: - Method
     func configure(_ text: String) {
         self.titleLabel.text = text
     }

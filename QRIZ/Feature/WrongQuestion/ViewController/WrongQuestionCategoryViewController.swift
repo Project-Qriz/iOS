@@ -152,7 +152,7 @@ final class WrongQuestionCategoryViewController: UIViewController {
         super.viewDidLoad()
         self.view.backgroundColor = .white
         setStateArr(conceptSet: conceptSet)
-        self.viewModel = WrongQuestionCategoryViewModel(stateArr: stateArr)
+        self.viewModel = WrongQuestionCategoryViewModel(stateArr: stateArr, items: items)
         configureSheetPresentation()
         addViews()
         setCollectionView()
@@ -197,6 +197,7 @@ final class WrongQuestionCategoryViewController: UIViewController {
     
     private func addButtonsAction() {
         cancelButton.addTarget(self, action: #selector(cancelButtonAction), for: .touchUpInside)
+        resetButton.addTarget(self, action: #selector(resetButtonAction), for: .touchUpInside)
         submitButton.addTarget(self, action: #selector(submitButtonAction), for: .touchUpInside)
     }
     
@@ -223,6 +224,10 @@ final class WrongQuestionCategoryViewController: UIViewController {
         // coordinator
     }
     
+    @objc private func resetButtonAction() {
+        input.send(.resetButtonClicked)
+    }
+
     @objc private func submitButtonAction() {
         self.dismiss(animated: true)
         // Coordinator & network
