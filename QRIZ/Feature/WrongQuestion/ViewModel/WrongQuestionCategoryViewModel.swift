@@ -47,7 +47,7 @@ final class WrongQuestionCategoryViewModel {
             case .cellClicked(let section, let item):
                 clickEventHandler(section, item)
             case .resetButtonClicked:
-                print("ResetButtonClicked")
+                resetAllButtons()
             case .submitButtonClicked:
                 // network
                 output.send(.submitSuccess)
@@ -79,19 +79,19 @@ final class WrongQuestionCategoryViewModel {
     }
     
     private func singleConceptClickEventHandler(_ section: Int, _ item: Int) {
-
+        
         if stateArr[section][item].isClicked {
             toggleButtonState(section, item)
         } else {
-
+            
             var availCount: Int = 0
             var isClicked: Int = 0
-
+            
             for idx in 1..<stateArr[section].count {
                 if stateArr[section][idx].isAvailable { availCount += 1 }
                 if stateArr[section][idx].isClicked { isClicked += 1 }
             }
-
+            
             if availCount == 1 {
                 toggleButtonState(section, totalButtonIdx)
             } else {
@@ -103,6 +103,20 @@ final class WrongQuestionCategoryViewModel {
                 } else {
                     if stateArr[section][totalButtonIdx].isClicked { toggleButtonState(section, totalButtonIdx) }
                     toggleButtonState(section, item)
+                }
+            }
+        }
+    }
+    
+    private func resetAllButtons() {
+        for section in 0..<stateArr.count {
+            if stateArr[section][totalButtonIdx].isAvailable {
+                if !stateArr[section][totalButtonIdx].isClicked {
+                    for item in 1..<stateArr[section].count {
+                        if stateArr[section][item].isClicked { toggleButtonState(section, item) }
+                    }
+                    output.send(.setCellState(section: section, item: totalButtonIdx, isAvailable: true, isClicked: true))
+                    stateArr[section][totalButtonIdx].isClicked = true
                 }
             }
         }
