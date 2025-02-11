@@ -38,8 +38,6 @@ final class FindPasswordInputView: UIView {
         
         static let emailVerificationSentMessage = "인증번호가 이메일로 전송됐습니다!"
         static let codeVerificationSuccessMessage = "인증 완료되었습니다."
-        
-        static let timerDuration = 180
     }
     
     // MARK: - Properties
@@ -181,10 +179,16 @@ final class FindPasswordInputView: UIView {
     
     private func observe() {
         codeTextField.textPublisher
-            .removeDuplicates()
-            .sink { [weak self] _ in
-                self?.inputErrorLabel.isHidden = true
-                self?.codeTextField.layer.borderColor = UIColor.coolNeutral600.cgColor
+            .sink { [weak self] text in
+                guard let self else { return }
+                let trimmedText = text.count > 6 ? String(text.prefix(6)) : text
+                
+                if trimmedText != text {
+                    self.codeTextField.text = trimmedText
+                }
+                
+                self.inputErrorLabel.isHidden = true
+                self.codeTextField.layer.borderColor = UIColor.coolNeutral600.cgColor
             }
             .store(in: &cancellables)
         
@@ -251,6 +255,12 @@ final class FindPasswordInputView: UIView {
         emailTextField.updateRightView(.checkmark)
         sendButton.setTitle(Attributes.resendButtonTitle, for: .normal)
         showMessage(Attributes.emailVerificationSentMessage, textColor: .customMint800)
+        setTextFieldState(
+            codeTextField,
+            enabled: true,
+            borderColor: UIColor.coolNeutral600.cgColor,
+            backgroundColor: .white
+        )
     }
     
     func handleCodeVerificationSuccess() {
@@ -301,6 +311,10 @@ final class FindPasswordInputView: UIView {
     
     func updateTimerLabel(_ remainingTime: Int) {
         codeTextField.updateTimerLabel(remainingTime)
+    }
+    
+    func resetCodeTextField() {
+        codeTextField.text = ""
     }
     
     /// 버튼 상태 관리 메서드

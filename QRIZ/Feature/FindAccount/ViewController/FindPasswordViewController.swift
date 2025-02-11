@@ -99,6 +99,7 @@ final class FindPasswordViewController: UIViewController {
                     
                 case .timerExpired:
                     self.rootView.findPasswordInputView.handleTimerExpired()
+                    self.rootView.findPasswordInputView.resetCodeTextField()
                     
                 case .emailVerificationFailure:
                     print("이메일 인증 실패")
