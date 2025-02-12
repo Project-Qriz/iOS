@@ -34,7 +34,7 @@ final class SignupHeaderView: UIView {
         return label
     }()
     
-    // MARK: - initialize
+    // MARK: - Initialize
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -53,8 +53,8 @@ final class SignupHeaderView: UIView {
         self.backgroundColor = .white
     }
     
-    func configure(title: NSAttributedString, progress: Float) {
-        titleLabel.attributedText = title
+    func configure(title: String, progress: Float) {
+        titleLabel.attributedText = UILabel.setLineSpacing(8, text: title)
         progressView.setProgress(max(0.0, min(progress, 1.0)), animated: false)
     }
 }

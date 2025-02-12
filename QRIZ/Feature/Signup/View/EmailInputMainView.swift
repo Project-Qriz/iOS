@@ -47,7 +47,7 @@ final class EmailInputMainView: UIView {
     private func setupUI() {
         self.backgroundColor = .white
         signupHeaderView.configure(
-            title: UILabel.setLineSpacing(8, text: Attributes.headerTitle),
+            title: Attributes.headerTitle,
             progress: Attributes.progressValue
         )
         signupFooterView.configure(buttonTitle: Attributes.footerTitle)

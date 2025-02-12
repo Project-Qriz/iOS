@@ -36,7 +36,6 @@ final class IdInputMainView: UIView {
         super.init(frame: .zero)
         setupUI(
             title: Attributes.headerTitle,
-            description: Attributes.headerDescription,
             progressValue: Attributes.progressValue,
             buttonTitle: Attributes.footerTitle
         )
@@ -52,12 +51,11 @@ final class IdInputMainView: UIView {
     
     private func setupUI(
         title: String,
-        description: String,
         progressValue: Float,
         buttonTitle: String
     ) {
         self.backgroundColor = .white
-        signupHeaderView.configure(title: title, description: description, progress: progressValue)
+        signupHeaderView.configure(title: title, progress: progressValue)
         signupFooterView.configure(buttonTitle: buttonTitle)
     }
 }

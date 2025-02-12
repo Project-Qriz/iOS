@@ -27,7 +27,6 @@ final class SingleInputMainView: UIView {
     
     init(
         title: String,
-        description: String,
         progressValue: Float,
         buttonTitle: String,
         inputPlaceholder: String,
@@ -36,7 +35,6 @@ final class SingleInputMainView: UIView {
         super.init(frame: .zero)
         setupUI(
             title: title,
-            description: description,
             progressValue: progressValue,
             buttonTitle: buttonTitle,
             inputPlaceholder: inputPlaceholder,
@@ -54,14 +52,13 @@ final class SingleInputMainView: UIView {
     
     private func setupUI(
         title: String,
-        description: String,
         progressValue: Float,
         buttonTitle: String,
         inputPlaceholder: String,
         inputErrorText: String
     ) {
         self.backgroundColor = .white
-        signupHeaderView.configure(title: title, description: description, progress: progressValue)
+        signupHeaderView.configure(title: title, progress: progressValue)
         singleInputView.configure(placeholder: inputPlaceholder, errorText: inputErrorText)
         signupFooterView.configure(buttonTitle: buttonTitle)
     }

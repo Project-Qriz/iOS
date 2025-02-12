@@ -34,7 +34,6 @@ final class NameInputViewController: UIViewController {
     init(nameInputVM: NameInputViewModel) {
         self.rootView = SingleInputMainView(
             title: Attributes.headerTitle,
-            description: Attributes.headerDescription,
             progressValue: Attributes.progressValue,
             buttonTitle: Attributes.footerTitle,
             inputPlaceholder: Attributes.inputPlaceholder,
