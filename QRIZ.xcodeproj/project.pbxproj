@@ -37,12 +37,9 @@
 		B168B75F2D28073C0000F32E /* SignupFooterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B168B7572D28073C0000F32E /* SignupFooterView.swift */; };
 		B168B7602D28073C0000F32E /* SignupHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B168B7582D28073C0000F32E /* SignupHeaderView.swift */; };
 		B168B7612D28073C0000F32E /* SingleInputView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B168B7592D28073C0000F32E /* SingleInputView.swift */; };
-		B168B7622D28073C0000F32E /* VerificationCodeInputView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B168B75A2D28073C0000F32E /* VerificationCodeInputView.swift */; };
 		B168B7632D28073C0000F32E /* SingleInputMainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B168B75C2D28073C0000F32E /* SingleInputMainView.swift */; };
-		B168B7642D28073C0000F32E /* VerificationCodeMainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B168B75D2D28073C0000F32E /* VerificationCodeMainView.swift */; };
 		B168B7692D2807470000F32E /* SignUpVerificationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B168B7652D2807470000F32E /* SignUpVerificationViewController.swift */; };
 		B168B76A2D2807470000F32E /* NameInputViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B168B7662D2807470000F32E /* NameInputViewController.swift */; };
-		B168B76B2D2807470000F32E /* VerificationCodeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B168B7672D2807470000F32E /* VerificationCodeViewController.swift */; };
 		B168B76D2D2824BD0000F32E /* IdInputViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B168B76C2D2824BD0000F32E /* IdInputViewController.swift */; };
 		B168B76F2D2826010000F32E /* IdInputMainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B168B76E2D2826010000F32E /* IdInputMainView.swift */; };
 		B168B7712D28276F0000F32E /* IdInputView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B168B7702D28276F0000F32E /* IdInputView.swift */; };
@@ -178,12 +175,9 @@
 		B168B7572D28073C0000F32E /* SignupFooterView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignupFooterView.swift; sourceTree = "<group>"; };
 		B168B7582D28073C0000F32E /* SignupHeaderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignupHeaderView.swift; sourceTree = "<group>"; };
 		B168B7592D28073C0000F32E /* SingleInputView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SingleInputView.swift; sourceTree = "<group>"; };
-		B168B75A2D28073C0000F32E /* VerificationCodeInputView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VerificationCodeInputView.swift; sourceTree = "<group>"; };
 		B168B75C2D28073C0000F32E /* SingleInputMainView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SingleInputMainView.swift; sourceTree = "<group>"; };
-		B168B75D2D28073C0000F32E /* VerificationCodeMainView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VerificationCodeMainView.swift; sourceTree = "<group>"; };
 		B168B7652D2807470000F32E /* SignUpVerificationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignUpVerificationViewController.swift; sourceTree = "<group>"; };
 		B168B7662D2807470000F32E /* NameInputViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NameInputViewController.swift; sourceTree = "<group>"; };
-		B168B7672D2807470000F32E /* VerificationCodeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VerificationCodeViewController.swift; sourceTree = "<group>"; };
 		B168B76C2D2824BD0000F32E /* IdInputViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IdInputViewController.swift; sourceTree = "<group>"; };
 		B168B76E2D2826010000F32E /* IdInputMainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IdInputMainView.swift; sourceTree = "<group>"; };
 		B168B7702D28276F0000F32E /* IdInputView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IdInputView.swift; sourceTree = "<group>"; };
@@ -501,7 +495,6 @@
 			children = (
 				B168B7582D28073C0000F32E /* SignupHeaderView.swift */,
 				B168B7592D28073C0000F32E /* SingleInputView.swift */,
-				B168B75A2D28073C0000F32E /* VerificationCodeInputView.swift */,
 				B168B7702D28276F0000F32E /* IdInputView.swift */,
 				B168B7762D28481D0000F32E /* PasswordInputView.swift */,
 				B168B7572D28073C0000F32E /* SignupFooterView.swift */,
@@ -515,7 +508,6 @@
 				B168B75B2D28073C0000F32E /* Components */,
 				B19C4F6E2D55DCA400CD008A /* SignUpVerificationMainView.swift */,
 				B168B75C2D28073C0000F32E /* SingleInputMainView.swift */,
-				B168B75D2D28073C0000F32E /* VerificationCodeMainView.swift */,
 				B168B76E2D2826010000F32E /* IdInputMainView.swift */,
 				B168B7742D2846DD0000F32E /* PasswordInputMainView.swift */,
 			);
@@ -527,7 +519,6 @@
 			children = (
 				B168B7652D2807470000F32E /* SignUpVerificationViewController.swift */,
 				B168B7662D2807470000F32E /* NameInputViewController.swift */,
-				B168B7672D2807470000F32E /* VerificationCodeViewController.swift */,
 				B168B76C2D2824BD0000F32E /* IdInputViewController.swift */,
 				B168B7722D2846C80000F32E /* PasswordInputViewController.swift */,
 			);
@@ -1086,7 +1077,6 @@
 				B16288242D2E8914008057D0 /* IdInputViewModel.swift in Sources */,
 				E25F94D12D0CB74700BA765F /* OnboardingButton.swift in Sources */,
 				E29CCD452D298656004AA30A /* SingleSupplementConceptView.swift in Sources */,
-				B168B76B2D2807470000F32E /* VerificationCodeViewController.swift in Sources */,
 				B16288222D2E3CAB008057D0 /* UINavigationBar+.swift in Sources */,
 				B18F450A2D39901D0030F7DB /* FindIDViewController.swift in Sources */,
 				B168B7602D28073C0000F32E /* SignupHeaderView.swift in Sources */,
@@ -1124,7 +1114,6 @@
 				548566502D1241A4002BAEE3 /* ExampleRequest.swift in Sources */,
 				E29CCD422D298656004AA30A /* PreviewResultViewModel.swift in Sources */,
 				548566522D1241BA002BAEE3 /* ExampleResponse.swift in Sources */,
-				B168B7622D28073C0000F32E /* VerificationCodeInputView.swift in Sources */,
 				548566492D123C94002BAEE3 /* NetworkRequest.swift in Sources */,
 				B168B7772D28481D0000F32E /* PasswordInputView.swift in Sources */,
 				B17FE30C2D27F931002EC7D7 /* CustomTextField.swift in Sources */,
@@ -1149,7 +1138,6 @@
 				E29CCD4C2D299297004AA30A /* SwiftUIViews+.swift in Sources */,
 				E29CCD402D298656004AA30A /* PreviewResultTitleLabel.swift in Sources */,
 				541878612D0EC2970089F478 /* HTTPHeaderField.swift in Sources */,
-				B168B7642D28073C0000F32E /* VerificationCodeMainView.swift in Sources */,
 				B168B76A2D2807470000F32E /* NameInputViewController.swift in Sources */,
 				548566552D124260002BAEE3 /* ExampleService.swift in Sources */,
 				B18F451E2D44D4080030F7DB /* FindPasswordVerificationViewModel.swift in Sources */,
