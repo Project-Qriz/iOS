@@ -170,7 +170,7 @@ extension CustomTextField {
     
     private func setupClearButton() {
         containerView.frame.size = CGSize(width: 30, height: 48)
-        clearButton.frame = CGRect(x: 0, y: 14, width: 20, height: 20)
+        clearButton.frame = CGRect(x: -7, y: 14, width: 20, height: 20)
         clearButton.isHidden = false
         
         containerView.addSubview(clearButton)

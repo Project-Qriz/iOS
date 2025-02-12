@@ -1,5 +1,5 @@
 //
-//  FindPasswordInputView.swift
+//  VerificationInputView.swift
 //  QRIZ
 //
 //  Created by 김세훈 on 1/26/25.
@@ -8,7 +8,7 @@
 import UIKit
 import Combine
 
-final class FindPasswordInputView: UIView {
+final class VerificationInputView: UIView {
     
     // MARK: - Enums
     
@@ -242,7 +242,7 @@ final class FindPasswordInputView: UIView {
         
         if isValid {
             hideMessage()
-            textField.layer.borderColor = UIColor.coolNeutral600.cgColor
+            textField.layer.borderColor = UIColor.customMint800.cgColor
         } else {
             showErrorMessage(errorText)
             textField.layer.borderColor = UIColor.customRed500.cgColor
@@ -367,7 +367,7 @@ final class FindPasswordInputView: UIView {
 
 // MARK: - Layout Setup
 
-extension FindPasswordInputView {
+extension VerificationInputView {
     private func addSubviews() {
         [
             mainVStackView

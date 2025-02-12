@@ -51,16 +51,16 @@ final class SignUpVerificationViewController: UIViewController {
     // MARK: - Functions
     
     private func bind() {
-        let emailTextChanged = rootView.findPasswordInputView.emailTextChangedPublisher
+        let emailTextChanged = rootView.verificationInputView.emailTextChangedPublisher
             .map { SignUpVerificationViewModel.Input.emailTextChanged($0) }
         
-        let sendButtonTapped = rootView.findPasswordInputView.sendButtonTappedPublisher
+        let sendButtonTapped = rootView.verificationInputView.sendButtonTappedPublisher
             .map { SignUpVerificationViewModel.Input.sendButtonTapped }
         
-        let codeTextChanged = rootView.findPasswordInputView.codeTextChangedPublisher
+        let codeTextChanged = rootView.verificationInputView.codeTextChangedPublisher
             .map { SignUpVerificationViewModel.Input.codeTextChanged($0) }
         
-        let confirmButtonTapped = rootView.findPasswordInputView.confirmButtonPublisher
+        let confirmButtonTapped = rootView.verificationInputView.confirmButtonPublisher
             .map { SignUpVerificationViewModel.Input.confirmButtonTapped }
         
         let nextButtonTapped = rootView.signupFooterView.buttonTappedPublisher
@@ -81,30 +81,30 @@ final class SignUpVerificationViewController: UIViewController {
                 guard let self = self else { return }
                 switch output {
                 case .isEmailValid(let isValid):
-                    self.rootView.findPasswordInputView.updateErrorState(for: .email, isValid: isValid)
-                    self.rootView.findPasswordInputView.updateSendButton(isValid: isValid)
+                    self.rootView.verificationInputView.updateErrorState(for: .email, isValid: isValid)
+                    self.rootView.verificationInputView.updateSendButton(isValid: isValid)
                     
                 case .isCodeValid(let isValid):
-                    self.rootView.findPasswordInputView.updateConfirmButton(isValid: isValid)
+                    self.rootView.verificationInputView.updateConfirmButton(isValid: isValid)
                     
                 case .emailVerificationSuccess:
-                    self.rootView.findPasswordInputView.handleEmailVerificationSuccess()
+                    self.rootView.verificationInputView.handleEmailVerificationSuccess()
                     
                 case .updateRemainingTime(let remainingTime):
-                    self.rootView.findPasswordInputView.updateTimerLabel(remainingTime)
+                    self.rootView.verificationInputView.updateTimerLabel(remainingTime)
                     
                 case .timerExpired:
-                    self.rootView.findPasswordInputView.handleTimerExpired()
+                    self.rootView.verificationInputView.handleTimerExpired()
                     
                 case .emailVerificationFailure:
                     print("이메일 인증 실패")
                     
                 case .codeVerificationSuccess:
-                    self.rootView.findPasswordInputView.handleCodeVerificationSuccess()
+                    self.rootView.verificationInputView.handleCodeVerificationSuccess()
                     self.rootView.signupFooterView.updateButtonState(isValid: true)
                     
                 case .codeVerificationFailure:
-                    self.rootView.findPasswordInputView.handleCodeVerificationFailure()
+                    self.rootView.verificationInputView.handleCodeVerificationFailure()
                     
                 case .navigateToNextView:
                     // MARK: - 코디네이터 적용 필요

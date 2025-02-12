@@ -60,7 +60,7 @@
 		B18F451C2D441E150030F7DB /* FindPasswordVerificationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B18F451B2D441E150030F7DB /* FindPasswordVerificationViewController.swift */; };
 		B18F451E2D44D4080030F7DB /* FindPasswordVerificationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B18F451D2D44D4080030F7DB /* FindPasswordVerificationViewModel.swift */; };
 		B18F45202D4643B40030F7DB /* FindPasswordVerificationMainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B18F451F2D4643B40030F7DB /* FindPasswordVerificationMainView.swift */; };
-		B18F45222D4645EC0030F7DB /* FindPasswordInputView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B18F45212D4645EC0030F7DB /* FindPasswordInputView.swift */; };
+		B18F45222D4645EC0030F7DB /* VerificationInputView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B18F45212D4645EC0030F7DB /* VerificationInputView.swift */; };
 		B18F452A2D4D5B200030F7DB /* ResetPasswordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B18F45292D4D5B200030F7DB /* ResetPasswordViewController.swift */; };
 		B18F452C2D4D5CF00030F7DB /* ResetPasswordViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B18F452B2D4D5CF00030F7DB /* ResetPasswordViewModel.swift */; };
 		B18F452E2D4D5D640030F7DB /* ResetPasswordMainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B18F452D2D4D5D640030F7DB /* ResetPasswordMainView.swift */; };
@@ -198,7 +198,7 @@
 		B18F451B2D441E150030F7DB /* FindPasswordVerificationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FindPasswordVerificationViewController.swift; sourceTree = "<group>"; };
 		B18F451D2D44D4080030F7DB /* FindPasswordVerificationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FindPasswordVerificationViewModel.swift; sourceTree = "<group>"; };
 		B18F451F2D4643B40030F7DB /* FindPasswordVerificationMainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FindPasswordVerificationMainView.swift; sourceTree = "<group>"; };
-		B18F45212D4645EC0030F7DB /* FindPasswordInputView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FindPasswordInputView.swift; sourceTree = "<group>"; };
+		B18F45212D4645EC0030F7DB /* VerificationInputView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerificationInputView.swift; sourceTree = "<group>"; };
 		B18F45292D4D5B200030F7DB /* ResetPasswordViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResetPasswordViewController.swift; sourceTree = "<group>"; };
 		B18F452B2D4D5CF00030F7DB /* ResetPasswordViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResetPasswordViewModel.swift; sourceTree = "<group>"; };
 		B18F452D2D4D5D640030F7DB /* ResetPasswordMainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResetPasswordMainView.swift; sourceTree = "<group>"; };
@@ -577,7 +577,7 @@
 			children = (
 				B18F450F2D3997280030F7DB /* FindAccountHeaderView.swift */,
 				B18F45112D3A26520030F7DB /* FindIDInputView.swift */,
-				B18F45212D4645EC0030F7DB /* FindPasswordInputView.swift */,
+				B18F45212D4645EC0030F7DB /* VerificationInputView.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -1110,7 +1110,7 @@
 				B162881C2D2CFC63008057D0 /* UIView+.swift in Sources */,
 				B18F45122D3A26520030F7DB /* FindIDInputView.swift in Sources */,
 				541878542D0E21620089F478 /* HTTPMethod.swift in Sources */,
-				B18F45222D4645EC0030F7DB /* FindPasswordInputView.swift in Sources */,
+				B18F45222D4645EC0030F7DB /* VerificationInputView.swift in Sources */,
 				548566502D1241A4002BAEE3 /* ExampleRequest.swift in Sources */,
 				E29CCD422D298656004AA30A /* PreviewResultViewModel.swift in Sources */,
 				548566522D1241BA002BAEE3 /* ExampleResponse.swift in Sources */,

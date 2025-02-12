@@ -25,7 +25,7 @@ final class FindPasswordVerificationMainView: UIView {
     // MARK: - Properties
     
     private let findAccountHeaderView = FindAccountHeaderView()
-    let findPasswordInputView = FindPasswordInputView()
+    let verificationInputView = VerificationInputView()
     let signupFooterView = SignupFooterView()
     
     // MARK: - Initialize
@@ -60,14 +60,14 @@ extension FindPasswordVerificationMainView {
     private func addSubviews() {
         [
             findAccountHeaderView,
-            findPasswordInputView,
+            verificationInputView,
             signupFooterView
         ].forEach(addSubview(_:))
     }
     
     private func setupConstraints() {
         findAccountHeaderView.translatesAutoresizingMaskIntoConstraints = false
-        findPasswordInputView.translatesAutoresizingMaskIntoConstraints = false
+        verificationInputView.translatesAutoresizingMaskIntoConstraints = false
         signupFooterView.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
@@ -84,15 +84,15 @@ extension FindPasswordVerificationMainView {
                 constant: -Metric.horizontalMargin
             ),
             
-            findPasswordInputView.topAnchor.constraint(
+            verificationInputView.topAnchor.constraint(
                 equalTo: findAccountHeaderView.bottomAnchor,
                 constant: Metric.inputViewTopOffset
             ),
-            findPasswordInputView.leadingAnchor.constraint(
+            verificationInputView.leadingAnchor.constraint(
                 equalTo: leadingAnchor,
                 constant: Metric.horizontalMargin
             ),
-            findPasswordInputView.trailingAnchor.constraint(
+            verificationInputView.trailingAnchor.constraint(
                 equalTo: trailingAnchor,
                 constant: -Metric.horizontalMargin
             ),

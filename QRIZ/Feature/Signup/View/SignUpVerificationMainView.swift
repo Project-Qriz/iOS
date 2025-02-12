@@ -12,7 +12,7 @@ final class SignUpVerificationMainView: UIView {
     // MARK: - Enums
     
     private enum Metric {
-        static let singleInputViewTopOffset: CGFloat = 32.0
+        static let verificationInputViewTopOffset: CGFloat = 20.0
         static let signupFooterViewBottomOffset: CGFloat = -16.0
         static let horizontalMargin: CGFloat = 18.0
     }
@@ -26,7 +26,7 @@ final class SignUpVerificationMainView: UIView {
     // MARK: - Properties
     
     private let signupHeaderView = SignupHeaderView()
-    let findPasswordInputView = FindPasswordInputView()
+    let verificationInputView = VerificationInputView()
     let signupFooterView = SignupFooterView()
     
     // MARK: - initialize
@@ -60,14 +60,14 @@ extension SignUpVerificationMainView {
     private func addSubviews() {
         [
             signupHeaderView,
-            findPasswordInputView,
+            verificationInputView,
             signupFooterView
         ].forEach(addSubview(_:))
     }
     
     private func setupConstraints() {
         signupHeaderView.translatesAutoresizingMaskIntoConstraints = false
-        findPasswordInputView.translatesAutoresizingMaskIntoConstraints = false
+        verificationInputView.translatesAutoresizingMaskIntoConstraints = false
         signupFooterView.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
@@ -75,9 +75,9 @@ extension SignUpVerificationMainView {
             signupHeaderView.leadingAnchor.constraint(equalTo: leadingAnchor),
             signupHeaderView.trailingAnchor.constraint(equalTo: trailingAnchor),
             
-            findPasswordInputView.topAnchor.constraint(equalTo: signupHeaderView.bottomAnchor, constant: Metric.singleInputViewTopOffset),
-            findPasswordInputView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Metric.horizontalMargin),
-            findPasswordInputView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -Metric.horizontalMargin),
+            verificationInputView.topAnchor.constraint(equalTo: signupHeaderView.bottomAnchor, constant: Metric.verificationInputViewTopOffset),
+            verificationInputView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Metric.horizontalMargin),
+            verificationInputView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -Metric.horizontalMargin),
             
             signupFooterView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Metric.horizontalMargin),
             signupFooterView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -Metric.horizontalMargin),
