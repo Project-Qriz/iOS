@@ -17,6 +17,11 @@ final class SingleInputView: UIView {
         static let inputErrorLabelTopOffset: CGFloat = 8.0
     }
     
+    private enum Attributes {
+        static let placeholder: String = "이름을 입력"
+        static let errorText: String = "이름을 다시 확인해 주세요."
+    }
+    
     // MARK: - Properties
     
     private var cancellables = Set<AnyCancellable>()
@@ -27,20 +32,24 @@ final class SingleInputView: UIView {
     
     // MARK: - UI
     
-    private lazy var textField: UITextField = {
-        let textField = CustomTextField(placeholder: "")
+    private let textField: UITextField = {
+        let textField = CustomTextField(
+            placeholder: Attributes.placeholder,
+            rightViewType: .clearButton
+        )
         return textField
     }()
     
     private let inputErrorLabel: UILabel = {
         let label = UILabel()
+        label.text = Attributes.errorText
         label.font = .systemFont(ofSize: 14, weight: .regular)
         label.textColor = .customRed500
         label.isHidden = true
         return label
     }()
     
-    // MARK: - initialize
+    // MARK: - Initialize
     
     override init(frame: CGRect) {
         super.init(frame: .zero)
@@ -68,20 +77,9 @@ final class SingleInputView: UIView {
             .store(in: &cancellables)
     }
     
-    func configure(placeholder: String, errorText: String) {
-        textField.attributedPlaceholder = NSAttributedString(
-            string: placeholder,
-            attributes: [
-                .foregroundColor: UIColor.coolNeutral300,
-                .font: UIFont.systemFont(ofSize: 14, weight: .medium)
-            ]
-        )
-        inputErrorLabel.text = errorText
-    }
-    
     func updateErrorState(isValid: Bool) {
         inputErrorLabel.isHidden = isValid
-        textField.layer.borderColor = isValid ? UIColor.clear.cgColor : UIColor.customRed500.cgColor
+        textField.layer.borderColor = isValid ? UIColor.customMint800.cgColor : UIColor.customRed500.cgColor
     }
 }
 

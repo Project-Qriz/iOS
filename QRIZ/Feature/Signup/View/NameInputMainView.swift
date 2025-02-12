@@ -1,5 +1,5 @@
 //
-//  SingleInputMainView.swift
+//  NameInputMainView.swift
 //  QRIZ
 //
 //  Created by 김세훈 on 12/31/24.
@@ -7,14 +7,20 @@
 
 import UIKit
 
-final class SingleInputMainView: UIView {
+final class NameInputMainView: UIView {
     
     // MARK: - Enums
     
     private enum Metric {
-        static let singleInputViewTopOffset: CGFloat = 32.0
+        static let singleInputViewTopOffset: CGFloat = 20.0
         static let signupFooterViewBottomOffset: CGFloat = -16.0
         static let horizontalMargin: CGFloat = 18.0
+    }
+    
+    private enum Attributes {
+        static let headerTitle: String = "이름을 입력해주세요!"
+        static let footerTitle: String = "다음"
+        static let progressValue: Float = 0.5
     }
     
     // MARK: - Properties
@@ -23,23 +29,11 @@ final class SingleInputMainView: UIView {
     let singleInputView = SingleInputView()
     let signupFooterView = SignupFooterView()
     
-    // MARK: - initialize
+    // MARK: - Initialize
     
-    init(
-        title: String,
-        progressValue: Float,
-        buttonTitle: String,
-        inputPlaceholder: String,
-        inputErrorText: String
-    ) {
+    init() {
         super.init(frame: .zero)
-        setupUI(
-            title: title,
-            progressValue: progressValue,
-            buttonTitle: buttonTitle,
-            inputPlaceholder: inputPlaceholder,
-            inputErrorText: inputErrorText
-        )
+        setupUI()
         addSubviews()
         setupConstraints()
     }
@@ -50,23 +44,19 @@ final class SingleInputMainView: UIView {
     
     // MARK: - Functions
     
-    private func setupUI(
-        title: String,
-        progressValue: Float,
-        buttonTitle: String,
-        inputPlaceholder: String,
-        inputErrorText: String
-    ) {
+    private func setupUI() {
         self.backgroundColor = .white
-        signupHeaderView.configure(title: title, progress: progressValue)
-        singleInputView.configure(placeholder: inputPlaceholder, errorText: inputErrorText)
-        signupFooterView.configure(buttonTitle: buttonTitle)
+        signupHeaderView.configure(
+            title: Attributes.headerTitle,
+            progress: Attributes.progressValue
+        )
+        signupFooterView.configure(buttonTitle: Attributes.footerTitle)
     }
 }
 
 // MARK: - Layout Setup
 
-extension SingleInputMainView {
+extension NameInputMainView {
     private func addSubviews() {
         [
             signupHeaderView,

@@ -37,7 +37,7 @@
 		B168B75F2D28073C0000F32E /* SignupFooterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B168B7572D28073C0000F32E /* SignupFooterView.swift */; };
 		B168B7602D28073C0000F32E /* SignupHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B168B7582D28073C0000F32E /* SignupHeaderView.swift */; };
 		B168B7612D28073C0000F32E /* SingleInputView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B168B7592D28073C0000F32E /* SingleInputView.swift */; };
-		B168B7632D28073C0000F32E /* SingleInputMainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B168B75C2D28073C0000F32E /* SingleInputMainView.swift */; };
+		B168B7632D28073C0000F32E /* NameInputMainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B168B75C2D28073C0000F32E /* NameInputMainView.swift */; };
 		B168B7692D2807470000F32E /* SignUpVerificationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B168B7652D2807470000F32E /* SignUpVerificationViewController.swift */; };
 		B168B76A2D2807470000F32E /* NameInputViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B168B7662D2807470000F32E /* NameInputViewController.swift */; };
 		B168B76D2D2824BD0000F32E /* IdInputViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B168B76C2D2824BD0000F32E /* IdInputViewController.swift */; };
@@ -175,7 +175,7 @@
 		B168B7572D28073C0000F32E /* SignupFooterView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignupFooterView.swift; sourceTree = "<group>"; };
 		B168B7582D28073C0000F32E /* SignupHeaderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignupHeaderView.swift; sourceTree = "<group>"; };
 		B168B7592D28073C0000F32E /* SingleInputView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SingleInputView.swift; sourceTree = "<group>"; };
-		B168B75C2D28073C0000F32E /* SingleInputMainView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SingleInputMainView.swift; sourceTree = "<group>"; };
+		B168B75C2D28073C0000F32E /* NameInputMainView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NameInputMainView.swift; sourceTree = "<group>"; };
 		B168B7652D2807470000F32E /* SignUpVerificationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignUpVerificationViewController.swift; sourceTree = "<group>"; };
 		B168B7662D2807470000F32E /* NameInputViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NameInputViewController.swift; sourceTree = "<group>"; };
 		B168B76C2D2824BD0000F32E /* IdInputViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IdInputViewController.swift; sourceTree = "<group>"; };
@@ -507,7 +507,7 @@
 			children = (
 				B168B75B2D28073C0000F32E /* Components */,
 				B19C4F6E2D55DCA400CD008A /* SignUpVerificationMainView.swift */,
-				B168B75C2D28073C0000F32E /* SingleInputMainView.swift */,
+				B168B75C2D28073C0000F32E /* NameInputMainView.swift */,
 				B168B76E2D2826010000F32E /* IdInputMainView.swift */,
 				B168B7742D2846DD0000F32E /* PasswordInputMainView.swift */,
 			);
@@ -1168,7 +1168,7 @@
 				B18F452E2D4D5D640030F7DB /* ResetPasswordMainView.swift in Sources */,
 				B168B76F2D2826010000F32E /* IdInputMainView.swift in Sources */,
 				B16288182D2CDB85008057D0 /* NameInputViewModel.swift in Sources */,
-				B168B7632D28073C0000F32E /* SingleInputMainView.swift in Sources */,
+				B168B7632D28073C0000F32E /* NameInputMainView.swift in Sources */,
 				54BC61552D14AFB70094DC45 /* LoginInputView.swift in Sources */,
 				B19C4F6B2D5260DD00CD008A /* UIControl+.swift in Sources */,
 				B168B7752D2846DD0000F32E /* PasswordInputMainView.swift in Sources */,
