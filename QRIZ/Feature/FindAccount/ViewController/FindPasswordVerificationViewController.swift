@@ -8,7 +8,7 @@
 import UIKit
 import Combine
 
-final class FindPasswordViewController: UIViewController {
+final class FindPasswordVerificationViewController: UIViewController {
     
     // MARK: - Enums
     
@@ -18,16 +18,16 @@ final class FindPasswordViewController: UIViewController {
     
     // MARK: - Properties
     
-    private let rootView: FindPasswordMainView
-    private let findPasswordVM: FindPasswordViewModel
+    private let rootView: FindPasswordVerificationMainView
+    private let findPasswordVerificationVM: FindPasswordVerificationViewModel
     private var cancellables = Set<AnyCancellable>()
     private var keyboardCancellable: AnyCancellable?
     
     // MARK: - initialize
     
-    init(findPasswordVM: FindPasswordViewModel) {
-        self.rootView = FindPasswordMainView()
-        self.findPasswordVM = findPasswordVM
+    init(findPasswordVerificationVM: FindPasswordVerificationViewModel) {
+        self.rootView = FindPasswordVerificationMainView()
+        self.findPasswordVerificationVM = findPasswordVerificationVM
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -56,19 +56,19 @@ final class FindPasswordViewController: UIViewController {
     
     private func bind() {
         let emailTextChanged = rootView.findPasswordInputView.emailTextChangedPublisher
-            .map { FindPasswordViewModel.Input.emailTextChanged($0) }
+            .map { FindPasswordVerificationViewModel.Input.emailTextChanged($0) }
         
         let sendButtonTapped = rootView.findPasswordInputView.sendButtonTappedPublisher
-            .map { FindPasswordViewModel.Input.sendButtonTapped }
+            .map { FindPasswordVerificationViewModel.Input.sendButtonTapped }
         
         let codeTextChanged = rootView.findPasswordInputView.codeTextChangedPublisher
-            .map { FindPasswordViewModel.Input.codeTextChanged($0) }
+            .map { FindPasswordVerificationViewModel.Input.codeTextChanged($0) }
         
         let confirmButtonTapped = rootView.findPasswordInputView.confirmButtonPublisher
-            .map { FindPasswordViewModel.Input.confirmButtonTapped }
+            .map { FindPasswordVerificationViewModel.Input.confirmButtonTapped }
         
         let nextButtonTapped = rootView.signupFooterView.buttonTappedPublisher
-            .map { FindPasswordViewModel.Input.nextButtonTapped }
+            .map { FindPasswordVerificationViewModel.Input.nextButtonTapped }
         
         let input = emailTextChanged
             .merge(with: sendButtonTapped)
@@ -77,7 +77,7 @@ final class FindPasswordViewController: UIViewController {
             .merge(with: nextButtonTapped)
             .eraseToAnyPublisher()
         
-        let output = findPasswordVM.transform(input: input)
+        let output = findPasswordVerificationVM.transform(input: input)
         
         output
             .receive(on: DispatchQueue.main)
@@ -111,7 +111,7 @@ final class FindPasswordViewController: UIViewController {
                 case .codeVerificationFailure:
                     self.rootView.findPasswordInputView.handleCodeVerificationFailure()
                     
-                case .navigateToPasswordResetView:
+                case .navigateToNextView:
                     // MARK: - 코디네이터 적용 필요
                     self.navigationController?.pushViewController(ResetPasswordViewController(resetPasswordVM: ResetPasswordViewModel()), animated: true)
                 }

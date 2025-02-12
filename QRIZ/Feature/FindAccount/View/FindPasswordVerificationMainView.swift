@@ -1,5 +1,5 @@
 //
-//  FindPasswordMainView.swift
+//  FindPasswordVerificationMainView.swift
 //  QRIZ
 //
 //  Created by 김세훈 on 1/26/25.
@@ -7,7 +7,7 @@
 
 import UIKit
 
-final class FindPasswordMainView: UIView {
+final class FindPasswordVerificationMainView: UIView {
     
     // MARK: - Enums
     
@@ -56,7 +56,7 @@ final class FindPasswordMainView: UIView {
 
 // MARK: - Layout Setup
 
-extension FindPasswordMainView {
+extension FindPasswordVerificationMainView {
     private func addSubviews() {
         [
             findAccountHeaderView,

@@ -1,5 +1,5 @@
 //
-//  EmailInputMainView.swift
+//  SignUpVerificationMainView.swift
 //  QRIZ
 //
 //  Created by 김세훈 on 2/7/25.
@@ -7,7 +7,7 @@
 
 import UIKit
 
-final class EmailInputMainView: UIView {
+final class SignUpVerificationMainView: UIView {
     
     // MARK: - Enums
     
@@ -56,7 +56,7 @@ final class EmailInputMainView: UIView {
 
 // MARK: - Layout Setup
 
-extension EmailInputMainView {
+extension SignUpVerificationMainView {
     private func addSubviews() {
         [
             signupHeaderView,

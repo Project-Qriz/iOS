@@ -1,5 +1,5 @@
 //
-//  EmailInputViewController.swift
+//  SignUpVerificationViewController.swift
 //  QRIZ
 //
 //  Created by 김세훈 on 1/1/25.
@@ -8,7 +8,7 @@
 import UIKit
 import Combine
 
-final class EmailInputViewController: UIViewController {
+final class SignUpVerificationViewController: UIViewController {
     
     // MARK: - Enums
     
@@ -18,16 +18,16 @@ final class EmailInputViewController: UIViewController {
     
     // MARK: - Properties
     
-    private let rootView: EmailInputMainView
-    private let emailInputVM: EmailInputViewModel
+    private let rootView: SignUpVerificationMainView
+    private let signUpVerificationVM: SignUpVerificationViewModel
     private var cancellables = Set<AnyCancellable>()
     private var keyboardCancellable: AnyCancellable?
     
     // MARK: - initialize
     
-    init(emailInputVM: EmailInputViewModel) {
-        self.rootView = EmailInputMainView()
-        self.emailInputVM = emailInputVM
+    init(signUpVerificationVM: SignUpVerificationViewModel) {
+        self.rootView = SignUpVerificationMainView()
+        self.signUpVerificationVM = signUpVerificationVM
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -52,19 +52,19 @@ final class EmailInputViewController: UIViewController {
     
     private func bind() {
         let emailTextChanged = rootView.findPasswordInputView.emailTextChangedPublisher
-            .map { EmailInputViewModel.Input.emailTextChanged($0) }
+            .map { SignUpVerificationViewModel.Input.emailTextChanged($0) }
         
         let sendButtonTapped = rootView.findPasswordInputView.sendButtonTappedPublisher
-            .map { EmailInputViewModel.Input.sendButtonTapped }
+            .map { SignUpVerificationViewModel.Input.sendButtonTapped }
         
         let codeTextChanged = rootView.findPasswordInputView.codeTextChangedPublisher
-            .map { EmailInputViewModel.Input.codeTextChanged($0) }
+            .map { SignUpVerificationViewModel.Input.codeTextChanged($0) }
         
         let confirmButtonTapped = rootView.findPasswordInputView.confirmButtonPublisher
-            .map { EmailInputViewModel.Input.confirmButtonTapped }
+            .map { SignUpVerificationViewModel.Input.confirmButtonTapped }
         
         let nextButtonTapped = rootView.signupFooterView.buttonTappedPublisher
-            .map { EmailInputViewModel.Input.nextButtonTapped }
+            .map { SignUpVerificationViewModel.Input.nextButtonTapped }
         
         let input = emailTextChanged
             .merge(with: sendButtonTapped)
@@ -73,7 +73,7 @@ final class EmailInputViewController: UIViewController {
             .merge(with: nextButtonTapped)
             .eraseToAnyPublisher()
         
-        let output = emailInputVM.transform(input: input)
+        let output = signUpVerificationVM.transform(input: input)
         
         output
             .receive(on: DispatchQueue.main)
@@ -106,9 +106,12 @@ final class EmailInputViewController: UIViewController {
                 case .codeVerificationFailure:
                     self.rootView.findPasswordInputView.handleCodeVerificationFailure()
                     
-                case .navigateToPasswordResetView:
+                case .navigateToNextView:
                     // MARK: - 코디네이터 적용 필요
-                    self.navigationController?.pushViewController(NameInputViewController(nameInputVM: NameInputViewModel()), animated: true)
+                    self.navigationController?.pushViewController(
+                        NameInputViewController(nameInputVM: NameInputViewModel()),
+                        animated: true
+                    )
                 }
             }
             .store(in: &cancellables)
