@@ -78,7 +78,7 @@ final class NameInputViewController: UIViewController {
                     self.rootView.signupFooterView.updateButtonState(isValid: isValid)
                 case .navigateToEmailInputView:
                     // MARK: - 코디네이터 적용 필요
-                    navigationController?.pushViewController(IdInputViewController(idInputVM: IdInputViewModel()), animated: true)
+                    navigationController?.pushViewController(IDInputViewController(idInputVM: IDInputViewModel()), animated: true)
                 }
             }
             .store(in: &cancellables)
