@@ -34,7 +34,7 @@ final class PasswordInputViewModel {
                     
                 case .buttonTapped:
                     print("회원가입API 호출")
-                    outputSubject.send(.navigateToLoginView)
+                    outputSubject.send(.navigateToAlertView)
                 }
             }
             .store(in: &cancellables)
@@ -43,11 +43,14 @@ final class PasswordInputViewModel {
     }
     
     private func validate() {
-        let passwordValid = password.isValidPassword
-        let confirmValid = (confirmPassword.isEmpty || confirmPassword == password)
+        let characterRequirement = password.isValidCharacterRequirement
+        let lengthRequirement = password.isValidLengthRequirement
+        let passwordValid = characterRequirement && lengthRequirement
+        let confirmValid = !confirmPassword.isEmpty && confirmPassword == password
         
-        outputSubject.send(.isPasswordValid(passwordValid))
-        outputSubject.send(.isConfirmValid(confirmValid))
+        outputSubject.send(.characterRequirementChanged(characterRequirement))
+        outputSubject.send(.lengthRequirementChanged(lengthRequirement))
+        outputSubject.send(.confirmValidChanged(confirmValid))
         
         let canSignUp = passwordValid && confirmValid
         outputSubject.send(.updateSignupButtonState(canSignUp))
@@ -62,9 +65,10 @@ extension PasswordInputViewModel {
     }
     
     enum Output {
-        case isPasswordValid(Bool)
-        case isConfirmValid(Bool)
+        case characterRequirementChanged(Bool)
+        case lengthRequirementChanged(Bool)
+        case confirmValidChanged(Bool)
         case updateSignupButtonState(Bool)
-        case navigateToLoginView
+        case navigateToAlertView
     }
 }

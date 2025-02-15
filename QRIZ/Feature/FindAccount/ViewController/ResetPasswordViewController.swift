@@ -75,7 +75,6 @@ final class ResetPasswordViewController: UIViewController {
             .sink { [weak self] output in
                 guard let self = self else { return }
                 switch output {
-                    
                 case .characterRequirementChanged(let isValid):
                     self.rootView.passwordInputView.updateCharacterRequirementUI(isValid)
                     

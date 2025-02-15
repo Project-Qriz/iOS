@@ -65,11 +65,9 @@ final class PasswordInputViewController: UIViewController {
         let signupButtonTapped = rootView.signupFooterView.buttonTappedPublisher
             .map { PasswordInputViewModel.Input.buttonTapped }
         
-        let input = Publishers.Merge3(
-            passwordTextChanged,
-            confirmTextChanged,
-            signupButtonTapped
-        )
+        let input = passwordTextChanged
+            .merge(with: confirmTextChanged)
+            .merge(with: signupButtonTapped)
             .eraseToAnyPublisher()
         
         let output = passwordInputVM.transform(input: input)
@@ -79,18 +77,19 @@ final class PasswordInputViewController: UIViewController {
                 guard let self = self else { return }
                 
                 switch output {
-                case .isPasswordValid(let isValid):
-//                    self.rootView.passwordInputView.updatePasswordErrorState(isValid)
-                    break
+                case .characterRequirementChanged(let isValid):
+                    self.rootView.passwordInputView.updateCharacterRequirementUI(isValid)
                     
-                case .isConfirmValid(let isValid):
-//                    self.rootView.passwordInputView.updateconfirmErrorState(isValid)
-                    break
+                case .lengthRequirementChanged(let isValid):
+                    self.rootView.passwordInputView.updateLengthRequirementUI(isValid)
+                    
+                case .confirmValidChanged(let isValid):
+                    self.rootView.passwordInputView.updateConfirmPasswordUI(isValid)
                     
                 case .updateSignupButtonState(let canSignUp):
                     self.rootView.signupFooterView.updateButtonState(isValid: canSignUp)
                     
-                case .navigateToLoginView:
+                case .navigateToAlertView:
                     let loginVC = LoginViewController(loginVM: LoginViewModel())
                     self.navigationController?.pushViewController(loginVC, animated: true)
                 }
