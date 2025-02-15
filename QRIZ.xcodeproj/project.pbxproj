@@ -120,7 +120,6 @@
 		E2DD0E842D2144D000DA3D18 /* PreviewConceptsData.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2DD0E832D2144D000DA3D18 /* PreviewConceptsData.swift */; };
 		E2DD0E862D2146D900DA3D18 /* IncorrectCountData.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2DD0E852D2146D900DA3D18 /* IncorrectCountData.swift */; };
 		E2F18BCF2D6060E900DC6F82 /* DailyLearnViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2F18BCE2D6060E900DC6F82 /* DailyLearnViewController.swift */; };
-		E2F18BD12D6062AC00DC6F82 /* TempViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2F18BD02D6062AC00DC6F82 /* TempViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -266,7 +265,6 @@
 		E2DD0E832D2144D000DA3D18 /* PreviewConceptsData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreviewConceptsData.swift; sourceTree = "<group>"; };
 		E2DD0E852D2146D900DA3D18 /* IncorrectCountData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IncorrectCountData.swift; sourceTree = "<group>"; };
 		E2F18BCE2D6060E900DC6F82 /* DailyLearnViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyLearnViewController.swift; sourceTree = "<group>"; };
-		E2F18BD02D6062AC00DC6F82 /* TempViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TempViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -398,7 +396,6 @@
 				B168B7552D2806E50000F32E /* Signup */,
 				B18F45072D398D3C0030F7DB /* FindAccount */,
 				54DB0D972D0950A500ABD458 /* Home */,
-				E2F18BD02D6062AC00DC6F82 /* TempViewController.swift */,
 			);
 			path = Feature;
 			sourceTree = "<group>";
@@ -1185,7 +1182,6 @@
 				E28BAD772D2C111100B8388D /* CustomAlertView.swift in Sources */,
 				E29CCD2E2D29855B004AA30A /* TestProgressView.swift in Sources */,
 				E28BAD7C2D2C339100B8388D /* AlertType.swift in Sources */,
-				E2F18BD12D6062AC00DC6F82 /* TempViewController.swift in Sources */,
 				E29CCD2B2D29855B004AA30A /* QuestionTitleLabel.swift in Sources */,
 				E2DD0E842D2144D000DA3D18 /* PreviewConceptsData.swift in Sources */,
 				E29CCD302D29855B004AA30A /* TestTotalTimeRemainingLabel.swift in Sources */,
