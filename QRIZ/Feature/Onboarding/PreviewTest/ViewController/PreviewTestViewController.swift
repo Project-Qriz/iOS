@@ -22,7 +22,7 @@ final class PreviewTestViewController: UIViewController {
     private let timeLabel: TestTimeLabel = TestTimeLabel()
     private let totalTimeRemainingLabel: TestTotalTimeRemainingLabel = TestTotalTimeRemainingLabel()
     private let pageIndicatorLabel: TestPageIndicatorLabel = TestPageIndicatorLabel()
-    private let submitAlertViewController = CustomAlertViewController(alertType: .canCancel, title: "제출하시겠습니까?", description: "확인 버튼을 누르면 다시 돌아올 수 없어요.")
+    private let submitAlertViewController = TwoButtonCustomAlertViewController(title: "제출하시겠습니까?", description: "확인 버튼을 누르면 다시 돌아올 수 없어요.")
     
     private let viewModel: PreviewTestViewModel = PreviewTestViewModel()
     private var subscriptions = Set<AnyCancellable>()

@@ -1,5 +1,5 @@
 //
-//  CustomAlertViewController.swift
+//  TwoButtonCustomAlertView.swift
 //  QRIZ
 //
 //  Created by ch on 1/6/25.
@@ -7,8 +7,8 @@
 
 import UIKit
 
-final class CustomAlertView: UIView {
-
+final class TwoButtonCustomAlertView: UIView {
+    
     private let titleLabel: UILabel = {
         let label = UILabel()
         label.font = .boldSystemFont(ofSize: 18)
@@ -30,7 +30,7 @@ final class CustomAlertView: UIView {
     private lazy var confirmButton: UIButton = {
         return createButton(
             title: "확인",
-            font: UIFont.systemFont(ofSize: 14, weight: .medium),
+            font: UIFont.systemFont(ofSize: 16, weight: .medium),
             titleColor: .white,
             backgroundColor: .customBlue500
         )
@@ -39,10 +39,10 @@ final class CustomAlertView: UIView {
     private lazy var cancelButton: UIButton = {
         return createButton(
             title: "취소",
-            font: UIFont.systemFont(ofSize: 16, weight: .bold),
-            titleColor: .customBlue500,
+            font: UIFont.systemFont(ofSize: 16, weight: .medium),
+            titleColor: .black,
             backgroundColor: .clear,
-            borderColor: .customBlue500
+            borderColor: .coolNeutral200
         )
     }()
     
@@ -55,7 +55,6 @@ final class CustomAlertView: UIView {
     }()
     
     init(
-        alertType: AlertType,
         title: String,
         titleLine: Int = 1,
         description: String,
@@ -67,7 +66,7 @@ final class CustomAlertView: UIView {
         setLabelText(isTitleLabel: true, text: title, numberOfLines: titleLine)
         setLabelText(isTitleLabel: false, text: description, numberOfLines: descriptionLine)
         addLabels()
-        addButtons(alertType: alertType)
+        addButtons()
     }
     
     required init?(coder: NSCoder) {
@@ -100,7 +99,7 @@ final class CustomAlertView: UIView {
         borderColor: UIColor = .clear
     ) -> UIButton {
         let button = UIButton(frame: .zero)
-        button.layer.cornerRadius = 8
+        button.layer.cornerRadius = 6
         let titleStr = NSAttributedString(
             string: title,
             attributes: [
@@ -116,7 +115,6 @@ final class CustomAlertView: UIView {
     }
     
     private func addLabels() {
-        
         addSubview(titleLabel)
         addSubview(descriptionLabel)
         
@@ -132,35 +130,18 @@ final class CustomAlertView: UIView {
         ])
     }
     
-    private func addButtons(alertType: AlertType) {
+    private func addButtons() {
         addSubview(buttonHStackView)
-        
-        let isCancelButtonHidden: Bool
-        let buttonStackHeight: CGFloat
-        let descriptionTopSpacing: CGFloat
-        
-        switch alertType {
-        case .onlyConfirm:
-            isCancelButtonHidden = true
-            buttonStackHeight = 48
-            descriptionTopSpacing = 8
-        case .canCancel:
-            isCancelButtonHidden = false
-            buttonStackHeight = 40
-            descriptionTopSpacing = 4
-        }
-        
-        cancelButton.isHidden = isCancelButtonHidden
-        buttonHStackView.heightAnchor.constraint(equalToConstant: buttonStackHeight).isActive = true
-        descriptionLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: descriptionTopSpacing).isActive = true
-        
         buttonHStackView.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
+            descriptionLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 8),
+            
+            buttonHStackView.heightAnchor.constraint(equalToConstant: 40),
             buttonHStackView.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 20),
             buttonHStackView.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -20),
             buttonHStackView.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -20),
-            buttonHStackView.topAnchor.constraint(equalTo: descriptionLabel.bottomAnchor, constant: 16),
+            buttonHStackView.topAnchor.constraint(equalTo: descriptionLabel.bottomAnchor, constant: 20),
         ])
     }
 }
