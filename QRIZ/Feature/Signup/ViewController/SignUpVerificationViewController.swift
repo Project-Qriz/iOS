@@ -14,6 +14,7 @@ final class SignUpVerificationViewController: UIViewController {
     
     private enum Attributes {
         static let navigationTitle: String = "회원가입"
+        static let alertTitle: String = "이메일을 올바르게 입력해주세요."
     }
     
     // MARK: - Properties
@@ -97,7 +98,7 @@ final class SignUpVerificationViewController: UIViewController {
                     self.rootView.verificationInputView.handleTimerExpired()
                     
                 case .emailVerificationFailure:
-                    print("이메일 인증 실패")
+                    self.showOneButtonAlert()
                     
                 case .codeVerificationSuccess:
                     self.rootView.verificationInputView.handleCodeVerificationSuccess()
@@ -125,5 +126,16 @@ final class SignUpVerificationViewController: UIViewController {
                 self?.view.endEditing(true)
             }
             .store(in: &cancellables)
+    }
+    
+    private func showOneButtonAlert() {
+        let oneButtonAlert = OneButtonCustomAlertViewController(title: Attributes.alertTitle)
+        oneButtonAlert.modalPresentationStyle = .overCurrentContext
+        oneButtonAlert.modalTransitionStyle = .crossDissolve
+        oneButtonAlert.confirmButtonTappedPublisher
+            .sink { oneButtonAlert.dismiss(animated: true) }
+            .store(in: &cancellables)
+        
+        present(oneButtonAlert, animated: true)
     }
 }

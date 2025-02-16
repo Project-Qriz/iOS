@@ -21,6 +21,10 @@ final class OneButtonCustomAlertViewController: UIViewController {
     private let rootView: OneButtonCustomAlertMainView
     private var cancellables = Set<AnyCancellable>()
     
+    var confirmButtonTappedPublisher: AnyPublisher<Void, Never> {
+        rootView.confirmButtonTappedPublisher
+    }
+    
     // MARK: - Initialize
     
     init(title: String, description: String? = nil) {
@@ -40,21 +44,12 @@ final class OneButtonCustomAlertViewController: UIViewController {
         setupUI()
         addSubviews()
         setupConstraints()
-        observe()
     }
     
     // MARK: - Functions
     
     private func setupUI() {
         view.backgroundColor = UIColor.coolNeutral800.withAlphaComponent(0.7)
-    }
-    
-    private func observe() {
-        rootView.confirmButtonTappedPublisher
-            .sink { [weak self] _ in
-                self?.dismiss(animated: true)
-            }
-            .store(in: &cancellables)
     }
 }
 

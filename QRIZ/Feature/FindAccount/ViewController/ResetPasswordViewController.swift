@@ -14,6 +14,8 @@ final class ResetPasswordViewController: UIViewController {
     
     private enum Attributes {
         static let navigationTitle: String = "비밀번호 찾기"
+        static let alertTitle: String = "비밀번호 변경 완료"
+        static let alertDescription: String = "변경이 완료되었습니다.\n보안을 위해 재로그인을 진행해 주세요."
     }
     
     // MARK: - Properties
@@ -88,7 +90,7 @@ final class ResetPasswordViewController: UIViewController {
                     self.rootView.signupFooterView.updateButtonState(isValid: canSignUp)
                     
                 case .navigateToAlertView:
-                    self.showEmailSentAlert()
+                    self.showOneButtonAlert()
                 }
             }
             .store(in: &cancellables)
@@ -104,22 +106,22 @@ final class ResetPasswordViewController: UIViewController {
             .store(in: &cancellables)
     }
     
-    private func showEmailSentAlert() {
-        let confirmAction = UIAction { [weak self] _ in
-            guard let self = self else { return }
-            print("확인 버튼 클릭")
-            self.dismiss(animated: true)
-            self.navigationController?.popToRootViewController(animated: true)
-        }
-        
-        let alertVC = CustomAlertViewController(
-            alertType: .onlyConfirm,
-            title: "비밀번호 변경 완료",
-            description: "변경이 완료되었습니다.\n보안을 위해 재로그인을 진행해 주세요.",
-            descriptionLine: 2,
-            confirmAction: confirmAction
+    private func showOneButtonAlert() {
+        let oneButtonAlert = OneButtonCustomAlertViewController(
+            title: Attributes.alertTitle,
+            description: Attributes.alertDescription
         )
+        oneButtonAlert.modalPresentationStyle = .overCurrentContext
+        oneButtonAlert.modalTransitionStyle = .crossDissolve
+        oneButtonAlert.confirmButtonTappedPublisher
+            .sink { [weak self] _ in
+                oneButtonAlert.dismiss(animated: true) {
+                    guard let self = self else { return }
+                    self.navigationController?.popToRootViewController(animated: true)
+                }
+            }
+            .store(in: &cancellables)
         
-        self.present(alertVC, animated: true)
+        present(oneButtonAlert, animated: true)
     }
 }

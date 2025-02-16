@@ -14,6 +14,8 @@ final class PasswordInputViewController: UIViewController {
     
     private enum Attributes {
         static let navigationTitle: String = "회원가입"
+        static let alertTitle: String = "회원가입 완료!"
+        static let alertDescription: String = "회원가입이 완료되었습니다.\n합격을 향한 여정을 함께 시작해봐요!"
     }
     
     // MARK: - Properties
@@ -90,8 +92,7 @@ final class PasswordInputViewController: UIViewController {
                     self.rootView.signupFooterView.updateButtonState(isValid: canSignUp)
                     
                 case .navigateToAlertView:
-                    let loginVC = LoginViewController(loginVM: LoginViewModel())
-                    self.navigationController?.pushViewController(loginVC, animated: true)
+                    self.showOneButtonAlert()
                 }
             }
             .store(in: &cancellables)
@@ -105,5 +106,24 @@ final class PasswordInputViewController: UIViewController {
                 self?.view.endEditing(true)
             }
             .store(in: &cancellables)
+    }
+    
+    private func showOneButtonAlert() {
+        let oneButtonAlert = OneButtonCustomAlertViewController(
+            title: Attributes.alertTitle,
+            description: Attributes.alertDescription
+        )
+        oneButtonAlert.modalPresentationStyle = .overCurrentContext
+        oneButtonAlert.modalTransitionStyle = .crossDissolve
+        oneButtonAlert.confirmButtonTappedPublisher
+            .sink { [weak self] _ in
+                oneButtonAlert.dismiss(animated: true) {
+                    guard let self = self else { return }
+                    self.navigationController?.popToRootViewController(animated: true)
+                }
+            }
+            .store(in: &cancellables)
+        
+        present(oneButtonAlert, animated: true)
     }
 }

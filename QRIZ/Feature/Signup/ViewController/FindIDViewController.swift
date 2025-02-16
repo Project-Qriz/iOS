@@ -15,7 +15,7 @@ final class FindIDViewController: UIViewController {
     private enum Attributes {
         static let navigationTitle: String = "아이디 찾기"
         static let alertTitle: String = "이메일 발송 완료!"
-        static let alertDescription: String = "입력하신 이메일 주소로 비밀번호가\n발송되었습니다. 메일함을 확인해주세요."
+        static let alertDescription: String = "입력해주신 이메일 주소로 아이디가\n발송되었습니다. 메일함을 확인해주세요."
     }
     
     // MARK: - Properties
@@ -104,9 +104,6 @@ final class FindIDViewController: UIViewController {
         )
         oneButtonAlert.modalPresentationStyle = .overCurrentContext
         oneButtonAlert.modalTransitionStyle = .crossDissolve
-        oneButtonAlert.confirmButtonTappedPublisher
-            .sink { oneButtonAlert.dismiss(animated: true) }
-            .store(in: &cancellables)
         
         present(oneButtonAlert, animated: true)
     }
