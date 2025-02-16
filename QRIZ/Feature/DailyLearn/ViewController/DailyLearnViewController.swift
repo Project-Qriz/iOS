@@ -33,7 +33,7 @@ final class DailyLearnViewController: UIViewController {
     }
     
     private func setNavigatorButton() {
-        testNavigator.updateUI(isAvailable: false, isTestDone: true, score: 70, type: .monthly)
+        testNavigator.updateUI(isAvailable: true, isTestDone: true, score: 30, type: .daily)
     }
 }
 
@@ -47,7 +47,7 @@ extension DailyLearnViewController {
             testNavigator.centerYAnchor.constraint(equalTo: self.view.centerYAnchor),
             testNavigator.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 18),
             testNavigator.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: -18),
-            testNavigator.heightAnchor.constraint(equalToConstant: 123)
+            testNavigator.heightAnchor.constraint(equalToConstant: 157)
         ])
     }
 }
