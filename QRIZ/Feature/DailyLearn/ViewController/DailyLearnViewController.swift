@@ -11,16 +11,7 @@ final class DailyLearnViewController: UIViewController {
     
     // MARK: - Properties
     private var day: Int
-    private let titleLabel: UILabel = {
-        let label = UILabel()
-        label.backgroundColor = .white
-        label.textColor = .coolNeutral700
-        label.font = .systemFont(ofSize: 18, weight: .bold)
-        label.textAlignment = .center
-        label.numberOfLines = 1
-        label.text = "오늘의 공부"
-        return label
-    }()
+    private let testNavigator: TestNavigatorButton = .init()
     
     // MARK: - Initializer
     init(day: Int) {
@@ -29,7 +20,7 @@ final class DailyLearnViewController: UIViewController {
     }
     
     required init?(coder: NSCoder) {
-        fatalError()
+        fatalError("no initializer for coder: DailyLearnViewController")
     }
 
     // MARK: - Methods
@@ -37,5 +28,26 @@ final class DailyLearnViewController: UIViewController {
         super.viewDidLoad()
         self.view.backgroundColor = .customBlue50
         setNavigationBarTitle(title: "오늘의 공부")
+        addViews()
+        setNavigatorButton()
+    }
+    
+    private func setNavigatorButton() {
+        testNavigator.updateUI(isAvailable: false, isTestDone: true, score: 70, type: .monthly)
+    }
+}
+
+extension DailyLearnViewController {
+    private func addViews() {
+        self.view.addSubview(testNavigator)
+        
+        testNavigator.translatesAutoresizingMaskIntoConstraints = false
+        
+        NSLayoutConstraint.activate([
+            testNavigator.centerYAnchor.constraint(equalTo: self.view.centerYAnchor),
+            testNavigator.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 18),
+            testNavigator.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: -18),
+            testNavigator.heightAnchor.constraint(equalToConstant: 123)
+        ])
     }
 }
