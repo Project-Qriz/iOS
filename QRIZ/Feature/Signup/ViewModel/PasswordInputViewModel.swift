@@ -14,6 +14,7 @@ final class PasswordInputViewModel {
     
     private var password: String = ""
     private var confirmPassword: String = ""
+    private var confirmPasswordDidEdit: Bool = false
     private let outputSubject: PassthroughSubject<Output, Never> = .init()
     private var cancellables = Set<AnyCancellable>()
     
@@ -30,11 +31,12 @@ final class PasswordInputViewModel {
                     
                 case .confirmPasswordTextChanged(let newConfirm):
                     self.confirmPassword = newConfirm
+                    self.confirmPasswordDidEdit = true
                     self.validate()
                     
                 case .buttonTapped:
                     print("회원가입API 호출")
-                    outputSubject.send(.navigateToAlertView)
+                    self.outputSubject.send(.navigateToAlertView)
                 }
             }
             .store(in: &cancellables)
@@ -46,13 +48,16 @@ final class PasswordInputViewModel {
         let characterRequirement = password.isValidCharacterRequirement
         let lengthRequirement = password.isValidLengthRequirement
         let passwordValid = characterRequirement && lengthRequirement
-        let confirmValid = !confirmPassword.isEmpty && confirmPassword == password
+        
+        if confirmPasswordDidEdit {
+            let confirmValid = passwordValid && !confirmPassword.isEmpty && (confirmPassword == password)
+            outputSubject.send(.confirmValidChanged(confirmValid))
+        }
         
         outputSubject.send(.characterRequirementChanged(characterRequirement))
         outputSubject.send(.lengthRequirementChanged(lengthRequirement))
-        outputSubject.send(.confirmValidChanged(confirmValid))
         
-        let canSignUp = passwordValid && confirmValid
+        let canSignUp = passwordValid && (confirmPasswordDidEdit ? (confirmPassword == password) : false)
         outputSubject.send(.updateSignupButtonState(canSignUp))
     }
 }
