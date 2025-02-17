@@ -105,7 +105,12 @@ final class FindIDViewController: UIViewController {
         oneButtonAlert.modalPresentationStyle = .overCurrentContext
         oneButtonAlert.modalTransitionStyle = .crossDissolve
         oneButtonAlert.confirmButtonTappedPublisher
-            .sink { oneButtonAlert.dismiss(animated: true) }
+            .sink { [weak self] _ in
+                oneButtonAlert.dismiss(animated: true) {
+                    guard let self = self else { return }
+                    self.navigationController?.popToRootViewController(animated: true)
+                }
+            }
             .store(in: &cancellables)
         
         present(oneButtonAlert, animated: true)
