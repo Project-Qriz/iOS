@@ -48,7 +48,7 @@ extension UIViewController {
             return
         }
         
-        let keyboardHeight = keyboardFrame.height
+        let keyboardHeight = keyboardFrame.height * 0.9
         UIView.animate(withDuration: animationDuration) {
             viewToMove.transform = CGAffineTransform(translationX: 0, y: -keyboardHeight)
         }
