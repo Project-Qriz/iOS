@@ -86,7 +86,6 @@ final class IDInputView: UIView {
         addSubviews()
         setupConstraints()
         setupUI()
-        observe()
     }
     
     required init?(coder: NSCoder) {
@@ -97,14 +96,6 @@ final class IDInputView: UIView {
     
     private func setupUI() {
         self.backgroundColor = .white
-    }
-    
-    private func observe() {
-        idTextField.controlEventPublisher(for: .editingDidEndOnExit)
-            .sink { [weak self] _ in
-                self?.resignFirstResponder()
-            }
-            .store(in: &cancellables)
     }
     
     func updateErrorState(isValid: Bool) {

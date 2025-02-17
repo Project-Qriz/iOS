@@ -191,18 +191,6 @@ final class VerificationInputView: UIView {
                 self.codeTextField.layer.borderColor = UIColor.coolNeutral600.cgColor
             }
             .store(in: &cancellables)
-        
-        codeTextField.controlEventPublisher(for: .editingDidEndOnExit)
-            .sink { [weak self] _ in
-                self?.resignFirstResponder()
-            }
-            .store(in: &cancellables)
-        
-        emailTextField.controlEventPublisher(for: .editingDidEndOnExit)
-            .sink { [weak self] _ in
-                self?.resignFirstResponder()
-            }
-            .store(in: &cancellables)
     }
     
     func updateSendButton(isValid: Bool) {
@@ -255,6 +243,7 @@ final class VerificationInputView: UIView {
         emailTextField.updateRightView(.checkmark)
         sendButton.setTitle(Attributes.resendButtonTitle, for: .normal)
         showMessage(Attributes.emailVerificationSentMessage, textColor: .customMint800)
+        emailTextField.layer.borderColor = UIColor.coolNeutral200.cgColor
         setTextFieldState(
             codeTextField,
             enabled: true,
