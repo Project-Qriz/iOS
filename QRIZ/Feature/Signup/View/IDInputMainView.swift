@@ -56,6 +56,7 @@ final class IDInputMainView: UIView {
         self.backgroundColor = .white
         signupHeaderView.configure(title: title, progress: progressValue)
         signupFooterView.configure(buttonTitle: buttonTitle)
+        signupFooterView.updateButtonState(isValid: false)
     }
 }
 

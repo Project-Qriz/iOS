@@ -50,6 +50,7 @@ final class FindIDMainView: UIView {
             description: UILabel.setLineSpacing(8, text: FindAccountType.findId.headerDescription)
         )
         signupFooterView.configure(buttonTitle: Attributes.buttonTitle)
+        signupFooterView.updateButtonState(isValid: false)
     }
 }
 

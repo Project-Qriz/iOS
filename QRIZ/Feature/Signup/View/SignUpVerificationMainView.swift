@@ -51,6 +51,7 @@ final class SignUpVerificationMainView: UIView {
             progress: Attributes.progressValue
         )
         signupFooterView.configure(buttonTitle: Attributes.footerTitle)
+        signupFooterView.updateButtonState(isValid: false)
     }
 }
 
