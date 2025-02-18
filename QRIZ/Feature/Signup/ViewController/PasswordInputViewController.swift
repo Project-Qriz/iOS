@@ -113,8 +113,6 @@ final class PasswordInputViewController: UIViewController {
             title: Attributes.alertTitle,
             description: Attributes.alertDescription
         )
-        oneButtonAlert.modalPresentationStyle = .overCurrentContext
-        oneButtonAlert.modalTransitionStyle = .crossDissolve
         oneButtonAlert.confirmButtonTappedPublisher
             .sink { [weak self] _ in
                 oneButtonAlert.dismiss(animated: true) {

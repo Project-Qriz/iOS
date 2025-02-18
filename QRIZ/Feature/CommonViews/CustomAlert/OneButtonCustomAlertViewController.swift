@@ -31,6 +31,9 @@ final class OneButtonCustomAlertViewController: UIViewController {
         self.rootView = OneButtonCustomAlertMainView()
         rootView.config(title: title, description: description)
         super.init(nibName: nil, bundle: nil)
+        
+        modalPresentationStyle = .overCurrentContext
+        modalTransitionStyle = .crossDissolve
     }
     
     required init?(coder: NSCoder) {

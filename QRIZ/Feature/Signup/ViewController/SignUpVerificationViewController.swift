@@ -130,8 +130,6 @@ final class SignUpVerificationViewController: UIViewController {
     
     private func showOneButtonAlert() {
         let oneButtonAlert = OneButtonCustomAlertViewController(title: Attributes.alertTitle)
-        oneButtonAlert.modalPresentationStyle = .overCurrentContext
-        oneButtonAlert.modalTransitionStyle = .crossDissolve
         oneButtonAlert.confirmButtonTappedPublisher
             .sink { oneButtonAlert.dismiss(animated: true) }
             .store(in: &cancellables)
