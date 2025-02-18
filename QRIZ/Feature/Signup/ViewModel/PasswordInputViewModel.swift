@@ -50,7 +50,7 @@ final class PasswordInputViewModel {
         let passwordValid = characterRequirement && lengthRequirement
         
         if confirmPasswordDidEdit {
-            let confirmValid = passwordValid && !confirmPassword.isEmpty && (confirmPassword == password)
+            let confirmValid = passwordValid && (confirmPassword == password)
             outputSubject.send(.confirmValidChanged(confirmValid))
         }
         
