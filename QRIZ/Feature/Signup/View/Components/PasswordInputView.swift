@@ -18,6 +18,7 @@ final class PasswordInputView: UIView {
         static let confirmPasswordTextFieldTopOffset: CGFloat = 16.0
         static let confirmCheckmarkTrailingOffset: CGFloat = -40.0
         static let checkmarkSize: CGFloat = 22.0
+        static let inputErrorLabelTopOffset: CGFloat = 8.0
     }
     
     private enum Attributes {
@@ -28,6 +29,7 @@ final class PasswordInputView: UIView {
         static let lengthRequirementText: String = "8자 이상 16자 이하 입력 (공백 제외)"
         
         static let checkmark: String = "checkmark"
+        static let errorText: String = "비밀번호가 다릅니다. 동일한 비밀번호를 입력해 주세요."
     }
     
     // MARK: - Properties
@@ -93,6 +95,15 @@ final class PasswordInputView: UIView {
         return imageView
     }()
     
+    private let inputErrorLabel: UILabel = {
+        let label = UILabel()
+        label.text = Attributes.errorText
+        label.font = .systemFont(ofSize: 12, weight: .regular)
+        label.textColor = .customRed500
+        label.isHidden = true
+        return label
+    }()
+    
     // MARK: - initialize
     
     override init(frame: CGRect) {
@@ -100,7 +111,6 @@ final class PasswordInputView: UIView {
         addSubviews()
         setupConstraints()
         setupUI()
-        observe()
     }
     
     required init?(coder: NSCoder) {
@@ -111,20 +121,6 @@ final class PasswordInputView: UIView {
     
     private func setupUI() {
         self.backgroundColor = .white
-    }
-    
-    private func observe() {
-        passwordTextField.controlEventPublisher(for: .editingDidEndOnExit)
-            .sink { [weak self] _ in
-                self?.resignFirstResponder()
-            }
-            .store(in: &cancellables)
-        
-        confirmPasswordTextField.controlEventPublisher(for: .editingDidEndOnExit)
-            .sink { [weak self] _ in
-                self?.resignFirstResponder()
-            }
-            .store(in: &cancellables)
     }
     
     func updateCharacterRequirementUI(_ isValid: Bool) {
@@ -146,7 +142,11 @@ final class PasswordInputView: UIView {
     }
     
     func updateConfirmPasswordUI(_ isValid: Bool) {
+        inputErrorLabel.isHidden = isValid
         confirmCheckmark.isHidden = !isValid
+        
+        let borderColor = isValid ? UIColor.customMint800.cgColor : UIColor.customRed500.cgColor
+        confirmPasswordTextField.layer.borderColor = borderColor
     }
     
     private func updatePasswordTextFieldBorderColor() {
@@ -190,7 +190,8 @@ extension PasswordInputView {
         [
             passwordTextField,
             requirementVStackView,
-            confirmPasswordTextField
+            confirmPasswordTextField,
+            inputErrorLabel
         ].forEach(addSubview(_:))
         
         confirmPasswordTextField.addSubview(confirmCheckmark)
@@ -201,6 +202,7 @@ extension PasswordInputView {
         requirementVStackView.translatesAutoresizingMaskIntoConstraints = false
         confirmPasswordTextField.translatesAutoresizingMaskIntoConstraints = false
         confirmCheckmark.translatesAutoresizingMaskIntoConstraints = false
+        inputErrorLabel.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
             passwordTextField.topAnchor.constraint(equalTo: topAnchor),
@@ -221,7 +223,6 @@ extension PasswordInputView {
             ),
             confirmPasswordTextField.leadingAnchor.constraint(equalTo: leadingAnchor),
             confirmPasswordTextField.trailingAnchor.constraint(equalTo: trailingAnchor),
-            confirmPasswordTextField.bottomAnchor.constraint(equalTo: bottomAnchor),
             confirmPasswordTextField.heightAnchor.constraint(equalToConstant: Metric.textFieldHeight),
             
             confirmCheckmark.centerYAnchor.constraint(equalTo: confirmPasswordTextField.centerYAnchor),
@@ -231,6 +232,14 @@ extension PasswordInputView {
             ),
             confirmCheckmark.widthAnchor.constraint(equalToConstant: Metric.checkmarkSize),
             confirmCheckmark.heightAnchor.constraint(equalToConstant: Metric.checkmarkSize),
+            
+            inputErrorLabel.topAnchor.constraint(
+                equalTo: confirmPasswordTextField.bottomAnchor,
+                constant: Metric.inputErrorLabelTopOffset
+            ),
+            inputErrorLabel.leadingAnchor.constraint(equalTo: leadingAnchor),
+            inputErrorLabel.trailingAnchor.constraint(equalTo: trailingAnchor),
+            inputErrorLabel.bottomAnchor.constraint(equalTo: bottomAnchor),
         ])
     }
 }

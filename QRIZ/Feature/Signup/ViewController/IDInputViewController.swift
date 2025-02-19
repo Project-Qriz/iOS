@@ -1,5 +1,5 @@
 //
-//  IdInputViewController.swift
+//  IDInputViewController.swift
 //  QRIZ
 //
 //  Created by 김세훈 on 1/3/25.
@@ -8,7 +8,7 @@
 import UIKit
 import Combine
 
-final class IdInputViewController: UIViewController {
+final class IDInputViewController: UIViewController {
     
     // MARK: - Enums
     
@@ -18,15 +18,15 @@ final class IdInputViewController: UIViewController {
     
     // MARK: - Properties
     
-    private let rootView: IdInputMainView
-    private let idInputVM: IdInputViewModel
+    private let rootView: IDInputMainView
+    private let idInputVM: IDInputViewModel
     private var cancellables = Set<AnyCancellable>()
     private var keyboardCancellable: AnyCancellable?
     
-    // MARK: - initialize
+    // MARK: - Initialize
     
-    init(idInputVM: IdInputViewModel) {
-        self.rootView = IdInputMainView()
+    init(idInputVM: IDInputViewModel) {
+        self.rootView = IDInputMainView()
         self.idInputVM = idInputVM
         super.init(nibName: nil, bundle: nil)
     }
@@ -56,13 +56,13 @@ final class IdInputViewController: UIViewController {
     
     private func bind() {
         let idTextChanged = rootView.idInputView.textChangedPublisher
-            .map { IdInputViewModel.Input.idTextChanged($0) }
+            .map { IDInputViewModel.Input.idTextChanged($0) }
         
         let duplicateCheckButtonTapped = rootView.idInputView.buttonTappedPublisher
-            .map { IdInputViewModel.Input.duplicateCheckButtonTapped }
+            .map { IDInputViewModel.Input.duplicateCheckButtonTapped }
         
         let nextButtonTapped = rootView.signupFooterView.buttonTappedPublisher
-            .map { IdInputViewModel.Input.NextButtonTapped }
+            .map { IDInputViewModel.Input.NextButtonTapped }
         
         let input = Publishers.Merge3(
             idTextChanged,
@@ -77,8 +77,8 @@ final class IdInputViewController: UIViewController {
             .sink { [weak self] output in
                 guard let self = self else { return }
                 switch output {
-                case .textCount(let current, let min):
-                    self.rootView.idInputView.updateTextCountLabel(current: current, min: min)
+                case .isIDValid(let isValid):
+                    self.rootView.idInputView.updateErrorState(isValid: isValid)
                     
                 case .duplicateCheckResult(let message, let isAvailable):
                     self.rootView.idInputView.updateCheckMessage(message: message, isAvailable: isAvailable)

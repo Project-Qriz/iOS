@@ -14,6 +14,8 @@ final class FindIDViewController: UIViewController {
     
     private enum Attributes {
         static let navigationTitle: String = "아이디 찾기"
+        static let alertTitle: String = "이메일 발송 완료!"
+        static let alertDescription: String = "입력하신 이메일 주소로 비밀번호가\n발송되었습니다. 메일함을 확인해주세요."
     }
     
     // MARK: - Properties
@@ -79,7 +81,7 @@ final class FindIDViewController: UIViewController {
                     
                 case .navigateToAlerView:
                     // MARK: - 코디네이터 적용 필요
-                    self.showEmailSentAlert()
+                    self.showOneButtonAlert()
                 }
             }
             .store(in: &cancellables)
@@ -95,22 +97,20 @@ final class FindIDViewController: UIViewController {
             .store(in: &cancellables)
     }
     
-    private func showEmailSentAlert() {
-        let confirmAction = UIAction { [weak self] _ in
-            guard let self = self else { return }
-            print("확인 버튼 클릭")
-            self.dismiss(animated: true)
-            self.navigationController?.popToRootViewController(animated: true)
-        }
-        
-        let alertVC = CustomAlertViewController(
-            alertType: .onlyConfirm,
-            title: "이메일 발송 완료!",
-            description: "입력해주신 이메일 주소로 아이디가\n발송되었습니다. 메일함을 확인해주세요.",
-            descriptionLine: 2,
-            confirmAction: confirmAction
+    private func showOneButtonAlert() {
+        let oneButtonAlert = OneButtonCustomAlertViewController(
+            title: Attributes.alertTitle,
+            description: Attributes.alertDescription
         )
+        oneButtonAlert.confirmButtonTappedPublisher
+            .sink { [weak self] _ in
+                oneButtonAlert.dismiss(animated: true) {
+                    guard let self = self else { return }
+                    self.navigationController?.popToRootViewController(animated: true)
+                }
+            }
+            .store(in: &cancellables)
         
-        self.present(alertVC, animated: true)
+        present(oneButtonAlert, animated: true)
     }
 }

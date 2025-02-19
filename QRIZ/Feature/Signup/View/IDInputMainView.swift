@@ -1,5 +1,5 @@
 //
-//  IdInputMainView.swift
+//  IDInputMainView.swift
 //  QRIZ
 //
 //  Created by 김세훈 on 1/3/25.
@@ -7,19 +7,18 @@
 
 import UIKit
 
-final class IdInputMainView: UIView {
+final class IDInputMainView: UIView {
     
     // MARK: - Enums
     
     private enum Metric {
-        static let idInputViewTopOffset: CGFloat = 32.0
+        static let idInputViewTopOffset: CGFloat = 20.0
         static let signupFooterViewBottomOffset: CGFloat = -16.0
         static let horizontalMargin: CGFloat = 18.0
     }
     
     private enum Attributes {
-        static let headerTitle: String = "아이디를 입력해주세요!"
-        static let headerDescription: String = "사용할 아이디를 입력해주세요."
+        static let headerTitle: String = "사용할 아이디를 입력한 후\n중복확인 버튼을 눌러주세요."
         static let footerTitle: String = "다음"
         static let progressValue: Float = 0.5
     }
@@ -27,7 +26,7 @@ final class IdInputMainView: UIView {
     // MARK: - Properties
     
     private let signupHeaderView = SignupHeaderView()
-    let idInputView = IdInputView()
+    let idInputView = IDInputView()
     let signupFooterView = SignupFooterView()
     
     // MARK: - initialize
@@ -36,7 +35,6 @@ final class IdInputMainView: UIView {
         super.init(frame: .zero)
         setupUI(
             title: Attributes.headerTitle,
-            description: Attributes.headerDescription,
             progressValue: Attributes.progressValue,
             buttonTitle: Attributes.footerTitle
         )
@@ -52,19 +50,19 @@ final class IdInputMainView: UIView {
     
     private func setupUI(
         title: String,
-        description: String,
         progressValue: Float,
         buttonTitle: String
     ) {
         self.backgroundColor = .white
-        signupHeaderView.configure(title: title, description: description, progress: progressValue)
+        signupHeaderView.configure(title: title, progress: progressValue)
         signupFooterView.configure(buttonTitle: buttonTitle)
+        signupFooterView.updateButtonState(isValid: false)
     }
 }
 
 // MARK: - Layout Setup
 
-extension IdInputMainView {
+extension IDInputMainView {
     private func addSubviews() {
         [
             signupHeaderView,

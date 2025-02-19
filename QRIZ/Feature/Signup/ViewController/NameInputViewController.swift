@@ -13,33 +13,20 @@ final class NameInputViewController: UIViewController {
     // MARK: - Enums
     
     private enum Attributes {
-        static let navigationTitle: String = "이름 입력"
-        static let headerTitle: String = "이름을 입력해주세요!"
-        static let headerDescription: String = "가입을 위해 실명을 입력해주세요."
-        static let footerTitle: String = "다음"
-        static let progressValue: Float = 0.25
-        static let inputPlaceholder: String = "이름을 입력"
-        static let inputErrorText: String = "이름을 다시 확인해 주세요."
+        static let navigationTitle: String = "회원가입"
     }
     
     // MARK: - Properties
     
-    private let rootView: SingleInputMainView
+    private let rootView: NameInputMainView
     private let nameInputVM: NameInputViewModel
     private var cancellables = Set<AnyCancellable>()
     private var keyboardCancellable: AnyCancellable?
     
-    // MARK: - initialize
+    // MARK: - Initialize
     
     init(nameInputVM: NameInputViewModel) {
-        self.rootView = SingleInputMainView(
-            title: Attributes.headerTitle,
-            description: Attributes.headerDescription,
-            progressValue: Attributes.progressValue,
-            buttonTitle: Attributes.footerTitle,
-            inputPlaceholder: Attributes.inputPlaceholder,
-            inputErrorText: Attributes.inputErrorText
-        )
+        self.rootView = NameInputMainView()
         self.nameInputVM = nameInputVM
         super.init(nibName: nil, bundle: nil)
     }
@@ -91,7 +78,7 @@ final class NameInputViewController: UIViewController {
                     self.rootView.signupFooterView.updateButtonState(isValid: isValid)
                 case .navigateToEmailInputView:
                     // MARK: - 코디네이터 적용 필요
-                    navigationController?.pushViewController(EmailInputViewController(emailInputVM: EmailInputViewModel()), animated: true)
+                    navigationController?.pushViewController(IDInputViewController(idInputVM: IDInputViewModel()), animated: true)
                 }
             }
             .store(in: &cancellables)

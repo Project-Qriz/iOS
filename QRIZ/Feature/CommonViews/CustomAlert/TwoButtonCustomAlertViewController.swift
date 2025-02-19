@@ -1,5 +1,5 @@
 //
-//  CustomAlertViewController.swift
+//  TwoButtonCustomAlertViewController.swift
 //  QRIZ
 //
 //  Created by ch on 1/7/25.
@@ -8,12 +8,11 @@
 import UIKit
 import Combine
 
-final class CustomAlertViewController: UIViewController {
+final class TwoButtonCustomAlertViewController: UIViewController {
     
-    private let alertView: CustomAlertView
+    private let alertView: TwoButtonCustomAlertView
     
     init(
-        alertType: AlertType,
         title: String,
         titleLine: Int = 1,
         description: String,
@@ -21,8 +20,7 @@ final class CustomAlertViewController: UIViewController {
         confirmAction: UIAction? = nil,
         cancelAction: UIAction? = nil
     ) {
-        self.alertView = CustomAlertView(
-            alertType: alertType,
+        self.alertView = TwoButtonCustomAlertView(
             title: title,
             titleLine: titleLine,
             description: description,

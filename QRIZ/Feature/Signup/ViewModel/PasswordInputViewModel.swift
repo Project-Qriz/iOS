@@ -14,6 +14,7 @@ final class PasswordInputViewModel {
     
     private var password: String = ""
     private var confirmPassword: String = ""
+    private var confirmPasswordDidEdit: Bool = false
     private let outputSubject: PassthroughSubject<Output, Never> = .init()
     private var cancellables = Set<AnyCancellable>()
     
@@ -30,11 +31,12 @@ final class PasswordInputViewModel {
                     
                 case .confirmPasswordTextChanged(let newConfirm):
                     self.confirmPassword = newConfirm
+                    self.confirmPasswordDidEdit = true
                     self.validate()
                     
                 case .buttonTapped:
                     print("회원가입API 호출")
-                    outputSubject.send(.navigateToLoginView)
+                    self.outputSubject.send(.navigateToAlertView)
                 }
             }
             .store(in: &cancellables)
@@ -43,13 +45,19 @@ final class PasswordInputViewModel {
     }
     
     private func validate() {
-        let passwordValid = password.isValidPassword
-        let confirmValid = (confirmPassword.isEmpty || confirmPassword == password)
+        let characterRequirement = password.isValidCharacterRequirement
+        let lengthRequirement = password.isValidLengthRequirement
+        let passwordValid = characterRequirement && lengthRequirement
         
-        outputSubject.send(.isPasswordValid(passwordValid))
-        outputSubject.send(.isConfirmValid(confirmValid))
+        if confirmPasswordDidEdit {
+            let confirmValid = passwordValid && (confirmPassword == password)
+            outputSubject.send(.confirmValidChanged(confirmValid))
+        }
         
-        let canSignUp = passwordValid && confirmValid
+        outputSubject.send(.characterRequirementChanged(characterRequirement))
+        outputSubject.send(.lengthRequirementChanged(lengthRequirement))
+        
+        let canSignUp = passwordValid && (confirmPasswordDidEdit ? (confirmPassword == password) : false)
         outputSubject.send(.updateSignupButtonState(canSignUp))
     }
 }
@@ -62,9 +70,10 @@ extension PasswordInputViewModel {
     }
     
     enum Output {
-        case isPasswordValid(Bool)
-        case isConfirmValid(Bool)
+        case characterRequirementChanged(Bool)
+        case lengthRequirementChanged(Bool)
+        case confirmValidChanged(Bool)
         case updateSignupButtonState(Bool)
-        case navigateToLoginView
+        case navigateToAlertView
     }
 }
