@@ -71,27 +71,30 @@ final class TestNavigatorButton: UIView {
     }
     
     // MARK: - Methods
-    func updateUI(isAvailable: Bool, isTestDone: Bool, score: Int?, type: DailyLearnType) {
-        updateTestStatusLabel(isAvailable: isAvailable, isTestDone: isTestDone)
+    func setDailyUI(state: DailyTestState, type: DailyLearnType, score: Int?) {
+        updateBgColor(state: state)
+        updateTestStatusLabel(state: state)
         updateTestTitleLabel(type: type)
         updateScoreLabel(score: score)
-        updateTestProgressView(isTestDone: isTestDone)
-        updateRetryBadge(score: score)
+        updateTestProgressView(score: score)
+        updateRetryBadge(state: state)
     }
     
-    private func updateTestStatusLabel(isAvailable: Bool, isTestDone: Bool) {
-
-        if isTestDone {
+    private func updateBgColor(state: DailyTestState) {
+        backgroundColor = (state == .unavailable ? .coolNeutral100 : .white)
+    }
+    
+    private func updateTestStatusLabel(state: DailyTestState) {
+        switch state {
+        case .unavailable:
+            testStatusLabel.text = "학습 불가"
+            testStatusLabel.textColor = .customRed500
+        case .zeroAttempt:
+            testStatusLabel.text = "학습 전"
+            testStatusLabel.textColor = .customBlue700
+        default:
             testStatusLabel.text = "학습 완료"
             testStatusLabel.textColor = .customBlue400
-        } else {
-            if !isAvailable {
-                testStatusLabel.text = "학습 불가"
-                testStatusLabel.textColor = .customRed500
-            } else {
-                testStatusLabel.text = "학습 전"
-                testStatusLabel.textColor = .customBlue700
-            }
         }
     }
     
@@ -111,13 +114,17 @@ final class TestNavigatorButton: UIView {
         scoreLabel.text = "총 점수: \(scoreText)점"
     }
     
-    private func updateTestProgressView(isTestDone: Bool) {
-        testProgressView.backgroundColor = isTestDone ? .customBlue500 : .coolNeutral200
+    private func updateTestProgressView(score: Int?) {
+        if score == nil {
+            testProgressView.backgroundColor = .coolNeutral200
+        } else {
+            testProgressView.backgroundColor = .customBlue500
+        }
     }
     
-    private func updateRetryBadge(score: Int?) {
-        if let score = score {
-            retryBadge.isHidden = (score >= 70)
+    private func updateRetryBadge(state: DailyTestState) {
+        if state == .retestRequired {
+            retryBadge.isHidden = false
         } else {
             retryBadge.isHidden = true
         }
