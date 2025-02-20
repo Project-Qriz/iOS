@@ -5,4 +5,9 @@
 //  Created by KSH on 12/11/24.
 //
 
-import Foundation
+import UIKit
+
+@MainActor
+protocol Coordinator: AnyObject {
+    func start() -> UIViewController
+}
