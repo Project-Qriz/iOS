@@ -82,6 +82,9 @@
 		E24907D32D619F39004D6E61 /* DailyLearnViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E24907D22D619F39004D6E61 /* DailyLearnViewModel.swift */; };
 		E24907D52D619FD4004D6E61 /* TestNavigatorButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = E24907D42D619FD4004D6E61 /* TestNavigatorButton.swift */; };
 		E24907D82D61A289004D6E61 /* DailyLearnType.swift in Sources */ = {isa = PBXBuildFile; fileRef = E24907D72D61A289004D6E61 /* DailyLearnType.swift */; };
+		E24907DA2D63698C004D6E61 /* DailyLearnSectionTitleLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E24907D92D63698C004D6E61 /* DailyLearnSectionTitleLabel.swift */; };
+		E24907DE2D6648A7004D6E61 /* DailyTestState.swift in Sources */ = {isa = PBXBuildFile; fileRef = E24907DD2D6648A7004D6E61 /* DailyTestState.swift */; };
+		E24907E02D66603A004D6E61 /* StudyContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E24907DF2D66603A004D6E61 /* StudyContentView.swift */; };
 		E25856D42D0D766900355667 /* CheckConceptViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E25856D32D0D766900355667 /* CheckConceptViewController.swift */; };
 		E25856DE2D0DADD300355667 /* BeginOnboardingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E25856DD2D0DADD300355667 /* BeginOnboardingViewModel.swift */; };
 		E25F94C82D0CAF1B00BA765F /* BeginTestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E25F94C72D0CAF1B00BA765F /* BeginTestViewController.swift */; };
@@ -230,6 +233,9 @@
 		E24907D22D619F39004D6E61 /* DailyLearnViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyLearnViewModel.swift; sourceTree = "<group>"; };
 		E24907D42D619FD4004D6E61 /* TestNavigatorButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestNavigatorButton.swift; sourceTree = "<group>"; };
 		E24907D72D61A289004D6E61 /* DailyLearnType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyLearnType.swift; sourceTree = "<group>"; };
+		E24907D92D63698C004D6E61 /* DailyLearnSectionTitleLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyLearnSectionTitleLabel.swift; sourceTree = "<group>"; };
+		E24907DD2D6648A7004D6E61 /* DailyTestState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyTestState.swift; sourceTree = "<group>"; };
+		E24907DF2D66603A004D6E61 /* StudyContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StudyContentView.swift; sourceTree = "<group>"; };
 		E25856D32D0D766900355667 /* CheckConceptViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = CheckConceptViewController.swift; path = QRIZ/Feature/Onboarding/CheckConcept/ViewController/CheckConceptViewController.swift; sourceTree = SOURCE_ROOT; };
 		E25856DD2D0DADD300355667 /* BeginOnboardingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BeginOnboardingViewModel.swift; sourceTree = "<group>"; };
 		E25F94C72D0CAF1B00BA765F /* BeginTestViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BeginTestViewController.swift; sourceTree = "<group>"; };
@@ -394,7 +400,6 @@
 		54DB0D962D09506C00ABD458 /* Feature */ = {
 			isa = PBXGroup;
 			children = (
-				E2F18BCA2D60606A00DC6F82 /* DailyLearn */,
 				E29CCD282D29855B004AA30A /* TestComponents */,
 				E23824DF2D0C1FA7009E7989 /* Onboarding */,
 				54E91B742D18FA9600474D0A /* CommonViews */,
@@ -402,6 +407,7 @@
 				B168B7552D2806E50000F32E /* Signup */,
 				B18F45072D398D3C0030F7DB /* FindAccount */,
 				54DB0D972D0950A500ABD458 /* Home */,
+				E2F18BCA2D60606A00DC6F82 /* DailyLearn */,
 			);
 			path = Feature;
 			sourceTree = "<group>";
@@ -698,6 +704,8 @@
 			isa = PBXGroup;
 			children = (
 				E24907D42D619FD4004D6E61 /* TestNavigatorButton.swift */,
+				E24907D92D63698C004D6E61 /* DailyLearnSectionTitleLabel.swift */,
+				E24907DF2D66603A004D6E61 /* StudyContentView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -706,6 +714,7 @@
 			isa = PBXGroup;
 			children = (
 				E24907D72D61A289004D6E61 /* DailyLearnType.swift */,
+				E24907DD2D6648A7004D6E61 /* DailyTestState.swift */,
 			);
 			path = DailyLearnModel;
 			sourceTree = "<group>";
@@ -1190,6 +1199,7 @@
 				E29CCD402D298656004AA30A /* PreviewResultTitleLabel.swift in Sources */,
 				541878612D0EC2970089F478 /* HTTPHeaderField.swift in Sources */,
 				B168B7642D28073C0000F32E /* VerificationCodeMainView.swift in Sources */,
+				E24907DE2D6648A7004D6E61 /* DailyTestState.swift in Sources */,
 				B168B76A2D2807470000F32E /* NameInputViewController.swift in Sources */,
 				548566552D124260002BAEE3 /* ExampleService.swift in Sources */,
 				B18F451E2D44D4080030F7DB /* FindPasswordViewModel.swift in Sources */,
@@ -1216,6 +1226,7 @@
 				E25F94CD2D0CB50F00BA765F /* OnboardingSubtitleLabel.swift in Sources */,
 				B18F45202D4643B40030F7DB /* FindPasswordMainView.swift in Sources */,
 				54BC61572D18141B0094DC45 /* AccountOptionsView.swift in Sources */,
+				E24907E02D66603A004D6E61 /* StudyContentView.swift in Sources */,
 				E29CCD1E2D298316004AA30A /* PreviewTestViewModel.swift in Sources */,
 				E29CCD442D298656004AA30A /* ScoreCircularChartView.swift in Sources */,
 				B18F452E2D4D5D640030F7DB /* ResetPasswordMainView.swift in Sources */,
@@ -1224,6 +1235,7 @@
 				B16288182D2CDB85008057D0 /* NameInputViewModel.swift in Sources */,
 				B168B7632D28073C0000F32E /* SingleInputMainView.swift in Sources */,
 				54BC61552D14AFB70094DC45 /* LoginInputView.swift in Sources */,
+				E24907DA2D63698C004D6E61 /* DailyLearnSectionTitleLabel.swift in Sources */,
 				B19C4F6B2D5260DD00CD008A /* UIControl+.swift in Sources */,
 				B168B7752D2846DD0000F32E /* PasswordInputMainView.swift in Sources */,
 				B16288202D2E2595008057D0 /* EmailInputViewModel.swift in Sources */,

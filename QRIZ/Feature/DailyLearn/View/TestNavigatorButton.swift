@@ -42,7 +42,7 @@ final class TestNavigatorButton: UIView {
         let image = UIImage(systemName: "chevron.right")?.withRenderingMode(.alwaysTemplate)
         let imageView = UIImageView(image: image)
         imageView.tintColor = .coolNeutral800
-        imageView.backgroundColor = .white
+        imageView.backgroundColor = .clear
         return imageView
     }()
     private let retryBadge: UILabel = {
