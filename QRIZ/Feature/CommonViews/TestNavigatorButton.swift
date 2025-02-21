@@ -32,12 +32,6 @@ final class TestNavigatorButton: UIView {
         label.numberOfLines = 1
         return label
     }()
-    private let testProgressView: UIView = {
-        let view = UIView(frame: .zero)
-        view.layer.cornerRadius = 4
-        view.layer.masksToBounds = true
-        return view
-    }()
     private let chevronImageView: UIImageView = {
         let image = UIImage(systemName: "chevron.right")?.withRenderingMode(.alwaysTemplate)
         let imageView = UIImageView(image: image)
@@ -76,10 +70,26 @@ final class TestNavigatorButton: UIView {
         updateTestStatusLabel(state: state)
         updateTestTitleLabel(type: type)
         updateScoreLabel(score: score)
-        updateTestProgressView(score: score)
         updateRetryBadge(state: state)
     }
     
+    func setMockExamUI(isTestDone: Bool, examRound: Int, score: Int?) {
+        retryBadge.isHidden = true
+        backgroundColor = .white
+        testStatusLabel.textColor = .coolNeutral600
+
+        updateMockExamStatusLabel(isTestDone: isTestDone)
+        updateTestTitleLabel(examRound: examRound)
+        updateScoreLabel(score: score)
+    }
+    
+    private func setLayer() {
+        layer.cornerRadius = 12
+        layer.masksToBounds = true
+        layer.borderColor = UIColor.coolNeutral100.cgColor
+        layer.borderWidth = 1
+    }
+    // MARK: - Daily UI Methods
     private func updateBgColor(state: DailyTestState) {
         backgroundColor = (state == .unavailable ? .coolNeutral100 : .white)
     }
@@ -91,7 +101,7 @@ final class TestNavigatorButton: UIView {
             testStatusLabel.textColor = .customRed500
         case .zeroAttempt:
             testStatusLabel.text = "학습 전"
-            testStatusLabel.textColor = .customBlue700
+            testStatusLabel.textColor = .coolNeutral600
         default:
             testStatusLabel.text = "학습 완료"
             testStatusLabel.textColor = .customBlue400
@@ -114,14 +124,6 @@ final class TestNavigatorButton: UIView {
         scoreLabel.text = "총 점수: \(scoreText)점"
     }
     
-    private func updateTestProgressView(score: Int?) {
-        if score == nil {
-            testProgressView.backgroundColor = .coolNeutral200
-        } else {
-            testProgressView.backgroundColor = .customBlue500
-        }
-    }
-    
     private func updateRetryBadge(state: DailyTestState) {
         if state == .retestRequired {
             retryBadge.isHidden = false
@@ -130,11 +132,19 @@ final class TestNavigatorButton: UIView {
         }
     }
     
-    private func setLayer() {
-        layer.cornerRadius = 12
-        layer.masksToBounds = true
-        layer.borderColor = UIColor.coolNeutral100.cgColor
-        layer.borderWidth = 1
+    // MARK: - Mock Exam UI Methods
+    private func updateMockExamStatusLabel(isTestDone: Bool) {
+        if isTestDone {
+            testStatusLabel.text = "학습 후"
+            testStatusLabel.textColor = .customBlue400
+        } else {
+            testStatusLabel.text = "학습 전"
+            testStatusLabel.textColor = .coolNeutral600
+        }
+    }
+    
+    private func updateTestTitleLabel(examRound: Int) {
+        testTitleLabel.text = "\(examRound)회차"
     }
 }
 
@@ -144,14 +154,12 @@ extension TestNavigatorButton {
         addSubview(testStatusLabel)
         addSubview(testTitleLabel)
         addSubview(scoreLabel)
-        addSubview(testProgressView)
         addSubview(chevronImageView)
         addSubview(retryBadge)
         
         testStatusLabel.translatesAutoresizingMaskIntoConstraints = false
         testTitleLabel.translatesAutoresizingMaskIntoConstraints = false
         scoreLabel.translatesAutoresizingMaskIntoConstraints = false
-        testProgressView.translatesAutoresizingMaskIntoConstraints = false
         chevronImageView.translatesAutoresizingMaskIntoConstraints = false
         retryBadge.translatesAutoresizingMaskIntoConstraints = false
         
@@ -162,12 +170,7 @@ extension TestNavigatorButton {
             testTitleLabel.topAnchor.constraint(equalTo: testStatusLabel.bottomAnchor, constant: 10),
             testTitleLabel.leadingAnchor.constraint(equalTo: testStatusLabel.leadingAnchor),
             
-            testProgressView.topAnchor.constraint(equalTo: testTitleLabel.bottomAnchor, constant: 10),
-            testProgressView.leadingAnchor.constraint(equalTo: testStatusLabel.leadingAnchor),
-            testProgressView.heightAnchor.constraint(equalToConstant: 8),
-            testProgressView.trailingAnchor.constraint(equalTo: self.centerXAnchor, constant: 80),
-            
-            scoreLabel.topAnchor.constraint(equalTo: testProgressView.bottomAnchor, constant: 6),
+            scoreLabel.topAnchor.constraint(equalTo: testTitleLabel.bottomAnchor, constant: 12),
             scoreLabel.leadingAnchor.constraint(equalTo: testStatusLabel.leadingAnchor),
             
             retryBadge.topAnchor.constraint(equalTo: scoreLabel.bottomAnchor, constant: 10),

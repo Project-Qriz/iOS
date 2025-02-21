@@ -480,6 +480,7 @@
 				E28BAD7A2D2C326400B8388D /* CustomAlert */,
 				54E91B752D18FACD00474D0A /* RoundButton.swift */,
 				B17FE30B2D27F931002EC7D7 /* CustomTextField.swift */,
+				E24907D42D619FD4004D6E61 /* TestNavigatorButton.swift */,
 			);
 			path = CommonViews;
 			sourceTree = "<group>";
@@ -703,7 +704,6 @@
 		E24907D12D619F2C004D6E61 /* View */ = {
 			isa = PBXGroup;
 			children = (
-				E24907D42D619FD4004D6E61 /* TestNavigatorButton.swift */,
 				E24907D92D63698C004D6E61 /* DailyLearnSectionTitleLabel.swift */,
 				E24907DF2D66603A004D6E61 /* StudyContentView.swift */,
 			);
