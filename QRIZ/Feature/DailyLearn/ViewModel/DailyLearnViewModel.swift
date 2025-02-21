@@ -62,7 +62,7 @@ final class DailyLearnViewModel {
     
     private func fetchData() {
         // will be replaced to network code && update properties
-        output.send(.fetchSuccess(state: .unavailable, type: .daily, score: nil))
+        output.send(.fetchSuccess(state: .retestRequired, type: .daily, score: 30))
         output.send(.updateContent(keyConcept1: "데이터베이스", conceptContent1: "• JOIN은 두 개 이상의 테이블을 연결하여 데이터를 출력하는 것을 의미한다.\n• JOIN은 두 개 이상의 테이블을 연결하여 데이터를 출력하는 것을 의미한다.\n• JOIN은 두 개 이상의 테이블을 연결하여 데이터를 출력하는 것을 의미한다.\n• JOIN은 두 개 이상의 테이블을 연결하여 데이터를 출력하는 것을 의미한다.", keyConcept2: "데이터베이스", conceptContent2: "• JOIN은 두 개 이상의 테이블을 연결하여 데이터를 출력하는 것을 의미한다.\n• JOIN은 두 개 이상의 테이블을 연결하여 데이터를 출력하는 것을 의미한다.\n• JOIN은 두 개 이상의 테이블을 연결하여 데이터를 출력하는 것을 의미한다.\n• JOIN은 두 개 이상의 테이블을 연결하여 데이터를 출력하는 것을 의미한다."))
     }
     

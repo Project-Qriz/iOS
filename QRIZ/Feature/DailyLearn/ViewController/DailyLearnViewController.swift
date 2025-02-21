@@ -67,16 +67,13 @@ final class DailyLearnViewController: UIViewController {
                     setTitleLabels(type: type)
                     setTestSubtextLabel(state: state)
                     setNavigatorButton(state: state, type: type, score: score)
+                    setNavigatorButtonHeight(state: state)
                 case .fetchFailed:
                     print("Fetch Failed")
                 case .updateContent(let keyConcept1, let conceptContent1, let keyConcept2, let conceptContent2):
                     studyContentView.setLabelsText(keyConcept1: keyConcept1, conceptContent1: conceptContent1, keyConcept2: keyConcept2, conceptContent2: conceptContent2)
-                    studyContentView.reloadInputViews()
-                    scrollInnerView.layoutIfNeeded()
-                    scrollView.layoutIfNeeded()
-                    self.view.layoutIfNeeded()
-                    
                 case .moveToDailyTest(let isRetest):
+                    // modal will be added
                     print("MOVE TO DAILY TEST")
                 case .moveToDailyTestResult:
                     print("MOVE TO DAILY TEST RESULT")
@@ -99,9 +96,9 @@ final class DailyLearnViewController: UIViewController {
         case .passed:
             testSubtextLabel.text = "학습완료. 수고하셨어요!"
         case .retestRequired:
-            testSubtextLabel.text = "점수가 미달인 경우 재시험을 볼 수 있습니다."
+            testSubtextLabel.text = "점수 미달인 경우 재시험을 볼 수 있습니다."
         case .failed:
-            testSubtextLabel.text = "임시" // 디자인 추가 시 변경 예정
+            testSubtextLabel.text = "학습완료. 수고하셨어요!"
         }
     }
     
@@ -160,8 +157,12 @@ extension DailyLearnViewController {
             testNavigator.topAnchor.constraint(equalTo: relatedTestTitleLabel.bottomAnchor, constant: 18),
             testNavigator.leadingAnchor.constraint(equalTo: scrollInnerView.leadingAnchor, constant: 18),
             testNavigator.trailingAnchor.constraint(equalTo: scrollInnerView.trailingAnchor, constant: -18),
-            testNavigator.heightAnchor.constraint(equalToConstant: 123),
             testNavigator.bottomAnchor.constraint(equalTo: scrollInnerView.bottomAnchor, constant: -100)
         ])
+    }
+    
+    private func setNavigatorButtonHeight(state: DailyTestState) {
+        let buttonHeight = (state == .retestRequired ? 153.0 : 116.0)
+        testNavigator.heightAnchor.constraint(equalToConstant: buttonHeight).isActive = true
     }
 }
