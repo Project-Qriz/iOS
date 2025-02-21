@@ -69,6 +69,8 @@
 		B19C4FA92D5D182600CD008A /* EmailVerificationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B19C4FA82D5D182600CD008A /* EmailVerificationViewModel.swift */; };
 		B19C4FAB2D6120D100CD008A /* OneButtonCustomAlertViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B19C4FAA2D6120D100CD008A /* OneButtonCustomAlertViewController.swift */; };
 		B19C4FAD2D61304400CD008A /* OneButtonCustomAlertMainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B19C4FAC2D61304400CD008A /* OneButtonCustomAlertMainView.swift */; };
+		B19C4FAF2D67E58D00CD008A /* LoginCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = B19C4FAE2D67E58D00CD008A /* LoginCoordinator.swift */; };
+		B19C4FB22D67F70E00CD008A /* TabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B19C4FB12D67F70E00CD008A /* TabBarController.swift */; };
 		B1D9A0E72D3686BA00E84934 /* CountdownTimer.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1D9A0E62D3686BA00E84934 /* CountdownTimer.swift */; };
 		E230669A2D2126B9001B509A /* PreviewScoresData.swift in Sources */ = {isa = PBXBuildFile; fileRef = E23066992D2126B9001B509A /* PreviewScoresData.swift */; };
 		E23824E12D0C3157009E7989 /* BeginOnboardingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E23824E02D0C3157009E7989 /* BeginOnboardingViewController.swift */; };
@@ -208,6 +210,8 @@
 		B19C4FA82D5D182600CD008A /* EmailVerificationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmailVerificationViewModel.swift; sourceTree = "<group>"; };
 		B19C4FAA2D6120D100CD008A /* OneButtonCustomAlertViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OneButtonCustomAlertViewController.swift; sourceTree = "<group>"; };
 		B19C4FAC2D61304400CD008A /* OneButtonCustomAlertMainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OneButtonCustomAlertMainView.swift; sourceTree = "<group>"; };
+		B19C4FAE2D67E58D00CD008A /* LoginCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginCoordinator.swift; sourceTree = "<group>"; };
+		B19C4FB12D67F70E00CD008A /* TabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarController.swift; sourceTree = "<group>"; };
 		B1D9A0E62D3686BA00E84934 /* CountdownTimer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountdownTimer.swift; sourceTree = "<group>"; };
 		E23066992D2126B9001B509A /* PreviewScoresData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreviewScoresData.swift; sourceTree = "<group>"; };
 		E23824E02D0C3157009E7989 /* BeginOnboardingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BeginOnboardingViewController.swift; sourceTree = "<group>"; };
@@ -350,6 +354,7 @@
 				54C7A3112D146193001175D9 /* View */,
 				B17FE3032D27F813002EC7D7 /* ViewController */,
 				B17FE3042D27F849002EC7D7 /* ViewModel */,
+				B19C4FAE2D67E58D00CD008A /* LoginCoordinator.swift */,
 			);
 			path = Login;
 			sourceTree = "<group>";
@@ -386,6 +391,7 @@
 		54DB0D962D09506C00ABD458 /* Feature */ = {
 			isa = PBXGroup;
 			children = (
+				B19C4FB02D67E6C300CD008A /* TabBar */,
 				E29CCD282D29855B004AA30A /* TestComponents */,
 				E23824DF2D0C1FA7009E7989 /* Onboarding */,
 				54E91B742D18FA9600474D0A /* CommonViews */,
@@ -607,6 +613,14 @@
 				B19C4FA82D5D182600CD008A /* EmailVerificationViewModel.swift */,
 			);
 			path = Common;
+			sourceTree = "<group>";
+		};
+		B19C4FB02D67E6C300CD008A /* TabBar */ = {
+			isa = PBXGroup;
+			children = (
+				B19C4FB12D67F70E00CD008A /* TabBarController.swift */,
+			);
+			path = TabBar;
 			sourceTree = "<group>";
 		};
 		B1D9A0E52D3686A100E84934 /* Manager */ = {
@@ -1082,6 +1096,7 @@
 				E29CCD452D298656004AA30A /* SingleSupplementConceptView.swift in Sources */,
 				B16288222D2E3CAB008057D0 /* UINavigationBar+.swift in Sources */,
 				B18F450A2D39901D0030F7DB /* FindIDViewController.swift in Sources */,
+				B19C4FAF2D67E58D00CD008A /* LoginCoordinator.swift in Sources */,
 				B168B7602D28073C0000F32E /* SignupHeaderView.swift in Sources */,
 				B168B7712D28276F0000F32E /* IDInputView.swift in Sources */,
 				B19C4F6D2D5262D900CD008A /* Combine+.swift in Sources */,
@@ -1128,6 +1143,7 @@
 				E23963092D083B900092B39B /* AppDelegate.swift in Sources */,
 				E2D70FE82D0DD322005A3F51 /* BeginTestViewModel.swift in Sources */,
 				E29BF86D2D16895B006DC6D0 /* QuestionData.swift in Sources */,
+				B19C4FB22D67F70E00CD008A /* TabBarController.swift in Sources */,
 				E29CCD2A2D29855B004AA30A /* QuestionOptionLabel.swift in Sources */,
 				E25856D42D0D766900355667 /* CheckConceptViewController.swift in Sources */,
 				B18F451C2D441E150030F7DB /* FindPasswordVerificationViewController.swift in Sources */,
