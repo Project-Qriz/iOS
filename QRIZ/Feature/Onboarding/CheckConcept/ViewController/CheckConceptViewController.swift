@@ -30,8 +30,8 @@ final class CheckConceptViewController: UIViewController {
         setCollectionView()
         bind()
         addViews()
+        navigationController?.navigationBar.isHidden = true
         addButtonAction()
-        setNavigationItem()
     }
     
     private func bind() {
@@ -73,11 +73,6 @@ final class CheckConceptViewController: UIViewController {
             guard let self = self else { return }
             self.input.send(.didDoneButtonClicked)
         }), for: .touchUpInside)
-    }
-    
-    private func setNavigationItem() {
-        self.navigationItem.leftBarButtonItem = UIBarButtonItem(title: "취소", style: .plain, target: self, action: #selector(cancelOnboarding))
-        self.navigationController?.navigationBar.tintColor = .black
     }
     
     @objc func cancelOnboarding() {

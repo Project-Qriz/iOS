@@ -21,7 +21,7 @@ final class BeginOnboardingViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.view.backgroundColor = .customBlue50
+        self.view.backgroundColor = .white
         bind()
         addViews()
         addButtonAction()

@@ -30,7 +30,7 @@ final class PreviewTestViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.view.backgroundColor = .customBlue50
+        self.view.backgroundColor = .white
         bind()
         setNavigationItem()
         addViews()
@@ -96,6 +96,8 @@ final class PreviewTestViewController: UIViewController {
     }
     
     private func setNavigationItem() {
+        self.navigationController?.isNavigationBarHidden = false
+        self.navigationItem.titleView?.isHidden = false
         self.navigationItem.hidesBackButton = true
         self.navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "chevron.left"), style: .plain, target: self, action: #selector(moveToHome))
         self.navigationItem.rightBarButtonItems = [

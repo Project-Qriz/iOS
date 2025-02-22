@@ -21,7 +21,7 @@ final class BeginTestViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.view.backgroundColor = .customBlue50
+        self.view.backgroundColor = .white
         self.navigationItem.hidesBackButton = true
         bind()
         addViews()
@@ -64,7 +64,7 @@ final class BeginTestViewController: UIViewController {
         NSLayoutConstraint.activate([
             beginTestTitleLabel.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 24),
             beginTestTitleLabel.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: -24),
-            beginTestTitleLabel.topAnchor.constraint(lessThanOrEqualTo: self.view.safeAreaLayoutGuide.topAnchor, constant: 50),
+            beginTestTitleLabel.topAnchor.constraint(lessThanOrEqualTo: self.view.safeAreaLayoutGuide.topAnchor, constant: 100),
             beginTestTitleLabel.heightAnchor.constraint(equalToConstant: 76),
             beginTestSubtitleLabel.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 24),
             beginTestSubtitleLabel.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: -24),

@@ -44,7 +44,7 @@ final class PreviewResultViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.view.backgroundColor = .customBlue50
+        self.view.backgroundColor = .white
         setNavigationItems()
         bind()
         addViews()
