@@ -65,23 +65,25 @@ final class StudyContentView: UIView {
         let conceptContent1Text = conceptContent1
         keyConcept2Label.text = " 2. \(keyConcept2)"
         let conceptContent2Text = conceptContent2
-        
-        let content1String = NSMutableAttributedString(string: conceptContent1Text)
-        let content2String = NSMutableAttributedString(string: conceptContent2Text)
-        
-        let paragraphStyle = NSMutableParagraphStyle()
-        paragraphStyle.lineSpacing = 5
-        
-        content1String.addAttribute(NSAttributedString.Key.paragraphStyle, value: paragraphStyle, range: NSMakeRange(0, content1String.length))
-        content2String.addAttribute(NSAttributedString.Key.paragraphStyle, value: paragraphStyle, range: NSMakeRange(0, content2String.length))
 
-        conceptContent1Label.attributedText = content1String
-        conceptContent2Label.attributedText = content2String
+        conceptContent1Label.attributedText = formattedString(text: conceptContent1Text)
+        conceptContent2Label.attributedText = formattedString(text: conceptContent2Text)
     }
     
     private func setBorder() {
         layer.cornerRadius = 8
         layer.masksToBounds = true
+    }
+    
+    private func formattedString(text: String) -> NSAttributedString {
+        let attributedString = NSMutableAttributedString(string: text)
+        
+        let paragraphStyle = NSMutableParagraphStyle()
+        paragraphStyle.lineSpacing = 5
+        
+        attributedString.addAttribute(NSAttributedString.Key.paragraphStyle, value: paragraphStyle, range: NSMakeRange(0, attributedString.length))
+        
+        return attributedString
     }
 }
 
