@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Combine
 
 /// 로그인, 회원가입 등에서 사용하는 CustomTextField입니다.
 final class CustomTextField: UITextField {
@@ -25,6 +26,10 @@ final class CustomTextField: UITextField {
         case checkmark
         case custom(UIView?)
     }
+    
+    // MARK: - Properties
+    
+    private var cancellables = Set<AnyCancellable>()
     
     // MARK: - UI
     
@@ -85,6 +90,7 @@ final class CustomTextField: UITextField {
         super.init(frame: .zero)
         setupUI(placeholder: placeholder, isSecure: isSecure)
         setupRightView(rightViewType)
+        observe()
     }
     
     required init?(coder: NSCoder) {
@@ -124,20 +130,31 @@ final class CustomTextField: UITextField {
         setupRightView(type)
     }
     
-    override func becomeFirstResponder() -> Bool {
-        let didBecome = super.becomeFirstResponder()
-        if didBecome {
-            layer.borderColor = UIColor.coolNeutral600.cgColor
-        }
-        return didBecome
-    }
-    
-    override func resignFirstResponder() -> Bool {
-        let didResign = super.resignFirstResponder()
-        if didResign {
-            layer.borderColor = UIColor.coolNeutral200.cgColor
-        }
-        return didResign
+    func observe() {
+        self.controlEventPublisher(for: .editingDidBegin)
+            .sink { [weak self] _ in
+                guard let self else { return }
+                if self.layer.borderColor == UIColor.coolNeutral200.cgColor {
+                    self.layer.borderColor = UIColor.black.cgColor
+                }
+            }
+            .store(in: &cancellables)
+        
+        self.controlEventPublisher(for: .editingDidEnd)
+            .sink { [weak self] _ in
+                guard let self else { return }
+                if self.layer.borderColor == UIColor.black.cgColor {
+                    self.layer.borderColor = UIColor.coolNeutral200.cgColor
+                }
+                self.resignFirstResponder()
+            }
+            .store(in: &cancellables)
+        
+        self.controlEventPublisher(for: .editingDidEndOnExit)
+            .sink { [weak self] _ in
+                self?.resignFirstResponder()
+            }
+            .store(in: &cancellables)
     }
 }
 
@@ -170,7 +187,7 @@ extension CustomTextField {
     
     private func setupClearButton() {
         containerView.frame.size = CGSize(width: 30, height: 48)
-        clearButton.frame = CGRect(x: 0, y: 14, width: 20, height: 20)
+        clearButton.frame = CGRect(x: -7, y: 14, width: 20, height: 20)
         clearButton.isHidden = false
         
         containerView.addSubview(clearButton)

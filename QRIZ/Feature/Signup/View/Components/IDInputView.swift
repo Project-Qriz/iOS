@@ -1,5 +1,5 @@
 //
-//  IdInputView.swift
+//  IDInputView.swift
 //  QRIZ
 //
 //  Created by 김세훈 on 1/3/25.
@@ -8,20 +8,20 @@
 import UIKit
 import Combine
 
-final class IdInputView: UIView {
+final class IDInputView: UIView {
     
     // MARK: - Enums
     
     private enum Metric {
         static let stackViewHeight: CGFloat = 48.0
         static let buttonWidthMultiplier: CGFloat = 1.9
-        static let idCountLabelTopOffset: CGFloat = 8.0
+        static let noticeLabelTopOffset: CGFloat = 4.0
     }
     
     private enum Attributes {
         static let placeholder: String = "아이디 입력"
         static let buttonTitle: String = "중복확인"
-        static let noticeLabelText: String = "0/8"
+        static let noticeLabelText: String = "영문과 숫자를 포함하여 6자 이상 20자 이하 입력"
     }
     
     // MARK: - Properties
@@ -39,16 +39,19 @@ final class IdInputView: UIView {
     
     // MARK: - UI
     
-    private let idTextField: UITextField = CustomTextField(placeholder: Attributes.placeholder)
+    private let idTextField: UITextField = CustomTextField(
+        placeholder: Attributes.placeholder,
+        rightViewType: .clearButton
+    )
     
     private lazy var duplicateCheckButton: UIButton = {
         let button = UIButton()
         button.setTitle(Attributes.buttonTitle, for: .normal)
         button.titleLabel?.font = .systemFont(ofSize: 14, weight: .semibold)
-        button.setTitleColor(.customBlue500, for: .normal)
+        button.setTitleColor(.coolNeutral800, for: .normal)
         button.layer.borderWidth = 1
         button.layer.cornerRadius = 8
-        button.layer.borderColor = UIColor.customBlue500.cgColor
+        button.layer.borderColor = UIColor.coolNeutral200.cgColor
         button.layer.masksToBounds = true
         button.addAction(UIAction { [weak self] _ in
             self?.buttonTappedSubject.send()
@@ -71,18 +74,18 @@ final class IdInputView: UIView {
         let label = UILabel()
         label.text = Attributes.noticeLabelText
         label.font = .systemFont(ofSize: 12, weight: .regular)
-        label.textColor = .coolNeutral800
+        label.textColor = .customRed500
+        label.isHidden = true
         return label
     }()
     
-    // MARK: - initialize
+    // MARK: - Initialize
     
     override init(frame: CGRect) {
         super.init(frame: .zero)
         addSubviews()
         setupConstraints()
         setupUI()
-        observe()
     }
     
     required init?(coder: NSCoder) {
@@ -95,22 +98,16 @@ final class IdInputView: UIView {
         self.backgroundColor = .white
     }
     
-    private func observe() {
-        idTextField.controlEventPublisher(for: .editingDidEndOnExit)
-            .sink { [weak self] _ in
-                self?.resignFirstResponder()
-            }
-            .store(in: &cancellables)
+    func updateErrorState(isValid: Bool) {
+        noticeLabel.text = Attributes.noticeLabelText
+        noticeLabel.isHidden = isValid
     }
     
     func updateCheckMessage(message: String, isAvailable: Bool) {
         noticeLabel.text = message
+        noticeLabel.isHidden = false
         noticeLabel.textColor = isAvailable ? .customMint800 : .customRed500
         idTextField.layer.borderColor = isAvailable ? UIColor.customMint800.cgColor : UIColor.customRed500.cgColor
-    }
-    
-    func updateTextCountLabel(current: Int, min: Int) {
-        noticeLabel.text = "\(current)/\(min)"
     }
     
     func resetColors() {
@@ -121,7 +118,7 @@ final class IdInputView: UIView {
 
 // MARK: - Layout Setup
 
-extension IdInputView {
+extension IDInputView {
     private func addSubviews() {
         [
             stackView,
@@ -141,7 +138,7 @@ extension IdInputView {
             
             duplicateCheckButton.widthAnchor.constraint(equalTo: duplicateCheckButton.heightAnchor, multiplier: Metric.buttonWidthMultiplier),
             
-            noticeLabel.topAnchor.constraint(equalTo: stackView.bottomAnchor, constant: Metric.idCountLabelTopOffset),
+            noticeLabel.topAnchor.constraint(equalTo: stackView.bottomAnchor, constant: Metric.noticeLabelTopOffset),
             noticeLabel.leadingAnchor.constraint(equalTo: leadingAnchor),
             noticeLabel.trailingAnchor.constraint(equalTo: trailingAnchor),
             noticeLabel.bottomAnchor.constraint(equalTo: bottomAnchor),

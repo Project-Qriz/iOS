@@ -1,20 +1,19 @@
 //
-//  FindPasswordViewModel.swift
+//  EmailVerificationViewModel.swift
 //  QRIZ
 //
-//  Created by 김세훈 on 1/17/25.
+//  Created by 김세훈 on 2/13/25.
 //
 
 import Foundation
 import Combine
 
-final class FindPasswordViewModel {
+class EmailVerificationViewModel {
     
     // MARK: - Properties
     
     private let outputSubject: PassthroughSubject<Output, Never> = .init()
     private var cancellables = Set<AnyCancellable>()
-    
     private let countdownTimer: CountdownTimer
     
     // MARK: - Initialize
@@ -48,20 +47,19 @@ final class FindPasswordViewModel {
                     self.sendVerificationCode()
                     
                 case .codeTextChanged(let code):
-                    validateCode(code)
+                    self.validateCode(code)
                     
                 case .confirmButtonTapped:
-                    verifyCode()
+                    self.verifyCode()
                     
                 case .nextButtonTapped:
-                    outputSubject.send(.navigateToPasswordResetView)
+                    self.outputSubject.send(.navigateToNextView)
                 }
             }
             .store(in: &cancellables)
         
         return outputSubject.eraseToAnyPublisher()
     }
-    
     
     private func validateEmail(_ email: String) {
         let isValid = email.isValidEmail
@@ -73,7 +71,6 @@ final class FindPasswordViewModel {
         outputSubject.send(.isCodeValid(isValid))
     }
     
-    // 이메일 전송 후 타이머 시작
     private func sendVerificationCode() {
         let apiResult = Bool.random()
         
@@ -86,7 +83,6 @@ final class FindPasswordViewModel {
         }
     }
     
-    // 인증 API 호출
     private func verifyCode() {
         let apiResult = Bool.random()
         
@@ -99,7 +95,7 @@ final class FindPasswordViewModel {
     }
 }
 
-extension FindPasswordViewModel {
+extension EmailVerificationViewModel {
     enum Input {
         case emailTextChanged(String)
         case sendButtonTapped
@@ -117,6 +113,6 @@ extension FindPasswordViewModel {
         case timerExpired
         case codeVerificationSuccess
         case codeVerificationFailure
-        case navigateToPasswordResetView
+        case navigateToNextView
     }
 }

@@ -14,6 +14,8 @@ final class PasswordInputViewController: UIViewController {
     
     private enum Attributes {
         static let navigationTitle: String = "회원가입"
+        static let alertTitle: String = "회원가입 완료!"
+        static let alertDescription: String = "회원가입이 완료되었습니다.\n합격을 향한 여정을 함께 시작해봐요!"
     }
     
     // MARK: - Properties
@@ -65,11 +67,9 @@ final class PasswordInputViewController: UIViewController {
         let signupButtonTapped = rootView.signupFooterView.buttonTappedPublisher
             .map { PasswordInputViewModel.Input.buttonTapped }
         
-        let input = Publishers.Merge3(
-            passwordTextChanged,
-            confirmTextChanged,
-            signupButtonTapped
-        )
+        let input = passwordTextChanged
+            .merge(with: confirmTextChanged)
+            .merge(with: signupButtonTapped)
             .eraseToAnyPublisher()
         
         let output = passwordInputVM.transform(input: input)
@@ -79,20 +79,20 @@ final class PasswordInputViewController: UIViewController {
                 guard let self = self else { return }
                 
                 switch output {
-                case .isPasswordValid(let isValid):
-//                    self.rootView.passwordInputView.updatePasswordErrorState(isValid)
-                    break
+                case .characterRequirementChanged(let isValid):
+                    self.rootView.passwordInputView.updateCharacterRequirementUI(isValid)
                     
-                case .isConfirmValid(let isValid):
-//                    self.rootView.passwordInputView.updateconfirmErrorState(isValid)
-                    break
+                case .lengthRequirementChanged(let isValid):
+                    self.rootView.passwordInputView.updateLengthRequirementUI(isValid)
+                    
+                case .confirmValidChanged(let isValid):
+                    self.rootView.passwordInputView.updateConfirmPasswordUI(isValid)
                     
                 case .updateSignupButtonState(let canSignUp):
                     self.rootView.signupFooterView.updateButtonState(isValid: canSignUp)
                     
-                case .navigateToLoginView:
-                    let loginVC = LoginViewController(loginVM: LoginViewModel())
-                    self.navigationController?.pushViewController(loginVC, animated: true)
+                case .navigateToAlertView:
+                    self.showOneButtonAlert()
                 }
             }
             .store(in: &cancellables)
@@ -106,5 +106,22 @@ final class PasswordInputViewController: UIViewController {
                 self?.view.endEditing(true)
             }
             .store(in: &cancellables)
+    }
+    
+    private func showOneButtonAlert() {
+        let oneButtonAlert = OneButtonCustomAlertViewController(
+            title: Attributes.alertTitle,
+            description: Attributes.alertDescription
+        )
+        oneButtonAlert.confirmButtonTappedPublisher
+            .sink { [weak self] _ in
+                oneButtonAlert.dismiss(animated: true) {
+                    guard let self = self else { return }
+                    self.navigationController?.popToRootViewController(animated: true)
+                }
+            }
+            .store(in: &cancellables)
+        
+        present(oneButtonAlert, animated: true)
     }
 }

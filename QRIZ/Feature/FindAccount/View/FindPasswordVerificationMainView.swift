@@ -1,13 +1,13 @@
 //
-//  FindAccountMainView.swift
+//  FindPasswordVerificationMainView.swift
 //  QRIZ
 //
-//  Created by 김세훈 on 1/17/25.
+//  Created by 김세훈 on 1/26/25.
 //
 
 import UIKit
 
-final class FindIDMainView: UIView {
+final class FindPasswordVerificationMainView: UIView {
     
     // MARK: - Enums
     
@@ -19,13 +19,13 @@ final class FindIDMainView: UIView {
     }
     
     private enum Attributes {
-        static let buttonTitle: String = "아이디 찾기"
+        static let buttonTitle: String = "재설정 하기"
     }
     
     // MARK: - Properties
     
     private let findAccountHeaderView = FindAccountHeaderView()
-    let findIDInputView = FindIDInputView()
+    let verificationInputView = VerificationInputView()
     let signupFooterView = SignupFooterView()
     
     // MARK: - Initialize
@@ -46,8 +46,8 @@ final class FindIDMainView: UIView {
     private func setupUI() {
         self.backgroundColor = .white
         findAccountHeaderView.configure(
-            title: FindAccountType.findId.headerTitle,
-            description: UILabel.setLineSpacing(8, text: FindAccountType.findId.headerDescription)
+            title: FindAccountType.findPassword.headerTitle,
+            description: UILabel.setLineSpacing(8, text: FindAccountType.findPassword.headerDescription)
         )
         signupFooterView.configure(buttonTitle: Attributes.buttonTitle)
         signupFooterView.updateButtonState(isValid: false)
@@ -56,18 +56,18 @@ final class FindIDMainView: UIView {
 
 // MARK: - Layout Setup
 
-extension FindIDMainView {
+extension FindPasswordVerificationMainView {
     private func addSubviews() {
         [
             findAccountHeaderView,
-            findIDInputView,
+            verificationInputView,
             signupFooterView
         ].forEach(addSubview(_:))
     }
     
     private func setupConstraints() {
         findAccountHeaderView.translatesAutoresizingMaskIntoConstraints = false
-        findIDInputView.translatesAutoresizingMaskIntoConstraints = false
+        verificationInputView.translatesAutoresizingMaskIntoConstraints = false
         signupFooterView.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
@@ -84,15 +84,15 @@ extension FindIDMainView {
                 constant: -Metric.horizontalMargin
             ),
             
-            findIDInputView.topAnchor.constraint(
+            verificationInputView.topAnchor.constraint(
                 equalTo: findAccountHeaderView.bottomAnchor,
                 constant: Metric.inputViewTopOffset
             ),
-            findIDInputView.leadingAnchor.constraint(
+            verificationInputView.leadingAnchor.constraint(
                 equalTo: leadingAnchor,
                 constant: Metric.horizontalMargin
             ),
-            findIDInputView.trailingAnchor.constraint(
+            verificationInputView.trailingAnchor.constraint(
                 equalTo: trailingAnchor,
                 constant: -Metric.horizontalMargin
             ),

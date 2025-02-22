@@ -1,5 +1,5 @@
 //
-//  FindPasswordInputView.swift
+//  VerificationInputView.swift
 //  QRIZ
 //
 //  Created by 김세훈 on 1/26/25.
@@ -8,7 +8,7 @@
 import UIKit
 import Combine
 
-final class FindPasswordInputView: UIView {
+final class VerificationInputView: UIView {
     
     // MARK: - Enums
     
@@ -191,18 +191,6 @@ final class FindPasswordInputView: UIView {
                 self.codeTextField.layer.borderColor = UIColor.coolNeutral600.cgColor
             }
             .store(in: &cancellables)
-        
-        codeTextField.controlEventPublisher(for: .editingDidEndOnExit)
-            .sink { [weak self] _ in
-                self?.resignFirstResponder()
-            }
-            .store(in: &cancellables)
-        
-        emailTextField.controlEventPublisher(for: .editingDidEndOnExit)
-            .sink { [weak self] _ in
-                self?.resignFirstResponder()
-            }
-            .store(in: &cancellables)
     }
     
     func updateSendButton(isValid: Bool) {
@@ -242,7 +230,7 @@ final class FindPasswordInputView: UIView {
         
         if isValid {
             hideMessage()
-            textField.layer.borderColor = UIColor.coolNeutral600.cgColor
+            textField.layer.borderColor = UIColor.customMint800.cgColor
         } else {
             showErrorMessage(errorText)
             textField.layer.borderColor = UIColor.customRed500.cgColor
@@ -255,6 +243,7 @@ final class FindPasswordInputView: UIView {
         emailTextField.updateRightView(.checkmark)
         sendButton.setTitle(Attributes.resendButtonTitle, for: .normal)
         showMessage(Attributes.emailVerificationSentMessage, textColor: .customMint800)
+        emailTextField.layer.borderColor = UIColor.coolNeutral200.cgColor
         setTextFieldState(
             codeTextField,
             enabled: true,
@@ -367,7 +356,7 @@ final class FindPasswordInputView: UIView {
 
 // MARK: - Layout Setup
 
-extension FindPasswordInputView {
+extension VerificationInputView {
     private func addSubviews() {
         [
             mainVStackView

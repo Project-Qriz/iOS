@@ -1,25 +1,24 @@
 //
-//  VerificationCodeMainView.swift
+//  NameInputMainView.swift
 //  QRIZ
 //
-//  Created by 김세훈 on 1/1/25.
+//  Created by 김세훈 on 12/31/24.
 //
 
 import UIKit
 
-final class VerificationCodeMainView: UIView {
+final class NameInputMainView: UIView {
     
     // MARK: - Enums
     
     private enum Metric {
-        static let singleInputViewTopOffset: CGFloat = 24.0
+        static let singleInputViewTopOffset: CGFloat = 20.0
         static let signupFooterViewBottomOffset: CGFloat = -16.0
         static let horizontalMargin: CGFloat = 18.0
     }
     
     private enum Attributes {
-        static let headerTitle: String = "이메일로 받은\n인증번호를 입력해주세요"
-        static let headerDescription: String = "이메일을 받지 못하셨다면 다시 보내기를 클릭해주세요."
+        static let headerTitle: String = "이름을 입력해주세요!"
         static let footerTitle: String = "다음"
         static let progressValue: Float = 0.5
     }
@@ -27,19 +26,14 @@ final class VerificationCodeMainView: UIView {
     // MARK: - Properties
     
     private let signupHeaderView = SignupHeaderView()
-    let verificationCodeInputView = VerificationCodeInputView()
+    let singleInputView = SingleInputView()
     let signupFooterView = SignupFooterView()
     
-    // MARK: - initialize
+    // MARK: - Initialize
     
     init() {
         super.init(frame: .zero)
-        setupUI(
-            title: Attributes.headerTitle,
-            description: Attributes.headerDescription,
-            progressValue: Attributes.progressValue,
-            buttonTitle: Attributes.footerTitle
-        )
+        setupUI()
         addSubviews()
         setupConstraints()
     }
@@ -50,32 +44,31 @@ final class VerificationCodeMainView: UIView {
     
     // MARK: - Functions
     
-    private func setupUI(
-        title: String,
-        description: String,
-        progressValue: Float,
-        buttonTitle: String
-    ) {
+    private func setupUI() {
         self.backgroundColor = .white
-        signupHeaderView.configure(title: title, description: description, progress: progressValue)
-        signupFooterView.configure(buttonTitle: buttonTitle)
+        signupHeaderView.configure(
+            title: Attributes.headerTitle,
+            progress: Attributes.progressValue
+        )
+        signupFooterView.configure(buttonTitle: Attributes.footerTitle)
+        signupFooterView.updateButtonState(isValid: false)
     }
 }
 
 // MARK: - Layout Setup
 
-extension VerificationCodeMainView {
+extension NameInputMainView {
     private func addSubviews() {
         [
             signupHeaderView,
-            verificationCodeInputView,
+            singleInputView,
             signupFooterView
         ].forEach(addSubview(_:))
     }
     
     private func setupConstraints() {
         signupHeaderView.translatesAutoresizingMaskIntoConstraints = false
-        verificationCodeInputView.translatesAutoresizingMaskIntoConstraints = false
+        singleInputView.translatesAutoresizingMaskIntoConstraints = false
         signupFooterView.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
@@ -83,9 +76,9 @@ extension VerificationCodeMainView {
             signupHeaderView.leadingAnchor.constraint(equalTo: leadingAnchor),
             signupHeaderView.trailingAnchor.constraint(equalTo: trailingAnchor),
             
-            verificationCodeInputView.topAnchor.constraint(equalTo: signupHeaderView.bottomAnchor, constant: Metric.singleInputViewTopOffset),
-            verificationCodeInputView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Metric.horizontalMargin),
-            verificationCodeInputView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -Metric.horizontalMargin),
+            singleInputView.topAnchor.constraint(equalTo: signupHeaderView.bottomAnchor, constant: Metric.singleInputViewTopOffset),
+            singleInputView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Metric.horizontalMargin),
+            singleInputView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -Metric.horizontalMargin),
             
             signupFooterView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Metric.horizontalMargin),
             signupFooterView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -Metric.horizontalMargin),

@@ -8,7 +8,7 @@
 import Foundation
 import Combine
 
-final class IdInputViewModel {
+final class IDInputViewModel {
     
     // MARK: - Properties
     
@@ -24,7 +24,7 @@ final class IdInputViewModel {
                 guard let self = self else { return }
                 switch event {
                 case .idTextChanged(let newId):
-                    self.handleIdChange(newId)
+                    self.validateID(newId)
                     
                 case .duplicateCheckButtonTapped:
                     self.checkUsernameDuplicateAPI(self.id)
@@ -39,26 +39,21 @@ final class IdInputViewModel {
         return outputSubject.eraseToAnyPublisher()
     }
     
-    private func handleIdChange(_ newId: String) {
-        if id != newId {
-            
-            outputSubject.send(.updateNextButtonState(false))
-        }
-        
-        id = newId
-        outputSubject.send(.textCount(current: newId.count, min: 8))
+    private func validateID(_ text: String) {
+        let isValid = text.isValidId
+        outputSubject.send(.isIDValid(isValid))
     }
     
     // username-duplicate API 호출
     private func checkUsernameDuplicateAPI(_ id: String) {
         let available = Bool.random()
-        let msg = available ? "사용 가능한 아이디입니다." : "사용 불가능한 아이디입니다."
+        let msg = available ? "사용 가능한 아이디입니다." : "사용할 수 없는 아이디입니다. 다시 입력해 주세요."
         outputSubject.send(.duplicateCheckResult(message: msg, isAvailable: available))
         self.outputSubject.send(.updateNextButtonState(available))
     }
 }
 
-extension IdInputViewModel {
+extension IDInputViewModel {
     enum Input {
         case idTextChanged(String)
         case duplicateCheckButtonTapped
@@ -66,7 +61,7 @@ extension IdInputViewModel {
     }
     
     enum Output {
-        case textCount(current: Int, min: Int)
+        case isIDValid(Bool)
         case duplicateCheckResult(message: String, isAvailable: Bool)
         case updateNextButtonState(Bool)
         case resetColor

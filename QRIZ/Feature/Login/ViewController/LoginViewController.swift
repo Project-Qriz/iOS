@@ -82,9 +82,13 @@ final class LoginViewController: UIViewController {
                     case .findId:
                         nextVC = FindIDViewController(findIDInputVM: FindIDViewModel())
                     case .findPassword:
-                        nextVC = FindPasswordViewController(findPasswordVM: FindPasswordViewModel())
+                        nextVC = FindPasswordVerificationViewController(
+                            findPasswordVerificationVM: FindPasswordVerificationViewModel()
+                        )
                     case .signUp:
-                        nextVC = NameInputViewController(nameInputVM: NameInputViewModel())
+                        nextVC = SignUpVerificationViewController(
+                            signUpVerificationVM: SignUpVerificationViewModel()
+                        )
                     }
                     navigationController?.pushViewController(nextVC, animated: true)
                 }

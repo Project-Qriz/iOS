@@ -1,47 +1,39 @@
 //
-//  SingleInputMainView.swift
+//  SignUpVerificationMainView.swift
 //  QRIZ
 //
-//  Created by 김세훈 on 12/31/24.
+//  Created by 김세훈 on 2/7/25.
 //
 
 import UIKit
 
-final class SingleInputMainView: UIView {
+final class SignUpVerificationMainView: UIView {
     
     // MARK: - Enums
     
     private enum Metric {
-        static let singleInputViewTopOffset: CGFloat = 32.0
+        static let verificationInputViewTopOffset: CGFloat = 20.0
         static let signupFooterViewBottomOffset: CGFloat = -16.0
         static let horizontalMargin: CGFloat = 18.0
+    }
+    
+    private enum Attributes {
+        static let headerTitle: String = "본인확인을 위해\n이메일을 인증해 주세요."
+        static let progressValue: Float = 0.25
+        static let footerTitle: String = "다음"
     }
     
     // MARK: - Properties
     
     private let signupHeaderView = SignupHeaderView()
-    let singleInputView = SingleInputView()
+    let verificationInputView = VerificationInputView()
     let signupFooterView = SignupFooterView()
     
     // MARK: - initialize
     
-    init(
-        title: String,
-        description: String,
-        progressValue: Float,
-        buttonTitle: String,
-        inputPlaceholder: String,
-        inputErrorText: String
-    ) {
+    init() {
         super.init(frame: .zero)
-        setupUI(
-            title: title,
-            description: description,
-            progressValue: progressValue,
-            buttonTitle: buttonTitle,
-            inputPlaceholder: inputPlaceholder,
-            inputErrorText: inputErrorText
-        )
+        setupUI()
         addSubviews()
         setupConstraints()
     }
@@ -52,35 +44,31 @@ final class SingleInputMainView: UIView {
     
     // MARK: - Functions
     
-    private func setupUI(
-        title: String,
-        description: String,
-        progressValue: Float,
-        buttonTitle: String,
-        inputPlaceholder: String,
-        inputErrorText: String
-    ) {
+    private func setupUI() {
         self.backgroundColor = .white
-        signupHeaderView.configure(title: title, description: description, progress: progressValue)
-        singleInputView.configure(placeholder: inputPlaceholder, errorText: inputErrorText)
-        signupFooterView.configure(buttonTitle: buttonTitle)
+        signupHeaderView.configure(
+            title: Attributes.headerTitle,
+            progress: Attributes.progressValue
+        )
+        signupFooterView.configure(buttonTitle: Attributes.footerTitle)
+        signupFooterView.updateButtonState(isValid: false)
     }
 }
 
 // MARK: - Layout Setup
 
-extension SingleInputMainView {
+extension SignUpVerificationMainView {
     private func addSubviews() {
         [
             signupHeaderView,
-            singleInputView,
+            verificationInputView,
             signupFooterView
         ].forEach(addSubview(_:))
     }
     
     private func setupConstraints() {
         signupHeaderView.translatesAutoresizingMaskIntoConstraints = false
-        singleInputView.translatesAutoresizingMaskIntoConstraints = false
+        verificationInputView.translatesAutoresizingMaskIntoConstraints = false
         signupFooterView.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
@@ -88,9 +76,9 @@ extension SingleInputMainView {
             signupHeaderView.leadingAnchor.constraint(equalTo: leadingAnchor),
             signupHeaderView.trailingAnchor.constraint(equalTo: trailingAnchor),
             
-            singleInputView.topAnchor.constraint(equalTo: signupHeaderView.bottomAnchor, constant: Metric.singleInputViewTopOffset),
-            singleInputView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Metric.horizontalMargin),
-            singleInputView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -Metric.horizontalMargin),
+            verificationInputView.topAnchor.constraint(equalTo: signupHeaderView.bottomAnchor, constant: Metric.verificationInputViewTopOffset),
+            verificationInputView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Metric.horizontalMargin),
+            verificationInputView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -Metric.horizontalMargin),
             
             signupFooterView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Metric.horizontalMargin),
             signupFooterView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -Metric.horizontalMargin),
@@ -98,3 +86,4 @@ extension SingleInputMainView {
         ])
     }
 }
+

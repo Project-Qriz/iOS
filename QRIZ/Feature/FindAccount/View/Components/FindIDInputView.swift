@@ -58,7 +58,6 @@ final class FindIDInputView: UIView {
         addSubviews()
         setupConstraints()
         setupUI()
-        observe()
     }
     
     required init?(coder: NSCoder) {
@@ -70,15 +69,7 @@ final class FindIDInputView: UIView {
     private func setupUI() {
         self.backgroundColor = .white
     }
-    
-    private func observe() {
-        textField.controlEventPublisher(for: .editingDidEndOnExit)
-            .sink { [weak self] _ in
-                self?.resignFirstResponder()
-            }
-            .store(in: &cancellables)
-    }
-    
+
     func updateErrorState(isValid: Bool) {
         inputErrorLabel.isHidden = isValid
         textField.layer.borderColor = isValid
