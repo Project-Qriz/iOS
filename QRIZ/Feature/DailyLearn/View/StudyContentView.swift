@@ -90,7 +90,6 @@ final class StudyContentView: UIView {
 // MARK: - Auto Layout
 extension StudyContentView {
     private func addViews() {
-        
         addSubview(keyConcept1Label)
         addSubview(conceptContent1Label)
         addSubview(keyConcept2Label)

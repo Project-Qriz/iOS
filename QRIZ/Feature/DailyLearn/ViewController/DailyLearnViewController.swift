@@ -110,7 +110,6 @@ final class DailyLearnViewController: UIViewController {
 // MARK: - Auto Layout
 extension DailyLearnViewController {
     private func addViews() {
-        
         self.view.addSubview(scrollView)
         self.scrollView.addSubview(scrollInnerView)
         self.scrollInnerView.addSubview(studyContentTitleLabel)
