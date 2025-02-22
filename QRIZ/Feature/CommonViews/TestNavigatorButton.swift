@@ -8,7 +8,8 @@
 import UIKit
 
 final class TestNavigatorButton: UIView {
-    
+
+    // MARK: - Properties
     private let testStatusLabel: UILabel = {
         let label = UILabel()
         label.font = .systemFont(ofSize: 14, weight: .regular)

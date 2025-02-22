@@ -8,6 +8,7 @@
 import UIKit
 
 final class StudyContentView: UIView {
+
     // MARK: - Properties
     private let keyConcept1Label: UILabel = {
         let label = UILabel()
