@@ -112,9 +112,9 @@ extension StudyContentView {
             keyConcept2Label.leadingAnchor.constraint(equalTo: keyConcept1Label.leadingAnchor),
             keyConcept2Label.trailingAnchor.constraint(equalTo: keyConcept1Label.trailingAnchor),
             
+            conceptContent2Label.topAnchor.constraint(equalTo: keyConcept2Label.bottomAnchor, constant: 13),
             conceptContent2Label.leadingAnchor.constraint(equalTo: keyConcept1Label.leadingAnchor),
             conceptContent2Label.trailingAnchor.constraint(equalTo: keyConcept1Label.trailingAnchor),
-            conceptContent2Label.topAnchor.constraint(equalTo: keyConcept2Label.bottomAnchor, constant: 13),
             conceptContent2Label.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -24)
         ])
     }
