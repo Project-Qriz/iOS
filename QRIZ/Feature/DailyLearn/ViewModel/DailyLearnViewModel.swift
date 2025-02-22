@@ -12,7 +12,7 @@ final class DailyLearnViewModel {
     
     // MARK: - Input & Output
     enum Input {
-        case viewDidLoad(day: Int)
+        case viewDidLoad
         case testNavigatorButtonClicked
     }
     
@@ -32,7 +32,7 @@ final class DailyLearnViewModel {
     }
     
     // MARK: - Properties
-    private var day: Int = -1
+    private var day: Int
     private var state: DailyTestState = .unavailable
     private var type: DailyLearnType = .daily
     private var score: Int? = nil
@@ -44,13 +44,17 @@ final class DailyLearnViewModel {
     private let output: PassthroughSubject<Output, Never> = .init()
     private var subscriptions = Set<AnyCancellable>()
     
+    // MARK: - Intiailizer
+    init(day: Int) {
+        self.day = day
+    }
+    
     // MARK: - Methods
     func transform(input: AnyPublisher<Input, Never>) -> AnyPublisher<Output, Never> {
         input.sink { [weak self] event in
             guard let self = self else { return }
             switch event {
-            case .viewDidLoad(let day):
-                self.day = day
+            case .viewDidLoad:
                 fetchData()
             case .testNavigatorButtonClicked:
                 handleNavigateAction()

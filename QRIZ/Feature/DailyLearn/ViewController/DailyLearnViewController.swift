@@ -11,8 +11,6 @@ import Combine
 final class DailyLearnViewController: UIViewController {
     
     // MARK: - Properties
-    private var day: Int
-    
     private let scrollView: UIScrollView = {
         let scrollView = UIScrollView()
         scrollView.backgroundColor = .customBlue50
@@ -32,13 +30,13 @@ final class DailyLearnViewController: UIViewController {
     private let relatedTestTitleLabel: DailyLearnSectionTitleLabel = .init()
     private let testNavigator: TestNavigatorButton = .init()
     
-    private let viewModel: DailyLearnViewModel = .init()
+    private let viewModel: DailyLearnViewModel
     private let input: PassthroughSubject<DailyLearnViewModel.Input, Never> = .init()
     private var subscriptions = Set<AnyCancellable>()
     
     // MARK: - Initializer
-    init(day: Int) {
-        self.day = day
+    init(dailyLearnViewModel: DailyLearnViewModel) {
+        self.viewModel = dailyLearnViewModel
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -51,7 +49,7 @@ final class DailyLearnViewController: UIViewController {
         super.viewDidLoad()
         setNavigationBarTitle(title: "오늘의 공부")
         bind()
-        input.send(.viewDidLoad(day: day))
+        input.send(.viewDidLoad)
         addViews()
     }
     
