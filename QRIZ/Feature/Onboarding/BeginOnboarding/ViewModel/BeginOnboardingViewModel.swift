@@ -10,6 +10,7 @@ import Combine
 
 final class BeginOnboardingViewModel {
 
+    // MARK: - Input & Output
     enum Input {
         case didButtonClicked
     }
@@ -18,9 +19,11 @@ final class BeginOnboardingViewModel {
         case moveToCheckConcept
     }
 
+    // MARK: - Properties
     private let output: PassthroughSubject<Output, Never> = .init()
     private var subscriptions = Set<AnyCancellable>()
     
+    // MARK: - Methods
     func transform(input: AnyPublisher<Input, Never>) -> AnyPublisher<Output, Never> {
         input.sink { [weak self] event in
             guard let self = self else { return }

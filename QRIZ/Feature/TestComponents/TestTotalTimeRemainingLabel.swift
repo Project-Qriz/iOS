@@ -8,6 +8,7 @@
 import UIKit
 
 final class TestTotalTimeRemainingLabel: UILabel {
+    
     init() {
         super.init(frame: .zero)
         self.font = .systemFont(ofSize: 14)

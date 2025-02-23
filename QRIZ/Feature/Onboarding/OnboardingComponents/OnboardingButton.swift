@@ -9,6 +9,7 @@ import UIKit
 
 final class OnboardingButton: UIButton {
 
+    // MARK: - Initializers
     init(_ titleText: String) {
         super.init(frame: .zero)
         self.setTitle(titleText, for: .normal)
@@ -27,6 +28,7 @@ final class OnboardingButton: UIButton {
         fatalError("no initializer for coder: OnboardingButton")
     }
     
+    // MARK: - Methods
     func setButtonState(isActive: Bool) {
         if isActive {
             self.setTitleColor(.white, for: .normal)

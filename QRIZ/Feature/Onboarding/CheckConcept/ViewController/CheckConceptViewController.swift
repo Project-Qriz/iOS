@@ -10,6 +10,7 @@ import Combine
 
 final class CheckConceptViewController: UIViewController {
     
+    // MARK: - Properties
     private let checkConceptTitleLabel: UILabel = OnboardingTitleLabel(labelText: "아는 개념을 체크해주세요!", fontSize: 24, numberOfLines: 1)
     private let checkConceptSubTitleLabel: UILabel = OnboardingSubtitleLabel("체크하신 결과를 토대로\n추후 진행할 테스트의 레벨이 조정됩니다! ")
     private let checkListCollectionView: UICollectionView = {
@@ -23,6 +24,7 @@ final class CheckConceptViewController: UIViewController {
     private let input: PassthroughSubject<CheckConceptViewModel.Input, Never> = .init()
     private var subscriptions = Set<AnyCancellable>()
     
+    // MARK: - Methods
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = .customBlue50
@@ -78,7 +80,52 @@ final class CheckConceptViewController: UIViewController {
         // coordinator role
         self.dismiss(animated: true)
     }
+}
+
+// MARK: - CollectionView DataSource
+extension CheckConceptViewController: UICollectionViewDataSource {
     
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return SurveyCheckList.list.count
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CheckListCell.identifier, for: indexPath) as? CheckListCell else {
+            print("Failed to create CheckListCell")
+            return UICollectionViewCell()
+        }
+
+        let isSelected = viewModel.selectedSet.contains(indexPath.item)
+        cell.configure(SurveyCheckList.list[indexPath.item])
+        cell.toggleCheckbox(isSelected)
+        return cell
+    }
+}
+
+// MARK: - CollectionView Delegate
+extension CheckConceptViewController: UICollectionViewDelegateFlowLayout {
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        return CGSize(width: collectionView.frame.width, height: 60)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
+        return 5
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        self.input.send(.someCheckboxClicked(idx: indexPath.item))
+    }
+    
+    func changeCheckboxState(idx: Int, isNextStateOn: Bool) {
+        let indexPath = IndexPath(item: idx, section: 0)
+        guard let selectedCell = self.checkListCollectionView.cellForItem(at: indexPath) as? CheckListCell else { return }
+        selectedCell.toggleCheckbox(isNextStateOn)
+    }
+}
+
+// MARK: - Auto Layout
+extension CheckConceptViewController {
     private func addViews() {
         self.view.addSubview(checkConceptTitleLabel)
         self.view.addSubview(checkConceptSubTitleLabel)
@@ -112,44 +159,3 @@ final class CheckConceptViewController: UIViewController {
         checkDoneButton.setButtonState(isActive: false)
     }
 }
-
-extension CheckConceptViewController: UICollectionViewDataSource {
-    
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return SurveyCheckList.list.count
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CheckListCell.identifier, for: indexPath) as? CheckListCell else {
-            print("Failed to create CheckListCell")
-            return UICollectionViewCell()
-        }
-
-        let isSelected = viewModel.selectedSet.contains(indexPath.item)
-        cell.configure(SurveyCheckList.list[indexPath.item])
-        cell.toggleCheckbox(isSelected)
-        return cell
-    }
-}
-
-extension CheckConceptViewController: UICollectionViewDelegateFlowLayout {
-    
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: collectionView.frame.width, height: 60)
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
-        return 5
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        self.input.send(.someCheckboxClicked(idx: indexPath.item))
-    }
-    
-    func changeCheckboxState(idx: Int, isNextStateOn: Bool) {
-        let indexPath = IndexPath(item: idx, section: 0)
-        guard let selectedCell = self.checkListCollectionView.cellForItem(at: indexPath) as? CheckListCell else { return }
-        selectedCell.toggleCheckbox(isNextStateOn)
-    }
-}
-

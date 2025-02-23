@@ -9,9 +9,11 @@ import UIKit
 
 final class QuestionOptionLabel: UILabel {
 
+    // MARK: - Properties
     var optionNumberLabel: UILabel = UILabel()
     var optionStringLabel: UILabel = UILabel()
     
+    // MARK: - Initializers
     init(optNum: Int, optStr: String) {
         super.init(frame: .zero)
         self.backgroundColor = .white
@@ -22,29 +24,11 @@ final class QuestionOptionLabel: UILabel {
         addViews()
     }
     
-    private func addViews() {
-        self.addSubview(optionNumberLabel)
-        self.addSubview(optionStringLabel)
-        
-        optionNumberLabel.translatesAutoresizingMaskIntoConstraints = false
-        optionStringLabel.translatesAutoresizingMaskIntoConstraints = false
-        
-        NSLayoutConstraint.activate([
-            optionNumberLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 18),
-            optionNumberLabel.widthAnchor.constraint(equalToConstant: 32),
-            optionNumberLabel.heightAnchor.constraint(equalToConstant: 32),
-            optionNumberLabel.centerYAnchor.constraint(equalTo: self.centerYAnchor),
-            optionStringLabel.leadingAnchor.constraint(equalTo: optionNumberLabel.trailingAnchor, constant: 18),
-            optionStringLabel.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -18),
-            optionStringLabel.centerYAnchor.constraint(equalTo: self.centerYAnchor),
-            optionStringLabel.heightAnchor.constraint(lessThanOrEqualTo: self.heightAnchor)
-        ])
-    }
-    
     required init?(coder: NSCoder) {
         fatalError("no initializer for coder: QuestionOptionLabel")
     }
     
+    // MARK: - Methods
     private func createNumberLabel(_ optNum: Int) {
         optionNumberLabel = UILabel()
         optionNumberLabel.backgroundColor = .white
@@ -89,5 +73,27 @@ final class QuestionOptionLabel: UILabel {
             optionNumberLabel.layer.borderWidth = 1.2
             optionStringLabel.textColor = .coolNeutral800
         }
+    }
+}
+
+// MARK: - AutoLayout
+extension QuestionOptionLabel {
+    private func addViews() {
+        self.addSubview(optionNumberLabel)
+        self.addSubview(optionStringLabel)
+        
+        optionNumberLabel.translatesAutoresizingMaskIntoConstraints = false
+        optionStringLabel.translatesAutoresizingMaskIntoConstraints = false
+        
+        NSLayoutConstraint.activate([
+            optionNumberLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 18),
+            optionNumberLabel.widthAnchor.constraint(equalToConstant: 32),
+            optionNumberLabel.heightAnchor.constraint(equalToConstant: 32),
+            optionNumberLabel.centerYAnchor.constraint(equalTo: self.centerYAnchor),
+            optionStringLabel.leadingAnchor.constraint(equalTo: optionNumberLabel.trailingAnchor, constant: 18),
+            optionStringLabel.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -18),
+            optionStringLabel.centerYAnchor.constraint(equalTo: self.centerYAnchor),
+            optionStringLabel.heightAnchor.constraint(lessThanOrEqualTo: self.heightAnchor)
+        ])
     }
 }

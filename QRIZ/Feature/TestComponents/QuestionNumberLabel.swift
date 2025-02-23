@@ -8,6 +8,8 @@
 import UIKit
 
 final class QuestionNumberLabel: UILabel {
+    
+    // MARK: - Initializers
     init(_ questionNumber: Int) {
         super.init(frame: .zero)
         setNumber(questionNumber)
@@ -19,6 +21,7 @@ final class QuestionNumberLabel: UILabel {
         fatalError("no initializer for coder: QuestionNumberLabel")
     }
     
+    // MARK: - Methods
     func setNumber(_ questionNumber: Int) {
         self.text = String(format: "%02d.", questionNumber)
     }

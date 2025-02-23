@@ -10,6 +10,7 @@ import Combine
 
 final class GreetingViewModel {
     
+    // MARK: - Input & Output
     enum Input {
         case viewDidAppear
     }
@@ -18,10 +19,12 @@ final class GreetingViewModel {
         case moveToHome
     }
     
+    // MARK: - Properties
     private let output: PassthroughSubject<Output, Never> = .init()
     private var subscriptions = Set<AnyCancellable>()
     private var timer: Timer?
     
+    // MARK: - Methods
     func transform(input: AnyPublisher<Input, Never>) -> AnyPublisher<Output, Never> {
         input.sink { [weak self] event in
             guard let self = self else { return }

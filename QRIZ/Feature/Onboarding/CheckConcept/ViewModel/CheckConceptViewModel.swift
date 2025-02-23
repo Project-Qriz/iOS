@@ -10,6 +10,7 @@ import Combine
 
 final class CheckConceptViewModel {
     
+    // MARK: - Input & Output
     enum Input {
         case didDoneButtonClicked
         case someCheckboxClicked(idx: Int)
@@ -23,6 +24,7 @@ final class CheckConceptViewModel {
         case requestFailed
     }
     
+    // MARK: - Properties
     private let output: PassthroughSubject<Output, Never> = .init()
     private var subscriptions = Set<AnyCancellable>()
     private(set) var selectedSet = Set<Int>()
@@ -30,6 +32,7 @@ final class CheckConceptViewModel {
     private var isSelectedSetFull: Bool = false
     private var isDoneButtonActivated: Bool = false
     
+    // MARK: - Methods
     func transform(input: AnyPublisher<Input, Never>) -> AnyPublisher<Output, Never> {
         input.sink { [weak self] event in
             guard let self = self else { return }

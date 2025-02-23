@@ -10,6 +10,7 @@ import Combine
 
 final class PreviewResultViewModel {
     
+    // MARK: - Input & Output
     enum Input {
         case viewDidLoad
         case viewDidAppear
@@ -24,6 +25,7 @@ final class PreviewResultViewModel {
         case resizeConceptBarGraphView
     }
     
+    // MARK: - Properties
     var previewScoresData = PreviewScoresData()
     var previewConceptsData = PreviewConceptsData()
 
@@ -34,6 +36,7 @@ final class PreviewResultViewModel {
     private let output: PassthroughSubject<Output, Never> = .init()
     private var subscriptions = Set<AnyCancellable>()
     
+    // MARK: - Methods
     func transform(input: AnyPublisher<Input, Never>) -> AnyPublisher<Output, Never> {
         input.sink { [weak self] event in
             guard let self = self else { return }

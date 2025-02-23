@@ -10,6 +10,7 @@ import Combine
 
 final class PreviewTestViewController: UIViewController {
     
+    // MARK: - Properties
     private let questionNumberLabel = QuestionNumberLabel(0)
     private let questionTitleLabel = QuestionTitleLabel("")
     private let option1Label = QuestionOptionLabel(optNum: 1, optStr: "")
@@ -35,6 +36,7 @@ final class PreviewTestViewController: UIViewController {
     private var subscriptions = Set<AnyCancellable>()
     private let input: PassthroughSubject<PreviewTestViewModel.Input, Never> = .init()
     
+    // MARK: - Methods
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = .white
@@ -168,7 +170,7 @@ final class PreviewTestViewController: UIViewController {
         timeLabel.text = formattedTime(timeRemaining: timeRemaining)
     }
     
-    func formattedTime(timeRemaining: Int) -> String {
+    private func formattedTime(timeRemaining: Int) -> String {
         let minutes = timeRemaining / 60
         let seconds = timeRemaining % 60
         return String(format: "%02d:%02d", minutes, seconds)
@@ -192,7 +194,10 @@ final class PreviewTestViewController: UIViewController {
             nextButton.setTitleText("다음")
         }
     }
-    
+}
+
+// MARK: - AutoLayout
+extension PreviewTestViewController {
     private func addViews() {
         self.view.addSubview(progressView)
         self.view.addSubview(questionNumberLabel)

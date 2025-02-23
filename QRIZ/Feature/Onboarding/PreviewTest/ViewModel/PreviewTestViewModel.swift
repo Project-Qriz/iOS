@@ -10,6 +10,7 @@ import Combine
 
 final class PreviewTestViewModel {
     
+    // MARK: - Input & Output
     enum Input {
         case viewDidLoad
         case viewDidAppear
@@ -37,6 +38,7 @@ final class PreviewTestViewModel {
         case cancelAlert
     }
     
+    // MARK: - Properties
     private var questionList = QuestionData.sampleList
     private var currentNumber: Int? = nil
     private var totalTimeLimit: Int? = 1500 // tmp
@@ -46,10 +48,12 @@ final class PreviewTestViewModel {
     private let output: PassthroughSubject<Output, Never> = .init()
     private var subscriptions = Set<AnyCancellable>()
     
+    // MARK: - Deinitializer
     deinit {
         exitTimer()
     }
     
+    // MARK: - Methods
     func transform(input: AnyPublisher<Input, Never>) -> AnyPublisher<Output, Never> {
         input.sink { [weak self] event in
             guard let self = self else { return }

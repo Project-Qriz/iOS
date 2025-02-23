@@ -9,6 +9,7 @@ import UIKit
 
 final class TestButton: UIButton {
 
+    // MARK: - Initializers
     init(isPreviousButton: Bool) {
 
         super.init(frame: .zero)
@@ -30,6 +31,7 @@ final class TestButton: UIButton {
         fatalError("no initializer for coder: TestButton")
     }
     
+    // MARK: - Methods
     func setTitleText(_ str: String) {
         self.setTitle(str, for: .normal)
     }

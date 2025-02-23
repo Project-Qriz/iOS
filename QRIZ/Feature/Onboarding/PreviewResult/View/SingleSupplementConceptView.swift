@@ -9,6 +9,7 @@ import UIKit
 
 final class SingleSupplementConceptView: UIView {
     
+    // MARK: - Properties
     let conceptLabel: UILabel = {
         let label = UILabel()
         label.text = "불러오는 중"
@@ -19,6 +20,7 @@ final class SingleSupplementConceptView: UIView {
         return label
     }()
     
+    // MARK: - Initializers
     init() {
         super.init(frame: .zero)
         self.layer.cornerRadius = 12
@@ -30,10 +32,14 @@ final class SingleSupplementConceptView: UIView {
         fatalError()
     }
     
+    // MARK: - Methods
     func setConceptLabelText(topic: String) {
         self.conceptLabel.text = topic
     }
-    
+}
+
+// MARK: - Auto Layout
+extension SingleSupplementConceptView {
     private func addViews() {
         self.addSubview(conceptLabel)
         conceptLabel.translatesAutoresizingMaskIntoConstraints = false
@@ -43,5 +49,4 @@ final class SingleSupplementConceptView: UIView {
             conceptLabel.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -24)
         ])
     }
-    
 }

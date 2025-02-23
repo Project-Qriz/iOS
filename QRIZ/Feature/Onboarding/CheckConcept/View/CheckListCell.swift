@@ -9,11 +9,13 @@ import UIKit
 
 final class CheckListCell: UICollectionViewCell {
 
+    // MARK: - Properties
     static let identifier = "CheckListCell"
     
     private let textLabel = UILabel()
     var checkbox: UIImageView
 
+    // MARK: - Initializers
     override init(frame: CGRect) {
         checkbox = UIImageView(image: UIImage(named: "checkboxOffIcon"))
         super.init(frame: frame)
@@ -26,10 +28,21 @@ final class CheckListCell: UICollectionViewCell {
         fatalError("no initializer for coder: CheckListCell")
     }
     
+    // MARK: - Methods
     func toggleCheckbox(_ isNextStateOn: Bool) {
         self.checkbox.image = isNextStateOn == true ? UIImage(named: "checkboxOnIcon") : UIImage(named: "checkboxOffIcon")
     }
     
+    func configure(_ itemContent: String) {
+        textLabel.text = itemContent
+        textLabel.font = .systemFont(ofSize: 15)
+        textLabel.textColor = .black
+        textLabel.textAlignment = .left
+    }
+}
+
+// MARK: - Auto Layout
+extension CheckListCell {
     private func addViews() {
         textLabel.translatesAutoresizingMaskIntoConstraints = false
         textLabel.textAlignment = .center
@@ -48,12 +61,5 @@ final class CheckListCell: UICollectionViewCell {
             checkbox.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -16),
             checkbox.centerYAnchor.constraint(equalTo: self.centerYAnchor)
         ])
-    }
-    
-    func configure(_ itemContent: String) {
-        textLabel.text = itemContent
-        textLabel.font = .systemFont(ofSize: 15)
-        textLabel.textColor = .black
-        textLabel.textAlignment = .left
     }
 }
