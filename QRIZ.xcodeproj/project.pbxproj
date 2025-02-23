@@ -21,7 +21,7 @@
 		54C7A3102D146190001175D9 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54C7A30F2D146190001175D9 /* LoginViewController.swift */; };
 		54C7A3132D1461A6001175D9 /* LoginMainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54C7A3122D1461A6001175D9 /* LoginMainView.swift */; };
 		54C7A3162D14A5A6001175D9 /* LoginLogoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54C7A3152D14A5A6001175D9 /* LoginLogoView.swift */; };
-		54DB0D992D0950DE00ABD458 /* ViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54DB0D982D0950DE00ABD458 /* ViewModel.swift */; };
+		54DB0D992D0950DE00ABD458 /* HomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54DB0D982D0950DE00ABD458 /* HomeViewModel.swift */; };
 		54DB0D9D2D09513300ABD458 /* AppCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54DB0D9C2D09513300ABD458 /* AppCoordinator.swift */; };
 		54DB0DA12D0951C000ABD458 /* Font+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54DB0DA02D0951C000ABD458 /* Font+.swift */; };
 		54DB0DA52D099D6700ABD458 /* Colors.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 54DB0DA42D099D6700ABD458 /* Colors.xcassets */; };
@@ -70,13 +70,15 @@
 		B19C4FAB2D6120D100CD008A /* OneButtonCustomAlertViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B19C4FAA2D6120D100CD008A /* OneButtonCustomAlertViewController.swift */; };
 		B19C4FAD2D61304400CD008A /* OneButtonCustomAlertMainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B19C4FAC2D61304400CD008A /* OneButtonCustomAlertMainView.swift */; };
 		B19C4FAF2D67E58D00CD008A /* LoginCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = B19C4FAE2D67E58D00CD008A /* LoginCoordinator.swift */; };
-		B19C4FB22D67F70E00CD008A /* TabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B19C4FB12D67F70E00CD008A /* TabBarController.swift */; };
+		B19C4FB92D6B15B300CD008A /* MyPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B19C4FB82D6B15B300CD008A /* MyPageViewController.swift */; };
+		B19C4FBC2D6B6D7000CD008A /* TextbookViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B19C4FBB2D6B6D7000CD008A /* TextbookViewController.swift */; };
+		B19C4FBF2D6B6E3400CD008A /* MistakeNoteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B19C4FBE2D6B6E3400CD008A /* MistakeNoteViewController.swift */; };
 		B1D9A0E72D3686BA00E84934 /* CountdownTimer.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1D9A0E62D3686BA00E84934 /* CountdownTimer.swift */; };
 		E230669A2D2126B9001B509A /* PreviewScoresData.swift in Sources */ = {isa = PBXBuildFile; fileRef = E23066992D2126B9001B509A /* PreviewScoresData.swift */; };
 		E23824E12D0C3157009E7989 /* BeginOnboardingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E23824E02D0C3157009E7989 /* BeginOnboardingViewController.swift */; };
 		E23963092D083B900092B39B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E23963082D083B900092B39B /* AppDelegate.swift */; };
 		E239630B2D083B900092B39B /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E239630A2D083B900092B39B /* SceneDelegate.swift */; };
-		E239630D2D083B900092B39B /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E239630C2D083B900092B39B /* ViewController.swift */; };
+		E239630D2D083B900092B39B /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E239630C2D083B900092B39B /* HomeViewController.swift */; };
 		E23963122D083B900092B39B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E23963112D083B900092B39B /* Assets.xcassets */; };
 		E23963202D083B910092B39B /* QRIZTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E239631F2D083B910092B39B /* QRIZTests.swift */; };
 		E239632A2D083B910092B39B /* QRIZUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E23963292D083B910092B39B /* QRIZUITests.swift */; };
@@ -162,7 +164,7 @@
 		54C7A30F2D146190001175D9 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		54C7A3122D1461A6001175D9 /* LoginMainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginMainView.swift; sourceTree = "<group>"; };
 		54C7A3152D14A5A6001175D9 /* LoginLogoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginLogoView.swift; sourceTree = "<group>"; };
-		54DB0D982D0950DE00ABD458 /* ViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModel.swift; sourceTree = "<group>"; };
+		54DB0D982D0950DE00ABD458 /* HomeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewModel.swift; sourceTree = "<group>"; };
 		54DB0D9C2D09513300ABD458 /* AppCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppCoordinator.swift; sourceTree = "<group>"; };
 		54DB0DA02D0951C000ABD458 /* Font+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Font+.swift"; sourceTree = "<group>"; };
 		54DB0DA42D099D6700ABD458 /* Colors.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Colors.xcassets; sourceTree = "<group>"; };
@@ -211,14 +213,16 @@
 		B19C4FAA2D6120D100CD008A /* OneButtonCustomAlertViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OneButtonCustomAlertViewController.swift; sourceTree = "<group>"; };
 		B19C4FAC2D61304400CD008A /* OneButtonCustomAlertMainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OneButtonCustomAlertMainView.swift; sourceTree = "<group>"; };
 		B19C4FAE2D67E58D00CD008A /* LoginCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginCoordinator.swift; sourceTree = "<group>"; };
-		B19C4FB12D67F70E00CD008A /* TabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarController.swift; sourceTree = "<group>"; };
+		B19C4FB82D6B15B300CD008A /* MyPageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageViewController.swift; sourceTree = "<group>"; };
+		B19C4FBB2D6B6D7000CD008A /* TextbookViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextbookViewController.swift; sourceTree = "<group>"; };
+		B19C4FBE2D6B6E3400CD008A /* MistakeNoteViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MistakeNoteViewController.swift; sourceTree = "<group>"; };
 		B1D9A0E62D3686BA00E84934 /* CountdownTimer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountdownTimer.swift; sourceTree = "<group>"; };
 		E23066992D2126B9001B509A /* PreviewScoresData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreviewScoresData.swift; sourceTree = "<group>"; };
 		E23824E02D0C3157009E7989 /* BeginOnboardingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BeginOnboardingViewController.swift; sourceTree = "<group>"; };
 		E23963052D083B8F0092B39B /* QRIZ.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = QRIZ.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E23963082D083B900092B39B /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		E239630A2D083B900092B39B /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		E239630C2D083B900092B39B /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		E239630C2D083B900092B39B /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
 		E23963112D083B900092B39B /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		E23963162D083B900092B39B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		E239631B2D083B910092B39B /* QRIZTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = QRIZTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -391,7 +395,6 @@
 		54DB0D962D09506C00ABD458 /* Feature */ = {
 			isa = PBXGroup;
 			children = (
-				B19C4FB02D67E6C300CD008A /* TabBar */,
 				E29CCD282D29855B004AA30A /* TestComponents */,
 				E23824DF2D0C1FA7009E7989 /* Onboarding */,
 				54E91B742D18FA9600474D0A /* CommonViews */,
@@ -399,6 +402,9 @@
 				B168B7552D2806E50000F32E /* Signup */,
 				B18F45072D398D3C0030F7DB /* FindAccount */,
 				54DB0D972D0950A500ABD458 /* Home */,
+				B19C4FBA2D6B6C6B00CD008A /* Textbook */,
+				B19C4FBD2D6B6E2400CD008A /* MistakeNote */,
+				B19C4FB72D6A927C00CD008A /* MyPage */,
 			);
 			path = Feature;
 			sourceTree = "<group>";
@@ -406,8 +412,8 @@
 		54DB0D972D0950A500ABD458 /* Home */ = {
 			isa = PBXGroup;
 			children = (
-				E239630C2D083B900092B39B /* ViewController.swift */,
-				54DB0D982D0950DE00ABD458 /* ViewModel.swift */,
+				E239630C2D083B900092B39B /* HomeViewController.swift */,
+				54DB0D982D0950DE00ABD458 /* HomeViewModel.swift */,
 			);
 			path = Home;
 			sourceTree = "<group>";
@@ -615,12 +621,28 @@
 			path = Common;
 			sourceTree = "<group>";
 		};
-		B19C4FB02D67E6C300CD008A /* TabBar */ = {
+		B19C4FB72D6A927C00CD008A /* MyPage */ = {
 			isa = PBXGroup;
 			children = (
-				B19C4FB12D67F70E00CD008A /* TabBarController.swift */,
+				B19C4FB82D6B15B300CD008A /* MyPageViewController.swift */,
 			);
-			path = TabBar;
+			path = MyPage;
+			sourceTree = "<group>";
+		};
+		B19C4FBA2D6B6C6B00CD008A /* Textbook */ = {
+			isa = PBXGroup;
+			children = (
+				B19C4FBB2D6B6D7000CD008A /* TextbookViewController.swift */,
+			);
+			path = Textbook;
+			sourceTree = "<group>";
+		};
+		B19C4FBD2D6B6E2400CD008A /* MistakeNote */ = {
+			isa = PBXGroup;
+			children = (
+				B19C4FBE2D6B6E3400CD008A /* MistakeNoteViewController.swift */,
+			);
+			path = MistakeNote;
 			sourceTree = "<group>";
 		};
 		B1D9A0E52D3686A100E84934 /* Manager */ = {
@@ -1103,6 +1125,7 @@
 				B18F452C2D4D5CF00030F7DB /* ResetPasswordViewModel.swift in Sources */,
 				54C7A3102D146190001175D9 /* LoginViewController.swift in Sources */,
 				E29CCD432D298656004AA30A /* ScoreCircularChartHostingController.swift in Sources */,
+				B19C4FBF2D6B6E3400CD008A /* MistakeNoteViewController.swift in Sources */,
 				E29CCD3C2D298656004AA30A /* BarGraphsView.swift in Sources */,
 				54DB0DA12D0951C000ABD458 /* Font+.swift in Sources */,
 				B168B76D2D2824BD0000F32E /* IDInputViewController.swift in Sources */,
@@ -1111,12 +1134,14 @@
 				541878572D0E22700089F478 /* NetworkError.swift in Sources */,
 				E29CCD522D299AD5004AA30A /* IncorrectConceptsRankView.swift in Sources */,
 				E29CCD492D29867F004AA30A /* GreetingViewController.swift in Sources */,
+				B19C4FBC2D6B6D7000CD008A /* TextbookViewController.swift in Sources */,
 				E29CCD1C2D298303004AA30A /* PreviewTestViewController.swift in Sources */,
 				E29CCD4A2D29867F004AA30A /* GreetingViewModel.swift in Sources */,
 				E29CCD3D2D298656004AA30A /* ConceptBarGraphHostingController.swift in Sources */,
+				B19C4FB92D6B15B300CD008A /* MyPageViewController.swift in Sources */,
 				E29CCD2F2D29855B004AA30A /* TestTimeLabel.swift in Sources */,
 				B168B7732D2846C80000F32E /* PasswordInputViewController.swift in Sources */,
-				E239630D2D083B900092B39B /* ViewController.swift in Sources */,
+				E239630D2D083B900092B39B /* HomeViewController.swift in Sources */,
 				B18F45182D3A528B0030F7DB /* FindIDViewModel.swift in Sources */,
 				B18F452A2D4D5B200030F7DB /* ResetPasswordViewController.swift in Sources */,
 				B16288262D300CBA008057D0 /* PasswordInputViewModel.swift in Sources */,
@@ -1143,7 +1168,6 @@
 				E23963092D083B900092B39B /* AppDelegate.swift in Sources */,
 				E2D70FE82D0DD322005A3F51 /* BeginTestViewModel.swift in Sources */,
 				E29BF86D2D16895B006DC6D0 /* QuestionData.swift in Sources */,
-				B19C4FB22D67F70E00CD008A /* TabBarController.swift in Sources */,
 				E29CCD2A2D29855B004AA30A /* QuestionOptionLabel.swift in Sources */,
 				E25856D42D0D766900355667 /* CheckConceptViewController.swift in Sources */,
 				B18F451C2D441E150030F7DB /* FindPasswordVerificationViewController.swift in Sources */,
@@ -1152,7 +1176,7 @@
 				B168B7692D2807470000F32E /* SignUpVerificationViewController.swift in Sources */,
 				54DB0D9D2D09513300ABD458 /* AppCoordinator.swift in Sources */,
 				54E91B762D18FACD00474D0A /* RoundButton.swift in Sources */,
-				54DB0D992D0950DE00ABD458 /* ViewModel.swift in Sources */,
+				54DB0D992D0950DE00ABD458 /* HomeViewModel.swift in Sources */,
 				B17FE30A2D27F8E9002EC7D7 /* UITextField+.swift in Sources */,
 				E29CCD4C2D299297004AA30A /* SwiftUIViews+.swift in Sources */,
 				E29CCD402D298656004AA30A /* PreviewResultTitleLabel.swift in Sources */,
