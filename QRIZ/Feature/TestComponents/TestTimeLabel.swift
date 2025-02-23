@@ -11,7 +11,7 @@ final class TestTimeLabel: UILabel {
     init() {
         super.init(frame: .zero)
         self.font = .systemFont(ofSize: 14, weight: .semibold)
-        self.textColor = .customBlue500
+        self.textColor = .customRed500
         self.text = "00:00"
     }
     
