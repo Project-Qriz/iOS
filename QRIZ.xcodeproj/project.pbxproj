@@ -22,7 +22,6 @@
 		54C7A3132D1461A6001175D9 /* LoginMainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54C7A3122D1461A6001175D9 /* LoginMainView.swift */; };
 		54C7A3162D14A5A6001175D9 /* LoginLogoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54C7A3152D14A5A6001175D9 /* LoginLogoView.swift */; };
 		54DB0D992D0950DE00ABD458 /* ViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54DB0D982D0950DE00ABD458 /* ViewModel.swift */; };
-		54DB0D9D2D09513300ABD458 /* AppCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54DB0D9C2D09513300ABD458 /* AppCoordinator.swift */; };
 		54DB0DA12D0951C000ABD458 /* Font+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54DB0DA02D0951C000ABD458 /* Font+.swift */; };
 		54DB0DA52D099D6700ABD458 /* Colors.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 54DB0DA42D099D6700ABD458 /* Colors.xcassets */; };
 		54E91B762D18FACD00474D0A /* RoundButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54E91B752D18FACD00474D0A /* RoundButton.swift */; };
@@ -161,7 +160,6 @@
 		54C7A3122D1461A6001175D9 /* LoginMainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginMainView.swift; sourceTree = "<group>"; };
 		54C7A3152D14A5A6001175D9 /* LoginLogoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginLogoView.swift; sourceTree = "<group>"; };
 		54DB0D982D0950DE00ABD458 /* ViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModel.swift; sourceTree = "<group>"; };
-		54DB0D9C2D09513300ABD458 /* AppCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppCoordinator.swift; sourceTree = "<group>"; };
 		54DB0DA02D0951C000ABD458 /* Font+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Font+.swift"; sourceTree = "<group>"; };
 		54DB0DA42D099D6700ABD458 /* Colors.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Colors.xcassets; sourceTree = "<group>"; };
 		54E91B752D18FACD00474D0A /* RoundButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoundButton.swift; sourceTree = "<group>"; };
@@ -404,14 +402,6 @@
 				54DB0D982D0950DE00ABD458 /* ViewModel.swift */,
 			);
 			path = Home;
-			sourceTree = "<group>";
-		};
-		54DB0D9B2D09510A00ABD458 /* Coordinator */ = {
-			isa = PBXGroup;
-			children = (
-				54DB0D9C2D09513300ABD458 /* AppCoordinator.swift */,
-			);
-			path = Coordinator;
 			sourceTree = "<group>";
 		};
 		54DB0D9E2D09514000ABD458 /* Utils */ = {
@@ -658,7 +648,6 @@
 			children = (
 				54DB0D952D094FAA00ABD458 /* App */,
 				54DB0D962D09506C00ABD458 /* Feature */,
-				54DB0D9B2D09510A00ABD458 /* Coordinator */,
 				54DB0D9E2D09514000ABD458 /* Utils */,
 				54DB0DA22D0951D400ABD458 /* Resources */,
 				54DB0DA32D09524E00ABD458 /* SupportingFiles */,
@@ -730,6 +719,22 @@
 				B19C4FAC2D61304400CD008A /* OneButtonCustomAlertMainView.swift */,
 			);
 			path = CustomAlert;
+			sourceTree = "<group>";
+		};
+		E28BB1772D6AB3C200C7A003 /* ViewController */ = {
+			isa = PBXGroup;
+			children = (
+				E29CCD462D29867F004AA30A /* GreetingViewController.swift */,
+			);
+			path = ViewController;
+			sourceTree = "<group>";
+		};
+		E28BB1782D6AB3C900C7A003 /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				E29CCD472D29867F004AA30A /* GreetingViewModel.swift */,
+			);
+			path = ViewModel;
 			sourceTree = "<group>";
 		};
 		E29BF8532D117CD5006DC6D0 /* Model */ = {
@@ -871,8 +876,8 @@
 		E29CCD482D29867F004AA30A /* Greeting */ = {
 			isa = PBXGroup;
 			children = (
-				E29CCD462D29867F004AA30A /* GreetingViewController.swift */,
-				E29CCD472D29867F004AA30A /* GreetingViewModel.swift */,
+				E28BB1772D6AB3C200C7A003 /* ViewController */,
+				E28BB1782D6AB3C900C7A003 /* ViewModel */,
 			);
 			path = Greeting;
 			sourceTree = "<group>";
@@ -1134,7 +1139,6 @@
 				E25F94C82D0CAF1B00BA765F /* BeginTestViewController.swift in Sources */,
 				B18F450D2D3994380030F7DB /* FindIDMainView.swift in Sources */,
 				B168B7692D2807470000F32E /* SignUpVerificationViewController.swift in Sources */,
-				54DB0D9D2D09513300ABD458 /* AppCoordinator.swift in Sources */,
 				54E91B762D18FACD00474D0A /* RoundButton.swift in Sources */,
 				54DB0D992D0950DE00ABD458 /* ViewModel.swift in Sources */,
 				B17FE30A2D27F8E9002EC7D7 /* UITextField+.swift in Sources */,
