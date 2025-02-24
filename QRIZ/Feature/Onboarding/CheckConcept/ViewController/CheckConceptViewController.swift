@@ -86,11 +86,6 @@ final class CheckConceptViewController: UIViewController {
             self.input.send(.didDoneButtonClicked)
         }), for: .touchUpInside)
     }
-    
-    @objc func cancelOnboarding() {
-        // coordinator role
-        self.dismiss(animated: true)
-    }
 }
 
 // MARK: - CollectionView DataSource
