@@ -19,6 +19,6 @@ final class OnboardingTitleLabel: UILabel {
     }
     
     required init?(coder: NSCoder) {
-        fatalError("no initializer for coder: OnboardingSubtitleLabel")
+        fatalError("no initializer for coder: OnboardingTitleLabel")
     }
 }

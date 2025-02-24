@@ -13,7 +13,7 @@ final class CheckListCell: UICollectionViewCell {
     static let identifier = "CheckListCell"
     
     private let textLabel = UILabel()
-    var checkbox: UIImageView
+    private let checkbox: UIImageView
 
     // MARK: - Initializers
     override init(frame: CGRect) {
@@ -52,14 +52,13 @@ extension CheckListCell {
         self.addSubview(checkbox)
         
         NSLayoutConstraint.activate([
-            textLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 24),
-            textLabel.widthAnchor.constraint(equalToConstant: self.frame.width / 2),
-            textLabel.topAnchor.constraint(equalTo: self.topAnchor),
-            textLabel.bottomAnchor.constraint(equalTo: self.bottomAnchor),
             checkbox.widthAnchor.constraint(equalToConstant: 24),
             checkbox.heightAnchor.constraint(equalToConstant: 24),
-            checkbox.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -16),
-            checkbox.centerYAnchor.constraint(equalTo: self.centerYAnchor)
+            checkbox.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 24),
+            checkbox.centerYAnchor.constraint(equalTo: self.centerYAnchor),
+            
+            textLabel.leadingAnchor.constraint(equalTo: checkbox.trailingAnchor, constant: 12),
+            textLabel.centerYAnchor.constraint(equalTo: self.centerYAnchor)
         ])
     }
 }

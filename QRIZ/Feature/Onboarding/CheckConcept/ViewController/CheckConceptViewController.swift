@@ -11,8 +11,15 @@ import Combine
 final class CheckConceptViewController: UIViewController {
     
     // MARK: - Properties
-    private let checkConceptTitleLabel: UILabel = OnboardingTitleLabel(labelText: "아는 개념을 체크해주세요!", fontSize: 24, numberOfLines: 1)
+    private let checkConceptTitleLabel: UILabel = OnboardingTitleLabel(labelText: "아는 개념을 체크해주세요!", fontSize: 22, numberOfLines: 1)
     private let checkConceptSubTitleLabel: UILabel = OnboardingSubtitleLabel("체크하신 결과를 토대로\n추후 진행할 테스트의 레벨이 조정됩니다! ")
+    private let checkNoneButton: CheckAllOrNoneButton = .init(isAll: false)
+    private let checkAllButton: CheckAllOrNoneButton = .init(isAll: true)
+    private let dividerView: UIView = {
+        let view = UIView()
+        view.backgroundColor = .customBlue100
+        return view
+    }()
     private let checkListCollectionView: UICollectionView = {
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
         collectionView.backgroundColor = .customBlue50
@@ -36,7 +43,8 @@ final class CheckConceptViewController: UIViewController {
     }
     
     private func bind() {
-        let output = viewModel.transform(input: input.eraseToAnyPublisher())
+        let mergedInput = Publishers.Merge3(input, checkNoneButton.input, checkAllButton.input)
+        let output = viewModel.transform(input: mergedInput.eraseToAnyPublisher())
         
         output
             .receive(on: RunLoop.main)
@@ -46,6 +54,9 @@ final class CheckConceptViewController: UIViewController {
                 case .moveToNextPage:
                     // if selected 'no nothing' -> pushViewController(HomeViewController)
                     self.navigationController?.pushViewController(BeginTestViewController(), animated: true)
+                case .setAllAndNone(let numOfSelectedConcept, let checkNoneClicked):
+                    checkNoneButton.checkboxHandler(numOfSelectedConcept: numOfSelectedConcept, checkNoneClicked: checkNoneClicked)
+                    checkAllButton.checkboxHandler(numOfSelectedConcept: numOfSelectedConcept)
                 case .checkboxToOn(let idx):
                     changeCheckboxState(idx: idx, isNextStateOn: true)
                 case .checkboxToOff(let idx):
@@ -94,7 +105,7 @@ extension CheckConceptViewController: UICollectionViewDataSource {
             print("Failed to create CheckListCell")
             return UICollectionViewCell()
         }
-
+        
         let isSelected = viewModel.selectedSet.contains(indexPath.item)
         cell.configure(SurveyCheckList.list[indexPath.item])
         cell.toggleCheckbox(isSelected)
@@ -129,30 +140,50 @@ extension CheckConceptViewController {
     private func addViews() {
         self.view.addSubview(checkConceptTitleLabel)
         self.view.addSubview(checkConceptSubTitleLabel)
+        self.view.addSubview(checkNoneButton)
+        self.view.addSubview(dividerView)
+        self.view.addSubview(checkAllButton)
         self.view.addSubview(checkListCollectionView)
         self.view.addSubview(checkDoneButton)
         
         checkConceptTitleLabel.translatesAutoresizingMaskIntoConstraints = false
         checkConceptSubTitleLabel.translatesAutoresizingMaskIntoConstraints = false
+        checkNoneButton.translatesAutoresizingMaskIntoConstraints = false
+        dividerView.translatesAutoresizingMaskIntoConstraints = false
+        checkAllButton.translatesAutoresizingMaskIntoConstraints = false
         checkListCollectionView.translatesAutoresizingMaskIntoConstraints = false
         checkDoneButton.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
             checkConceptTitleLabel.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 24),
-            checkConceptTitleLabel.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: -24),
-            checkConceptTitleLabel.topAnchor.constraint(lessThanOrEqualTo: self.view.safeAreaLayoutGuide.topAnchor, constant: 25),
-            checkConceptTitleLabel.heightAnchor.constraint(equalToConstant: 76),
+            checkConceptTitleLabel.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor, constant: 48),
+            
             checkConceptSubTitleLabel.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 24),
-            checkConceptSubTitleLabel.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: -24),
-            checkConceptSubTitleLabel.topAnchor.constraint(equalTo: checkConceptTitleLabel.bottomAnchor, constant: 12),
-            checkConceptSubTitleLabel.heightAnchor.constraint(equalToConstant: 48),
-            checkListCollectionView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 16),
+            checkConceptSubTitleLabel.topAnchor.constraint(equalTo: checkConceptTitleLabel.bottomAnchor, constant: 20),
+            
+            checkNoneButton.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 18),
+            checkNoneButton.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: -18),
+            checkNoneButton.topAnchor.constraint(equalTo: checkConceptSubTitleLabel.bottomAnchor, constant: 32),
+            checkNoneButton.heightAnchor.constraint(equalToConstant: 60),
+            
+            dividerView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 18),
+            dividerView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: -18),
+            dividerView.topAnchor.constraint(equalTo: checkNoneButton.bottomAnchor, constant: 16),
+            dividerView.heightAnchor.constraint(equalToConstant: 2),
+            
+            checkAllButton.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 18),
+            checkAllButton.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: -18),
+            checkAllButton.topAnchor.constraint(equalTo: dividerView.bottomAnchor, constant: 16),
+            checkAllButton.heightAnchor.constraint(equalToConstant: 60),
+            
+            checkListCollectionView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 42),
             checkListCollectionView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: -16),
-            checkListCollectionView.topAnchor.constraint(equalTo: checkConceptSubTitleLabel.bottomAnchor, constant: 40),
+            checkListCollectionView.topAnchor.constraint(equalTo: checkAllButton.bottomAnchor, constant: 16),
             checkListCollectionView.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor, constant: -65),
-            checkDoneButton.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor, constant: -30),
+            
             checkDoneButton.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 18),
             checkDoneButton.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: -18),
+            checkDoneButton.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor, constant: -30),
             checkDoneButton.heightAnchor.constraint(equalToConstant: 48)
         ])
         self.view.bringSubviewToFront(checkDoneButton)
