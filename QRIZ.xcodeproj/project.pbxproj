@@ -73,6 +73,11 @@
 		B19C4FB92D6B15B300CD008A /* MyPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B19C4FB82D6B15B300CD008A /* MyPageViewController.swift */; };
 		B19C4FBC2D6B6D7000CD008A /* TextbookViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B19C4FBB2D6B6D7000CD008A /* TextbookViewController.swift */; };
 		B19C4FBF2D6B6E3400CD008A /* MistakeNoteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B19C4FBE2D6B6E3400CD008A /* MistakeNoteViewController.swift */; };
+		B19C4FC52D6C226500CD008A /* TabBarCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = B19C4FC42D6C226500CD008A /* TabBarCoordinator.swift */; };
+		B1D813712D6E0C1F00A9D447 /* HomeCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1D813702D6E0C1F00A9D447 /* HomeCoordinator.swift */; };
+		B1D813732D6E0CB200A9D447 /* TextbookCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1D813722D6E0CB200A9D447 /* TextbookCoordinator.swift */; };
+		B1D813752D6E0CC900A9D447 /* MistakeNoteCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1D813742D6E0CC900A9D447 /* MistakeNoteCoordinator.swift */; };
+		B1D813772D6E0CD700A9D447 /* MyPageCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1D813762D6E0CD700A9D447 /* MyPageCoordinator.swift */; };
 		B1D9A0E72D3686BA00E84934 /* CountdownTimer.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1D9A0E62D3686BA00E84934 /* CountdownTimer.swift */; };
 		E230669A2D2126B9001B509A /* PreviewScoresData.swift in Sources */ = {isa = PBXBuildFile; fileRef = E23066992D2126B9001B509A /* PreviewScoresData.swift */; };
 		E23824E12D0C3157009E7989 /* BeginOnboardingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E23824E02D0C3157009E7989 /* BeginOnboardingViewController.swift */; };
@@ -216,6 +221,11 @@
 		B19C4FB82D6B15B300CD008A /* MyPageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageViewController.swift; sourceTree = "<group>"; };
 		B19C4FBB2D6B6D7000CD008A /* TextbookViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextbookViewController.swift; sourceTree = "<group>"; };
 		B19C4FBE2D6B6E3400CD008A /* MistakeNoteViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MistakeNoteViewController.swift; sourceTree = "<group>"; };
+		B19C4FC42D6C226500CD008A /* TabBarCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarCoordinator.swift; sourceTree = "<group>"; };
+		B1D813702D6E0C1F00A9D447 /* HomeCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeCoordinator.swift; sourceTree = "<group>"; };
+		B1D813722D6E0CB200A9D447 /* TextbookCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextbookCoordinator.swift; sourceTree = "<group>"; };
+		B1D813742D6E0CC900A9D447 /* MistakeNoteCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MistakeNoteCoordinator.swift; sourceTree = "<group>"; };
+		B1D813762D6E0CD700A9D447 /* MyPageCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageCoordinator.swift; sourceTree = "<group>"; };
 		B1D9A0E62D3686BA00E84934 /* CountdownTimer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountdownTimer.swift; sourceTree = "<group>"; };
 		E23066992D2126B9001B509A /* PreviewScoresData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreviewScoresData.swift; sourceTree = "<group>"; };
 		E23824E02D0C3157009E7989 /* BeginOnboardingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BeginOnboardingViewController.swift; sourceTree = "<group>"; };
@@ -395,6 +405,7 @@
 		54DB0D962D09506C00ABD458 /* Feature */ = {
 			isa = PBXGroup;
 			children = (
+				B19C4FC32D6C223E00CD008A /* TabBar */,
 				E29CCD282D29855B004AA30A /* TestComponents */,
 				E23824DF2D0C1FA7009E7989 /* Onboarding */,
 				54E91B742D18FA9600474D0A /* CommonViews */,
@@ -414,6 +425,7 @@
 			children = (
 				E239630C2D083B900092B39B /* HomeViewController.swift */,
 				54DB0D982D0950DE00ABD458 /* HomeViewModel.swift */,
+				B1D813702D6E0C1F00A9D447 /* HomeCoordinator.swift */,
 			);
 			path = Home;
 			sourceTree = "<group>";
@@ -625,6 +637,7 @@
 			isa = PBXGroup;
 			children = (
 				B19C4FB82D6B15B300CD008A /* MyPageViewController.swift */,
+				B1D813762D6E0CD700A9D447 /* MyPageCoordinator.swift */,
 			);
 			path = MyPage;
 			sourceTree = "<group>";
@@ -633,6 +646,7 @@
 			isa = PBXGroup;
 			children = (
 				B19C4FBB2D6B6D7000CD008A /* TextbookViewController.swift */,
+				B1D813722D6E0CB200A9D447 /* TextbookCoordinator.swift */,
 			);
 			path = Textbook;
 			sourceTree = "<group>";
@@ -641,8 +655,17 @@
 			isa = PBXGroup;
 			children = (
 				B19C4FBE2D6B6E3400CD008A /* MistakeNoteViewController.swift */,
+				B1D813742D6E0CC900A9D447 /* MistakeNoteCoordinator.swift */,
 			);
 			path = MistakeNote;
+			sourceTree = "<group>";
+		};
+		B19C4FC32D6C223E00CD008A /* TabBar */ = {
+			isa = PBXGroup;
+			children = (
+				B19C4FC42D6C226500CD008A /* TabBarCoordinator.swift */,
+			);
+			path = TabBar;
 			sourceTree = "<group>";
 		};
 		B1D9A0E52D3686A100E84934 /* Manager */ = {
@@ -1137,6 +1160,7 @@
 				B19C4FBC2D6B6D7000CD008A /* TextbookViewController.swift in Sources */,
 				E29CCD1C2D298303004AA30A /* PreviewTestViewController.swift in Sources */,
 				E29CCD4A2D29867F004AA30A /* GreetingViewModel.swift in Sources */,
+				B1D813772D6E0CD700A9D447 /* MyPageCoordinator.swift in Sources */,
 				E29CCD3D2D298656004AA30A /* ConceptBarGraphHostingController.swift in Sources */,
 				B19C4FB92D6B15B300CD008A /* MyPageViewController.swift in Sources */,
 				E29CCD2F2D29855B004AA30A /* TestTimeLabel.swift in Sources */,
@@ -1145,6 +1169,7 @@
 				B18F45182D3A528B0030F7DB /* FindIDViewModel.swift in Sources */,
 				B18F452A2D4D5B200030F7DB /* ResetPasswordViewController.swift in Sources */,
 				B16288262D300CBA008057D0 /* PasswordInputViewModel.swift in Sources */,
+				B1D813712D6E0C1F00A9D447 /* HomeCoordinator.swift in Sources */,
 				E23824E12D0C3157009E7989 /* BeginOnboardingViewController.swift in Sources */,
 				E29CCD292D29855B004AA30A /* QuestionNumberLabel.swift in Sources */,
 				E2D70FEE2D0EC037005A3F51 /* CheckConceptViewModel.swift in Sources */,
@@ -1163,6 +1188,7 @@
 				E29CCD412D298656004AA30A /* PreviewResultViewController.swift in Sources */,
 				5485664B2D123FC2002BAEE3 /* Network.swift in Sources */,
 				B162881E2D2D6624008057D0 /* UIViewController+.swift in Sources */,
+				B1D813732D6E0CB200A9D447 /* TextbookCoordinator.swift in Sources */,
 				54BC61592D1823F50094DC45 /* SocialLoginView.swift in Sources */,
 				B18F451A2D4139B00030F7DB /* UILabel+.swift in Sources */,
 				E23963092D083B900092B39B /* AppDelegate.swift in Sources */,
@@ -1178,6 +1204,7 @@
 				54E91B762D18FACD00474D0A /* RoundButton.swift in Sources */,
 				54DB0D992D0950DE00ABD458 /* HomeViewModel.swift in Sources */,
 				B17FE30A2D27F8E9002EC7D7 /* UITextField+.swift in Sources */,
+				B19C4FC52D6C226500CD008A /* TabBarCoordinator.swift in Sources */,
 				E29CCD4C2D299297004AA30A /* SwiftUIViews+.swift in Sources */,
 				E29CCD402D298656004AA30A /* PreviewResultTitleLabel.swift in Sources */,
 				541878612D0EC2970089F478 /* HTTPHeaderField.swift in Sources */,
@@ -1214,6 +1241,7 @@
 				B168B7632D28073C0000F32E /* NameInputMainView.swift in Sources */,
 				54BC61552D14AFB70094DC45 /* LoginInputView.swift in Sources */,
 				B19C4F6B2D5260DD00CD008A /* UIControl+.swift in Sources */,
+				B1D813752D6E0CC900A9D447 /* MistakeNoteCoordinator.swift in Sources */,
 				B168B7752D2846DD0000F32E /* PasswordInputMainView.swift in Sources */,
 				B16288202D2E2595008057D0 /* SignUpVerificationViewModel.swift in Sources */,
 				B17FE3082D27F87E002EC7D7 /* String+.swift in Sources */,
