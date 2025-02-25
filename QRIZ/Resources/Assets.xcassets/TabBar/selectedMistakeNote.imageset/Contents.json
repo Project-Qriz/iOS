@@ -1,17 +1,17 @@
 {
   "images" : [
     {
-      "filename" : "TextBook.png",
+      "filename" : "selectedMistakeNote.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
-      "filename" : "TextBook@2x.png",
+      "filename" : "selectedMistakeNote@2x.png",
       "idiom" : "universal",
       "scale" : "2x"
     },
     {
-      "filename" : "TextBook@3x.png",
+      "filename" : "selectedMistakeNote@3x.png",
       "idiom" : "universal",
       "scale" : "3x"
     }
