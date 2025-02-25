@@ -15,6 +15,7 @@ final class CheckConceptViewController: UIViewController {
     private let checkConceptSubTitleLabel: UILabel = OnboardingSubtitleLabel("체크하신 결과를 토대로\n추후 진행할 테스트의 레벨이 조정됩니다! ")
     private let checkNoneButton: CheckAllOrNoneButton = .init(isAll: false)
     private let checkAllButton: CheckAllOrNoneButton = .init(isAll: true)
+    private let foldButton: CheckListFoldButton = .init()
     private let dividerView: UIView = {
         let view = UIView()
         view.backgroundColor = .customBlue100
@@ -81,6 +82,12 @@ final class CheckConceptViewController: UIViewController {
     }
     
     private func addButtonAction() {
+        foldButton.addAction(UIAction(handler: { [weak self] _ in
+            guard let self = self else { return }
+            self.foldButton.toggleImage()
+            checkListCollectionView.isHidden.toggle()
+        }), for: .touchUpInside)
+        
         checkDoneButton.addAction(UIAction(handler: { [weak self] _ in
             guard let self = self else { return }
             self.input.send(.didDoneButtonClicked)
@@ -136,16 +143,18 @@ extension CheckConceptViewController {
         self.view.addSubview(checkConceptTitleLabel)
         self.view.addSubview(checkConceptSubTitleLabel)
         self.view.addSubview(checkNoneButton)
-        self.view.addSubview(dividerView)
         self.view.addSubview(checkAllButton)
+        self.view.addSubview(foldButton)
+        self.view.addSubview(dividerView)
         self.view.addSubview(checkListCollectionView)
         self.view.addSubview(checkDoneButton)
         
         checkConceptTitleLabel.translatesAutoresizingMaskIntoConstraints = false
         checkConceptSubTitleLabel.translatesAutoresizingMaskIntoConstraints = false
         checkNoneButton.translatesAutoresizingMaskIntoConstraints = false
-        dividerView.translatesAutoresizingMaskIntoConstraints = false
         checkAllButton.translatesAutoresizingMaskIntoConstraints = false
+        foldButton.translatesAutoresizingMaskIntoConstraints = false
+        dividerView.translatesAutoresizingMaskIntoConstraints = false
         checkListCollectionView.translatesAutoresizingMaskIntoConstraints = false
         checkDoneButton.translatesAutoresizingMaskIntoConstraints = false
         
@@ -161,15 +170,20 @@ extension CheckConceptViewController {
             checkNoneButton.topAnchor.constraint(equalTo: checkConceptSubTitleLabel.bottomAnchor, constant: 32),
             checkNoneButton.heightAnchor.constraint(equalToConstant: 60),
             
-            dividerView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 18),
-            dividerView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: -18),
-            dividerView.topAnchor.constraint(equalTo: checkNoneButton.bottomAnchor, constant: 16),
-            dividerView.heightAnchor.constraint(equalToConstant: 2),
-            
             checkAllButton.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 18),
             checkAllButton.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: -18),
             checkAllButton.topAnchor.constraint(equalTo: dividerView.bottomAnchor, constant: 16),
             checkAllButton.heightAnchor.constraint(equalToConstant: 60),
+            
+            foldButton.centerYAnchor.constraint(equalTo: checkAllButton.centerYAnchor),
+            foldButton.trailingAnchor.constraint(equalTo: checkAllButton.trailingAnchor, constant: -16),
+            foldButton.widthAnchor.constraint(equalToConstant: 24),
+            foldButton.heightAnchor.constraint(equalToConstant: 24),
+            
+            dividerView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 18),
+            dividerView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: -18),
+            dividerView.topAnchor.constraint(equalTo: checkNoneButton.bottomAnchor, constant: 16),
+            dividerView.heightAnchor.constraint(equalToConstant: 2),
             
             checkListCollectionView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 42),
             checkListCollectionView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: -16),

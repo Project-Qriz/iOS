@@ -85,6 +85,7 @@
 		E25F94CB2D0CB1DB00BA765F /* OnboardingTitleLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E25F94CA2D0CB1DB00BA765F /* OnboardingTitleLabel.swift */; };
 		E25F94CD2D0CB50F00BA765F /* OnboardingSubtitleLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E25F94CC2D0CB50F00BA765F /* OnboardingSubtitleLabel.swift */; };
 		E25F94D12D0CB74700BA765F /* OnboardingButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = E25F94D02D0CB74700BA765F /* OnboardingButton.swift */; };
+		E27E54A92D6D74C500BF3B55 /* CheckListFoldButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = E27E54A82D6D74C500BF3B55 /* CheckListFoldButton.swift */; };
 		E28BAD772D2C111100B8388D /* TwoButtonCustomAlertView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E28BAD762D2C111100B8388D /* TwoButtonCustomAlertView.swift */; };
 		E28BAD792D2C2DEB00B8388D /* TwoButtonCustomAlertViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E28BAD782D2C2DEB00B8388D /* TwoButtonCustomAlertViewController.swift */; };
 		E28BAD7C2D2C339100B8388D /* AlertType.swift in Sources */ = {isa = PBXBuildFile; fileRef = E28BAD7B2D2C339100B8388D /* AlertType.swift */; };
@@ -229,6 +230,7 @@
 		E25F94CA2D0CB1DB00BA765F /* OnboardingTitleLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingTitleLabel.swift; sourceTree = "<group>"; };
 		E25F94CC2D0CB50F00BA765F /* OnboardingSubtitleLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingSubtitleLabel.swift; sourceTree = "<group>"; };
 		E25F94D02D0CB74700BA765F /* OnboardingButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingButton.swift; sourceTree = "<group>"; };
+		E27E54A82D6D74C500BF3B55 /* CheckListFoldButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckListFoldButton.swift; sourceTree = "<group>"; };
 		E28BAD762D2C111100B8388D /* TwoButtonCustomAlertView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TwoButtonCustomAlertView.swift; sourceTree = "<group>"; };
 		E28BAD782D2C2DEB00B8388D /* TwoButtonCustomAlertViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TwoButtonCustomAlertViewController.swift; sourceTree = "<group>"; };
 		E28BAD7B2D2C339100B8388D /* AlertType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertType.swift; sourceTree = "<group>"; };
@@ -805,6 +807,7 @@
 			children = (
 				E2D70FEB2D0EBDDD005A3F51 /* CheckListCell.swift */,
 				E24674442D6C730B00697D34 /* CheckAllOrNoneButton.swift */,
+				E27E54A82D6D74C500BF3B55 /* CheckListFoldButton.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -1119,6 +1122,7 @@
 				E29CCD2C2D29855B004AA30A /* TestButton.swift in Sources */,
 				B168B75F2D28073C0000F32E /* SignupFooterView.swift in Sources */,
 				B162881C2D2CFC63008057D0 /* UIView+.swift in Sources */,
+				E27E54A92D6D74C500BF3B55 /* CheckListFoldButton.swift in Sources */,
 				B18F45122D3A26520030F7DB /* FindIDInputView.swift in Sources */,
 				541878542D0E21620089F478 /* HTTPMethod.swift in Sources */,
 				B18F45222D4645EC0030F7DB /* VerificationInputView.swift in Sources */,
