@@ -177,8 +177,8 @@ extension CheckConceptViewController {
             
             foldButton.centerYAnchor.constraint(equalTo: checkAllButton.centerYAnchor),
             foldButton.trailingAnchor.constraint(equalTo: checkAllButton.trailingAnchor, constant: -16),
-            foldButton.widthAnchor.constraint(equalToConstant: 24),
-            foldButton.heightAnchor.constraint(equalToConstant: 24),
+            foldButton.widthAnchor.constraint(equalToConstant: 40),
+            foldButton.heightAnchor.constraint(equalToConstant: 40),
             
             dividerView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 18),
             dividerView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: -18),
