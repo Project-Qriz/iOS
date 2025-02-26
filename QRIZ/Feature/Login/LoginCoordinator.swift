@@ -29,7 +29,8 @@ final class LoginCoordinatorImp: LoginCoordinator {
     }
     
     func start() -> UIViewController {
-        let loginVC = LoginViewController(loginVM: LoginViewModel())
+        let loginVM = LoginViewModel()
+        let loginVC = LoginViewController(loginVM: loginVM)
         navigationController.viewControllers = [loginVC]
         return navigationController
     }
