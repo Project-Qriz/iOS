@@ -195,7 +195,6 @@ extension CheckConceptViewController {
             checkDoneButton.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor, constant: -30),
             checkDoneButton.heightAnchor.constraint(equalToConstant: 48)
         ])
-        self.view.bringSubviewToFront(checkDoneButton)
         checkDoneButton.setButtonState(isActive: false)
     }
 }
