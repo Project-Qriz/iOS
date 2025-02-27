@@ -32,7 +32,6 @@ final class CheckConceptViewModel {
     private var subscriptions = Set<AnyCancellable>()
     
     private(set) var selectedSet = Set<Int>()
-    private var numOfSelectedConcept: Int = 0
     private var isDoneButtonActivated: Bool = false
     
     // MARK: - Methods
@@ -53,7 +52,7 @@ final class CheckConceptViewModel {
                 }
             case .someCheckboxClicked(let idx):
                 conceptStateHandler(idx)
-                output.send(.setAllAndNone(numOfSelectedConcept: numOfSelectedConcept, checkNoneClicked: false))
+                output.send(.setAllAndNone(numOfSelectedConcept: selectedSet.count, checkNoneClicked: false))
                 doneButtonStateHandler()
             }
         }
@@ -63,18 +62,18 @@ final class CheckConceptViewModel {
     }
     
     private func allStateHandler() {
-        if numOfSelectedConcept == SurveyCheckList.list.count {
+        if selectedSet.count == SurveyCheckList.list.count {
             iterConceptHandler(toSelected: false)
-            output.send(.setAllAndNone(numOfSelectedConcept: numOfSelectedConcept, checkNoneClicked: false))
+            output.send(.setAllAndNone(numOfSelectedConcept: selectedSet.count, checkNoneClicked: false))
         } else {
             iterConceptHandler(toSelected: true)
-            output.send(.setAllAndNone(numOfSelectedConcept: numOfSelectedConcept, checkNoneClicked: false))
+            output.send(.setAllAndNone(numOfSelectedConcept: selectedSet.count, checkNoneClicked: false))
         }
     }
     
     private func noneStateHandler() {
         iterConceptHandler(toSelected: false)
-        output.send(.setAllAndNone(numOfSelectedConcept: numOfSelectedConcept, checkNoneClicked: true))
+        output.send(.setAllAndNone(numOfSelectedConcept: selectedSet.count, checkNoneClicked: true))
     }
     
     private func conceptStateHandler(_ idx: Int) {
@@ -89,7 +88,6 @@ final class CheckConceptViewModel {
     
     private func deselectConceptHandler(_ idx: Int) {
         if selectedSet.contains(idx) {
-            numOfSelectedConcept -= 1
             selectedSet.remove(idx)
             output.send(.checkboxToOff(idx: idx))
         }
@@ -97,7 +95,6 @@ final class CheckConceptViewModel {
     
     private func selectConceptHandler(_ idx: Int) {
         if !selectedSet.contains(idx) {
-            numOfSelectedConcept += 1
             selectedSet.insert(idx)
             output.send(.checkboxToOn(idx: idx))
         }
@@ -110,7 +107,7 @@ final class CheckConceptViewModel {
                 output.send(.setDoneButtonState(isActive: true))
             }
         } else {
-            if numOfSelectedConcept == 0 {
+            if selectedSet.isEmpty {
                 if isDoneButtonActivated {
                     isDoneButtonActivated = false
                     output.send(.setDoneButtonState(isActive: false))
