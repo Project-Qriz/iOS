@@ -73,19 +73,10 @@ final class CheckAllOrNoneButton : UIView {
     }
     
     private func checkNoneBoxHandler(_ isSenderCheckNone: Bool) {
-        if isSenderCheckNone {
-            if state != .on {
-                checkbox.image = UIImage(named: CheckState.on.rawValue)
-                state = .on
-            } else {
-                checkbox.image = UIImage(named: CheckState.off.rawValue)
-                state = .off
-            }
-        } else {
-            if state != .off {
-                checkbox.image = UIImage(named: CheckState.off.rawValue)
-                state = .off
-            }
+        if isSenderCheckNone || state == .on {
+            let nextState = (state == .on ? CheckState.off : CheckState.on)
+            checkbox.image = UIImage(named: nextState.rawValue)
+            state = nextState
         }
     }
     
@@ -125,7 +116,7 @@ extension CheckAllOrNoneButton {
         
         NSLayoutConstraint.activate([
             checkbox.widthAnchor.constraint(equalToConstant: 24),
-            checkbox.heightAnchor.constraint(equalToConstant: 24),
+            checkbox.heightAnchor.constraint(equalTo: checkbox.widthAnchor),
             checkbox.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 24),
             checkbox.centerYAnchor.constraint(equalTo: self.centerYAnchor),
             
