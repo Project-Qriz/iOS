@@ -8,6 +8,8 @@
 import UIKit
 
 final class PreviewResultTitleLabel: UILabel {
+    
+    // MARK: - Initializers
     init(isTitleLabel: Bool) {
         super.init(frame: .zero)
         self.text = isTitleLabel ? " 님 의\n 프리뷰 결과에요!" : "님이 틀린문제에\n 자주 등장하는 개념"
@@ -22,6 +24,7 @@ final class PreviewResultTitleLabel: UILabel {
         fatalError("no initializer for coder: PreviewResultTitleLabel")
     }
     
+    // MARK: - Method
     func setLabelText(nickname: String, isTitleLabel: Bool) {
         var firstText: String
         var secondText: String

@@ -9,8 +9,6 @@ import Foundation
 
 struct SurveyCheckList {
     static let list: [String] = [
-        "전혀 몰라요",
-        "전부 알아요",
         "데이터 모델의 이해",
         "엔터티",
         "속성",

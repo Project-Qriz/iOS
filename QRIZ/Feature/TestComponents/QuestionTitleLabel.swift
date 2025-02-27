@@ -8,6 +8,8 @@
 import UIKit
 
 final class QuestionTitleLabel: UILabel {
+    
+    // MARK: - Initializers
     init(_ titleStr: String) {
         super.init(frame: .zero)
         self.text = titleStr
@@ -21,6 +23,7 @@ final class QuestionTitleLabel: UILabel {
         fatalError("no initializer for coder: QuestionTitleLabel")
     }
     
+    // MARK: - Methods
     func setTitle(_ titleStr: String) {
         self.text = titleStr
     }

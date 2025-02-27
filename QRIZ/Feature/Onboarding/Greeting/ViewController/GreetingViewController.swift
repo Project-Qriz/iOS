@@ -10,6 +10,7 @@ import Combine
 
 final class GreetingViewController: UIViewController {
     
+    // MARK: - Properties
     private var nickname: String = "임시"
     private var greetingTitleLabel: UILabel = OnboardingTitleLabel(labelText: "님\n환영합니다")
     private let greetingSubtitleLabel: UILabel = OnboardingSubtitleLabel("준비되어 있는 오늘의 공부와, 모의고사로\n시험을 같이 준비해봐요!")
@@ -19,20 +20,14 @@ final class GreetingViewController: UIViewController {
     private var subscriptions = Set<AnyCancellable>()
     private let input: PassthroughSubject<GreetingViewModel.Input, Never> = .init()
     
+    // MARK: - Methods
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        self.view.backgroundColor = .customBlue50
+        self.view.backgroundColor = .white
         self.navigationItem.hidesBackButton = true
         setTitleLabelText()
-
         bind()
-
         addViews()
-    }
-    
-    private func setTitleLabelText() {
-        greetingTitleLabel.text = "\(nickname)\(greetingTitleLabel.text ?? "님\n환영합니다")"
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -55,7 +50,14 @@ final class GreetingViewController: UIViewController {
             }
             .store(in: &subscriptions)
     }
-    
+
+    private func setTitleLabelText() {
+        greetingTitleLabel.text = "\(nickname)\(greetingTitleLabel.text ?? "님\n환영합니다")"
+    }
+}
+
+// MARK: - Auto Layout
+extension GreetingViewController {
     private func addViews() {
         self.view.addSubview(greetingTitleLabel)
         self.view.addSubview(greetingSubtitleLabel)

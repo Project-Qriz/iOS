@@ -10,6 +10,7 @@ import Combine
 
 final class PreviewTestViewController: UIViewController {
     
+    // MARK: - Properties
     private let questionNumberLabel = QuestionNumberLabel(0)
     private let questionTitleLabel = QuestionTitleLabel("")
     private let option1Label = QuestionOptionLabel(optNum: 1, optStr: "")
@@ -22,15 +23,23 @@ final class PreviewTestViewController: UIViewController {
     private let timeLabel: TestTimeLabel = TestTimeLabel()
     private let totalTimeRemainingLabel: TestTotalTimeRemainingLabel = TestTotalTimeRemainingLabel()
     private let pageIndicatorLabel: TestPageIndicatorLabel = TestPageIndicatorLabel()
+    private let cancelLabel: UILabel = {
+        let label = UILabel()
+        label.textColor = .coolNeutral800
+        label.text = "취소"
+        label.font = .systemFont(ofSize: 16, weight: .bold)
+        return label
+    }()
     private let submitAlertViewController = TwoButtonCustomAlertViewController(title: "제출하시겠습니까?", description: "확인 버튼을 누르면 다시 돌아올 수 없어요.")
     
     private let viewModel: PreviewTestViewModel = PreviewTestViewModel()
     private var subscriptions = Set<AnyCancellable>()
     private let input: PassthroughSubject<PreviewTestViewModel.Input, Never> = .init()
     
+    // MARK: - Methods
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.view.backgroundColor = .customBlue50
+        self.view.backgroundColor = .white
         bind()
         setNavigationItem()
         addViews()
@@ -96,11 +105,17 @@ final class PreviewTestViewController: UIViewController {
     }
     
     private func setNavigationItem() {
-        self.navigationItem.hidesBackButton = true
-        self.navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "chevron.left"), style: .plain, target: self, action: #selector(moveToHome))
+        self.navigationController?.navigationBar.isHidden = false
+        setCancelLabelAction()
+        self.navigationItem.leftBarButtonItem = UIBarButtonItem(customView: cancelLabel)
         self.navigationItem.rightBarButtonItems = [
             UIBarButtonItem(customView: timeLabel), UIBarButtonItem(customView: totalTimeRemainingLabel)
         ]
+    }
+    
+    private func setCancelLabelAction() {
+        cancelLabel.isUserInteractionEnabled = true
+        cancelLabel.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(moveToHome)))
     }
     
     @objc private func moveToHome() {
@@ -155,7 +170,7 @@ final class PreviewTestViewController: UIViewController {
         timeLabel.text = formattedTime(timeRemaining: timeRemaining)
     }
     
-    func formattedTime(timeRemaining: Int) -> String {
+    private func formattedTime(timeRemaining: Int) -> String {
         let minutes = timeRemaining / 60
         let seconds = timeRemaining % 60
         return String(format: "%02d:%02d", minutes, seconds)
@@ -179,7 +194,10 @@ final class PreviewTestViewController: UIViewController {
             nextButton.setTitleText("다음")
         }
     }
-    
+}
+
+// MARK: - AutoLayout
+extension PreviewTestViewController {
     private func addViews() {
         self.view.addSubview(progressView)
         self.view.addSubview(questionNumberLabel)

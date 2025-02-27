@@ -11,6 +11,7 @@ import Combine
 
 final class PreviewResultViewController: UIViewController {
 
+    // MARK: - Properties
     private var resultTitleLabel = PreviewResultTitleLabel(isTitleLabel: true)
     private var resultConceptLabel = PreviewResultTitleLabel(isTitleLabel: false)
     private var scoreCircularChartHostingController: ScoreCircularChartHostingController!
@@ -42,9 +43,10 @@ final class PreviewResultViewController: UIViewController {
     private let input: PassthroughSubject<PreviewResultViewModel.Input, Never> = .init()
     private var subscriptions = Set<AnyCancellable>()
     
+    // MARK: - Methods
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.view.backgroundColor = .customBlue50
+        self.view.backgroundColor = .white
         setNavigationItems()
         bind()
         addViews()
@@ -129,8 +131,12 @@ final class PreviewResultViewController: UIViewController {
         conceptBarGraphView.layer.cornerRadius = 16
         return conceptBarGraphView
     }
-    
-    private func addViews() { // shadow should be added!
+}
+
+// MARK: - Auto Layout
+extension PreviewResultViewController {
+
+    private func addViews() {
         
         let scoreCircularChartView = loadScoreCircularChartView()
         let conceptBarGraphView = loadConceptBarGraphView()

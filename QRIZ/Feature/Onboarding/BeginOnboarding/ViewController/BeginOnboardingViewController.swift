@@ -10,6 +10,7 @@ import Combine
 
 final class BeginOnboardingViewController: UIViewController {
     
+    // MARK: - Properties
     private let beginOnboardingTitleLabel: UILabel = OnboardingTitleLabel(labelText: "SQLD를 어느정도\n알고 계신가요?")
     private let beginOnboardingSubtitleLabel: UILabel = OnboardingSubtitleLabel("선택하신 체크사항을 기반으로\n맞춤 프리뷰 테스트를 제공해 드려요!")
     private let beginOnboardingImageView: UIImageView = UIImageView(image: UIImage(named: "onboarding1"))
@@ -19,9 +20,10 @@ final class BeginOnboardingViewController: UIViewController {
     private let input: PassthroughSubject<BeginOnboardingViewModel.Input, Never> = .init()
     private var subscriptions = Set<AnyCancellable>()
     
+    // MARK: - Methods
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.view.backgroundColor = .customBlue50
+        self.view.backgroundColor = .white
         bind()
         addViews()
         addButtonAction()
@@ -49,7 +51,10 @@ final class BeginOnboardingViewController: UIViewController {
             self.input.send(.didButtonClicked)
         }), for: .touchUpInside)
     }
-    
+}
+
+// MARK: - Auto Layout
+extension BeginOnboardingViewController {
     private func addViews() {
         self.view.addSubview(beginOnboardingTitleLabel)
         self.view.addSubview(beginOnboardingSubtitleLabel)

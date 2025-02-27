@@ -9,6 +9,7 @@ import UIKit
 
 final class TestPageIndicatorLabel: UILabel {
     
+    // MARK: - Properties
     private var currentPageLabel: UILabel = {
         let label = UILabel()
         label.text = "0"
@@ -29,6 +30,7 @@ final class TestPageIndicatorLabel: UILabel {
         return label
     }()
     
+    // MARK: - Initializers
     init() {
         super.init(frame: .zero)
         addViews()
@@ -37,7 +39,16 @@ final class TestPageIndicatorLabel: UILabel {
     required init?(coder: NSCoder) {
         fatalError("no initializer for coder: TestPageindicatorLabel")
     }
-    
+
+    // MARK: - Methods
+    func setPages(curPage: Int, totalPage: Int) {
+        self.currentPageLabel.text = "\(curPage) "
+        self.totalPageLabel.text = "/ \(totalPage)"
+    }
+}
+
+// MARK: - AutoLayout
+extension TestPageIndicatorLabel {
     private func addViews() {
         self.addSubview(currentPageLabel)
         self.addSubview(totalPageLabel)
@@ -55,10 +66,5 @@ final class TestPageIndicatorLabel: UILabel {
             currentPageLabel.trailingAnchor.constraint(equalTo: self.centerXAnchor, constant: -5),
             totalPageLabel.leadingAnchor.constraint(equalTo: self.centerXAnchor)
         ])
-    }
-    
-    func setPages(curPage: Int, totalPage: Int) {
-        self.currentPageLabel.text = "\(curPage) "
-        self.totalPageLabel.text = "/ \(totalPage)"
     }
 }

@@ -8,6 +8,7 @@
 import UIKit
 
 final class TestProgressView: UIProgressView {
+    
     init() {
         super.init(frame: .zero)
         self.progressTintColor = .customBlue500

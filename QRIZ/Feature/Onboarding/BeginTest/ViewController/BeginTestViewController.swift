@@ -10,6 +10,7 @@ import Combine
 
 final class BeginTestViewController: UIViewController {
     
+    // MARK: - Properties
     let beginTestTitleLabel: UILabel = OnboardingTitleLabel(labelText: "테스트를\n진행해볼까요?")
     let beginTestSubtitleLabel: UILabel = OnboardingSubtitleLabel("간단한 프리뷰 테스트로 실력을 점검하고\n이후 맞춤형 개념과 데일리 테스트를 경험해 보세요!")
     let beginImageView: UIImageView = UIImageView(image: UIImage(named: "onboarding2"))
@@ -19,9 +20,10 @@ final class BeginTestViewController: UIViewController {
     private let input: PassthroughSubject<BeginTestViewModel.Input, Never> = .init()
     private var subscriptions = Set<AnyCancellable>()
     
+    // MARK: - Methods
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.view.backgroundColor = .customBlue50
+        self.view.backgroundColor = .white
         self.navigationItem.hidesBackButton = true
         bind()
         addViews()
@@ -49,7 +51,10 @@ final class BeginTestViewController: UIViewController {
             self.input.send(.didButtonClicked)
         }), for: .touchUpInside)
     }
-    
+}
+
+// MARK: - Auto Layout
+extension BeginTestViewController {
     private func addViews() {
         self.view.addSubview(beginTestTitleLabel)
         self.view.addSubview(beginTestSubtitleLabel)
@@ -64,7 +69,7 @@ final class BeginTestViewController: UIViewController {
         NSLayoutConstraint.activate([
             beginTestTitleLabel.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 24),
             beginTestTitleLabel.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: -24),
-            beginTestTitleLabel.topAnchor.constraint(lessThanOrEqualTo: self.view.safeAreaLayoutGuide.topAnchor, constant: 50),
+            beginTestTitleLabel.topAnchor.constraint(lessThanOrEqualTo: self.view.safeAreaLayoutGuide.topAnchor, constant: 100),
             beginTestTitleLabel.heightAnchor.constraint(equalToConstant: 76),
             beginTestSubtitleLabel.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 24),
             beginTestSubtitleLabel.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: -24),
@@ -78,6 +83,5 @@ final class BeginTestViewController: UIViewController {
             beginTestButton.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: -18),
             beginTestButton.heightAnchor.constraint(equalToConstant: 48)
         ])
-
     }
 }
