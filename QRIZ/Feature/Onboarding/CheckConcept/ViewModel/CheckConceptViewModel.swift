@@ -108,23 +108,10 @@ final class CheckConceptViewModel {
     }
     
     private func doneButtonStateHandler(checkNoneClicked: Bool = false) {
-        if checkNoneClicked {
-            if !isDoneButtonActivated {
-                isDoneButtonActivated = true
-                output.send(.setDoneButtonState(isActive: true))
-            }
-        } else {
-            if selectedSet.isEmpty {
-                if isDoneButtonActivated {
-                    isDoneButtonActivated = false
-                    output.send(.setDoneButtonState(isActive: false))
-                }
-            } else {
-                if !isDoneButtonActivated {
-                    isDoneButtonActivated = true
-                    output.send(.setDoneButtonState(isActive: true))
-                }
-            }
+        let newState = checkNoneClicked || !selectedSet.isEmpty
+        if isDoneButtonActivated != newState {
+            isDoneButtonActivated = newState
+            output.send(.setDoneButtonState(isActive: newState))
         }
     }
 }
