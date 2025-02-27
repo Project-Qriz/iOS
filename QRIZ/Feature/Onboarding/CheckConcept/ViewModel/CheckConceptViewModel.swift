@@ -81,8 +81,15 @@ final class CheckConceptViewModel {
     }
     
     private func iterConceptHandler(toSelected: Bool) {
-        for idx in 0..<SurveyCheckList.list.count {
-            toSelected ? selectConceptHandler(idx) : deselectConceptHandler(idx)
+        if toSelected {
+            for idx in 0..<SurveyCheckList.list.count {
+                selectConceptHandler(idx)
+            }
+        } else {
+            selectedSet.removeAll()
+            for idx in 0..<SurveyCheckList.list.count{
+                output.send(.checkboxToOff(idx: idx))
+            }
         }
     }
     
