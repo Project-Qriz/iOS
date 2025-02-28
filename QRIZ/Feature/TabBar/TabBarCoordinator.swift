@@ -64,20 +64,22 @@ final class TabBarCoordinatorImp: TabBarCoordinator {
         let textbookCoordinator = dependency.textbookCoordinator
         let mistakeNoteCoordinator = dependency.mistakeNoteCoordinator
         let myPageCoordinator = dependency.myPageCoordinator
-        [
+        
+        childCoordinators.append(contentsOf: [
             homeCoordinator,
             textbookCoordinator,
             mistakeNoteCoordinator,
             myPageCoordinator
-        ].forEach { childCoordinators.append($0) }
+        ])
         
-        tabBarController.viewControllers = [
-            homeCoordinator.start(),
-            textbookCoordinator.start(),
-            mistakeNoteCoordinator.start(),
-            myPageCoordinator.start()
-        ]
+        var viewControllers: [UIViewController] = []
+        viewControllers.append(homeCoordinator.start())
+        viewControllers.append(textbookCoordinator.start())
+        viewControllers.append(mistakeNoteCoordinator.start())
+        viewControllers.append(myPageCoordinator.start())
+        setupTabBarItems(for: &viewControllers)
         
+        tabBarController.viewControllers = viewControllers
         return tabBarController
     }
     
@@ -88,6 +90,31 @@ final class TabBarCoordinatorImp: TabBarCoordinator {
         tabBarController.tabBar.layer.borderColor = UIColor.customBlue100.cgColor
         tabBarController.tabBar.layer.borderWidth = 1.0
         tabBarController.tabBar.layer.masksToBounds = true
+    }
+    
+    private func setupTabBarItems(for viewControllers: inout [UIViewController]) {
+        guard viewControllers.count >= 4 else { return }
+        
+        viewControllers[0].tabBarItem = UITabBarItem(
+            title: "홈",
+            image: .home,
+            selectedImage: .home
+        )
+        viewControllers[1].tabBarItem = UITabBarItem(
+            title: "개념서",
+            image: .textBook,
+            selectedImage: .selectedTextbook
+        )
+        viewControllers[2].tabBarItem = UITabBarItem(
+            title: "오답노트",
+            image: .mistakeNote,
+            selectedImage: .selectedMistakeNote
+        )
+        viewControllers[3].tabBarItem = UITabBarItem(
+            title: "마이",
+            image: .myPage,
+            selectedImage: .myPage
+        )
     }
     
     func logout() {
