@@ -26,9 +26,13 @@ protocol AppCoordinatorDependency {
 @MainActor
 final class AppCoordinatorDependencyImp: AppCoordinatorDependency {
     
-    var loginCoordinator: LoginCoordinator {
+    private lazy var _loginCoordinator: LoginCoordinator = {
         let navi = UINavigationController()
         return LoginCoordinatorImp(navigationController: navi)
+    }()
+    
+    var loginCoordinator: LoginCoordinator {
+        return _loginCoordinator
     }
     
     var tabBarCoordinator: TabBarCoordinator {
