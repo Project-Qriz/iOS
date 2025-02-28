@@ -26,6 +26,26 @@ protocol TabBarCoordinatorDependency {
 }
 
 @MainActor
+final class TabBarCoordinatorDependencyImp: TabBarCoordinatorDependency {
+    
+    var homeCoordinator: HomeCoordinator {
+        return HomeCoordinatorImp()
+    }
+    
+    var textbookCoordinator: TextbookCoordinator {
+        return TextbookCoordinatorImp()
+    }
+    
+    var mistakeNoteCoordinator: MistakeNoteCoordinator {
+        return MistakeNoteCoordinatorImp()
+    }
+    
+    var myPageCoordinator: MyPageCoordinator {
+        return MyPageCoordinatorImp()
+    }
+}
+
+@MainActor
 final class TabBarCoordinatorImp: TabBarCoordinator {
     
     weak var delegate: TabBarCoordinatorDelegate?
