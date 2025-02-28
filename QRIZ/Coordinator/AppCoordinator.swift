@@ -19,9 +19,22 @@ protocol AppCoordinator: Coordinator {
 
 @MainActor
 protocol AppCoordinatorDependency {
-    /// 임시 선언
-//    var loginCoordinator: LoginCoordinator { get }
-//    var tabBarCoordinator: TabBarCoordinator { get }
+    var loginCoordinator: LoginCoordinator { get }
+    var tabBarCoordinator: TabBarCoordinator { get }
+}
+
+@MainActor
+final class AppCoordinatorDependencyImp: AppCoordinatorDependency {
+    
+    var loginCoordinator: LoginCoordinator {
+        let navi = UINavigationController()
+        return LoginCoordinatorImp(navigationController: navi)
+    }
+    
+    var tabBarCoordinator: TabBarCoordinator {
+        let tabBarDependency = TabBarCoordinatorDependencyImp()
+        return TabBarCoordinatorImp(dependency: tabBarDependency)
+    }
 }
 
 @MainActor
@@ -37,10 +50,44 @@ final class AppCoordinatorImp: AppCoordinator {
     }
     
     func start() -> UIViewController {
-        /// 임시 선언 추후 로그인 분기 처리 필요
-        let login = LoginViewController(loginVM: LoginViewModel())
-        window.rootViewController = login
+        /// 임시 로그인 상태
+        let isLoggedIn = true
+        UINavigationBar.configureNavigationBackButton()
+        return isLoggedIn ? showTabBar() : showLogin()
+    }
+    
+    private func showTabBar() -> UIViewController {
+        let tabBarCoordinator = dependency.tabBarCoordinator
+        childCoordinators.append(tabBarCoordinator)
+        let tabBarVC = tabBarCoordinator.start()
+        window.rootViewController = tabBarVC
         window.makeKeyAndVisible()
-        return login
+        return tabBarVC
+    }
+    
+    private func showLogin() -> UIViewController {
+        let loginCoordinator = dependency.loginCoordinator
+        if let loginCoordinatorImp = loginCoordinator as? LoginCoordinatorImp {
+            loginCoordinatorImp.delegate = self
+        }
+        childCoordinators.append(loginCoordinator)
+        let loginVC = loginCoordinator.start()
+        window.rootViewController = loginVC
+        window.makeKeyAndVisible()
+        return loginVC
+    }
+}
+
+// MARK: - LoginCoordinatorDelegate
+
+extension AppCoordinatorImp: LoginCoordinatorDelegate {
+    func didLogin(_ coordinator: LoginCoordinator) {
+        childCoordinators.removeAll { $0 === coordinator }
+        let tabBarCoordinator = dependency.tabBarCoordinator
+        childCoordinators.append(tabBarCoordinator)
+        
+        let tabBarVC = tabBarCoordinator.start()
+        window.rootViewController = tabBarVC
+        window.makeKeyAndVisible()
     }
 }
