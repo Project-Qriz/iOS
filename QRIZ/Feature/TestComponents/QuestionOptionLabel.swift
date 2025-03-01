@@ -10,17 +10,15 @@ import UIKit
 final class QuestionOptionLabel: UILabel {
 
     // MARK: - Properties
-    var optionNumberLabel: UILabel = UILabel()
-    var optionStringLabel: UILabel = UILabel()
+    var optionNumberLabel: UILabel!
+    var optionStringLabel: UILabel!
     
     // MARK: - Initializers
-    init(optNum: Int, optStr: String) {
+    init(optNum: Int) {
         super.init(frame: .zero)
-        self.backgroundColor = .white
-        self.layer.cornerRadius = 8
-        self.layer.masksToBounds = true
         createNumberLabel(optNum)
-        createStringLabel(optStr)
+        createStringLabel()
+        setOptionStatus(isSelected: false)
         addViews()
     }
     
@@ -29,30 +27,8 @@ final class QuestionOptionLabel: UILabel {
     }
     
     // MARK: - Methods
-    private func createNumberLabel(_ optNum: Int) {
-        optionNumberLabel = UILabel()
-        optionNumberLabel.backgroundColor = .white
-        optionNumberLabel.text = "\(optNum)"
-        optionNumberLabel.textAlignment = .center
-        optionNumberLabel.font = .boldSystemFont(ofSize: 16)
-        optionNumberLabel.textColor = .coolNeutral600
-        optionNumberLabel.numberOfLines = 0
-        optionNumberLabel.layer.masksToBounds = true
-        optionNumberLabel.layer.cornerRadius = 16
-        optionNumberLabel.layer.borderColor = UIColor.coolNeutral600.cgColor
-        optionNumberLabel.layer.borderWidth = 1.2
-    }
-    
-    private func createStringLabel(_ optStr: String) {
-        optionStringLabel = UILabel()
-        optionStringLabel.text = optStr
-        optionStringLabel.font = .systemFont(ofSize: 14)
-        optionStringLabel.textColor = .coolNeutral800
-        optionStringLabel.numberOfLines = 1
-    }
-    
     func setOptionString(_ str: String) {
-        optionStringLabel.text = str
+        optionStringLabel.attributedText = formattedText(str)
     }
     
     func setOptionStatus(isSelected: Bool) {
@@ -60,19 +36,48 @@ final class QuestionOptionLabel: UILabel {
             self.backgroundColor = .customBlue100
             optionNumberLabel.backgroundColor = .customBlue500
             optionNumberLabel.textColor = .white
-            optionNumberLabel.layer.cornerRadius = 16
-            optionNumberLabel.layer.masksToBounds = true
+
             optionNumberLabel.layer.borderWidth = 0
-            optionStringLabel.textColor = .customBlue500
         } else {
             self.backgroundColor = .white
             optionNumberLabel.backgroundColor = .white
-            optionNumberLabel.textColor = .coolNeutral600
-            optionNumberLabel.layer.cornerRadius = 16
-            optionNumberLabel.layer.masksToBounds = true
+            optionNumberLabel.textColor = .coolNeutral700
+
             optionNumberLabel.layer.borderWidth = 1.2
-            optionStringLabel.textColor = .coolNeutral800
         }
+    }
+    
+    private func createNumberLabel(_ optNum: Int) {
+        optionNumberLabel = UILabel()
+        optionNumberLabel.text = "\(optNum)"
+        optionNumberLabel.textAlignment = .center
+        optionNumberLabel.font = .boldSystemFont(ofSize: 16)
+        optionNumberLabel.numberOfLines = 1
+
+        optionNumberLabel.layer.masksToBounds = true
+        optionNumberLabel.layer.cornerRadius = 20
+        optionNumberLabel.layer.borderColor = UIColor.coolNeutral700.cgColor
+        optionNumberLabel.layer.borderWidth = 1.25
+    }
+    
+    private func createStringLabel() {
+        optionStringLabel = UILabel()
+        optionStringLabel.textAlignment = .left
+        optionStringLabel.textColor = .coolNeutral700
+        optionStringLabel.font = .systemFont(ofSize: 16, weight: .regular)
+        optionStringLabel.numberOfLines = 0
+    }
+    
+    private func formattedText(_ string: String) -> NSAttributedString {
+        let string = NSMutableAttributedString(string: string)
+
+        let paragraphStyle = NSMutableParagraphStyle()
+        paragraphStyle.lineBreakMode = .byTruncatingTail
+        paragraphStyle.lineSpacing = 8
+        
+        string.addAttribute(.paragraphStyle, value: paragraphStyle, range: NSRange(location: 0, length: string.length))
+        
+        return string
     }
 }
 
@@ -86,14 +91,15 @@ extension QuestionOptionLabel {
         optionStringLabel.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
-            optionNumberLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 18),
-            optionNumberLabel.widthAnchor.constraint(equalToConstant: 32),
-            optionNumberLabel.heightAnchor.constraint(equalToConstant: 32),
+            optionNumberLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 8),
+            optionNumberLabel.widthAnchor.constraint(equalToConstant: 40),
+            optionNumberLabel.heightAnchor.constraint(equalTo: optionNumberLabel.widthAnchor),
             optionNumberLabel.centerYAnchor.constraint(equalTo: self.centerYAnchor),
-            optionStringLabel.leadingAnchor.constraint(equalTo: optionNumberLabel.trailingAnchor, constant: 18),
-            optionStringLabel.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -18),
-            optionStringLabel.centerYAnchor.constraint(equalTo: self.centerYAnchor),
-            optionStringLabel.heightAnchor.constraint(lessThanOrEqualTo: self.heightAnchor)
+            
+            optionStringLabel.leadingAnchor.constraint(equalTo: optionNumberLabel.trailingAnchor, constant: 16),
+            optionStringLabel.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -8),
+            optionStringLabel.topAnchor.constraint(equalTo: self.topAnchor, constant: 16),
+            optionStringLabel.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -16)
         ])
     }
 }

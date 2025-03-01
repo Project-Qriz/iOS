@@ -13,10 +13,10 @@ final class PreviewTestViewController: UIViewController {
     // MARK: - Properties
     private let questionNumberLabel = QuestionNumberLabel(0)
     private let questionTitleLabel = QuestionTitleLabel("")
-    private let option1Label = QuestionOptionLabel(optNum: 1, optStr: "")
-    private let option2Label = QuestionOptionLabel(optNum: 2, optStr: "")
-    private let option3Label = QuestionOptionLabel(optNum: 3, optStr: "")
-    private let option4Label = QuestionOptionLabel(optNum: 4, optStr: "")
+    private let option1Label = QuestionOptionLabel(optNum: 1)
+    private let option2Label = QuestionOptionLabel(optNum: 2)
+    private let option3Label = QuestionOptionLabel(optNum: 3)
+    private let option4Label = QuestionOptionLabel(optNum: 4)
     private let previousButton: TestButton = TestButton(isPreviousButton: true)
     private let nextButton: TestButton = TestButton(isPreviousButton: false)
     private let progressView: TestProgressView = TestProgressView()
@@ -226,22 +226,24 @@ extension PreviewTestViewController {
             progressView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor),
             progressView.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor),
             progressView.heightAnchor.constraint(equalToConstant: 4),
+
             questionNumberLabel.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor, constant: 40),
             questionNumberLabel.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 18),
-            questionNumberLabel.widthAnchor.constraint(equalToConstant: 35),
-            questionNumberLabel.heightAnchor.constraint(equalToConstant: 30),
-            questionTitleLabel.topAnchor.constraint(equalTo: questionNumberLabel.topAnchor, constant: 5),
-            questionTitleLabel.leadingAnchor.constraint(equalTo: questionNumberLabel.trailingAnchor, constant: 9),
+
+            questionTitleLabel.topAnchor.constraint(equalTo: questionNumberLabel.bottomAnchor, constant: 14),
+            questionTitleLabel.leadingAnchor.constraint(equalTo: questionNumberLabel.leadingAnchor),
             questionTitleLabel.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: -18),
-            questionTitleLabel.heightAnchor.constraint(greaterThanOrEqualToConstant: 22),
+
             previousButton.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 18),
             previousButton.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor, constant: -30),
             previousButton.widthAnchor.constraint(equalToConstant: 90),
             previousButton.heightAnchor.constraint(equalToConstant: 48),
+
             nextButton.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: -18),
             nextButton.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor, constant: -30),
             nextButton.widthAnchor.constraint(equalToConstant: 90),
             nextButton.heightAnchor.constraint(equalToConstant: 48),
+
             pageIndicatorLabel.centerYAnchor.constraint(equalTo: previousButton.centerYAnchor),
             pageIndicatorLabel.leadingAnchor.constraint(equalTo: previousButton.trailingAnchor),
             pageIndicatorLabel.trailingAnchor.constraint(equalTo: nextButton.leadingAnchor),
@@ -261,13 +263,12 @@ extension PreviewTestViewController {
             NSLayoutConstraint.activate([
                 option.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 18),
                 option.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: -18),
-                option.heightAnchor.constraint(equalToConstant: 50),
             ])
             
-            if idx != 3 {
-                option.bottomAnchor.constraint(equalTo: optionLabels[idx + 1].topAnchor, constant: -8).isActive = true
+            if idx != 0 {
+                option.topAnchor.constraint(equalTo: optionLabels[idx - 1].bottomAnchor).isActive = true
             } else {
-                option4Label.bottomAnchor.constraint(equalTo: previousButton.topAnchor, constant:  -8).isActive = true
+                option1Label.topAnchor.constraint(equalTo: questionTitleLabel.bottomAnchor, constant: 26).isActive = true
             }
         }
     }
