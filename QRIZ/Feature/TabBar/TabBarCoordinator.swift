@@ -85,7 +85,7 @@ final class TabBarCoordinatorImp: TabBarCoordinator {
     
     private func configureTabBarController(_ tabBarController: UITabBarController) {
         tabBarController.tabBar.backgroundColor = .white
-        tabBarController.tabBar.tintColor = .systemBlue
+        tabBarController.tabBar.tintColor = .customBlue500
         tabBarController.tabBar.unselectedItemTintColor = .coolNeutral500
         tabBarController.tabBar.layer.borderColor = UIColor.customBlue100.cgColor
         tabBarController.tabBar.layer.borderWidth = 1.0
@@ -98,7 +98,7 @@ final class TabBarCoordinatorImp: TabBarCoordinator {
         viewControllers[0].tabBarItem = UITabBarItem(
             title: "홈",
             image: .home,
-            selectedImage: .home
+            selectedImage: nil
         )
         viewControllers[1].tabBarItem = UITabBarItem(
             title: "개념서",
@@ -113,7 +113,7 @@ final class TabBarCoordinatorImp: TabBarCoordinator {
         viewControllers[3].tabBarItem = UITabBarItem(
             title: "마이",
             image: .myPage,
-            selectedImage: .myPage
+            selectedImage: nil
         )
     }
     
