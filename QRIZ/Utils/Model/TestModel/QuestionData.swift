@@ -14,9 +14,10 @@ struct QuestionData {
     var option3: String
     var option4: String
     var timeLimit: Int
-
     var questionNumber: Int
     var selectedOption: Int? = nil
+    var description: String? = nil
+    var skillId: Int? = nil
     
     func getOptionRawValue(option: Int) -> String {
         switch option {
