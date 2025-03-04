@@ -25,6 +25,8 @@
 		54DB0DA12D0951C000ABD458 /* Font+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54DB0DA02D0951C000ABD458 /* Font+.swift */; };
 		54DB0DA52D099D6700ABD458 /* Colors.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 54DB0DA42D099D6700ABD458 /* Colors.xcassets */; };
 		54E91B762D18FACD00474D0A /* RoundButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54E91B752D18FACD00474D0A /* RoundButton.swift */; };
+		B15188622D76D29B000EFE41 /* EmailSendRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = B15188612D76D29B000EFE41 /* EmailSendRequest.swift */; };
+		B15188642D76E190000EFE41 /* EmailSendService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B15188632D76E190000EFE41 /* EmailSendService.swift */; };
 		B16288182D2CDB85008057D0 /* NameInputViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B16288172D2CDB85008057D0 /* NameInputViewModel.swift */; };
 		B162881C2D2CFC63008057D0 /* UIView+.swift in Sources */ = {isa = PBXBuildFile; fileRef = B162881B2D2CFC63008057D0 /* UIView+.swift */; };
 		B162881E2D2D6624008057D0 /* UIViewController+.swift in Sources */ = {isa = PBXBuildFile; fileRef = B162881D2D2D6624008057D0 /* UIViewController+.swift */; };
@@ -182,6 +184,8 @@
 		54DB0DA02D0951C000ABD458 /* Font+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Font+.swift"; sourceTree = "<group>"; };
 		54DB0DA42D099D6700ABD458 /* Colors.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Colors.xcassets; sourceTree = "<group>"; };
 		54E91B752D18FACD00474D0A /* RoundButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoundButton.swift; sourceTree = "<group>"; };
+		B15188612D76D29B000EFE41 /* EmailSendRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmailSendRequest.swift; sourceTree = "<group>"; };
+		B15188632D76E190000EFE41 /* EmailSendService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmailSendService.swift; sourceTree = "<group>"; };
 		B16288172D2CDB85008057D0 /* NameInputViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NameInputViewModel.swift; sourceTree = "<group>"; };
 		B162881B2D2CFC63008057D0 /* UIView+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+.swift"; sourceTree = "<group>"; };
 		B162881D2D2D6624008057D0 /* UIViewController+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+.swift"; sourceTree = "<group>"; };
@@ -358,6 +362,7 @@
 		5485664D2D12411F002BAEE3 /* DTOs */ = {
 			isa = PBXGroup;
 			children = (
+				B1D8137B2D76A18900A9D447 /* Auth */,
 				5485664E2D124150002BAEE3 /* Example */,
 			);
 			path = DTOs;
@@ -375,6 +380,7 @@
 		548566532D1241CB002BAEE3 /* Service */ = {
 			isa = PBXGroup;
 			children = (
+				B1D8137C2D76A19500A9D447 /* Auth */,
 				548566542D124260002BAEE3 /* ExampleService.swift */,
 			);
 			path = Service;
@@ -686,6 +692,22 @@
 				B1D813792D768D9B00A9D447 /* AppCoordinator.swift */,
 			);
 			path = Coordinator;
+			sourceTree = "<group>";
+		};
+		B1D8137B2D76A18900A9D447 /* Auth */ = {
+			isa = PBXGroup;
+			children = (
+				B15188612D76D29B000EFE41 /* EmailSendRequest.swift */,
+			);
+			path = Auth;
+			sourceTree = "<group>";
+		};
+		B1D8137C2D76A19500A9D447 /* Auth */ = {
+			isa = PBXGroup;
+			children = (
+				B15188632D76E190000EFE41 /* EmailSendService.swift */,
+			);
+			path = Auth;
 			sourceTree = "<group>";
 		};
 		B1D9A0E52D3686A100E84934 /* Manager */ = {
@@ -1269,6 +1291,8 @@
 				E29CCD422D298656004AA30A /* PreviewResultViewModel.swift in Sources */,
 				548566522D1241BA002BAEE3 /* ExampleResponse.swift in Sources */,
 				548566492D123C94002BAEE3 /* NetworkRequest.swift in Sources */,
+				B15188622D76D29B000EFE41 /* EmailSendRequest.swift in Sources */,
+				B15188642D76E190000EFE41 /* EmailSendService.swift in Sources */,
 				B168B7772D28481D0000F32E /* PasswordInputView.swift in Sources */,
 				B17FE30C2D27F931002EC7D7 /* CustomTextField.swift in Sources */,
 				E29CCD412D298656004AA30A /* PreviewResultViewController.swift in Sources */,
