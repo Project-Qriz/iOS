@@ -12,9 +12,6 @@
 		541878612D0EC2970089F478 /* HTTPHeaderField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 541878602D0EC2970089F478 /* HTTPHeaderField.swift */; };
 		548566492D123C94002BAEE3 /* NetworkRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 548566482D123C94002BAEE3 /* NetworkRequest.swift */; };
 		5485664B2D123FC2002BAEE3 /* Network.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5485664A2D123FC2002BAEE3 /* Network.swift */; };
-		548566502D1241A4002BAEE3 /* ExampleRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5485664F2D1241A4002BAEE3 /* ExampleRequest.swift */; };
-		548566522D1241BA002BAEE3 /* ExampleResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 548566512D1241BA002BAEE3 /* ExampleResponse.swift */; };
-		548566552D124260002BAEE3 /* ExampleService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 548566542D124260002BAEE3 /* ExampleService.swift */; };
 		54BC61552D14AFB70094DC45 /* LoginInputView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54BC61542D14AFB70094DC45 /* LoginInputView.swift */; };
 		54BC61572D18141B0094DC45 /* AccountOptionsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54BC61562D18141B0094DC45 /* AccountOptionsView.swift */; };
 		54BC61592D1823F50094DC45 /* SocialLoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54BC61582D1823F50094DC45 /* SocialLoginView.swift */; };
@@ -171,9 +168,6 @@
 		541878602D0EC2970089F478 /* HTTPHeaderField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTPHeaderField.swift; sourceTree = "<group>"; };
 		548566482D123C94002BAEE3 /* NetworkRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkRequest.swift; sourceTree = "<group>"; };
 		5485664A2D123FC2002BAEE3 /* Network.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Network.swift; sourceTree = "<group>"; };
-		5485664F2D1241A4002BAEE3 /* ExampleRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExampleRequest.swift; sourceTree = "<group>"; };
-		548566512D1241BA002BAEE3 /* ExampleResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExampleResponse.swift; sourceTree = "<group>"; };
-		548566542D124260002BAEE3 /* ExampleService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExampleService.swift; sourceTree = "<group>"; };
 		54BC61542D14AFB70094DC45 /* LoginInputView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginInputView.swift; sourceTree = "<group>"; };
 		54BC61562D18141B0094DC45 /* AccountOptionsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountOptionsView.swift; sourceTree = "<group>"; };
 		54BC61582D1823F50094DC45 /* SocialLoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SocialLoginView.swift; sourceTree = "<group>"; };
@@ -363,25 +357,14 @@
 			isa = PBXGroup;
 			children = (
 				B1D8137B2D76A18900A9D447 /* Auth */,
-				5485664E2D124150002BAEE3 /* Example */,
 			);
 			path = DTOs;
-			sourceTree = "<group>";
-		};
-		5485664E2D124150002BAEE3 /* Example */ = {
-			isa = PBXGroup;
-			children = (
-				5485664F2D1241A4002BAEE3 /* ExampleRequest.swift */,
-				548566512D1241BA002BAEE3 /* ExampleResponse.swift */,
-			);
-			path = Example;
 			sourceTree = "<group>";
 		};
 		548566532D1241CB002BAEE3 /* Service */ = {
 			isa = PBXGroup;
 			children = (
 				B1D8137C2D76A19500A9D447 /* Auth */,
-				548566542D124260002BAEE3 /* ExampleService.swift */,
 			);
 			path = Service;
 			sourceTree = "<group>";
@@ -1287,9 +1270,7 @@
 				B18F45122D3A26520030F7DB /* FindIDInputView.swift in Sources */,
 				541878542D0E21620089F478 /* HTTPMethod.swift in Sources */,
 				B18F45222D4645EC0030F7DB /* VerificationInputView.swift in Sources */,
-				548566502D1241A4002BAEE3 /* ExampleRequest.swift in Sources */,
 				E29CCD422D298656004AA30A /* PreviewResultViewModel.swift in Sources */,
-				548566522D1241BA002BAEE3 /* ExampleResponse.swift in Sources */,
 				548566492D123C94002BAEE3 /* NetworkRequest.swift in Sources */,
 				B15188622D76D29B000EFE41 /* EmailSendRequest.swift in Sources */,
 				B15188642D76E190000EFE41 /* EmailSendService.swift in Sources */,
@@ -1321,7 +1302,6 @@
 				541878612D0EC2970089F478 /* HTTPHeaderField.swift in Sources */,
 				E24907DE2D6648A7004D6E61 /* DailyTestState.swift in Sources */,
 				B168B76A2D2807470000F32E /* NameInputViewController.swift in Sources */,
-				548566552D124260002BAEE3 /* ExampleService.swift in Sources */,
 				B19C4FAB2D6120D100CD008A /* OneButtonCustomAlertViewController.swift in Sources */,
 				B18F451E2D44D4080030F7DB /* FindPasswordVerificationViewModel.swift in Sources */,
 				E29CCD3F2D298656004AA30A /* IncorrectRankView.swift in Sources */,
