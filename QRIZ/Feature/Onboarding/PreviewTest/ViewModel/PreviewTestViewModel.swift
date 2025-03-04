@@ -14,22 +14,19 @@ final class PreviewTestViewModel {
     enum Input {
         case viewDidLoad
         case viewDidAppear
-        case prevButtonClicked
-        case nextButtonClicked
-        case optionSelected(idx: Int)
+        case prevButtonClicked(selectedOption: Int?)
+        case nextButtonClicked(selectedOption: Int?)
         case escapeButtonClicked
         case alertSubmitButtonClicked
         case alertCancelButtonClicked
     }
     
     enum Output {
-        // case loadDataSuccess
-        // case loadDataFailed
-        case selectOption(idx: Int)
-        case deselectOption(idx: Int)
+        // case fetchDataSuccess
+        // case fetchDataFailed
         case updateQuestion(question: QuestionData)
+        case updateLastQuestionNum(num: Int)
         case updateTime(timeLimit: Int, timeRemaining: Int)
-        case updateNextButton(isLastQuestion: Bool)
         case moveToPreviewResult
         case moveToHome
         case popUpAlert
@@ -63,18 +60,18 @@ final class PreviewTestViewModel {
                 // fetch QuestionList
                 // fetch totalTimeLimit
                 currentNumber = 1
+                output.send(.updateLastQuestionNum(num: questionList.count))
                 output.send(.updateQuestion(question: questionList[0]))
             case .viewDidAppear:
-                // timer
                 guard let totalTimeLimit = totalTimeLimit else { return }
                 output.send(.updateTime(timeLimit: totalTimeLimit, timeRemaining: timeRemaining))
                 startTimer()
-            case .prevButtonClicked:
-                buttonActionHandler(isNextButton: false)
-            case .nextButtonClicked:
-                buttonActionHandler(isNextButton: true)
-            case .optionSelected(let idx):
-                optionSelectHandler(idx: idx)
+            case .prevButtonClicked(let selectedOption):
+                updateAnswer(selectedOption: selectedOption)
+                pageButtonsActionHandler(isNextButton: false)
+            case .nextButtonClicked(let selectedOption):
+                updateAnswer(selectedOption: selectedOption)
+                pageButtonsActionHandler(isNextButton: true)
             case .escapeButtonClicked:
                 exitTimer()
                 // coordinator role
@@ -97,68 +94,41 @@ final class PreviewTestViewModel {
         output.send(.moveToPreviewResult)
     }
     
-    private func buttonActionHandler(isNextButton: Bool) {
-        
+    private func updateAnswer(selectedOption: Int?) {
+        if let currentNumber {
+            questionList[currentNumber - 1].selectedOption = selectedOption
+        }
+    }
+    
+    private func pageButtonsActionHandler(isNextButton: Bool) {
         guard let curNum = currentNumber else { return }
-        
         if isNextButton {
             if curNum >= questionList.count {
                 output.send(.popUpAlert)
             } else {
-                if curNum == questionList.count - 1 {
-                    output.send(.updateNextButton(isLastQuestion: true))
-                }
-                currentNumber = curNum + 1
+                currentNumber! += 1
                 output.send(.updateQuestion(question: questionList[currentNumber! - 1]))
-                for i in 1...4 {
-                    output.send(.deselectOption(idx: i))
-                }
-                if let selectedOption = questionList[currentNumber! - 1].selectedOption {
-                    output.send(.selectOption(idx: selectedOption))
-                }
             }
         } else {
-            if curNum > 1 {
-                if curNum == questionList.count {
-                    output.send(.updateNextButton(isLastQuestion: false))
-                }
-                currentNumber = curNum - 1
-                output.send(.updateQuestion(question: questionList[currentNumber! - 1]))
-                for i in 1...4 {
-                    output.send(.deselectOption(idx: i))
-                }
-                if let selectedOption = questionList[currentNumber! - 1].selectedOption {
-                    output.send(.selectOption(idx: selectedOption))
-                }
-            }
+            currentNumber! -= 1
+            output.send(.updateQuestion(question: questionList[currentNumber! - 1]))
         }
     }
-    
-    private func optionSelectHandler(idx: Int) {
-        guard let currentNumber = currentNumber else { return }
-        if let selectedOption = questionList[currentNumber - 1].selectedOption {
-            if selectedOption == idx {
-                questionList[currentNumber - 1].selectedOption = nil
-                output.send(.deselectOption(idx: idx))
-            } else {
-                questionList[currentNumber - 1].selectedOption = idx
-                output.send(.deselectOption(idx: selectedOption))
-                output.send(.selectOption(idx: idx))
-            }
-        } else {
-            questionList[currentNumber - 1].selectedOption = idx
-            output.send(.selectOption(idx: idx))
-        }
-    }
-    
+}
+
+// MARK: - Methods For Timer
+extension PreviewTestViewModel {
     private func startTimer() {
         timer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(updateTimer), userInfo: nil, repeats: true)
     }
     
     @objc func updateTimer() {
+        guard let totalTimeLimit = totalTimeLimit else {
+            exitTimer()
+            return
+        }
         if timeRemaining > 0 {
             timeRemaining -= 1
-            guard let totalTimeLimit = totalTimeLimit else { return }
             output.send(.updateTime(timeLimit: totalTimeLimit, timeRemaining: timeRemaining))
             print(totalTimeLimit, timeRemaining)
         } else {
