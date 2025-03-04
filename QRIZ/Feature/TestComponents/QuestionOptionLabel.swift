@@ -10,15 +10,15 @@ import UIKit
 final class QuestionOptionLabel: UILabel {
 
     // MARK: - Properties
-    var optionNumberLabel: UILabel!
-    var optionStringLabel: UILabel!
+    private var optionNumberLabel: UILabel!
+    private var optionStringLabel: UILabel!
     
     // MARK: - Initializers
     init(optNum: Int) {
         super.init(frame: .zero)
         createNumberLabel(optNum)
         createStringLabel()
-        setOptionStatus(isSelected: false)
+        setOptionState(isSelected: false)
         addViews()
     }
     
@@ -31,18 +31,16 @@ final class QuestionOptionLabel: UILabel {
         optionStringLabel.attributedText = formattedText(str)
     }
     
-    func setOptionStatus(isSelected: Bool) {
+    func setOptionState(isSelected: Bool) {
         if isSelected {
             self.backgroundColor = .customBlue100
             optionNumberLabel.backgroundColor = .customBlue500
             optionNumberLabel.textColor = .white
-
             optionNumberLabel.layer.borderWidth = 0
         } else {
             self.backgroundColor = .white
             optionNumberLabel.backgroundColor = .white
             optionNumberLabel.textColor = .coolNeutral700
-
             optionNumberLabel.layer.borderWidth = 1.2
         }
     }
