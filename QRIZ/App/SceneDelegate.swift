@@ -10,16 +10,23 @@ import UIKit
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     
     var window: UIWindow?
+    var appCoordinator: AppCoordinatorImp?
     
-    func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
+    func scene(
+        _ scene: UIScene,
+        willConnectTo session: UISceneSession,
+        options connectionOptions: UIScene.ConnectionOptions
+    ) {
         guard let windowScene = (scene as? UIWindowScene) else { return }
+        let window = UIWindow(windowScene: windowScene)
         
-        UINavigationBar.configureNavigationBackButton()
-        let navi = UINavigationController(rootViewController: ViewController())
+        let dependency = AppCoordinatorDependencyImp()
+        let appCoordinator = AppCoordinatorImp(window: window, dependency: dependency)
         
-        window = UIWindow(windowScene: windowScene)
-        window?.rootViewController = navi
-        window?.makeKeyAndVisible()
+        self.window = window
+        self.appCoordinator = appCoordinator
+        
+        _ = appCoordinator.start()
     }
     
     func sceneDidDisconnect(_ scene: UIScene) { }
