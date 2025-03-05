@@ -39,8 +39,8 @@ final class PreviewTestViewModel {
     private var questionList = QuestionData.sampleList
     private var currentNumber: Int? = nil
     private var totalTimeLimit: Int? = 1500 // tmp
-    private var timeRemaining: Int = 1500
     private var timer: Timer? = nil
+    private var startTime: Date? = nil
     
     private let output: PassthroughSubject<Output, Never> = .init()
     private var subscriptions = Set<AnyCancellable>()
@@ -64,7 +64,7 @@ final class PreviewTestViewModel {
                 output.send(.updateQuestion(question: questionList[0]))
             case .viewDidAppear:
                 guard let totalTimeLimit = totalTimeLimit else { return }
-                output.send(.updateTime(timeLimit: totalTimeLimit, timeRemaining: timeRemaining))
+                output.send(.updateTime(timeLimit: totalTimeLimit, timeRemaining: totalTimeLimit))
                 startTimer()
             case .prevButtonClicked(let selectedOption):
                 updateAnswer(selectedOption: selectedOption)
@@ -119,21 +119,21 @@ final class PreviewTestViewModel {
 // MARK: - Methods For Timer
 extension PreviewTestViewModel {
     private func startTimer() {
+        startTime = Date()
         timer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(updateTimer), userInfo: nil, repeats: true)
     }
     
     @objc func updateTimer() {
-        guard let totalTimeLimit = totalTimeLimit else {
-            exitTimer()
-            return
-        }
-        if timeRemaining > 0 {
-            timeRemaining -= 1
+        guard let totalTimeLimit = totalTimeLimit, let startTime = startTime else { return }
+        let timeElapsed = Int(Date().timeIntervalSince(startTime))
+        let timeRemaining = totalTimeLimit - timeElapsed
+        if timeRemaining >= 0 {
             output.send(.updateTime(timeLimit: totalTimeLimit, timeRemaining: timeRemaining))
             print(totalTimeLimit, timeRemaining)
         } else {
             // send result
             output.send(.moveToPreviewResult)
+            exitTimer()
         }
     }
     
