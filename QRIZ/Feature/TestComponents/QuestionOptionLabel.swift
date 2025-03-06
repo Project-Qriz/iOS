@@ -33,7 +33,7 @@ final class QuestionOptionLabel: UILabel {
     
     func setOptionState(isSelected: Bool) {
         if isSelected {
-            self.backgroundColor = .customBlue100
+            self.backgroundColor = .customBlue500.withAlphaComponent(0.14)
             optionNumberLabel.backgroundColor = .customBlue500
             optionNumberLabel.textColor = .white
             optionNumberLabel.layer.borderWidth = 0
