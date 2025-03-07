@@ -29,6 +29,15 @@ final class PreviewTestViewController: UIViewController {
     private let progressView: TestProgressView = TestProgressView()
     private let timeLabel: TestTimeLabel = TestTimeLabel()
     private let totalTimeRemainingLabel: TestTotalTimeRemainingLabel = TestTotalTimeRemainingLabel()
+    private let pageIndicatorBgView: UIView = {
+        let view = UIView()
+        view.backgroundColor = .white
+
+        view.layer.shadowColor = UIColor.customBlue100.cgColor
+        view.layer.shadowOpacity = 1
+        view.layer.shadowRadius = 16
+        return view
+    }()
     private let pageIndicatorLabel: TestPageIndicatorLabel = TestPageIndicatorLabel()
     private let cancelLabel: UILabel = {
         let label = UILabel()
@@ -266,6 +275,7 @@ extension PreviewTestViewController {
         self.view.addSubview(progressView)
         self.view.addSubview(questionNumberLabel)
         self.view.addSubview(questionTitleLabel)
+        self.view.addSubview(pageIndicatorBgView)
         self.view.addSubview(previousButton)
         self.view.addSubview(nextButton)
         self.view.addSubview(pageIndicatorLabel)
@@ -273,6 +283,7 @@ extension PreviewTestViewController {
         progressView.translatesAutoresizingMaskIntoConstraints = false
         questionNumberLabel.translatesAutoresizingMaskIntoConstraints = false
         questionTitleLabel.translatesAutoresizingMaskIntoConstraints = false
+        pageIndicatorBgView.translatesAutoresizingMaskIntoConstraints = false
         previousButton.translatesAutoresizingMaskIntoConstraints = false
         nextButton.translatesAutoresizingMaskIntoConstraints = false
         pageIndicatorLabel.translatesAutoresizingMaskIntoConstraints = false
@@ -288,12 +299,17 @@ extension PreviewTestViewController {
             progressView.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor),
             progressView.heightAnchor.constraint(equalToConstant: 4),
 
-            questionNumberLabel.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor, constant: 40),
             questionNumberLabel.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 18),
+            questionNumberLabel.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor, constant: 40),
 
-            questionTitleLabel.topAnchor.constraint(equalTo: questionNumberLabel.bottomAnchor, constant: 14),
             questionTitleLabel.leadingAnchor.constraint(equalTo: questionNumberLabel.leadingAnchor),
             questionTitleLabel.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: -18),
+            questionTitleLabel.topAnchor.constraint(equalTo: questionNumberLabel.bottomAnchor, constant: 14),
+            
+            pageIndicatorBgView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
+            pageIndicatorBgView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor),
+            pageIndicatorBgView.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor, constant: -108),
+            pageIndicatorBgView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor),
 
             previousButton.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 18),
             previousButton.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor, constant: -30),
@@ -305,9 +321,9 @@ extension PreviewTestViewController {
             nextButton.widthAnchor.constraint(equalToConstant: 90),
             nextButton.heightAnchor.constraint(equalToConstant: 48),
 
-            pageIndicatorLabel.centerYAnchor.constraint(equalTo: previousButton.centerYAnchor),
             pageIndicatorLabel.leadingAnchor.constraint(equalTo: previousButton.trailingAnchor),
             pageIndicatorLabel.trailingAnchor.constraint(equalTo: nextButton.leadingAnchor),
+            pageIndicatorLabel.centerYAnchor.constraint(equalTo: previousButton.centerYAnchor),
             pageIndicatorLabel.heightAnchor.constraint(equalToConstant: 22)
         ])
         
