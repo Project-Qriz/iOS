@@ -37,7 +37,6 @@ final class PreviewResultViewController: UIViewController {
     }()
     private var firstTopicLabel = SingleSupplementConceptView()
     private var secondTopicLabel = SingleSupplementConceptView()
-    private var moveToHomeButton = OnboardingButton("홈으로 가기")
     
     private var viewModel = PreviewResultViewModel()
     private let input: PassthroughSubject<PreviewResultViewModel.Input, Never> = .init()
@@ -50,7 +49,6 @@ final class PreviewResultViewController: UIViewController {
         setNavigationItems()
         bind()
         addViews()
-        setButtonAction()
         input.send(.viewDidLoad)
     }
     
@@ -89,17 +87,19 @@ final class PreviewResultViewController: UIViewController {
         let titleView = UILabel()
         titleView.text = "시험 결과"
         titleView.font = .boldSystemFont(ofSize: 18)
-        titleView.textAlignment = .left
+        titleView.textAlignment = .center
         titleView.textColor = .coolNeutral700
+        self.navigationItem.titleView = titleView
         
-        self.navigationItem.leftBarButtonItem = UIBarButtonItem(customView: titleView)
+        let xmark = UIImage(systemName: "xmark")?.withTintColor(.coolNeutral800, renderingMode: .alwaysOriginal)
+        let button = UIButton(frame: CGRectMake(0, 0, 28, 28))
+        button.setImage(xmark, for: .normal)
+        button.addTarget(self, action: #selector(cancelTestResult), for: .touchUpInside)
+        self.navigationItem.leftBarButtonItem = UIBarButtonItem(customView: button)
     }
     
-    private func setButtonAction() {
-        moveToHomeButton.addAction(UIAction(handler: { [weak self] _ in
-            guard let self = self else { return }
-            self.input.send(.toHomeButtonClicked)
-        }), for: .touchUpInside)
+    @objc private func cancelTestResult() {
+        self.dismiss(animated: true)
     }
     
     private func setNicknameToLabel(nickname: String) {
@@ -142,7 +142,6 @@ extension PreviewResultViewController {
         let conceptBarGraphView = loadConceptBarGraphView()
         
         self.view.addSubview(resultScrollView)
-        self.view.addSubview(moveToHomeButton)
         resultScrollView.addSubview(contentView)
         contentView.addSubview(resultTitleLabel)
         contentView.addSubview(resultConceptLabel)
@@ -153,7 +152,6 @@ extension PreviewResultViewController {
         contentView.addSubview(secondTopicLabel)
         
         contentView.translatesAutoresizingMaskIntoConstraints = false
-        moveToHomeButton.translatesAutoresizingMaskIntoConstraints = false
         resultScrollView.translatesAutoresizingMaskIntoConstraints = false
         resultTitleLabel.translatesAutoresizingMaskIntoConstraints = false
         resultConceptLabel.translatesAutoresizingMaskIntoConstraints = false
@@ -168,47 +166,49 @@ extension PreviewResultViewController {
             resultScrollView.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor, constant: -64),
             resultScrollView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 18),
             resultScrollView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: -28),
+            
             contentView.topAnchor.constraint(equalTo: resultScrollView.topAnchor),
             contentView.bottomAnchor.constraint(equalTo: resultScrollView.bottomAnchor),
             contentView.leadingAnchor.constraint(equalTo: resultScrollView.leadingAnchor),
             contentView.trailingAnchor.constraint(equalTo: resultScrollView.trailingAnchor),
             contentView.widthAnchor.constraint(equalTo: resultScrollView.widthAnchor),
+            
             resultTitleLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 18),
             resultTitleLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
             resultTitleLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
             resultTitleLabel.heightAnchor.constraint(equalToConstant: 64),
+            
             scoreCircularChartView.topAnchor.constraint(equalTo: resultTitleLabel.bottomAnchor, constant: 12),
             scoreCircularChartView.leadingAnchor.constraint(equalTo: resultTitleLabel.leadingAnchor),
             scoreCircularChartView.trailingAnchor.constraint(equalTo: resultTitleLabel.trailingAnchor),
             scoreCircularChartView.heightAnchor.constraint(lessThanOrEqualTo: scoreCircularChartView.widthAnchor),
+            
             resultConceptLabel.topAnchor.constraint(equalTo: scoreCircularChartHostingController.view.bottomAnchor, constant: 32),
             resultConceptLabel.leadingAnchor.constraint(equalTo: resultTitleLabel.leadingAnchor),
             resultConceptLabel.trailingAnchor.constraint(equalTo: resultTitleLabel.trailingAnchor),
             resultConceptLabel.heightAnchor.constraint(equalToConstant: 64),
+            
             conceptBarGraphView.topAnchor.constraint(equalTo: resultConceptLabel.bottomAnchor, constant: 12),
             conceptBarGraphView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
             conceptBarGraphView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
             conceptBarGraphView.heightAnchor.constraint(greaterThanOrEqualTo: conceptBarGraphView.widthAnchor),
+            
             conceptSupplementLabel.topAnchor.constraint(equalTo: conceptBarGraphView.bottomAnchor, constant: 16),
             conceptSupplementLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
             conceptSupplementLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
             conceptSupplementLabel.heightAnchor.constraint(equalToConstant: 24),
+            
             firstTopicLabel.topAnchor.constraint(equalTo: conceptSupplementLabel.bottomAnchor, constant: 16),
             firstTopicLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
             firstTopicLabel.trailingAnchor.constraint(equalTo: contentView.centerXAnchor, constant: -4),
             firstTopicLabel.heightAnchor.constraint(equalToConstant: 70),
+            
             secondTopicLabel.topAnchor.constraint(equalTo: conceptSupplementLabel.bottomAnchor, constant: 16),
             secondTopicLabel.leadingAnchor.constraint(equalTo: contentView.centerXAnchor, constant: 4),
             secondTopicLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
             secondTopicLabel.heightAnchor.constraint(equalToConstant: 70),
-            secondTopicLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -60),
-            moveToHomeButton.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor, constant: -30),
-            moveToHomeButton.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
-            moveToHomeButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
-            moveToHomeButton.heightAnchor.constraint(equalToConstant: 48)
+            secondTopicLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -60)
         ])
-        
-        self.view.bringSubviewToFront(moveToHomeButton)
     }
     
     private func setLayoutWithoutBarGraph() {

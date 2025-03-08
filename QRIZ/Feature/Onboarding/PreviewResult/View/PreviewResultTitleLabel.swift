@@ -17,7 +17,7 @@ final class PreviewResultTitleLabel: UILabel {
         self.textColor = .coolNeutral800
         self.textAlignment = .left
         self.numberOfLines = 2
-        self.backgroundColor = .customBlue50
+        self.backgroundColor = .white
     }
     
     required init?(coder: NSCoder) {
