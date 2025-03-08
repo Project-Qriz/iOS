@@ -102,15 +102,10 @@ final class PreviewTestViewModel {
     
     private func pageButtonsActionHandler(isNextButton: Bool) {
         guard let curNum = currentNumber else { return }
-        if isNextButton {
-            if curNum >= questionList.count {
-                output.send(.popUpAlert)
-            } else {
-                currentNumber! += 1
-                output.send(.updateQuestion(question: questionList[currentNumber! - 1]))
-            }
+        if isNextButton && curNum >= questionList.count {
+            output.send(.popUpAlert)
         } else {
-            currentNumber! -= 1
+            currentNumber = curNum + 1
             output.send(.updateQuestion(question: questionList[currentNumber! - 1]))
         }
     }
