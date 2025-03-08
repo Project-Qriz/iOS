@@ -11,17 +11,33 @@ import Combine
 final class PreviewTestViewController: UIViewController {
     
     // MARK: - Properties
+    private var selectedOptionIdx: Int? = nil
+    private var lastQuestionNum: Int = 0
+    private var curNum: Int = 0
+    
     private let questionNumberLabel = QuestionNumberLabel(0)
     private let questionTitleLabel = QuestionTitleLabel("")
-    private let option1Label = QuestionOptionLabel(optNum: 1, optStr: "")
-    private let option2Label = QuestionOptionLabel(optNum: 2, optStr: "")
-    private let option3Label = QuestionOptionLabel(optNum: 3, optStr: "")
-    private let option4Label = QuestionOptionLabel(optNum: 4, optStr: "")
+    private let optionLabels: [QuestionOptionLabel] = {
+        var arr: [QuestionOptionLabel] = []
+        for i in 1...4 {
+            arr.append(QuestionOptionLabel(optNum: i))
+        }
+        return arr
+    }()
     private let previousButton: TestButton = TestButton(isPreviousButton: true)
     private let nextButton: TestButton = TestButton(isPreviousButton: false)
     private let progressView: TestProgressView = TestProgressView()
     private let timeLabel: TestTimeLabel = TestTimeLabel()
     private let totalTimeRemainingLabel: TestTotalTimeRemainingLabel = TestTotalTimeRemainingLabel()
+    private let pageIndicatorBgView: UIView = {
+        let view = UIView()
+        view.backgroundColor = .white
+
+        view.layer.shadowColor = UIColor.customBlue100.cgColor
+        view.layer.shadowOpacity = 1
+        view.layer.shadowRadius = 16
+        return view
+    }()
     private let pageIndicatorLabel: TestPageIndicatorLabel = TestPageIndicatorLabel()
     private let cancelLabel: UILabel = {
         let label = UILabel()
@@ -62,16 +78,12 @@ final class PreviewTestViewController: UIViewController {
             .sink { [weak self] event in
                 guard let self = self else { return }
                 switch event {
-                case .selectOption(let idx):
-                    setOptionState(idx: idx, isSelected: true)
-                case .deselectOption(let idx):
-                    setOptionState(idx: idx, isSelected: false)
                 case .updateQuestion(let question):
                     updateQuestionUI(question: question)
+                case .updateLastQuestionNum(let num):
+                    self.lastQuestionNum = num
                 case .updateTime(let timeLimit, let timeRemaining):
                     updateProgress(timeLimit: timeLimit, timeRemaining: timeRemaining)
-                case .updateNextButton(let isLastQuestion):
-                    setNextButtonTitle(isLastQuestion: isLastQuestion)
                 case .moveToPreviewResult:
                     self.navigationController?.pushViewController(PreviewResultViewController(), animated: true)
                 case .moveToHome:
@@ -122,49 +134,82 @@ final class PreviewTestViewController: UIViewController {
         input.send(.escapeButtonClicked)
     }
     
+    private func updateQuestionUI(question: QuestionData) {
+        curNum = question.questionNumber
+        let optStringArr: [String] = [
+            question.option1, question.option2, question.option3, question.option4
+        ]
+
+        questionNumberLabel.setNumber(question.questionNumber)
+        questionTitleLabel.setTitle(question.question)
+        setSelectedOption(question.selectedOption)
+        setOptionsString(optStringArr)
+        pageIndicatorLabel.setPages(curPage: question.questionNumber, totalPage: lastQuestionNum)
+        setPageButtonsUI(question.questionNumber)
+    }
+}
+
+// MARK: - Methods For Options
+extension PreviewTestViewController {
+    private func setOptionsString(_ optStringArr: [String]) {
+        for i in 0...3 {
+            optionLabels[i].setOptionString(optStringArr[i])
+        }
+    }
+    
+    private func setSelectedOption(_ selectedOption: Int?) {
+        if let selectedOptionIdx = selectedOptionIdx {
+            setOptionState(idx: selectedOptionIdx, isSelected: false)
+        }
+        if let selectedOption = selectedOption {
+            setOptionState(idx: selectedOption, isSelected: true)
+        }
+        selectedOptionIdx = selectedOption
+    }
+    
     private func setOptionActions() {
-        
-        let optionLabels = [option1Label, option2Label, option3Label, option4Label]
-        
         for (index, optionLabel) in optionLabels.enumerated() {
             optionLabel.isUserInteractionEnabled = true
             optionLabel.tag = index + 1
-            let tapGesture = UITapGestureRecognizer(target: self, action: #selector(sendOptionTouchEvent(_:)))
+            let tapGesture = UITapGestureRecognizer(target: self, action: #selector(optionTouchEvent(_:)))
             optionLabel.addGestureRecognizer(tapGesture)
         }
     }
     
-    @objc private func sendOptionTouchEvent(_ sender: UITapGestureRecognizer) {
+    @objc private func optionTouchEvent(_ sender: UITapGestureRecognizer) {
+        guard let idx = sender.view?.tag else { return }
         
-        let idx = sender.view?.tag ?? 0
-        input.send(.optionSelected(idx: idx))
+        if let selectedOptionIdx = selectedOptionIdx {
+            if selectedOptionIdx == idx {
+                setOptionState(idx: idx, isSelected: false)
+                self.selectedOptionIdx = nil
+            } else {
+                setOptionState(idx: selectedOptionIdx, isSelected: false)
+                setOptionState(idx: idx, isSelected: true)
+                self.selectedOptionIdx = idx
+            }
+        } else {
+            setOptionState(idx: idx, isSelected: true)
+            self.selectedOptionIdx = idx
+        }
+        
+        if curNum == 1 {
+            selectedOptionIdx == nil ? setButtonsVisibility(isFirstQuestion: true, isOptionSelected: false) : setButtonsVisibility(isFirstQuestion: true, isOptionSelected: true)
+        }
     }
     
     private func setOptionState(idx: Int, isSelected: Bool) {
         switch idx {
-        case 1:
-            option1Label.setOptionStatus(isSelected: isSelected)
-        case 2:
-            option2Label.setOptionStatus(isSelected: isSelected)
-        case 3:
-            option3Label.setOptionStatus(isSelected: isSelected)
-        case 4:
-            option4Label.setOptionStatus(isSelected: isSelected)
+        case 1...4:
+            optionLabels[idx - 1].setOptionState(isSelected: isSelected)
         default:
             print("error occured while setting option state in PreviewTestViewController")
         }
     }
-    
-    private func updateQuestionUI(question: QuestionData) {
-        questionNumberLabel.setNumber(question.questionNumber)
-        questionTitleLabel.setTitle(question.question)
-        option1Label.setOptionString(question.option1)
-        option2Label.setOptionString(question.option2)
-        option3Label.setOptionString(question.option3)
-        option4Label.setOptionString(question.option4)
-        pageIndicatorLabel.setPages(curPage: question.questionNumber, totalPage: 20)
-    }
-    
+}
+
+// MARK: - Methods For Progress
+extension PreviewTestViewController {
     private func updateProgress(timeLimit: Int, timeRemaining: Int) {
         progressView.progress = Float(timeRemaining) / Float(timeLimit)
         timeLabel.text = formattedTime(timeRemaining: timeRemaining)
@@ -175,16 +220,34 @@ final class PreviewTestViewController: UIViewController {
         let seconds = timeRemaining % 60
         return String(format: "%02d:%02d", minutes, seconds)
     }
-    
+}
+
+// MARK: - Methods For Previous & Next Button
+extension PreviewTestViewController {
     private func setButtonActions() {
         self.previousButton.addAction(UIAction(handler: { [weak self] _ in
             guard let self = self else { return }
-            self.input.send(.prevButtonClicked)
+            self.input.send(.prevButtonClicked(selectedOption: selectedOptionIdx))
         }), for: .touchUpInside)
         self.nextButton.addAction(UIAction(handler: { [weak self] _ in
             guard let self = self else { return }
-            self.input.send(.nextButtonClicked)
+            self.input.send(.nextButtonClicked(selectedOption: selectedOptionIdx))
         }), for: .touchUpInside)
+    }
+    
+    private func setPageButtonsUI(_ questionNum: Int) {
+        switch questionNum {
+        case 1:
+            selectedOptionIdx == nil ? setButtonsVisibility(isFirstQuestion: true, isOptionSelected: false) : setButtonsVisibility(isFirstQuestion: true, isOptionSelected: true)
+        case 2:
+            setButtonsVisibility(isFirstQuestion: false)
+        case lastQuestionNum - 1:
+            setNextButtonTitle(isLastQuestion: false)
+        case lastQuestionNum:
+            setNextButtonTitle(isLastQuestion: true)
+        default:
+            return
+        }
     }
     
     private func setNextButtonTitle(isLastQuestion: Bool) {
@@ -194,18 +257,25 @@ final class PreviewTestViewController: UIViewController {
             nextButton.setTitleText("다음")
         }
     }
+    
+    private func setButtonsVisibility(isFirstQuestion: Bool, isOptionSelected: Bool = false) {
+        if isFirstQuestion {
+            previousButton.isHidden = true
+            nextButton.isHidden = !isOptionSelected
+        } else {
+            previousButton.isHidden = false
+            nextButton.isHidden = false
+        }
+    }
 }
 
-// MARK: - AutoLayout
+// MARK: - Auto Layout
 extension PreviewTestViewController {
     private func addViews() {
         self.view.addSubview(progressView)
         self.view.addSubview(questionNumberLabel)
         self.view.addSubview(questionTitleLabel)
-        self.view.addSubview(option1Label)
-        self.view.addSubview(option2Label)
-        self.view.addSubview(option3Label)
-        self.view.addSubview(option4Label)
+        self.view.addSubview(pageIndicatorBgView)
         self.view.addSubview(previousButton)
         self.view.addSubview(nextButton)
         self.view.addSubview(pageIndicatorLabel)
@@ -213,38 +283,47 @@ extension PreviewTestViewController {
         progressView.translatesAutoresizingMaskIntoConstraints = false
         questionNumberLabel.translatesAutoresizingMaskIntoConstraints = false
         questionTitleLabel.translatesAutoresizingMaskIntoConstraints = false
-        option1Label.translatesAutoresizingMaskIntoConstraints = false
-        option2Label.translatesAutoresizingMaskIntoConstraints = false
-        option3Label.translatesAutoresizingMaskIntoConstraints = false
-        option4Label.translatesAutoresizingMaskIntoConstraints = false
+        pageIndicatorBgView.translatesAutoresizingMaskIntoConstraints = false
         previousButton.translatesAutoresizingMaskIntoConstraints = false
         nextButton.translatesAutoresizingMaskIntoConstraints = false
         pageIndicatorLabel.translatesAutoresizingMaskIntoConstraints = false
+
+        for optionLabel in optionLabels {
+            self.view.addSubview(optionLabel)
+            optionLabel.translatesAutoresizingMaskIntoConstraints = false
+        }
         
         NSLayoutConstraint.activate([
             progressView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
             progressView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor),
             progressView.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor),
             progressView.heightAnchor.constraint(equalToConstant: 4),
-            questionNumberLabel.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor, constant: 40),
+
             questionNumberLabel.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 18),
-            questionNumberLabel.widthAnchor.constraint(equalToConstant: 35),
-            questionNumberLabel.heightAnchor.constraint(equalToConstant: 30),
-            questionTitleLabel.topAnchor.constraint(equalTo: questionNumberLabel.topAnchor, constant: 5),
-            questionTitleLabel.leadingAnchor.constraint(equalTo: questionNumberLabel.trailingAnchor, constant: 9),
+            questionNumberLabel.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor, constant: 40),
+
+            questionTitleLabel.leadingAnchor.constraint(equalTo: questionNumberLabel.leadingAnchor),
             questionTitleLabel.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: -18),
-            questionTitleLabel.heightAnchor.constraint(greaterThanOrEqualToConstant: 22),
+            questionTitleLabel.topAnchor.constraint(equalTo: questionNumberLabel.bottomAnchor, constant: 14),
+            
+            pageIndicatorBgView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
+            pageIndicatorBgView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor),
+            pageIndicatorBgView.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor, constant: -108),
+            pageIndicatorBgView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor),
+
             previousButton.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 18),
             previousButton.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor, constant: -30),
             previousButton.widthAnchor.constraint(equalToConstant: 90),
             previousButton.heightAnchor.constraint(equalToConstant: 48),
+
             nextButton.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: -18),
             nextButton.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor, constant: -30),
             nextButton.widthAnchor.constraint(equalToConstant: 90),
             nextButton.heightAnchor.constraint(equalToConstant: 48),
-            pageIndicatorLabel.centerYAnchor.constraint(equalTo: previousButton.centerYAnchor),
+
             pageIndicatorLabel.leadingAnchor.constraint(equalTo: previousButton.trailingAnchor),
             pageIndicatorLabel.trailingAnchor.constraint(equalTo: nextButton.leadingAnchor),
+            pageIndicatorLabel.centerYAnchor.constraint(equalTo: previousButton.centerYAnchor),
             pageIndicatorLabel.heightAnchor.constraint(equalToConstant: 22)
         ])
         
@@ -254,20 +333,16 @@ extension PreviewTestViewController {
     }
     
     private func setOptionLabelLayout() {
-        
-        let optionLabels: [QuestionOptionLabel] = [option1Label, option2Label, option3Label, option4Label]
-        
         for (idx, option) in optionLabels.enumerated() {
             NSLayoutConstraint.activate([
                 option.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 18),
                 option.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: -18),
-                option.heightAnchor.constraint(equalToConstant: 50),
             ])
             
-            if idx != 3 {
-                option.bottomAnchor.constraint(equalTo: optionLabels[idx + 1].topAnchor, constant: -8).isActive = true
+            if idx != 0 {
+                option.topAnchor.constraint(equalTo: optionLabels[idx - 1].bottomAnchor).isActive = true
             } else {
-                option4Label.bottomAnchor.constraint(equalTo: previousButton.topAnchor, constant:  -8).isActive = true
+                optionLabels[0].topAnchor.constraint(equalTo: questionTitleLabel.bottomAnchor, constant: 26).isActive = true
             }
         }
     }
