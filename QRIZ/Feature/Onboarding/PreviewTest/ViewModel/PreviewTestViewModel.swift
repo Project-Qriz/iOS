@@ -48,6 +48,7 @@ final class PreviewTestViewModel {
     // MARK: - Deinitializer
     deinit {
         exitTimer()
+        print("DEINIT: PreviewTestViewModel")
     }
     
     // MARK: - Methods
