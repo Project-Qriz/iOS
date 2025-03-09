@@ -87,7 +87,7 @@
 		E24907E02D66603A004D6E61 /* StudyContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E24907DF2D66603A004D6E61 /* StudyContentView.swift */; };
 		E25856D42D0D766900355667 /* CheckConceptViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E25856D32D0D766900355667 /* CheckConceptViewController.swift */; };
 		E25856DE2D0DADD300355667 /* BeginOnboardingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E25856DD2D0DADD300355667 /* BeginOnboardingViewModel.swift */; };
-		E25F94C82D0CAF1B00BA765F /* BeginTestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E25F94C72D0CAF1B00BA765F /* BeginTestViewController.swift */; };
+		E25F94C82D0CAF1B00BA765F /* BeginPreviewTestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E25F94C72D0CAF1B00BA765F /* BeginPreviewTestViewController.swift */; };
 		E25F94CB2D0CB1DB00BA765F /* OnboardingTitleLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E25F94CA2D0CB1DB00BA765F /* OnboardingTitleLabel.swift */; };
 		E25F94CD2D0CB50F00BA765F /* OnboardingSubtitleLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E25F94CC2D0CB50F00BA765F /* OnboardingSubtitleLabel.swift */; };
 		E25F94D12D0CB74700BA765F /* OnboardingButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = E25F94D02D0CB74700BA765F /* OnboardingButton.swift */; };
@@ -121,7 +121,7 @@
 		E29CCD4A2D29867F004AA30A /* GreetingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E29CCD472D29867F004AA30A /* GreetingViewModel.swift */; };
 		E29CCD4C2D299297004AA30A /* SwiftUIViews+.swift in Sources */ = {isa = PBXBuildFile; fileRef = E29CCD4B2D299297004AA30A /* SwiftUIViews+.swift */; };
 		E29CCD522D299AD5004AA30A /* IncorrectConceptsRankView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E29CCD512D299AD5004AA30A /* IncorrectConceptsRankView.swift */; };
-		E2D70FE82D0DD322005A3F51 /* BeginTestViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2D70FE72D0DD322005A3F51 /* BeginTestViewModel.swift */; };
+		E2D70FE82D0DD322005A3F51 /* BeginPreviewTestViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2D70FE72D0DD322005A3F51 /* BeginPreviewTestViewModel.swift */; };
 		E2D70FEC2D0EBDDD005A3F51 /* CheckListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2D70FEB2D0EBDDD005A3F51 /* CheckListCell.swift */; };
 		E2D70FEE2D0EC037005A3F51 /* CheckConceptViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2D70FED2D0EC037005A3F51 /* CheckConceptViewModel.swift */; };
 		E2DD0E842D2144D000DA3D18 /* PreviewConceptsData.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2DD0E832D2144D000DA3D18 /* PreviewConceptsData.swift */; };
@@ -239,7 +239,7 @@
 		E24907DF2D66603A004D6E61 /* StudyContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StudyContentView.swift; sourceTree = "<group>"; };
 		E25856D32D0D766900355667 /* CheckConceptViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = CheckConceptViewController.swift; path = QRIZ/Feature/Onboarding/CheckConcept/ViewController/CheckConceptViewController.swift; sourceTree = SOURCE_ROOT; };
 		E25856DD2D0DADD300355667 /* BeginOnboardingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BeginOnboardingViewModel.swift; sourceTree = "<group>"; };
-		E25F94C72D0CAF1B00BA765F /* BeginTestViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BeginTestViewController.swift; sourceTree = "<group>"; };
+		E25F94C72D0CAF1B00BA765F /* BeginPreviewTestViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BeginPreviewTestViewController.swift; sourceTree = "<group>"; };
 		E25F94CA2D0CB1DB00BA765F /* OnboardingTitleLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingTitleLabel.swift; sourceTree = "<group>"; };
 		E25F94CC2D0CB50F00BA765F /* OnboardingSubtitleLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingSubtitleLabel.swift; sourceTree = "<group>"; };
 		E25F94D02D0CB74700BA765F /* OnboardingButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingButton.swift; sourceTree = "<group>"; };
@@ -273,7 +273,7 @@
 		E29CCD472D29867F004AA30A /* GreetingViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GreetingViewModel.swift; sourceTree = "<group>"; };
 		E29CCD4B2D299297004AA30A /* SwiftUIViews+.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "SwiftUIViews+.swift"; sourceTree = "<group>"; };
 		E29CCD512D299AD5004AA30A /* IncorrectConceptsRankView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IncorrectConceptsRankView.swift; sourceTree = "<group>"; };
-		E2D70FE72D0DD322005A3F51 /* BeginTestViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BeginTestViewModel.swift; sourceTree = "<group>"; };
+		E2D70FE72D0DD322005A3F51 /* BeginPreviewTestViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BeginPreviewTestViewModel.swift; sourceTree = "<group>"; };
 		E2D70FEB2D0EBDDD005A3F51 /* CheckListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckListCell.swift; sourceTree = "<group>"; };
 		E2D70FED2D0EC037005A3F51 /* CheckConceptViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckConceptViewModel.swift; sourceTree = "<group>"; };
 		E2DD0E832D2144D000DA3D18 /* PreviewConceptsData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreviewConceptsData.swift; sourceTree = "<group>"; };
@@ -633,7 +633,7 @@
 				E25F94C92D0CB1BF00BA765F /* OnboardingComponents */,
 				E25856D72D0DA97400355667 /* BeginOnboarding */,
 				E25856D82D0DAA0400355667 /* CheckConcept */,
-				E25856D92D0DAA2800355667 /* BeginTest */,
+				E25856D92D0DAA2800355667 /* BeginPreviewTest */,
 				E29CCD182D2982AD004AA30A /* PreviewTest */,
 				E29CCD3B2D298656004AA30A /* PreviewResult */,
 				E29CCD482D29867F004AA30A /* Greeting */,
@@ -737,13 +737,13 @@
 			path = CheckConcept;
 			sourceTree = "<group>";
 		};
-		E25856D92D0DAA2800355667 /* BeginTest */ = {
+		E25856D92D0DAA2800355667 /* BeginPreviewTest */ = {
 			isa = PBXGroup;
 			children = (
 				E29CCD172D298152004AA30A /* ViewModel */,
 				E29CCD162D29814A004AA30A /* ViewController */,
 			);
-			path = BeginTest;
+			path = BeginPreviewTest;
 			sourceTree = "<group>";
 		};
 		E25F94C92D0CB1BF00BA765F /* OnboardingComponents */ = {
@@ -858,7 +858,7 @@
 		E29CCD162D29814A004AA30A /* ViewController */ = {
 			isa = PBXGroup;
 			children = (
-				E25F94C72D0CAF1B00BA765F /* BeginTestViewController.swift */,
+				E25F94C72D0CAF1B00BA765F /* BeginPreviewTestViewController.swift */,
 			);
 			path = ViewController;
 			sourceTree = "<group>";
@@ -866,7 +866,7 @@
 		E29CCD172D298152004AA30A /* ViewModel */ = {
 			isa = PBXGroup;
 			children = (
-				E2D70FE72D0DD322005A3F51 /* BeginTestViewModel.swift */,
+				E2D70FE72D0DD322005A3F51 /* BeginPreviewTestViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -1200,12 +1200,12 @@
 				54BC61592D1823F50094DC45 /* SocialLoginView.swift in Sources */,
 				B18F451A2D4139B00030F7DB /* UILabel+.swift in Sources */,
 				E23963092D083B900092B39B /* AppDelegate.swift in Sources */,
-				E2D70FE82D0DD322005A3F51 /* BeginTestViewModel.swift in Sources */,
+				E2D70FE82D0DD322005A3F51 /* BeginPreviewTestViewModel.swift in Sources */,
 				E29BF86D2D16895B006DC6D0 /* QuestionData.swift in Sources */,
 				E29CCD2A2D29855B004AA30A /* QuestionOptionLabel.swift in Sources */,
 				E25856D42D0D766900355667 /* CheckConceptViewController.swift in Sources */,
 				B18F451C2D441E150030F7DB /* FindPasswordVerificationViewController.swift in Sources */,
-				E25F94C82D0CAF1B00BA765F /* BeginTestViewController.swift in Sources */,
+				E25F94C82D0CAF1B00BA765F /* BeginPreviewTestViewController.swift in Sources */,
 				E24674452D6C730B00697D34 /* CheckAllOrNoneButton.swift in Sources */,
 				E24907D52D619FD4004D6E61 /* TestNavigatorButton.swift in Sources */,
 				B18F450D2D3994380030F7DB /* FindIDMainView.swift in Sources */,
@@ -1216,7 +1216,6 @@
 				E29CCD4C2D299297004AA30A /* SwiftUIViews+.swift in Sources */,
 				E29CCD402D298656004AA30A /* PreviewResultTitleLabel.swift in Sources */,
 				541878612D0EC2970089F478 /* HTTPHeaderField.swift in Sources */,
-				B168B7642D28073C0000F32E /* VerificationCodeMainView.swift in Sources */,
 				E24907DE2D6648A7004D6E61 /* DailyTestState.swift in Sources */,
 				B168B76A2D2807470000F32E /* NameInputViewController.swift in Sources */,
 				548566552D124260002BAEE3 /* ExampleService.swift in Sources */,
@@ -1248,7 +1247,7 @@
 				E29CCD1E2D298316004AA30A /* PreviewTestViewModel.swift in Sources */,
 				E29CCD442D298656004AA30A /* ScoreCircularChartView.swift in Sources */,
 				B18F452E2D4D5D640030F7DB /* ResetPasswordMainView.swift in Sources */,
-				B168B76F2D2826010000F32E /* IdInputMainView.swift in Sources */,
+				B168B76F2D2826010000F32E /* IDInputMainView.swift in Sources */,
 				E24907D82D61A289004D6E61 /* DailyLearnType.swift in Sources */,
 				B168B76F2D2826010000F32E /* IDInputMainView.swift in Sources */,
 				B16288182D2CDB85008057D0 /* NameInputViewModel.swift in Sources */,
