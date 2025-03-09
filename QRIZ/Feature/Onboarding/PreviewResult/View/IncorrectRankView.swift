@@ -18,20 +18,20 @@ struct IncorrectRankView: View {
             
             Text("\(rank)위")
                 .font(.system(size: 12, weight: .bold))
-                .foregroundColor(RankColors.colors(for: rank).textColor)
+                .foregroundStyle(RankColors.colors(for: rank).textColor)
                 .frame(width: 33, height: 28)
                 .background(RankColors.colors(for: rank).bgColor)
                 .cornerRadius(4)
             
             Text("\(topic)")
                 .font(.system(size: 14, weight: .bold))
-                .foregroundColor(RankColors.colors(for: rank).topicTextColor)
+                .foregroundStyle(RankColors.colors(for: rank).topicTextColor)
             
             Spacer()
             
             Text("\(incorrectNum)문제")
                 .font(.system(size: 16, weight: .medium))
-                .foregroundColor(RankColors.colors(for: rank).topicTextColor)
+                .foregroundStyle(RankColors.colors(for: rank).topicTextColor)
         }
         
     }

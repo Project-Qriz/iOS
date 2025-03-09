@@ -24,13 +24,13 @@ struct IncorrectConceptsRankView: View {
                 HStack(spacing: 8) {
                     Text("\(previewConceptsData.incorrectCountDataArr[2].topic)")
                         .font(.system(size: 14))
-                        .foregroundColor(.coolNeutral500)
+                        .foregroundStyle(.coolNeutral500)
                     
                     Spacer()
                     
                     Text("\(previewConceptsData.incorrectCountDataArr[2].incorrectCount)문제")
                         .font(.system(size: 16))
-                        .foregroundColor(.coolNeutral500)
+                        .foregroundStyle(.coolNeutral500)
                 }
             }
         }
