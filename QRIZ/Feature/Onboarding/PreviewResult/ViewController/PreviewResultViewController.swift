@@ -18,12 +18,12 @@ final class PreviewResultViewController: UIViewController {
     private var conceptBarHostingController: ConceptBarGraphHostingController!
     private let resultScrollView: UIScrollView = {
         let scrollView = UIScrollView()
-        scrollView.backgroundColor = .customBlue50
+        scrollView.backgroundColor = .white
         return scrollView
     }()
     private let contentView: UIView = {
         let view = UIView()
-        view.backgroundColor = .customBlue50
+        view.backgroundColor = .white
         return view
     }()
     private var conceptSupplementLabel: UILabel = {
@@ -118,7 +118,6 @@ final class PreviewResultViewController: UIViewController {
         scoreCircularChartHostingController.didMove(toParent: self)
         let scoreCircularCharView = scoreCircularChartHostingController.view ?? UIView(frame: .zero)
         scoreCircularCharView.backgroundColor = .white
-        scoreCircularCharView.layer.cornerRadius = 16
         return scoreCircularCharView
     }
     
@@ -128,7 +127,6 @@ final class PreviewResultViewController: UIViewController {
         conceptBarHostingController.didMove(toParent: self)
         let conceptBarGraphView = conceptBarHostingController.view ?? UIView(frame: .zero)
         conceptBarGraphView.backgroundColor = .white
-        conceptBarGraphView.layer.cornerRadius = 16
         return conceptBarGraphView
     }
 }

@@ -13,21 +13,19 @@ struct ScoreCircularChartView: View {
 
     var body: some View {
         VStack(spacing: 8) {
-            Text("예상 점수")
-                .font(.system(size: 18))
-                .foregroundStyle(.coolNeutral500)
-            
-            Spacer(minLength: 12)
-
             ZStack {
                 Circle()
                     .stroke(style: StrokeStyle(lineWidth: 45))
-                    .foregroundStyle(.customBlue700)
+                    .foregroundStyle(.customBlue800)
                 createTrimmedCircle(subject1Score: previewScoresData.subject1Score)
                 createTrimmedCircle(subject1Score: previewScoresData.subject1Score, subject2Score: previewScoresData.subject2Score)
-                Text("\(previewScoresData.expectScore)점")
-                    .font(.system(size: 16, weight: .bold))
-                    .foregroundStyle(expectScoreColor(score: previewScoresData.expectScore))
+                VStack {
+                    Text("총점수")
+                        .font(.system(size: 14, weight: .regular))
+                    Text("\(Int((previewScoresData.subject1Score + previewScoresData.subject2Score) * 100))점")
+                        .font(.system(size: 16, weight: .bold))
+                }
+                .foregroundStyle(.coolNeutral800)
             }
             .frame(width: 125, height: 125)
             
@@ -83,22 +81,18 @@ struct ScoreCircularChartView: View {
         .padding(EdgeInsets(top: 24, leading: 50, bottom: 24, trailing: 50))
     }
     
-    private func expectScoreColor(score: Int) -> Color {
-        score == 100 ? .customBlue500 : .coolNeutral800
-    }
-    
     private func createTrimmedCircle(subject1Score: CGFloat, subject2Score: CGFloat = -1.0) -> some View {
         subject2Score == -1.0 ?
         Circle()
             .trim(from: 0.0, to: 1.0 - subject1Score)
             .stroke(style: StrokeStyle(lineWidth: 45, lineCap: .butt, lineJoin: .round))
-            .foregroundStyle(.customBlue400)
+            .foregroundStyle(.customBlue500)
             .rotationEffect(.degrees(-90))
             .animation(.easeInOut(duration: 1), value: 1.0 - subject1Score)
         : Circle()
             .trim(from: 0.0, to: 1.0 - subject1Score - subject2Score)
             .stroke(style: StrokeStyle(lineWidth: 45, lineCap: .butt, lineJoin: .round))
-            .foregroundStyle(.coolNeutral300)
+            .foregroundStyle(.coolNeutral400)
             .rotationEffect(.degrees(-90))
             .animation(.easeInOut(duration: 1), value: subject1Score)
     }
