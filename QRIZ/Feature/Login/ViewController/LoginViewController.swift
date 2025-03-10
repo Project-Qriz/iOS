@@ -12,11 +12,12 @@ final class LoginViewController: UIViewController {
     
     // MARK: - Properties
     
+    weak var coordinator: LoginCoordinator?
     private let rootView: LoginMainView
     private let loginVM: LoginViewModel
     private var cancellables = Set<AnyCancellable>()
     
-    // MARK: - initialize
+    // MARK: - Initialize
     
     init(loginVM: LoginViewModel) {
         self.loginVM = loginVM
@@ -76,21 +77,11 @@ final class LoginViewController: UIViewController {
                     self.rootView.loginInputView.setLoginButtonEnabled(isEnabled)
                     
                 case .navigateToAccountAction(let accountAction):
-                    // MARK: - 코디네이터 적용 필요
-                    let nextVC: UIViewController
                     switch accountAction {
-                    case .findId:
-                        nextVC = FindIDViewController(findIDInputVM: FindIDViewModel())
-                    case .findPassword:
-                        nextVC = FindPasswordVerificationViewController(
-                            findPasswordVerificationVM: FindPasswordVerificationViewModel()
-                        )
-                    case .signUp:
-                        nextVC = SignUpVerificationViewController(
-                            signUpVerificationVM: SignUpVerificationViewModel()
-                        )
+                    case .findId: self.coordinator?.showFindId()
+                    case .findPassword: self.coordinator?.showFindPassword()
+                    case .signUp: self.coordinator?.showSignUp()
                     }
-                    navigationController?.pushViewController(nextVC, animated: true)
                 }
             }
             .store(in: &cancellables)
