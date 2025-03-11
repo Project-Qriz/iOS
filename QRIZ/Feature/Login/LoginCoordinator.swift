@@ -81,6 +81,6 @@ final class LoginCoordinatorImp: LoginCoordinator {
 extension LoginCoordinatorImp: SignUpCoordinatorDelegate {
     func didFinishSignUp(_ coordinator: SignUpCoordinator) {
         childCoordinators.removeAll { $0 === coordinator }
-        navigationController.popViewController(animated: true)
+        navigationController.popToRootViewController(animated: true)
     }
 }

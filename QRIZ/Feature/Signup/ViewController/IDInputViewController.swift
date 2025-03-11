@@ -18,6 +18,7 @@ final class IDInputViewController: UIViewController {
     
     // MARK: - Properties
     
+    weak var coordinator: SignUpCoordinator?
     private let rootView: IDInputMainView
     private let idInputVM: IDInputViewModel
     private var cancellables = Set<AnyCancellable>()
@@ -90,8 +91,7 @@ final class IDInputViewController: UIViewController {
                     self.rootView.idInputView.resetColors()
                     
                 case .navigateToPasswordInputView:
-                    // MARK: - 코디네이터 적용 필요
-                    navigationController?.pushViewController(PasswordInputViewController(passwordInputVM: PasswordInputViewModel()), animated: true)
+                    self.coordinator?.showPasswordInput()
                 }
             }
             .store(in: &cancellables)

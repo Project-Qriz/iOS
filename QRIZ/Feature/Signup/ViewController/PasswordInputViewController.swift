@@ -20,13 +20,14 @@ final class PasswordInputViewController: UIViewController {
     
     // MARK: - Properties
     
+    weak var coordinator: SignUpCoordinator?
     private let rootView: PasswordInputMainView
     private let passwordInputVM: PasswordInputViewModel
     private var cancellables = Set<AnyCancellable>()
     private var keyboardCancellable: AnyCancellable?
     
     
-    // MARK: - initialize
+    // MARK: - Initialize
     
     init(passwordInputVM: PasswordInputViewModel) {
         self.rootView = PasswordInputMainView()
@@ -116,8 +117,9 @@ final class PasswordInputViewController: UIViewController {
         oneButtonAlert.confirmButtonTappedPublisher
             .sink { [weak self] _ in
                 oneButtonAlert.dismiss(animated: true) {
-                    guard let self = self else { return }
-                    self.navigationController?.popToRootViewController(animated: true)
+                    guard let self = self,
+                          let coordinator = self.coordinator else { return }
+                    self.coordinator?.delegate?.didFinishSignUp(coordinator)
                 }
             }
             .store(in: &cancellables)

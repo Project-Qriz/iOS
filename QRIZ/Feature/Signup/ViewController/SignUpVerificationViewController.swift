@@ -19,12 +19,13 @@ final class SignUpVerificationViewController: UIViewController {
     
     // MARK: - Properties
     
+    weak var coordinator: SignUpCoordinator?
     private let rootView: SignUpVerificationMainView
     private let signUpVerificationVM: SignUpVerificationViewModel
     private var cancellables = Set<AnyCancellable>()
     private var keyboardCancellable: AnyCancellable?
     
-    // MARK: - initialize
+    // MARK: - Initialize
     
     init(signUpVerificationVM: SignUpVerificationViewModel) {
         self.rootView = SignUpVerificationMainView()
@@ -108,11 +109,7 @@ final class SignUpVerificationViewController: UIViewController {
                     self.rootView.verificationInputView.handleCodeVerificationFailure()
                     
                 case .navigateToNextView:
-                    // MARK: - 코디네이터 적용 필요
-                    self.navigationController?.pushViewController(
-                        NameInputViewController(nameInputVM: NameInputViewModel()),
-                        animated: true
-                    )
+                    self.coordinator?.showNameInput()
                 }
             }
             .store(in: &cancellables)

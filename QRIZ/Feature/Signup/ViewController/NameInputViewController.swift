@@ -18,6 +18,7 @@ final class NameInputViewController: UIViewController {
     
     // MARK: - Properties
     
+    weak var coordinator: SignUpCoordinator?
     private let rootView: NameInputMainView
     private let nameInputVM: NameInputViewModel
     private var cancellables = Set<AnyCancellable>()
@@ -76,9 +77,9 @@ final class NameInputViewController: UIViewController {
                 case .isNameValid(let isValid):
                     self.rootView.singleInputView.updateErrorState(isValid: isValid)
                     self.rootView.signupFooterView.updateButtonState(isValid: isValid)
+                    
                 case .navigateToEmailInputView:
-                    // MARK: - 코디네이터 적용 필요
-                    navigationController?.pushViewController(IDInputViewController(idInputVM: IDInputViewModel()), animated: true)
+                    self.coordinator?.showIDInput()
                 }
             }
             .store(in: &cancellables)
