@@ -13,6 +13,8 @@ protocol LoginCoordinator: Coordinator {
     func showSignUp()
     func showFindId()
     func showFindPassword()
+    func showResetPassword()
+    func popToRootViewController()
 }
 
 @MainActor
@@ -49,13 +51,28 @@ final class LoginCoordinatorImp: LoginCoordinator {
     func showFindId() {
         let findIDVM = FindIDViewModel()
         let findIDVC = FindIDViewController(findIDInputVM: findIDVM)
+        findIDVC.coordinator = self
         navigationController.pushViewController(findIDVC, animated: true)
     }
     
     func showFindPassword() {
-        let findPWVM = FindPasswordVerificationViewModel()
-        let findPWVC = FindPasswordVerificationViewController(findPasswordVerificationVM: findPWVM)
-        navigationController.pushViewController(findPWVC, animated: true)
+        let findPasswordVerificationVM = FindPasswordVerificationViewModel()
+        let findPasswordVerificationVC = FindPasswordVerificationViewController(
+            findPasswordVerificationVM: findPasswordVerificationVM
+        )
+        findPasswordVerificationVC.coordinator = self
+        navigationController.pushViewController(findPasswordVerificationVC, animated: true)
+    }
+    
+    func showResetPassword() {
+        let resetPasswordVM = ResetPasswordViewModel()
+        let resetPasswordVC = ResetPasswordViewController(resetPasswordVM: resetPasswordVM)
+        resetPasswordVC.coordinator = self
+        navigationController.pushViewController(resetPasswordVC, animated: true)
+    }
+    
+    func popToRootViewController() {
+        navigationController.popToRootViewController(animated: true)
     }
 }
 

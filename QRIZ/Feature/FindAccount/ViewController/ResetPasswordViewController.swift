@@ -20,6 +20,7 @@ final class ResetPasswordViewController: UIViewController {
     
     // MARK: - Properties
     
+    weak var coordinator: LoginCoordinator?
     private let rootView: ResetPasswordMainView
     private let resetPasswordVM: ResetPasswordViewModel
     private var cancellables = Set<AnyCancellable>()
@@ -115,7 +116,7 @@ final class ResetPasswordViewController: UIViewController {
             .sink { [weak self] _ in
                 oneButtonAlert.dismiss(animated: true) {
                     guard let self = self else { return }
-                    self.navigationController?.popToRootViewController(animated: true)
+                    self.coordinator?.popToRootViewController()
                 }
             }
             .store(in: &cancellables)

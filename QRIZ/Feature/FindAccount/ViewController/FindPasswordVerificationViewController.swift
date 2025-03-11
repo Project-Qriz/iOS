@@ -19,6 +19,7 @@ final class FindPasswordVerificationViewController: UIViewController {
     
     // MARK: - Properties
     
+    weak var coordinator: LoginCoordinator?
     private let rootView: FindPasswordVerificationMainView
     private let findPasswordVerificationVM: FindPasswordVerificationViewModel
     private var cancellables = Set<AnyCancellable>()
@@ -113,8 +114,7 @@ final class FindPasswordVerificationViewController: UIViewController {
                     self.rootView.verificationInputView.handleCodeVerificationFailure()
                     
                 case .navigateToNextView:
-                    // MARK: - 코디네이터 적용 필요
-                    self.navigationController?.pushViewController(ResetPasswordViewController(resetPasswordVM: ResetPasswordViewModel()), animated: true)
+                    self.coordinator?.showResetPassword()
                 }
             }
             .store(in: &cancellables)
