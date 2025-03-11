@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct IncorrectConceptsRankView: View {
+struct PreviewResultIncorrectConceptsRankView: View {
     
     @ObservedObject var previewConceptsData: PreviewConceptsData
     
@@ -16,7 +16,7 @@ struct IncorrectConceptsRankView: View {
 
             ForEach(0..<2) { idx in
                 if previewConceptsData.incorrectCountDataArr.count > idx {
-                    IncorrectRankView(rank: previewConceptsData.incorrectCountDataArr[idx].id, topic: previewConceptsData.incorrectCountDataArr[idx].topic, incorrectNum: previewConceptsData.incorrectCountDataArr[idx].incorrectCount)
+                    PreviewResultIncorrectRankView(rank: previewConceptsData.incorrectCountDataArr[idx].id, topic: previewConceptsData.incorrectCountDataArr[idx].topic, incorrectNum: previewConceptsData.incorrectCountDataArr[idx].incorrectCount)
                 }
             }
             
@@ -38,7 +38,7 @@ struct IncorrectConceptsRankView: View {
 }
 
 #Preview {
-    IncorrectConceptsRankView(previewConceptsData: PreviewConceptsData(totalQuestions: 3, incorrectCountDataArr: [
+    PreviewResultIncorrectConceptsRankView(previewConceptsData: PreviewConceptsData(totalQuestions: 3, incorrectCountDataArr: [
         IncorrectCountData(id: 1, topic: "DDL", incorrectCount: 5),
         IncorrectCountData(id: 2, topic: "조인", incorrectCount: 3),
         IncorrectCountData(id: 3, topic: "모델이 표현하는 트랜잭션의 이해", incorrectCount: 1)

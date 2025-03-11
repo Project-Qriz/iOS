@@ -7,7 +7,7 @@
 
 import UIKit
 
-final class SingleSupplementConceptView: UIView {
+final class PreviewResultSingleSupplementConceptView: UIView {
     
     // MARK: - Properties
     let conceptLabel: UILabel = {
@@ -39,7 +39,7 @@ final class SingleSupplementConceptView: UIView {
 }
 
 // MARK: - Auto Layout
-extension SingleSupplementConceptView {
+extension PreviewResultSingleSupplementConceptView {
     private func addViews() {
         self.addSubview(conceptLabel)
         conceptLabel.translatesAutoresizingMaskIntoConstraints = false

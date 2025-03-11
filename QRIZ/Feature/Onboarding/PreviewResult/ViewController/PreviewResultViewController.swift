@@ -14,8 +14,8 @@ final class PreviewResultViewController: UIViewController {
     // MARK: - Properties
     private var resultTitleLabel = PreviewResultTitleLabel(isTitleLabel: true)
     private var resultConceptLabel = PreviewResultTitleLabel(isTitleLabel: false)
-    private var scoreCircularChartHostingController: ScoreCircularChartHostingController!
-    private var conceptBarHostingController: ConceptBarGraphHostingController!
+    private var scoreHostingController: PreviewResultScoreHostingController!
+    private var conceptBarHostingController: PreviewResultConceptBarGraphHostingController!
     private let resultScrollView: UIScrollView = {
         let scrollView = UIScrollView()
         scrollView.backgroundColor = .white
@@ -35,8 +35,8 @@ final class PreviewResultViewController: UIViewController {
         label.numberOfLines = 1
         return label
     }()
-    private var firstTopicLabel = SingleSupplementConceptView()
-    private var secondTopicLabel = SingleSupplementConceptView()
+    private var firstTopicLabel = PreviewResultSingleSupplementConceptView()
+    private var secondTopicLabel = PreviewResultSingleSupplementConceptView()
     
     private var viewModel = PreviewResultViewModel()
     private let input: PassthroughSubject<PreviewResultViewModel.Input, Never> = .init()
@@ -65,7 +65,7 @@ final class PreviewResultViewController: UIViewController {
             .sink { [weak self] event in
                 guard let self = self else { return }
                 switch event {
-                case .loadData(let nickname, let firstConcept, let secondConcept):
+                case .updateUI(let nickname, let firstConcept, let secondConcept):
                     setNicknameToLabel(nickname: nickname)
                     setConceptsToSupplementLabel(firstConcept: firstConcept, secondConcept: secondConcept)
                 case .createDataFailed:
@@ -103,8 +103,8 @@ final class PreviewResultViewController: UIViewController {
     }
     
     private func setNicknameToLabel(nickname: String) {
-        resultTitleLabel.setLabelText(nickname: nickname, isTitleLabel: true)
-        resultConceptLabel.setLabelText(nickname: nickname, isTitleLabel: false)
+        resultTitleLabel.setLabelText(nickname: nickname)
+        resultConceptLabel.setLabelText(nickname: nickname)
     }
     
     private func setConceptsToSupplementLabel (firstConcept: String, secondConcept: String) {
@@ -113,16 +113,16 @@ final class PreviewResultViewController: UIViewController {
     }
     
     private func loadScoreCircularChartView() -> UIView {
-        scoreCircularChartHostingController = ScoreCircularChartHostingController(rootView: ScoreCircularChartView(previewScoresData: self.viewModel.previewScoresData))
-        self.addChild(scoreCircularChartHostingController)
-        scoreCircularChartHostingController.didMove(toParent: self)
-        let scoreCircularCharView = scoreCircularChartHostingController.view ?? UIView(frame: .zero)
+        scoreHostingController = PreviewResultScoreHostingController(rootView: PreviewResultScoreView(previewScoresData: self.viewModel.previewScoresData))
+        self.addChild(scoreHostingController)
+        scoreHostingController.didMove(toParent: self)
+        let scoreCircularCharView = scoreHostingController.view ?? UIView(frame: .zero)
         scoreCircularCharView.backgroundColor = .white
         return scoreCircularCharView
     }
     
     private func loadConceptBarGraphView() -> UIView {
-        conceptBarHostingController = ConceptBarGraphHostingController(rootView: ConceptBarGraphView(previewConceptsData: self.viewModel.previewConceptsData))
+        conceptBarHostingController = PreviewResultConceptBarGraphHostingController(rootView: PreviewResultConceptBarGraphView(previewConceptsData: self.viewModel.previewConceptsData))
         self.addChild(conceptBarHostingController)
         conceptBarHostingController.didMove(toParent: self)
         let conceptBarGraphView = conceptBarHostingController.view ?? UIView(frame: .zero)
@@ -136,7 +136,7 @@ extension PreviewResultViewController {
 
     private func addViews() {
         
-        let scoreCircularChartView = loadScoreCircularChartView()
+        let scoreView = loadScoreCircularChartView()
         let conceptBarGraphView = loadConceptBarGraphView()
         
         self.view.addSubview(resultScrollView)
@@ -144,7 +144,7 @@ extension PreviewResultViewController {
         contentView.addSubview(resultTitleLabel)
         contentView.addSubview(resultConceptLabel)
         contentView.addSubview(conceptSupplementLabel)
-        contentView.addSubview(scoreCircularChartView)
+        contentView.addSubview(scoreView)
         contentView.addSubview(conceptBarGraphView)
         contentView.addSubview(firstTopicLabel)
         contentView.addSubview(secondTopicLabel)
@@ -153,7 +153,7 @@ extension PreviewResultViewController {
         resultScrollView.translatesAutoresizingMaskIntoConstraints = false
         resultTitleLabel.translatesAutoresizingMaskIntoConstraints = false
         resultConceptLabel.translatesAutoresizingMaskIntoConstraints = false
-        scoreCircularChartView.translatesAutoresizingMaskIntoConstraints = false
+        scoreView.translatesAutoresizingMaskIntoConstraints = false
         conceptBarGraphView.translatesAutoresizingMaskIntoConstraints = false
         conceptSupplementLabel.translatesAutoresizingMaskIntoConstraints = false
         firstTopicLabel.translatesAutoresizingMaskIntoConstraints = false
@@ -176,12 +176,12 @@ extension PreviewResultViewController {
             resultTitleLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
             resultTitleLabel.heightAnchor.constraint(equalToConstant: 64),
             
-            scoreCircularChartView.topAnchor.constraint(equalTo: resultTitleLabel.bottomAnchor, constant: 12),
-            scoreCircularChartView.leadingAnchor.constraint(equalTo: resultTitleLabel.leadingAnchor),
-            scoreCircularChartView.trailingAnchor.constraint(equalTo: resultTitleLabel.trailingAnchor),
-            scoreCircularChartView.heightAnchor.constraint(lessThanOrEqualTo: scoreCircularChartView.widthAnchor),
+            scoreView.topAnchor.constraint(equalTo: resultTitleLabel.bottomAnchor, constant: 24),
+            scoreView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 18),
+            scoreView.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
+            scoreView.heightAnchor.constraint(equalToConstant: 284),
             
-            resultConceptLabel.topAnchor.constraint(equalTo: scoreCircularChartHostingController.view.bottomAnchor, constant: 32),
+            resultConceptLabel.topAnchor.constraint(equalTo: scoreHostingController.view.bottomAnchor, constant: 32),
             resultConceptLabel.leadingAnchor.constraint(equalTo: resultTitleLabel.leadingAnchor),
             resultConceptLabel.trailingAnchor.constraint(equalTo: resultTitleLabel.trailingAnchor),
             resultConceptLabel.heightAnchor.constraint(equalToConstant: 64),
@@ -215,7 +215,7 @@ extension PreviewResultViewController {
         conceptBarHostingController.view.removeFromSuperview()
         
         NSLayoutConstraint.activate([
-            conceptSupplementLabel.topAnchor.constraint(equalTo: scoreCircularChartHostingController.view.bottomAnchor, constant: 32)
+            conceptSupplementLabel.topAnchor.constraint(equalTo: scoreHostingController.view.bottomAnchor, constant: 32)
         ])
     }
     

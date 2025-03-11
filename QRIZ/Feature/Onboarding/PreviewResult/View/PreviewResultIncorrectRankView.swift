@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct IncorrectRankView: View {
+struct PreviewResultIncorrectRankView: View {
     
     var rank: Int = 0
     var topic: String = ""
@@ -67,5 +67,5 @@ struct IncorrectRankView: View {
 }
 
 #Preview {
-    IncorrectRankView()
+    PreviewResultIncorrectRankView()
 }

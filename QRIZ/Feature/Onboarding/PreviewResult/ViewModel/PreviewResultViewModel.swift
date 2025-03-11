@@ -18,7 +18,7 @@ final class PreviewResultViewModel {
     }
     
     enum Output {
-        case loadData(nickname: String, firstConcept: String, secondConcept: String)
+        case updateUI(nickname: String, firstConcept: String, secondConcept: String)
         case createDataFailed
         case moveToGreetingView
         case removeConceptBarGraphView
@@ -43,7 +43,7 @@ final class PreviewResultViewModel {
             switch event {
             case .viewDidLoad:
                 // fetch Data
-                output.send(.loadData(nickname: nickname, firstConcept: firstConcept, secondConcept: secondConcept))
+                output.send(.updateUI(nickname: nickname, firstConcept: firstConcept, secondConcept: secondConcept))
             case .viewDidAppear:
                 // renew ObservableObject data for SwiftUI View, below are sample datas, should make below to method
                 updateScoreData()
@@ -64,9 +64,9 @@ final class PreviewResultViewModel {
     }
     
     private func updateScoreData() {
-        self.previewScoresData.subject1Score = 0.4
-        self.previewScoresData.subject2Score = 0.2
-        self.previewScoresData.expectScore = 60
+        self.previewScoresData.subject1Score = 40
+        self.previewScoresData.subject2Score = 20
+        self.previewScoresData.expectScore = 58
     }
     
     private func updateConceptData() {

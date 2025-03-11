@@ -8,5 +8,5 @@
 import UIKit
 import SwiftUI
 
-final class ConceptBarGraphHostingController: UIHostingController<ConceptBarGraphView> {
+final class PreviewResultConceptBarGraphHostingController: UIHostingController<PreviewResultConceptBarGraphView> {
 }

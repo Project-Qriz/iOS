@@ -8,5 +8,5 @@
 import UIKit
 import SwiftUI
 
-final class ScoreCircularChartHostingController: UIHostingController<ScoreCircularChartView> {
+final class PreviewResultScoreHostingController: UIHostingController<PreviewResultScoreView> {
 }

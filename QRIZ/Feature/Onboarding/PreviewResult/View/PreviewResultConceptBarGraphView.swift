@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct ConceptBarGraphView: View {
+struct PreviewResultConceptBarGraphView: View {
     
     @StateObject var previewConceptsData: PreviewConceptsData
     
@@ -27,7 +27,7 @@ struct ConceptBarGraphView: View {
                 .foregroundStyle(.customBlue500)
             
             if hasMultipleIncorrectConcepts {
-                BarGraphsView(previewConceptsData: previewConceptsData)
+                PreviewResultBarGraphsView(previewConceptsData: previewConceptsData)
             } else {
                 Text("하나의 개념만 틀린 경우\n틀린 개념과 문제 개수만 보입니다.")
                     .font(.system(size: 14))
@@ -37,7 +37,7 @@ struct ConceptBarGraphView: View {
             
             Spacer()
             
-            IncorrectConceptsRankView(previewConceptsData: previewConceptsData)
+            PreviewResultIncorrectConceptsRankView(previewConceptsData: previewConceptsData)
             
             if previewConceptsData.incorrectCountDataArr.count > 3 {
                 VStack(spacing: 4) {
@@ -55,5 +55,5 @@ struct ConceptBarGraphView: View {
 }
 
 #Preview {
-    ConceptBarGraphView(previewConceptsData: PreviewConceptsData())
+    PreviewResultConceptBarGraphView(previewConceptsData: PreviewConceptsData())
 }
