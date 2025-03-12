@@ -55,7 +55,7 @@ struct PreviewResultScoreView: View {
             SingleSubjectView(circleColor: .customBlue800, subjectText: "데이터 모델링의 이해", score: previewScoresData.subject1Score)
 
             Divider()
-                .overlay(Color.coolNeutral100)
+                .overlay(Color.coolNeutral200)
 
             SingleSubjectView(circleColor: .customBlue500, subjectText: "SQL 기본 및 활용", score: previewScoresData.subject2Score)
         }
