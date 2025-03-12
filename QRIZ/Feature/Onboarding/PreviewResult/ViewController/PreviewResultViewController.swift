@@ -66,7 +66,7 @@ final class PreviewResultViewController: UIViewController {
                 guard let self = self else { return }
                 switch event {
                 case .updateUI(let nickname, let firstConcept, let secondConcept):
-                    setNicknameToLabel(nickname: nickname)
+                    setLabelText(nickname: nickname)
                     setConceptsToSupplementLabel(firstConcept: firstConcept, secondConcept: secondConcept)
                 case .createDataFailed:
                     print("create Data Failed : PreviewResultViewController")
@@ -102,9 +102,9 @@ final class PreviewResultViewController: UIViewController {
         self.dismiss(animated: true)
     }
     
-    private func setNicknameToLabel(nickname: String) {
+    private func setLabelText(nickname: String) {
         resultTitleLabel.setLabelText(nickname: nickname)
-        resultConceptLabel.setLabelText(nickname: nickname)
+        resultConceptLabel.setLabelText()
     }
     
     private func setConceptsToSupplementLabel (firstConcept: String, secondConcept: String) {
@@ -173,25 +173,19 @@ extension PreviewResultViewController {
             
             resultTitleLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 18),
             resultTitleLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
-            resultTitleLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
-            resultTitleLabel.heightAnchor.constraint(equalToConstant: 64),
             
             scoreView.topAnchor.constraint(equalTo: resultTitleLabel.bottomAnchor, constant: 24),
             scoreView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 18),
             scoreView.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
-            scoreView.heightAnchor.constraint(equalToConstant: 284),
             
-            resultConceptLabel.topAnchor.constraint(equalTo: scoreHostingController.view.bottomAnchor, constant: 32),
+            resultConceptLabel.topAnchor.constraint(equalTo: scoreView.bottomAnchor, constant: 32),
             resultConceptLabel.leadingAnchor.constraint(equalTo: resultTitleLabel.leadingAnchor),
-            resultConceptLabel.trailingAnchor.constraint(equalTo: resultTitleLabel.trailingAnchor),
-            resultConceptLabel.heightAnchor.constraint(equalToConstant: 64),
             
-            conceptBarGraphView.topAnchor.constraint(equalTo: resultConceptLabel.bottomAnchor, constant: 12),
+            conceptBarGraphView.topAnchor.constraint(equalTo: resultConceptLabel.bottomAnchor, constant: 18),
             conceptBarGraphView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
             conceptBarGraphView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
-            conceptBarGraphView.heightAnchor.constraint(greaterThanOrEqualTo: conceptBarGraphView.widthAnchor),
             
-            conceptSupplementLabel.topAnchor.constraint(equalTo: conceptBarGraphView.bottomAnchor, constant: 16),
+            conceptSupplementLabel.topAnchor.constraint(equalTo: conceptBarGraphView.bottomAnchor),
             conceptSupplementLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
             conceptSupplementLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
             conceptSupplementLabel.heightAnchor.constraint(equalToConstant: 24),
@@ -229,8 +223,7 @@ extension PreviewResultViewController {
         
         NSLayoutConstraint.activate([
             conceptBarHostingController.view.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
-            conceptBarHostingController.view.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
-            conceptBarHostingController.view.heightAnchor.constraint(equalToConstant: 202)
+            conceptBarHostingController.view.trailingAnchor.constraint(equalTo: contentView.trailingAnchor)
         ])
         
         conceptBarHostingController.view.layoutIfNeeded()

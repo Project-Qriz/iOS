@@ -44,13 +44,13 @@ struct PreviewResultScoreView: View {
             PreviewResultScoreCircularChartView(previewScoresData: previewScoresData)
                 .frame(width: 164, height: 164)
             
-            Spacer()
+            Spacer(minLength: 15)
             
             Text("예측 점수: \(previewScoresData.expectScore)점")
                 .font(.system(size: 16, weight: .medium))
                 .foregroundStyle(.coolNeutral700)
             
-            Spacer()
+            Spacer(minLength: 35)
             
             SingleSubjectView(circleColor: .customBlue800, subjectText: "데이터 모델링의 이해", score: previewScoresData.subject1Score)
 

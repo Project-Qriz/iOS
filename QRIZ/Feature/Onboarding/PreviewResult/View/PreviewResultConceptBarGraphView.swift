@@ -16,15 +16,15 @@ struct PreviewResultConceptBarGraphView: View {
     }
     
     var body: some View {
-        VStack(spacing: 8) {
+        VStack {
+            HStack {
+                Text("총 문제 개수: 20개")
+                    .font(.system(size: 12, weight: .regular))
+                    .foregroundStyle(.coolNeutral500)
+                Spacer()
+            }
             
-            Text("총 문제 개수")
-                .font(.system(size: 18))
-                .foregroundStyle(.coolNeutral500)
-            
-            Text("20개")
-                .font(.system(size: 24, weight: .bold))
-                .foregroundStyle(.customBlue500)
+            Spacer(minLength: 12)
             
             if hasMultipleIncorrectConcepts {
                 PreviewResultBarGraphsView(previewConceptsData: previewConceptsData)
@@ -35,7 +35,7 @@ struct PreviewResultConceptBarGraphView: View {
                     .multilineTextAlignment(.center)
             }
             
-            Spacer()
+            Spacer(minLength: 8)
             
             PreviewResultIncorrectConceptsRankView(previewConceptsData: previewConceptsData)
             
@@ -50,7 +50,7 @@ struct PreviewResultConceptBarGraphView: View {
             }
         }
         .background(.white)
-        .padding(EdgeInsets(top: 24, leading: 50, bottom: 24, trailing: 50))
+        .padding(EdgeInsets(top: 50, leading: 0, bottom: 32, trailing: 0)) // padding 문제 해결해야함
     }
 }
 
