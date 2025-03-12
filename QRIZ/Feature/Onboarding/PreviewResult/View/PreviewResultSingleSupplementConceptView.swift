@@ -24,7 +24,7 @@ final class PreviewResultSingleSupplementConceptView: UIView {
     init() {
         super.init(frame: .zero)
         self.layer.cornerRadius = 12
-        self.backgroundColor = .white
+        self.backgroundColor = .customBlue50
         addViews()
     }
     
