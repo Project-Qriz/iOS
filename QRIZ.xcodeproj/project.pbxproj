@@ -32,6 +32,8 @@
 		B16288222D2E3CAB008057D0 /* UINavigationBar+.swift in Sources */ = {isa = PBXBuildFile; fileRef = B16288212D2E3CAB008057D0 /* UINavigationBar+.swift */; };
 		B16288242D2E8914008057D0 /* IDInputViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B16288232D2E8914008057D0 /* IDInputViewModel.swift */; };
 		B16288262D300CBA008057D0 /* PasswordInputViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B16288252D300CBA008057D0 /* PasswordInputViewModel.swift */; };
+		B16774C92D80A244001820F3 /* JoinRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = B16774C82D80A244001820F3 /* JoinRequest.swift */; };
+		B16774CB2D81329F001820F3 /* JoinService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B16774CA2D81329F001820F3 /* JoinService.swift */; };
 		B168B75F2D28073C0000F32E /* SignupFooterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B168B7572D28073C0000F32E /* SignupFooterView.swift */; };
 		B168B7602D28073C0000F32E /* SignupHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B168B7582D28073C0000F32E /* SignupHeaderView.swift */; };
 		B168B7612D28073C0000F32E /* SingleInputView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B168B7592D28073C0000F32E /* SingleInputView.swift */; };
@@ -189,6 +191,8 @@
 		B16288212D2E3CAB008057D0 /* UINavigationBar+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UINavigationBar+.swift"; sourceTree = "<group>"; };
 		B16288232D2E8914008057D0 /* IDInputViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IDInputViewModel.swift; sourceTree = "<group>"; };
 		B16288252D300CBA008057D0 /* PasswordInputViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasswordInputViewModel.swift; sourceTree = "<group>"; };
+		B16774C82D80A244001820F3 /* JoinRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JoinRequest.swift; sourceTree = "<group>"; };
+		B16774CA2D81329F001820F3 /* JoinService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JoinService.swift; sourceTree = "<group>"; };
 		B168B7572D28073C0000F32E /* SignupFooterView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignupFooterView.swift; sourceTree = "<group>"; };
 		B168B7582D28073C0000F32E /* SignupHeaderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignupHeaderView.swift; sourceTree = "<group>"; };
 		B168B7592D28073C0000F32E /* SingleInputView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SingleInputView.swift; sourceTree = "<group>"; };
@@ -684,6 +688,7 @@
 			isa = PBXGroup;
 			children = (
 				B15188612D76D29B000EFE41 /* EmailSendRequest.swift */,
+				B16774C82D80A244001820F3 /* JoinRequest.swift */,
 			);
 			path = Auth;
 			sourceTree = "<group>";
@@ -692,6 +697,7 @@
 			isa = PBXGroup;
 			children = (
 				B15188632D76E190000EFE41 /* EmailSendService.swift */,
+				B16774CA2D81329F001820F3 /* JoinService.swift */,
 			);
 			path = Auth;
 			sourceTree = "<group>";
@@ -1243,6 +1249,7 @@
 				B19C4FBF2D6B6E3400CD008A /* MistakeNoteViewController.swift in Sources */,
 				E29CCD3C2D298656004AA30A /* BarGraphsView.swift in Sources */,
 				54DB0DA12D0951C000ABD458 /* Font+.swift in Sources */,
+				B16774C92D80A244001820F3 /* JoinRequest.swift in Sources */,
 				B168B76D2D2824BD0000F32E /* IDInputViewController.swift in Sources */,
 				B17FE3062D27F85C002EC7D7 /* LoginViewModel.swift in Sources */,
 				E28BAD792D2C2DEB00B8388D /* TwoButtonCustomAlertViewController.swift in Sources */,
@@ -1302,6 +1309,7 @@
 				B19C4FC52D6C226500CD008A /* TabBarCoordinator.swift in Sources */,
 				E29CCD4C2D299297004AA30A /* SwiftUIViews+.swift in Sources */,
 				E29CCD402D298656004AA30A /* PreviewResultTitleLabel.swift in Sources */,
+				B16774CB2D81329F001820F3 /* JoinService.swift in Sources */,
 				541878612D0EC2970089F478 /* HTTPHeaderField.swift in Sources */,
 				E24907DE2D6648A7004D6E61 /* DailyTestState.swift in Sources */,
 				B168B76A2D2807470000F32E /* NameInputViewController.swift in Sources */,
