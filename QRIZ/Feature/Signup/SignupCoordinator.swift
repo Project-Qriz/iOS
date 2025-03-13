@@ -26,9 +26,11 @@ final class SignUpCoordinatorImpl: SignUpCoordinator {
     
     weak var delegate: SignUpCoordinatorDelegate?
     private let navigationController: UINavigationController
+    private let signUpFlowVM: SignUpFlowViewModel
     
     init(navigationController: UINavigationController) {
         self.navigationController = navigationController
+        self.signUpFlowVM = SignUpFlowViewModel()
     }
     
     func start() -> UIViewController {
@@ -40,7 +42,7 @@ final class SignUpCoordinatorImpl: SignUpCoordinator {
     }
     
     func showNameInput() {
-        let nameInputVM = NameInputViewModel()
+        let nameInputVM = NameInputViewModel(signUpFlowViewModel: signUpFlowVM)
         let nameInputVC = NameInputViewController(nameInputVM: nameInputVM)
         nameInputVC.coordinator = self
         navigationController.pushViewController(nameInputVC, animated: true)

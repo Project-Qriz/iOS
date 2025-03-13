@@ -12,8 +12,16 @@ final class NameInputViewModel {
     
     // MARK: - Properties
     
+    private let signUpFlowViewModel: SignUpFlowViewModel
+    private var name: String = ""
     private let outputSubject: PassthroughSubject<Output, Never> = .init()
     private var cancellables = Set<AnyCancellable>()
+    
+    // MARK: - Initialize
+    
+    init(signUpFlowViewModel: SignUpFlowViewModel) {
+        self.signUpFlowViewModel = signUpFlowViewModel
+    }
     
     // MARK: - Functions
     
@@ -24,9 +32,10 @@ final class NameInputViewModel {
                 switch event {
                 case .nameTextChanged(let text):
                     self.validateName(text)
+                    
                 case .buttonTapped:
-                    print("name 저장")
-                    outputSubject.send(.navigateToEmailInputView)
+                    self.signUpFlowViewModel.updateName(name)
+                    self.outputSubject.send(.navigateToEmailInputView)
                 }
             }
             .store(in: &cancellables)
@@ -36,6 +45,7 @@ final class NameInputViewModel {
     
     private func validateName(_ text: String) {
         let isValid = text.isValidName
+        name = isValid ? text : name
         outputSubject.send(.isNameValid(isValid))
     }
 }

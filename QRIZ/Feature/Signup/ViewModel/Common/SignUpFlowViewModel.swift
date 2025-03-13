@@ -6,3 +6,16 @@
 //
 
 import Foundation
+
+final class SignUpFlowViewModel {
+    
+    // MARK: - Properties
+    
+    private var name: String = ""
+    
+    // MARK: - Functions
+    
+    func updateName(_ newName: String) {
+        self.name = newName
+    }
+}
