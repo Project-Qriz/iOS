@@ -38,9 +38,14 @@ struct PreviewResultIncorrectConceptsRankView: View {
 }
 
 #Preview {
-    PreviewResultIncorrectConceptsRankView(previewConceptsData: PreviewConceptsData(totalQuestions: 3, incorrectCountDataArr: [
-        IncorrectCountData(id: 1, topic: "DDL", incorrectCount: 5),
-        IncorrectCountData(id: 2, topic: "조인", incorrectCount: 3),
-        IncorrectCountData(id: 3, topic: "모델이 표현하는 트랜잭션의 이해", incorrectCount: 1)
-    ]))
+    PreviewResultIncorrectConceptsRankView(previewConceptsData: PreviewConceptsData(
+        totalQuestions: 20,
+        incorrectCountDataArr: [
+                    IncorrectCountData(id: 1, topic: "DDL", incorrectCount: 5),
+                    IncorrectCountData(id: 2, topic: "조인", incorrectCount: 3),
+                    IncorrectCountData(id: 3, topic: "모델이 표현하는 트랜잭션의 이해", incorrectCount: 1),
+        ],
+        firstConcept: "",
+        secondConcept: ""
+    ))
 }

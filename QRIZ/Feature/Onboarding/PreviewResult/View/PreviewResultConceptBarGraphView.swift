@@ -9,7 +9,7 @@ import SwiftUI
 
 struct PreviewResultConceptBarGraphView: View {
     
-    @StateObject var previewConceptsData: PreviewConceptsData
+    @ObservedObject var previewConceptsData: PreviewConceptsData
     
     private var hasMultipleIncorrectConcepts: Bool {
         previewConceptsData.incorrectCountDataArr.count > 1
@@ -48,9 +48,25 @@ struct PreviewResultConceptBarGraphView: View {
                     }
                 }
             }
+            
+            HStack {
+                Text("보충하면 좋은 개념 top2")
+                    .font(.system(size: 16, weight: .regular))
+                    .foregroundStyle(.coolNeutral700)
+                Spacer()
+            }
+            
+            HStack(spacing: 8) {
+                Rectangle()
+                    .cornerRadius(12, corners: .allCorners)
+                    .foregroundStyle(.customBlue50)
+                Rectangle()
+                    .cornerRadius(12, corners: .allCorners)
+                    .foregroundStyle(.customBlue50)
+            }
         }
         .background(.white)
-        .padding(EdgeInsets(top: 50, leading: 0, bottom: 32, trailing: 0)) // padding 문제 해결해야함
+        .padding(EdgeInsets(top: 24, leading: 18, bottom: 24, trailing: 18))
     }
 }
 

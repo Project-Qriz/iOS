@@ -9,16 +9,16 @@ import SwiftUI
 
 final class PreviewConceptsData: ObservableObject {
     @Published var totalQuestions: Int = 0
-    @Published var incorrectCountDataArr: [IncorrectCountData] = [
-        IncorrectCountData(id: 1, topic: "", incorrectCount: 0),
-        IncorrectCountData(id: 2, topic: "", incorrectCount: 0),
-        IncorrectCountData(id: 3, topic: "", incorrectCount: 0),
-    ]
+    @Published var incorrectCountDataArr: [IncorrectCountData] = []
+    @Published var firstConcept: String = ""
+    @Published var secondConcept: String = ""
     
-    init() {}
-
-    init(totalQuestions: Int, incorrectCountDataArr: [IncorrectCountData]) {
+    init(totalQuestions: Int, incorrectCountDataArr: [IncorrectCountData], firstConcept: String, secondConcept: String) {
         self.totalQuestions = totalQuestions
         self.incorrectCountDataArr = incorrectCountDataArr
-    }    
+        self.firstConcept = firstConcept
+        self.secondConcept = secondConcept
+    }
+    
+    init() {}
 }

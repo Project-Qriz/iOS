@@ -37,10 +37,19 @@ fileprivate struct SingleSubjectView: View {
 
 struct PreviewResultScoreView: View {
     
-    @StateObject var previewScoresData: PreviewScoresData
+    @ObservedObject var previewScoresData: PreviewScoresData
     
     var body: some View {
         VStack {
+            HStack {
+                Text("\(previewScoresData.nickname) 님의\n프리뷰 결과에요!")
+                    .font(.system(size: 20, weight: .medium))
+                    .foregroundStyle(.coolNeutral800)
+                Spacer()
+            }
+            
+            Spacer(minLength: 24)
+            
             PreviewResultScoreCircularChartView(previewScoresData: previewScoresData)
                 .frame(width: 164, height: 164)
             
@@ -59,6 +68,7 @@ struct PreviewResultScoreView: View {
 
             SingleSubjectView(circleColor: .customBlue500, subjectText: "SQL 기본 및 활용", score: previewScoresData.subject2Score)
         }
+        .padding(EdgeInsets(top: 24, leading: 18, bottom: 24, trailing: 18))
     }
 }
 
