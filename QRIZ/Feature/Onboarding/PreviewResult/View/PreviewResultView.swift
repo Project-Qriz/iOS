@@ -20,7 +20,7 @@ struct PreviewResultView: View {
                 
                 Spacer(minLength: 16)
                 
-                PreviewResultConceptBarGraphView(previewConceptsData: previewConceptsData)
+                PreviewResultConceptView(previewConceptsData: previewConceptsData)
                     .background(.white)
             }
         }

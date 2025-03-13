@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct PreviewResultConceptBarGraphView: View {
+struct PreviewResultConceptView: View {
     
     @ObservedObject var previewConceptsData: PreviewConceptsData
     
@@ -18,13 +18,22 @@ struct PreviewResultConceptBarGraphView: View {
     var body: some View {
         VStack {
             HStack {
+                Text("틀린 문제에\n자주 등장하는 개념")
+                    .font(.system(size: 20, weight: .bold))
+                    .foregroundStyle(.coolNeutral800)
+                Spacer()
+            }
+            
+            Spacer(minLength: 16)
+            
+            HStack {
                 Text("총 문제 개수: 20개")
                     .font(.system(size: 12, weight: .regular))
                     .foregroundStyle(.coolNeutral500)
                 Spacer()
             }
             
-            Spacer(minLength: 12)
+            Spacer(minLength: 20)
             
             if hasMultipleIncorrectConcepts {
                 PreviewResultBarGraphsView(previewConceptsData: previewConceptsData)
@@ -35,7 +44,7 @@ struct PreviewResultConceptBarGraphView: View {
                     .multilineTextAlignment(.center)
             }
             
-            Spacer(minLength: 8)
+            Spacer(minLength: 16)
             
             PreviewResultIncorrectConceptsRankView(previewConceptsData: previewConceptsData)
             
@@ -49,6 +58,8 @@ struct PreviewResultConceptBarGraphView: View {
                 }
             }
             
+            Spacer(minLength: 32)
+            
             HStack {
                 Text("보충하면 좋은 개념 top2")
                     .font(.system(size: 16, weight: .regular))
@@ -57,12 +68,18 @@ struct PreviewResultConceptBarGraphView: View {
             }
             
             HStack(spacing: 8) {
-                Rectangle()
-                    .cornerRadius(12, corners: .allCorners)
-                    .foregroundStyle(.customBlue50)
-                Rectangle()
-                    .cornerRadius(12, corners: .allCorners)
-                    .foregroundStyle(.customBlue50)
+                ForEach(0..<2) { idx in
+                    Rectangle()
+                        .cornerRadius(12, corners: .allCorners)
+                        .frame(height: 70)
+                        .foregroundStyle(.customBlue50)
+                        .overlay(alignment: .leading) {
+                            Text(idx == 0 ? "\(previewConceptsData.firstConcept)" : "\(previewConceptsData.secondConcept)")
+                                .font(.system(size: 20, weight: .bold))
+                                .padding([.leading, .trailing], 24)
+                                .foregroundStyle(.coolNeutral700)
+                        }
+                }
             }
         }
         .background(.white)
@@ -71,5 +88,5 @@ struct PreviewResultConceptBarGraphView: View {
 }
 
 #Preview {
-    PreviewResultConceptBarGraphView(previewConceptsData: PreviewConceptsData())
+    PreviewResultConceptView(previewConceptsData: PreviewConceptsData())
 }
