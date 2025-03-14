@@ -35,6 +35,8 @@
 		B16774C92D80A244001820F3 /* JoinRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = B16774C82D80A244001820F3 /* JoinRequest.swift */; };
 		B16774CB2D81329F001820F3 /* JoinService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B16774CA2D81329F001820F3 /* JoinService.swift */; };
 		B16774CD2D82A44C001820F3 /* SignUpFlowViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B16774CC2D82A44C001820F3 /* SignUpFlowViewModel.swift */; };
+		B16774CF2D82D680001820F3 /* UsernameDuplicationRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = B16774CE2D82D680001820F3 /* UsernameDuplicationRequest.swift */; };
+		B16774D12D83210A001820F3 /* UsernameDuplicationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B16774D02D83210A001820F3 /* UsernameDuplicationService.swift */; };
 		B168B75F2D28073C0000F32E /* SignupFooterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B168B7572D28073C0000F32E /* SignupFooterView.swift */; };
 		B168B7602D28073C0000F32E /* SignupHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B168B7582D28073C0000F32E /* SignupHeaderView.swift */; };
 		B168B7612D28073C0000F32E /* SingleInputView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B168B7592D28073C0000F32E /* SingleInputView.swift */; };
@@ -195,6 +197,8 @@
 		B16774C82D80A244001820F3 /* JoinRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JoinRequest.swift; sourceTree = "<group>"; };
 		B16774CA2D81329F001820F3 /* JoinService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JoinService.swift; sourceTree = "<group>"; };
 		B16774CC2D82A44C001820F3 /* SignUpFlowViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpFlowViewModel.swift; sourceTree = "<group>"; };
+		B16774CE2D82D680001820F3 /* UsernameDuplicationRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UsernameDuplicationRequest.swift; sourceTree = "<group>"; };
+		B16774D02D83210A001820F3 /* UsernameDuplicationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UsernameDuplicationService.swift; sourceTree = "<group>"; };
 		B168B7572D28073C0000F32E /* SignupFooterView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignupFooterView.swift; sourceTree = "<group>"; };
 		B168B7582D28073C0000F32E /* SignupHeaderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignupHeaderView.swift; sourceTree = "<group>"; };
 		B168B7592D28073C0000F32E /* SingleInputView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SingleInputView.swift; sourceTree = "<group>"; };
@@ -692,6 +696,7 @@
 			children = (
 				B15188612D76D29B000EFE41 /* EmailSendRequest.swift */,
 				B16774C82D80A244001820F3 /* JoinRequest.swift */,
+				B16774CE2D82D680001820F3 /* UsernameDuplicationRequest.swift */,
 			);
 			path = Auth;
 			sourceTree = "<group>";
@@ -701,6 +706,7 @@
 			children = (
 				B15188632D76E190000EFE41 /* EmailSendService.swift */,
 				B16774CA2D81329F001820F3 /* JoinService.swift */,
+				B16774D02D83210A001820F3 /* UsernameDuplicationService.swift */,
 			);
 			path = Auth;
 			sourceTree = "<group>";
@@ -1296,6 +1302,7 @@
 				54BC61592D1823F50094DC45 /* SocialLoginView.swift in Sources */,
 				B18F451A2D4139B00030F7DB /* UILabel+.swift in Sources */,
 				E23963092D083B900092B39B /* AppDelegate.swift in Sources */,
+				B16774CF2D82D680001820F3 /* UsernameDuplicationRequest.swift in Sources */,
 				E2D70FE82D0DD322005A3F51 /* BeginTestViewModel.swift in Sources */,
 				E29BF86D2D16895B006DC6D0 /* QuestionData.swift in Sources */,
 				E29CCD2A2D29855B004AA30A /* QuestionOptionLabel.swift in Sources */,
@@ -1343,6 +1350,7 @@
 				54BC61572D18141B0094DC45 /* AccountOptionsView.swift in Sources */,
 				E24907E02D66603A004D6E61 /* StudyContentView.swift in Sources */,
 				E29CCD1E2D298316004AA30A /* PreviewTestViewModel.swift in Sources */,
+				B16774D12D83210A001820F3 /* UsernameDuplicationService.swift in Sources */,
 				E29CCD442D298656004AA30A /* ScoreCircularChartView.swift in Sources */,
 				B18F452E2D4D5D640030F7DB /* ResetPasswordMainView.swift in Sources */,
 				B168B76F2D2826010000F32E /* IDInputMainView.swift in Sources */,
