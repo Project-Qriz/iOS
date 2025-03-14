@@ -18,20 +18,23 @@ struct PreviewResultConceptView: View {
     var body: some View {
         VStack {
             HStack {
-                Text("틀린 문제에\n자주 등장하는 개념")
-                    .font(.system(size: 20, weight: .bold))
-                    .foregroundStyle(.coolNeutral800)
+                Text("틀린 문제").font(.system(size: 20, weight: .bold)) +
+                Text("에\n").font(.system(size: 20, weight: .medium)) +
+                Text("자주 등장하는 개념").font(.system(size: 20, weight: .bold))
+
                 Spacer()
             }
+            .foregroundStyle(.coolNeutral800)
             
             Spacer(minLength: 16)
             
             HStack {
-                Text("총 문제 개수: 20개")
-                    .font(.system(size: 12, weight: .regular))
-                    .foregroundStyle(.coolNeutral500)
+                Text("총 문제 개수: ").font(.system(size: 12, weight: .regular)) +
+                Text("\(previewConceptsData.totalQuestions)개").font(.system(size: 12, weight: .medium))
+                
                 Spacer()
             }
+            .foregroundStyle(.coolNeutral400)
             
             Spacer(minLength: 20)
             
