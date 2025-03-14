@@ -11,57 +11,48 @@ struct PreviewResultConceptView: View {
     
     @ObservedObject var previewConceptsData: PreviewConceptsData
     
-    private var hasMultipleIncorrectConcepts: Bool {
-        previewConceptsData.incorrectCountDataArr.count > 1
-    }
-    
     var body: some View {
         VStack {
-            HStack {
-                Text("틀린 문제").font(.system(size: 20, weight: .bold)) +
-                Text("에\n").font(.system(size: 20, weight: .medium)) +
-                Text("자주 등장하는 개념").font(.system(size: 20, weight: .bold))
-
-                Spacer()
-            }
-            .foregroundStyle(.coolNeutral800)
-            
-            Spacer(minLength: 16)
-            
-            HStack {
-                Text("총 문제 개수: ").font(.system(size: 12, weight: .regular)) +
-                Text("\(previewConceptsData.totalQuestions)개").font(.system(size: 12, weight: .medium))
+            if previewConceptsData.incorrectCountDataArr.count >= 2 {
+                HStack {
+                    Text("틀린 문제").font(.system(size: 20, weight: .bold)) +
+                    Text("에\n").font(.system(size: 20, weight: .medium)) +
+                    Text("자주 등장하는 개념").font(.system(size: 20, weight: .bold))
+                    
+                    Spacer()
+                }
+                .foregroundStyle(.coolNeutral800)
                 
-                Spacer()
-            }
-            .foregroundStyle(.coolNeutral400)
-            
-            Spacer(minLength: 20)
-            
-            if hasMultipleIncorrectConcepts {
+                Spacer(minLength: 16)
+                
+                HStack {
+                    Text("총 문제 개수: ").font(.system(size: 12, weight: .regular)) +
+                    Text("\(previewConceptsData.totalQuestions)개").font(.system(size: 12, weight: .medium))
+                    
+                    Spacer()
+                }
+                .foregroundStyle(.coolNeutral400)
+                
+                Spacer(minLength: 20)
+                
                 PreviewResultBarGraphsView(previewConceptsData: previewConceptsData)
-            } else {
-                Text("하나의 개념만 틀린 경우\n틀린 개념과 문제 개수만 보입니다.")
-                    .font(.system(size: 14))
-                    .foregroundStyle(.coolNeutral500)
-                    .multilineTextAlignment(.center)
-            }
-            
-            Spacer(minLength: 16)
-            
-            PreviewResultIncorrectConceptsRankView(previewConceptsData: previewConceptsData)
-            
-            if previewConceptsData.incorrectCountDataArr.count > 3 {
-                VStack(spacing: 4) {
-                    ForEach(1..<4) { _ in
-                        Circle()
-                            .foregroundStyle(.coolNeutral100)
-                            .frame(width: 4, height: 4)
+                
+                Spacer(minLength: 16)
+                
+                PreviewResultIncorrectConceptsRankView(previewConceptsData: previewConceptsData)
+                
+                if previewConceptsData.incorrectCountDataArr.count > 3 {
+                    VStack(spacing: 4) {
+                        ForEach(1..<4) { _ in
+                            Circle()
+                                .foregroundStyle(.coolNeutral100)
+                                .frame(width: 4, height: 4)
+                        }
                     }
                 }
+                
+                Spacer(minLength: 32)
             }
-            
-            Spacer(minLength: 32)
             
             HStack {
                 Text("보충하면 좋은 개념 top2")

@@ -7,8 +7,10 @@
 
 import Foundation
 
+
+
 struct IncorrectCountData: Identifiable {
     var id: Int = 0
-    var topic: String = ""
     var incorrectCount: Int = 0
+    var topic: [String] = [""]
 }

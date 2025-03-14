@@ -12,25 +12,10 @@ struct PreviewResultIncorrectConceptsRankView: View {
     @ObservedObject var previewConceptsData: PreviewConceptsData
     
     var body: some View {
-        VStack(spacing: 8) {
-
-            ForEach(0..<2) { idx in
+        VStack(spacing: 16) {
+            ForEach(0..<3) { idx in
                 if previewConceptsData.incorrectCountDataArr.count > idx {
-                    PreviewResultIncorrectRankView(rank: previewConceptsData.incorrectCountDataArr[idx].id, topic: previewConceptsData.incorrectCountDataArr[idx].topic, incorrectNum: previewConceptsData.incorrectCountDataArr[idx].incorrectCount)
-                }
-            }
-            
-            if previewConceptsData.incorrectCountDataArr.count > 2 {
-                HStack(spacing: 8) {
-                    Text("\(previewConceptsData.incorrectCountDataArr[2].topic)")
-                        .font(.system(size: 14))
-                        .foregroundStyle(.coolNeutral500)
-                    
-                    Spacer()
-                    
-                    Text("\(previewConceptsData.incorrectCountDataArr[2].incorrectCount)문제")
-                        .font(.system(size: 16))
-                        .foregroundStyle(.coolNeutral500)
+                    PreviewResultIncorrectRankView(rank: $previewConceptsData.incorrectCountDataArr[idx].id, topic: $previewConceptsData.incorrectCountDataArr[idx].topic, incorrectNum: $previewConceptsData.incorrectCountDataArr[idx].incorrectCount)
                 }
             }
         }
@@ -41,9 +26,9 @@ struct PreviewResultIncorrectConceptsRankView: View {
     PreviewResultIncorrectConceptsRankView(previewConceptsData: PreviewConceptsData(
         totalQuestions: 20,
         incorrectCountDataArr: [
-                    IncorrectCountData(id: 1, topic: "DDL", incorrectCount: 5),
-                    IncorrectCountData(id: 2, topic: "조인", incorrectCount: 3),
-                    IncorrectCountData(id: 3, topic: "모델이 표현하는 트랜잭션의 이해", incorrectCount: 1),
+                    IncorrectCountData(id: 1, incorrectCount: 5, topic: ["DDL"]),
+                    IncorrectCountData(id: 2, incorrectCount: 3, topic: ["조인"]),
+                    IncorrectCountData(id: 3, incorrectCount: 1, topic: ["모델이 표현하는 트랜잭션의 이해"]),
         ],
         firstConcept: "",
         secondConcept: ""

@@ -18,10 +18,10 @@ struct PreviewResultBarGraphsView: View {
                     Spacer()
                     ForEach(previewConceptsData.incorrectCountDataArr.filter { $0.id <= 3 }) { data in
                         VStack {
-                            Text("\(data.topic)")
+                            Text("\(data.topic[0])" + "\(getAdditionalNumberText(numOfConcepts: data.topic.count))")
                                 .foregroundStyle(setBarColor(rank: data.id))
                                 .font(.system(size: 14, weight: .bold))
-                                .frame(width: 47, height: 22)
+                                .lineLimit(1)
                             Rectangle()
                                 .foregroundStyle(setBarColor(rank: data.id))
                                 .frame(width: 28, height: CGFloat(data.incorrectCount * 15))
@@ -51,15 +51,19 @@ struct PreviewResultBarGraphsView: View {
             return .clear
         }
     }
+    
+    private func getAdditionalNumberText(numOfConcepts: Int) -> String {
+        numOfConcepts == 1 ? "" : " + \(numOfConcepts)개"
+    }
 }
 
 #Preview {
     PreviewResultBarGraphsView(previewConceptsData: PreviewConceptsData(
         totalQuestions: 20,
         incorrectCountDataArr: [
-                    IncorrectCountData(id: 1, topic: "DDL", incorrectCount: 5),
-                    IncorrectCountData(id: 2, topic: "조인", incorrectCount: 3),
-                    IncorrectCountData(id: 3, topic: "모델이 표현하는 트랜잭션의 이해", incorrectCount: 1),
+                    IncorrectCountData(id: 1, incorrectCount: 5, topic: ["DDL"]),
+                    IncorrectCountData(id: 2, incorrectCount: 3, topic: ["조인"]),
+                    IncorrectCountData(id: 3, incorrectCount: 1, topic: ["모델이 표현하는 트랜잭션의 이해"]),
         ],
         firstConcept: "",
         secondConcept: ""

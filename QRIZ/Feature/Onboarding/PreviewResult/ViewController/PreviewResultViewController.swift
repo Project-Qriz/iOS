@@ -79,7 +79,6 @@ final class PreviewResultViewController: UIViewController {
         self.addChild(previewResultViewHostingController)
         previewResultViewHostingController.didMove(toParent: self)
         let resultView = previewResultViewHostingController.view ?? UIView(frame: .zero)
-        resultView.backgroundColor = .customBlue50
         return resultView
     }
 }
