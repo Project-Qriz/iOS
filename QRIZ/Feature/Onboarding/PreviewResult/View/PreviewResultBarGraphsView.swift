@@ -12,31 +12,27 @@ struct PreviewResultBarGraphsView: View {
     @ObservedObject var previewConceptsData: PreviewConceptsData
     
     var body: some View {
-        HStack {
-            ZStack(alignment: .bottom) {
-                HStack(alignment: .bottom, spacing: 72) {
-                    Spacer()
-                    ForEach(previewConceptsData.incorrectCountDataArr.filter { $0.id <= 3 }) { data in
-                        VStack {
-                            Text("\(data.topic[0])" + "\(getAdditionalNumberText(numOfConcepts: data.topic.count))")
-                                .foregroundStyle(setBarColor(rank: data.id))
-                                .font(.system(size: 14, weight: .bold))
-                                .lineLimit(1)
-                            Rectangle()
-                                .foregroundStyle(setBarColor(rank: data.id))
-                                .frame(width: 28, height: CGFloat(data.incorrectCount * 15))
-                                .cornerRadius(8, corners: [.topLeft, .topRight])
-                                .animation(.easeInOut(duration: 1), value: CGFloat(data.incorrectCount))
-                        }
+        VStack(spacing: 0) {
+            HStack(alignment: .bottom, spacing: 30) {
+                ForEach(previewConceptsData.incorrectCountDataArr.filter { $0.id <= 3 }) { data in
+                    VStack {
+                        Text("\(data.topic[0])" + "\(getAdditionalNumberText(numOfConcepts: data.topic.count))")
+                            .frame(width: 80)
+                            .font(.system(size: 14, weight: .bold))
+                            .lineLimit(1)
+                        Rectangle()
+                            .frame(width: 28, height: CGFloat(data.incorrectCount * 15))
+                            .cornerRadius(8, corners: [.topLeft, .topRight])
+                            .animation(.easeInOut(duration: 1), value: CGFloat(data.incorrectCount))
                     }
-                    Spacer()
+                    .foregroundStyle(setBarColor(rank: data.id))
                 }
-                .frame(maxWidth: .infinity)
-                
-                Divider()
-                    .frame(width: 290)
             }
+
+            Divider()
+                .overlay(Color.customBlue200)
         }
+        .padding([.leading, .trailing], 20)
     }
     
     private func setBarColor(rank: Int) -> Color {
