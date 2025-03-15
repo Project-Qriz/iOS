@@ -42,7 +42,7 @@ struct PreviewResultBarGraphsView: View {
         case 2:
             return .coolNeutral600
         case 3:
-            return .coolNeutral200
+            return .coolNeutral400
         default:
             return .clear
         }
