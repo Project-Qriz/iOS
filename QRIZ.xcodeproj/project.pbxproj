@@ -37,6 +37,7 @@
 		B16774CD2D82A44C001820F3 /* SignUpFlowViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B16774CC2D82A44C001820F3 /* SignUpFlowViewModel.swift */; };
 		B16774CF2D82D680001820F3 /* UsernameDuplicationRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = B16774CE2D82D680001820F3 /* UsernameDuplicationRequest.swift */; };
 		B16774D12D83210A001820F3 /* UsernameDuplicationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B16774D02D83210A001820F3 /* UsernameDuplicationService.swift */; };
+		B16774D32D857FC6001820F3 /* AuthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B16774D22D857FC6001820F3 /* AuthService.swift */; };
 		B168B75F2D28073C0000F32E /* SignupFooterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B168B7572D28073C0000F32E /* SignupFooterView.swift */; };
 		B168B7602D28073C0000F32E /* SignupHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B168B7582D28073C0000F32E /* SignupHeaderView.swift */; };
 		B168B7612D28073C0000F32E /* SingleInputView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B168B7592D28073C0000F32E /* SingleInputView.swift */; };
@@ -199,6 +200,7 @@
 		B16774CC2D82A44C001820F3 /* SignUpFlowViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpFlowViewModel.swift; sourceTree = "<group>"; };
 		B16774CE2D82D680001820F3 /* UsernameDuplicationRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UsernameDuplicationRequest.swift; sourceTree = "<group>"; };
 		B16774D02D83210A001820F3 /* UsernameDuplicationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UsernameDuplicationService.swift; sourceTree = "<group>"; };
+		B16774D22D857FC6001820F3 /* AuthService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthService.swift; sourceTree = "<group>"; };
 		B168B7572D28073C0000F32E /* SignupFooterView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignupFooterView.swift; sourceTree = "<group>"; };
 		B168B7582D28073C0000F32E /* SignupHeaderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignupHeaderView.swift; sourceTree = "<group>"; };
 		B168B7592D28073C0000F32E /* SingleInputView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SingleInputView.swift; sourceTree = "<group>"; };
@@ -707,6 +709,7 @@
 				B15188632D76E190000EFE41 /* EmailSendService.swift */,
 				B16774CA2D81329F001820F3 /* JoinService.swift */,
 				B16774D02D83210A001820F3 /* UsernameDuplicationService.swift */,
+				B16774D22D857FC6001820F3 /* AuthService.swift */,
 			);
 			path = Auth;
 			sourceTree = "<group>";
@@ -1268,6 +1271,7 @@
 				B19C4FBC2D6B6D7000CD008A /* TextbookViewController.swift in Sources */,
 				E29CCD1C2D298303004AA30A /* PreviewTestViewController.swift in Sources */,
 				E29CCD4A2D29867F004AA30A /* GreetingViewModel.swift in Sources */,
+				B16774D32D857FC6001820F3 /* AuthService.swift in Sources */,
 				B1D813772D6E0CD700A9D447 /* MyPageCoordinator.swift in Sources */,
 				E29CCD3D2D298656004AA30A /* ConceptBarGraphHostingController.swift in Sources */,
 				B19C4FB92D6B15B300CD008A /* MyPageViewController.swift in Sources */,
