@@ -15,6 +15,13 @@ final class IDInputViewModel {
     private var id: String = ""
     private let outputSubject: PassthroughSubject<Output, Never> = .init()
     private var cancellables = Set<AnyCancellable>()
+    private let authService: AuthService
+    
+    // MARK: - Initialize
+    
+    init(authService: AuthService) {
+        self.authService = authService
+    }
     
     // MARK: - Functions
     
@@ -44,7 +51,6 @@ final class IDInputViewModel {
         outputSubject.send(.isIDValid(isValid))
     }
     
-    // username-duplicate API 호출
     private func checkUsernameDuplicateAPI(_ id: String) {
         let available = Bool.random()
         let msg = available ? "사용 가능한 아이디입니다." : "사용할 수 없는 아이디입니다. 다시 입력해 주세요."

@@ -28,9 +28,11 @@ final class LoginCoordinatorImp: LoginCoordinator {
     weak var delegate: LoginCoordinatorDelegate?
     private let navigationController: UINavigationController
     private var childCoordinators: [Coordinator] = []
+    private let authService: AuthService
     
-    init(navigationController: UINavigationController) {
+    init(navigationController: UINavigationController, authService: AuthService) {
         self.navigationController = navigationController
+        self.authService = authService
     }
     
     func start() -> UIViewController {
@@ -42,7 +44,10 @@ final class LoginCoordinatorImp: LoginCoordinator {
     }
     
     func showSignUp() {
-        let signUpCoordinator = SignUpCoordinatorImpl(navigationController: navigationController)
+        let signUpCoordinator = SignUpCoordinatorImpl(
+            navigationController: navigationController,
+            authService: authService
+        )
         signUpCoordinator.delegate = self
         childCoordinators.append(signUpCoordinator)
         _ = signUpCoordinator.start()
