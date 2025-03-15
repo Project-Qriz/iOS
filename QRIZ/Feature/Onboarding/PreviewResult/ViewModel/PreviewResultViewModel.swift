@@ -36,15 +36,10 @@ final class PreviewResultViewModel {
             switch event {
             case .viewDidLoad:
                 updateTextData()
+                setAnimationData()
             case .viewDidAppear:
                 updateScoreData()
                 updateConceptData()
-                //                if self.previewScoresData.expectScore == 100 || self.previewConceptsData.incorrectCountDataArr.isEmpty {
-                //                    output.send(.removeConceptBarGraphView)
-                //                }
-                //                if self.previewConceptsData.incorrectCountDataArr.count == 1 {
-                //                    output.send(.resizeConceptBarGraphView)
-                //                }
                 
             case .toHomeButtonClicked:
                 output.send(.moveToGreetingView)
@@ -64,6 +59,10 @@ final class PreviewResultViewModel {
     
     private func updateConceptData() {
         updateMockConceptData()
+    }
+    
+    private func setAnimationData() {
+        setMockAnimationData()
     }
     
     private func updateMockTextData() {
@@ -87,5 +86,9 @@ final class PreviewResultViewModel {
             IncorrectCountData(id: 3, incorrectCount: 1, topic: ["모델이 표현하는 트랜잭션의 이해"]),
             IncorrectCountData(id: 4, incorrectCount: 1, topic: ["test"])
         ]
+    }
+    
+    private func setMockAnimationData() {
+        self.previewConceptsData.animationHandler(numOfData: 4)
     }
 }

@@ -21,4 +21,10 @@ final class PreviewConceptsData: ObservableObject {
     }
     
     init() {}
+    
+    func animationHandler(numOfData: Int) {
+        for idx in 1...numOfData {
+            incorrectCountDataArr.append(IncorrectCountData(id: idx, incorrectCount: 0, topic: [""]))
+        }
+    }
 }
