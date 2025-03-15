@@ -25,6 +25,7 @@ struct PreviewResultBarGraphsView: View {
                             .cornerRadius(8, corners: [.topLeft, .topRight])
                             .animation(.easeInOut(duration: 1), value: CGFloat(data.incorrectCount))
                     }
+                    .frame(height: 100, alignment: .bottom)
                     .foregroundStyle(setBarColor(rank: data.id))
                 }
             }
