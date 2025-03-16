@@ -36,10 +36,10 @@ final class PreviewResultViewModel {
             switch event {
             case .viewDidLoad:
                 updateTextData()
-                setAnimationData()
+                setLayout()
             case .viewDidAppear:
-                updateScoreData()
-                updateConceptData()
+                updateScoreAnimationData()
+                updateConceptAnimationData()
                 
             case .toHomeButtonClicked:
                 output.send(.moveToGreetingView)
@@ -53,42 +53,39 @@ final class PreviewResultViewModel {
         updateMockTextData()
     }
     
-    private func updateScoreData() {
-        updateMockScoreData()
+    private func updateScoreAnimationData() {
+        updateMockScoreAnimationData()
     }
     
-    private func updateConceptData() {
-        updateMockConceptData()
+    private func updateConceptAnimationData() {
+        updateMockConceptAnimationData()
     }
     
-    private func setAnimationData() {
-        setMockAnimationData()
+    private func setLayout() {
+        self.previewConceptsData.numOfTotalConcept = 3
+        self.previewConceptsData.initAnimationChart(numOfCharts: 3)
     }
     
+    // MARK: - Test Methods
     private func updateMockTextData() {
         self.previewScoresData.nickname = "채영"
         self.previewScoresData.expectScore = 58
         
         self.previewConceptsData.firstConcept = "DDL"
         self.previewConceptsData.secondConcept = "조인"
-    }
-    
-    private func updateMockScoreData() {
-        self.previewScoresData.subject1Score = 40
-        self.previewScoresData.subject2Score = 20
         self.previewConceptsData.totalQuestions = 20
     }
     
-    private func updateMockConceptData() {
-        self.previewConceptsData.incorrectCountDataArr = [
-            IncorrectCountData(id: 1, incorrectCount: 5, topic: ["DDL", "속성", "식별자"]),
-            IncorrectCountData(id: 2, incorrectCount: 3, topic: ["조인"]),
-            IncorrectCountData(id: 3, incorrectCount: 1, topic: ["모델이 표현하는 트랜잭션의 이해"]),
-            IncorrectCountData(id: 4, incorrectCount: 1, topic: ["test"])
-        ]
+    private func updateMockScoreAnimationData() {
+        self.previewScoresData.subject1Score = 40
+        self.previewScoresData.subject2Score = 20
     }
     
-    private func setMockAnimationData() {
-        self.previewConceptsData.animationHandler(numOfData: 4)
+    private func updateMockConceptAnimationData() {
+        self.previewConceptsData.incorrectCountDataArr = [
+            IncorrectCountData(id: 1, incorrectCount: 5, topic: ["DDL"]),
+            IncorrectCountData(id: 2, incorrectCount: 5, topic: ["속성"]),
+            IncorrectCountData(id: 3, incorrectCount: 3, topic: ["조인"]),
+        ]
     }
 }

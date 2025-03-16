@@ -13,7 +13,7 @@ struct PreviewResultConceptView: View {
     
     var body: some View {
         VStack {
-            if previewConceptsData.incorrectCountDataArr.count >= 2 {
+            if previewConceptsData.numOfTotalConcept != 0 {
                 HStack {
                     Text("틀린 문제").font(.system(size: 20, weight: .bold)) +
                     Text("에\n").font(.system(size: 20, weight: .medium)) +
@@ -35,21 +35,13 @@ struct PreviewResultConceptView: View {
                 
                 Spacer(minLength: 20)
                 
-                PreviewResultBarGraphsView(previewConceptsData: previewConceptsData)
+                if previewConceptsData.incorrectCountDataArr.count >= 2 {
+                    PreviewResultBarGraphsView(previewConceptsData: previewConceptsData)
+                }
                 
                 Spacer(minLength: 16)
                 
                 PreviewResultIncorrectConceptsRankView(previewConceptsData: previewConceptsData)
-                
-                if previewConceptsData.incorrectCountDataArr.count > 3 {
-                    VStack(spacing: 4) {
-                        ForEach(1..<4) { _ in
-                            Circle()
-                                .foregroundStyle(.coolNeutral100)
-                                .frame(width: 4, height: 4)
-                        }
-                    }
-                }
                 
                 Spacer(minLength: 32)
             }

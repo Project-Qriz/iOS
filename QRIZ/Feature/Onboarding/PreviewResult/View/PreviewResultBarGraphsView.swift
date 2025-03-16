@@ -16,7 +16,7 @@ struct PreviewResultBarGraphsView: View {
             HStack(alignment: .bottom, spacing: 30) {
                 ForEach(previewConceptsData.incorrectCountDataArr.filter { $0.id <= 3 }) { data in
                     VStack {
-                        Text("\(data.topic[0])" + "\(getAdditionalNumberText(numOfConcepts: data.topic.count))")
+                        Text("\(data.topic[0])" + "\(getCountText(numOfConcepts: data.topic.count))")
                             .frame(width: 80)
                             .font(.system(size: 14, weight: .bold))
                             .lineLimit(1)
@@ -49,7 +49,7 @@ struct PreviewResultBarGraphsView: View {
         }
     }
     
-    private func getAdditionalNumberText(numOfConcepts: Int) -> String {
+    private func getCountText(numOfConcepts: Int) -> String {
         numOfConcepts == 1 ? "" : " + \(numOfConcepts)개"
     }
 }
