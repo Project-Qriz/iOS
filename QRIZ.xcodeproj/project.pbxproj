@@ -113,11 +113,9 @@
 		E29CCD3D2D298656004AA30A /* PreviewResultViewHostingController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E29CCD322D298656004AA30A /* PreviewResultViewHostingController.swift */; };
 		E29CCD3E2D298656004AA30A /* PreviewResultConceptView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E29CCD332D298656004AA30A /* PreviewResultConceptView.swift */; };
 		E29CCD3F2D298656004AA30A /* PreviewResultIncorrectRankView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E29CCD342D298656004AA30A /* PreviewResultIncorrectRankView.swift */; };
-		E29CCD402D298656004AA30A /* PreviewResultTitleLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E29CCD352D298656004AA30A /* PreviewResultTitleLabel.swift */; };
 		E29CCD412D298656004AA30A /* PreviewResultViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E29CCD362D298656004AA30A /* PreviewResultViewController.swift */; };
 		E29CCD422D298656004AA30A /* PreviewResultViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E29CCD372D298656004AA30A /* PreviewResultViewModel.swift */; };
 		E29CCD442D298656004AA30A /* PreviewResultScoreCircularChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E29CCD392D298656004AA30A /* PreviewResultScoreCircularChartView.swift */; };
-		E29CCD452D298656004AA30A /* PreviewResultSingleSupplementConceptView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E29CCD3A2D298656004AA30A /* PreviewResultSingleSupplementConceptView.swift */; };
 		E29CCD492D29867F004AA30A /* GreetingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E29CCD462D29867F004AA30A /* GreetingViewController.swift */; };
 		E29CCD4A2D29867F004AA30A /* GreetingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E29CCD472D29867F004AA30A /* GreetingViewModel.swift */; };
 		E29CCD4C2D299297004AA30A /* SwiftUIViews+.swift in Sources */ = {isa = PBXBuildFile; fileRef = E29CCD4B2D299297004AA30A /* SwiftUIViews+.swift */; };
@@ -266,11 +264,9 @@
 		E29CCD322D298656004AA30A /* PreviewResultViewHostingController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PreviewResultViewHostingController.swift; sourceTree = "<group>"; };
 		E29CCD332D298656004AA30A /* PreviewResultConceptView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PreviewResultConceptView.swift; sourceTree = "<group>"; };
 		E29CCD342D298656004AA30A /* PreviewResultIncorrectRankView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PreviewResultIncorrectRankView.swift; sourceTree = "<group>"; };
-		E29CCD352D298656004AA30A /* PreviewResultTitleLabel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PreviewResultTitleLabel.swift; sourceTree = "<group>"; };
 		E29CCD362D298656004AA30A /* PreviewResultViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PreviewResultViewController.swift; sourceTree = "<group>"; };
 		E29CCD372D298656004AA30A /* PreviewResultViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PreviewResultViewModel.swift; sourceTree = "<group>"; };
 		E29CCD392D298656004AA30A /* PreviewResultScoreCircularChartView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PreviewResultScoreCircularChartView.swift; sourceTree = "<group>"; };
-		E29CCD3A2D298656004AA30A /* PreviewResultSingleSupplementConceptView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PreviewResultSingleSupplementConceptView.swift; sourceTree = "<group>"; };
 		E29CCD462D29867F004AA30A /* GreetingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GreetingViewController.swift; sourceTree = "<group>"; };
 		E29CCD472D29867F004AA30A /* GreetingViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GreetingViewModel.swift; sourceTree = "<group>"; };
 		E29CCD4B2D299297004AA30A /* SwiftUIViews+.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "SwiftUIViews+.swift"; sourceTree = "<group>"; };
@@ -940,9 +936,7 @@
 				E29CCD332D298656004AA30A /* PreviewResultConceptView.swift */,
 				E29CCD512D299AD5004AA30A /* PreviewResultIncorrectConceptsRankView.swift */,
 				E29CCD342D298656004AA30A /* PreviewResultIncorrectRankView.swift */,
-				E29CCD352D298656004AA30A /* PreviewResultTitleLabel.swift */,
 				E29CCD392D298656004AA30A /* PreviewResultScoreCircularChartView.swift */,
-				E29CCD3A2D298656004AA30A /* PreviewResultSingleSupplementConceptView.swift */,
 				E25907C72D80732C0093121C /* PreviewResultScoreView.swift */,
 				E25907CB2D8328FC0093121C /* PreviewResultView.swift */,
 			);
@@ -1154,7 +1148,6 @@
 				E25F94CB2D0CB1DB00BA765F /* OnboardingTitleLabel.swift in Sources */,
 				B16288242D2E8914008057D0 /* IDInputViewModel.swift in Sources */,
 				E25F94D12D0CB74700BA765F /* OnboardingButton.swift in Sources */,
-				E29CCD452D298656004AA30A /* PreviewResultSingleSupplementConceptView.swift in Sources */,
 				E25907CC2D8328FC0093121C /* PreviewResultView.swift in Sources */,
 				B16288222D2E3CAB008057D0 /* UINavigationBar+.swift in Sources */,
 				B18F450A2D39901D0030F7DB /* FindIDViewController.swift in Sources */,
@@ -1218,7 +1211,6 @@
 				54DB0D992D0950DE00ABD458 /* ViewModel.swift in Sources */,
 				B17FE30A2D27F8E9002EC7D7 /* UITextField+.swift in Sources */,
 				E29CCD4C2D299297004AA30A /* SwiftUIViews+.swift in Sources */,
-				E29CCD402D298656004AA30A /* PreviewResultTitleLabel.swift in Sources */,
 				541878612D0EC2970089F478 /* HTTPHeaderField.swift in Sources */,
 				E24907DE2D6648A7004D6E61 /* DailyTestState.swift in Sources */,
 				B168B76A2D2807470000F32E /* NameInputViewController.swift in Sources */,
