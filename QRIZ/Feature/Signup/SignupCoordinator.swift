@@ -51,7 +51,10 @@ final class SignUpCoordinatorImpl: SignUpCoordinator {
     }
     
     func showIDInput() {
-        let idInputVM = IDInputViewModel(authService: authService)
+        let idInputVM = IDInputViewModel(
+            signUpFlowViewModel: signUpFlowVM,
+            authService: authService
+        )
         let idInputVC = IDInputViewController(idInputVM: idInputVM)
         idInputVC.coordinator = self
         navigationController.pushViewController(idInputVC, animated: true)

@@ -75,6 +75,7 @@ final class IDInputViewController: UIViewController {
         let output = idInputVM.transform(input: input)
         
         output
+            .receive(on: DispatchQueue.main)
             .sink { [weak self] output in
                 guard let self = self else { return }
                 switch output {
@@ -95,7 +96,6 @@ final class IDInputViewController: UIViewController {
                 }
             }
             .store(in: &cancellables)
-        
     }
     
     private func observe() {

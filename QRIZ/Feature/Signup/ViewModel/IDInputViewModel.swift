@@ -12,14 +12,19 @@ final class IDInputViewModel {
     
     // MARK: - Properties
     
+    private let signUpFlowViewModel: SignUpFlowViewModel
+    private let authService: AuthService
     private var id: String = ""
     private let outputSubject: PassthroughSubject<Output, Never> = .init()
     private var cancellables = Set<AnyCancellable>()
-    private let authService: AuthService
     
     // MARK: - Initialize
     
-    init(authService: AuthService) {
+    init(
+        signUpFlowViewModel: SignUpFlowViewModel,
+        authService: AuthService
+    ) {
+        self.signUpFlowViewModel = signUpFlowViewModel
         self.authService = authService
     }
     
@@ -52,10 +57,16 @@ final class IDInputViewModel {
     }
     
     private func checkUsernameDuplicateAPI(_ id: String) {
-        let available = Bool.random()
-        let msg = available ? "사용 가능한 아이디입니다." : "사용할 수 없는 아이디입니다. 다시 입력해 주세요."
-        outputSubject.send(.duplicateCheckResult(message: msg, isAvailable: available))
-        self.outputSubject.send(.updateNextButtonState(available))
+        Task {
+            do {
+                let response = try await authService.checkUsernameDuplication(username: id)
+                let available = response.data.available
+                outputSubject.send(.duplicateCheckResult(message: response.msg, isAvailable: available))
+                outputSubject.send(.updateNextButtonState(available))
+            } catch {
+                // 오류 얼랏 호출
+            }
+        }
     }
 }
 
