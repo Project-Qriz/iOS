@@ -42,7 +42,7 @@ final class IDInputViewModel {
                     self.checkUsernameDuplicateAPI(self.id)
                     
                 case .NextButtonTapped:
-                    print("id 저장")
+                    self.signUpFlowViewModel.updateID(id)
                     self.outputSubject.send(.navigateToPasswordInputView)
                 }
             }
