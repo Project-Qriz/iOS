@@ -61,10 +61,7 @@ final class SignUpCoordinatorImpl: SignUpCoordinator {
     }
     
     func showPasswordInput() {
-        let passwordInputVM = PasswordInputViewModel(
-            signUpFlowViewModel: signUpFlowVM,
-            signUpService: signUpService
-        )
+        let passwordInputVM = PasswordInputViewModel(signUpFlowViewModel: signUpFlowVM)
         let passwordInputVC = PasswordInputViewController(passwordInputVM: passwordInputVM)
         passwordInputVC.coordinator = self
         navigationController.pushViewController(passwordInputVC, animated: true)

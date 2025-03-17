@@ -12,11 +12,18 @@ final class PasswordInputViewModel {
     
     // MARK: - Properties
     
+    private let signUpFlowViewModel: SignUpFlowViewModel
     private var password: String = ""
     private var confirmPassword: String = ""
     private var confirmPasswordDidEdit: Bool = false
     private let outputSubject: PassthroughSubject<Output, Never> = .init()
     private var cancellables = Set<AnyCancellable>()
+    
+    // MARK: - Initialize
+    
+    init(signUpFlowViewModel: SignUpFlowViewModel) {
+        self.signUpFlowViewModel = signUpFlowViewModel
+    }
     
     // MARK: - Functions
     
@@ -35,8 +42,8 @@ final class PasswordInputViewModel {
                     self.validate()
                     
                 case .buttonTapped:
-                    print("회원가입API 호출")
-                    self.outputSubject.send(.navigateToAlertView)
+                    self.signUpFlowViewModel.updatePassword(self.confirmPassword)
+                    self.performJoin()
                 }
             }
             .store(in: &cancellables)
@@ -59,6 +66,17 @@ final class PasswordInputViewModel {
         
         let canSignUp = passwordValid && (confirmPasswordDidEdit ? (confirmPassword == password) : false)
         outputSubject.send(.updateSignupButtonState(canSignUp))
+    }
+    
+    private func performJoin() {
+        Task {
+            do {
+                let joinResponse = try await signUpFlowViewModel.join()
+                outputSubject.send(.navigateToAlertView)
+            } catch {
+                // 오류 얼랏 호출
+            }
+        }
     }
 }
 
