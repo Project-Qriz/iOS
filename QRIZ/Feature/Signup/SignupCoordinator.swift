@@ -31,7 +31,7 @@ final class SignUpCoordinatorImpl: SignUpCoordinator {
     
     init(navigationController: UINavigationController, signUpService: SignUpService) {
         self.navigationController = navigationController
-        self.signUpFlowVM = SignUpFlowViewModel(authService: signUpService)
+        self.signUpFlowVM = SignUpFlowViewModel(signUpService: signUpService)
         self.signUpService = signUpService
     }
     
