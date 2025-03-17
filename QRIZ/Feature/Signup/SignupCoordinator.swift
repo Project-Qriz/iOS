@@ -27,12 +27,12 @@ final class SignUpCoordinatorImpl: SignUpCoordinator {
     weak var delegate: SignUpCoordinatorDelegate?
     private let navigationController: UINavigationController
     private let signUpFlowVM: SignUpFlowViewModel
-    private let authService: AuthService
+    private let signUpService: SignUpService
     
-    init(navigationController: UINavigationController, authService: AuthService) {
+    init(navigationController: UINavigationController, signUpService: SignUpService) {
         self.navigationController = navigationController
-        self.signUpFlowVM = SignUpFlowViewModel()
-        self.authService = authService
+        self.signUpFlowVM = SignUpFlowViewModel(authService: signUpService)
+        self.signUpService = signUpService
     }
     
     func start() -> UIViewController {
@@ -53,7 +53,7 @@ final class SignUpCoordinatorImpl: SignUpCoordinator {
     func showIDInput() {
         let idInputVM = IDInputViewModel(
             signUpFlowViewModel: signUpFlowVM,
-            authService: authService
+            signUpService: signUpService
         )
         let idInputVC = IDInputViewController(idInputVM: idInputVM)
         idInputVC.coordinator = self
@@ -61,7 +61,10 @@ final class SignUpCoordinatorImpl: SignUpCoordinator {
     }
     
     func showPasswordInput() {
-        let passwordInputVM = PasswordInputViewModel()
+        let passwordInputVM = PasswordInputViewModel(
+            signUpFlowViewModel: signUpFlowVM,
+            signUpService: signUpService
+        )
         let passwordInputVC = PasswordInputViewController(passwordInputVM: passwordInputVM)
         passwordInputVC.coordinator = self
         navigationController.pushViewController(passwordInputVC, animated: true)

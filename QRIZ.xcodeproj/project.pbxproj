@@ -23,7 +23,6 @@
 		54DB0DA52D099D6700ABD458 /* Colors.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 54DB0DA42D099D6700ABD458 /* Colors.xcassets */; };
 		54E91B762D18FACD00474D0A /* RoundButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54E91B752D18FACD00474D0A /* RoundButton.swift */; };
 		B15188622D76D29B000EFE41 /* EmailSendRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = B15188612D76D29B000EFE41 /* EmailSendRequest.swift */; };
-		B15188642D76E190000EFE41 /* EmailSendService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B15188632D76E190000EFE41 /* EmailSendService.swift */; };
 		B15188662D782CCE000EFE41 /* SignupCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = B15188652D782CCE000EFE41 /* SignupCoordinator.swift */; };
 		B16288182D2CDB85008057D0 /* NameInputViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B16288172D2CDB85008057D0 /* NameInputViewModel.swift */; };
 		B162881C2D2CFC63008057D0 /* UIView+.swift in Sources */ = {isa = PBXBuildFile; fileRef = B162881B2D2CFC63008057D0 /* UIView+.swift */; };
@@ -33,11 +32,9 @@
 		B16288242D2E8914008057D0 /* IDInputViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B16288232D2E8914008057D0 /* IDInputViewModel.swift */; };
 		B16288262D300CBA008057D0 /* PasswordInputViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B16288252D300CBA008057D0 /* PasswordInputViewModel.swift */; };
 		B16774C92D80A244001820F3 /* JoinRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = B16774C82D80A244001820F3 /* JoinRequest.swift */; };
-		B16774CB2D81329F001820F3 /* JoinService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B16774CA2D81329F001820F3 /* JoinService.swift */; };
 		B16774CD2D82A44C001820F3 /* SignUpFlowViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B16774CC2D82A44C001820F3 /* SignUpFlowViewModel.swift */; };
 		B16774CF2D82D680001820F3 /* UsernameDuplicationRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = B16774CE2D82D680001820F3 /* UsernameDuplicationRequest.swift */; };
-		B16774D12D83210A001820F3 /* UsernameDuplicationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B16774D02D83210A001820F3 /* UsernameDuplicationService.swift */; };
-		B16774D32D857FC6001820F3 /* AuthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B16774D22D857FC6001820F3 /* AuthService.swift */; };
+		B16774D32D857FC6001820F3 /* SignUpService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B16774D22D857FC6001820F3 /* SignUpService.swift */; };
 		B168B75F2D28073C0000F32E /* SignupFooterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B168B7572D28073C0000F32E /* SignupFooterView.swift */; };
 		B168B7602D28073C0000F32E /* SignupHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B168B7582D28073C0000F32E /* SignupHeaderView.swift */; };
 		B168B7612D28073C0000F32E /* SingleInputView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B168B7592D28073C0000F32E /* SingleInputView.swift */; };
@@ -186,7 +183,6 @@
 		54DB0DA42D099D6700ABD458 /* Colors.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Colors.xcassets; sourceTree = "<group>"; };
 		54E91B752D18FACD00474D0A /* RoundButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoundButton.swift; sourceTree = "<group>"; };
 		B15188612D76D29B000EFE41 /* EmailSendRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmailSendRequest.swift; sourceTree = "<group>"; };
-		B15188632D76E190000EFE41 /* EmailSendService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmailSendService.swift; sourceTree = "<group>"; };
 		B15188652D782CCE000EFE41 /* SignupCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignupCoordinator.swift; sourceTree = "<group>"; };
 		B16288172D2CDB85008057D0 /* NameInputViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NameInputViewModel.swift; sourceTree = "<group>"; };
 		B162881B2D2CFC63008057D0 /* UIView+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+.swift"; sourceTree = "<group>"; };
@@ -196,11 +192,9 @@
 		B16288232D2E8914008057D0 /* IDInputViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IDInputViewModel.swift; sourceTree = "<group>"; };
 		B16288252D300CBA008057D0 /* PasswordInputViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasswordInputViewModel.swift; sourceTree = "<group>"; };
 		B16774C82D80A244001820F3 /* JoinRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JoinRequest.swift; sourceTree = "<group>"; };
-		B16774CA2D81329F001820F3 /* JoinService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JoinService.swift; sourceTree = "<group>"; };
 		B16774CC2D82A44C001820F3 /* SignUpFlowViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpFlowViewModel.swift; sourceTree = "<group>"; };
 		B16774CE2D82D680001820F3 /* UsernameDuplicationRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UsernameDuplicationRequest.swift; sourceTree = "<group>"; };
-		B16774D02D83210A001820F3 /* UsernameDuplicationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UsernameDuplicationService.swift; sourceTree = "<group>"; };
-		B16774D22D857FC6001820F3 /* AuthService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthService.swift; sourceTree = "<group>"; };
+		B16774D22D857FC6001820F3 /* SignUpService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpService.swift; sourceTree = "<group>"; };
 		B168B7572D28073C0000F32E /* SignupFooterView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignupFooterView.swift; sourceTree = "<group>"; };
 		B168B7582D28073C0000F32E /* SignupHeaderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignupHeaderView.swift; sourceTree = "<group>"; };
 		B168B7592D28073C0000F32E /* SingleInputView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SingleInputView.swift; sourceTree = "<group>"; };
@@ -706,10 +700,7 @@
 		B1D8137C2D76A19500A9D447 /* Auth */ = {
 			isa = PBXGroup;
 			children = (
-				B15188632D76E190000EFE41 /* EmailSendService.swift */,
-				B16774CA2D81329F001820F3 /* JoinService.swift */,
-				B16774D02D83210A001820F3 /* UsernameDuplicationService.swift */,
-				B16774D22D857FC6001820F3 /* AuthService.swift */,
+				B16774D22D857FC6001820F3 /* SignUpService.swift */,
 			);
 			path = Auth;
 			sourceTree = "<group>";
@@ -1271,7 +1262,7 @@
 				B19C4FBC2D6B6D7000CD008A /* TextbookViewController.swift in Sources */,
 				E29CCD1C2D298303004AA30A /* PreviewTestViewController.swift in Sources */,
 				E29CCD4A2D29867F004AA30A /* GreetingViewModel.swift in Sources */,
-				B16774D32D857FC6001820F3 /* AuthService.swift in Sources */,
+				B16774D32D857FC6001820F3 /* SignUpService.swift in Sources */,
 				B1D813772D6E0CD700A9D447 /* MyPageCoordinator.swift in Sources */,
 				E29CCD3D2D298656004AA30A /* ConceptBarGraphHostingController.swift in Sources */,
 				B19C4FB92D6B15B300CD008A /* MyPageViewController.swift in Sources */,
@@ -1296,7 +1287,6 @@
 				E29CCD422D298656004AA30A /* PreviewResultViewModel.swift in Sources */,
 				548566492D123C94002BAEE3 /* NetworkRequest.swift in Sources */,
 				B15188622D76D29B000EFE41 /* EmailSendRequest.swift in Sources */,
-				B15188642D76E190000EFE41 /* EmailSendService.swift in Sources */,
 				B168B7772D28481D0000F32E /* PasswordInputView.swift in Sources */,
 				B17FE30C2D27F931002EC7D7 /* CustomTextField.swift in Sources */,
 				E29CCD412D298656004AA30A /* PreviewResultViewController.swift in Sources */,
@@ -1323,7 +1313,6 @@
 				B19C4FC52D6C226500CD008A /* TabBarCoordinator.swift in Sources */,
 				E29CCD4C2D299297004AA30A /* SwiftUIViews+.swift in Sources */,
 				E29CCD402D298656004AA30A /* PreviewResultTitleLabel.swift in Sources */,
-				B16774CB2D81329F001820F3 /* JoinService.swift in Sources */,
 				541878612D0EC2970089F478 /* HTTPHeaderField.swift in Sources */,
 				E24907DE2D6648A7004D6E61 /* DailyTestState.swift in Sources */,
 				B168B76A2D2807470000F32E /* NameInputViewController.swift in Sources */,
@@ -1354,7 +1343,6 @@
 				54BC61572D18141B0094DC45 /* AccountOptionsView.swift in Sources */,
 				E24907E02D66603A004D6E61 /* StudyContentView.swift in Sources */,
 				E29CCD1E2D298316004AA30A /* PreviewTestViewModel.swift in Sources */,
-				B16774D12D83210A001820F3 /* UsernameDuplicationService.swift in Sources */,
 				E29CCD442D298656004AA30A /* ScoreCircularChartView.swift in Sources */,
 				B18F452E2D4D5D640030F7DB /* ResetPasswordMainView.swift in Sources */,
 				B168B76F2D2826010000F32E /* IDInputMainView.swift in Sources */,

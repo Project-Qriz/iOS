@@ -21,26 +21,18 @@ protocol AppCoordinator: Coordinator {
 protocol AppCoordinatorDependency {
     var loginCoordinator: LoginCoordinator { get }
     var tabBarCoordinator: TabBarCoordinator { get }
-    var authService: AuthService { get }
+    var signUpService: SignUpService { get }
 }
 
 @MainActor
 final class AppCoordinatorDependencyImp: AppCoordinatorDependency {
     
     private lazy var network: Network = NetworkImp(session: .shared)
-    private lazy var emailSendService: EmailSendService = EmailSendServiceImpl(network: network)
-    private lazy var usernameDuplicationService: UsernameDuplicationService = UsernameDuplicationServiceImpl(network: network)
-    private lazy var joinService: JoinService = JoinServiceImpl(network: network)
-    
-    lazy var authService: AuthService = AuthServiceImpl(
-        emailSendService: emailSendService,
-        usernameDuplicationService: usernameDuplicationService,
-        joinService: joinService
-    )
+    lazy var signUpService: SignUpService = AuthServiceImpl(network: network)
     
     private lazy var _loginCoordinator: LoginCoordinator = {
         let navi = UINavigationController()
-        return LoginCoordinatorImp(navigationController: navi, authService: authService)
+        return LoginCoordinatorImp(navigationController: navi, authService: signUpService)
     }()
     
     var loginCoordinator: LoginCoordinator {

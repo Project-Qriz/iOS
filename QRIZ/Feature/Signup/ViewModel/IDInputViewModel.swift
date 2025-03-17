@@ -13,7 +13,7 @@ final class IDInputViewModel {
     // MARK: - Properties
     
     private let signUpFlowViewModel: SignUpFlowViewModel
-    private let authService: AuthService
+    private let authService: SignUpService
     private var id: String = ""
     private let outputSubject: PassthroughSubject<Output, Never> = .init()
     private var cancellables = Set<AnyCancellable>()
@@ -22,10 +22,10 @@ final class IDInputViewModel {
     
     init(
         signUpFlowViewModel: SignUpFlowViewModel,
-        authService: AuthService
+        signUpService: SignUpService
     ) {
         self.signUpFlowViewModel = signUpFlowViewModel
-        self.authService = authService
+        self.authService = signUpService
     }
     
     // MARK: - Functions
