@@ -8,6 +8,7 @@
 import Foundation
 
 protocol SignUpService {
+    
     /// 이메일 인증번호 전송 및 중복 확인
     func sendEmail(_ email: String) async throws -> EmailSendResponse
     
@@ -21,15 +22,9 @@ protocol SignUpService {
         nickname: String,
         email: String
     ) async throws -> JoinResponse
-
 }
 
-protocol AccountRecoveryService {
-    /// 아이디 찾기
-    func findID(email: String) async throws -> FindIDResponse
-}
-
-final class AuthServiceImpl {
+final class AuthServiceImpl: SignUpService {
     
     // MARK: - Properties
     
@@ -40,11 +35,8 @@ final class AuthServiceImpl {
     init(network: Network = NetworkImp(session: URLSession.shared)) {
         self.network = network
     }
-}
-
-// MARK: - SignUp
-
-extension AuthServiceImpl: SignUpService {
+    
+    // MARK: - Functions
     
     func sendEmail(_ email: String) async throws -> EmailSendResponse {
         let request = EmailSendRequest(email: email)
@@ -68,16 +60,6 @@ extension AuthServiceImpl: SignUpService {
             nickname: nickname,
             email: email
         )
-        return try await network.send(request)
-    }
-}
-
-// MARK: - AccountRecoveryService
-
-extension AuthServiceImpl: AccountRecoveryService {
-    
-    func findID(email: String) async throws -> FindIDResponse {
-        let request = FindIDRequest(email: email)
         return try await network.send(request)
     }
 }
