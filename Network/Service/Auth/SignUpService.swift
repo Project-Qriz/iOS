@@ -21,15 +21,30 @@ protocol SignUpService {
         nickname: String,
         email: String
     ) async throws -> JoinResponse
+
 }
 
-final class AuthServiceImpl: SignUpService {
+protocol AccountRecoveryService {
+    /// 아이디 찾기
+    func findID(email: String) async throws -> FindIDResponse
+}
+
+final class AuthServiceImpl {
+    
+    // MARK: - Properties
     
     private let network: Network
+    
+    // MARK: - Initialize
     
     init(network: Network = NetworkImp(session: URLSession.shared)) {
         self.network = network
     }
+}
+
+// MARK: - SignUp
+
+extension AuthServiceImpl: SignUpService {
     
     func sendEmail(_ email: String) async throws -> EmailSendResponse {
         let request = EmailSendRequest(email: email)
@@ -57,3 +72,12 @@ final class AuthServiceImpl: SignUpService {
     }
 }
 
+// MARK: - AccountRecoveryService
+
+extension AuthServiceImpl: AccountRecoveryService {
+    
+    func findID(email: String) async throws -> FindIDResponse {
+        let request = FindIDRequest(email: email)
+        return try await network.send(request)
+    }
+}
