@@ -37,6 +37,9 @@
 		B16774D32D857FC6001820F3 /* SignUpService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B16774D22D857FC6001820F3 /* SignUpService.swift */; };
 		B16774D52D8959B3001820F3 /* FindIDRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = B16774D42D8959B3001820F3 /* FindIDRequest.swift */; };
 		B16774D72D89D2EE001820F3 /* AccountRecoveryService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B16774D62D89D2EE001820F3 /* AccountRecoveryService.swift */; };
+		B16774DB2D89EFC2001820F3 /* FindPasswordRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = B16774DA2D89EFC2001820F3 /* FindPasswordRequest.swift */; };
+		B16774DD2D89F6C6001820F3 /* VerifyPasswordResetRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = B16774DC2D89F6C6001820F3 /* VerifyPasswordResetRequest.swift */; };
+		B16774DF2D89F783001820F3 /* PasswordResetRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = B16774DE2D89F783001820F3 /* PasswordResetRequest.swift */; };
 		B168B75F2D28073C0000F32E /* SignupFooterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B168B7572D28073C0000F32E /* SignupFooterView.swift */; };
 		B168B7602D28073C0000F32E /* SignupHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B168B7582D28073C0000F32E /* SignupHeaderView.swift */; };
 		B168B7612D28073C0000F32E /* SingleInputView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B168B7592D28073C0000F32E /* SingleInputView.swift */; };
@@ -199,6 +202,9 @@
 		B16774D22D857FC6001820F3 /* SignUpService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpService.swift; sourceTree = "<group>"; };
 		B16774D42D8959B3001820F3 /* FindIDRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FindIDRequest.swift; sourceTree = "<group>"; };
 		B16774D62D89D2EE001820F3 /* AccountRecoveryService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountRecoveryService.swift; sourceTree = "<group>"; };
+		B16774DA2D89EFC2001820F3 /* FindPasswordRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FindPasswordRequest.swift; sourceTree = "<group>"; };
+		B16774DC2D89F6C6001820F3 /* VerifyPasswordResetRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerifyPasswordResetRequest.swift; sourceTree = "<group>"; };
+		B16774DE2D89F783001820F3 /* PasswordResetRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasswordResetRequest.swift; sourceTree = "<group>"; };
 		B168B7572D28073C0000F32E /* SignupFooterView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignupFooterView.swift; sourceTree = "<group>"; };
 		B168B7582D28073C0000F32E /* SignupHeaderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignupHeaderView.swift; sourceTree = "<group>"; };
 		B168B7592D28073C0000F32E /* SingleInputView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SingleInputView.swift; sourceTree = "<group>"; };
@@ -518,6 +524,27 @@
 			path = ViewModel;
 			sourceTree = "<group>";
 		};
+		B16774D82D89D481001820F3 /* SignUp */ = {
+			isa = PBXGroup;
+			children = (
+				B15188612D76D29B000EFE41 /* EmailSendRequest.swift */,
+				B16774CE2D82D680001820F3 /* UsernameDuplicationRequest.swift */,
+				B16774C82D80A244001820F3 /* JoinRequest.swift */,
+			);
+			path = SignUp;
+			sourceTree = "<group>";
+		};
+		B16774D92D89D49D001820F3 /* AccountRecovery */ = {
+			isa = PBXGroup;
+			children = (
+				B16774D42D8959B3001820F3 /* FindIDRequest.swift */,
+				B16774DA2D89EFC2001820F3 /* FindPasswordRequest.swift */,
+				B16774DC2D89F6C6001820F3 /* VerifyPasswordResetRequest.swift */,
+				B16774DE2D89F783001820F3 /* PasswordResetRequest.swift */,
+			);
+			path = AccountRecovery;
+			sourceTree = "<group>";
+		};
 		B168B7552D2806E50000F32E /* Signup */ = {
 			isa = PBXGroup;
 			children = (
@@ -694,10 +721,8 @@
 		B1D8137B2D76A18900A9D447 /* Auth */ = {
 			isa = PBXGroup;
 			children = (
-				B15188612D76D29B000EFE41 /* EmailSendRequest.swift */,
-				B16774C82D80A244001820F3 /* JoinRequest.swift */,
-				B16774CE2D82D680001820F3 /* UsernameDuplicationRequest.swift */,
-				B16774D42D8959B3001820F3 /* FindIDRequest.swift */,
+				B16774D92D89D49D001820F3 /* AccountRecovery */,
+				B16774D82D89D481001820F3 /* SignUp */,
 			);
 			path = Auth;
 			sourceTree = "<group>";
@@ -705,8 +730,8 @@
 		B1D8137C2D76A19500A9D447 /* Auth */ = {
 			isa = PBXGroup;
 			children = (
-				B16774D22D857FC6001820F3 /* SignUpService.swift */,
 				B16774D62D89D2EE001820F3 /* AccountRecoveryService.swift */,
+				B16774D22D857FC6001820F3 /* SignUpService.swift */,
 			);
 			path = Auth;
 			sourceTree = "<group>";
@@ -1257,6 +1282,7 @@
 				54C7A3102D146190001175D9 /* LoginViewController.swift in Sources */,
 				E29CCD432D298656004AA30A /* ScoreCircularChartHostingController.swift in Sources */,
 				B19C4FBF2D6B6E3400CD008A /* MistakeNoteViewController.swift in Sources */,
+				B16774DD2D89F6C6001820F3 /* VerifyPasswordResetRequest.swift in Sources */,
 				E29CCD3C2D298656004AA30A /* BarGraphsView.swift in Sources */,
 				54DB0DA12D0951C000ABD458 /* Font+.swift in Sources */,
 				B16774C92D80A244001820F3 /* JoinRequest.swift in Sources */,
@@ -1276,6 +1302,7 @@
 				E29CCD2F2D29855B004AA30A /* TestTimeLabel.swift in Sources */,
 				B168B7732D2846C80000F32E /* PasswordInputViewController.swift in Sources */,
 				E239630D2D083B900092B39B /* HomeViewController.swift in Sources */,
+				B16774DF2D89F783001820F3 /* PasswordResetRequest.swift in Sources */,
 				B18F45182D3A528B0030F7DB /* FindIDViewModel.swift in Sources */,
 				B18F452A2D4D5B200030F7DB /* ResetPasswordViewController.swift in Sources */,
 				E2F18BCF2D6060E900DC6F82 /* DailyLearnViewController.swift in Sources */,
@@ -1370,6 +1397,7 @@
 				B168B7612D28073C0000F32E /* SingleInputView.swift in Sources */,
 				54C7A3162D14A5A6001175D9 /* LoginLogoView.swift in Sources */,
 				B19C4FAD2D61304400CD008A /* OneButtonCustomAlertMainView.swift in Sources */,
+				B16774DB2D89EFC2001820F3 /* FindPasswordRequest.swift in Sources */,
 				54C7A3132D1461A6001175D9 /* LoginMainView.swift in Sources */,
 				B19C4F6F2D55DCA400CD008A /* SignUpVerificationMainView.swift in Sources */,
 			);
