@@ -36,7 +36,7 @@ final class PreviewResultViewModel {
             switch event {
             case .viewDidLoad:
                 updateTextData()
-                setLayout()
+                setChartLayout()
             case .viewDidAppear:
                 updateScoreAnimationData()
                 updateConceptAnimationData()
@@ -61,9 +61,8 @@ final class PreviewResultViewModel {
         updateMockConceptAnimationData()
     }
     
-    private func setLayout() {
-        self.previewConceptsData.numOfTotalConcept = 3
-        self.previewConceptsData.initAnimationChart(numOfCharts: 3)
+    private func setChartLayout() {
+        setMockChartLayout()
     }
     
     // MARK: - Test Methods
@@ -87,5 +86,10 @@ final class PreviewResultViewModel {
             IncorrectCountData(id: 2, incorrectCount: 5, topic: ["속성"]),
             IncorrectCountData(id: 3, incorrectCount: 3, topic: ["조인"]),
         ]
+    }
+    
+    private func setMockChartLayout() {
+        self.previewConceptsData.numOfTotalConcept = 3
+        self.previewConceptsData.initAnimationChart(numOfCharts: 3)
     }
 }
