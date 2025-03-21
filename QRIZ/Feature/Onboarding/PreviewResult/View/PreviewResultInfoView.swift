@@ -31,7 +31,11 @@ struct PreviewResultInfoView: View {
             
             Spacer()
 
-            Text("총점수를 토대로,\n실제 시험 점수를 예측한 값입니다.")
+            VStack(alignment: .leading, spacing: 14) {
+                Text("출제 경향을 반영한 가중치를 적용하여, 예상한 점수입니다.")
+
+                Text("* 실제 시험에서는 난이도나 변동 요소에 따라 점수가 달라질 수 있습니다.")
+            }
                 .font(.system(size: 12, weight: .medium))
                 .foregroundStyle(.coolNeutral500)
         }
@@ -42,7 +46,7 @@ struct PreviewResultInfoView: View {
                 lineWidth: 2
             )
         )
-        .frame(width: 200, height: 100)
+        .frame(width: 250, height: 150)
         .background(.white)
     }
     

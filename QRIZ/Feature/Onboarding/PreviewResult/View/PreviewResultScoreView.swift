@@ -56,9 +56,7 @@ struct PreviewResultScoreView: View {
                 PreviewResultScoreCircularChartView(previewScoresData: previewScoresData)
                     .frame(width: 164, height: 164)
                 if isShowingPopover {
-                    withAnimation {
-                        PreviewResultInfoView(isShowingPopover: $isShowingPopover)
-                    }
+                    PreviewResultInfoView(isShowingPopover: $isShowingPopover)
                 }
             }
             
