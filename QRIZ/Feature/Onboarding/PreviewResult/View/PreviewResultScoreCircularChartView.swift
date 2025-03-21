@@ -22,7 +22,7 @@ struct PreviewResultScoreCircularChartView: View {
             VStack {
                 Text("총점수")
                     .font(.system(size: 14, weight: .regular))
-                Text("\(Int(previewScoresData.subject1Score + previewScoresData.subject2Score))점")
+                Text("\(previewScoresData.totalScore)점")
                     .font(.system(size: 16, weight: .bold))
             }
             .foregroundStyle(.coolNeutral800)
@@ -37,13 +37,13 @@ struct PreviewResultScoreCircularChartView: View {
             .stroke(style: StrokeStyle(lineWidth: lineWidth, lineCap: .butt, lineJoin: .round))
             .foregroundStyle(.customBlue500)
             .rotationEffect(.degrees(-90))
-            .animation(.easeInOut(duration: 1), value: 1.0 - subject1Score)
+            .animation(.easeInOut(duration: 1), value: subject1Score)
         : Circle()
             .trim(from: 0.0, to: 1.0 - subject1Score / 100 - subject2Score / 100)
             .stroke(style: StrokeStyle(lineWidth: lineWidth, lineCap: .butt, lineJoin: .round))
             .foregroundStyle(.coolNeutral400)
             .rotationEffect(.degrees(-90))
-            .animation(.easeInOut(duration: 1), value: subject1Score)
+            .animation(.easeInOut(duration: 1), value: subject2Score)
     }
 }
 
