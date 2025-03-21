@@ -106,7 +106,8 @@ final class PreviewTestViewModel {
         if isNextButton && curNum >= questionList.count {
             output.send(.popUpAlert)
         } else {
-            currentNumber = curNum + 1
+            let pageDiff = isNextButton ? 1 : -1
+            currentNumber = curNum + pageDiff
             output.send(.updateQuestion(question: questionList[currentNumber! - 1]))
         }
     }
