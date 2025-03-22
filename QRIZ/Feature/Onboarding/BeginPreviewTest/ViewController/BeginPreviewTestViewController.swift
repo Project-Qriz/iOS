@@ -8,7 +8,7 @@
 import UIKit
 import Combine
 
-final class BeginTestViewController: UIViewController {
+final class BeginPreviewTestViewController: UIViewController {
     
     // MARK: - Properties
     let beginTestTitleLabel: UILabel = OnboardingTitleLabel(labelText: "테스트를\n진행해볼까요?")
@@ -16,8 +16,8 @@ final class BeginTestViewController: UIViewController {
     let beginImageView: UIImageView = UIImageView(image: UIImage(named: "onboarding2"))
     let beginTestButton: UIButton = OnboardingButton("간단한 테스트 시작")
     
-    private var viewModel: BeginTestViewModel = BeginTestViewModel()
-    private let input: PassthroughSubject<BeginTestViewModel.Input, Never> = .init()
+    private var viewModel: BeginPreviewTestViewModel = BeginPreviewTestViewModel()
+    private let input: PassthroughSubject<BeginPreviewTestViewModel.Input, Never> = .init()
     private var subscriptions = Set<AnyCancellable>()
     
     // MARK: - Methods
@@ -54,7 +54,7 @@ final class BeginTestViewController: UIViewController {
 }
 
 // MARK: - Auto Layout
-extension BeginTestViewController {
+extension BeginPreviewTestViewController {
     private func addViews() {
         self.view.addSubview(beginTestTitleLabel)
         self.view.addSubview(beginTestSubtitleLabel)

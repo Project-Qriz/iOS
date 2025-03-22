@@ -18,21 +18,14 @@ final class PreviewResultViewModel {
     }
     
     enum Output {
-        case loadData(nickname: String, firstConcept: String, secondConcept: String)
         case createDataFailed
         case moveToGreetingView
-        case removeConceptBarGraphView
-        case resizeConceptBarGraphView
     }
     
     // MARK: - Properties
     var previewScoresData = PreviewScoresData()
     var previewConceptsData = PreviewConceptsData()
-
-    private var nickname: String = "채영" // temp value
-    private var firstConcept: String = "DDL" // temp value
-    private var secondConcept: String = "조인" // temp value
-
+    
     private let output: PassthroughSubject<Output, Never> = .init()
     private var subscriptions = Set<AnyCancellable>()
     
@@ -42,19 +35,12 @@ final class PreviewResultViewModel {
             guard let self = self else { return }
             switch event {
             case .viewDidLoad:
-                // fetch Data
-                output.send(.loadData(nickname: nickname, firstConcept: firstConcept, secondConcept: secondConcept))
+                updateTextData()
+                setChartLayout()
             case .viewDidAppear:
-                // renew ObservableObject data for SwiftUI View, below are sample datas, should make below to method
-                updateScoreData()
-                updateConceptData()
-                if self.previewScoresData.expectScore == 100 || self.previewConceptsData.incorrectCountDataArr.isEmpty {
-                    output.send(.removeConceptBarGraphView)
-                }
-                if self.previewConceptsData.incorrectCountDataArr.count == 1 {
-                    output.send(.resizeConceptBarGraphView)
-                }
-
+                updateScoreAnimationData()
+                updateConceptAnimationData()
+                
             case .toHomeButtonClicked:
                 output.send(.moveToGreetingView)
             }
@@ -63,19 +49,47 @@ final class PreviewResultViewModel {
         return output.eraseToAnyPublisher()
     }
     
-    private func updateScoreData() {
-        self.previewScoresData.subject1Score = 0.4
-        self.previewScoresData.subject2Score = 0.2
-        self.previewScoresData.expectScore = 60
+    private func updateTextData() {
+        updateMockTextData()
     }
     
-    private func updateConceptData() {
+    private func updateScoreAnimationData() {
+        updateMockScoreAnimationData()
+    }
+    
+    private func updateConceptAnimationData() {
+        updateMockConceptAnimationData()
+    }
+    
+    private func setChartLayout() {
+        setMockChartLayout()
+    }
+    
+    // MARK: - Test Methods
+    private func updateMockTextData() {
+        self.previewScoresData.nickname = "채영"
+        self.previewScoresData.expectScore = 58
+        
+        self.previewConceptsData.firstConcept = "DDL"
+        self.previewConceptsData.secondConcept = "조인"
         self.previewConceptsData.totalQuestions = 20
+    }
+    
+    private func updateMockScoreAnimationData() {
+        self.previewScoresData.subject1Score = 40
+        self.previewScoresData.subject2Score = 20
+    }
+    
+    private func updateMockConceptAnimationData() {
         self.previewConceptsData.incorrectCountDataArr = [
-            IncorrectCountData(id: 1, topic: "DDL", incorrectCount: 5),
-            IncorrectCountData(id: 2, topic: "조인", incorrectCount: 3),
-            IncorrectCountData(id: 3, topic: "모델이 표현하는 트랜잭션의 이해", incorrectCount: 1),
-            IncorrectCountData(id: 4)
+            IncorrectCountData(id: 1, incorrectCount: 5, topic: ["DDL"]),
+            IncorrectCountData(id: 2, incorrectCount: 5, topic: ["속성"]),
+            IncorrectCountData(id: 3, incorrectCount: 3, topic: ["조인"]),
         ]
+    }
+    
+    private func setMockChartLayout() {
+        self.previewConceptsData.numOfTotalConcept = 3
+        self.previewConceptsData.initAnimationChart(numOfCharts: 3)
     }
 }
