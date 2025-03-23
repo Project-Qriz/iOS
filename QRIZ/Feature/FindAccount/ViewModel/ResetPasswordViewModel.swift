@@ -58,7 +58,7 @@ final class ResetPasswordViewModel {
         outputSubject.send(.lengthRequirementChanged(lengthRequirement))
         
         let canSignUp = passwordValid && (confirmPasswordDidEdit ? (confirmPassword == password) : false)
-        outputSubject.send(.updateSignupButtonState(canSignUp))
+        outputSubject.send(.updateSignUpButtonState(canSignUp))
     }
 }
 
@@ -73,7 +73,7 @@ extension ResetPasswordViewModel {
         case characterRequirementChanged(Bool)
         case lengthRequirementChanged(Bool)
         case confirmValidChanged(Bool)
-        case updateSignupButtonState(Bool)
+        case updateSignUpButtonState(Bool)
         case navigateToAlertView
     }
 }

@@ -1,5 +1,5 @@
 //
-//  SignupFooterView.swift
+//  SignUpFooterView.swift
 //  QRIZ
 //
 //  Created by 김세훈 on 12/31/24.
@@ -8,7 +8,7 @@
 import UIKit
 import Combine
 
-final class SignupFooterView: UIView {
+final class SignUpFooterView: UIView {
     
     // MARK: - Enums
     
@@ -70,7 +70,7 @@ final class SignupFooterView: UIView {
 
 // MARK: - Layout Setup
 
-extension SignupFooterView {
+extension SignUpFooterView {
     private func addSubviews() {
         [
             nextButton

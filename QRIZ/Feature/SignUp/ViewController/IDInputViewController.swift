@@ -62,7 +62,7 @@ final class IDInputViewController: UIViewController {
         let duplicateCheckButtonTapped = rootView.idInputView.buttonTappedPublisher
             .map { IDInputViewModel.Input.duplicateCheckButtonTapped }
         
-        let nextButtonTapped = rootView.signupFooterView.buttonTappedPublisher
+        let nextButtonTapped = rootView.signUpFooterView.buttonTappedPublisher
             .map { IDInputViewModel.Input.NextButtonTapped }
         
         let input = Publishers.Merge3(
@@ -86,7 +86,7 @@ final class IDInputViewController: UIViewController {
                     self.rootView.idInputView.updateCheckMessage(message: message, isAvailable: isAvailable)
                     
                 case .updateNextButtonState(let isEnabled):
-                    self.rootView.signupFooterView.updateButtonState(isValid: isEnabled)
+                    self.rootView.signUpFooterView.updateButtonState(isValid: isEnabled)
                     
                 case .resetColor:
                     self.rootView.idInputView.resetColors()
@@ -99,7 +99,7 @@ final class IDInputViewController: UIViewController {
     }
     
     private func observe() {
-        keyboardCancellable = observeKeyboardNotifications(for: rootView.signupFooterView)
+        keyboardCancellable = observeKeyboardNotifications(for: rootView.signUpFooterView)
         
         view.tapGestureEndedPublisher()
             .sink { [weak self] _ in

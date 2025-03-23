@@ -65,7 +65,7 @@ final class PasswordInputViewModel {
         outputSubject.send(.lengthRequirementChanged(lengthRequirement))
         
         let canSignUp = passwordValid && (confirmPasswordDidEdit ? (confirmPassword == password) : false)
-        outputSubject.send(.updateSignupButtonState(canSignUp))
+        outputSubject.send(.updateSignUpButtonState(canSignUp))
     }
     
     private func performJoin() {
@@ -91,7 +91,7 @@ extension PasswordInputViewModel {
         case characterRequirementChanged(Bool)
         case lengthRequirementChanged(Bool)
         case confirmValidChanged(Bool)
-        case updateSignupButtonState(Bool)
+        case updateSignUpButtonState(Bool)
         case navigateToAlertView
     }
 }

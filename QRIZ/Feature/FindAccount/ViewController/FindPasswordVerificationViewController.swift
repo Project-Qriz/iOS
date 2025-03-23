@@ -69,7 +69,7 @@ final class FindPasswordVerificationViewController: UIViewController {
         let confirmButtonTapped = rootView.verificationInputView.confirmButtonPublisher
             .map { FindPasswordVerificationViewModel.Input.confirmButtonTapped }
         
-        let nextButtonTapped = rootView.signupFooterView.buttonTappedPublisher
+        let nextButtonTapped = rootView.signUpFooterView.buttonTappedPublisher
             .map { FindPasswordVerificationViewModel.Input.nextButtonTapped }
         
         let input = emailTextChanged
@@ -108,7 +108,7 @@ final class FindPasswordVerificationViewController: UIViewController {
                     
                 case .codeVerificationSuccess:
                     self.rootView.verificationInputView.handleCodeVerificationSuccess()
-                    self.rootView.signupFooterView.updateButtonState(isValid: true)
+                    self.rootView.signUpFooterView.updateButtonState(isValid: true)
                     
                 case .codeVerificationFailure:
                     self.rootView.verificationInputView.handleCodeVerificationFailure()
@@ -121,7 +121,7 @@ final class FindPasswordVerificationViewController: UIViewController {
     }
     
     private func observe() {
-        keyboardCancellable = observeKeyboardNotifications(for: rootView.signupFooterView)
+        keyboardCancellable = observeKeyboardNotifications(for: rootView.signUpFooterView)
         
         view.tapGestureEndedPublisher()
             .sink { [weak self] _ in

@@ -13,7 +13,7 @@ final class PasswordInputMainView: UIView {
     
     private enum Metric {
         static let passwordInputViewTopOffset: CGFloat = 24.0
-        static let signupFooterViewBottomOffset: CGFloat = -16.0
+        static let signUpFooterViewBottomOffset: CGFloat = -16.0
         static let horizontalMargin: CGFloat = 18.0
     }
     
@@ -26,9 +26,9 @@ final class PasswordInputMainView: UIView {
     
     // MARK: - Properties
     
-    private let signupHeaderView = SignupHeaderView()
+    private let signUpHeaderView = SignUpHeaderView()
     let passwordInputView = PasswordInputView()
-    let signupFooterView = SignupFooterView()
+    let signUpFooterView = SignUpFooterView()
     
     // MARK: - initialize
     
@@ -55,9 +55,9 @@ final class PasswordInputMainView: UIView {
         buttonTitle: String
     ) {
         self.backgroundColor = .white
-        signupHeaderView.configure(title: title, progress: progressValue)
-        signupFooterView.configure(buttonTitle: buttonTitle)
-        signupFooterView.updateButtonState(isValid: false)
+        signUpHeaderView.configure(title: title, progress: progressValue)
+        signUpFooterView.configure(buttonTitle: buttonTitle)
+        signUpFooterView.updateButtonState(isValid: false)
     }
 }
 
@@ -66,29 +66,29 @@ final class PasswordInputMainView: UIView {
 extension PasswordInputMainView {
     private func addSubviews() {
         [
-            signupHeaderView,
+            signUpHeaderView,
             passwordInputView,
-            signupFooterView
+            signUpFooterView
         ].forEach(addSubview(_:))
     }
     
     private func setupConstraints() {
-        signupHeaderView.translatesAutoresizingMaskIntoConstraints = false
+        signUpHeaderView.translatesAutoresizingMaskIntoConstraints = false
         passwordInputView.translatesAutoresizingMaskIntoConstraints = false
-        signupFooterView.translatesAutoresizingMaskIntoConstraints = false
+        signUpFooterView.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
-            signupHeaderView.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor),
-            signupHeaderView.leadingAnchor.constraint(equalTo: leadingAnchor),
-            signupHeaderView.trailingAnchor.constraint(equalTo: trailingAnchor),
+            signUpHeaderView.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor),
+            signUpHeaderView.leadingAnchor.constraint(equalTo: leadingAnchor),
+            signUpHeaderView.trailingAnchor.constraint(equalTo: trailingAnchor),
             
-            passwordInputView.topAnchor.constraint(equalTo: signupHeaderView.bottomAnchor, constant: Metric.passwordInputViewTopOffset),
+            passwordInputView.topAnchor.constraint(equalTo: signUpHeaderView.bottomAnchor, constant: Metric.passwordInputViewTopOffset),
             passwordInputView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Metric.horizontalMargin),
             passwordInputView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -Metric.horizontalMargin),
             
-            signupFooterView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Metric.horizontalMargin),
-            signupFooterView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -Metric.horizontalMargin),
-            signupFooterView.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor, constant: Metric.signupFooterViewBottomOffset)
+            signUpFooterView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Metric.horizontalMargin),
+            signUpFooterView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -Metric.horizontalMargin),
+            signUpFooterView.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor, constant: Metric.signUpFooterViewBottomOffset)
         ])
     }
 }

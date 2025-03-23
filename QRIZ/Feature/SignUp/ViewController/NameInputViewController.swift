@@ -59,7 +59,7 @@ final class NameInputViewController: UIViewController {
         let nameTextChanged = rootView.singleInputView.textChangedPublisher
             .map { NameInputViewModel.Input.nameTextChanged($0) }
         
-        let nextButtonTapped = rootView.signupFooterView.buttonTappedPublisher
+        let nextButtonTapped = rootView.signUpFooterView.buttonTappedPublisher
             .map { NameInputViewModel.Input.buttonTapped }
         
         let input = Publishers.Merge(
@@ -76,7 +76,7 @@ final class NameInputViewController: UIViewController {
                 switch output {
                 case .isNameValid(let isValid):
                     self.rootView.singleInputView.updateErrorState(isValid: isValid)
-                    self.rootView.signupFooterView.updateButtonState(isValid: isValid)
+                    self.rootView.signUpFooterView.updateButtonState(isValid: isValid)
                     
                 case .navigateToEmailInputView:
                     self.coordinator?.showIDInput()
@@ -86,7 +86,7 @@ final class NameInputViewController: UIViewController {
     }
     
     private func observe() {
-        keyboardCancellable = observeKeyboardNotifications(for: rootView.signupFooterView)
+        keyboardCancellable = observeKeyboardNotifications(for: rootView.signUpFooterView)
         
         view.tapGestureEndedPublisher()
             .sink { [weak self] _ in

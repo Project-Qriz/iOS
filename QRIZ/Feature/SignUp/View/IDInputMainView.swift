@@ -13,7 +13,7 @@ final class IDInputMainView: UIView {
     
     private enum Metric {
         static let idInputViewTopOffset: CGFloat = 20.0
-        static let signupFooterViewBottomOffset: CGFloat = -16.0
+        static let signUpFooterViewBottomOffset: CGFloat = -16.0
         static let horizontalMargin: CGFloat = 18.0
     }
     
@@ -25,9 +25,9 @@ final class IDInputMainView: UIView {
     
     // MARK: - Properties
     
-    private let signupHeaderView = SignupHeaderView()
+    private let signUpHeaderView = SignUpHeaderView()
     let idInputView = IDInputView()
-    let signupFooterView = SignupFooterView()
+    let signUpFooterView = SignUpFooterView()
     
     // MARK: - initialize
     
@@ -54,9 +54,9 @@ final class IDInputMainView: UIView {
         buttonTitle: String
     ) {
         self.backgroundColor = .white
-        signupHeaderView.configure(title: title, progress: progressValue)
-        signupFooterView.configure(buttonTitle: buttonTitle)
-        signupFooterView.updateButtonState(isValid: false)
+        signUpHeaderView.configure(title: title, progress: progressValue)
+        signUpFooterView.configure(buttonTitle: buttonTitle)
+        signUpFooterView.updateButtonState(isValid: false)
     }
 }
 
@@ -65,29 +65,29 @@ final class IDInputMainView: UIView {
 extension IDInputMainView {
     private func addSubviews() {
         [
-            signupHeaderView,
+            signUpHeaderView,
             idInputView,
-            signupFooterView
+            signUpFooterView
         ].forEach(addSubview(_:))
     }
     
     private func setupConstraints() {
-        signupHeaderView.translatesAutoresizingMaskIntoConstraints = false
+        signUpHeaderView.translatesAutoresizingMaskIntoConstraints = false
         idInputView.translatesAutoresizingMaskIntoConstraints = false
-        signupFooterView.translatesAutoresizingMaskIntoConstraints = false
+        signUpFooterView.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
-            signupHeaderView.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor),
-            signupHeaderView.leadingAnchor.constraint(equalTo: leadingAnchor),
-            signupHeaderView.trailingAnchor.constraint(equalTo: trailingAnchor),
+            signUpHeaderView.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor),
+            signUpHeaderView.leadingAnchor.constraint(equalTo: leadingAnchor),
+            signUpHeaderView.trailingAnchor.constraint(equalTo: trailingAnchor),
             
-            idInputView.topAnchor.constraint(equalTo: signupHeaderView.bottomAnchor, constant: Metric.idInputViewTopOffset),
+            idInputView.topAnchor.constraint(equalTo: signUpHeaderView.bottomAnchor, constant: Metric.idInputViewTopOffset),
             idInputView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Metric.horizontalMargin),
             idInputView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -Metric.horizontalMargin),
             
-            signupFooterView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Metric.horizontalMargin),
-            signupFooterView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -Metric.horizontalMargin),
-            signupFooterView.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor, constant: Metric.signupFooterViewBottomOffset)
+            signUpFooterView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Metric.horizontalMargin),
+            signUpFooterView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -Metric.horizontalMargin),
+            signUpFooterView.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor, constant: Metric.signUpFooterViewBottomOffset)
         ])
     }
 }

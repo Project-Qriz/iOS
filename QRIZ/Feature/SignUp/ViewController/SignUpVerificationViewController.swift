@@ -65,7 +65,7 @@ final class SignUpVerificationViewController: UIViewController {
         let confirmButtonTapped = rootView.verificationInputView.confirmButtonPublisher
             .map { SignUpVerificationViewModel.Input.confirmButtonTapped }
         
-        let nextButtonTapped = rootView.signupFooterView.buttonTappedPublisher
+        let nextButtonTapped = rootView.signUpFooterView.buttonTappedPublisher
             .map { SignUpVerificationViewModel.Input.nextButtonTapped }
         
         let input = emailTextChanged
@@ -103,7 +103,7 @@ final class SignUpVerificationViewController: UIViewController {
                     
                 case .codeVerificationSuccess:
                     self.rootView.verificationInputView.handleCodeVerificationSuccess()
-                    self.rootView.signupFooterView.updateButtonState(isValid: true)
+                    self.rootView.signUpFooterView.updateButtonState(isValid: true)
                     
                 case .codeVerificationFailure:
                     self.rootView.verificationInputView.handleCodeVerificationFailure()
@@ -116,7 +116,7 @@ final class SignUpVerificationViewController: UIViewController {
     }
     
     private func observe() {
-        keyboardCancellable = observeKeyboardNotifications(for: rootView.signupFooterView)
+        keyboardCancellable = observeKeyboardNotifications(for: rootView.signUpFooterView)
         
         view.tapGestureEndedPublisher()
             .sink { [weak self] _ in

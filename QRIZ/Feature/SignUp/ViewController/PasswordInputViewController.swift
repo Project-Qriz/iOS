@@ -65,12 +65,12 @@ final class PasswordInputViewController: UIViewController {
         let confirmTextChanged = rootView.passwordInputView.confirmTextChangedPublisher
             .map { PasswordInputViewModel.Input.confirmPasswordTextChanged($0) }
         
-        let signupButtonTapped = rootView.signupFooterView.buttonTappedPublisher
+        let signUpButtonTapped = rootView.signUpFooterView.buttonTappedPublisher
             .map { PasswordInputViewModel.Input.buttonTapped }
         
         let input = passwordTextChanged
             .merge(with: confirmTextChanged)
-            .merge(with: signupButtonTapped)
+            .merge(with: signUpButtonTapped)
             .eraseToAnyPublisher()
         
         let output = passwordInputVM.transform(input: input)
@@ -89,8 +89,8 @@ final class PasswordInputViewController: UIViewController {
                 case .confirmValidChanged(let isValid):
                     self.rootView.passwordInputView.updateConfirmPasswordUI(isValid)
                     
-                case .updateSignupButtonState(let canSignUp):
-                    self.rootView.signupFooterView.updateButtonState(isValid: canSignUp)
+                case .updateSignUpButtonState(let canSignUp):
+                    self.rootView.signUpFooterView.updateButtonState(isValid: canSignUp)
                     
                 case .navigateToAlertView:
                     self.showOneButtonAlert()
@@ -100,7 +100,7 @@ final class PasswordInputViewController: UIViewController {
     }
     
     private func observe() {
-        keyboardCancellable = observeKeyboardNotifications(for: rootView.signupFooterView)
+        keyboardCancellable = observeKeyboardNotifications(for: rootView.signUpFooterView)
         
         view.tapGestureEndedPublisher()
             .sink { [weak self] _ in

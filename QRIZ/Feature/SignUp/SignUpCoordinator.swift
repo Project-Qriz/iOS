@@ -1,5 +1,5 @@
 //
-//  SignupCoordinator.swift
+//  SignUpCoordinator.swift
 //  QRIZ
 //
 //  Created by 김세훈 on 3/5/25.

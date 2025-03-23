@@ -1,5 +1,5 @@
 //
-//  SignupHeaderView.swift
+//  SignUpHeaderView.swift
 //  QRIZ
 //
 //  Created by 김세훈 on 12/31/24.
@@ -7,7 +7,7 @@
 
 import UIKit
 
-final class SignupHeaderView: UIView {
+final class SignUpHeaderView: UIView {
     
     // MARK: - Enums
     
@@ -61,7 +61,7 @@ final class SignupHeaderView: UIView {
 
 // MARK: - Layout Setup
 
-extension SignupHeaderView {
+extension SignUpHeaderView {
     private func addSubviews() {
         [
             progressView,

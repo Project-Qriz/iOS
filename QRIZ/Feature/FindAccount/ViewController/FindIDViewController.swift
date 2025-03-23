@@ -61,7 +61,7 @@ final class FindIDViewController: UIViewController {
         let emailTextChanged = rootView.findIDInputView.textChangedPublisher
             .map { FindIDViewModel.Input.emailTextChanged($0) }
         
-        let nextButtonTapped = rootView.signupFooterView.buttonTappedPublisher
+        let nextButtonTapped = rootView.signUpFooterView.buttonTappedPublisher
             .map { FindIDViewModel.Input.buttonTapped }
         
         let input = Publishers.Merge(
@@ -78,7 +78,7 @@ final class FindIDViewController: UIViewController {
                 switch output {
                 case .isNameValid(let isValid):
                     self.rootView.findIDInputView.updateErrorState(isValid: isValid)
-                    self.rootView.signupFooterView.updateButtonState(isValid: isValid)
+                    self.rootView.signUpFooterView.updateButtonState(isValid: isValid)
                     
                 case .navigateToAlerView:
                     // MARK: - 코디네이터 적용 필요
@@ -89,7 +89,7 @@ final class FindIDViewController: UIViewController {
     }
     
     private func observe() {
-        keyboardCancellable = observeKeyboardNotifications(for: rootView.signupFooterView)
+        keyboardCancellable = observeKeyboardNotifications(for: rootView.signUpFooterView)
         
         view.tapGestureEndedPublisher()
             .sink { [weak self] _ in
