@@ -265,6 +265,9 @@
 		E25F94CA2D0CB1DB00BA765F /* OnboardingTitleLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingTitleLabel.swift; sourceTree = "<group>"; };
 		E25F94CC2D0CB50F00BA765F /* OnboardingSubtitleLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingSubtitleLabel.swift; sourceTree = "<group>"; };
 		E25F94D02D0CB74700BA765F /* OnboardingButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingButton.swift; sourceTree = "<group>"; };
+		E26AF7012D918EFC006E3252 /* Release.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Release.xcconfig; sourceTree = "<group>"; };
+		E26AF7022D918F03006E3252 /* Debug.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Debug.xcconfig; sourceTree = "<group>"; };
+		E26AF7032D918F07006E3252 /* Shared.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Shared.xcconfig; sourceTree = "<group>"; };
 		E27E54A82D6D74C500BF3B55 /* CheckListFoldButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckListFoldButton.swift; sourceTree = "<group>"; };
 		E28BAD762D2C111100B8388D /* TwoButtonCustomAlertView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TwoButtonCustomAlertView.swift; sourceTree = "<group>"; };
 		E28BAD782D2C2DEB00B8388D /* TwoButtonCustomAlertViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TwoButtonCustomAlertViewController.swift; sourceTree = "<group>"; };
@@ -713,6 +716,7 @@
 		E23962FC2D083B8F0092B39B = {
 			isa = PBXGroup;
 			children = (
+				E26AF7042D918F97006E3252 /* XCConfig */,
 				541878522D0E21250089F478 /* Network */,
 				E23963072D083B8F0092B39B /* QRIZ */,
 				E239631E2D083B910092B39B /* QRIZTests */,
@@ -824,6 +828,16 @@
 				E25F94D02D0CB74700BA765F /* OnboardingButton.swift */,
 			);
 			path = OnboardingComponents;
+			sourceTree = "<group>";
+		};
+		E26AF7042D918F97006E3252 /* XCConfig */ = {
+			isa = PBXGroup;
+			children = (
+				E26AF7012D918EFC006E3252 /* Release.xcconfig */,
+				E26AF7022D918F03006E3252 /* Debug.xcconfig */,
+				E26AF7032D918F07006E3252 /* Shared.xcconfig */,
+			);
+			path = XCConfig;
 			sourceTree = "<group>";
 		};
 		E28BAD7A2D2C326400B8388D /* CustomAlert */ = {
@@ -1232,9 +1246,8 @@
 				B18F452C2D4D5CF00030F7DB /* ResetPasswordViewModel.swift in Sources */,
 				54C7A3102D146190001175D9 /* LoginViewController.swift in Sources */,
 				E29CCD3C2D298656004AA30A /* PreviewResultBarGraphsView.swift in Sources */,
-				E29CCD432D298656004AA30A /* ScoreCircularChartHostingController.swift in Sources */,
 				B19C4FBF2D6B6E3400CD008A /* MistakeNoteViewController.swift in Sources */,
-				E29CCD3C2D298656004AA30A /* BarGraphsView.swift in Sources */,
+				E29CCD3C2D298656004AA30A /* PreviewResultBarGraphsView.swift in Sources */,
 				54DB0DA12D0951C000ABD458 /* Font+.swift in Sources */,
 				B168B76D2D2824BD0000F32E /* IDInputViewController.swift in Sources */,
 				B17FE3062D27F85C002EC7D7 /* LoginViewModel.swift in Sources */,
@@ -1249,7 +1262,7 @@
 				E29CCD4A2D29867F004AA30A /* GreetingViewModel.swift in Sources */,
 				E29CCD3D2D298656004AA30A /* PreviewResultViewHostingController.swift in Sources */,
 				B1D813772D6E0CD700A9D447 /* MyPageCoordinator.swift in Sources */,
-				E29CCD3D2D298656004AA30A /* ConceptBarGraphHostingController.swift in Sources */,
+				E29CCD3D2D298656004AA30A /* PreviewResultViewHostingController.swift in Sources */,
 				B19C4FB92D6B15B300CD008A /* MyPageViewController.swift in Sources */,
 				E29CCD2F2D29855B004AA30A /* TestTimeLabel.swift in Sources */,
 				B168B7732D2846C80000F32E /* PasswordInputViewController.swift in Sources */,
@@ -1397,6 +1410,7 @@
 /* Begin XCBuildConfiguration section */
 		E239632D2D083B910092B39B /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = E26AF7022D918F03006E3252 /* Debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
@@ -1460,6 +1474,7 @@
 		};
 		E239632E2D083B910092B39B /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = E26AF7012D918EFC006E3252 /* Release.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
@@ -1516,6 +1531,7 @@
 		};
 		E23963302D083B910092B39B /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = E26AF7022D918F03006E3252 /* Debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -1544,6 +1560,7 @@
 		};
 		E23963312D083B910092B39B /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = E26AF7012D918EFC006E3252 /* Release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -1572,6 +1589,7 @@
 		};
 		E23963332D083B910092B39B /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = E26AF7022D918F03006E3252 /* Debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
@@ -1592,6 +1610,7 @@
 		};
 		E23963342D083B910092B39B /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = E26AF7012D918EFC006E3252 /* Release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
@@ -1612,6 +1631,7 @@
 		};
 		E23963362D083B910092B39B /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = E26AF7022D918F03006E3252 /* Debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
@@ -1630,6 +1650,7 @@
 		};
 		E23963372D083B910092B39B /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = E26AF7012D918EFC006E3252 /* Release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
@@ -1648,6 +1669,7 @@
 		};
 		E23963432D083BC30092B39B /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = E26AF7022D918F03006E3252 /* Debug.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
@@ -1666,6 +1688,7 @@
 		};
 		E23963442D083BC30092B39B /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = E26AF7012D918EFC006E3252 /* Release.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
