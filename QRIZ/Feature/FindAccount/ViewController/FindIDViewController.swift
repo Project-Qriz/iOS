@@ -73,6 +73,7 @@ final class FindIDViewController: UIViewController {
         let output = findIDInputVM.transform(input: input)
         
         output
+            .receive(on: DispatchQueue.main)
             .sink { [weak self] output in
                 guard let self = self else { return }
                 switch output {
@@ -80,8 +81,10 @@ final class FindIDViewController: UIViewController {
                     self.rootView.findIDInputView.updateErrorState(isValid: isValid)
                     self.rootView.signUpFooterView.updateButtonState(isValid: isValid)
                     
+                case .showErrorAlert(let errorMessage):
+                    self.showErrorAlert(errorMessage)
+                    
                 case .navigateToAlerView:
-                    // MARK: - 코디네이터 적용 필요
                     self.showOneButtonAlert()
                 }
             }
@@ -112,6 +115,14 @@ final class FindIDViewController: UIViewController {
             }
             .store(in: &cancellables)
         
+        present(oneButtonAlert, animated: true)
+    }
+    
+    private func showErrorAlert(_ errorMessage: String) {
+        let oneButtonAlert = OneButtonCustomAlertViewController(title: errorMessage)
+        oneButtonAlert.confirmButtonTappedPublisher
+            .sink { oneButtonAlert.dismiss(animated: true) }
+            .store(in: &cancellables)
         present(oneButtonAlert, animated: true)
     }
 }

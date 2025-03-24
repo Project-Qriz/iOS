@@ -29,10 +29,16 @@ final class LoginCoordinatorImp: LoginCoordinator {
     private let navigationController: UINavigationController
     private var childCoordinators: [Coordinator] = []
     private let signUpService: SignUpService
+    private let accountRecoveryService: AccountRecoveryService
     
-    init(navigationController: UINavigationController, authService: SignUpService) {
+    init(
+        navigationController: UINavigationController,
+        authService: SignUpService,
+        accountRecoveryService: AccountRecoveryService
+    ) {
         self.navigationController = navigationController
         self.signUpService = authService
+        self.accountRecoveryService = accountRecoveryService
     }
     
     func start() -> UIViewController {
@@ -54,7 +60,7 @@ final class LoginCoordinatorImp: LoginCoordinator {
     }
     
     func showFindId() {
-        let findIDVM = FindIDViewModel()
+        let findIDVM = FindIDViewModel(accountRecoveryService: accountRecoveryService)
         let findIDVC = FindIDViewController(findIDInputVM: findIDVM)
         findIDVC.coordinator = self
         navigationController.pushViewController(findIDVC, animated: true)
