@@ -52,6 +52,7 @@
 		B168B7732D2846C80000F32E /* PasswordInputViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B168B7722D2846C80000F32E /* PasswordInputViewController.swift */; };
 		B168B7752D2846DD0000F32E /* PasswordInputMainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B168B7742D2846DD0000F32E /* PasswordInputMainView.swift */; };
 		B168B7772D28481D0000F32E /* PasswordInputView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B168B7762D28481D0000F32E /* PasswordInputView.swift */; };
+		B17D6ABA2D9141D80023FCA5 /* ErrorResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = B17D6AB92D9141D80023FCA5 /* ErrorResponse.swift */; };
 		B17FE3062D27F85C002EC7D7 /* LoginViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B17FE3052D27F85C002EC7D7 /* LoginViewModel.swift */; };
 		B17FE3082D27F87E002EC7D7 /* String+.swift in Sources */ = {isa = PBXBuildFile; fileRef = B17FE3072D27F87E002EC7D7 /* String+.swift */; };
 		B17FE30A2D27F8E9002EC7D7 /* UITextField+.swift in Sources */ = {isa = PBXBuildFile; fileRef = B17FE3092D27F8E9002EC7D7 /* UITextField+.swift */; };
@@ -217,6 +218,7 @@
 		B168B7722D2846C80000F32E /* PasswordInputViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasswordInputViewController.swift; sourceTree = "<group>"; };
 		B168B7742D2846DD0000F32E /* PasswordInputMainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasswordInputMainView.swift; sourceTree = "<group>"; };
 		B168B7762D28481D0000F32E /* PasswordInputView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasswordInputView.swift; sourceTree = "<group>"; };
+		B17D6AB92D9141D80023FCA5 /* ErrorResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorResponse.swift; sourceTree = "<group>"; };
 		B17FE3052D27F85C002EC7D7 /* LoginViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewModel.swift; sourceTree = "<group>"; };
 		B17FE3072D27F87E002EC7D7 /* String+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+.swift"; sourceTree = "<group>"; };
 		B17FE3092D27F8E9002EC7D7 /* UITextField+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITextField+.swift"; sourceTree = "<group>"; };
@@ -375,6 +377,7 @@
 			isa = PBXGroup;
 			children = (
 				B1D8137B2D76A18900A9D447 /* Auth */,
+				B17D6AB92D9141D80023FCA5 /* ErrorResponse.swift */,
 			);
 			path = DTOs;
 			sourceTree = "<group>";
@@ -1371,6 +1374,7 @@
 				E29BF8552D117CF1006DC6D0 /* SurveyCheckList.swift in Sources */,
 				E2DD0E862D2146D900DA3D18 /* IncorrectCountData.swift in Sources */,
 				E24907D32D619F39004D6E61 /* DailyLearnViewModel.swift in Sources */,
+				B17D6ABA2D9141D80023FCA5 /* ErrorResponse.swift in Sources */,
 				E29CCD3E2D298656004AA30A /* ConceptBarGraphView.swift in Sources */,
 				B15188662D782CCE000EFE41 /* SignUpCoordinator.swift in Sources */,
 				E25F94CD2D0CB50F00BA765F /* OnboardingSubtitleLabel.swift in Sources */,
