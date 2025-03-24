@@ -25,7 +25,7 @@ final class NetworkImp: Network {
             let urlRequest = try RequestFactory(request: request).urlRequestRepresentation()
             let (data, response) = try await session.data(for: urlRequest)
             
-            try validate(response)
+            try validate(response, data: data)
             return try JSONDecoder().decode(T.Response.self, from: data)
         } catch let error {
             throw mapToNetworkError(error)
@@ -34,16 +34,18 @@ final class NetworkImp: Network {
 }
 
 extension NetworkImp {
-    private func validate(_ response: URLResponse) throws {
+    private func validate(_ response: URLResponse, data: Data) throws {
         guard let httpResponse = response as? HTTPURLResponse else {
             throw NetworkError.unknownError
         }
         
         switch httpResponse.statusCode {
         case 200..<300: return
-        case 400..<500: throw NetworkError.clientError(
+        case 400..<500:
+            let errorResponse = try? JSONDecoder().decode(ErrorResponse.self, from: data)
+            throw NetworkError.clientError(
             code: httpResponse.statusCode,
-            message: "클라이언트 에러입니다."
+            message: errorResponse?.msg ?? "클라이언트 에러입니다."
         )
         case 500..<600: throw NetworkError.serverError
         default: throw NetworkError.unknownError
