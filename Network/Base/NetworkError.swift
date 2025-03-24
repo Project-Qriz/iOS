@@ -29,4 +29,16 @@ extension NetworkError {
         case .unknownError: return "알 수 없는 오류입니다."
         }
     }
+    
+    var errorMessage: String {
+        switch self {
+        case .clientError(_, let message): return message
+        case .invalidURL(let message): return "유효하지 않은 URL입니다. \(message)"
+        case .urlEncodingError: return "URL Encoding 에러입니다."
+        case .jsonDecodingError: return "JSON Decoding 에러입니다."
+        case .unAuthorizedError: return "접근 권한이 없습니다."
+        case .serverError: return "서버 에러입니다."
+        case .unknownError: return "알 수 없는 오류입니다."
+        }
+    }
 }
