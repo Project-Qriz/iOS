@@ -23,14 +23,14 @@ protocol Request {
 extension Request {
     /// 임시 URL입니다.
     var baseURL: URL {
-        let baseURLString = Bundle.main.object(forInfoDictionaryKey: "BaseURL") as? String ?? ""
-        print("baseURL : \(baseURL)")
-        guard let baseURL = URL(string: baseURLString) else {
-            fatalError("BaseURL is not valid")
+        guard let baseURLString = Bundle.main.object(forInfoDictionaryKey: "BaseURL") as? String,
+              let baseURL = URL(string: baseURLString)
+        else {
+            print("BaseURL is not valid")
+            return URL(string: "")!
         }
         return baseURL
     }
-    
     var query: QueryItems { [:] }
     var headers: HTTPHeader { [:] }
     
