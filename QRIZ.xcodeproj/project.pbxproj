@@ -1262,7 +1262,6 @@
 				E29CCD4A2D29867F004AA30A /* GreetingViewModel.swift in Sources */,
 				E29CCD3D2D298656004AA30A /* PreviewResultViewHostingController.swift in Sources */,
 				B1D813772D6E0CD700A9D447 /* MyPageCoordinator.swift in Sources */,
-				E29CCD3D2D298656004AA30A /* PreviewResultViewHostingController.swift in Sources */,
 				B19C4FB92D6B15B300CD008A /* MyPageViewController.swift in Sources */,
 				E29CCD2F2D29855B004AA30A /* TestTimeLabel.swift in Sources */,
 				B168B7732D2846C80000F32E /* PasswordInputViewController.swift in Sources */,
