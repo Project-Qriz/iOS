@@ -23,7 +23,12 @@ protocol Request {
 extension Request {
     /// 임시 URL입니다.
     var baseURL: URL {
-        return URL(string: "https://jsonplaceholder.typicode.com")!
+        let baseURLString = Bundle.main.object(forInfoDictionaryKey: "BaseURL") as? String ?? ""
+        print("baseURL : \(baseURL)")
+        guard let baseURL = URL(string: baseURLString) else {
+            fatalError("BaseURL is not valid")
+        }
+        return baseURL
     }
     
     var query: QueryItems { [:] }
