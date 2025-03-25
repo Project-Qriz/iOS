@@ -17,11 +17,6 @@ final class OnboardingButton: UIButton {
         self.titleLabel?.font = UIFont.boldSystemFont(ofSize: 16)
         self.backgroundColor = .customBlue500
         self.layer.cornerRadius = 8
-
-        self.layer.shadowColor = UIColor.black.cgColor
-        self.layer.shadowOpacity = 0.1
-        self.layer.shadowOffset = CGSize(width: 4, height: 6)
-        self.layer.shadowRadius = 4
     }
     
     required init?(coder: NSCoder) {

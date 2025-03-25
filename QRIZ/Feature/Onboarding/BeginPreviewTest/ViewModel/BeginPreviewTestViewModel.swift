@@ -8,7 +8,7 @@
 import Foundation
 import Combine
 
-final class BeginTestViewModel {
+final class BeginPreviewTestViewModel {
     
     // MARK: - Input & Output
     enum Input {
