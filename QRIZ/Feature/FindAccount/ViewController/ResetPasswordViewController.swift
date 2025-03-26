@@ -90,6 +90,9 @@ final class ResetPasswordViewController: UIViewController {
                 case .updateSignUpButtonState(let canSignUp):
                     self.rootView.signUpFooterView.updateButtonState(isValid: canSignUp)
                     
+                case .showErrorAlert(let errorMessage):
+                    self.showErrorAlert(with: errorMessage, storingIn: &cancellables)
+                    
                 case .navigateToAlertView:
                     self.showOneButtonAlert()
                 }

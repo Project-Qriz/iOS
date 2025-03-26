@@ -104,7 +104,7 @@ final class FindPasswordVerificationViewController: UIViewController {
                     self.rootView.verificationInputView.resetCodeTextField()
                     
                 case .emailVerificationFailure:
-                    self.showOneButtonAlert()
+                    self.showErrorAlert(with: Attributes.alertTitle, storingIn: &cancellables)
                     
                 case .codeVerificationSuccess:
                     self.rootView.verificationInputView.handleCodeVerificationSuccess()
@@ -128,14 +128,5 @@ final class FindPasswordVerificationViewController: UIViewController {
                 self?.view.endEditing(true)
             }
             .store(in: &cancellables)
-    }
-    
-    private func showOneButtonAlert() {
-        let oneButtonAlert = OneButtonCustomAlertViewController(title: Attributes.alertTitle)
-        oneButtonAlert.confirmButtonTappedPublisher
-            .sink { oneButtonAlert.dismiss(animated: true) }
-            .store(in: &cancellables)
-        
-        present(oneButtonAlert, animated: true)
     }
 }

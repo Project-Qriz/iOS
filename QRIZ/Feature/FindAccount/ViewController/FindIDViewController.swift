@@ -82,7 +82,7 @@ final class FindIDViewController: UIViewController {
                     self.rootView.signUpFooterView.updateButtonState(isValid: isValid)
                     
                 case .showErrorAlert(let errorMessage):
-                    self.showErrorAlert(errorMessage)
+                    self.showErrorAlert(with: errorMessage, storingIn: &cancellables)
                     
                 case .navigateToAlerView:
                     self.showOneButtonAlert()
@@ -115,14 +115,6 @@ final class FindIDViewController: UIViewController {
             }
             .store(in: &cancellables)
         
-        present(oneButtonAlert, animated: true)
-    }
-    
-    private func showErrorAlert(_ errorMessage: String) {
-        let oneButtonAlert = OneButtonCustomAlertViewController(title: errorMessage)
-        oneButtonAlert.confirmButtonTappedPublisher
-            .sink { oneButtonAlert.dismiss(animated: true) }
-            .store(in: &cancellables)
         present(oneButtonAlert, animated: true)
     }
 }
