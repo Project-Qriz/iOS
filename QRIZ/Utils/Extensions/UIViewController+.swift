@@ -65,4 +65,18 @@ extension UIViewController {
             viewToMove.transform = .identity
         }
     }
+    
+    /// `에러 메시지를 표시용 얼럿을 보여주는 함수입니다.`
+    /// - Parameters:
+    ///   - message: 얼럿에 표시할 에러 메시지
+    ///   - cancellables: 구독을 저장할 AnyCancellable
+    func showErrorAlert(with message: String, storingIn cancellables: inout Set<AnyCancellable>) {
+        let oneButtonAlert = OneButtonCustomAlertViewController(title: message)
+        oneButtonAlert.confirmButtonTappedPublisher
+            .sink { [weak oneButtonAlert] _ in
+                oneButtonAlert?.dismiss(animated: true)
+            }
+            .store(in: &cancellables)
+        present(oneButtonAlert, animated: true)
+    }
 }
