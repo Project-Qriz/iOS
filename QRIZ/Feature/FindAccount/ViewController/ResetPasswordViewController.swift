@@ -75,6 +75,7 @@ final class ResetPasswordViewController: UIViewController {
         let output = resetPasswordVM.transform(input: input)
         
         output
+            .receive(on: DispatchQueue.main)
             .sink { [weak self] output in
                 guard let self = self else { return }
                 switch output {

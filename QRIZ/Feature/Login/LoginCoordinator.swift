@@ -76,7 +76,7 @@ final class LoginCoordinatorImp: LoginCoordinator {
     }
     
     func showResetPassword() {
-        let resetPasswordVM = ResetPasswordViewModel()
+        let resetPasswordVM = ResetPasswordViewModel(accountRecoveryService: accountRecoveryService)
         let resetPasswordVC = ResetPasswordViewController(resetPasswordVM: resetPasswordVM)
         resetPasswordVC.coordinator = self
         navigationController.pushViewController(resetPasswordVC, animated: true)
