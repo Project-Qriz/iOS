@@ -18,7 +18,11 @@ final class DailyLearnViewController: UIViewController {
     }()
     private let scrollInnerView: UIView = .init()
     private let studyContentTitleLabel: DailyLearnSectionTitleLabel = .init()
-    private let studyContentView: StudyContentView = .init()
+    private let studyContentView: UICollectionView = {
+        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
+        collectionView.backgroundColor = .customBlue50
+        return collectionView
+    }()
     private let testSubtextLabel: UILabel = {
         let label = UILabel()
         label.font = .systemFont(ofSize: 14, weight: .regular)
@@ -34,6 +38,8 @@ final class DailyLearnViewController: UIViewController {
     private let input: PassthroughSubject<DailyLearnViewModel.Input, Never> = .init()
     private var subscriptions = Set<AnyCancellable>()
     
+    private var conceptArr: [(String, String)] = []
+    
     // MARK: - Initializer
     init(dailyLearnViewModel: DailyLearnViewModel) {
         self.viewModel = dailyLearnViewModel
@@ -48,6 +54,7 @@ final class DailyLearnViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setNavigationBarTitle(title: "오늘의 공부")
+        setCollectionViewDataSourceAndDelegate()
         bind()
         input.send(.viewDidLoad)
         addViews()
@@ -68,8 +75,9 @@ final class DailyLearnViewController: UIViewController {
                     setNavigatorButtonHeight(state: state)
                 case .fetchFailed:
                     print("Fetch Failed")
-                case .updateContent(let keyConcept1, let conceptContent1, let keyConcept2, let conceptContent2):
-                    studyContentView.setLabelsText(keyConcept1: keyConcept1, conceptContent1: conceptContent1, keyConcept2: keyConcept2, conceptContent2: conceptContent2)
+                case .updateContent(let conceptArr):
+                    self.conceptArr = conceptArr
+                    updateCollectionViewHeight()
                 case .moveToDailyTest(let isRetest):
                     // modal will be added
                     print("MOVE TO DAILY TEST")
@@ -102,6 +110,18 @@ final class DailyLearnViewController: UIViewController {
     
     private func setNavigatorButton(state: DailyTestState, type: DailyLearnType, score: Int?) {
         testNavigator.setDailyUI(state: state, type: type, score: score)
+    }
+    
+    private func setCollectionViewDataSourceAndDelegate() {
+        studyContentView.register(StudyContentCell.self, forCellWithReuseIdentifier: StudyContentCell.identifier)
+        studyContentView.dataSource = self
+        studyContentView.delegate = self
+    }
+    
+    private func updateCollectionViewHeight() {
+        studyContentView.reloadData()
+        studyContentView.layoutIfNeeded()
+        studyContentView.heightAnchor.constraint(equalToConstant: studyContentView.contentSize.height).isActive = true
     }
 }
 
@@ -161,5 +181,34 @@ extension DailyLearnViewController {
     private func setNavigatorButtonHeight(state: DailyTestState) {
         let buttonHeight = (state == .retestRequired ? 153.0 : 116.0)
         testNavigator.heightAnchor.constraint(equalToConstant: buttonHeight).isActive = true
+    }
+}
+
+// MARK: - CollectionView DataSource & Delegate
+extension DailyLearnViewController: UICollectionViewDataSource {
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: StudyContentCell.identifier, for: indexPath) as? StudyContentCell else {
+            print("Failed to create StudyContentCell")
+            return UICollectionViewCell()
+        }
+
+        cell.setLabelText(titleText: "\(indexPath.item + 1). \(conceptArr[indexPath.item].0)",
+                          descriptionText: "·  \(conceptArr[indexPath.item].1)")
+
+        return cell
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return conceptArr.count
+    }
+}
+
+extension DailyLearnViewController: UICollectionViewDelegateFlowLayout {
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        return CGSize(width: collectionView.frame.width, height: 150)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+        return 16
     }
 }

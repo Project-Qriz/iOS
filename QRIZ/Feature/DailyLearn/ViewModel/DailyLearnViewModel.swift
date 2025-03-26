@@ -21,11 +21,7 @@ final class DailyLearnViewModel {
                           type: DailyLearnType,
                           score: Int?
         )
-        case updateContent(keyConcept1: String,
-                           conceptContent1: String,
-                           keyConcept2: String, 
-                           conceptContent2: String
-        )
+        case updateContent(conceptArr: [(String, String)])
         case fetchFailed
         case moveToDailyTest(isRetest: Bool)
         case moveToDailyTestResult
@@ -36,10 +32,6 @@ final class DailyLearnViewModel {
     private var state: DailyTestState = .unavailable
     private var type: DailyLearnType = .daily
     private var score: Int? = nil
-    private var keyConcept1: String = ""
-    private var keyConcept2: String = ""
-    private var conceptContent1: String = ""
-    private var conceptContent2: String = ""
     
     private let output: PassthroughSubject<Output, Never> = .init()
     private var subscriptions = Set<AnyCancellable>()
@@ -67,7 +59,10 @@ final class DailyLearnViewModel {
     private func fetchData() {
         // will be replaced to network code && update properties
         output.send(.fetchSuccess(state: .retestRequired, type: .daily, score: 30))
-        output.send(.updateContent(keyConcept1: "데이터베이스", conceptContent1: "• JOIN은 두 개 이상의 테이블을 연결하여 데이터를 출력하는 것을 의미한다.\n• JOIN은 두 개 이상의 테이블을 연결하여 데이터를 출력하는 것을 의미한다.\n• JOIN은 두 개 이상의 테이블을 연결하여 데이터를 출력하는 것을 의미한다.\n• JOIN은 두 개 이상의 테이블을 연결하여 데이터를 출력하는 것을 의미한다.", keyConcept2: "데이터베이스", conceptContent2: "• JOIN은 두 개 이상의 테이블을 연결하여 데이터를 출력하는 것을 의미한다.\n• JOIN은 두 개 이상의 테이블을 연결하여 데이터를 출력하는 것을 의미한다.\n• JOIN은 두 개 이상의 테이블을 연결하여 데이터를 출력하는 것을 의미한다.\n• JOIN은 두 개 이상의 테이블을 연결하여 데이터를 출력하는 것을 의미한다."))
+        output.send(.updateContent(conceptArr: [
+            ("데이터 모델의 이해", "JOIN은 두 개 이상의 테이블을 연결하여 데이터를 출력하는 것을 의미한다."),
+            ("엔터티", "JOIN은 두 개 이상의 테이블을 연결하여 데이터를 출력하는 것을 의미한다.")
+            ]))
     }
     
     private func handleNavigateAction() {
