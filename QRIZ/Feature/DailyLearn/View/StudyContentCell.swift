@@ -23,7 +23,7 @@ final class StudyContentCell: UICollectionViewCell {
     private let descriptionLabel: UILabel = {
         let label = UILabel()
         label.textColor = .coolNeutral500
-        label.numberOfLines = 0
+        label.numberOfLines = 2
         label.textAlignment = .left
         label.font = .systemFont(ofSize: 14, weight: .regular)
         return label
@@ -37,6 +37,7 @@ final class StudyContentCell: UICollectionViewCell {
         label.attributedText = NSAttributedString(string: "개념서에서 보기＞", attributes: [
             .underlineStyle: NSUnderlineStyle.single.rawValue
         ])
+        label.isUserInteractionEnabled = true
         return label
     }()
     
@@ -63,6 +64,15 @@ final class StudyContentCell: UICollectionViewCell {
         
         descriptionLabel.attributedText = attributedString
     }
+    
+    func addTapGesture() {
+        conceptBookNavigator.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(moveToConceptBook)))
+    }
+    
+    @objc private func moveToConceptBook() {
+        guard let concept = titleLabel.text else { return }
+        print("Move To ConceptBook: \(concept)")
+    }
 }
 
 // MARK: - Auto Layout
@@ -84,7 +94,7 @@ extension StudyContentCell {
             descriptionLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 16),
             descriptionLabel.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -16),
             
-            conceptBookNavigator.topAnchor.constraint(equalTo: descriptionLabel.bottomAnchor, constant: 12),
+            conceptBookNavigator.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -25),
             conceptBookNavigator.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 16)
         ])
     }

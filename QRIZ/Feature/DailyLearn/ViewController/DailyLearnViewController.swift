@@ -125,6 +125,36 @@ final class DailyLearnViewController: UIViewController {
     }
 }
 
+// MARK: - CollectionView DataSource & Delegate
+extension DailyLearnViewController: UICollectionViewDataSource {
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: StudyContentCell.identifier, for: indexPath) as? StudyContentCell else {
+            print("Failed to create StudyContentCell")
+            return UICollectionViewCell()
+        }
+
+        cell.setLabelText(titleText: "\(indexPath.item + 1). \(conceptArr[indexPath.item].0)",
+                          descriptionText: "·  \(conceptArr[indexPath.item].1)")
+        cell.addTapGesture()
+
+        return cell
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return conceptArr.count
+    }
+}
+
+extension DailyLearnViewController: UICollectionViewDelegateFlowLayout {
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        return CGSize(width: collectionView.frame.width, height: 150)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+        return 16
+    }
+}
+
 // MARK: - Auto Layout
 extension DailyLearnViewController {
     private func addViews() {
@@ -181,34 +211,5 @@ extension DailyLearnViewController {
     private func setNavigatorButtonHeight(state: DailyTestState) {
         let buttonHeight = (state == .retestRequired ? 153.0 : 116.0)
         testNavigator.heightAnchor.constraint(equalToConstant: buttonHeight).isActive = true
-    }
-}
-
-// MARK: - CollectionView DataSource & Delegate
-extension DailyLearnViewController: UICollectionViewDataSource {
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: StudyContentCell.identifier, for: indexPath) as? StudyContentCell else {
-            print("Failed to create StudyContentCell")
-            return UICollectionViewCell()
-        }
-
-        cell.setLabelText(titleText: "\(indexPath.item + 1). \(conceptArr[indexPath.item].0)",
-                          descriptionText: "·  \(conceptArr[indexPath.item].1)")
-
-        return cell
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return conceptArr.count
-    }
-}
-
-extension DailyLearnViewController: UICollectionViewDelegateFlowLayout {
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: collectionView.frame.width, height: 150)
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-        return 16
     }
 }
