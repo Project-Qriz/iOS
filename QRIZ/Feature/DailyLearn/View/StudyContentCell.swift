@@ -28,24 +28,13 @@ final class StudyContentCell: UICollectionViewCell {
         label.font = .systemFont(ofSize: 14, weight: .regular)
         return label
     }()
-    private let conceptBookNavigator: UILabel = {
-        let label = UILabel()
-        label.textColor = .coolNeutral600
-        label.numberOfLines = 1
-        label.textAlignment = .left
-        label.font = .systemFont(ofSize: 14, weight: .bold)
-        label.attributedText = NSAttributedString(string: "개념서에서 보기＞", attributes: [
-            .underlineStyle: NSUnderlineStyle.single.rawValue
-        ])
-        label.isUserInteractionEnabled = true
-        return label
-    }()
     
     // MARK: - Initializers
     override init(frame: CGRect) {
         super.init(frame: frame)
         backgroundColor = .white
-        self.layer.cornerRadius = 8
+        setBorder()
+        addGestureRecognizer(UILongPressGestureRecognizer(target: self, action: #selector(handleLongPress)))
         addViews()
     }
     
@@ -65,13 +54,22 @@ final class StudyContentCell: UICollectionViewCell {
         descriptionLabel.attributedText = attributedString
     }
     
-    func addTapGesture() {
-        conceptBookNavigator.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(moveToConceptBook)))
+    private func setBorder() {
+        self.layer.cornerRadius = 8
+        self.layer.shadowOpacity = 1
+        self.layer.shadowRadius = 8
+        self.layer.shadowColor = UIColor.coolNeutral100.cgColor
     }
     
-    @objc private func moveToConceptBook() {
-        guard let concept = titleLabel.text else { return }
-        print("Move To ConceptBook: \(concept)")
+    @objc private func handleLongPress(_ sender: UIGestureRecognizer) {
+        switch sender.state {
+        case .began:
+            self.backgroundColor = .coolNeutral800.withAlphaComponent(0.1)
+        case .cancelled, .failed, .ended:
+            self.backgroundColor = .white
+        default:
+            break
+        }
     }
 }
 
@@ -80,11 +78,9 @@ extension StudyContentCell {
     private func addViews() {
         addSubview(titleLabel)
         addSubview(descriptionLabel)
-        addSubview(conceptBookNavigator)
         
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
         descriptionLabel.translatesAutoresizingMaskIntoConstraints = false
-        conceptBookNavigator.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
             titleLabel.topAnchor.constraint(equalTo: self.topAnchor, constant: 20),
@@ -93,9 +89,6 @@ extension StudyContentCell {
             descriptionLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 12),
             descriptionLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 16),
             descriptionLabel.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -16),
-            
-            conceptBookNavigator.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -25),
-            conceptBookNavigator.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 16)
         ])
     }
 }

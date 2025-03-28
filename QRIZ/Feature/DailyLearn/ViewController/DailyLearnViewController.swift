@@ -21,6 +21,7 @@ final class DailyLearnViewController: UIViewController {
     private let studyContentView: UICollectionView = {
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
         collectionView.backgroundColor = .customBlue50
+        collectionView.layer.masksToBounds = false
         return collectionView
     }()
     private let testSubtextLabel: UILabel = {
@@ -135,7 +136,6 @@ extension DailyLearnViewController: UICollectionViewDataSource {
 
         cell.setLabelText(titleText: "\(indexPath.item + 1). \(conceptArr[indexPath.item].0)",
                           descriptionText: "·  \(conceptArr[indexPath.item].1)")
-        cell.addTapGesture()
 
         return cell
     }
@@ -147,11 +147,17 @@ extension DailyLearnViewController: UICollectionViewDataSource {
 
 extension DailyLearnViewController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: collectionView.frame.width, height: 150)
+        return CGSize(width: collectionView.frame.width, height: 116)
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
         return 16
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        if conceptArr.count != 0 {
+            print(conceptArr[indexPath.item].0)
+        }
     }
 }
 

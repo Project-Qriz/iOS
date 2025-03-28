@@ -59,6 +59,7 @@ final class TestNavigatorButton: UIView {
         backgroundColor = .white
         setLayer()
         addViews()
+        addLongPress()
     }
     
     required init?(coder: NSCoder) {
@@ -146,6 +147,22 @@ final class TestNavigatorButton: UIView {
     
     private func updateTestTitleLabel(examRound: Int) {
         testTitleLabel.text = "\(examRound)회차"
+    }
+    
+    private func addLongPress() {
+        isUserInteractionEnabled = true
+        addGestureRecognizer(UILongPressGestureRecognizer(target: self, action: #selector(handleLongPress)))
+    }
+    
+    @objc private func handleLongPress(_ sender: UIGestureRecognizer) {
+        switch sender.state {
+        case .began:
+            self.backgroundColor = .coolNeutral800.withAlphaComponent(0.1)
+        case .cancelled, .failed, .ended:
+            self.backgroundColor = .white
+        default:
+            break
+        }
     }
 }
 
