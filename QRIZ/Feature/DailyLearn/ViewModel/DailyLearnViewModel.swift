@@ -32,6 +32,7 @@ final class DailyLearnViewModel {
     private var state: DailyTestState = .unavailable
     private var type: DailyLearnType = .daily
     private var score: Int? = nil
+    private var conceptArr: [(String, String)] = []
     
     private let output: PassthroughSubject<Output, Never> = .init()
     private var subscriptions = Set<AnyCancellable>()
@@ -57,12 +58,20 @@ final class DailyLearnViewModel {
     }
     
     private func fetchData() {
+        requestMockData()
         // will be replaced to network code && update properties
-        output.send(.fetchSuccess(state: .retestRequired, type: .daily, score: 30))
-        output.send(.updateContent(conceptArr: [
+        output.send(.fetchSuccess(state: state, type: type, score: score))
+        output.send(.updateContent(conceptArr: conceptArr))
+    }
+    
+    private func requestMockData() {
+        state = .retestRequired
+        type = .daily
+        score = 30
+        conceptArr = [
             ("데이터 모델의 이해", "JOIN은 두 개 이상의 테이블을 연결하여 데이터를 출력하는 것을 의미한다."),
             ("엔터티", "JOIN은 두 개 이상의 테이블을 연결하여 데이터를 출력하는 것을 의미한다.")
-            ]))
+        ]
     }
     
     private func handleNavigateAction() {
