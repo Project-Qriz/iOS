@@ -12,11 +12,18 @@ final class LoginViewModel {
     
     // MARK: - Properties
     
+    private let loginService: LoginService
     private let outputSubject: PassthroughSubject<Output, Never> = .init()
     private var cancellables = Set<AnyCancellable>()
     
     private var id: String = ""
     private var password: String = ""
+    
+    // MARK: - Initialize
+    
+    init(loginService: LoginService) {
+        self.loginService = loginService
+    }
     
     // MARK: - Functions
     
@@ -28,13 +35,17 @@ final class LoginViewModel {
                 case .idTextChanged(let newID):
                     self.id = newID
                     self.validateFields()
+                    
                 case .passwordTextChanged(let newPassword):
                     self.password = newPassword
                     self.validateFields()
+                    
                 case .loginButtonTapped:
-                    print("ViewModel에서 로그인 버튼 클릭 이벤트를 입력 받았습니다.")
+                    self.login()
+                    
                 case .accountActionSelected(let action):
                     self.outputSubject.send(.navigateToAccountAction(action))
+                    
                 case .socialLoginSelected(let socialLogin):
                     self.handleSocialLogin(socialLogin)
                 }
@@ -60,6 +71,20 @@ final class LoginViewModel {
         }
     }
     
+    private func login() {
+        Task {
+            do {
+                let _ = try await loginService.Login(id: id, password: password)
+                outputSubject.send(.loginSucceeded)
+            } catch {
+                if let networkError = error as? NetworkError {
+                    outputSubject.send(.showErrorAlert(networkError.errorMessage))
+                } else {
+                    outputSubject.send(.showErrorAlert("비밀번호 변경에 실패했습니다."))
+                }
+            }
+        }
+    }
 }
 
 extension LoginViewModel {
@@ -73,7 +98,9 @@ extension LoginViewModel {
     
     enum Output {
         case isLoginButtonEnabled(Bool)
+        case showErrorAlert(String)
         case navigateToAccountAction(AccountAction)
+        case loginSucceeded
     }
     
     enum AccountAction: String {

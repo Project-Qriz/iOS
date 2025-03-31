@@ -70,17 +70,26 @@ final class LoginViewController: UIViewController {
         let output = loginVM.transform(input: input)
         
         output
+            .receive(on: DispatchQueue.main)
             .sink { [weak self] output in
                 guard let self = self else { return }
                 switch output {
                 case .isLoginButtonEnabled(let isEnabled):
                     self.rootView.loginInputView.setLoginButtonEnabled(isEnabled)
                     
+                case .showErrorAlert(let errorMessage):
+                    self.showErrorAlert(with: errorMessage, storingIn: &cancellables)
+                    
                 case .navigateToAccountAction(let accountAction):
                     switch accountAction {
                     case .findId: self.coordinator?.showFindId()
                     case .findPassword: self.coordinator?.showFindPassword()
                     case .signUp: self.coordinator?.showSignUp()
+                    }
+                    
+                case .loginSucceeded:
+                    if let loginCoordinator = self.coordinator {
+                        loginCoordinator.delegate?.didLogin(loginCoordinator)
                     }
                 }
             }

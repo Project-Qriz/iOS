@@ -21,6 +21,7 @@ protocol AppCoordinator: Coordinator {
 protocol AppCoordinatorDependency {
     var loginCoordinator: LoginCoordinator { get }
     var tabBarCoordinator: TabBarCoordinator { get }
+    var loginService: LoginService { get }
     var signUpService: SignUpService { get }
     var accountRecoveryService: AccountRecoveryService { get }
 }
@@ -29,6 +30,7 @@ protocol AppCoordinatorDependency {
 final class AppCoordinatorDependencyImp: AppCoordinatorDependency {
     
     private lazy var network: Network = NetworkImp(session: .shared)
+    lazy var loginService: LoginService = LoginServiceImpl(network: network)
     lazy var signUpService: SignUpService = AuthServiceImpl(network: network)
     lazy var accountRecoveryService: AccountRecoveryService = AccountRecoveryServiceImpl(network: network)
     
@@ -36,6 +38,7 @@ final class AppCoordinatorDependencyImp: AppCoordinatorDependency {
         let navi = UINavigationController()
         return LoginCoordinatorImp(
             navigationController: navi,
+            loginService: loginService,
             authService: signUpService,
             accountRecoveryService: accountRecoveryService
         )
