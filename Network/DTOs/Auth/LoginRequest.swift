@@ -54,5 +54,9 @@ struct LoginRequest: Request {
 struct LoginResponse: Decodable {
     let code: Int
     let msg: String
-    let data: String
+    let data: dataInfo
+    
+    struct dataInfo: Decodable {
+        let name: String
+    }
 }
