@@ -82,7 +82,7 @@ final class FindIDViewController: UIViewController {
                     self.rootView.signUpFooterView.updateButtonState(isValid: isValid)
                     
                 case .showErrorAlert(let errorMessage):
-                    self.showErrorAlert(with: errorMessage, storingIn: &cancellables)
+                    self.showOneButtonAlert(with: errorMessage, storingIn: &cancellables)
                     
                 case .navigateToAlerView:
                     self.showOneButtonAlert()

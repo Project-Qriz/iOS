@@ -104,7 +104,7 @@ final class FindPasswordVerificationViewController: UIViewController {
                     self.rootView.verificationInputView.resetCodeTextField()
                     
                 case .emailVerificationFailure:
-                    self.showErrorAlert(with: Attributes.alertTitle, storingIn: &cancellables)
+                    self.showOneButtonAlert(with: Attributes.alertTitle, storingIn: &cancellables)
                     
                 case .codeVerificationSuccess:
                     self.rootView.verificationInputView.handleCodeVerificationSuccess()
