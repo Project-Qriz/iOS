@@ -74,13 +74,20 @@ final class LoginViewModel {
     private func login() {
         Task {
             do {
-                let _ = try await loginService.Login(id: id, password: password)
+                _ = try await loginService.Login(id: id, password: password)
                 outputSubject.send(.loginSucceeded)
             } catch {
+                let title = "아이디 또는 비밀번호 확인"
+                let description = "아이디와 비밀번호를 정확하게 입력해 주세요."
+                
                 if let networkError = error as? NetworkError {
-                    outputSubject.send(.showErrorAlert(networkError.errorMessage))
+                    if case .clientError(let code, _) = networkError, code == 401 {
+                        outputSubject.send(.showErrorAlert(title: title, descrption: description))
+                    } else {
+                        outputSubject.send(.showErrorAlert(title: networkError.errorMessage))
+                    }
                 } else {
-                    outputSubject.send(.showErrorAlert("비밀번호 변경에 실패했습니다."))
+                    outputSubject.send(.showErrorAlert(title: title, descrption: description))
                 }
             }
         }
@@ -98,7 +105,7 @@ extension LoginViewModel {
     
     enum Output {
         case isLoginButtonEnabled(Bool)
-        case showErrorAlert(String)
+        case showErrorAlert(title: String, descrption: String? = nil)
         case navigateToAccountAction(AccountAction)
         case loginSucceeded
     }
