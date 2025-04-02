@@ -79,6 +79,11 @@
 		B1D813772D6E0CD700A9D447 /* MyPageCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1D813762D6E0CD700A9D447 /* MyPageCoordinator.swift */; };
 		B1D8137A2D768D9B00A9D447 /* AppCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1D813792D768D9B00A9D447 /* AppCoordinator.swift */; };
 		B1D9A0E72D3686BA00E84934 /* CountdownTimer.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1D9A0E62D3686BA00E84934 /* CountdownTimer.swift */; };
+		E217C3622D9BEA8D0095A3D8 /* DailyTestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E217C3612D9BEA8D0095A3D8 /* DailyTestViewController.swift */; };
+		E217C3662D9BEAC50095A3D8 /* DailyTestViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E217C3652D9BEAC50095A3D8 /* DailyTestViewModel.swift */; };
+		E217C3692D9BF0B20095A3D8 /* DailyResultViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E217C3682D9BF0B20095A3D8 /* DailyResultViewModel.swift */; };
+		E217C36B2D9BF0C30095A3D8 /* DailyResultViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E217C36A2D9BF0C30095A3D8 /* DailyResultViewController.swift */; };
+		E217C3702D9BF2860095A3D8 /* DailyTestFooterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E217C36F2D9BF2860095A3D8 /* DailyTestFooterView.swift */; };
 		E230669A2D2126B9001B509A /* PreviewScoresData.swift in Sources */ = {isa = PBXBuildFile; fileRef = E23066992D2126B9001B509A /* PreviewScoresData.swift */; };
 		E23824E12D0C3157009E7989 /* BeginOnboardingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E23824E02D0C3157009E7989 /* BeginOnboardingViewController.swift */; };
 		E23963092D083B900092B39B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E23963082D083B900092B39B /* AppDelegate.swift */; };
@@ -236,6 +241,11 @@
 		B1D813762D6E0CD700A9D447 /* MyPageCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageCoordinator.swift; sourceTree = "<group>"; };
 		B1D813792D768D9B00A9D447 /* AppCoordinator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppCoordinator.swift; sourceTree = "<group>"; };
 		B1D9A0E62D3686BA00E84934 /* CountdownTimer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountdownTimer.swift; sourceTree = "<group>"; };
+		E217C3612D9BEA8D0095A3D8 /* DailyTestViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyTestViewController.swift; sourceTree = "<group>"; };
+		E217C3652D9BEAC50095A3D8 /* DailyTestViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyTestViewModel.swift; sourceTree = "<group>"; };
+		E217C3682D9BF0B20095A3D8 /* DailyResultViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyResultViewModel.swift; sourceTree = "<group>"; };
+		E217C36A2D9BF0C30095A3D8 /* DailyResultViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyResultViewController.swift; sourceTree = "<group>"; };
+		E217C36F2D9BF2860095A3D8 /* DailyTestFooterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyTestFooterView.swift; sourceTree = "<group>"; };
 		E23066992D2126B9001B509A /* PreviewScoresData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreviewScoresData.swift; sourceTree = "<group>"; };
 		E23824E02D0C3157009E7989 /* BeginOnboardingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BeginOnboardingViewController.swift; sourceTree = "<group>"; };
 		E23963052D083B8F0092B39B /* QRIZ.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = QRIZ.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -426,6 +436,8 @@
 		54DB0D962D09506C00ABD458 /* Feature */ = {
 			isa = PBXGroup;
 			children = (
+				E217C3672D9BF0A10095A3D8 /* DailyResult */,
+				E217C35F2D9BEA500095A3D8 /* DailyTest */,
 				54E91B742D18FA9600474D0A /* CommonViews */,
 				B19C4FC32D6C223E00CD008A /* TabBar */,
 				E29CCD282D29855B004AA30A /* TestComponents */,
@@ -697,6 +709,65 @@
 				B1D9A0E62D3686BA00E84934 /* CountdownTimer.swift */,
 			);
 			path = Manager;
+			sourceTree = "<group>";
+		};
+		E217C35F2D9BEA500095A3D8 /* DailyTest */ = {
+			isa = PBXGroup;
+			children = (
+				E217C36E2D9BF2660095A3D8 /* View */,
+				E217C3642D9BEAA40095A3D8 /* ViewModel */,
+				E217C3632D9BEA900095A3D8 /* ViewController */,
+			);
+			path = DailyTest;
+			sourceTree = "<group>";
+		};
+		E217C3632D9BEA900095A3D8 /* ViewController */ = {
+			isa = PBXGroup;
+			children = (
+				E217C3612D9BEA8D0095A3D8 /* DailyTestViewController.swift */,
+			);
+			path = ViewController;
+			sourceTree = "<group>";
+		};
+		E217C3642D9BEAA40095A3D8 /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				E217C3652D9BEAC50095A3D8 /* DailyTestViewModel.swift */,
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		E217C3672D9BF0A10095A3D8 /* DailyResult */ = {
+			isa = PBXGroup;
+			children = (
+				E217C36D2D9BF0CF0095A3D8 /* ViewModel */,
+				E217C36C2D9BF0C60095A3D8 /* ViewController */,
+			);
+			path = DailyResult;
+			sourceTree = "<group>";
+		};
+		E217C36C2D9BF0C60095A3D8 /* ViewController */ = {
+			isa = PBXGroup;
+			children = (
+				E217C36A2D9BF0C30095A3D8 /* DailyResultViewController.swift */,
+			);
+			path = ViewController;
+			sourceTree = "<group>";
+		};
+		E217C36D2D9BF0CF0095A3D8 /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				E217C3682D9BF0B20095A3D8 /* DailyResultViewModel.swift */,
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		E217C36E2D9BF2660095A3D8 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				E217C36F2D9BF2860095A3D8 /* DailyTestFooterView.swift */,
+			);
+			path = View;
 			sourceTree = "<group>";
 		};
 		E23824DF2D0C1FA7009E7989 /* Onboarding */ = {
@@ -1275,6 +1346,7 @@
 				E29CCD292D29855B004AA30A /* QuestionNumberLabel.swift in Sources */,
 				E2D70FEE2D0EC037005A3F51 /* CheckConceptViewModel.swift in Sources */,
 				E29CCD2C2D29855B004AA30A /* TestButton.swift in Sources */,
+				E217C3692D9BF0B20095A3D8 /* DailyResultViewModel.swift in Sources */,
 				B168B75F2D28073C0000F32E /* SignupFooterView.swift in Sources */,
 				B162881C2D2CFC63008057D0 /* UIView+.swift in Sources */,
 				E27E54A92D6D74C500BF3B55 /* CheckListFoldButton.swift in Sources */,
@@ -1306,6 +1378,7 @@
 				B168B7692D2807470000F32E /* SignUpVerificationViewController.swift in Sources */,
 				54E91B762D18FACD00474D0A /* RoundButton.swift in Sources */,
 				54DB0D992D0950DE00ABD458 /* HomeViewModel.swift in Sources */,
+				E217C3622D9BEA8D0095A3D8 /* DailyTestViewController.swift in Sources */,
 				B17FE30A2D27F8E9002EC7D7 /* UITextField+.swift in Sources */,
 				B19C4FC52D6C226500CD008A /* TabBarCoordinator.swift in Sources */,
 				E29CCD4C2D299297004AA30A /* SwiftUIViews+.swift in Sources */,
@@ -1332,6 +1405,7 @@
 				B18F45102D3997280030F7DB /* FindAccountHeaderView.swift in Sources */,
 				E29BF8552D117CF1006DC6D0 /* SurveyCheckList.swift in Sources */,
 				E2DD0E862D2146D900DA3D18 /* IncorrectCountData.swift in Sources */,
+				E217C36B2D9BF0C30095A3D8 /* DailyResultViewController.swift in Sources */,
 				E24907D32D619F39004D6E61 /* DailyLearnViewModel.swift in Sources */,
 				E29CCD3E2D298656004AA30A /* PreviewResultConceptView.swift in Sources */,
 				E25F94CD2D0CB50F00BA765F /* OnboardingSubtitleLabel.swift in Sources */,
@@ -1346,8 +1420,10 @@
 				B16288182D2CDB85008057D0 /* NameInputViewModel.swift in Sources */,
 				E28A93852D945F95006A15DB /* StudyContentCell.swift in Sources */,
 				B168B7632D28073C0000F32E /* NameInputMainView.swift in Sources */,
+				E217C3702D9BF2860095A3D8 /* DailyTestFooterView.swift in Sources */,
 				54BC61552D14AFB70094DC45 /* LoginInputView.swift in Sources */,
 				E24907DA2D63698C004D6E61 /* DailyLearnSectionTitleLabel.swift in Sources */,
+				E217C3662D9BEAC50095A3D8 /* DailyTestViewModel.swift in Sources */,
 				B19C4F6B2D5260DD00CD008A /* UIControl+.swift in Sources */,
 				B1D813752D6E0CC900A9D447 /* MistakeNoteCoordinator.swift in Sources */,
 				B168B7752D2846DD0000F32E /* PasswordInputMainView.swift in Sources */,

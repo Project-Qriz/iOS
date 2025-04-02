@@ -42,8 +42,18 @@ final class TestPageIndicatorLabel: UILabel {
 
     // MARK: - Methods
     func setPages(curPage: Int, totalPage: Int) {
-        self.currentPageLabel.text = "\(curPage) "
-        self.totalPageLabel.text = "/ \(totalPage)"
+        var curPg = "\(curPage) "
+        var totalPg = "/ \(totalPage)"
+        
+        if curPage < 10 {
+            curPg = "0" + curPg
+        }
+        if totalPage < 10 {
+            totalPg = "0" + totalPg
+        }
+
+        self.currentPageLabel.text = curPg
+        self.totalPageLabel.text = totalPg
     }
 }
 
