@@ -55,6 +55,7 @@
 		B17D6ABA2D9141D80023FCA5 /* ErrorResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = B17D6AB92D9141D80023FCA5 /* ErrorResponse.swift */; };
 		B17D6AD72D940FD50023FCA5 /* LoginRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = B17D6AD62D940FD50023FCA5 /* LoginRequest.swift */; };
 		B17D6AD92D97FE450023FCA5 /* LoginService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B17D6AD82D97FE450023FCA5 /* LoginService.swift */; };
+		B17D6ADB2D9AB59A0023FCA5 /* KeychainManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B17D6ADA2D9AB59A0023FCA5 /* KeychainManager.swift */; };
 		B17FE3062D27F85C002EC7D7 /* LoginViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B17FE3052D27F85C002EC7D7 /* LoginViewModel.swift */; };
 		B17FE3082D27F87E002EC7D7 /* String+.swift in Sources */ = {isa = PBXBuildFile; fileRef = B17FE3072D27F87E002EC7D7 /* String+.swift */; };
 		B17FE30A2D27F8E9002EC7D7 /* UITextField+.swift in Sources */ = {isa = PBXBuildFile; fileRef = B17FE3092D27F8E9002EC7D7 /* UITextField+.swift */; };
@@ -223,6 +224,7 @@
 		B17D6AB92D9141D80023FCA5 /* ErrorResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorResponse.swift; sourceTree = "<group>"; };
 		B17D6AD62D940FD50023FCA5 /* LoginRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginRequest.swift; sourceTree = "<group>"; };
 		B17D6AD82D97FE450023FCA5 /* LoginService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginService.swift; sourceTree = "<group>"; };
+		B17D6ADA2D9AB59A0023FCA5 /* KeychainManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainManager.swift; sourceTree = "<group>"; };
 		B17FE3052D27F85C002EC7D7 /* LoginViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewModel.swift; sourceTree = "<group>"; };
 		B17FE3072D27F87E002EC7D7 /* String+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+.swift"; sourceTree = "<group>"; };
 		B17FE3092D27F8E9002EC7D7 /* UITextField+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITextField+.swift"; sourceTree = "<group>"; };
@@ -752,6 +754,7 @@
 			isa = PBXGroup;
 			children = (
 				B1D9A0E62D3686BA00E84934 /* CountdownTimer.swift */,
+				B17D6ADA2D9AB59A0023FCA5 /* KeychainManager.swift */,
 			);
 			path = Manager;
 			sourceTree = "<group>";
@@ -1348,6 +1351,7 @@
 				E29CCD422D298656004AA30A /* PreviewResultViewModel.swift in Sources */,
 				548566492D123C94002BAEE3 /* NetworkRequest.swift in Sources */,
 				B15188622D76D29B000EFE41 /* EmailSendRequest.swift in Sources */,
+				B17D6ADB2D9AB59A0023FCA5 /* KeychainManager.swift in Sources */,
 				B168B7772D28481D0000F32E /* PasswordInputView.swift in Sources */,
 				B17FE30C2D27F931002EC7D7 /* CustomTextField.swift in Sources */,
 				E29CCD412D298656004AA30A /* PreviewResultViewController.swift in Sources */,
