@@ -21,7 +21,7 @@ final class DailyTestViewController: UIViewController {
     }()
     private let progressView: TestProgressView = .init()
     private let footerView: DailyTestFooterView = .init()
-    private let questionNumberLabe = QuestionNumberLabel(0)
+    private let questionNumberLabel = QuestionNumberLabel(0)
     private let questionTitleLabel = QuestionTitleLabel("")
     
 
