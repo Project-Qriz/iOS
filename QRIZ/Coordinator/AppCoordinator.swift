@@ -30,7 +30,7 @@ protocol AppCoordinatorDependency {
 final class AppCoordinatorDependencyImp: AppCoordinatorDependency {
     
     private lazy var network: Network = NetworkImp(session: .shared)
-    lazy var loginService: LoginService = LoginServiceImpl(network: network)
+    lazy var loginService: LoginService = LoginServiceImpl(network: network, keychainManager: KeychainManagerImpl())
     lazy var signUpService: SignUpService = AuthServiceImpl(network: network)
     lazy var accountRecoveryService: AccountRecoveryService = AccountRecoveryServiceImpl(network: network)
     

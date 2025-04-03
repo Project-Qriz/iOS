@@ -69,6 +69,23 @@ extension NetworkImp {
     }
 }
 
+// MARK: - Headers
+
+extension NetworkImp {
+    func sendWithHeaders<T: Request>(_ request: T) async throws -> (T.Response, HTTPURLResponse) {
+        let urlRequest = try RequestFactory(request: request).urlRequestRepresentation()
+        let (data, response) = try await session.data(for: urlRequest)
+        
+        try validate(response, data: data)
+        
+        guard let httpResponse = response as? HTTPURLResponse else {
+            throw NetworkError.unknownError
+        }
+        
+        let decodedResponse = try JSONDecoder().decode(T.Response.self, from: data)
+        return (decodedResponse, httpResponse)
+    }
+}
 
 // MARK: - Combine
 
