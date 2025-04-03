@@ -10,9 +10,9 @@ import UIKit
 final class QuestionTitleLabel: UILabel {
     
     // MARK: - Initializers
-    init(_ titleStr: String) {
+    init() {
         super.init(frame: .zero)
-        self.text = titleStr
+        self.text = " "
         self.textAlignment = .left
         self.numberOfLines = 0
         self.textColor = .black
@@ -25,6 +25,12 @@ final class QuestionTitleLabel: UILabel {
     
     // MARK: - Methods
     func setTitle(_ titleStr: String) {
-        self.text = titleStr
+        let paragraphStyle = NSMutableParagraphStyle()
+        paragraphStyle.lineSpacing = 4
+
+        let attributedtext = NSMutableAttributedString(string: titleStr)
+        attributedtext.addAttribute(.paragraphStyle, value: paragraphStyle, range: NSRange(location: 0, length: attributedtext.length))
+
+        self.attributedText = attributedtext
     }
 }

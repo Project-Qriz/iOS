@@ -12,7 +12,7 @@ final class DailyTestFooterView: UIView {
     
     // MARK: - Properties
     private let previousButton: TestButton = TestButton(isPreviousButton: true)
-    private let nextButton: TestButton = TestButton(isPreviousButton: true)
+    private let nextButton: TestButton = TestButton(isPreviousButton: false)
     private let pageIndicatorLabel: TestPageIndicatorLabel = .init()
     
     // Combine 추가 자리

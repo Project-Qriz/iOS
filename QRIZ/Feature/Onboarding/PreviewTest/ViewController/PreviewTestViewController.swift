@@ -15,8 +15,8 @@ final class PreviewTestViewController: UIViewController {
     private var lastQuestionNum: Int = 0
     private var curNum: Int = 0
     
-    private let questionNumberLabel = QuestionNumberLabel(0)
-    private let questionTitleLabel = QuestionTitleLabel("")
+    private let questionNumberLabel = QuestionNumberLabel()
+    private let questionTitleLabel = QuestionTitleLabel()
     private let optionLabels: [QuestionOptionLabel] = {
         var arr: [QuestionOptionLabel] = []
         for i in 1...4 {

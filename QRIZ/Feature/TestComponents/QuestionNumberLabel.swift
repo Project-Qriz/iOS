@@ -10,9 +10,9 @@ import UIKit
 final class QuestionNumberLabel: UILabel {
     
     // MARK: - Initializers
-    init(_ questionNumber: Int) {
+    init() {
         super.init(frame: .zero)
-        setNumber(questionNumber)
+        setNumber(1)
         self.textColor = .black
         self.font = .boldSystemFont(ofSize: 20)
     }
