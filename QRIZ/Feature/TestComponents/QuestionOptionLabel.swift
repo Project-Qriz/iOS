@@ -10,14 +10,32 @@ import UIKit
 final class QuestionOptionLabel: UILabel {
 
     // MARK: - Properties
-    private var optionNumberLabel: UILabel!
-    private var optionStringLabel: UILabel!
+    private var optionNumberLabel: UILabel = {
+        let label = UILabel()
+        label.textAlignment = .center
+        label.font = .boldSystemFont(ofSize: 16)
+        label.numberOfLines = 1
+
+        label.layer.masksToBounds = true
+        label.layer.cornerRadius = 20
+        label.layer.borderColor = UIColor.coolNeutral700.cgColor
+        label.layer.borderWidth = 1.25
+        
+        return label
+    }()
+    private var optionStringLabel: UILabel = {
+        let label = UILabel()
+        label.textAlignment = .left
+        label.textColor = .coolNeutral700
+        label.font = .systemFont(ofSize: 16, weight: .regular)
+        label.numberOfLines = 0
+        return label
+    }()
     
     // MARK: - Initializers
     init(optNum: Int) {
         super.init(frame: .zero)
-        createNumberLabel(optNum)
-        createStringLabel()
+        optionNumberLabel.text = "\(optNum)"
         setOptionState(isSelected: false)
         addViews()
     }
@@ -27,8 +45,10 @@ final class QuestionOptionLabel: UILabel {
     }
     
     // MARK: - Methods
-    func setOptionString(_ str: String) {
+    func setOptionString(_ str: String, isSqlOrFunc: Bool = false) {
         optionStringLabel.attributedText = formattedText(str)
+        optionStringLabel.font = isSqlOrFunc ? .systemFont(ofSize: 14, weight: .regular) : .systemFont(ofSize: 16, weight: .regular)
+        moveOptionStringLabel(isSqlorFunc: isSqlOrFunc) // 
     }
     
     func setOptionState(isSelected: Bool) {
@@ -99,5 +119,9 @@ extension QuestionOptionLabel {
             optionStringLabel.topAnchor.constraint(equalTo: self.topAnchor, constant: 16),
             optionStringLabel.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -16)
         ])
+    }
+    
+    private func moveOptionStringLabel(isSqlorFunc: Bool) {
+        //
     }
 }

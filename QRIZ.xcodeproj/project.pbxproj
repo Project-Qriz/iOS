@@ -108,10 +108,12 @@
 		E25F94CD2D0CB50F00BA765F /* OnboardingSubtitleLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E25F94CC2D0CB50F00BA765F /* OnboardingSubtitleLabel.swift */; };
 		E25F94D12D0CB74700BA765F /* OnboardingButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = E25F94D02D0CB74700BA765F /* OnboardingButton.swift */; };
 		E27E54A92D6D74C500BF3B55 /* CheckListFoldButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = E27E54A82D6D74C500BF3B55 /* CheckListFoldButton.swift */; };
+		E283AC082D9E8D8F00DE005B /* DailyTestDescriptionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E283AC072D9E8D8F00DE005B /* DailyTestDescriptionView.swift */; };
 		E28A93852D945F95006A15DB /* StudyContentCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E28A93842D945F94006A15DB /* StudyContentCell.swift */; };
 		E28BAD772D2C111100B8388D /* TwoButtonCustomAlertView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E28BAD762D2C111100B8388D /* TwoButtonCustomAlertView.swift */; };
 		E28BAD792D2C2DEB00B8388D /* TwoButtonCustomAlertViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E28BAD782D2C2DEB00B8388D /* TwoButtonCustomAlertViewController.swift */; };
 		E28BAD7C2D2C339100B8388D /* AlertType.swift in Sources */ = {isa = PBXBuildFile; fileRef = E28BAD7B2D2C339100B8388D /* AlertType.swift */; };
+		E2939CA32D9D605C00F7E704 /* DailyTestContentsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2939CA22D9D605C00F7E704 /* DailyTestContentsView.swift */; };
 		E29BF8552D117CF1006DC6D0 /* SurveyCheckList.swift in Sources */ = {isa = PBXBuildFile; fileRef = E29BF8542D117CF1006DC6D0 /* SurveyCheckList.swift */; };
 		E29BF86D2D16895B006DC6D0 /* QuestionData.swift in Sources */ = {isa = PBXBuildFile; fileRef = E29BF86C2D16895B006DC6D0 /* QuestionData.swift */; };
 		E29CCD1C2D298303004AA30A /* PreviewTestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E29CCD1B2D298303004AA30A /* PreviewTestViewController.swift */; };
@@ -278,10 +280,12 @@
 		E26AF7022D918F03006E3252 /* Debug.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Debug.xcconfig; sourceTree = "<group>"; };
 		E26AF7032D918F07006E3252 /* Shared.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Shared.xcconfig; sourceTree = "<group>"; };
 		E27E54A82D6D74C500BF3B55 /* CheckListFoldButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckListFoldButton.swift; sourceTree = "<group>"; };
+		E283AC072D9E8D8F00DE005B /* DailyTestDescriptionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyTestDescriptionView.swift; sourceTree = "<group>"; };
 		E28A93842D945F94006A15DB /* StudyContentCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StudyContentCell.swift; sourceTree = "<group>"; };
 		E28BAD762D2C111100B8388D /* TwoButtonCustomAlertView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TwoButtonCustomAlertView.swift; sourceTree = "<group>"; };
 		E28BAD782D2C2DEB00B8388D /* TwoButtonCustomAlertViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TwoButtonCustomAlertViewController.swift; sourceTree = "<group>"; };
 		E28BAD7B2D2C339100B8388D /* AlertType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertType.swift; sourceTree = "<group>"; };
+		E2939CA22D9D605C00F7E704 /* DailyTestContentsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyTestContentsView.swift; sourceTree = "<group>"; };
 		E29BF8542D117CF1006DC6D0 /* SurveyCheckList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SurveyCheckList.swift; sourceTree = "<group>"; };
 		E29BF86C2D16895B006DC6D0 /* QuestionData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuestionData.swift; sourceTree = "<group>"; };
 		E29CCD1B2D298303004AA30A /* PreviewTestViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreviewTestViewController.swift; sourceTree = "<group>"; };
@@ -766,6 +770,8 @@
 			isa = PBXGroup;
 			children = (
 				E217C36F2D9BF2860095A3D8 /* DailyTestFooterView.swift */,
+				E2939CA22D9D605C00F7E704 /* DailyTestContentsView.swift */,
+				E283AC072D9E8D8F00DE005B /* DailyTestDescriptionView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -1392,6 +1398,7 @@
 				B18F45152D3A40BE0030F7DB /* FindAccountType.swift in Sources */,
 				E239630B2D083B900092B39B /* SceneDelegate.swift in Sources */,
 				E2D70FEC2D0EBDDD005A3F51 /* CheckListCell.swift in Sources */,
+				E283AC082D9E8D8F00DE005B /* DailyTestDescriptionView.swift in Sources */,
 				E28BAD772D2C111100B8388D /* TwoButtonCustomAlertView.swift in Sources */,
 				E29CCD2E2D29855B004AA30A /* TestProgressView.swift in Sources */,
 				E28BAD7C2D2C339100B8388D /* AlertType.swift in Sources */,
@@ -1399,6 +1406,7 @@
 				E2DD0E842D2144D000DA3D18 /* PreviewConceptsData.swift in Sources */,
 				E29CCD302D29855B004AA30A /* TestTotalTimeRemainingLabel.swift in Sources */,
 				E29CCD2D2D29855B004AA30A /* TestPageIndicatorLabel.swift in Sources */,
+				E2939CA32D9D605C00F7E704 /* DailyTestContentsView.swift in Sources */,
 				E25856DE2D0DADD300355667 /* BeginOnboardingViewModel.swift in Sources */,
 				E230669A2D2126B9001B509A /* PreviewScoresData.swift in Sources */,
 				B1D9A0E72D3686BA00E84934 /* CountdownTimer.swift in Sources */,

@@ -14,16 +14,9 @@ final class DailyTestViewController: UIViewController {
         scrollView.backgroundColor = .white
         return scrollView
     }()
-    private let contentView: UIView = {
-        let view = UIView()
-        view.backgroundColor = .white
-        return view
-    }()
     private let progressView: TestProgressView = .init()
     private let footerView: DailyTestFooterView = .init()
-    private let questionNumberLabel = QuestionNumberLabel(0)
-    private let questionTitleLabel = QuestionTitleLabel("")
-    
+    private let contentsView: DailyTestContentsView = .init()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -39,12 +32,13 @@ extension DailyTestViewController {
         self.view.addSubview(progressView)
         self.view.addSubview(footerView)
         self.view.addSubview(scrollView)
-        scrollView.addSubview(contentView)
+        scrollView.addSubview(contentsView)
         
         progressView.translatesAutoresizingMaskIntoConstraints = false
         scrollView.translatesAutoresizingMaskIntoConstraints = false
-        contentView.translatesAutoresizingMaskIntoConstraints = false
+        contentsView.translatesAutoresizingMaskIntoConstraints = false
         footerView.translatesAutoresizingMaskIntoConstraints = false
+        contentsView.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
             progressView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
@@ -57,15 +51,16 @@ extension DailyTestViewController {
             footerView.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor),
             footerView.heightAnchor.constraint(equalToConstant: 108),
             
-            scrollView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
-            scrollView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor),
+            scrollView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 18),
+            scrollView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: -18),
             scrollView.topAnchor.constraint(equalTo: progressView.bottomAnchor),
             scrollView.bottomAnchor.constraint(equalTo: footerView.topAnchor),
             
-            contentView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor),
-            contentView.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor),
-            contentView.topAnchor.constraint(equalTo: scrollView.topAnchor),
-            contentView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor),
+            contentsView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor),
+            contentsView.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor),
+            contentsView.topAnchor.constraint(equalTo: scrollView.topAnchor),
+            contentsView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor),
+            contentsView.widthAnchor.constraint(equalTo: scrollView.widthAnchor),
         ])
     }
 }
