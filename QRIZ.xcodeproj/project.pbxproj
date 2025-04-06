@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 56;
+	objectVersion = 70;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -327,6 +327,11 @@
 		E2DD0E852D2146D900DA3D18 /* IncorrectCountData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IncorrectCountData.swift; sourceTree = "<group>"; };
 		E2F18BCE2D6060E900DC6F82 /* DailyLearnViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyLearnViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
+
+/* Begin PBXFileSystemSynchronizedRootGroup section */
+		B159A1292DA27AE6001153B5 /* Service */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Service; sourceTree = "<group>"; };
+		B17D6ABB2D9146C90023FCA5 /* FindAccount */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = FindAccount; sourceTree = "<group>"; };
+/* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
 		E23963022D083B8F0092B39B /* Frameworks */ = {
@@ -812,6 +817,8 @@
 		E239631E2D083B910092B39B /* QRIZTests */ = {
 			isa = PBXGroup;
 			children = (
+				B159A1292DA27AE6001153B5 /* Service */,
+				B17D6ABB2D9146C90023FCA5 /* FindAccount */,
 				E239631F2D083B910092B39B /* QRIZTests.swift */,
 			);
 			path = QRIZTests;
@@ -1164,6 +1171,10 @@
 			);
 			dependencies = (
 				E239631D2D083B910092B39B /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				B159A1292DA27AE6001153B5 /* Service */,
+				B17D6ABB2D9146C90023FCA5 /* FindAccount */,
 			);
 			name = QRIZTests;
 			productName = QRIZTests;
