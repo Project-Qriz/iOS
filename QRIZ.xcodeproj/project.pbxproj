@@ -113,6 +113,7 @@
 		E28BAD772D2C111100B8388D /* TwoButtonCustomAlertView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E28BAD762D2C111100B8388D /* TwoButtonCustomAlertView.swift */; };
 		E28BAD792D2C2DEB00B8388D /* TwoButtonCustomAlertViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E28BAD782D2C2DEB00B8388D /* TwoButtonCustomAlertViewController.swift */; };
 		E28BAD7C2D2C339100B8388D /* AlertType.swift in Sources */ = {isa = PBXBuildFile; fileRef = E28BAD7B2D2C339100B8388D /* AlertType.swift */; };
+		E2908E602DA2C49E00B8E81B /* DailyTestTimerLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2908E5F2DA2C49E00B8E81B /* DailyTestTimerLabel.swift */; };
 		E2939CA32D9D605C00F7E704 /* DailyTestContentsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2939CA22D9D605C00F7E704 /* DailyTestContentsView.swift */; };
 		E29BF8552D117CF1006DC6D0 /* SurveyCheckList.swift in Sources */ = {isa = PBXBuildFile; fileRef = E29BF8542D117CF1006DC6D0 /* SurveyCheckList.swift */; };
 		E29BF86D2D16895B006DC6D0 /* QuestionData.swift in Sources */ = {isa = PBXBuildFile; fileRef = E29BF86C2D16895B006DC6D0 /* QuestionData.swift */; };
@@ -285,6 +286,7 @@
 		E28BAD762D2C111100B8388D /* TwoButtonCustomAlertView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TwoButtonCustomAlertView.swift; sourceTree = "<group>"; };
 		E28BAD782D2C2DEB00B8388D /* TwoButtonCustomAlertViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TwoButtonCustomAlertViewController.swift; sourceTree = "<group>"; };
 		E28BAD7B2D2C339100B8388D /* AlertType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertType.swift; sourceTree = "<group>"; };
+		E2908E5F2DA2C49E00B8E81B /* DailyTestTimerLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyTestTimerLabel.swift; sourceTree = "<group>"; };
 		E2939CA22D9D605C00F7E704 /* DailyTestContentsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyTestContentsView.swift; sourceTree = "<group>"; };
 		E29BF8542D117CF1006DC6D0 /* SurveyCheckList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SurveyCheckList.swift; sourceTree = "<group>"; };
 		E29BF86C2D16895B006DC6D0 /* QuestionData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuestionData.swift; sourceTree = "<group>"; };
@@ -772,6 +774,7 @@
 				E217C36F2D9BF2860095A3D8 /* DailyTestFooterView.swift */,
 				E2939CA22D9D605C00F7E704 /* DailyTestContentsView.swift */,
 				E283AC072D9E8D8F00DE005B /* DailyTestDescriptionView.swift */,
+				E2908E5F2DA2C49E00B8E81B /* DailyTestTimerLabel.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -1440,6 +1443,7 @@
 				B19C4FA92D5D182600CD008A /* EmailVerificationViewModel.swift in Sources */,
 				B168B7612D28073C0000F32E /* SingleInputView.swift in Sources */,
 				54C7A3162D14A5A6001175D9 /* LoginLogoView.swift in Sources */,
+				E2908E602DA2C49E00B8E81B /* DailyTestTimerLabel.swift in Sources */,
 				B19C4FAD2D61304400CD008A /* OneButtonCustomAlertMainView.swift in Sources */,
 				54C7A3132D1461A6001175D9 /* LoginMainView.swift in Sources */,
 				B19C4F6F2D55DCA400CD008A /* SignUpVerificationMainView.swift in Sources */,

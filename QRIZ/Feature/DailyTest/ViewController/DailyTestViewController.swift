@@ -6,9 +6,11 @@
 //
 
 import UIKit
+import Combine
 
 final class DailyTestViewController: UIViewController {
     
+    // MARK: - Properties
     private let scrollView: UIScrollView = {
         let scrollView = UIScrollView()
         scrollView.backgroundColor = .white
@@ -17,12 +19,52 @@ final class DailyTestViewController: UIViewController {
     private let progressView: TestProgressView = .init()
     private let footerView: DailyTestFooterView = .init()
     private let contentsView: DailyTestContentsView = .init()
+    private let timerLabel: DailyTestTimerLabel = .init()
+    
+    private let viewModel: DailyTestViewModel = .init()
+    private let input: PassthroughSubject<DailyTestViewModel.Input, Never> = .init()
+    private var subscriptions = Set<AnyCancellable>()
 
+    // MARK: - Methods
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = .white
+        setNavigationItems()
+        bind()
         addViews()
-        progressView.progress = 0.3 // temp
+        input.send(.viewDidLoad)
+    }
+    
+    private func bind() {
+        let output = viewModel.transform(input: input.eraseToAnyPublisher())
+        
+        output
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] event in
+                guard let self = self else { return }
+                switch event {
+                case .updateTime(let timeLimit, let timeRemaining):
+                    updateProgress(timeLimit: timeLimit, timeRemaining: timeRemaining)
+                case .moveToHomeView:
+                    // Coordinator role
+                    print("Move To Home View")
+                }
+            }
+            .store(in: &subscriptions)
+    }
+    
+    private func setNavigationItems() {
+        navigationItem.leftBarButtonItem = UIBarButtonItem(title: "취소", style: .done, target: self, action: #selector(moveToHome))
+        navigationItem.rightBarButtonItem = UIBarButtonItem(customView: timerLabel)
+    }
+    
+    @objc private func moveToHome() {
+        input.send(.cancelButtonClicked)
+    }
+    
+    private func updateProgress(timeLimit: Int, timeRemaining: Int) {
+        timerLabel.updateTime(timeRemaining: timeRemaining)
+        progressView.progress = Float(timeLimit - timeRemaining) / Float(timeLimit)
     }
 }
 
