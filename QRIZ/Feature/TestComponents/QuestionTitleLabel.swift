@@ -16,7 +16,7 @@ final class QuestionTitleLabel: UILabel {
         self.textAlignment = .left
         self.numberOfLines = 0
         self.textColor = .black
-        self.font = .boldSystemFont(ofSize: 16)
+        self.font = .systemFont(ofSize: 16, weight: .medium)
     }
     
     required init?(coder: NSCoder) {
@@ -24,13 +24,17 @@ final class QuestionTitleLabel: UILabel {
     }
     
     // MARK: - Methods
-    func setTitle(_ titleStr: String) {
+    func setTitle(_ text: String) {
+        self.attributedText = formattedText(text)
+    }
+    
+    private func formattedText(_ text: String) -> NSMutableAttributedString {
         let paragraphStyle = NSMutableParagraphStyle()
         paragraphStyle.lineSpacing = 4
-
-        let attributedtext = NSMutableAttributedString(string: titleStr)
+        
+        let attributedtext = NSMutableAttributedString(string: text)
         attributedtext.addAttribute(.paragraphStyle, value: paragraphStyle, range: NSRange(location: 0, length: attributedtext.length))
-
-        self.attributedText = attributedtext
+        
+        return attributedtext
     }
 }

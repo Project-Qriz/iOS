@@ -38,8 +38,7 @@ final class DailyTestContentsView: UIStackView {
     // MARK: - Methods
     private func setupStack() {
         axis = .vertical
-        alignment = .leading
-        spacing = 32
+        alignment = .fill
     }
     
     private func setMargins() {
@@ -50,11 +49,31 @@ final class DailyTestContentsView: UIStackView {
     // MARK: - TEST
     private func setMockUI() {
         numberLabel.setNumber(1)
-        titleLabel.setTitle("데이터 모델링에서 '유연성'이 의미하는 바는?")
-        optionLabels[0].setOptionString("ㄱ. null ㄴ. NULL ㄷ. null ㄹ. NULL")
-        optionLabels[1].setOptionString("ㄱ. null ㄴ. NULL ㄷ. null ㄹ. NULL")
-        optionLabels[2].setOptionString("ㄱ. null ㄴ. NULL ㄷ. null ㄹ. NULL")
-        optionLabels[3].setOptionString("ㄱ. null ㄴ. NULL ㄷ. null ㄹ. NULL")
+        titleLabel.setTitle("다음과 같은 상황에서 적절한 엔터티 도출 방식은?")
+        optionLabels[0].setOptionString("""
+                                        기본 엔터티: 고객, 상품
+                                        중심 엔터티: 주문
+                                        행위 엔터티: 주문상품
+                                        코드 엔터티: 주문상태
+                                        """)
+        optionLabels[1].setOptionString("""
+                                        기본 엔터티: 고객, 상품
+                                        중심 엔터티: 주문
+                                        행위 엔터티: 주문상품
+                                        코드 엔터티: 주문상태
+                                        """)
+        optionLabels[2].setOptionString("""
+                                        기본 엔터티: 고객, 상품
+                                        중심 엔터티: 주문
+                                        행위 엔터티: 주문상품
+                                        코드 엔터티: 주문상태
+                                        """)
+        optionLabels[3].setOptionString("""
+                                        기본 엔터티: 고객, 상품
+                                        중심 엔터티: 주문
+                                        행위 엔터티: 주문상품
+                                        코드 엔터티: 주문상태
+                                        """)
     }
 }
 
@@ -70,8 +89,8 @@ extension DailyTestContentsView {
     }
     
     private func addCustomSpacing() {
-        setCustomSpacing(8, after: numberLabel)
-        setCustomSpacing(10, after: titleLabel)
-        setCustomSpacing(8, after: numberLabel)
+        setCustomSpacing(14, after: numberLabel)
+        setCustomSpacing(14, after: titleLabel)
+        setCustomSpacing(16, after: descriptionLabel)
     }
 }
