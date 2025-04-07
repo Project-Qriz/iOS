@@ -18,6 +18,7 @@ enum NetworkError: Error {
 }
 
 extension NetworkError {
+    /// 디버그용 출력 메시지입니다.
     var description: String {
         switch self {
         case .invalidURL(let message): return "유효하지 않은 URL입니다. \(message)"
@@ -30,6 +31,7 @@ extension NetworkError {
         }
     }
     
+    /// 사용자 안내용 출력 메시지입니다.
     var errorMessage: String {
         switch self {
         case .clientError(_, let message): return message
