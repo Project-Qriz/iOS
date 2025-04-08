@@ -36,7 +36,7 @@ final class PreviewTestViewModel {
     }
     
     // MARK: - Properties
-    private var questionList = QuestionData.sampleList
+    private var questionList = QuestionData.previewSampleList
     private var currentNumber: Int? = nil
     private var totalTimeLimit: Int? = 1500 // tmp
     private var timer: Timer? = nil

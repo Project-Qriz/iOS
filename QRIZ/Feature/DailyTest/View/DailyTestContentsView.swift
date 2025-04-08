@@ -36,6 +36,22 @@ final class DailyTestContentsView: UIStackView {
     }
     
     // MARK: - Methods
+    func updateQuestion(_ question: QuestionData) {
+        numberLabel.setNumber(question.questionNumber)
+        titleLabel.setTitle(question.question)
+        if let description = question.description {
+            descriptionLabel.isHidden = false
+            descriptionLabel.setText(description)
+        } else {
+            descriptionLabel.isHidden = true
+        }
+        let options = [question.option1, question.option2, question.option3, question.option4]
+        for i in 0...3 {
+            optionLabels[i].setOptionState(isSelected: false)
+            optionLabels[i].setOptionString(options[i])
+        }
+    }
+    
     private func setupStack() {
         axis = .vertical
         alignment = .fill

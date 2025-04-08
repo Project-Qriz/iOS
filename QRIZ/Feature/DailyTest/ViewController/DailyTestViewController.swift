@@ -35,16 +35,31 @@ final class DailyTestViewController: UIViewController {
         input.send(.viewDidLoad)
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        input.send(.viewDidAppear)
+    }
+    
     private func bind() {
-        let output = viewModel.transform(input: input.eraseToAnyPublisher())
+        let mergedInput = input.merge(with: footerView.input)
+        let output = viewModel.transform(input: mergedInput.eraseToAnyPublisher())
         
         output
             .receive(on: DispatchQueue.main)
             .sink { [weak self] event in
                 guard let self = self else { return }
                 switch event {
+                case .fetchFailed:
+                    print("DailyTestViewModel failed to fetch")
+                case .updateQuestion(let question):
+                    contentsView.updateQuestion(question)
+                    footerView.updateCurPage(curPage: question.questionNumber)
+                case .updateTotalPage(let totalPage):
+                    footerView.updateTotalPage(totalPage: totalPage)
                 case .updateTime(let timeLimit, let timeRemaining):
                     updateProgress(timeLimit: timeLimit, timeRemaining: timeRemaining)
+                case .moveToDailyResult:
+                    print("Move To Daily Result")
                 case .moveToHomeView:
                     // Coordinator role
                     print("Move To Home View")
@@ -54,7 +69,10 @@ final class DailyTestViewController: UIViewController {
     }
     
     private func setNavigationItems() {
-        navigationItem.leftBarButtonItem = UIBarButtonItem(title: "취소", style: .done, target: self, action: #selector(moveToHome))
+        let cancelButtonItem = UIBarButtonItem(title: "취소", style: .done, target: self, action: #selector(moveToHome))
+        cancelButtonItem.tintColor = .coolNeutral800
+        navigationItem.leftBarButtonItem = cancelButtonItem
+        
         navigationItem.rightBarButtonItem = UIBarButtonItem(customView: timerLabel)
     }
     
@@ -72,15 +90,15 @@ final class DailyTestViewController: UIViewController {
 extension DailyTestViewController {
     private func addViews() {
         self.view.addSubview(progressView)
-        self.view.addSubview(footerView)
         self.view.addSubview(scrollView)
         scrollView.addSubview(contentsView)
+        self.view.addSubview(footerView)
         
         progressView.translatesAutoresizingMaskIntoConstraints = false
         scrollView.translatesAutoresizingMaskIntoConstraints = false
         contentsView.translatesAutoresizingMaskIntoConstraints = false
-        footerView.translatesAutoresizingMaskIntoConstraints = false
         contentsView.translatesAutoresizingMaskIntoConstraints = false
+        footerView.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
             progressView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
@@ -90,8 +108,8 @@ extension DailyTestViewController {
             
             footerView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
             footerView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor),
-            footerView.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor),
-            footerView.heightAnchor.constraint(equalToConstant: 108),
+            footerView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor),
+            footerView.heightAnchor.constraint(equalToConstant: 132),
             
             scrollView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 18),
             scrollView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: -18),

@@ -24,13 +24,6 @@ final class DailyTestDescriptionView: UIView {
         super.init(frame: .zero)
         setBorder()
         addViews()
-        setAttributedText("""
-        [업무상황]
-        1. 고객이 상품을 주문한다.
-        2. 한 번의 주문에 여러 상품을 담을 수 있다.
-        3. 상품의 재고는 실시간으로 관리되어야 한다.
-        4. 주문 상태는 '주문', '결제', '배송', '완료'로 관리된다.
-        """)
     }
     
     required init?(coder: NSCoder) {
@@ -38,15 +31,15 @@ final class DailyTestDescriptionView: UIView {
     }
     
     // MARK: - Methods
+    func setText(_ text: String) {
+        label.attributedText = formattedText(text)
+    }
+    
     private func setBorder() {
         layer.cornerRadius = 8
         layer.masksToBounds = true
         layer.borderWidth = 1
         layer.borderColor = UIColor.coolNeutral200.cgColor
-    }
-    
-    private func setAttributedText(_ text: String) {
-        label.attributedText = formattedText(text)
     }
     
     private func formattedText(_ text: String) -> NSMutableAttributedString {

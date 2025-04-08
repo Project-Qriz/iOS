@@ -41,8 +41,11 @@ final class TestPageIndicatorLabel: UILabel {
     }
 
     // MARK: - Methods
-    func setPages(curPage: Int, totalPage: Int) {
+    func setCurPage(curPage: Int) {
         self.currentPageLabel.text = String(format: "%02d ", curPage)
+    }
+    
+    func setTotalPage(totalPage: Int) {
         self.totalPageLabel.text = String(format: "/ %02d", totalPage)
     }
 }

@@ -144,7 +144,8 @@ final class PreviewTestViewController: UIViewController {
         questionTitleLabel.setTitle(question.question)
         setSelectedOption(question.selectedOption)
         setOptionsString(optStringArr)
-        pageIndicatorLabel.setPages(curPage: question.questionNumber, totalPage: lastQuestionNum)
+        pageIndicatorLabel.setCurPage(curPage: question.questionNumber)
+        pageIndicatorLabel.setTotalPage(totalPage: lastQuestionNum)
         setPageButtonsUI(question.questionNumber)
     }
 }
