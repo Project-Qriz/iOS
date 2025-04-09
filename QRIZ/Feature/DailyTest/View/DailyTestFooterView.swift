@@ -50,6 +50,8 @@ final class DailyTestFooterView: UIView {
         layer.shadowColor = UIColor.customBlue100.cgColor
         layer.shadowOpacity = 1
         layer.shadowRadius = 16
+        layer.borderColor = UIColor.customBlue100.cgColor
+        layer.borderWidth = 1
     }
     
     private func addButtonAction() {
