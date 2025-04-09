@@ -41,7 +41,7 @@ final class DailyTestViewController: UIViewController {
     }
     
     private func bind() {
-        let mergedInput = input.merge(with: footerView.input)
+        let mergedInput = input.merge(with: contentsView.input, footerView.input)
         let output = viewModel.transform(input: mergedInput.eraseToAnyPublisher())
         
         output
@@ -58,6 +58,8 @@ final class DailyTestViewController: UIViewController {
                     footerView.updateTotalPage(totalPage: totalPage)
                 case .updateTime(let timeLimit, let timeRemaining):
                     updateProgress(timeLimit: timeLimit, timeRemaining: timeRemaining)
+                case .updateOptionState(let optionIdx, let isSelected):
+                    contentsView.setOptionState(optionIdx: optionIdx, isSelected: isSelected)
                 case .moveToDailyResult:
                     print("Move To Daily Result")
                 case .moveToHomeView:

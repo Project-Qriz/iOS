@@ -14,8 +14,9 @@ final class DailyTestViewModel {
     enum Input {
         case viewDidLoad
         case viewDidAppear
-        case nextButtonClicked
+        case optionTapped(optionIdx: Int)
         case cancelButtonClicked
+        case nextButtonClicked
 //        case alertSubmitButtonClicked
 //        case alertCancelButtonClicked
     }
@@ -25,6 +26,7 @@ final class DailyTestViewModel {
         case updateQuestion(question: QuestionData)
         case updateTotalPage(totalPage: Int)
         case updateTime(timeLimit: Int, timeRemaining: Int)
+        case updateOptionState(optionIdx: Int, isSelected: Bool)
         case moveToDailyResult
         case moveToHomeView
 //        case submitSuccess
@@ -34,7 +36,7 @@ final class DailyTestViewModel {
     
     // MARK: - Properties
     
-    private var questionList: [QuestionData]? = nil
+    private var questionList: [QuestionData] = []
     private var curNum: Int? = nil
     private var timer: Timer? = nil
     private var timeLimit: Int? = nil
@@ -57,21 +59,25 @@ final class DailyTestViewModel {
             case .viewDidLoad:
                 fetchData()
                 curNum = 1
-                output.send(.updateTotalPage(totalPage: questionList?.count ?? 0))
+                output.send(.updateTotalPage(totalPage: questionList.count))
                 questionStateHandler()
+            case .viewDidAppear:
+                startTimer()
+            case .optionTapped(let optionIdx):
+                optionSelectHandler(optionIdx: optionIdx)
             case .cancelButtonClicked:
                 exitTimer()
                 output.send(.moveToHomeView)
-            case .viewDidAppear:
-                startTimer()
             case .nextButtonClicked:
-                guard let currentNumber = curNum, let questionList = questionList else { return }
+                guard let currentNumber = curNum else { return }
                 if currentNumber >= questionList.count {
-                    
                     print("submit alert")
                 } else {
                     curNum = currentNumber + 1
                     questionStateHandler()
+                }
+                for idx in 1...4 {
+                    output.send(.updateOptionState(optionIdx: idx, isSelected: false))
                 }
 //            case .alertSubmitButtonClicked:
 //            case .alertCancelButtonClicked:
@@ -90,7 +96,7 @@ final class DailyTestViewModel {
     }
     
     private func questionStateHandler() {
-        guard let questionList = questionList, let curNum = curNum else { return }
+        guard let curNum = curNum else { return }
         if curNum > questionList.count {
             exitTimer()
             output.send(.moveToDailyResult)
@@ -99,6 +105,21 @@ final class DailyTestViewModel {
         }
         output.send(.updateQuestion(question: questionList[curNum - 1]))
         resetTimer()
+    }
+    
+    private func optionSelectHandler(optionIdx: Int) {
+        guard let curNum = curNum else { return }
+        if let prevSelectedIdx = questionList[curNum - 1].selectedOption {
+            questionList[curNum - 1].selectedOption = nil
+            output.send(.updateOptionState(optionIdx: prevSelectedIdx, isSelected: false))
+            if prevSelectedIdx != optionIdx {
+                questionList[curNum - 1].selectedOption = optionIdx
+                output.send(.updateOptionState(optionIdx: optionIdx, isSelected: true))
+            }
+        } else {
+            questionList[curNum - 1].selectedOption = optionIdx
+            output.send(.updateOptionState(optionIdx: optionIdx, isSelected: true))
+        }
     }
 }
 
@@ -124,7 +145,7 @@ extension DailyTestViewModel {
     }
     
     private func timerStateHandler() {
-        guard let currentNumber = curNum, let questionList = questionList else { return }
+        guard let currentNumber = curNum else { return }
         if currentNumber < questionList.count {
             curNum = currentNumber + 1
             questionStateHandler()
@@ -136,7 +157,7 @@ extension DailyTestViewModel {
     }
     
     private func resetTimer() {
-        guard let questionList = questionList, let curNum = curNum else { return }
+        guard let curNum = curNum else { return }
         startTime = Date()
         timeLimit = questionList[curNum - 1].timeLimit
     }

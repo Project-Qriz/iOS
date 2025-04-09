@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Combine
 
 final class DailyTestContentsView: UIStackView {
     
@@ -15,11 +16,15 @@ final class DailyTestContentsView: UIStackView {
     private let descriptionLabel: DailyTestDescriptionView = .init()
     private let optionLabels: [QuestionOptionLabel] = {
         var arr: [QuestionOptionLabel] = []
-        for i in 1...4 {
-            arr.append(QuestionOptionLabel(optNum: i))
+        for optionIdx in 1...4 {
+            let option = QuestionOptionLabel(optNum: optionIdx)
+            option.tag = optionIdx
+            arr.append(option)
         }
         return arr
     }()
+    
+    let input: PassthroughSubject<DailyTestViewModel.Input, Never> = .init()
     
     // MARK: - Initializers
     init() {
@@ -27,8 +32,7 @@ final class DailyTestContentsView: UIStackView {
         setupStack()
         setMargins()
         addViews()
-        addCustomSpacing()
-        setMockUI()
+        addOptionsActions()
     }
     
     required init(coder: NSCoder) {
@@ -46,10 +50,14 @@ final class DailyTestContentsView: UIStackView {
             descriptionLabel.isHidden = true
         }
         let options = [question.option1, question.option2, question.option3, question.option4]
-        for i in 0...3 {
-            optionLabels[i].setOptionState(isSelected: false)
-            optionLabels[i].setOptionString(options[i])
+        optionLabels.forEach {
+            $0.setOptionState(isSelected: false)
+            $0.setOptionString(options[$0.tag - 1])
         }
+    }
+    
+    func setOptionState(optionIdx: Int, isSelected: Bool) {
+        optionLabels[optionIdx - 1].setOptionState(isSelected: isSelected)
     }
     
     private func setupStack() {
@@ -62,37 +70,19 @@ final class DailyTestContentsView: UIStackView {
         layoutMargins = UIEdgeInsets(top: 35, left: 0, bottom: 35, right: 0)
     }
     
-    // MARK: - TEST
-    private func setMockUI() {
-        numberLabel.setNumber(1)
-        titleLabel.setTitle("다음과 같은 상황에서 적절한 엔터티 도출 방식은?")
-        optionLabels[0].setOptionString("""
-                                        기본 엔터티: 고객, 상품
-                                        중심 엔터티: 주문
-                                        행위 엔터티: 주문상품
-                                        코드 엔터티: 주문상태
-                                        """)
-        optionLabels[1].setOptionString("""
-                                        기본 엔터티: 고객, 상품
-                                        중심 엔터티: 주문
-                                        행위 엔터티: 주문상품
-                                        코드 엔터티: 주문상태
-                                        """)
-        optionLabels[2].setOptionString("""
-                                        기본 엔터티: 고객, 상품
-                                        중심 엔터티: 주문
-                                        행위 엔터티: 주문상품
-                                        코드 엔터티: 주문상태
-                                        """)
-        optionLabels[3].setOptionString("""
-                                        기본 엔터티: 고객, 상품
-                                        중심 엔터티: 주문
-                                        행위 엔터티: 주문상품
-                                        코드 엔터티: 주문상태
-                                        """)
+    private func addOptionsActions() {
+        optionLabels.forEach {
+            $0.isUserInteractionEnabled = true
+            $0.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(sendTappedOption(_:))))
+        }
+    }
+    
+    @objc private func sendTappedOption(_ sender: UITapGestureRecognizer) {
+        guard let optionIdx = sender.view?.tag else { return }
+        input.send(.optionTapped(optionIdx: optionIdx))
     }
 }
-
+    
 // MARK: - Layout
 extension DailyTestContentsView {
     private func addViews() {
@@ -102,6 +92,8 @@ extension DailyTestContentsView {
         for option in optionLabels {
             addArrangedSubview(option)
         }
+        
+        addCustomSpacing()
     }
     
     private func addCustomSpacing() {
