@@ -12,6 +12,9 @@ protocol SignUpService {
     /// 이메일 인증번호 전송 및 중복 확인
     func sendEmail(_ email: String) async throws -> EmailSendResponse
     
+    /// 인증번호 인증
+    func EmailAuthentication(authNumber: String) async throws -> EmailAuthenticationResponse
+    
     /// 아이디 중복 체크
     func checkUsernameDuplication(username: String) async throws -> UsernameDuplicationResponse
     
@@ -40,6 +43,11 @@ final class AuthServiceImpl: SignUpService {
     
     func sendEmail(_ email: String) async throws -> EmailSendResponse {
         let request = EmailSendRequest(email: email)
+        return try await network.send(request)
+    }
+    
+    func EmailAuthentication(authNumber: String) async throws -> EmailAuthenticationResponse {
+        let request = EmailAuthenticationRequest(authNumber: authNumber)
         return try await network.send(request)
     }
     
