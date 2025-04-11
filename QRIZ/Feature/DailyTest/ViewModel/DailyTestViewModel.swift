@@ -17,8 +17,8 @@ final class DailyTestViewModel {
         case optionTapped(optionIdx: Int)
         case cancelButtonClicked
         case nextButtonClicked
-//        case alertSubmitButtonClicked
-//        case alertCancelButtonClicked
+        case alertSubmitButtonClicked
+        case alertCancelButtonClicked
     }
     
     enum Output {
@@ -27,11 +27,13 @@ final class DailyTestViewModel {
         case updateTotalPage(totalPage: Int)
         case updateTime(timeLimit: Int, timeRemaining: Int)
         case updateOptionState(optionIdx: Int, isSelected: Bool)
+        case setButtonVisibility(isVisible: Bool)
+        case alterButtonText
         case moveToDailyResult
         case moveToHomeView
-//        case submitSuccess
-//        case submitFail
-//        case cancelSubmit
+        case popSubmitAlert
+        case cancelAlert
+        case submitSuccess
     }
     
     // MARK: - Properties
@@ -58,29 +60,21 @@ final class DailyTestViewModel {
             switch event {
             case .viewDidLoad:
                 fetchData()
-                curNum = 1
-                output.send(.updateTotalPage(totalPage: questionList.count))
-                questionStateHandler()
             case .viewDidAppear:
                 startTimer()
             case .optionTapped(let optionIdx):
                 optionSelectHandler(optionIdx: optionIdx)
+                if let curNum = curNum, curNum == 1 { buttonStateHandler() }
             case .cancelButtonClicked:
                 exitTimer()
                 output.send(.moveToHomeView)
             case .nextButtonClicked:
-                guard let currentNumber = curNum else { return }
-                if currentNumber >= questionList.count {
-                    print("submit alert")
-                } else {
-                    curNum = currentNumber + 1
-                    questionStateHandler()
-                }
-                for idx in 1...4 {
-                    output.send(.updateOptionState(optionIdx: idx, isSelected: false))
-                }
-//            case .alertSubmitButtonClicked:
-//            case .alertCancelButtonClicked:
+                buttonClickEventHandler()
+            case .alertSubmitButtonClicked:
+                exitTimer()
+                output.send(.submitSuccess)
+            case .alertCancelButtonClicked:
+                output.send(.cancelAlert)
             }
         }
         .store(in: &subscriptions)
@@ -89,6 +83,10 @@ final class DailyTestViewModel {
     
     private func fetchData() {
         fetchMockData()
+        if questionList.count == 0 { return }
+        curNum = 1
+        output.send(.updateTotalPage(totalPage: questionList.count))
+        questionStateHandler()
     }
     
     private func fetchMockData() {
@@ -100,11 +98,13 @@ final class DailyTestViewModel {
         if curNum > questionList.count {
             exitTimer()
             output.send(.moveToDailyResult)
-            // submit result here
+            // submit answer sheet here
             return
         }
         output.send(.updateQuestion(question: questionList[curNum - 1]))
         resetTimer()
+        buttonStateHandler()
+        deselectAllOptions()
     }
     
     private func optionSelectHandler(optionIdx: Int) {
@@ -119,6 +119,42 @@ final class DailyTestViewModel {
         } else {
             questionList[curNum - 1].selectedOption = optionIdx
             output.send(.updateOptionState(optionIdx: optionIdx, isSelected: true))
+        }
+        
+        if curNum == 1 { buttonStateHandler() }
+    }
+    
+    private func buttonStateHandler() {
+        guard let curNum = curNum else { return }
+        switch curNum {
+        case 1:
+            if let _ = questionList[0].selectedOption {
+                output.send(.setButtonVisibility(isVisible: true))
+            } else {
+                output.send(.setButtonVisibility(isVisible: false))
+            }
+        case 2:
+            output.send(.setButtonVisibility(isVisible: true))
+        case questionList.count:
+            output.send(.alterButtonText)
+        default:
+            return
+        }
+    }
+    
+    private func buttonClickEventHandler() {
+        guard let currentNumber = curNum else { return }
+        if currentNumber >= questionList.count {
+            output.send(.popSubmitAlert)
+        } else {
+            curNum = currentNumber + 1
+            questionStateHandler()
+        }
+    }
+    
+    private func deselectAllOptions() {
+        for idx in 1...4 {
+            output.send(.updateOptionState(optionIdx: idx, isSelected: false))
         }
     }
 }
@@ -144,18 +180,6 @@ extension DailyTestViewModel {
         }
     }
     
-    private func timerStateHandler() {
-        guard let currentNumber = curNum else { return }
-        if currentNumber < questionList.count {
-            curNum = currentNumber + 1
-            questionStateHandler()
-        } else {
-            exitTimer()
-            // send result
-            output.send(.moveToDailyResult)
-        }
-    }
-    
     private func resetTimer() {
         guard let curNum = curNum else { return }
         startTime = Date()
@@ -165,5 +189,6 @@ extension DailyTestViewModel {
     private func exitTimer() {
         timer?.invalidate()
         timer = nil
+        print("EXIT TIMER")
     }
 }

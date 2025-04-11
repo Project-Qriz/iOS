@@ -24,6 +24,8 @@ final class DailyTestViewController: UIViewController {
     private let viewModel: DailyTestViewModel = .init()
     private let input: PassthroughSubject<DailyTestViewModel.Input, Never> = .init()
     private var subscriptions = Set<AnyCancellable>()
+    
+    private let submitAlertViewController = TwoButtonCustomAlertViewController(title: "제출하시겠습니까?", description: "확인 버튼을 누르면 다시 돌아올 수 없어요.")
 
     // MARK: - Methods
     override func viewDidLoad() {
@@ -32,6 +34,7 @@ final class DailyTestViewController: UIViewController {
         setNavigationItems()
         bind()
         addViews()
+        setAlertButtonActions()
         input.send(.viewDidLoad)
     }
     
@@ -54,17 +57,29 @@ final class DailyTestViewController: UIViewController {
                 case .updateQuestion(let question):
                     contentsView.updateQuestion(question)
                     footerView.updateCurPage(curPage: question.questionNumber)
+                    scrollView.setContentOffset(.zero, animated: false)
                 case .updateTotalPage(let totalPage):
                     footerView.updateTotalPage(totalPage: totalPage)
                 case .updateTime(let timeLimit, let timeRemaining):
                     updateProgress(timeLimit: timeLimit, timeRemaining: timeRemaining)
                 case .updateOptionState(let optionIdx, let isSelected):
                     contentsView.setOptionState(optionIdx: optionIdx, isSelected: isSelected)
+                case .setButtonVisibility(let isVisible):
+                    footerView.setButtonsVisibility(isVisible: isVisible)
+                case .alterButtonText:
+                    footerView.alterButtonText()
                 case .moveToDailyResult:
-                    print("Move To Daily Result")
+                    self.navigationController?.pushViewController(DailyResultViewController(), animated: true)
                 case .moveToHomeView:
-                    // Coordinator role
                     print("Move To Home View")
+                case .popSubmitAlert:
+                    present(submitAlertViewController, animated: true)
+                case .cancelAlert:
+                    submitAlertViewController.dismiss(animated: true)
+                case .submitSuccess:
+                    submitAlertViewController.dismiss(animated: true)
+                    removeNavigationItems()
+                    self.navigationController?.pushViewController(DailyResultViewController(), animated: true)
                 }
             }
             .store(in: &subscriptions)
@@ -78,6 +93,11 @@ final class DailyTestViewController: UIViewController {
         navigationItem.rightBarButtonItem = UIBarButtonItem(customView: timerLabel)
     }
     
+    private func removeNavigationItems() {
+        navigationItem.leftBarButtonItem = nil
+        navigationItem.rightBarButtonItem = nil
+    }
+    
     @objc private func moveToHome() {
         input.send(.cancelButtonClicked)
     }
@@ -85,6 +105,20 @@ final class DailyTestViewController: UIViewController {
     private func updateProgress(timeLimit: Int, timeRemaining: Int) {
         timerLabel.updateTime(timeRemaining: timeRemaining)
         progressView.progress = Float(timeLimit - timeRemaining) / Float(timeLimit)
+    }
+    
+    private func setAlertButtonActions() {
+        let confirmAction = UIAction { [weak self] _ in
+            guard let self = self else { return }
+            self.input.send(.alertSubmitButtonClicked)
+        }
+        
+        let cancelAction = UIAction { [weak self] _ in
+            guard let self = self else { return }
+            self.input.send(.alertCancelButtonClicked)
+        }
+        
+        submitAlertViewController.setupButtonActions(confirmAction: confirmAction, cancelAction: cancelAction)
     }
 }
 

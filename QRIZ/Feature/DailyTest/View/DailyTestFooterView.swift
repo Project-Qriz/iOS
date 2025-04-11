@@ -37,12 +37,12 @@ final class DailyTestFooterView: UIView {
         pageIndicatorLabel.setTotalPage(totalPage: totalPage)
     }
     
-    func setButtonsVisibility(isFirstQuestion: Bool, isOptionSelected: Bool = false) {
-        if isFirstQuestion {
-            nextButton.isHidden = !isOptionSelected
-        } else {
-            nextButton.isHidden = false
-        }
+    func setButtonsVisibility(isVisible: Bool) {
+        nextButton.isHidden = !isVisible
+    }
+    
+    func alterButtonText() {
+        nextButton.setTitleText("제출")
     }
     
     private func setupUI() {
