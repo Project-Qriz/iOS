@@ -17,7 +17,7 @@ protocol AccountRecoveryService {
     func findPassword(email: String) async throws -> FindPasswordResponse
     
     /// 비밀번호 초기화 인증번호 검증
-    func verifyPasswordReset(authNumber: String) async throws -> VerifyPasswordResetResponse
+    func verifyPasswordReset(email:String, authNumber: String) async throws -> VerifyPasswordResetResponse
     
     /// 비밀번호 초기화
     func resetPassword(password: String) async throws -> PasswordResetResponse
@@ -47,8 +47,8 @@ final class AccountRecoveryServiceImpl: AccountRecoveryService {
         return try await network.send(request)
     }
     
-    func verifyPasswordReset(authNumber: String) async throws -> VerifyPasswordResetResponse {
-        let request = VerifyPasswordResetRequest(authNumber: authNumber)
+    func verifyPasswordReset(email:String, authNumber: String) async throws -> VerifyPasswordResetResponse {
+        let request = VerifyPasswordResetRequest(email: email, authNumber: authNumber)
         return try await network.send(request)
     }
     

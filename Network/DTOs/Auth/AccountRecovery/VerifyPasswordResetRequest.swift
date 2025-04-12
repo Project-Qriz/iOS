@@ -30,10 +30,14 @@ struct VerifyPasswordResetRequest: Request {
     
     let path = "/api/verify-pwd-reset"
     let method: HTTPMethod = .post
+    let email: String
     let authNumber: String
     
     var query: QueryItems {
-        ["authNumber": authNumber]
+        [
+            "email": email,
+            "authNumber": authNumber
+        ]
     }
     
     var headers: HTTPHeader {

@@ -12,10 +12,14 @@ struct EmailAuthenticationRequest: Request {
     
     let path = "/api/email-authentication"
     let method: HTTPMethod = .post
+    let email: String
     let authNumber: String
     
     var query: QueryItems {
-        ["authNum": authNumber]
+        [
+            "email": email,
+            "authNum": authNumber
+        ]
     }
     
     var headers: HTTPHeader {
