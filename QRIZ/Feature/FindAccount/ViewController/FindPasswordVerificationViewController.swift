@@ -15,7 +15,8 @@ final class FindPasswordVerificationViewController: UIViewController {
     private enum Attributes {
         static let navigationTitle: String = "비밀번호 찾기"
         static let alertTitle: String = "이메일을 올바르게 입력해주세요."
-    }
+        static let progressMessage: String = "이메일 확인중..."
+        }
     
     // MARK: - Properties
     
@@ -93,6 +94,12 @@ final class FindPasswordVerificationViewController: UIViewController {
                 case .isCodeValid(let isValid):
                     self.rootView.verificationInputView.updateConfirmButton(isValid: isValid)
                     
+                case .emailVerificationInProgress:
+                    self.rootView.verificationInputView.showMessage(
+                        Attributes.progressMessage,
+                        textColor: .coolNeutral500
+                    )
+                    
                 case .emailVerificationSuccess:
                     self.rootView.verificationInputView.handleEmailVerificationSuccess()
                     
@@ -103,7 +110,8 @@ final class FindPasswordVerificationViewController: UIViewController {
                     self.rootView.verificationInputView.handleTimerExpired()
                     self.rootView.verificationInputView.resetCodeTextField()
                     
-                case .emailVerificationFailure:
+                case .emailVerificationFailure(let errorMessage):
+                    self.rootView.verificationInputView.showMessage(errorMessage, textColor: .customRed500)
                     self.showOneButtonAlert(with: Attributes.alertTitle, storingIn: &cancellables)
                     
                 case .codeVerificationSuccess:

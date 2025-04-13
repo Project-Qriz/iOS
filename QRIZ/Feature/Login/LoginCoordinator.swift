@@ -70,7 +70,7 @@ final class LoginCoordinatorImp: LoginCoordinator {
     }
     
     func showFindPassword() {
-        let findPasswordVerificationVM = FindPasswordVerificationViewModel()
+        let findPasswordVerificationVM = FindPasswordVerificationViewModel(accountRecoveryService: accountRecoveryService)
         let findPasswordVerificationVC = FindPasswordVerificationViewController(
             findPasswordVerificationVM: findPasswordVerificationVM
         )
