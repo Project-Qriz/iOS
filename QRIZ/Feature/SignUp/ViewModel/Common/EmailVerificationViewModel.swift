@@ -12,9 +12,11 @@ class EmailVerificationViewModel {
     
     // MARK: - Properties
     
-    private let outputSubject: PassthroughSubject<Output, Never> = .init()
+    private var email: String?
+    private var authNumber: String?
+    let outputSubject: PassthroughSubject<Output, Never> = .init()
     private var cancellables = Set<AnyCancellable>()
-    private let countdownTimer: CountdownTimer
+    let countdownTimer: CountdownTimer
     
     // MARK: - Initialize
     
@@ -44,13 +46,18 @@ class EmailVerificationViewModel {
                     self.validateEmail(email)
                     
                 case .sendButtonTapped:
-                    self.sendVerificationCode()
+                    guard let email = email else { return }
+                    self.sendVerificationCode(email: email)
                     
-                case .codeTextChanged(let code):
-                    self.validateCode(code)
+                case .codeTextChanged(let authNumber):
+                    self.validateCode(authNumber)
                     
                 case .confirmButtonTapped:
-                    self.verifyCode()
+                    guard
+                        let email = email,
+                        let authNumber = authNumber
+                    else { return }
+                    self.verifyCode(email: email, authNumber: authNumber)
                     
                 case .nextButtonTapped:
                     self.outputSubject.send(.navigateToNextView)
@@ -63,35 +70,24 @@ class EmailVerificationViewModel {
     
     private func validateEmail(_ email: String) {
         let isValid = email.isValidEmail
+        self.email = email
         outputSubject.send(.isEmailValid(isValid))
     }
     
-    private func validateCode(_ code: String) {
-        let isValid = code.count == 6
+    private func validateCode(_ authNumber: String) {
+        let isValid = authNumber.count == 6
+        self.authNumber = authNumber
         outputSubject.send(.isCodeValid(isValid))
     }
     
-    private func sendVerificationCode() {
-        let apiResult = Bool.random()
-        
-        if apiResult {
-            outputSubject.send(.emailVerificationSuccess)
-            countdownTimer.reset()
-            countdownTimer.start()
-        } else {
-            outputSubject.send(.emailVerificationFailure)
-        }
+    // 하위 클래스에서 반드시 구현하도록 강제
+    func sendVerificationCode(email: String) {
+        fatalError("sendVerificationCode(_:) must be implemented in subclass")
     }
     
-    private func verifyCode() {
-        let apiResult = Bool.random()
-        
-        if apiResult {
-            outputSubject.send(.codeVerificationSuccess)
-            countdownTimer.stop()
-        } else {
-            outputSubject.send(.codeVerificationFailure)
-        }
+    // 하위 클래스에서 반드시 구현하도록 강제
+    func verifyCode(email: String, authNumber: String) {
+        fatalError("verifyCode() must be implemented in subclass")
     }
 }
 
@@ -107,8 +103,9 @@ extension EmailVerificationViewModel {
     enum Output {
         case isEmailValid(Bool)
         case isCodeValid(Bool)
+        case emailVerificationInProgress
         case emailVerificationSuccess
-        case emailVerificationFailure
+        case emailVerificationFailure(String)
         case updateRemainingTime(Int)
         case timerExpired
         case codeVerificationSuccess
