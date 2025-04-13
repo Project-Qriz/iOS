@@ -21,7 +21,6 @@ final class DailyResultViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = .black
-        print("VIEWDIDLOAD")
         addViews()
     }
 }
