@@ -36,7 +36,10 @@ final class SignUpCoordinatorImpl: SignUpCoordinator {
     }
     
     func start() -> UIViewController {
-        let verificationVM = SignUpVerificationViewModel()
+        let verificationVM = SignUpVerificationViewModel(
+            signUpFlowViewModel: signUpFlowVM,
+            signUpService: signUpService
+        )
         let verificationVC = SignUpVerificationViewController(signUpVerificationVM: verificationVM)
         verificationVC.coordinator = self
         navigationController.pushViewController(verificationVC, animated: true)

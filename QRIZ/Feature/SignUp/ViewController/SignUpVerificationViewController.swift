@@ -15,6 +15,7 @@ final class SignUpVerificationViewController: UIViewController {
     private enum Attributes {
         static let navigationTitle: String = "회원가입"
         static let alertTitle: String = "이메일을 올바르게 입력해주세요."
+        static let progressMessage: String = "이메일 확인중..."
     }
     
     // MARK: - Properties
@@ -89,17 +90,25 @@ final class SignUpVerificationViewController: UIViewController {
                 case .isCodeValid(let isValid):
                     self.rootView.verificationInputView.updateConfirmButton(isValid: isValid)
                     
+                case .emailVerificationInProgress:
+                    self.rootView.verificationInputView.showMessage(
+                        Attributes.progressMessage,
+                        textColor: .coolNeutral500
+                    )
+                    
                 case .emailVerificationSuccess:
                     self.rootView.verificationInputView.handleEmailVerificationSuccess()
                     
                 case .updateRemainingTime(let remainingTime):
+                    print(remainingTime)
                     self.rootView.verificationInputView.updateTimerLabel(remainingTime)
                     
                 case .timerExpired:
                     self.rootView.verificationInputView.handleTimerExpired()
                     
-                case .emailVerificationFailure:
+                case .emailVerificationFailure(let errorMessage):
                     self.showOneButtonAlert()
+                    self.rootView.verificationInputView.showMessage(errorMessage, textColor: .customRed500)
                     
                 case .codeVerificationSuccess:
                     self.rootView.verificationInputView.handleCodeVerificationSuccess()
