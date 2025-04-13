@@ -118,6 +118,9 @@ extension PreviewTestViewModel {
     private func startTimer() {
         startTime = Date()
         timer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(updateTimer), userInfo: nil, repeats: true)
+        if let timer = timer {
+            RunLoop.main.add(timer, forMode: .common)
+        }
     }
     
     @objc func updateTimer() {
