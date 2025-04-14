@@ -1,0 +1,23 @@
+{
+  "images" : [
+    {
+      "filename" : "UnderstandingDataModeling.png",
+      "idiom" : "universal",
+      "scale" : "1x"
+    },
+    {
+      "filename" : "UnderstandingDataModeling@2x.png",
+      "idiom" : "universal",
+      "scale" : "2x"
+    },
+    {
+      "filename" : "UnderstandingDataModeling@3x.png",
+      "idiom" : "universal",
+      "scale" : "3x"
+    }
+  ],
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  }
+}
