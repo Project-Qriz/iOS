@@ -27,7 +27,7 @@ protocol SignUpService {
     ) async throws -> JoinResponse
 }
 
-final class AuthServiceImpl: SignUpService {
+final class SignUpServiceImpl: SignUpService {
     
     // MARK: - Properties
     

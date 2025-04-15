@@ -13,7 +13,7 @@ final class SignUpVerificationViewModel: EmailVerificationViewModel {
     // MARK: - Properties
     
     private let signUpFlowViewModel: SignUpFlowViewModel
-    private let authService: SignUpService
+    private let signUpService: SignUpService
     
     // MARK: - Initialize
     
@@ -22,7 +22,7 @@ final class SignUpVerificationViewModel: EmailVerificationViewModel {
         signUpService: SignUpService
     ) {
         self.signUpFlowViewModel = signUpFlowViewModel
-        self.authService = signUpService
+        self.signUpService = signUpService
         super.init()
     }
     
@@ -31,7 +31,7 @@ final class SignUpVerificationViewModel: EmailVerificationViewModel {
         
         Task {
             do {
-                _ = try await authService.sendEmail(email)
+                _ = try await signUpService.sendEmail(email)
                 outputSubject.send(.emailVerificationSuccess)
                 Task {
                     await MainActor.run {
@@ -50,7 +50,7 @@ final class SignUpVerificationViewModel: EmailVerificationViewModel {
     override func verifyCode(email: String, authNumber: String) {
         Task {
             do {
-                _ = try await authService.EmailAuthentication(email: email, authNumber: authNumber)
+                _ = try await signUpService.EmailAuthentication(email: email, authNumber: authNumber)
                 outputSubject.send(.codeVerificationSuccess)
                 countdownTimer.stop()
             } catch {

@@ -31,7 +31,7 @@ final class AppCoordinatorDependencyImp: AppCoordinatorDependency {
     
     private lazy var network: Network = NetworkImp(session: .shared)
     lazy var loginService: LoginService = LoginServiceImpl(network: network, keychainManager: KeychainManagerImpl())
-    lazy var signUpService: SignUpService = AuthServiceImpl(network: network)
+    lazy var signUpService: SignUpService = SignUpServiceImpl(network: network)
     lazy var accountRecoveryService: AccountRecoveryService = AccountRecoveryServiceImpl(network: network)
     
     private lazy var _loginCoordinator: LoginCoordinator = {
@@ -39,7 +39,7 @@ final class AppCoordinatorDependencyImp: AppCoordinatorDependency {
         return LoginCoordinatorImp(
             navigationController: navi,
             loginService: loginService,
-            authService: signUpService,
+            signUpService: signUpService,
             accountRecoveryService: accountRecoveryService
         )
     }()

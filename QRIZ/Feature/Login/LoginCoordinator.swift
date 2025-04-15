@@ -35,12 +35,12 @@ final class LoginCoordinatorImp: LoginCoordinator {
     init(
         navigationController: UINavigationController,
         loginService: LoginService,
-        authService: SignUpService,
+        signUpService: SignUpService,
         accountRecoveryService: AccountRecoveryService
     ) {
         self.navigationController = navigationController
         self.loginService = loginService
-        self.signUpService = authService
+        self.signUpService = signUpService
         self.accountRecoveryService = accountRecoveryService
     }
     

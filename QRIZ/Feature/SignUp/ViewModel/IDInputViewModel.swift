@@ -13,7 +13,7 @@ final class IDInputViewModel {
     // MARK: - Properties
     
     private let signUpFlowViewModel: SignUpFlowViewModel
-    private let authService: SignUpService
+    private let signUpService: SignUpService
     private var id: String = ""
     private let outputSubject: PassthroughSubject<Output, Never> = .init()
     private var cancellables = Set<AnyCancellable>()
@@ -25,7 +25,7 @@ final class IDInputViewModel {
         signUpService: SignUpService
     ) {
         self.signUpFlowViewModel = signUpFlowViewModel
-        self.authService = signUpService
+        self.signUpService = signUpService
     }
     
     // MARK: - Functions
@@ -59,7 +59,7 @@ final class IDInputViewModel {
     private func checkUsernameDuplicateAPI(_ id: String) {
         Task {
             do {
-                let response = try await authService.checkUsernameDuplication(username: id)
+                let response = try await signUpService.checkUsernameDuplication(username: id)
                 let available = response.data.available
                 outputSubject.send(.duplicateCheckResult(message: response.msg, isAvailable: available))
                 outputSubject.send(.updateNextButtonState(available))
