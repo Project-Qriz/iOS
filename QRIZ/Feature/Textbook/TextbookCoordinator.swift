@@ -17,7 +17,8 @@ final class TextbookCoordinatorImp: TextbookCoordinator {
     var childCoordinators: [Coordinator] = []
     
     func start() -> UIViewController {
-        let textbookVC = TextbookViewController()
+        let textbookVM = TextbookViewModel()
+        let textbookVC = TextbookViewController(textbookVM: textbookVM)
         let nav = UINavigationController(rootViewController: textbookVC)
         return nav
     }
