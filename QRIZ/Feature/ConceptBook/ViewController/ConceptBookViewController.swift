@@ -1,5 +1,5 @@
 //
-//  TextbookViewController.swift
+//  ConceptBookViewController.swift
 //  QRIZ
 //
 //  Created by 김세훈 on 2/23/25.
@@ -8,9 +8,9 @@
 import UIKit
 import Combine
 
-final class TextbookViewController: UIViewController {
+final class ConceptBookViewController: UIViewController {
     
-    // MARK: - Enums
+    // MARK: - Enumsc
     
     enum Attributes {
         static let navigationTitle = "개념서"
@@ -18,14 +18,14 @@ final class TextbookViewController: UIViewController {
     
     // MARK: - Properties
     
-    let rootView: TextbookMainView
-    private let loginVM: TextbookViewModel
+    let rootView: ConceptBookMainView
+    private let conceptBookVM: ConceptBookViewModel
     
     // MARK: - Initialize
     
-    init(textbookVM: TextbookViewModel) {
-        self.loginVM = textbookVM
-        self.rootView = TextbookMainView()
+    init(conceptBookVM: ConceptBookViewModel) {
+        self.conceptBookVM = conceptBookVM
+        self.rootView = ConceptBookMainView()
         super.init(nibName: nil, bundle: nil)
     }
     

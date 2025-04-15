@@ -1,5 +1,5 @@
 //
-//  TextbookMainView.swift
+//  ConceptBookMainView.swift
 //  QRIZ
 //
 //  Created by 김세훈 on 4/14/25.
@@ -7,7 +7,7 @@
 
 import UIKit
 
-final class TextbookMainView: UIView {
+final class ConceptBookMainView: UIView {
     
     // MARK: - Enums
     
@@ -92,7 +92,7 @@ final class TextbookMainView: UIView {
 
 // MARK: - Layout Setup
 
-extension TextbookMainView {
+extension ConceptBookMainView {
     private func addSubviews() {
         [
             firstSubject,
