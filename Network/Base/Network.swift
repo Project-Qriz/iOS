@@ -44,9 +44,10 @@ extension NetworkImp {
         case 400..<500:
             let errorResponse = try? JSONDecoder().decode(ErrorResponse.self, from: data)
             throw NetworkError.clientError(
-            code: httpResponse.statusCode,
-            message: errorResponse?.msg ?? "클라이언트 에러입니다."
-        )
+                httpStatus: httpResponse.statusCode,
+                serverCode: errorResponse?.code,
+                message: errorResponse?.msg ?? "클라이언트 에러입니다."
+            )
         case 500..<600: throw NetworkError.serverError
         default: throw NetworkError.unknownError
         }
