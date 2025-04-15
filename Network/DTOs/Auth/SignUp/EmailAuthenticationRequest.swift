@@ -30,5 +30,4 @@ struct EmailAuthenticationRequest: Request {
 struct EmailAuthenticationResponse: Decodable {
     let code: Int
     let msg: String
-    let data: String
 }
