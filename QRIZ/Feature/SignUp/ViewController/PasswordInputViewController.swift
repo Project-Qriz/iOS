@@ -76,6 +76,7 @@ final class PasswordInputViewController: UIViewController {
         let output = passwordInputVM.transform(input: input)
         
         output
+            .receive(on: DispatchQueue.main)
             .sink { [weak self] output in
                 guard let self = self else { return }
                 
