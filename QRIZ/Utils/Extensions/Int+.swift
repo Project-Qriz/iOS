@@ -7,7 +7,6 @@
 
 import Foundation
 
-
 extension Int {
     // 테스트 화면에서 타이머에 시간을 제공하기 위한 extension 입니다.
     var formattedTime: String {
