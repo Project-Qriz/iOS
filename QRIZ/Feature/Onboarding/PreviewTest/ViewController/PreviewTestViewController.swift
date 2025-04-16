@@ -217,9 +217,7 @@ extension PreviewTestViewController {
     }
     
     private func formattedTime(timeRemaining: Int) -> String {
-        let minutes = timeRemaining / 60
-        let seconds = timeRemaining % 60
-        return String(format: "%02d:%02d", minutes, seconds)
+        return timeRemaining.formattedTime
     }
 }
 
