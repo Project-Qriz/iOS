@@ -92,6 +92,9 @@ final class PasswordInputViewController: UIViewController {
                 case .updateSignUpButtonState(let canSignUp):
                     self.rootView.signUpFooterView.updateButtonState(isValid: canSignUp)
                     
+                case .showErrorAlert(let title, let description):
+                    self.showOneButtonAlert(with: title, for: description, storingIn: &cancellables)
+                    
                 case .navigateToAlertView:
                     self.showOneButtonAlert()
                 }
