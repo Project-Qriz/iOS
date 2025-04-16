@@ -39,10 +39,6 @@ final class CountdownTimer {
                 self.remainingTime.send(0)
             }
         }
-        
-        if let timer = timer {
-            RunLoop.main.add(timer, forMode: .common)
-        }
     }
     
     func stop() {

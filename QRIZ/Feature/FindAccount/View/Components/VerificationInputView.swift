@@ -342,7 +342,7 @@ final class VerificationInputView: UIView {
         showMessage(text, textColor: .customMint800)
     }
     
-    private func showMessage(_ text: String, textColor: UIColor) {
+    func showMessage(_ text: String, textColor: UIColor) {
         inputErrorLabel.text = text
         inputErrorLabel.textColor = textColor
         inputErrorLabel.isHidden = false

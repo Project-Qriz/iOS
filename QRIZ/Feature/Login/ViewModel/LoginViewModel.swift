@@ -7,16 +7,25 @@
 
 import Foundation
 import Combine
+import os
 
 final class LoginViewModel {
     
     // MARK: - Properties
     
+    private let loginService: LoginService
     private let outputSubject: PassthroughSubject<Output, Never> = .init()
     private var cancellables = Set<AnyCancellable>()
+    private let logger = Logger(subsystem: Bundle.main.bundleIdentifier ?? "kr.QRIZ", category: "LoginViewModel")
     
     private var id: String = ""
     private var password: String = ""
+    
+    // MARK: - Initialize
+    
+    init(loginService: LoginService) {
+        self.loginService = loginService
+    }
     
     // MARK: - Functions
     
@@ -28,13 +37,17 @@ final class LoginViewModel {
                 case .idTextChanged(let newID):
                     self.id = newID
                     self.validateFields()
+                    
                 case .passwordTextChanged(let newPassword):
                     self.password = newPassword
                     self.validateFields()
+                    
                 case .loginButtonTapped:
-                    print("ViewModel에서 로그인 버튼 클릭 이벤트를 입력 받았습니다.")
+                    self.login()
+                    
                 case .accountActionSelected(let action):
                     self.outputSubject.send(.navigateToAccountAction(action))
+                    
                 case .socialLoginSelected(let socialLogin):
                     self.handleSocialLogin(socialLogin)
                 }
@@ -60,7 +73,32 @@ final class LoginViewModel {
         }
     }
     
+    private func login() {
+        Task {
+            do {
+                _ = try await loginService.login(id: id, password: password)
+                outputSubject.send(.loginSucceeded)
+            } catch {
+                let title = "아이디 또는 비밀번호 확인"
+                let description = "아이디와 비밀번호를 정확하게 입력해 주세요."
+                
+                if let networkError = error as? NetworkError {
+                    if case .clientError(let code, _, _) = networkError, code == 401 {
+                        outputSubject.send(.showErrorAlert(title: title, descrption: description))
+                        logger.error("Client error 401 in login: \(networkError.description, privacy: .public)")
+                    } else {
+                        outputSubject.send(.showErrorAlert(title: networkError.errorMessage))
+                        logger.error("Network error in login: \(networkError.description, privacy: .public)")
+                    }
+                } else {
+                    outputSubject.send(.showErrorAlert(title: title, descrption: description))
+                    logger.error("Unhandled error in login: \(String(describing: error), privacy: .public)")
+                }
+            }
+        }
+    }
 }
+
 
 extension LoginViewModel {
     enum Input {
@@ -73,7 +111,9 @@ extension LoginViewModel {
     
     enum Output {
         case isLoginButtonEnabled(Bool)
+        case showErrorAlert(title: String, descrption: String? = nil)
         case navigateToAccountAction(AccountAction)
+        case loginSucceeded
     }
     
     enum AccountAction: String {

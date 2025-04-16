@@ -1,36 +1,37 @@
 //
-//  ResetPasswordViewController.swift
+//  PasswordInputViewController.swift
 //  QRIZ
 //
-//  Created by 김세훈 on 2/1/25.
+//  Created by 김세훈 on 1/4/25.
 //
 
 import UIKit
 import Combine
 
-final class ResetPasswordViewController: UIViewController {
+final class PasswordInputViewController: UIViewController {
     
     // MARK: - Enums
     
     private enum Attributes {
-        static let navigationTitle: String = "비밀번호 찾기"
-        static let alertTitle: String = "비밀번호 변경 완료"
-        static let alertDescription: String = "변경이 완료되었습니다.\n보안을 위해 재로그인을 진행해 주세요."
+        static let navigationTitle: String = "회원가입"
+        static let alertTitle: String = "회원가입 완료!"
+        static let alertDescription: String = "회원가입이 완료되었습니다.\n합격을 향한 여정을 함께 시작해봐요!"
     }
     
     // MARK: - Properties
     
-    weak var coordinator: LoginCoordinator?
-    private let rootView: ResetPasswordMainView
-    private let resetPasswordVM: ResetPasswordViewModel
+    weak var coordinator: SignUpCoordinator?
+    private let rootView: PasswordInputMainView
+    private let passwordInputVM: PasswordInputViewModel
     private var cancellables = Set<AnyCancellable>()
     private var keyboardCancellable: AnyCancellable?
     
-    // MARK: - initialize
     
-    init(resetPasswordVM: ResetPasswordViewModel) {
-        self.rootView = ResetPasswordMainView()
-        self.resetPasswordVM = resetPasswordVM
+    // MARK: - Initialize
+    
+    init(passwordInputVM: PasswordInputViewModel) {
+        self.rootView = PasswordInputMainView()
+        self.passwordInputVM = passwordInputVM
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -59,25 +60,26 @@ final class ResetPasswordViewController: UIViewController {
     
     private func bind() {
         let passwordTextChanged = rootView.passwordInputView.passwordTextChangedPublisher
-            .map { ResetPasswordViewModel.Input.passwordTextChanged($0) }
+            .map { PasswordInputViewModel.Input.passwordTextChanged($0) }
         
         let confirmTextChanged = rootView.passwordInputView.confirmTextChangedPublisher
-            .map { ResetPasswordViewModel.Input.confirmPasswordTextChanged($0) }
+            .map { PasswordInputViewModel.Input.confirmPasswordTextChanged($0) }
         
         let signUpButtonTapped = rootView.signUpFooterView.buttonTappedPublisher
-            .map { ResetPasswordViewModel.Input.buttonTapped }
+            .map { PasswordInputViewModel.Input.buttonTapped }
         
         let input = passwordTextChanged
             .merge(with: confirmTextChanged)
             .merge(with: signUpButtonTapped)
             .eraseToAnyPublisher()
         
-        let output = resetPasswordVM.transform(input: input)
+        let output = passwordInputVM.transform(input: input)
         
         output
             .receive(on: DispatchQueue.main)
             .sink { [weak self] output in
                 guard let self = self else { return }
+                
                 switch output {
                 case .characterRequirementChanged(let isValid):
                     self.rootView.passwordInputView.updateCharacterRequirementUI(isValid)
@@ -91,8 +93,8 @@ final class ResetPasswordViewController: UIViewController {
                 case .updateSignUpButtonState(let canSignUp):
                     self.rootView.signUpFooterView.updateButtonState(isValid: canSignUp)
                     
-                case .showErrorAlert(let errorMessage):
-                    self.showOneButtonAlert(with: errorMessage, storingIn: &cancellables)
+                case .showErrorAlert(let title, let description):
+                    self.showOneButtonAlert(with: title, for: description, storingIn: &cancellables)
                     
                 case .navigateToAlertView:
                     self.showOneButtonAlert()
@@ -119,8 +121,9 @@ final class ResetPasswordViewController: UIViewController {
         oneButtonAlert.confirmButtonTappedPublisher
             .sink { [weak self] _ in
                 oneButtonAlert.dismiss(animated: true) {
-                    guard let self = self else { return }
-                    self.coordinator?.popToRootViewController()
+                    guard let self = self,
+                          let coordinator = self.coordinator else { return }
+                    self.coordinator?.delegate?.didFinishSignUp(coordinator)
                 }
             }
             .store(in: &cancellables)

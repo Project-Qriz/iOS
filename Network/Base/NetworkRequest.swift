@@ -21,7 +21,6 @@ protocol Request {
 }
 
 extension Request {
-    /// 임시 URL입니다.
     var baseURL: URL {
         guard let baseURLString = Bundle.main.object(forInfoDictionaryKey: "BaseURL") as? String,
               let baseURL = URL(string: baseURLString)

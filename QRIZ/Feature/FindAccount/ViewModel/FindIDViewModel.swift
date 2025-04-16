@@ -7,13 +7,23 @@
 
 import Foundation
 import Combine
+import os
 
 final class FindIDViewModel {
     
     // MARK: - Properties
     
+    private let accountRecoveryService: AccountRecoveryService
+    private var email: String?
     private let outputSubject: PassthroughSubject<Output, Never> = .init()
     private var cancellables = Set<AnyCancellable>()
+    private let logger = Logger(subsystem: Bundle.main.bundleIdentifier ?? "kr.QRIZ", category: "FindIDViewModel")
+    
+    // MARK: - Initialize
+    
+    init(accountRecoveryService: AccountRecoveryService) {
+        self.accountRecoveryService = accountRecoveryService
+    }
     
     // MARK: - Functions
     
@@ -23,11 +33,12 @@ final class FindIDViewModel {
                 guard let self = self else { return }
                 switch event {
                 case .emailTextChanged(let text):
+                    self.email = text
                     self.validateEmail(text)
                     
                 case .buttonTapped:
-                    print("이메일 발송API 호출")
-                    outputSubject.send(.navigateToAlerView)
+                    guard let email = self.email else { return }
+                    self.sendFindIDEmail(email: email)
                 }
             }
             .store(in: &cancellables)
@@ -39,6 +50,23 @@ final class FindIDViewModel {
         let isValid = text.isValidEmail
         outputSubject.send(.isNameValid(isValid))
     }
+    
+    private func sendFindIDEmail(email: String) {
+        Task {
+            do {
+                _ = try await accountRecoveryService.findID(email: email)
+                outputSubject.send(.navigateToAlerView)
+            } catch {
+                if let networkError = error as? NetworkError {
+                    outputSubject.send(.showErrorAlert(networkError.errorMessage))
+                    logger.error("Network error in sendFindIDEmail: \(networkError.description, privacy: .public)")
+                } else {
+                    outputSubject.send(.showErrorAlert("이메일 발송에 실패했습니다."))
+                    logger.error("Unhandled error in sendFindIDEmail: \(String(describing: error), privacy: .public)")
+                }
+            }
+        }
+    }
 }
 
 extension FindIDViewModel {
@@ -49,6 +77,7 @@ extension FindIDViewModel {
     
     enum Output {
         case isNameValid(Bool)
+        case showErrorAlert(String)
         case navigateToAlerView
     }
 }

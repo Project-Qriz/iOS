@@ -15,7 +15,7 @@ final class FindPasswordVerificationMainView: UIView {
         static let headerViewTopOffset: CGFloat = 40.0
         static let inputViewTopOffset: CGFloat = 20.0
         static let horizontalMargin: CGFloat = 18.0
-        static let signupFooterViewBottomOffset: CGFloat = -16.0
+        static let signUpFooterViewBottomOffset: CGFloat = -16.0
     }
     
     private enum Attributes {
@@ -26,7 +26,7 @@ final class FindPasswordVerificationMainView: UIView {
     
     private let findAccountHeaderView = FindAccountHeaderView()
     let verificationInputView = VerificationInputView()
-    let signupFooterView = SignupFooterView()
+    let signUpFooterView = SignUpFooterView()
     
     // MARK: - Initialize
     
@@ -49,8 +49,8 @@ final class FindPasswordVerificationMainView: UIView {
             title: FindAccountType.findPassword.headerTitle,
             description: UILabel.setLineSpacing(8, text: FindAccountType.findPassword.headerDescription)
         )
-        signupFooterView.configure(buttonTitle: Attributes.buttonTitle)
-        signupFooterView.updateButtonState(isValid: false)
+        signUpFooterView.configure(buttonTitle: Attributes.buttonTitle)
+        signUpFooterView.updateButtonState(isValid: false)
     }
 }
 
@@ -61,14 +61,14 @@ extension FindPasswordVerificationMainView {
         [
             findAccountHeaderView,
             verificationInputView,
-            signupFooterView
+            signUpFooterView
         ].forEach(addSubview(_:))
     }
     
     private func setupConstraints() {
         findAccountHeaderView.translatesAutoresizingMaskIntoConstraints = false
         verificationInputView.translatesAutoresizingMaskIntoConstraints = false
-        signupFooterView.translatesAutoresizingMaskIntoConstraints = false
+        signUpFooterView.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
             findAccountHeaderView.topAnchor.constraint(
@@ -97,17 +97,17 @@ extension FindPasswordVerificationMainView {
                 constant: -Metric.horizontalMargin
             ),
             
-            signupFooterView.leadingAnchor.constraint(
+            signUpFooterView.leadingAnchor.constraint(
                 equalTo: leadingAnchor,
                 constant: Metric.horizontalMargin
             ),
-            signupFooterView.trailingAnchor.constraint(
+            signUpFooterView.trailingAnchor.constraint(
                 equalTo: trailingAnchor,
                 constant: -Metric.horizontalMargin
             ),
-            signupFooterView.bottomAnchor.constraint(
+            signUpFooterView.bottomAnchor.constraint(
                 equalTo: safeAreaLayoutGuide.bottomAnchor,
-                constant: Metric.signupFooterViewBottomOffset
+                constant: Metric.signUpFooterViewBottomOffset
             )
         ])
     }

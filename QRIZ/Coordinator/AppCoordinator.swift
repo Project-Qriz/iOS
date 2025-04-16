@@ -21,14 +21,27 @@ protocol AppCoordinator: Coordinator {
 protocol AppCoordinatorDependency {
     var loginCoordinator: LoginCoordinator { get }
     var tabBarCoordinator: TabBarCoordinator { get }
+    var loginService: LoginService { get }
+    var signUpService: SignUpService { get }
+    var accountRecoveryService: AccountRecoveryService { get }
 }
 
 @MainActor
 final class AppCoordinatorDependencyImp: AppCoordinatorDependency {
     
+    private lazy var network: Network = NetworkImp(session: .shared)
+    lazy var loginService: LoginService = LoginServiceImpl(network: network, keychainManager: KeychainManagerImpl())
+    lazy var signUpService: SignUpService = SignUpServiceImpl(network: network)
+    lazy var accountRecoveryService: AccountRecoveryService = AccountRecoveryServiceImpl(network: network)
+    
     private lazy var _loginCoordinator: LoginCoordinator = {
         let navi = UINavigationController()
-        return LoginCoordinatorImp(navigationController: navi)
+        return LoginCoordinatorImp(
+            navigationController: navi,
+            loginService: loginService,
+            signUpService: signUpService,
+            accountRecoveryService: accountRecoveryService
+        )
     }()
     
     var loginCoordinator: LoginCoordinator {
@@ -55,7 +68,7 @@ final class AppCoordinatorImp: AppCoordinator {
     
     func start() -> UIViewController {
         /// 임시 로그인 상태
-        let isLoggedIn = true
+        let isLoggedIn = false
         UINavigationBar.configureNavigationBackButton()
         return isLoggedIn ? showTabBar() : showLogin()
     }

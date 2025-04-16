@@ -1,36 +1,35 @@
 //
-//  FindPasswordViewController.swift
+//  SignUpVerificationViewController.swift
 //  QRIZ
 //
-//  Created by 김세훈 on 1/25/25.
+//  Created by 김세훈 on 1/1/25.
 //
 
 import UIKit
 import Combine
 
-final class FindPasswordVerificationViewController: UIViewController {
+final class SignUpVerificationViewController: UIViewController {
     
     // MARK: - Enums
     
     private enum Attributes {
-        static let navigationTitle: String = "비밀번호 찾기"
-        static let alertTitle: String = "이메일을 올바르게 입력해주세요."
+        static let navigationTitle: String = "회원가입"
         static let progressMessage: String = "이메일 확인중..."
-        }
+    }
     
     // MARK: - Properties
     
-    weak var coordinator: LoginCoordinator?
-    private let rootView: FindPasswordVerificationMainView
-    private let findPasswordVerificationVM: FindPasswordVerificationViewModel
+    weak var coordinator: SignUpCoordinator?
+    private let rootView: SignUpVerificationMainView
+    private let signUpVerificationVM: SignUpVerificationViewModel
     private var cancellables = Set<AnyCancellable>()
     private var keyboardCancellable: AnyCancellable?
     
-    // MARK: - initialize
+    // MARK: - Initialize
     
-    init(findPasswordVerificationVM: FindPasswordVerificationViewModel) {
-        self.rootView = FindPasswordVerificationMainView()
-        self.findPasswordVerificationVM = findPasswordVerificationVM
+    init(signUpVerificationVM: SignUpVerificationViewModel) {
+        self.rootView = SignUpVerificationMainView()
+        self.signUpVerificationVM = signUpVerificationVM
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -51,27 +50,23 @@ final class FindPasswordVerificationViewController: UIViewController {
         self.view = rootView
     }
     
-    deinit {
-        keyboardCancellable?.cancel()
-    }
-    
     // MARK: - Functions
     
     private func bind() {
         let emailTextChanged = rootView.verificationInputView.emailTextChangedPublisher
-            .map { FindPasswordVerificationViewModel.Input.emailTextChanged($0) }
+            .map { SignUpVerificationViewModel.Input.emailTextChanged($0) }
         
         let sendButtonTapped = rootView.verificationInputView.sendButtonTappedPublisher
-            .map { FindPasswordVerificationViewModel.Input.sendButtonTapped }
+            .map { SignUpVerificationViewModel.Input.sendButtonTapped }
         
         let codeTextChanged = rootView.verificationInputView.codeTextChangedPublisher
-            .map { FindPasswordVerificationViewModel.Input.codeTextChanged($0) }
+            .map { SignUpVerificationViewModel.Input.codeTextChanged($0) }
         
         let confirmButtonTapped = rootView.verificationInputView.confirmButtonPublisher
-            .map { FindPasswordVerificationViewModel.Input.confirmButtonTapped }
+            .map { SignUpVerificationViewModel.Input.confirmButtonTapped }
         
         let nextButtonTapped = rootView.signUpFooterView.buttonTappedPublisher
-            .map { FindPasswordVerificationViewModel.Input.nextButtonTapped }
+            .map { SignUpVerificationViewModel.Input.nextButtonTapped }
         
         let input = emailTextChanged
             .merge(with: sendButtonTapped)
@@ -80,7 +75,7 @@ final class FindPasswordVerificationViewController: UIViewController {
             .merge(with: nextButtonTapped)
             .eraseToAnyPublisher()
         
-        let output = findPasswordVerificationVM.transform(input: input)
+        let output = signUpVerificationVM.transform(input: input)
         
         output
             .receive(on: DispatchQueue.main)
@@ -114,7 +109,6 @@ final class FindPasswordVerificationViewController: UIViewController {
                     
                 case .timerExpired:
                     self.rootView.verificationInputView.handleTimerExpired()
-                    self.rootView.verificationInputView.resetCodeTextField()
                     
                 case .codeVerificationSuccess:
                     self.rootView.verificationInputView.handleCodeVerificationSuccess()
@@ -124,7 +118,7 @@ final class FindPasswordVerificationViewController: UIViewController {
                     self.rootView.verificationInputView.handleCodeVerificationFailure()
                     
                 case .navigateToNextView:
-                    self.coordinator?.showResetPassword()
+                    self.coordinator?.showNameInput()
                 }
             }
             .store(in: &cancellables)

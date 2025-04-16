@@ -1,25 +1,31 @@
 //
-//  FindPasswordViewModel.swift
+//  SignUpVerificationViewModel.swift
 //  QRIZ
 //
-//  Created by 김세훈 on 1/17/25.
+//  Created by 김세훈 on 1/8/25.
 //
 
 import Foundation
 import Combine
 import os
 
-final class FindPasswordVerificationViewModel: EmailVerificationViewModel {
+final class SignUpVerificationViewModel: EmailVerificationViewModel {
     
     // MARK: - Properties
     
-    let accountRecoveryService: AccountRecoveryService
-    private let logger = Logger(subsystem: Bundle.main.bundleIdentifier ?? "kr.QRIZ", category: "FindPasswordVerificationViewModel")
+    private let signUpFlowViewModel: SignUpFlowViewModel
+    private let signUpService: SignUpService
+    private let logger = Logger(subsystem: Bundle.main.bundleIdentifier ?? "kr.QRIZ", category: "SignUpVerificationViewModel")
     
     // MARK: - Initialize
     
-    init(accountRecoveryService: AccountRecoveryService) {
-        self.accountRecoveryService = accountRecoveryService
+    init(
+        signUpFlowViewModel: SignUpFlowViewModel,
+        signUpService: SignUpService
+    ) {
+        self.signUpFlowViewModel = signUpFlowViewModel
+        self.signUpService = signUpService
+        super.init()
     }
     
     override func sendVerificationCode(email: String) {
@@ -27,16 +33,16 @@ final class FindPasswordVerificationViewModel: EmailVerificationViewModel {
         
         Task {
             do {
-                _ = try await accountRecoveryService.findPassword(email: email)
+                _ = try await signUpService.sendEmail(email)
                 outputSubject.send(.emailVerificationSuccess)
-                
+                signUpFlowViewModel.updateEmail(email)
                 Task {
                     await MainActor.run {
                         countdownTimer.reset()
                         countdownTimer.start()
                     }
                 }
-            }  catch {
+            } catch {
                 if let networkError = error as? NetworkError {
                     switch networkError {
                     case .clientError(_, let serverCode, let message):
@@ -63,7 +69,7 @@ final class FindPasswordVerificationViewModel: EmailVerificationViewModel {
     override func verifyCode(email: String, authNumber: String) {
         Task {
             do {
-                _ = try await accountRecoveryService.verifyPasswordReset(email: email, authNumber: authNumber)
+                _ = try await signUpService.EmailAuthentication(email: email, authNumber: authNumber)
                 outputSubject.send(.codeVerificationSuccess)
                 countdownTimer.stop()
             } catch {
@@ -84,4 +90,3 @@ final class FindPasswordVerificationViewModel: EmailVerificationViewModel {
         }
     }
 }
-
