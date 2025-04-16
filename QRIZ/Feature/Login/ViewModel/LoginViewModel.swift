@@ -7,6 +7,7 @@
 
 import Foundation
 import Combine
+import os
 
 final class LoginViewModel {
     
@@ -15,6 +16,7 @@ final class LoginViewModel {
     private let loginService: LoginService
     private let outputSubject: PassthroughSubject<Output, Never> = .init()
     private var cancellables = Set<AnyCancellable>()
+    private let logger = Logger(subsystem: Bundle.main.bundleIdentifier ?? "kr.QRIZ", category: "LoginViewModel")
     
     private var id: String = ""
     private var password: String = ""
@@ -83,16 +85,20 @@ final class LoginViewModel {
                 if let networkError = error as? NetworkError {
                     if case .clientError(let code, _, _) = networkError, code == 401 {
                         outputSubject.send(.showErrorAlert(title: title, descrption: description))
+                        logger.error("Client error 401 in login: \(networkError.description, privacy: .public)")
                     } else {
                         outputSubject.send(.showErrorAlert(title: networkError.errorMessage))
+                        logger.error("Network error in login: \(networkError.description, privacy: .public)")
                     }
                 } else {
                     outputSubject.send(.showErrorAlert(title: title, descrption: description))
+                    logger.error("Unhandled error in login: \(String(describing: error), privacy: .public)")
                 }
             }
         }
     }
 }
+
 
 extension LoginViewModel {
     enum Input {
