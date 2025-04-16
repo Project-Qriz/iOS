@@ -36,7 +36,7 @@ final class PreviewTestViewModel {
     }
     
     // MARK: - Properties
-    private var questionList = QuestionData.sampleList
+    private var questionList = QuestionData.previewSampleList
     private var currentNumber: Int? = nil
     private var totalTimeLimit: Int? = 1500 // tmp
     private var timer: Timer? = nil
@@ -118,6 +118,9 @@ extension PreviewTestViewModel {
     private func startTimer() {
         startTime = Date()
         timer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(updateTimer), userInfo: nil, repeats: true)
+        if let timer = timer {
+            RunLoop.main.add(timer, forMode: .common)
+        }
     }
     
     @objc func updateTimer() {

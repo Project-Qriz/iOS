@@ -15,8 +15,8 @@ final class PreviewTestViewController: UIViewController {
     private var lastQuestionNum: Int = 0
     private var curNum: Int = 0
     
-    private let questionNumberLabel = QuestionNumberLabel(0)
-    private let questionTitleLabel = QuestionTitleLabel("")
+    private let questionNumberLabel = QuestionNumberLabel()
+    private let questionTitleLabel = QuestionTitleLabel()
     private let optionLabels: [QuestionOptionLabel] = {
         var arr: [QuestionOptionLabel] = []
         for i in 1...4 {
@@ -144,7 +144,8 @@ final class PreviewTestViewController: UIViewController {
         questionTitleLabel.setTitle(question.question)
         setSelectedOption(question.selectedOption)
         setOptionsString(optStringArr)
-        pageIndicatorLabel.setPages(curPage: question.questionNumber, totalPage: lastQuestionNum)
+        pageIndicatorLabel.setCurPage(curPage: question.questionNumber)
+        pageIndicatorLabel.setTotalPage(totalPage: lastQuestionNum)
         setPageButtonsUI(question.questionNumber)
     }
 }
@@ -216,9 +217,7 @@ extension PreviewTestViewController {
     }
     
     private func formattedTime(timeRemaining: Int) -> String {
-        let minutes = timeRemaining / 60
-        let seconds = timeRemaining % 60
-        return String(format: "%02d:%02d", minutes, seconds)
+        return timeRemaining.formattedTime
     }
 }
 

@@ -12,7 +12,7 @@ final class TestPageIndicatorLabel: UILabel {
     // MARK: - Properties
     private var currentPageLabel: UILabel = {
         let label = UILabel()
-        label.text = "0"
+        label.text = String(format: "%02d ", 0)
         label.font = .boldSystemFont(ofSize: 16)
         label.textAlignment = .right
         label.numberOfLines = 1
@@ -22,7 +22,7 @@ final class TestPageIndicatorLabel: UILabel {
     
     private var totalPageLabel: UILabel = {
         let label = UILabel()
-        label.text = "/0"
+        label.text = String(format: "/ %02d", 0)
         label.font = .systemFont(ofSize: 16)
         label.textAlignment = .left
         label.numberOfLines = 1
@@ -41,9 +41,12 @@ final class TestPageIndicatorLabel: UILabel {
     }
 
     // MARK: - Methods
-    func setPages(curPage: Int, totalPage: Int) {
-        self.currentPageLabel.text = "\(curPage) "
-        self.totalPageLabel.text = "/ \(totalPage)"
+    func setCurPage(curPage: Int) {
+        self.currentPageLabel.text = String(format: "%02d ", curPage)
+    }
+    
+    func setTotalPage(totalPage: Int) {
+        self.totalPageLabel.text = String(format: "/ %02d", totalPage)
     }
 }
 
