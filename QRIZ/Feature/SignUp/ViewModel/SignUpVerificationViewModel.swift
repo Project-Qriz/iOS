@@ -35,6 +35,7 @@ final class SignUpVerificationViewModel: EmailVerificationViewModel {
             do {
                 _ = try await signUpService.sendEmail(email)
                 outputSubject.send(.emailVerificationSuccess)
+                signUpFlowViewModel.updateEmail(email)
                 Task {
                     await MainActor.run {
                         countdownTimer.reset()

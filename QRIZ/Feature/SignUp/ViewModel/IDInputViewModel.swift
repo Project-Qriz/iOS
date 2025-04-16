@@ -38,6 +38,7 @@ final class IDInputViewModel {
                 guard let self = self else { return }
                 switch event {
                 case .idTextChanged(let newId):
+                    self.id = newId
                     self.validateID(newId)
                     
                 case .duplicateCheckButtonTapped:
