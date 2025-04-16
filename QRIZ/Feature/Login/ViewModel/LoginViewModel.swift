@@ -81,7 +81,7 @@ final class LoginViewModel {
                 let description = "아이디와 비밀번호를 정확하게 입력해 주세요."
                 
                 if let networkError = error as? NetworkError {
-                    if case .clientError(let code, _) = networkError, code == 401 {
+                    if case .clientError(let code, _, _) = networkError, code == 401 {
                         outputSubject.send(.showErrorAlert(title: title, descrption: description))
                     } else {
                         outputSubject.send(.showErrorAlert(title: networkError.errorMessage))

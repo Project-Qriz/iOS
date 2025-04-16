@@ -105,11 +105,12 @@ extension EmailVerificationViewModel {
         case isCodeValid(Bool)
         case emailVerificationInProgress
         case emailVerificationSuccess
-        case emailVerificationFailure(String)
+        case emailVerificationDuplicate(String)
+        case showErrorAlert(title: String)
         case updateRemainingTime(Int)
         case timerExpired
         case codeVerificationSuccess
-        case codeVerificationFailure
+        case codeVerificationFailure(String)
         case navigateToNextView
     }
 }

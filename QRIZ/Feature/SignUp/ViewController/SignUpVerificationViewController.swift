@@ -14,7 +14,6 @@ final class SignUpVerificationViewController: UIViewController {
     
     private enum Attributes {
         static let navigationTitle: String = "회원가입"
-        static let alertTitle: String = "이메일을 올바르게 입력해주세요."
         static let progressMessage: String = "이메일 확인중..."
     }
     
@@ -99,16 +98,17 @@ final class SignUpVerificationViewController: UIViewController {
                 case .emailVerificationSuccess:
                     self.rootView.verificationInputView.handleEmailVerificationSuccess()
                     
+                case .emailVerificationDuplicate(let errorMessage):
+                    self.rootView.verificationInputView.showMessage(errorMessage, textColor: .customRed500)
+                    
+                case .showErrorAlert(let title):
+                    self.showOneButtonAlert(with: title, storingIn: &cancellables)
+                    
                 case .updateRemainingTime(let remainingTime):
-                    print(remainingTime)
                     self.rootView.verificationInputView.updateTimerLabel(remainingTime)
                     
                 case .timerExpired:
                     self.rootView.verificationInputView.handleTimerExpired()
-                    
-                case .emailVerificationFailure(let errorMessage):
-                    self.showOneButtonAlert()
-                    self.rootView.verificationInputView.showMessage(errorMessage, textColor: .customRed500)
                     
                 case .codeVerificationSuccess:
                     self.rootView.verificationInputView.handleCodeVerificationSuccess()
@@ -132,14 +132,5 @@ final class SignUpVerificationViewController: UIViewController {
                 self?.view.endEditing(true)
             }
             .store(in: &cancellables)
-    }
-    
-    private func showOneButtonAlert() {
-        let oneButtonAlert = OneButtonCustomAlertViewController(title: Attributes.alertTitle)
-        oneButtonAlert.confirmButtonTappedPublisher
-            .sink { oneButtonAlert.dismiss(animated: true) }
-            .store(in: &cancellables)
-        
-        present(oneButtonAlert, animated: true)
     }
 }

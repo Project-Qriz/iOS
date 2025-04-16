@@ -7,12 +7,14 @@
 
 import Foundation
 import Combine
+import os
 
 final class FindPasswordVerificationViewModel: EmailVerificationViewModel {
     
     // MARK: - Properties
     
     let accountRecoveryService: AccountRecoveryService
+    private let logger = Logger(subsystem: Bundle.main.bundleIdentifier ?? "kr.QRIZ", category: "FindPasswordVerificationViewModel")
     
     // MARK: - Initialize
     
@@ -34,9 +36,25 @@ final class FindPasswordVerificationViewModel: EmailVerificationViewModel {
                         countdownTimer.start()
                     }
                 }
-            } catch {
+            }  catch {
                 if let networkError = error as? NetworkError {
-                    outputSubject.send(.emailVerificationFailure(networkError.errorMessage))
+                    switch networkError {
+                    case .clientError(_, let serverCode, let message):
+                        if serverCode == -1 {
+                            outputSubject.send(.emailVerificationDuplicate(message))
+                        } else {
+                            let errorMessage = "이메일을 올바르게 입력해주세요."
+                            outputSubject.send(.showErrorAlert(title: errorMessage))
+                            logger.error("Network error alert in sendVerificationCode: \(networkError.description, privacy: .public)")
+                        }
+                    default:
+                        outputSubject.send(.showErrorAlert(title: networkError.errorMessage))
+                        logger.error("Unhandled network error in sendVerificationCode: \(networkError.description, privacy: .public)")
+                    }
+                } else {
+                    let genericErrorMessage = "이메일 인증에 실패했습니다."
+                    outputSubject.send(.showErrorAlert(title: genericErrorMessage))
+                    logger.error("Unhandled error in sendVerificationCode: \(String(describing: error), privacy: .public)")
                 }
             }
         }
@@ -49,7 +67,19 @@ final class FindPasswordVerificationViewModel: EmailVerificationViewModel {
                 outputSubject.send(.codeVerificationSuccess)
                 countdownTimer.stop()
             } catch {
-                outputSubject.send(.codeVerificationFailure)
+                if let networkError = error as? NetworkError {
+                    switch networkError {
+                    case .clientError(let statusCode, _, let message) where statusCode == 400:
+                        outputSubject.send(.codeVerificationFailure(message))
+                    default:
+                        outputSubject.send(.showErrorAlert(title: networkError.errorMessage))
+                    }
+                    logger.error("NetworkError in verifyCode: \(networkError.description, privacy: .public)")
+                } else {
+                    let errorMessage = "인증번호 검증에 실패했습니다."
+                    outputSubject.send(.showErrorAlert(title: errorMessage))
+                    logger.error("Unhandled error in verifyCode: \(String(describing: error), privacy: .public)")
+                }
             }
         }
     }

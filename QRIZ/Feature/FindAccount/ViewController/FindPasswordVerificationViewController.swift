@@ -103,16 +103,18 @@ final class FindPasswordVerificationViewController: UIViewController {
                 case .emailVerificationSuccess:
                     self.rootView.verificationInputView.handleEmailVerificationSuccess()
                     
+                case .emailVerificationDuplicate(let errorMessage):
+                    self.rootView.verificationInputView.showMessage(errorMessage, textColor: .customRed500)
+                    
+                case .showErrorAlert(let title):
+                    self.showOneButtonAlert(with: title, storingIn: &cancellables)
+                    
                 case .updateRemainingTime(let remainingTime):
                     self.rootView.verificationInputView.updateTimerLabel(remainingTime)
                     
                 case .timerExpired:
                     self.rootView.verificationInputView.handleTimerExpired()
                     self.rootView.verificationInputView.resetCodeTextField()
-                    
-                case .emailVerificationFailure(let errorMessage):
-                    self.rootView.verificationInputView.showMessage(errorMessage, textColor: .customRed500)
-                    self.showOneButtonAlert(with: Attributes.alertTitle, storingIn: &cancellables)
                     
                 case .codeVerificationSuccess:
                     self.rootView.verificationInputView.handleCodeVerificationSuccess()
