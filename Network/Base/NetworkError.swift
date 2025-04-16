@@ -36,7 +36,7 @@ extension NetworkError {
     var errorMessage: String {
         switch self {
         case .clientError(_, _, let message): return message
-        case .invalidURL: return "요청한 데이터에 문제가 있습니다."
+        case .invalidURL: return "네트워크 연결을 확인해 주세요."
         case .urlEncodingError: return "요청 처리 중 문제가 발생했습니다."
         case .jsonDecodingError: return "데이터 처리 중 문제가 발생했습니다."
         case .unAuthorizedError: return "접근 권한이 없습니다."
