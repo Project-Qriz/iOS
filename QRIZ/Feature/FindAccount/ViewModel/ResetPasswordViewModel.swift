@@ -7,6 +7,7 @@
 
 import Foundation
 import Combine
+import os
 
 final class ResetPasswordViewModel {
     
@@ -18,6 +19,7 @@ final class ResetPasswordViewModel {
     private var confirmPasswordDidEdit: Bool = false
     private let outputSubject: PassthroughSubject<Output, Never> = .init()
     private var cancellables = Set<AnyCancellable>()
+    private let logger = Logger(subsystem: Bundle.main.bundleIdentifier ?? "kr.QRIZ", category: "ResetPasswordViewModel")
     
     // MARK: - Initialize
     
@@ -75,8 +77,10 @@ final class ResetPasswordViewModel {
             } catch {
                 if let networkError = error as? NetworkError {
                     outputSubject.send(.showErrorAlert(networkError.errorMessage))
+                    logger.error("Network error in resetPassword: \(networkError.description, privacy: .public)")
                 } else {
                     outputSubject.send(.showErrorAlert("비밀번호 변경에 실패했습니다."))
+                    logger.error("Unhandled error in resetPassword: \(String(describing: error), privacy: .public)")
                 }
             }
         }
