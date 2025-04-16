@@ -23,7 +23,7 @@ final class DailyTestTimerLabel: UILabel {
     private let timerLabel: UILabel = {
         let label = UILabel()
         label.textColor = .customRed500
-        label.font = .systemFont(ofSize: 14, weight: .semibold)
+        label.font = .monospacedDigitSystemFont(ofSize: 14, weight: .semibold)
         label.numberOfLines = 1
         label.backgroundColor = .white
         return label
