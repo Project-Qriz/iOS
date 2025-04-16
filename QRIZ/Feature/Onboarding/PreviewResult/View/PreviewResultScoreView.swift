@@ -15,8 +15,9 @@ struct PreviewResultScoreView: View {
     var body: some View {
         VStack {
             HStack {
-                Text("\(previewScoresData.nickname) 님의\n").font(.system(size: 20, weight: .medium)) +
-                Text("프리뷰 결과에요!").font(.system(size: 20, weight: .bold))
+                Text("\(previewScoresData.nickname) 님의\n").font(.system(size: 20, weight: .regular)) +
+                Text("프리뷰 결과").font(.system(size: 20, weight: .bold)) +
+                Text("에요!").font(.system(size: 20, weight: .regular))
                 
                 Spacer()
             }
