@@ -88,6 +88,9 @@ final class IDInputViewController: UIViewController {
                 case .updateNextButtonState(let isEnabled):
                     self.rootView.signUpFooterView.updateButtonState(isValid: isEnabled)
                     
+                case .showErrorAlert(let title):
+                    self.showOneButtonAlert(with: title, storingIn: &cancellables)
+                    
                 case .resetColor:
                     self.rootView.idInputView.resetColors()
                     

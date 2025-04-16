@@ -7,6 +7,7 @@
 
 import Foundation
 import Combine
+import os
 
 final class IDInputViewModel {
     
@@ -17,6 +18,7 @@ final class IDInputViewModel {
     private var id: String = ""
     private let outputSubject: PassthroughSubject<Output, Never> = .init()
     private var cancellables = Set<AnyCancellable>()
+    private let logger = Logger(subsystem: Bundle.main.bundleIdentifier ?? "kr.QRIZ", category: "IDInputViewModel")
     
     // MARK: - Initialize
     
@@ -64,7 +66,24 @@ final class IDInputViewModel {
                 outputSubject.send(.duplicateCheckResult(message: response.msg, isAvailable: available))
                 outputSubject.send(.updateNextButtonState(available))
             } catch {
-                // 오류 얼랏 호출
+                if let networkError = error as? NetworkError {
+                    switch networkError {
+                    case .clientError(_, let serverCode, let message):
+                        if serverCode == -1 {
+                            outputSubject.send(.duplicateCheckResult(message: message, isAvailable: false))
+                            outputSubject.send(.updateNextButtonState(false))
+                        } else {
+                            outputSubject.send(.showErrorAlert(title: networkError.errorMessage))
+                            logger.error("Client error in checkUsernameDuplicateAPI: \(networkError.description, privacy: .public)")
+                        }
+                    default:
+                        outputSubject.send(.showErrorAlert(title: networkError.errorMessage))
+                        
+                    }
+                } else {
+                    outputSubject.send(.showErrorAlert(title: "아이디 중복 확인에 실패했습니다."))
+                    logger.error("Unhandled error in checkUsernameDuplicateAPI: \(String(describing: error), privacy: .public)")
+                }
             }
         }
     }
@@ -81,6 +100,7 @@ extension IDInputViewModel {
         case isIDValid(Bool)
         case duplicateCheckResult(message: String, isAvailable: Bool)
         case updateNextButtonState(Bool)
+        case showErrorAlert(title: String)
         case resetColor
         case navigateToPasswordInputView
     }
