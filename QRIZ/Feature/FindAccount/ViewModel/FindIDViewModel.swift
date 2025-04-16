@@ -7,6 +7,7 @@
 
 import Foundation
 import Combine
+import os
 
 final class FindIDViewModel {
     
@@ -16,6 +17,7 @@ final class FindIDViewModel {
     private var email: String?
     private let outputSubject: PassthroughSubject<Output, Never> = .init()
     private var cancellables = Set<AnyCancellable>()
+    private let logger = Logger(subsystem: Bundle.main.bundleIdentifier ?? "kr.QRIZ", category: "FindIDViewModel")
     
     // MARK: - Initialize
     
@@ -57,8 +59,10 @@ final class FindIDViewModel {
             } catch {
                 if let networkError = error as? NetworkError {
                     outputSubject.send(.showErrorAlert(networkError.errorMessage))
+                    logger.error("Network error in sendFindIDEmail: \(networkError.description, privacy: .public)")
                 } else {
                     outputSubject.send(.showErrorAlert("이메일 발송에 실패했습니다."))
+                    logger.error("Unhandled error in sendFindIDEmail: \(String(describing: error), privacy: .public)")
                 }
             }
         }
