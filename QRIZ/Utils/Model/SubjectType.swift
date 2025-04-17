@@ -41,6 +41,30 @@ enum Chapter: String, CaseIterable {
     }
 }
 
+extension Chapter {
+    
+    /// 카드에 표시할 이미지
+    var assetName: String {
+        switch self {
+        case .dataModeling:     return "understandingDataModeling"
+        case .dataModelAndSQL:  return "dataModelAndSQL"
+        case .sqlBasic:         return "sqlBasics"
+        case .sqlAdvanced:      return "sqlAdvanced"
+        case .sqlCommands:      return "managementStatements"
+        }
+    }
+    
+    /// 카드에 표시할 제목
+    var cardTitle: String {
+        rawValue
+    }
+    
+    /// 카드에 표시할 항목 수
+    var cardItemCount: Int {
+        concepts.count
+    }
+}
+
 /// 개념들을 카테고리별로 그룹화한 열거형입니다.
 enum ConceptCategory: CaseIterable {
     enum DataModeling: String, CaseIterable {
