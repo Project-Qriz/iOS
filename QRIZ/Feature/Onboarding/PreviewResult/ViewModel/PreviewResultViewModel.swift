@@ -23,7 +23,7 @@ final class PreviewResultViewModel {
     }
     
     // MARK: - Properties
-    var previewScoresData = PreviewScoresData()
+    var previewScoresData = ResultScoresData()
     var previewConceptsData = PreviewConceptsData()
     
     private let output: PassthroughSubject<Output, Never> = .init()

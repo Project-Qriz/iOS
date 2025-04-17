@@ -9,7 +9,7 @@ import SwiftUI
 
 struct PreviewResultScoreCircularChartView: View {
     
-    @ObservedObject var previewScoresData: PreviewScoresData
+    @ObservedObject var previewScoresData: ResultScoresData
     private let lineWidth: CGFloat = 36
     
     var body: some View {
@@ -48,5 +48,5 @@ struct PreviewResultScoreCircularChartView: View {
 }
 
 #Preview {
-    PreviewResultScoreCircularChartView(previewScoresData: PreviewScoresData())
+    PreviewResultScoreCircularChartView(previewScoresData: ResultScoresData())
 }

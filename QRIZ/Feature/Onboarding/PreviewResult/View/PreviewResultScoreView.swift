@@ -9,7 +9,7 @@ import SwiftUI
 
 struct PreviewResultScoreView: View {
     
-    @ObservedObject var previewScoresData: PreviewScoresData
+    @ObservedObject var previewScoresData: ResultScoresData
     @State private var isShowingPopover = false
     
     var body: some View {
@@ -63,5 +63,5 @@ struct PreviewResultScoreView: View {
 }
 
 #Preview {
-    PreviewResultScoreView(previewScoresData: PreviewScoresData())
+    PreviewResultScoreView(previewScoresData: ResultScoresData())
 }
