@@ -26,7 +26,7 @@ struct PreviewResultScoreView: View {
             Spacer(minLength: 24)
             
             ZStack(alignment: .bottom) {
-                PreviewResultScoreCircularChartView(previewScoresData: previewScoresData)
+                ResultScoreCircularChartView(resultScoresData: previewScoresData)
                     .frame(width: 164, height: 164)
                 if isShowingPopover {
                     PreviewResultInfoView(isShowingPopover: $isShowingPopover)

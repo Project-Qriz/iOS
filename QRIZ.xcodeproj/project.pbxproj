@@ -141,7 +141,7 @@
 		E29CCD3F2D298656004AA30A /* PreviewResultIncorrectRankView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E29CCD342D298656004AA30A /* PreviewResultIncorrectRankView.swift */; };
 		E29CCD412D298656004AA30A /* PreviewResultViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E29CCD362D298656004AA30A /* PreviewResultViewController.swift */; };
 		E29CCD422D298656004AA30A /* PreviewResultViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E29CCD372D298656004AA30A /* PreviewResultViewModel.swift */; };
-		E29CCD442D298656004AA30A /* PreviewResultScoreCircularChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E29CCD392D298656004AA30A /* PreviewResultScoreCircularChartView.swift */; };
+		E29CCD442D298656004AA30A /* ResultScoreCircularChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E29CCD392D298656004AA30A /* ResultScoreCircularChartView.swift */; };
 		E29CCD492D29867F004AA30A /* GreetingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E29CCD462D29867F004AA30A /* GreetingViewController.swift */; };
 		E29CCD4A2D29867F004AA30A /* GreetingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E29CCD472D29867F004AA30A /* GreetingViewModel.swift */; };
 		E29CCD4C2D299297004AA30A /* SwiftUIViews+.swift in Sources */ = {isa = PBXBuildFile; fileRef = E29CCD4B2D299297004AA30A /* SwiftUIViews+.swift */; };
@@ -322,7 +322,7 @@
 		E29CCD342D298656004AA30A /* PreviewResultIncorrectRankView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PreviewResultIncorrectRankView.swift; sourceTree = "<group>"; };
 		E29CCD362D298656004AA30A /* PreviewResultViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PreviewResultViewController.swift; sourceTree = "<group>"; };
 		E29CCD372D298656004AA30A /* PreviewResultViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PreviewResultViewModel.swift; sourceTree = "<group>"; };
-		E29CCD392D298656004AA30A /* PreviewResultScoreCircularChartView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PreviewResultScoreCircularChartView.swift; sourceTree = "<group>"; };
+		E29CCD392D298656004AA30A /* ResultScoreCircularChartView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ResultScoreCircularChartView.swift; sourceTree = "<group>"; };
 		E29CCD462D29867F004AA30A /* GreetingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GreetingViewController.swift; sourceTree = "<group>"; };
 		E29CCD472D29867F004AA30A /* GreetingViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GreetingViewModel.swift; sourceTree = "<group>"; };
 		E29CCD4B2D299297004AA30A /* SwiftUIViews+.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "SwiftUIViews+.swift"; sourceTree = "<group>"; };
@@ -1118,6 +1118,7 @@
 				E29CCD252D29855B004AA30A /* TestProgressView.swift */,
 				E29CCD262D29855B004AA30A /* TestTimeLabel.swift */,
 				E29CCD272D29855B004AA30A /* TestTotalTimeRemainingLabel.swift */,
+				E29CCD392D298656004AA30A /* ResultScoreCircularChartView.swift */,
 				E25F33662DB0E575002347D4 /* SingleSubjectView.swift */,
 			);
 			path = TestComponents;
@@ -1150,7 +1151,6 @@
 				E29CCD332D298656004AA30A /* PreviewResultConceptView.swift */,
 				E29CCD512D299AD5004AA30A /* PreviewResultIncorrectConceptsRankView.swift */,
 				E29CCD342D298656004AA30A /* PreviewResultIncorrectRankView.swift */,
-				E29CCD392D298656004AA30A /* PreviewResultScoreCircularChartView.swift */,
 				E25907C72D80732C0093121C /* PreviewResultScoreView.swift */,
 				E25907CB2D8328FC0093121C /* PreviewResultView.swift */,
 				E2C084BD2D89AF2C0096CE20 /* PreviewResultInfoView.swift */,
@@ -1478,7 +1478,7 @@
 				B18F45202D4643B40030F7DB /* FindPasswordVerificationMainView.swift in Sources */,
 				54BC61572D18141B0094DC45 /* AccountOptionsView.swift in Sources */,
 				E29CCD1E2D298316004AA30A /* PreviewTestViewModel.swift in Sources */,
-				E29CCD442D298656004AA30A /* PreviewResultScoreCircularChartView.swift in Sources */,
+				E29CCD442D298656004AA30A /* ResultScoreCircularChartView.swift in Sources */,
 				E25F33632DAFD26E002347D4 /* DailyResultFooterView.swift in Sources */,
 				B18F452E2D4D5D640030F7DB /* ResetPasswordMainView.swift in Sources */,
 				B168B76F2D2826010000F32E /* IDInputMainView.swift in Sources */,

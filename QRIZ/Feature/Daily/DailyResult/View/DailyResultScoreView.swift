@@ -31,7 +31,7 @@ struct DailyResultScoreView: View {
                     .background(Color.customRed500.opacity(0.14), in: RoundedRectangle(cornerRadius: 4))
             }
 
-            PreviewResultScoreCircularChartView(previewScoresData: .init())
+            ResultScoreCircularChartView(resultScoresData: .init())
                 .frame(width: 164, height: 164)
 
             VStack(spacing: 8) {
