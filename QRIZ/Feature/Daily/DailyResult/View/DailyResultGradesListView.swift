@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct DailyResultGradeListView: View {
+struct DailyResultGradesListView: View {
     var body: some View {
         LazyVStack(spacing: 16) {
             HStack {
@@ -16,7 +16,9 @@ struct DailyResultGradeListView: View {
                 Spacer()
             }
             
-            // 문제 풀이 리스트
+            ForEach(1..<6) { _ in
+                ResultGradeListCellView()
+            }
         }
         .padding(EdgeInsets(top: 24, leading: 18, bottom: 16, trailing: 18))
         .background(.white)
@@ -24,5 +26,5 @@ struct DailyResultGradeListView: View {
 }
 
 #Preview {
-    DailyResultGradeListView()
+    DailyResultGradesListView()
 }

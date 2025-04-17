@@ -13,7 +13,7 @@ struct DailyResultView: View {
             LazyVStack(spacing: 0) {
                 DailyResultScoreView()
                 Spacer(minLength: 16)
-                DailyResultGradeListView()
+                DailyResultGradesListView()
                 DailyResultFooterView()
             }
             .background(.customBlue50)
