@@ -73,7 +73,7 @@ final class PasswordInputViewModel {
     private func performJoin() {
         Task {
             do {
-                let joinResponse = try await signUpFlowViewModel.join()
+                _ = try await signUpFlowViewModel.join()
                 outputSubject.send(.navigateToAlertView)
             } catch {
                 if let networkError = error as? NetworkError {
