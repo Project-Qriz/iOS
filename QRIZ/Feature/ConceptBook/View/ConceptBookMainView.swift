@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Combine
 
 final class ConceptBookMainView: UIView {
     
@@ -24,9 +25,18 @@ final class ConceptBookMainView: UIView {
         static let secondSubjectText = "2과목"
     }
     
+    // MARK: - Properties
+    
+    private let chapterTappedSubject = PassthroughSubject<Chapter, Never>()
+    private var cancellables = Set<AnyCancellable>()
+    
+    var chapterTappedPublisher: AnyPublisher<Chapter, Never> {
+        chapterTappedSubject.eraseToAnyPublisher()
+    }
+    
     // MARK: - UI
     
-    private let firstSubject: UILabel = {
+    private let firstSubjectLabel: UILabel = {
         let label = UILabel()
         label.text = Attributes.firstSubjectText
         label.textColor = .coolNeutral800
@@ -34,18 +44,16 @@ final class ConceptBookMainView: UIView {
         return label
     }()
     
-    private let dataModelingSubjectCard = SubjectCardView(image: .understandingDataModeling, title: "데이터 모델링의 이해", itemCount: 5)
-    private let dataModelAndSQLSubjectCard = SubjectCardView(image: .dataModelAndSQL, title: "데이터 모델과 SQL", itemCount: 5)
-    
-    private lazy var firstSubjectCardsHStackView: UIStackView = {
-        let stackView = UIStackView(arrangedSubviews: [dataModelingSubjectCard, dataModelAndSQLSubjectCard])
+    private let firstSubjectCardsHStackView: UIStackView = {
+        let stackView = UIStackView()
+        stackView.axis = .horizontal
         stackView.alignment = .top
         stackView.distribution = .fillEqually
         stackView.spacing = 12.0
         return stackView
     }()
     
-    private let secondSubject: UILabel = {
+    private let secondSubjectLabel: UILabel = {
         let label = UILabel()
         label.text = Attributes.secondSubjectText
         label.textColor = .coolNeutral800
@@ -53,18 +61,8 @@ final class ConceptBookMainView: UIView {
         return label
     }()
     
-    private let sqlBasicsSubjectCard = SubjectCardView(image: .sqlBasics, title: "SQL 기본", itemCount: 8)
-    private let sqlAdvancedSubjectCard = SubjectCardView(image: .sqlAdvanced, title: "SQL 활용", itemCount: 8)
-    private let managementStatementsSubjectCard = SubjectCardView(image: .managementStatements, title: "관리 구문", itemCount: 4)
-    
-    private lazy var secondSubjectCardsStackView: UIStackView = {
-        let stackView = UIStackView(
-            arrangedSubviews: [
-                sqlBasicsSubjectCard,
-                sqlAdvancedSubjectCard,
-                managementStatementsSubjectCard
-            ]
-        )
+    private let secondSubjectCardsHStackView: UIStackView = {
+        let stackView = UIStackView()
         stackView.axis = .horizontal
         stackView.spacing = 12.0
         return stackView
@@ -88,6 +86,32 @@ final class ConceptBookMainView: UIView {
     private func setupUI() {
         self.backgroundColor = .white
     }
+    
+    func configure(with subjects: [Subject]) {
+        guard subjects.count >= 2 else { return }
+        configureSection(stackView: firstSubjectCardsHStackView, with: subjects[0].chapters)
+        configureSection(stackView: secondSubjectCardsHStackView, with: subjects[1].chapters)
+        
+    }
+    
+    private func configureSection(stackView: UIStackView, with chapters: [Chapter]) {
+        stackView.arrangedSubviews.forEach {
+            stackView.removeArrangedSubview($0)
+            $0.removeFromSuperview()
+        }
+        
+        chapters.forEach { chapter in
+            let card = SubjectCardView(
+                image: UIImage(named: chapter.assetName),
+                title: chapter.cardTitle,
+                itemCount: chapter.cardItemCount
+            )
+            card.tapGestureEndedPublisher()
+                .sink { [weak self] in self?.chapterTappedSubject.send(chapter) }
+                .store(in: &cancellables)
+            stackView.addArrangedSubview(card)
+        }
+    }
 }
 
 // MARK: - Layout Setup
@@ -95,33 +119,33 @@ final class ConceptBookMainView: UIView {
 extension ConceptBookMainView {
     private func addSubviews() {
         [
-            firstSubject,
+            firstSubjectLabel,
             firstSubjectCardsHStackView,
-            secondSubject,
-            secondSubjectCardsStackView
+            secondSubjectLabel,
+            secondSubjectCardsHStackView
         ].forEach(addSubview(_:))
     }
     
     private func setupConstraints() {
-        firstSubject.translatesAutoresizingMaskIntoConstraints = false
+        firstSubjectLabel.translatesAutoresizingMaskIntoConstraints = false
         firstSubjectCardsHStackView.translatesAutoresizingMaskIntoConstraints = false
-        secondSubject.translatesAutoresizingMaskIntoConstraints = false
-        secondSubjectCardsStackView.translatesAutoresizingMaskIntoConstraints = false
+        secondSubjectLabel.translatesAutoresizingMaskIntoConstraints = false
+        secondSubjectCardsHStackView.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
-            firstSubject.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor, constant: Metric.firstSubjectTopOffset),
-            firstSubject.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Metric.horizontalMargin),
+            firstSubjectLabel.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor, constant: Metric.firstSubjectTopOffset),
+            firstSubjectLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Metric.horizontalMargin),
             
-            firstSubjectCardsHStackView.topAnchor.constraint(equalTo: firstSubject.bottomAnchor, constant: Metric.subjectTopOffset),
+            firstSubjectCardsHStackView.topAnchor.constraint(equalTo: firstSubjectLabel.bottomAnchor, constant: Metric.subjectTopOffset),
             firstSubjectCardsHStackView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Metric.horizontalMargin),
             firstSubjectCardsHStackView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: Metric.stackViewTrailingOffset),
             
-            secondSubject.topAnchor.constraint(equalTo: firstSubjectCardsHStackView.bottomAnchor, constant: Metric.secondSubjectTopOffset),
-            secondSubject.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Metric.horizontalMargin),
+            secondSubjectLabel.topAnchor.constraint(equalTo: firstSubjectCardsHStackView.bottomAnchor, constant: Metric.secondSubjectTopOffset),
+            secondSubjectLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Metric.horizontalMargin),
             
-            secondSubjectCardsStackView.topAnchor.constraint(equalTo: secondSubject.bottomAnchor, constant: Metric.subjectTopOffset),
-            secondSubjectCardsStackView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Metric.horizontalMargin),
-            secondSubjectCardsStackView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -Metric.horizontalMargin)
+            secondSubjectCardsHStackView.topAnchor.constraint(equalTo: secondSubjectLabel.bottomAnchor, constant: Metric.subjectTopOffset),
+            secondSubjectCardsHStackView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Metric.horizontalMargin),
+            secondSubjectCardsHStackView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -Metric.horizontalMargin)
         ])
     }
 }

@@ -44,7 +44,7 @@ final class SubjectCardView: UIView {
     
     // MARK: - Initialize
     
-    init(image: UIImage, title: String, itemCount: Int) {
+    init(image: UIImage?, title: String, itemCount: Int) {
         super.init(frame: .zero)
         addSubviews()
         setupConstraints()
@@ -62,7 +62,7 @@ final class SubjectCardView: UIView {
         self.backgroundColor = .white
     }
     
-    func configure(image: UIImage, title: String, itemCount: Int) {
+    func configure(image: UIImage?, title: String, itemCount: Int) {
         imageView.image = image
         titleLabel.text = title
         itemCountLabel.text = "\(itemCount)항목"
