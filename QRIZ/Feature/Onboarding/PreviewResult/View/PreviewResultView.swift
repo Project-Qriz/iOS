@@ -23,8 +23,9 @@ struct PreviewResultView: View {
                 PreviewResultConceptView(previewConceptsData: previewConceptsData)
                     .background(.white)
             }
+            .background(previewConceptsData.incorrectCountDataArr.count >= 2 ? .customBlue50 : .white)
         }
-        .background(previewConceptsData.incorrectCountDataArr.count >= 2 ? .customBlue50 : .white)
+        .background(.white)
     }
 }
 

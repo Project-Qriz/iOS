@@ -23,6 +23,7 @@ struct DailyResultView: View {
             }
             .background(.customBlue50)
         }
+        .background(.white)
     }
 }
 
