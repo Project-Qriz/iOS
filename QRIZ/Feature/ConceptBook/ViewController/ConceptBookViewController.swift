@@ -18,6 +18,7 @@ final class ConceptBookViewController: UIViewController {
     
     // MARK: - Properties
     
+    weak var coordinator: ConceptBookCoordinator?
     let rootView: ConceptBookMainView
     private let conceptBookVM: ConceptBookViewModel
     private let inputSubject = PassthroughSubject<ConceptBookViewModel.Input, Never>()
@@ -68,7 +69,7 @@ final class ConceptBookViewController: UIViewController {
                     self.rootView.configure(with: subjects)
                     
                 case .navigateToChapterDetailView(let chapter):
-                    print(chapter)
+                    self.coordinator?.showChapterDetailView(chapter: chapter)
                 }
             }
             .store(in: &cancellables)
