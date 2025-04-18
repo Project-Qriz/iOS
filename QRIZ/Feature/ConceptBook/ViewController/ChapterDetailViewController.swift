@@ -6,17 +6,22 @@
 //
 
 import UIKit
+import Combine
 
 final class ChapterDetailViewController: UIViewController {
     
     // MARK: - Properties
     
+    weak var coordinator: ConceptBookCoordinator?
+    let rootView: ChapterDetailMainView
     private let chapterDetailVM: ChapterDetailViewModel
+    private var cancellables = Set<AnyCancellable>()
     
     // MARK: - Initialize
     
     init(chapterDetailVM: ChapterDetailViewModel) {
         self.chapterDetailVM = chapterDetailVM
+        self.rootView = ChapterDetailMainView()
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -28,9 +33,11 @@ final class ChapterDetailViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .green
-        
-        print(chapterDetailVM.chapter)
-        print(chapterDetailVM.chapter.concepts)
+        setNavigationBarTitle(title: chapterDetailVM.chapter.cardTitle)
+        rootView.configure(with: chapterDetailVM.chapter)
+    }
+    
+    override func loadView() {
+        self.view = rootView
     }
 }

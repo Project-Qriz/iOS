@@ -30,6 +30,8 @@ final class ConceptBookCoordinatorImp: ConceptBookCoordinator {
     func showChapterDetailView(chapter: Chapter) {
         let chapterDetailVM = ChapterDetailViewModel(chapter: chapter)
         let chapterDetailVC = ChapterDetailViewController(chapterDetailVM: chapterDetailVM)
+        chapterDetailVC.hidesBottomBarWhenPushed = true
+        chapterDetailVC.coordinator = self
         navigationController?.pushViewController(chapterDetailVC, animated: true)
     }
 }
