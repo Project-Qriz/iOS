@@ -6,22 +6,50 @@
 //
 
 import UIKit
+import Combine
 
 final class DailyResultViewController: UIViewController {
     
     // MARK: - Properties
     private var dailyResultViewHostingController: DailyResultViewHostingController!
+    
+    private let viewModel: DailyResultViewModel = .init(dailyTestType: .monthly)
+    private let input: PassthroughSubject<DailyResultViewModel.Input, Never> = .init()
+    private var subscriptions = Set<AnyCancellable>()
 
     // MARK: - Methods
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = .white
-        addViews()
         setNavigationItems()
+        addViews()
+        bind()
+        input.send(.viewDidLoad)
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        input.send(.viewDidAppear)
+    }
+    
+    private func bind() {
+        let output = viewModel.transform(input: input.eraseToAnyPublisher())
+        output
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] event in
+                guard let self = self else { return }
+                switch event {
+                case .moveToConcept:
+                    print("Move To Concept")
+                case .moveToDailyLearn:
+                    print("Move To Daily Learn")
+                }
+            }
+            .store(in: &subscriptions)
     }
     
     private func loadResultView() -> UIView {
-        dailyResultViewHostingController = DailyResultViewHostingController(rootView: DailyResultView())
+        dailyResultViewHostingController = DailyResultViewHostingController(rootView: DailyResultView(resultScorsData: self.viewModel.resultScoresData, resultGradeListData: self.viewModel.resultGradeListData, dailyLearnType: self.viewModel.dailyTestType))
         self.addChild(dailyResultViewHostingController)
         dailyResultViewHostingController.didMove(toParent: self)
 
@@ -45,7 +73,7 @@ final class DailyResultViewController: UIViewController {
     }
     
     @objc private func cancelTestResult() {
-        print("Move To Daily Learn")
+        input.send(.cancelButtonClicked)
     }
 }
 

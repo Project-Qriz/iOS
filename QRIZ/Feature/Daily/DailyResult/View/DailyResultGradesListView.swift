@@ -8,6 +8,9 @@
 import SwiftUI
 
 struct DailyResultGradesListView: View {
+    
+    @ObservedObject var resultGradeListData: ResultGradeListData
+    
     var body: some View {
         LazyVStack(spacing: 16) {
             HStack {
@@ -16,8 +19,11 @@ struct DailyResultGradesListView: View {
                 Spacer()
             }
             
-            ForEach(1..<6) { _ in
-                ResultGradeListCellView()
+            ForEach(resultGradeListData.gradeResultList) { gradeResult in
+                ResultGradeListCellView(skill: gradeResult.skillName,
+                                        question: gradeResult.question,
+                                        correction: gradeResult.correction,
+                                        questionNum: gradeResult.id)
             }
         }
         .padding(EdgeInsets(top: 24, leading: 18, bottom: 16, trailing: 18))
@@ -26,5 +32,5 @@ struct DailyResultGradesListView: View {
 }
 
 #Preview {
-    DailyResultGradesListView()
+    DailyResultGradesListView(resultGradeListData: ResultGradeListData())
 }

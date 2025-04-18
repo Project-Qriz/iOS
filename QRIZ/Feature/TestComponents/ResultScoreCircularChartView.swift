@@ -57,7 +57,6 @@ struct ResultScoreCircularChartView: View {
             return .customBlue100
         default:
             return .coolNeutral300
-            
         }
     }
 }

@@ -8,12 +8,17 @@
 import SwiftUI
 
 struct DailyResultView: View {
+    
+    @StateObject var resultScorsData: ResultScoresData
+    @StateObject var resultGradeListData: ResultGradeListData
+    @State var dailyLearnType: DailyLearnType
+    
     var body: some View {
         ScrollView(.vertical) {
             LazyVStack(spacing: 0) {
-                DailyResultScoreView()
+                DailyResultScoreView(resultScoresData: resultScorsData, dailyLearnType: $dailyLearnType)
                 Spacer(minLength: 16)
-                DailyResultGradesListView()
+                DailyResultGradesListView(resultGradeListData: resultGradeListData)
                 DailyResultFooterView()
             }
             .background(.customBlue50)
@@ -22,5 +27,5 @@ struct DailyResultView: View {
 }
 
 #Preview {
-    DailyResultView()
+    DailyResultView(resultScorsData: ResultScoresData(), resultGradeListData: ResultGradeListData(), dailyLearnType: .daily)
 }

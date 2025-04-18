@@ -51,12 +51,12 @@ struct PreviewResultScoreView: View {
             
             Spacer(minLength: 35)
             
-            SingleSubjectView(circleColor: .customBlue800, subjectText: "데이터 모델링의 이해", score: previewScoresData.subject1Score)
+            SingleSubjectView(circleColor: .customBlue800, subjectText: "데이터 모델링의 이해", score: previewScoresData.subjectScores[0])
             
             Divider()
                 .overlay(Color.coolNeutral200)
             
-            SingleSubjectView(circleColor: .customBlue500, subjectText: "SQL 기본 및 활용", score: previewScoresData.subject2Score)
+            SingleSubjectView(circleColor: .customBlue500, subjectText: "SQL 기본 및 활용", score: previewScoresData.subjectScores[1])
         }
         .padding(EdgeInsets(top: 24, leading: 18, bottom: 24, trailing: 18))
     }

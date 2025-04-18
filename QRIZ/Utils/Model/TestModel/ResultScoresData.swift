@@ -9,17 +9,11 @@ import SwiftUI
 
 final class ResultScoresData: ObservableObject {
     @Published var nickname: String = ""
-    @Published var subject1Score: CGFloat = 0
-    @Published var subject2Score: CGFloat = 0
-    @Published var subject3Score: CGFloat = 0
-    @Published var subject4Score: CGFloat = 0
-    @Published var subject5Score: CGFloat = 0
+    @Published var subjectScores: [CGFloat] = [0, 0, 0, 0, 0]
     @Published var expectScore: Int = 0
-    @Published var subjectCount: Int = 2
-    
-    var subjectScores: [CGFloat] {
-        [subject1Score, subject2Score, subject3Score, subject4Score, subject5Score]
-    }
+    @Published var subjectCount: Int = 0
+    @Published var passed: Bool = false
+    @Published var dayNum: String = ""
     
     var totalScore: Int {
         var sum: Int = 0

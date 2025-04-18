@@ -76,8 +76,9 @@ final class PreviewResultViewModel {
     }
     
     private func updateMockScoreAnimationData() {
-        self.previewScoresData.subject1Score = 40
-        self.previewScoresData.subject2Score = 20
+        self.previewScoresData.subjectScores[0] = 40
+        self.previewScoresData.subjectScores[1] = 20
+        self.previewScoresData.subjectCount = 2
     }
     
     private func updateMockConceptAnimationData() {

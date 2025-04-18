@@ -99,6 +99,7 @@
 		E24907D82D61A289004D6E61 /* DailyLearnType.swift in Sources */ = {isa = PBXBuildFile; fileRef = E24907D72D61A289004D6E61 /* DailyLearnType.swift */; };
 		E24907DA2D63698C004D6E61 /* DailyLearnSectionTitleLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E24907D92D63698C004D6E61 /* DailyLearnSectionTitleLabel.swift */; };
 		E24907DE2D6648A7004D6E61 /* DailyTestState.swift in Sources */ = {isa = PBXBuildFile; fileRef = E24907DD2D6648A7004D6E61 /* DailyTestState.swift */; };
+		E24CB1542DB21F0400D88451 /* ResultGradeListData.swift in Sources */ = {isa = PBXBuildFile; fileRef = E24CB1532DB21F0400D88451 /* ResultGradeListData.swift */; };
 		E25856D42D0D766900355667 /* CheckConceptViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E25856D32D0D766900355667 /* CheckConceptViewController.swift */; };
 		E25856DE2D0DADD300355667 /* BeginOnboardingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E25856DD2D0DADD300355667 /* BeginOnboardingViewModel.swift */; };
 		E25907C82D80732C0093121C /* PreviewResultScoreView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E25907C72D80732C0093121C /* PreviewResultScoreView.swift */; };
@@ -277,6 +278,7 @@
 		E24907D72D61A289004D6E61 /* DailyLearnType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyLearnType.swift; sourceTree = "<group>"; };
 		E24907D92D63698C004D6E61 /* DailyLearnSectionTitleLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyLearnSectionTitleLabel.swift; sourceTree = "<group>"; };
 		E24907DD2D6648A7004D6E61 /* DailyTestState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyTestState.swift; sourceTree = "<group>"; };
+		E24CB1532DB21F0400D88451 /* ResultGradeListData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResultGradeListData.swift; sourceTree = "<group>"; };
 		E25856D32D0D766900355667 /* CheckConceptViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = CheckConceptViewController.swift; path = QRIZ/Feature/Onboarding/CheckConcept/ViewController/CheckConceptViewController.swift; sourceTree = SOURCE_ROOT; };
 		E25856DD2D0DADD300355667 /* BeginOnboardingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BeginOnboardingViewModel.swift; sourceTree = "<group>"; };
 		E25907C72D80732C0093121C /* PreviewResultScoreView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreviewResultScoreView.swift; sourceTree = "<group>"; };
@@ -1020,6 +1022,7 @@
 			children = (
 				E29BF86C2D16895B006DC6D0 /* QuestionData.swift */,
 				E23066992D2126B9001B509A /* ResultScoresData.swift */,
+				E24CB1532DB21F0400D88451 /* ResultGradeListData.swift */,
 			);
 			path = TestModel;
 			sourceTree = "<group>";
@@ -1454,6 +1457,7 @@
 				E25F33652DB0D7D4002347D4 /* ResultGradeListCellView.swift in Sources */,
 				E29CCD3F2D298656004AA30A /* PreviewResultIncorrectRankView.swift in Sources */,
 				B18F45152D3A40BE0030F7DB /* FindAccountType.swift in Sources */,
+				E24CB1542DB21F0400D88451 /* ResultGradeListData.swift in Sources */,
 				E239630B2D083B900092B39B /* SceneDelegate.swift in Sources */,
 				E2D70FEC2D0EBDDD005A3F51 /* CheckListCell.swift in Sources */,
 				E283AC082D9E8D8F00DE005B /* DailyTestDescriptionView.swift in Sources */,
