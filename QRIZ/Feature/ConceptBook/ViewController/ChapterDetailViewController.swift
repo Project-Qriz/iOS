@@ -15,6 +15,7 @@ final class ChapterDetailViewController: UIViewController {
     weak var coordinator: ConceptBookCoordinator?
     let rootView: ChapterDetailMainView
     private let chapterDetailVM: ChapterDetailViewModel
+    private let inputSubject = PassthroughSubject<ChapterDetailViewModel.Input, Never>()
     private var cancellables = Set<AnyCancellable>()
     
     // MARK: - Initialize
@@ -33,11 +34,37 @@ final class ChapterDetailViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        setNavigationBarTitle(title: chapterDetailVM.chapter.cardTitle)
-        rootView.configure(with: chapterDetailVM.chapter)
+        bind()
+        inputSubject.send(.viewDidLoad)
     }
     
     override func loadView() {
         self.view = rootView
+    }
+    
+    // MARK: - Functions
+    
+    private func bind() {
+        let conceptTapped = rootView.menuListView.tappedPublisher.map { ChapterDetailViewModel.Input.conceptTapped($0) }
+        
+        let input = inputSubject
+            .merge(with: conceptTapped)
+            .eraseToAnyPublisher()
+        
+        chapterDetailVM.transform(input: input)
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] output in
+                guard let self = self else { return }
+                switch output {
+                case .configureChapter(let chapter):
+                    print(chapter)
+                    self.setNavigationBarTitle(title: chapter.cardTitle)
+                    self.rootView.configure(with: chapter)
+                    
+                case .navigateToConceptDetail(let concept):
+                    print("next view")
+                }
+            }
+            .store(in: &cancellables)
     }
 }

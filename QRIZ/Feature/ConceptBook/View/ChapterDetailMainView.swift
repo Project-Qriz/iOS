@@ -42,7 +42,7 @@ final class ChapterDetailMainView: UIView {
         return imageView
     }()
     
-    private let menuListView = MenuListView()
+    let menuListView = MenuListView()
     
     // MARK: - Initialize
     

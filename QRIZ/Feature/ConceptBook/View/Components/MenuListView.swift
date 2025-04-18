@@ -87,7 +87,6 @@ final class MenuListView: UIView {
         
         button.addAction(UIAction { [weak self] _ in
             self?.tappedSubject.send(text)
-            print(text)
         }, for: .touchUpInside)
         
         button.translatesAutoresizingMaskIntoConstraints = false
