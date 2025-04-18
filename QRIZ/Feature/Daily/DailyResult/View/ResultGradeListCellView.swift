@@ -20,11 +20,13 @@ struct ResultGradeListCellView: View {
                 correctionImage()
                 Text("문제 \(questionNum)")
                     .font(.system(size: 16, weight: .bold))
+                    .foregroundStyle(.coolNeutral800)
                 Spacer()
             }
             
             Text("\(question)")
             .font(.system(size: 14, weight: .regular))
+            .foregroundStyle(.coolNeutral600)
             .lineLimit(2)
             
             HStack {
