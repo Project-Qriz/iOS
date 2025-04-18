@@ -111,14 +111,7 @@ final class TestNavigatorButton: UIView {
     }
     
     private func updateTestTitleLabel(type: DailyLearnType) {
-        switch type {
-        case .daily:
-            testTitleLabel.text = "데일리 테스트"
-        case .weekly:
-            testTitleLabel.text = "주간 복습 테스트"
-        case .monthly:
-            testTitleLabel.text = "종합 복습 테스트"
-        }
+        testTitleLabel.text = type.rawValue
     }
     
     private func updateScoreLabel(score: Int?) {
