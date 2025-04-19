@@ -13,7 +13,7 @@ final class DailyResultViewController: UIViewController {
     // MARK: - Properties
     private var dailyResultViewHostingController: DailyResultViewHostingController!
     
-    private let viewModel: DailyResultViewModel = .init(dailyTestType: .monthly)
+    private let viewModel: DailyResultViewModel = .init(dailyTestType: .weekly)
     private let input: PassthroughSubject<DailyResultViewModel.Input, Never> = .init()
     private var subscriptions = Set<AnyCancellable>()
 
@@ -33,7 +33,8 @@ final class DailyResultViewController: UIViewController {
     }
     
     private func bind() {
-        let output = viewModel.transform(input: input.eraseToAnyPublisher())
+        let mergedInput = input.merge(with: dailyResultViewHostingController.rootView.input)
+        let output = viewModel.transform(input: mergedInput.eraseToAnyPublisher())
         output
             .receive(on: DispatchQueue.main)
             .sink { [weak self] event in
@@ -43,13 +44,20 @@ final class DailyResultViewController: UIViewController {
                     print("Move To Concept")
                 case .moveToDailyLearn:
                     print("Move To Daily Learn")
+                case .moveToResultDetail:
+                    print("Move To Result Detail")
                 }
             }
             .store(in: &subscriptions)
     }
     
     private func loadResultView() -> UIView {
-        dailyResultViewHostingController = DailyResultViewHostingController(rootView: DailyResultView(resultScorsData: self.viewModel.resultScoresData, resultGradeListData: self.viewModel.resultGradeListData, dailyLearnType: self.viewModel.dailyTestType))
+        dailyResultViewHostingController = DailyResultViewHostingController(
+            rootView: DailyResultView(
+                resultScorsData: self.viewModel.resultScoresData,
+                resultGradeListData: self.viewModel.resultGradeListData,
+                resultDetailData: self.viewModel.resultDetailData,
+                dailyLearnType: self.viewModel.dailyTestType))
         self.addChild(dailyResultViewHostingController)
         dailyResultViewHostingController.didMove(toParent: self)
 

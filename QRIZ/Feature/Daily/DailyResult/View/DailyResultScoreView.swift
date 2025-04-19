@@ -6,11 +6,15 @@
 //
 
 import SwiftUI
+import Combine
 
 struct DailyResultScoreView: View {
     
     @ObservedObject var resultScoresData: ResultScoresData
+    @ObservedObject var resultDetailData: ResultDetailData
     @Binding var dailyLearnType: DailyLearnType
+    
+    let input: PassthroughSubject<DailyResultViewModel.Input, Never>
     
     var body: some View {
         VStack(spacing: 24) {
@@ -40,13 +44,20 @@ struct DailyResultScoreView: View {
             ResultScoreCircularChartView(resultScoresData: resultScoresData)
                 .frame(width: 164, height: 164)
 
-            VStack(spacing: 8) {
-                SingleSubjectView(circleColor: .customBlue800, subjectText: "식별자", score: 30)
-                
-                Divider()
-                    .overlay(Color.coolNeutral200)
-                
-                SingleSubjectView(circleColor: .customBlue500, subjectText: "엔터티", score: 20)
+            ResultSubjectListView(resultDetailData: resultDetailData)
+            
+            if dailyLearnType == .weekly {
+                Button {
+                    input.send(.resultDetailButtonClicked)
+                } label: {
+                    Text("상세보기")
+                        .font(.system(size: 14, weight: .medium))
+                        .foregroundStyle(.coolNeutral800)
+                        .background(.white)
+                        .frame(maxWidth: .infinity)
+                        .frame(height: 48)
+                        .overlay(RoundedRectangle(cornerRadius: 8).stroke(.customBlue200, lineWidth: 1))
+                }
             }
         }
         .padding(EdgeInsets(top: 24, leading: 18, bottom: 24, trailing: 18))
@@ -55,5 +66,5 @@ struct DailyResultScoreView: View {
 }
 
 #Preview {
-    DailyResultScoreView(resultScoresData: ResultScoresData(), dailyLearnType: .constant(.daily))
+    DailyResultScoreView(resultScoresData: ResultScoresData(), resultDetailData: ResultDetailData(), dailyLearnType: .constant(.weekly), input: PassthroughSubject<DailyResultViewModel.Input, Never>())
 }
