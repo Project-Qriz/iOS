@@ -8,6 +8,8 @@
 import Foundation
 import Combine
 
+typealias ConceptItem = (title: String, url: String)
+
 final class ChapterDetailViewModel {
     
     // MARK: - Properties
@@ -30,9 +32,11 @@ final class ChapterDetailViewModel {
                 guard let self = self else { return }
                 switch event {
                 case .viewDidLoad:
-                    self.outputSubject.send(.configureChapter(self.chapter))
-                case .conceptTapped(let concept):
-                    self.outputSubject.send(.navigateToConceptDetail(concept))
+                    let items = self.chapter.conceptItems
+                    self.outputSubject.send(.configureChapter(chapter: self.chapter,conceptItems: items))
+                    
+                case .conceptTapped(let conceptItem):
+                    self.outputSubject.send(.navigateToConceptPDFView(self.chapter, conceptItem))
                 }
             }
             .store(in: &cancellables)
@@ -44,11 +48,11 @@ final class ChapterDetailViewModel {
 extension ChapterDetailViewModel {
     enum Input {
         case viewDidLoad
-        case conceptTapped(String)
+        case conceptTapped(ConceptItem)
     }
     
     enum Output {
-        case configureChapter(Chapter)
-        case navigateToConceptDetail(String)
+        case configureChapter(chapter: Chapter, conceptItems: [ConceptItem])
+        case navigateToConceptPDFView(Chapter, ConceptItem)
     }
 }

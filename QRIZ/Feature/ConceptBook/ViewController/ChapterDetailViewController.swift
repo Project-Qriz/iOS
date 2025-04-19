@@ -56,13 +56,12 @@ final class ChapterDetailViewController: UIViewController {
             .sink { [weak self] output in
                 guard let self = self else { return }
                 switch output {
-                case .configureChapter(let chapter):
-                    print(chapter)
+                case .configureChapter(let chapter, let items):
                     self.setNavigationBarTitle(title: chapter.cardTitle)
-                    self.rootView.configure(with: chapter)
+                    self.rootView.configure(with: chapter, items: items)
                     
-                case .navigateToConceptDetail(let concept):
-                    print("next view")
+                case .navigateToConceptPDFView(let chapter, let conceptItem):
+                    self.coordinator?.showConceptPDFView(chapter: chapter, conceptItem: conceptItem)
                 }
             }
             .store(in: &cancellables)

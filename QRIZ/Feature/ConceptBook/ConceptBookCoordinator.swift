@@ -10,6 +10,7 @@ import UIKit
 @MainActor
 protocol ConceptBookCoordinator: Coordinator {
     func showChapterDetailView(chapter: Chapter)
+    func showConceptPDFView(chapter: Chapter,conceptItem: ConceptItem)
 }
 
 @MainActor
@@ -33,5 +34,11 @@ final class ConceptBookCoordinatorImp: ConceptBookCoordinator {
         chapterDetailVC.hidesBottomBarWhenPushed = true
         chapterDetailVC.coordinator = self
         navigationController?.pushViewController(chapterDetailVC, animated: true)
+    }
+    
+    func showConceptPDFView(chapter: Chapter,conceptItem: ConceptItem) {
+        let conceptPDFVM = ConceptPDFViewModel(chapter: chapter, conceptItem: conceptItem)
+        let conceptPDFVC = ConceptPDFViewController(conceptPDFViewModel: conceptPDFVM)
+        navigationController?.pushViewController(conceptPDFVC, animated: true)
     }
 }

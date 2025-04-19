@@ -18,9 +18,9 @@ final class MenuListView: UIView {
     
     // MARK: - Properties
     
-    private let tappedSubject = PassthroughSubject<String, Never>()
+    private let tappedSubject = PassthroughSubject<ConceptItem, Never>()
     
-    var tappedPublisher: AnyPublisher<String, Never> {
+    var tappedPublisher: AnyPublisher<ConceptItem, Never> {
         tappedSubject.eraseToAnyPublisher()
     }
     
@@ -48,21 +48,20 @@ final class MenuListView: UIView {
     
     // MARK: - Functions
     
-    func configure(with concepts: [String]) {
-        vStackView.arrangedSubviews.forEach { view in
-            vStackView.removeArrangedSubview(view)
-            view.removeFromSuperview()
+    func configure(with items: [ConceptItem]) {
+        vStackView.arrangedSubviews.forEach {
+            vStackView.removeArrangedSubview($0); $0.removeFromSuperview()
         }
         
-        concepts.forEach { text in
-            let btn = makeButton(for: text)
-            vStackView.addArrangedSubview(btn)
+        for item in items {
+            let button = makeButton(item: item)
+            vStackView.addArrangedSubview(button)
         }
     }
     
-    private func makeButton(for text: String) -> UIButton {
+    private func makeButton(item: ConceptItem) -> UIButton {
         // title
-        var attrTitle = AttributedString(text)
+        var attrTitle = AttributedString(item.title)
         attrTitle.font = .systemFont(ofSize: 16, weight: .bold)
         attrTitle.foregroundColor = .coolNeutral800
         
@@ -86,7 +85,7 @@ final class MenuListView: UIView {
         button.layer.shadowRadius = 10
         
         button.addAction(UIAction { [weak self] _ in
-            self?.tappedSubject.send(text)
+            self?.tappedSubject.send(item)
         }, for: .touchUpInside)
         
         button.translatesAutoresizingMaskIntoConstraints = false

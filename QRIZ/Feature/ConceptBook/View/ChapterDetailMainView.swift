@@ -6,7 +6,6 @@
 //
 
 import UIKit
-import Combine
 
 final class ChapterDetailMainView: UIView {
     
@@ -63,9 +62,9 @@ final class ChapterDetailMainView: UIView {
         self.backgroundColor = .customBlue50
     }
     
-    func configure(with chapter: Chapter) {
+    func configure(with chapter: Chapter, items: [ConceptItem]) {
         imageView.image = UIImage(named: chapter.assetName)
-        menuListView.configure(with: chapter.concepts)
+        menuListView.configure(with: items)
     }
 }
 
