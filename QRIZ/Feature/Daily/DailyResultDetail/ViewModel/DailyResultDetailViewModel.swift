@@ -8,13 +8,9 @@
 import Foundation
 import Combine
 
-final class DailyResultDetailViewModel {
+final class DailyResultDetailViewModel: ResultDetailViewModel {
     
     // MARK: - Input & Output
-    enum Input {
-        case menuItemSelected(selected: ResultDetailMenuItems)
-    }
-    
     enum Output {
     }
     
@@ -32,16 +28,17 @@ final class DailyResultDetailViewModel {
     private var subscriptions = Set<AnyCancellable>()
     
     // MARK: - Methods
-    func transform(input: AnyPublisher<Input, Never>) -> AnyPublisher<Output, Never> {
+    func transform(input: AnyPublisher<ResultDetailViewModel.Input, Never>) {
         input.sink { [weak self] event in
-            guard let _ = self else { return }
+            guard let self = self else { return }
             switch event {
             case .menuItemSelected(let selected):
                 print("\(selected.rawValue)")
+                self.setScoresData(selected)
             }
         }
         .store(in: &subscriptions)
-        return output.eraseToAnyPublisher()
+//        return output.eraseToAnyPublisher()
     }
     
     private func initScoresData() {
@@ -52,13 +49,13 @@ final class DailyResultDetailViewModel {
     }
     
     private func setScoresData(_ selectedItem: ResultDetailMenuItems) {
-        switch selectedItem {
-        case .total:
-            
-        case .subject1:
-            
-        case .subject2:
-            
-        }
+//        switch selectedItem {
+//        case .total:
+//            
+//        case .subject1:
+//            
+//        case .subject2:
+//            
+//        }
     }
 }

@@ -105,6 +105,7 @@
 		E24CB1602DB355D900D88451 /* DailyResultDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E24CB15F2DB355D900D88451 /* DailyResultDetailViewController.swift */; };
 		E24CB1622DB3562C00D88451 /* DailyResultDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E24CB1612DB3562C00D88451 /* DailyResultDetailViewModel.swift */; };
 		E24CB1642DB357B100D88451 /* ResultDetailMenuItems.swift in Sources */ = {isa = PBXBuildFile; fileRef = E24CB1632DB357B100D88451 /* ResultDetailMenuItems.swift */; };
+		E24CB1682DB522C800D88451 /* ResultDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E24CB1672DB522C800D88451 /* ResultDetailViewModel.swift */; };
 		E25856D42D0D766900355667 /* CheckConceptViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E25856D32D0D766900355667 /* CheckConceptViewController.swift */; };
 		E25856DE2D0DADD300355667 /* BeginOnboardingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E25856DD2D0DADD300355667 /* BeginOnboardingViewModel.swift */; };
 		E25907C82D80732C0093121C /* PreviewResultScoreView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E25907C72D80732C0093121C /* PreviewResultScoreView.swift */; };
@@ -291,6 +292,7 @@
 		E24CB15F2DB355D900D88451 /* DailyResultDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyResultDetailViewController.swift; sourceTree = "<group>"; };
 		E24CB1612DB3562C00D88451 /* DailyResultDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyResultDetailViewModel.swift; sourceTree = "<group>"; };
 		E24CB1632DB357B100D88451 /* ResultDetailMenuItems.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResultDetailMenuItems.swift; sourceTree = "<group>"; };
+		E24CB1672DB522C800D88451 /* ResultDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResultDetailViewModel.swift; sourceTree = "<group>"; };
 		E25856D32D0D766900355667 /* CheckConceptViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = CheckConceptViewController.swift; path = QRIZ/Feature/Onboarding/CheckConcept/ViewController/CheckConceptViewController.swift; sourceTree = SOURCE_ROOT; };
 		E25856DD2D0DADD300355667 /* BeginOnboardingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BeginOnboardingViewModel.swift; sourceTree = "<group>"; };
 		E25907C72D80732C0093121C /* PreviewResultScoreView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreviewResultScoreView.swift; sourceTree = "<group>"; };
@@ -932,6 +934,32 @@
 			path = ViewModel;
 			sourceTree = "<group>";
 		};
+		E24CB1652DB5229300D88451 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				E29CCD202D29855B004AA30A /* QuestionNumberLabel.swift */,
+				E29CCD212D29855B004AA30A /* QuestionOptionLabel.swift */,
+				E29CCD222D29855B004AA30A /* QuestionTitleLabel.swift */,
+				E29CCD232D29855B004AA30A /* TestButton.swift */,
+				E29CCD242D29855B004AA30A /* TestPageIndicatorLabel.swift */,
+				E29CCD252D29855B004AA30A /* TestProgressView.swift */,
+				E29CCD262D29855B004AA30A /* TestTimeLabel.swift */,
+				E29CCD272D29855B004AA30A /* TestTotalTimeRemainingLabel.swift */,
+				E29CCD392D298656004AA30A /* ResultScoreCircularChartView.swift */,
+				E25F33662DB0E575002347D4 /* SingleSubjectView.swift */,
+				E24CB1592DB3494A00D88451 /* ResultSubjectListView.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		E24CB1662DB5229900D88451 /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				E24CB1672DB522C800D88451 /* ResultDetailViewModel.swift */,
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
 		E25856D72D0DA97400355667 /* BeginOnboarding */ = {
 			isa = PBXGroup;
 			children = (
@@ -1173,17 +1201,8 @@
 		E29CCD282D29855B004AA30A /* TestComponents */ = {
 			isa = PBXGroup;
 			children = (
-				E29CCD202D29855B004AA30A /* QuestionNumberLabel.swift */,
-				E29CCD212D29855B004AA30A /* QuestionOptionLabel.swift */,
-				E29CCD222D29855B004AA30A /* QuestionTitleLabel.swift */,
-				E29CCD232D29855B004AA30A /* TestButton.swift */,
-				E29CCD242D29855B004AA30A /* TestPageIndicatorLabel.swift */,
-				E29CCD252D29855B004AA30A /* TestProgressView.swift */,
-				E29CCD262D29855B004AA30A /* TestTimeLabel.swift */,
-				E29CCD272D29855B004AA30A /* TestTotalTimeRemainingLabel.swift */,
-				E29CCD392D298656004AA30A /* ResultScoreCircularChartView.swift */,
-				E25F33662DB0E575002347D4 /* SingleSubjectView.swift */,
-				E24CB1592DB3494A00D88451 /* ResultSubjectListView.swift */,
+				E24CB1662DB5229900D88451 /* ViewModel */,
+				E24CB1652DB5229300D88451 /* View */,
 			);
 			path = TestComponents;
 			sourceTree = "<group>";
@@ -1452,6 +1471,7 @@
 				B19C4FBC2D6B6D7000CD008A /* TextbookViewController.swift in Sources */,
 				E25F33672DB0E575002347D4 /* SingleSubjectView.swift in Sources */,
 				E29CCD1C2D298303004AA30A /* PreviewTestViewController.swift in Sources */,
+				E24CB1682DB522C800D88451 /* ResultDetailViewModel.swift in Sources */,
 				E25907C82D80732C0093121C /* PreviewResultScoreView.swift in Sources */,
 				E29CCD4A2D29867F004AA30A /* GreetingViewModel.swift in Sources */,
 				E29CCD3D2D298656004AA30A /* PreviewResultViewHostingController.swift in Sources */,

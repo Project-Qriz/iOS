@@ -12,7 +12,7 @@ struct DailyResultDetailView: View {
     
     @StateObject var resultScoreData: ResultScoresData
     @StateObject var resultDetailData: ResultDetailData
-    let input: PassthroughSubject<DailyResultDetailViewModel.Input, Never> = .init()
+    let input: PassthroughSubject<ResultDetailViewModel.Input, Never> = .init()
     
     var body: some View {
         ScrollView() {

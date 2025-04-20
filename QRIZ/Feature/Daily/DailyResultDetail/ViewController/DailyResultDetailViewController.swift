@@ -30,13 +30,14 @@ final class DailyResultDetailViewController: UIViewController {
     // MARK: - Methods
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.view.backgroundColor = .white
         addViews()
         bind()
     }
     
     private func bind() {
         let mergedInput = input.merge(with: dailyResultDetailHostingController.rootView.input)
-        let _ = viewModel.transform(input: mergedInput.eraseToAnyPublisher())
+        viewModel.transform(input: mergedInput.eraseToAnyPublisher())
     }
     
     private func loadDetailView() -> UIView {
