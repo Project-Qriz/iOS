@@ -8,5 +8,5 @@
 import UIKit
 import SwiftUI
 
-final class DailyResultDetailHostingController: UIHostingController<DailyResultDetailView> {
+final class DailyResultDetailHostingController: UIHostingController<ResultDetailView> {
 }

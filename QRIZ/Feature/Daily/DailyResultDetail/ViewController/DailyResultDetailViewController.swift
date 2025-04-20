@@ -42,7 +42,7 @@ final class DailyResultDetailViewController: UIViewController {
     
     private func loadDetailView() -> UIView {
         dailyResultDetailHostingController = DailyResultDetailHostingController(
-            rootView: DailyResultDetailView(
+            rootView: ResultDetailView(
                 resultScoreData: self.viewModel.resultScoresData,
                 resultDetailData: self.viewModel.resultDetailData))
         self.addChild(dailyResultDetailHostingController)

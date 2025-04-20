@@ -8,7 +8,7 @@
 import SwiftUI
 import Combine
 
-struct DailyResultDetailView: View {
+struct ResultDetailView: View {
     
     @StateObject var resultScoreData: ResultScoresData
     @StateObject var resultDetailData: ResultDetailData
@@ -60,5 +60,5 @@ struct DailyResultDetailView: View {
 }
 
 #Preview {
-    DailyResultDetailView(resultScoreData: ResultScoresData(), resultDetailData: ResultDetailData())
+    ResultDetailView(resultScoreData: ResultScoresData(), resultDetailData: ResultDetailData())
 }
