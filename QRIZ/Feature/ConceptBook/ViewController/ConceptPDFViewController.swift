@@ -11,6 +11,11 @@ import PDFKit
 
 final class ConceptPDFViewController: UIViewController {
     
+    // MARK: - Enums
+    private enum Attributes {
+        static let loadErrorMessage = "문서를 불러올 수 없습니다. 다시 시도해 주세요."
+    }
+    
     // MARK: - UI
     
     let rootView: ConceptPDFMainView
@@ -56,11 +61,16 @@ final class ConceptPDFViewController: UIViewController {
                     self.setNavigationBarTitle(title: conceptName)
                     self.rootView.configHeader(subject: subject, chapter: chapterTitle)
                     
-                case .pdfLoaded(let document):
+                case .pdfLoaded(let data):
+                    guard let document = PDFDocument(data: data) else {
+                        self.showOneButtonAlert(with: Attributes.loadErrorMessage, storingIn: &cancellables)
+                        return
+                    }
+                    
                     self.rootView.configPDF(document: document)
                     
-                case .showError(let message):
-                    print(message)
+                case .showErrorAlert(let message):
+                    self.showOneButtonAlert(with: message, storingIn: &cancellables)
                 }
             }
             .store(in: &cancellables)

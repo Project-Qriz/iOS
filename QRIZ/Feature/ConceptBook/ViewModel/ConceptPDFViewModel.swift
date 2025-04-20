@@ -7,7 +7,7 @@
 
 import Foundation
 import Combine
-import PDFKit
+import OSLog
 
 final class ConceptPDFViewModel {
     
@@ -15,14 +15,17 @@ final class ConceptPDFViewModel {
     
     private let chapter: Chapter
     private let conceptItem: ConceptItem
+    private let pdfService: PDFService
     private let outputSubject = PassthroughSubject<Output, Never>()
     private var cancellables = Set<AnyCancellable>()
+    private let logger = Logger(subsystem: Bundle.main.bundleIdentifier ?? "kr.QRIZ", category: "ConceptPDFViewModel")
     
     // MARK: - Initialize
     
-    init(chapter: Chapter, conceptItem: ConceptItem) {
+    init(chapter: Chapter, conceptItem: ConceptItem, pdfService: PDFService = PDFServiceImpl()) {
         self.chapter = chapter
         self.conceptItem = conceptItem
+        self.pdfService = pdfService
     }
     
     // MARK: - Functions
@@ -53,22 +56,28 @@ final class ConceptPDFViewModel {
     
     private func loadPDF() {
         guard let url = URL(string: conceptItem.url) else {
-            outputSubject.send(.showError("잘못된 URL입니다."))
+            let networkError = NetworkError.invalidURL(message: conceptItem.url)
+            logger.error("Invalid URL for : \(networkError.description, privacy: .public)")
+            outputSubject.send(.showErrorAlert(title: networkError.errorMessage))
             return
         }
-        URLSession.shared.dataTask(with: url) { [weak self] data, _, error in
-            guard let self = self else { return }
-            if let data = data, let doc = PDFDocument(data: data) {
-                DispatchQueue.main.async {
-                    self.outputSubject.send(.pdfLoaded(doc))
-                }
-            } else {
-                DispatchQueue.main.async {
-                    let msg = error?.localizedDescription ?? "PDF 로드에 실패했습니다."
-                    self.outputSubject.send(.showError(msg))
-                }
-            }
-        }.resume()
+        
+        Task { await self.performLoadPDF(from: url) }
+    }
+    
+    private func performLoadPDF(from url: URL) async {
+        do {
+            let data = try await pdfService.fetchPDF(from: url)
+            outputSubject.send(.pdfLoaded(data))
+            
+        } catch let error as NetworkError {
+            logger.error("PDF fetch error: \(error.description, privacy: .public)")
+            outputSubject.send(.showErrorAlert(title: error.errorMessage))
+            
+        } catch {
+            logger.error("Unhandled error fetching PDF for concept: \(String(describing: error), privacy: .public)")
+            outputSubject.send(.showErrorAlert(title: NetworkError.unknownError.errorMessage))
+        }
     }
 }
 
@@ -79,7 +88,7 @@ extension ConceptPDFViewModel {
     
     enum Output {
         case configureHeader(subject: String, chapter: String, concept: String)
-        case pdfLoaded(PDFDocument)
-        case showError(String)
+        case pdfLoaded(Data)
+        case showErrorAlert(title: String)
     }
 }

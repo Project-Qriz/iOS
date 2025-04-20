@@ -10,6 +10,14 @@ import PDFKit
 
 final class ConceptPDFMainView: UIView {
     
+    // MARK: - Enums
+    
+    private enum Metric {
+        static let horizontalMargin: CGFloat = 18.0
+        static let chapterLabelTopOffset: CGFloat = 8.0
+        static let pdfViewTopOffset: CGFloat = 6.5
+    }
+    
     // MARK: - UI
     
     private let subjectLabel: UILabel = {
@@ -80,12 +88,12 @@ extension ConceptPDFMainView {
         
         NSLayoutConstraint.activate([
             subjectLabel.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor),
-            subjectLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 18),
+            subjectLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Metric.horizontalMargin),
             
-            chapterLabel.topAnchor.constraint(equalTo: subjectLabel.bottomAnchor, constant: 8),
-            chapterLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 18),
+            chapterLabel.topAnchor.constraint(equalTo: subjectLabel.bottomAnchor, constant: Metric.chapterLabelTopOffset),
+            chapterLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Metric.horizontalMargin),
             
-            pdfView.topAnchor.constraint(equalTo: chapterLabel.bottomAnchor, constant: 6.5),
+            pdfView.topAnchor.constraint(equalTo: chapterLabel.bottomAnchor, constant: Metric.pdfViewTopOffset),
             pdfView.leadingAnchor.constraint(equalTo: leadingAnchor),
             pdfView.trailingAnchor.constraint(equalTo: trailingAnchor),
             pdfView.bottomAnchor.constraint(equalTo: bottomAnchor),
