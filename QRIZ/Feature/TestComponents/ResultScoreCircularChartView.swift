@@ -21,7 +21,7 @@ struct ResultScoreCircularChartView: View {
                 trimmedCircle(subjectIdx: ($0))
             }
             VStack {
-                Text("총점수")
+                Text(resultScoresData.selectedMenuItem == .total ? "총점수" : "과목 점수")
                     .font(.system(size: 14, weight: .regular))
                 Text("\(resultScoresData.totalScore)점")
                     .font(.system(size: 16, weight: .bold))

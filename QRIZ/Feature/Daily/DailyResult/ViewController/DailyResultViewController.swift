@@ -45,7 +45,9 @@ final class DailyResultViewController: UIViewController {
                 case .moveToDailyLearn:
                     print("Move To Daily Learn")
                 case .moveToResultDetail:
-                    print("Move To Result Detail")
+                    let vm = DailyResultDetailViewModel(resultDetailData: self.viewModel.resultDetailData)
+                    let vc = DailyResultDetailViewController(viewModel: vm)
+                    self.navigationController?.pushViewController(vc, animated: true)
                 }
             }
             .store(in: &subscriptions)

@@ -7,7 +7,7 @@
 
 import Foundation
 
-enum ResultDetailMenuItems: String {
+enum ResultDetailMenuItems: String, CaseIterable {
     case subject1 = "1과목"
     case subject2 = "2과목"
     case total = "전체"

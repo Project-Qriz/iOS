@@ -14,6 +14,7 @@ final class ResultScoresData: ObservableObject {
     @Published var subjectCount: Int = 0
     @Published var passed: Bool = false
     @Published var dayNum: String = ""
+    @Published var selectedMenuItem: ResultDetailMenuItems = .total
     
     var totalScore: Int {
         var sum: Int = 0

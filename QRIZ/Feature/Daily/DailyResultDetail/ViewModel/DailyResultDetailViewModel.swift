@@ -12,16 +12,16 @@ final class DailyResultDetailViewModel {
     
     // MARK: - Input & Output
     enum Input {
-        case backButtonClicked
+        case menuItemSelected(selected: ResultDetailMenuItems)
     }
     
     enum Output {
-        case moveToDailyResult
     }
     
     // MARK: - Intializers
     init(resultDetailData: ResultDetailData) {
         self.resultDetailData = resultDetailData
+        
     }
     
     // MARK: - Properties
@@ -34,13 +34,31 @@ final class DailyResultDetailViewModel {
     // MARK: - Methods
     func transform(input: AnyPublisher<Input, Never>) -> AnyPublisher<Output, Never> {
         input.sink { [weak self] event in
-            guard let self = self else { return }
+            guard let _ = self else { return }
             switch event {
-            case .backButtonClicked:
-                output.send(.moveToDailyResult)
+            case .menuItemSelected(let selected):
+                print("\(selected.rawValue)")
             }
         }
         .store(in: &subscriptions)
         return output.eraseToAnyPublisher()
+    }
+    
+    private func initScoresData() {
+        for i in 0..<resultScoresData.subjectScores.count {
+            resultScoresData.subjectScores[i] = 0
+        }
+        resultScoresData.subjectCount = 0
+    }
+    
+    private func setScoresData(_ selectedItem: ResultDetailMenuItems) {
+        switch selectedItem {
+        case .total:
+            
+        case .subject1:
+            
+        case .subject2:
+            
+        }
     }
 }
