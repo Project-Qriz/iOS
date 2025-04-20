@@ -24,6 +24,8 @@ struct ResultDetailView: View {
                     Spacer()
                 }
                 
+                Spacer(minLength: 8)
+                
                 HStack(spacing: 0) {
                     Picker("과목", selection: $resultScoreData.selectedMenuItem) {
                         ForEach(ResultDetailMenuItems.allCases, id: \.self) { item in
@@ -43,14 +45,14 @@ struct ResultDetailView: View {
                     Spacer()
                 }
                 
-                Spacer()
+                Spacer(minLength: 24)
                 
                 ResultScoreCircularChartView(resultScoresData: resultScoreData)
                     .frame(width: 164, height: 164)
                 
-                Spacer()
+                Spacer(minLength: 32)
                 
-                // 대충 리스트
+                ResultDetailScoreView(resultScoreData: resultScoreData, resultDetailData: resultDetailData)
             }
             .padding(EdgeInsets(top: 24, leading: 18, bottom: 24, trailing: 18))
             .background(.white)
