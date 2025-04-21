@@ -9,10 +9,13 @@ import SwiftUI
 import Combine
 
 struct DailyResultFooterView: View {
+    
+    @ObservedObject var resultScoresData: ResultScoresData
+    
     var body: some View {
         VStack(spacing: 16) {
             HStack {
-                Text("채영님이 ") +
+                Text("\(resultScoresData.nickname)님이 ") +
                 Text("보완하면 좋은 개념을\n").font(.system(size: 18, weight: .bold)) +
                 Text("보러갈까요?")
                 
@@ -39,5 +42,5 @@ struct DailyResultFooterView: View {
 }
 
 #Preview {
-    DailyResultFooterView()
+    DailyResultFooterView(resultScoresData: ResultScoresData())
 }

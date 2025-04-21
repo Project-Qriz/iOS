@@ -56,7 +56,7 @@ final class DailyResultViewController: UIViewController {
     private func loadResultView() -> UIView {
         dailyResultViewHostingController = DailyResultViewHostingController(
             rootView: DailyResultView(
-                resultScorsData: self.viewModel.resultScoresData,
+                resultScoresData: self.viewModel.resultScoresData,
                 resultGradeListData: self.viewModel.resultGradeListData,
                 resultDetailData: self.viewModel.resultDetailData,
                 dailyLearnType: self.viewModel.dailyTestType))

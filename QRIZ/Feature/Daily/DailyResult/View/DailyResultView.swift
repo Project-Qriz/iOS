@@ -10,7 +10,7 @@ import Combine
 
 struct DailyResultView: View {
     
-    @StateObject var resultScorsData: ResultScoresData
+    @StateObject var resultScoresData: ResultScoresData
     @StateObject var resultGradeListData: ResultGradeListData
     @StateObject var resultDetailData: ResultDetailData
     @State var dailyLearnType: DailyLearnType
@@ -20,13 +20,13 @@ struct DailyResultView: View {
     var body: some View {
         ScrollView(.vertical) {
             LazyVStack(spacing: 0) {
-                DailyResultScoreView(resultScoresData: resultScorsData,
+                DailyResultScoreView(resultScoresData: resultScoresData,
                                      resultDetailData: resultDetailData,
                                      dailyLearnType: $dailyLearnType,
                                      input: input)
                 Spacer(minLength: 16)
                 DailyResultGradesListView(resultGradeListData: resultGradeListData)
-                DailyResultFooterView()
+                DailyResultFooterView(resultScoresData: resultScoresData)
             }
             .background(.customBlue50)
         }
@@ -35,5 +35,5 @@ struct DailyResultView: View {
 }
 
 #Preview {
-    DailyResultView(resultScorsData: ResultScoresData(), resultGradeListData: ResultGradeListData(), resultDetailData: ResultDetailData(), dailyLearnType: .daily)
+    DailyResultView(resultScoresData: ResultScoresData(), resultGradeListData: ResultGradeListData(), resultDetailData: ResultDetailData(), dailyLearnType: .daily)
 }
