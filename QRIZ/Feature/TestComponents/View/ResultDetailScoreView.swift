@@ -37,7 +37,7 @@ struct ResultDetailScoreView: View {
     
     @ViewBuilder
     private func singleMajorSubjectView(subjectData: SubjectDetailData, rank: Int) -> some View {
-        VStack(spacing: 19) {
+        VStack(spacing: 11) {
             HStack {
                 Circle()
                     .frame(width: 12, height: 12)
@@ -50,7 +50,7 @@ struct ResultDetailScoreView: View {
             }
             
             ForEach(subjectData.minorItems.indices, id: \.self) { idx in
-                VStack(spacing: 12) {
+                VStack(spacing: 8) {
                     HStack {
                         Text("\(subjectData.minorItems[idx].0)")
                             .font(.system(size: 14, weight: .regular))
