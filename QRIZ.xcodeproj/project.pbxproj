@@ -390,7 +390,6 @@
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		B159A1292DA27AE6001153B5 /* Service */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Service; sourceTree = "<group>"; };
 		B17D6ABB2D9146C90023FCA5 /* FindAccount */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = FindAccount; sourceTree = "<group>"; };
-		B18729EA2DB3E4AB0050811C /* PDF */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = PDF; sourceTree = "<group>"; };
 		B18729F32DB5E5FB0050811C /* PDF */ = {isa = PBXFileSystemSynchronizedRootGroup; exceptions = (B1872A172DB68F100050811C /* PBXFileSystemSynchronizedBuildFileExceptionSet */, ); explicitFileTypes = {}; explicitFolders = (); path = PDF; sourceTree = "<group>"; };
 		B1DC70412DAC36FE0007D943 /* View */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = View; sourceTree = "<group>"; };
 		B1DC70442DAC37350007D943 /* ViewController */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = ViewController; sourceTree = "<group>"; };
@@ -463,7 +462,6 @@
 		548566532D1241CB002BAEE3 /* Service */ = {
 			isa = PBXGroup;
 			children = (
-				B18729EA2DB3E4AB0050811C /* PDF */,
 				B1D8137C2D76A19500A9D447 /* Auth */,
 			);
 			path = Service;
@@ -1290,7 +1288,6 @@
 			dependencies = (
 			);
 			fileSystemSynchronizedGroups = (
-				B18729EA2DB3E4AB0050811C /* PDF */,
 				B1DC70412DAC36FE0007D943 /* View */,
 				B1DC70442DAC37350007D943 /* ViewController */,
 				B1DC70452DAC37480007D943 /* ViewModel */,
