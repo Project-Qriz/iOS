@@ -352,6 +352,7 @@
 		B159A1292DA27AE6001153B5 /* Service */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Service; sourceTree = "<group>"; };
 		B17D6ABB2D9146C90023FCA5 /* FindAccount */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = FindAccount; sourceTree = "<group>"; };
 		B18729EA2DB3E4AB0050811C /* PDF */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = PDF; sourceTree = "<group>"; };
+		B18729F32DB5E5FB0050811C /* PDF */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = PDF; sourceTree = "<group>"; };
 		B1DC70412DAC36FE0007D943 /* View */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = View; sourceTree = "<group>"; };
 		B1DC70442DAC37350007D943 /* ViewController */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = ViewController; sourceTree = "<group>"; };
 		B1DC70452DAC37480007D943 /* ViewModel */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = ViewModel; sourceTree = "<group>"; };
@@ -874,6 +875,7 @@
 		E23962FC2D083B8F0092B39B = {
 			isa = PBXGroup;
 			children = (
+				B18729F32DB5E5FB0050811C /* PDF */,
 				E26AF7042D918F97006E3252 /* XCConfig */,
 				541878522D0E21250089F478 /* Network */,
 				E23963072D083B8F0092B39B /* QRIZ */,
