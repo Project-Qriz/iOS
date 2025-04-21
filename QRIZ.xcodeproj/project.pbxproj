@@ -348,11 +348,50 @@
 		E2F18BCE2D6060E900DC6F82 /* DailyLearnViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyLearnViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		B1872A172DB68F100050811C /* PBXFileSystemSynchronizedBuildFileExceptionSet */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				DataModelAndSQL/NaturalAndSurrogate.pdf,
+				DataModelAndSQL/Normalization.pdf,
+				DataModelAndSQL/RelationAndJoin.pdf,
+				DataModelAndSQL/UnderstandOfNull.pdf,
+				DataModelAndSQL/UnderstandOfTransaction.pdf,
+				DataModeling/Attribute.pdf,
+				DataModeling/Entity.pdf,
+				DataModeling/Identifier.pdf,
+				DataModeling/Relation.pdf,
+				DataModeling/UnderstandOfDataModel.pdf,
+				SQLAdvanced/GroupFunction.pdf,
+				SQLAdvanced/HierarchicalQueryAndSelfJoin.pdf,
+				SQLAdvanced/PivotAndUnpivot.pdf,
+				SQLAdvanced/RegularExpression.pdf,
+				SQLAdvanced/SubQuery.pdf,
+				SQLAdvanced/TopNQuery.pdf,
+				SQLAdvanced/UnionOperator.pdf,
+				SQLAdvanced/WindowFunction.pdf,
+				SQLBasic/Function.pdf,
+				SQLBasic/GroupByHavingQuery.pdf,
+				SQLBasic/JoinQuery.pdf,
+				SQLBasic/OrderByQuery.pdf,
+				SQLBasic/RDBMS.pdf,
+				SQLBasic/SelectQuery.pdf,
+				SQLBasic/StandardJoin.pdf,
+				SQLBasic/WhereQuery.pdf,
+				SQLCommands/DCL.pdf,
+				SQLCommands/DDL.pdf,
+				SQLCommands/DML.pdf,
+				SQLCommands/TCL.pdf,
+			);
+			target = E23963042D083B8F0092B39B /* QRIZ */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
+
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		B159A1292DA27AE6001153B5 /* Service */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Service; sourceTree = "<group>"; };
 		B17D6ABB2D9146C90023FCA5 /* FindAccount */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = FindAccount; sourceTree = "<group>"; };
 		B18729EA2DB3E4AB0050811C /* PDF */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = PDF; sourceTree = "<group>"; };
-		B18729F32DB5E5FB0050811C /* PDF */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = PDF; sourceTree = "<group>"; };
+		B18729F32DB5E5FB0050811C /* PDF */ = {isa = PBXFileSystemSynchronizedRootGroup; exceptions = (B1872A172DB68F100050811C /* PBXFileSystemSynchronizedBuildFileExceptionSet */, ); explicitFileTypes = {}; explicitFolders = (); path = PDF; sourceTree = "<group>"; };
 		B1DC70412DAC36FE0007D943 /* View */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = View; sourceTree = "<group>"; };
 		B1DC70442DAC37350007D943 /* ViewController */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = ViewController; sourceTree = "<group>"; };
 		B1DC70452DAC37480007D943 /* ViewModel */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = ViewModel; sourceTree = "<group>"; };
