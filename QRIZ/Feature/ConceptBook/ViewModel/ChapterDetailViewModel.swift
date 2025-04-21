@@ -8,7 +8,7 @@
 import Foundation
 import Combine
 
-typealias ConceptItem = (title: String, url: String)
+typealias ConceptItem = (title: String, fileName: String)
 
 final class ChapterDetailViewModel {
     

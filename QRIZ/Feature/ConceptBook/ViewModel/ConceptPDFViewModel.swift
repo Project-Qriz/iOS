@@ -15,17 +15,15 @@ final class ConceptPDFViewModel {
     
     private let chapter: Chapter
     private let conceptItem: ConceptItem
-    private let pdfService: PDFService
     private let outputSubject = PassthroughSubject<Output, Never>()
     private var cancellables = Set<AnyCancellable>()
     private let logger = Logger(subsystem: Bundle.main.bundleIdentifier ?? "kr.QRIZ", category: "ConceptPDFViewModel")
     
     // MARK: - Initialize
     
-    init(chapter: Chapter, conceptItem: ConceptItem, pdfService: PDFService = PDFServiceImpl()) {
+    init(chapter: Chapter, conceptItem: ConceptItem) {
         self.chapter = chapter
         self.conceptItem = conceptItem
-        self.pdfService = pdfService
     }
     
     // MARK: - Functions
@@ -55,28 +53,21 @@ final class ConceptPDFViewModel {
     // MARK: - Functions
     
     private func loadPDF() {
-        guard let url = URL(string: conceptItem.url) else {
-            let networkError = NetworkError.invalidURL(message: conceptItem.url)
-            logger.error("Invalid URL for : \(networkError.description, privacy: .public)")
-            outputSubject.send(.showErrorAlert(title: networkError.errorMessage))
+        guard let pdfURL = Bundle.main.url(
+            forResource: conceptItem.fileName,
+            withExtension: "pdf"
+        ) else {
+            logger.error("PDF resource not found in bundle: \(self.conceptItem.fileName, privacy: .public)")
+            outputSubject.send(.showErrorAlert(title: "문서를 찾을 수 없습니다."))
             return
         }
         
-        Task { await self.performLoadPDF(from: url) }
-    }
-    
-    private func performLoadPDF(from url: URL) async {
         do {
-            let data = try await pdfService.fetchPDF(from: url)
+            let data = try Data(contentsOf: pdfURL)
             outputSubject.send(.pdfLoaded(data))
-            
-        } catch let error as NetworkError {
-            logger.error("PDF fetch error: \(error.description, privacy: .public)")
-            outputSubject.send(.showErrorAlert(title: error.errorMessage))
-            
         } catch {
-            logger.error("Unhandled error fetching PDF for concept: \(String(describing: error), privacy: .public)")
-            outputSubject.send(.showErrorAlert(title: NetworkError.unknownError.errorMessage))
+            logger.error("Error loading PDF data: \(error.localizedDescription, privacy: .public)")
+            outputSubject.send(.showErrorAlert(title: "문서 불러오기에 실패했습니다."))
         }
     }
 }
