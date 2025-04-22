@@ -42,6 +42,24 @@ final class ChapterDetailViewController: UIViewController {
         self.view = rootView
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        let appearance = UINavigationBar.defaultBackButtonStyle()
+        appearance.backgroundColor = .customBlue50
+        appearance.shadowColor = .clear
+        navigationController?.navigationBar.standardAppearance = appearance
+        navigationController?.navigationBar.scrollEdgeAppearance = appearance
+        navigationController?.navigationBar.compactAppearance = appearance
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        let apearance = UINavigationBar.defaultBackButtonStyle()
+        navigationController?.navigationBar.standardAppearance   = apearance
+        navigationController?.navigationBar.scrollEdgeAppearance = apearance
+        navigationController?.navigationBar.compactAppearance    = apearance
+    }
+    
     // MARK: - Functions
     
     private func bind() {
@@ -57,7 +75,6 @@ final class ChapterDetailViewController: UIViewController {
                 guard let self = self else { return }
                 switch output {
                 case .configureChapter(let chapter, let items):
-                    self.setNavigationBarTitle(title: chapter.cardTitle)
                     self.rootView.configure(with: chapter, items: items)
                     
                 case .navigateToConceptPDFView(let chapter, let conceptItem):

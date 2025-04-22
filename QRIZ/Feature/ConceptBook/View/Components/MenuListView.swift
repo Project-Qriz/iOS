@@ -11,8 +11,14 @@ import Combine
 final class MenuListView: UIView {
     
     // MARK: - Enums
+    private enum Metric {
+        static let titleLabelTopOffset: CGFloat = 24.0
+        static let horizontalMargin: CGFloat = 18.0
+        static let vStackViewTopOffset: CGFloat = 16.0
+    }
     
     private enum Attributes {
+        static let title = "세부 항목"
         static let chevronIcon = "chevron.right"
     }
     
@@ -25,6 +31,14 @@ final class MenuListView: UIView {
     }
     
     // MARK: - UI
+    
+    private let titleLabel: UILabel = {
+        let label = UILabel()
+        label.text = Attributes.title
+        label.font = .systemFont(ofSize: 18, weight: .bold)
+        label.textColor = .coolNeutral700
+        return label
+    }()
     
     private let vStackView: UIStackView = {
         let stackView = UIStackView()
@@ -40,6 +54,7 @@ final class MenuListView: UIView {
         super.init(frame: frame)
         addSubviews()
         setupConstraints()
+        setupUI()
     }
     
     required init?(coder: NSCoder) {
@@ -47,6 +62,10 @@ final class MenuListView: UIView {
     }
     
     // MARK: - Functions
+    
+    private func setupUI() {
+        backgroundColor = .white
+    }
     
     func configure(with items: [ConceptItem]) {
         vStackView.arrangedSubviews.forEach {
@@ -98,16 +117,20 @@ final class MenuListView: UIView {
 
 extension MenuListView {
     private func addSubviews() {
-        addSubview(vStackView)
+        [titleLabel, vStackView].forEach(addSubview(_:))
     }
     
     private func setupConstraints() {
+        titleLabel.translatesAutoresizingMaskIntoConstraints = false
         vStackView.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
-            vStackView.topAnchor.constraint(equalTo: topAnchor),
-            vStackView.leadingAnchor.constraint(equalTo: leadingAnchor),
-            vStackView.trailingAnchor.constraint(equalTo: trailingAnchor),
+            titleLabel.topAnchor.constraint(equalTo: topAnchor, constant: Metric.titleLabelTopOffset),
+            titleLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Metric.horizontalMargin),
+            
+            vStackView.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: Metric.vStackViewTopOffset),
+            vStackView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Metric.horizontalMargin),
+            vStackView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -Metric.horizontalMargin),
             vStackView.bottomAnchor.constraint(equalTo: bottomAnchor),
         ])
     }

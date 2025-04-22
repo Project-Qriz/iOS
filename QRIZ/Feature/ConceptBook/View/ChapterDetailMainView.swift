@@ -15,8 +15,8 @@ final class ChapterDetailMainView: UIView {
         static let imageViewTopOffset: CGFloat = 24.0
         static let imageViewWidth: CGFloat = 105.0
         static let imageViewHeight: CGFloat = 164.0
-        static let menuListTopOffset: CGFloat = 32.0
-        static let contentMargin: CGFloat = 18.0
+        static let chapterInfoViewTopOffset: CGFloat = 40.0
+        static let menuListTopOffset: CGFloat = 12.0
     }
     
     private enum Attributes {
@@ -41,6 +41,7 @@ final class ChapterDetailMainView: UIView {
         return imageView
     }()
     
+    let chapterInfoView = ChapterInfoView()
     let menuListView = MenuListView()
     
     // MARK: - Initialize
@@ -64,6 +65,7 @@ final class ChapterDetailMainView: UIView {
     
     func configure(with chapter: Chapter, items: [ConceptItem]) {
         imageView.image = UIImage(named: chapter.assetName)
+        chapterInfoView.configure(subjectTitle: chapter.cardTitle, itemCount: chapter.cardItemCount)
         menuListView.configure(with: items)
     }
 }
@@ -75,6 +77,7 @@ extension ChapterDetailMainView {
         addSubview(scrollView)
         scrollView.addSubview(contentView)
         contentView.addSubview(imageView)
+        contentView.addSubview(chapterInfoView)
         contentView.addSubview(menuListView)
     }
     
@@ -82,6 +85,7 @@ extension ChapterDetailMainView {
         scrollView.translatesAutoresizingMaskIntoConstraints = false
         contentView.translatesAutoresizingMaskIntoConstraints = false
         imageView.translatesAutoresizingMaskIntoConstraints = false
+        chapterInfoView.translatesAutoresizingMaskIntoConstraints = false
         menuListView.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate(
@@ -105,10 +109,14 @@ extension ChapterDetailMainView {
                 imageView.widthAnchor.constraint(equalToConstant: Metric.imageViewWidth),
                 imageView.heightAnchor.constraint(equalToConstant: Metric.imageViewHeight),
                 
-                menuListView.topAnchor.constraint(equalTo: imageView.bottomAnchor, constant: Metric.menuListTopOffset),
-                menuListView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: Metric.contentMargin),
-                menuListView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -Metric.contentMargin),
-                menuListView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -Metric.contentMargin)
+                chapterInfoView.topAnchor.constraint(equalTo: imageView.bottomAnchor, constant: Metric.chapterInfoViewTopOffset),
+                chapterInfoView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+                chapterInfoView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
+                
+                menuListView.topAnchor.constraint(equalTo: chapterInfoView.bottomAnchor, constant: Metric.menuListTopOffset),
+                menuListView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+                menuListView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
+                menuListView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)
             ]
         )
     }
