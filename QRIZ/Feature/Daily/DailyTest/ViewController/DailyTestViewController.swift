@@ -21,11 +21,21 @@ final class DailyTestViewController: UIViewController {
     private let contentsView: DailyTestContentsView = .init()
     private let timerLabel: DailyTestTimerLabel = .init()
     
-    private let viewModel: DailyTestViewModel = .init()
+    private let viewModel: DailyTestViewModel
     private let input: PassthroughSubject<DailyTestViewModel.Input, Never> = .init()
     private var subscriptions = Set<AnyCancellable>()
     
     private let submitAlertViewController = TwoButtonCustomAlertViewController(title: "제출하시겠습니까?", description: "확인 버튼을 누르면 다시 돌아올 수 없어요.")
+    
+    // MARK: - Initializers
+    init(viewModel: DailyTestViewModel) {
+        self.viewModel = viewModel
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("no initializer for coder: DailyTestViewController")
+    }
 
     // MARK: - Methods
     override func viewDidLoad() {
@@ -69,7 +79,7 @@ final class DailyTestViewController: UIViewController {
                 case .alterButtonText:
                     footerView.alterButtonText()
                 case .moveToDailyResult:
-                    self.navigationController?.pushViewController(DailyResultViewController(), animated: true)
+                    self.navigationController?.pushViewController(DailyResultViewController(viewModel: DailyResultViewModel(dailyTestType: viewModel.dailyTestType)), animated: true)
                 case .moveToHomeView:
                     print("Move To Home View")
                 case .popSubmitAlert:
@@ -79,7 +89,7 @@ final class DailyTestViewController: UIViewController {
                 case .submitSuccess:
                     submitAlertViewController.dismiss(animated: true)
                     removeNavigationItems()
-                    self.navigationController?.pushViewController(DailyResultViewController(), animated: true)
+                    self.navigationController?.pushViewController(DailyResultViewController(viewModel: DailyResultViewModel(dailyTestType: viewModel.dailyTestType)), animated: true)
                 }
             }
             .store(in: &subscriptions)

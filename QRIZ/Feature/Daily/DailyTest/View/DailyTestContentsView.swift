@@ -36,7 +36,7 @@ final class DailyTestContentsView: UIStackView {
     }
     
     required init(coder: NSCoder) {
-        fatalError()
+        fatalError("no initializer for coder: DailyTestContentsView")
     }
     
     // MARK: - Methods

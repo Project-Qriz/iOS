@@ -25,7 +25,7 @@ final class DailyTestFooterView: UIView {
     }
     
     required init?(coder: NSCoder) {
-        fatalError()
+        fatalError("no initializer for coder: DailyTestFooterView")
     }
     
     // MARK: - Methods

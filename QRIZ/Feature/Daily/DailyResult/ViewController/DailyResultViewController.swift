@@ -13,9 +13,19 @@ final class DailyResultViewController: UIViewController {
     // MARK: - Properties
     private var dailyResultViewHostingController: DailyResultViewHostingController!
     
-    private let viewModel: DailyResultViewModel = .init(dailyTestType: .weekly)
+    private let viewModel: DailyResultViewModel
     private let input: PassthroughSubject<DailyResultViewModel.Input, Never> = .init()
     private var subscriptions = Set<AnyCancellable>()
+    
+    // MARK: - Initializers
+    init(viewModel: DailyResultViewModel) {
+        self.viewModel = viewModel
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("no initializer for coder: DailyResultViewController")
+    }
 
     // MARK: - Methods
     override func viewDidLoad() {
