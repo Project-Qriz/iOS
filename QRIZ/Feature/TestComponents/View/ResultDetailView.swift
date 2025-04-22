@@ -24,23 +24,30 @@ struct ResultDetailView: View {
                     Spacer()
                 }
                 
-                Spacer(minLength: 8)
+                Spacer(minLength: 14)
                 
                 HStack(spacing: 0) {
-                    Picker("과목", selection: $resultScoreData.selectedMenuItem) {
+                    Menu {
                         ForEach(ResultDetailMenuItems.allCases, id: \.self) { item in
-                            Text(item.rawValue)
+                            Button(action: {
+                                resultScoreData.selectedMenuItem = item
+                                input.send(.menuItemSelected(selected: item))
+                            }) {
+                                Text(item.rawValue)
+                            }
                         }
+                    } label: {
+                        HStack(spacing: 4) {
+                            Text(resultScoreData.selectedMenuItem.rawValue)
+                                .foregroundColor(.coolNeutral600)
+                                .font(.system(size: 16, weight: .medium))
+                            Image(systemName: "chevron.down")
+                                .resizable()
+                                .frame(width: 9, height: 4)
+                                .foregroundColor(.coolNeutral600)
+                        }
+                        .frame(maxWidth: .infinity, alignment: .leading)
                     }
-                    .menuIndicator(.hidden)
-                    .tint(.coolNeutral600)
-                    .onChange(of: resultScoreData.selectedMenuItem) { selectedItem in
-                        input.send(.menuItemSelected(selected: selectedItem))
-                    }
-                    
-                    Image(systemName: "chevron.down")
-                        .foregroundStyle(.coolNeutral600)
-                        .frame(width: 9, height: 4)
                     
                     Spacer()
                 }
