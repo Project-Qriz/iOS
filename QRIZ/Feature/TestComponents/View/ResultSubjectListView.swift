@@ -10,11 +10,12 @@ import SwiftUI
 struct ResultSubjectListView: View {
     
     @ObservedObject var resultDetailData: ResultDetailData
+    private let rankColors: [Color] = [.customBlue900, .customBlue500, .customBlue300, .customBlue200, .customBlue100]
     
     var body: some View {
         VStack(spacing: 8) {
             ForEach((resultDetailData.subject1DetailResult + resultDetailData.subject2DetailResult).indices, id: \.self) { idx in
-                SingleSubjectView(circleColor: rankColor(idx),
+                SingleSubjectView(circleColor: rankColors[idx],
                                   subjectText: (resultDetailData.subject1DetailResult + resultDetailData.subject2DetailResult)[idx].majorItem,
                                   score: (resultDetailData.subject1DetailResult + resultDetailData.subject2DetailResult)[idx].score)
                 if idx != resultDetailData.numOfDataToPresent - 1 {
@@ -22,24 +23,6 @@ struct ResultSubjectListView: View {
                         .overlay(Color.coolNeutral200)
                 }
             }
-        }
-    }
-    
-    private func rankColor(_ rank: Int) -> Color {
-        switch rank {
-        case 0:
-            return .customBlue900
-        case 1:
-            return .customBlue500
-        case 2:
-            return .customBlue300
-        case 3:
-            return .customBlue200
-        case 4:
-            return .customBlue100
-        default:
-            print("Method rankColor received wrong argv")
-            return .white
         }
     }
 }
