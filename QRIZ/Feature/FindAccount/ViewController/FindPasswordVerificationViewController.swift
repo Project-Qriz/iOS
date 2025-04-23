@@ -15,10 +15,12 @@ final class FindPasswordVerificationViewController: UIViewController {
     private enum Attributes {
         static let navigationTitle: String = "비밀번호 찾기"
         static let alertTitle: String = "이메일을 올바르게 입력해주세요."
-    }
+        static let progressMessage: String = "이메일 확인중..."
+        }
     
     // MARK: - Properties
     
+    weak var coordinator: LoginCoordinator?
     private let rootView: FindPasswordVerificationMainView
     private let findPasswordVerificationVM: FindPasswordVerificationViewModel
     private var cancellables = Set<AnyCancellable>()
@@ -68,7 +70,7 @@ final class FindPasswordVerificationViewController: UIViewController {
         let confirmButtonTapped = rootView.verificationInputView.confirmButtonPublisher
             .map { FindPasswordVerificationViewModel.Input.confirmButtonTapped }
         
-        let nextButtonTapped = rootView.signupFooterView.buttonTappedPublisher
+        let nextButtonTapped = rootView.signUpFooterView.buttonTappedPublisher
             .map { FindPasswordVerificationViewModel.Input.nextButtonTapped }
         
         let input = emailTextChanged
@@ -92,8 +94,20 @@ final class FindPasswordVerificationViewController: UIViewController {
                 case .isCodeValid(let isValid):
                     self.rootView.verificationInputView.updateConfirmButton(isValid: isValid)
                     
+                case .emailVerificationInProgress:
+                    self.rootView.verificationInputView.showMessage(
+                        Attributes.progressMessage,
+                        textColor: .coolNeutral500
+                    )
+                    
                 case .emailVerificationSuccess:
                     self.rootView.verificationInputView.handleEmailVerificationSuccess()
+                    
+                case .emailVerificationDuplicate(let errorMessage):
+                    self.rootView.verificationInputView.showMessage(errorMessage, textColor: .customRed500)
+                    
+                case .showErrorAlert(let title):
+                    self.showOneButtonAlert(with: title, storingIn: &cancellables)
                     
                 case .updateRemainingTime(let remainingTime):
                     self.rootView.verificationInputView.updateTimerLabel(remainingTime)
@@ -102,40 +116,27 @@ final class FindPasswordVerificationViewController: UIViewController {
                     self.rootView.verificationInputView.handleTimerExpired()
                     self.rootView.verificationInputView.resetCodeTextField()
                     
-                case .emailVerificationFailure:
-                    self.showOneButtonAlert()
-                    
                 case .codeVerificationSuccess:
                     self.rootView.verificationInputView.handleCodeVerificationSuccess()
-                    self.rootView.signupFooterView.updateButtonState(isValid: true)
+                    self.rootView.signUpFooterView.updateButtonState(isValid: true)
                     
                 case .codeVerificationFailure:
                     self.rootView.verificationInputView.handleCodeVerificationFailure()
                     
                 case .navigateToNextView:
-                    // MARK: - 코디네이터 적용 필요
-                    self.navigationController?.pushViewController(ResetPasswordViewController(resetPasswordVM: ResetPasswordViewModel()), animated: true)
+                    self.coordinator?.showResetPassword()
                 }
             }
             .store(in: &cancellables)
     }
     
     private func observe() {
-        keyboardCancellable = observeKeyboardNotifications(for: rootView.signupFooterView)
+        keyboardCancellable = observeKeyboardNotifications(for: rootView.signUpFooterView)
         
         view.tapGestureEndedPublisher()
             .sink { [weak self] _ in
                 self?.view.endEditing(true)
             }
             .store(in: &cancellables)
-    }
-    
-    private func showOneButtonAlert() {
-        let oneButtonAlert = OneButtonCustomAlertViewController(title: Attributes.alertTitle)
-        oneButtonAlert.confirmButtonTappedPublisher
-            .sink { oneButtonAlert.dismiss(animated: true) }
-            .store(in: &cancellables)
-        
-        present(oneButtonAlert, animated: true)
     }
 }

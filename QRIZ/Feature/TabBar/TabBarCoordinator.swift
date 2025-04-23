@@ -20,7 +20,7 @@ protocol TabBarCoordinatorDelegate: AnyObject {
 @MainActor
 protocol TabBarCoordinatorDependency {
     var homeCoordinator: HomeCoordinator { get }
-    var textbookCoordinator: TextbookCoordinator { get }
+    var conceptBookCoordinator: ConceptBookCoordinator { get }
     var mistakeNoteCoordinator: MistakeNoteCoordinator { get }
     var myPageCoordinator: MyPageCoordinator { get }
 }
@@ -32,8 +32,8 @@ final class TabBarCoordinatorDependencyImp: TabBarCoordinatorDependency {
         return HomeCoordinatorImp()
     }
     
-    var textbookCoordinator: TextbookCoordinator {
-        return TextbookCoordinatorImp()
+    var conceptBookCoordinator: ConceptBookCoordinator {
+        return ConceptBookCoordinatorImp()
     }
     
     var mistakeNoteCoordinator: MistakeNoteCoordinator {
@@ -61,20 +61,20 @@ final class TabBarCoordinatorImp: TabBarCoordinator {
         configureTabBarController(tabBarController)
         
         let homeCoordinator = dependency.homeCoordinator
-        let textbookCoordinator = dependency.textbookCoordinator
+        let conceptBookCoordinator = dependency.conceptBookCoordinator
         let mistakeNoteCoordinator = dependency.mistakeNoteCoordinator
         let myPageCoordinator = dependency.myPageCoordinator
         
         childCoordinators.append(contentsOf: [
             homeCoordinator,
-            textbookCoordinator,
+            conceptBookCoordinator,
             mistakeNoteCoordinator,
             myPageCoordinator
         ])
         
         var viewControllers: [UIViewController] = []
         viewControllers.append(homeCoordinator.start())
-        viewControllers.append(textbookCoordinator.start())
+        viewControllers.append(conceptBookCoordinator.start())
         viewControllers.append(mistakeNoteCoordinator.start())
         viewControllers.append(myPageCoordinator.start())
         setupTabBarItems(for: &viewControllers)
@@ -102,8 +102,8 @@ final class TabBarCoordinatorImp: TabBarCoordinator {
         )
         viewControllers[1].tabBarItem = UITabBarItem(
             title: "개념서",
-            image: .textBook,
-            selectedImage: .selectedTextbook
+            image: .conceptBook,
+            selectedImage: .selectedConceptBook
         )
         viewControllers[2].tabBarItem = UITabBarItem(
             title: "오답노트",

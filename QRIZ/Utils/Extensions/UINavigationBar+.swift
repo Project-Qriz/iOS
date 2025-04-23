@@ -9,7 +9,7 @@ import UIKit
 
 extension UINavigationBar {
     /// `전체 네비게이션 뒤로가기 버튼을 설정해주는 함수입니다.`
-    static func configureNavigationBackButton() {
+    static func defaultBackButtonStyle() -> UINavigationBarAppearance {
         let appearance = UINavigationBarAppearance()
         appearance.configureWithOpaqueBackground()
         appearance.backgroundColor = .white
@@ -26,5 +26,6 @@ extension UINavigationBar {
         UINavigationBar.appearance().standardAppearance = appearance
         UINavigationBar.appearance().compactAppearance = appearance
         UINavigationBar.appearance().scrollEdgeAppearance = appearance
+        return appearance
     }
 }

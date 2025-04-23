@@ -20,6 +20,7 @@ final class FindIDViewController: UIViewController {
     
     // MARK: - Properties
     
+    weak var coordinator: LoginCoordinator?
     private let rootView: FindIDMainView
     private let findIDInputVM: FindIDViewModel
     private var cancellables = Set<AnyCancellable>()
@@ -60,7 +61,7 @@ final class FindIDViewController: UIViewController {
         let emailTextChanged = rootView.findIDInputView.textChangedPublisher
             .map { FindIDViewModel.Input.emailTextChanged($0) }
         
-        let nextButtonTapped = rootView.signupFooterView.buttonTappedPublisher
+        let nextButtonTapped = rootView.signUpFooterView.buttonTappedPublisher
             .map { FindIDViewModel.Input.buttonTapped }
         
         let input = Publishers.Merge(
@@ -72,15 +73,18 @@ final class FindIDViewController: UIViewController {
         let output = findIDInputVM.transform(input: input)
         
         output
+            .receive(on: DispatchQueue.main)
             .sink { [weak self] output in
                 guard let self = self else { return }
                 switch output {
                 case .isNameValid(let isValid):
                     self.rootView.findIDInputView.updateErrorState(isValid: isValid)
-                    self.rootView.signupFooterView.updateButtonState(isValid: isValid)
+                    self.rootView.signUpFooterView.updateButtonState(isValid: isValid)
+                    
+                case .showErrorAlert(let errorMessage):
+                    self.showOneButtonAlert(with: errorMessage, storingIn: &cancellables)
                     
                 case .navigateToAlerView:
-                    // MARK: - 코디네이터 적용 필요
                     self.showOneButtonAlert()
                 }
             }
@@ -88,7 +92,7 @@ final class FindIDViewController: UIViewController {
     }
     
     private func observe() {
-        keyboardCancellable = observeKeyboardNotifications(for: rootView.signupFooterView)
+        keyboardCancellable = observeKeyboardNotifications(for: rootView.signUpFooterView)
         
         view.tapGestureEndedPublisher()
             .sink { [weak self] _ in
@@ -106,7 +110,7 @@ final class FindIDViewController: UIViewController {
             .sink { [weak self] _ in
                 oneButtonAlert.dismiss(animated: true) {
                     guard let self = self else { return }
-                    self.navigationController?.popToRootViewController(animated: true)
+                    self.coordinator?.popToRootViewController()
                 }
             }
             .store(in: &cancellables)

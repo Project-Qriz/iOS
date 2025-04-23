@@ -20,6 +20,7 @@ final class ResetPasswordViewController: UIViewController {
     
     // MARK: - Properties
     
+    weak var coordinator: LoginCoordinator?
     private let rootView: ResetPasswordMainView
     private let resetPasswordVM: ResetPasswordViewModel
     private var cancellables = Set<AnyCancellable>()
@@ -63,17 +64,18 @@ final class ResetPasswordViewController: UIViewController {
         let confirmTextChanged = rootView.passwordInputView.confirmTextChangedPublisher
             .map { ResetPasswordViewModel.Input.confirmPasswordTextChanged($0) }
         
-        let signupButtonTapped = rootView.signupFooterView.buttonTappedPublisher
+        let signUpButtonTapped = rootView.signUpFooterView.buttonTappedPublisher
             .map { ResetPasswordViewModel.Input.buttonTapped }
         
         let input = passwordTextChanged
             .merge(with: confirmTextChanged)
-            .merge(with: signupButtonTapped)
+            .merge(with: signUpButtonTapped)
             .eraseToAnyPublisher()
         
         let output = resetPasswordVM.transform(input: input)
         
         output
+            .receive(on: DispatchQueue.main)
             .sink { [weak self] output in
                 guard let self = self else { return }
                 switch output {
@@ -86,8 +88,11 @@ final class ResetPasswordViewController: UIViewController {
                 case .confirmValidChanged(let isValid):
                     self.rootView.passwordInputView.updateConfirmPasswordUI(isValid)
                     
-                case .updateSignupButtonState(let canSignUp):
-                    self.rootView.signupFooterView.updateButtonState(isValid: canSignUp)
+                case .updateSignUpButtonState(let canSignUp):
+                    self.rootView.signUpFooterView.updateButtonState(isValid: canSignUp)
+                    
+                case .showErrorAlert(let errorMessage):
+                    self.showOneButtonAlert(with: errorMessage, storingIn: &cancellables)
                     
                 case .navigateToAlertView:
                     self.showOneButtonAlert()
@@ -97,7 +102,7 @@ final class ResetPasswordViewController: UIViewController {
     }
     
     private func observe() {
-        keyboardCancellable = observeKeyboardNotifications(for: rootView.signupFooterView)
+        keyboardCancellable = observeKeyboardNotifications(for: rootView.signUpFooterView)
         
         view.tapGestureEndedPublisher()
             .sink { [weak self] _ in
@@ -115,7 +120,7 @@ final class ResetPasswordViewController: UIViewController {
             .sink { [weak self] _ in
                 oneButtonAlert.dismiss(animated: true) {
                     guard let self = self else { return }
-                    self.navigationController?.popToRootViewController(animated: true)
+                    self.coordinator?.popToRootViewController()
                 }
             }
             .store(in: &cancellables)
