@@ -51,22 +51,17 @@ final class DailyResultDetailViewModel: ResultDetailViewModel {
         switch selectedItem {
         case .total:
             resultScoresData.subjectCount = subject1Count + subject2Count
-            for i in 0..<subject1Count {
-                resultScoresData.subjectScores[i] = resultDetailData.subject1DetailResult[i].score
-            }
-            for i in 0..<subject2Count {
-                resultScoresData.subjectScores[resultDetailData.subject1DetailResult.count + i] = resultDetailData.subject2DetailResult[i].score
-            }
         case .subject1:
             resultScoresData.subjectCount = subject1Count
-            for i in 0..<subject1Count {
-                resultScoresData.subjectScores[i] = resultDetailData.subject1DetailResult[i].score
-            }
         case .subject2:
             resultScoresData.subjectCount = subject2Count
-            for i in 0..<subject2Count {
-                resultScoresData.subjectScores[i] = resultDetailData.subject2DetailResult[i].score
-            }
+        }
+
+        for i in 0..<subject1Count {
+            resultScoresData.subjectScores[i] = resultDetailData.subject1DetailResult[i].score
+        }
+        for i in 0..<subject2Count {
+            resultScoresData.subjectScores[subject1Count + i] = resultDetailData.subject2DetailResult[i].score
         }
     }
 }
