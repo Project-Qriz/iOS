@@ -24,11 +24,9 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         let appCoordinator = AppCoordinatorImp(window: window, dependency: dependency)
         
         self.window = window
-        window.rootViewController = UINavigationController(rootViewController: DailyResultViewController(viewModel: DailyResultViewModel(dailyTestType: .weekly)))
-        window.makeKeyAndVisible()
-//        self.appCoordinator = appCoordinator
-//        
-//        _ = appCoordinator.start()
+        self.appCoordinator = appCoordinator
+        
+        _ = appCoordinator.start()
     }
     
     func sceneDidDisconnect(_ scene: UIScene) { }
