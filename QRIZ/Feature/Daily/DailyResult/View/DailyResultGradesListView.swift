@@ -21,10 +21,7 @@ struct DailyResultGradesListView: View {
             }
             
             ForEach(resultGradeListData.gradeResultList) { gradeResult in
-                ResultGradeListCellView(skill: gradeResult.skillName,
-                                        question: gradeResult.question,
-                                        correction: gradeResult.correction,
-                                        questionNum: gradeResult.id)
+                ResultGradeListCellView(gradeResult: gradeResult)
             }
         }
         .padding(EdgeInsets(top: 24, leading: 18, bottom: 16, trailing: 18))

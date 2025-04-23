@@ -9,28 +9,25 @@ import SwiftUI
 
 struct ResultGradeListCellView: View {
 
-    @State var skill: String
-    @State var question: String
-    @State var correction: Bool
-    @State var questionNum: Int
+    let gradeResult: GradeResult
     
     var body: some View {
         VStack(alignment: .leading, spacing: 8) {
             HStack(spacing: 8) {
                 correctionImage()
-                Text("문제 \(questionNum)")
+                Text("문제 \(gradeResult.id)")
                     .font(.system(size: 16, weight: .bold))
                     .foregroundStyle(.coolNeutral800)
                 Spacer()
             }
             
-            Text("\(question)")
+            Text("\(gradeResult.question)")
             .font(.system(size: 14, weight: .regular))
             .foregroundStyle(.coolNeutral600)
             .lineLimit(2)
             
             HStack {
-                Text("\(skill)")
+                Text("\(gradeResult.skillName)")
                     .foregroundStyle(.customBlue400)
                     .font(.system(size: 12, weight: .semibold))
                     .padding(EdgeInsets(top: 4, leading: 8, bottom: 4, trailing: 8))
@@ -45,7 +42,7 @@ struct ResultGradeListCellView: View {
     
     @ViewBuilder
     private func correctionImage() -> some View {
-        if correction {
+        if gradeResult.correction {
             Image(systemName: "checkmark")
                 .resizable()
                 .frame(width: 15, height: 12)
@@ -60,11 +57,12 @@ struct ResultGradeListCellView: View {
 }
 
 #Preview {
-    ResultGradeListCellView(skill: "엔터티",
+    ResultGradeListCellView(gradeResult: GradeResult(
+                            id: 1,
+                            skillName: "엔터티",
                             question: """
                                 아래 테이블 T<S<R이 각각 다음과 같이 선언되었다. 
                                 다음 중 DELETE FROM T;를 수행한 후에 테이블 R에 남아있는 데이터로 가장 적절한 것은?
                             """,
-                            correction: false,
-                            questionNum: 1)
+                            correction: false))
 }
