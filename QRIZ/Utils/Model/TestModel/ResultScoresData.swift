@@ -17,9 +17,7 @@ final class ResultScoresData: ObservableObject {
     @Published var selectedMenuItem: ResultDetailMenuItems = .total
     
     var totalScore: Int {
-        var sum: Int = 0
-        subjectScores.forEach { sum += Int($0) }
-        return sum
+        subjectScores.reduce(0) { $0 + Int($1) }
     }
     
     func cumulativePercentage(idx: Int) -> CGFloat {
