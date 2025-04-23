@@ -9,7 +9,7 @@ import SwiftUI
 
 struct PreviewResultView: View {
     
-    @StateObject var previewScoresData: PreviewScoresData
+    @StateObject var previewScoresData: ResultScoresData
     @StateObject var previewConceptsData: PreviewConceptsData
     
     var body: some View {
@@ -23,11 +23,12 @@ struct PreviewResultView: View {
                 PreviewResultConceptView(previewConceptsData: previewConceptsData)
                     .background(.white)
             }
+            .background(previewConceptsData.incorrectCountDataArr.count >= 2 ? .customBlue50 : .white)
         }
-        .background(previewConceptsData.incorrectCountDataArr.count >= 2 ? .customBlue50 : .white)
+        .background(.white)
     }
 }
 
 #Preview {
-    PreviewResultView(previewScoresData: PreviewScoresData(), previewConceptsData: PreviewConceptsData())
+    PreviewResultView(previewScoresData: ResultScoresData(), previewConceptsData: PreviewConceptsData())
 }

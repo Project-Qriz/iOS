@@ -44,8 +44,15 @@ final class DailyTestViewModel {
     private var timeLimit: Int? = nil
     private var startTime: Date? = nil
     
+    var dailyTestType: DailyLearnType
+    
     private let output: PassthroughSubject<Output, Never> = .init()
     private var subscriptions = Set<AnyCancellable>()
+    
+    // MARK: - Initializers
+    init(dailyTestType: DailyLearnType) {
+        self.dailyTestType = dailyTestType
+    }
     
     // MARK: - Deinitializer
     deinit {
