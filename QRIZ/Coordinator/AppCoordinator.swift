@@ -68,8 +68,8 @@ final class AppCoordinatorImp: AppCoordinator {
     
     func start() -> UIViewController {
         /// 임시 로그인 상태
-        let isLoggedIn = false
-        UINavigationBar.configureNavigationBackButton()
+        let isLoggedIn = true
+        _ = UINavigationBar.defaultBackButtonStyle()
         return isLoggedIn ? showTabBar() : showLogin()
     }
     
