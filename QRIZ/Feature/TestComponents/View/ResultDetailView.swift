@@ -11,7 +11,7 @@ import Combine
 struct ResultDetailView: View {
     
     @StateObject var resultScoreData: ResultScoresData
-    @StateObject var resultDetailData: ResultDetailData
+    @ObservedObject var resultDetailData: ResultDetailData
     let input: PassthroughSubject<ResultDetailViewModel.Input, Never> = .init()
     
     var body: some View {
