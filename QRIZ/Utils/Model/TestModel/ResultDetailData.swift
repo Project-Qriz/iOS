@@ -21,6 +21,15 @@ final class ResultDetailData: ObservableObject {
 struct SubjectDetailData {
     var majorItem: String
     var score: CGFloat
-    // (개념 : 해당 개념 점수)
-    var minorItems: [(String, CGFloat)]
+    var minorItems: [SubjectDetailMinorItem]
+}
+
+struct SubjectDetailMinorItem {
+    var concept: String
+    var score: CGFloat
+    
+    init(_ concept: String, _ score: CGFloat) {
+        self.concept = concept
+        self.score = score
+    }
 }

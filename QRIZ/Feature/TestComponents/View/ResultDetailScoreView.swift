@@ -52,13 +52,13 @@ struct ResultDetailScoreView: View {
             ForEach(subjectData.minorItems.indices, id: \.self) { idx in
                 VStack(spacing: 8) {
                     HStack {
-                        Text("\(subjectData.minorItems[idx].0)")
+                        Text("\(subjectData.minorItems[idx].concept)")
                             .font(.system(size: 14, weight: .regular))
                             .foregroundStyle(.black)
                         
                         Spacer()
                         
-                        Text("\(Int(subjectData.minorItems[idx].1))점")
+                        Text("\(Int(subjectData.minorItems[idx].score))점")
                             .font(.system(size: 14, weight: .bold))
                             .foregroundStyle(.coolNeutral800)
                     }

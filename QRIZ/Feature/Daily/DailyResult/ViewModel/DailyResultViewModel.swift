@@ -120,8 +120,8 @@ final  class DailyResultViewModel {
         self.gradeResultList.append(GradeResult(id: 6, skillName: "조인", question: "다음 SQL문들의 실행 결과가 같은 것을 고르시오.", correction: true))
         self.gradeResultList.append(GradeResult(id: 7, skillName: "SELECT 문", question: "다음 중 SELF JOIN에 대한 설명으로 가장 부적절한 것은?", correction: false))
         
-        self.subject2DetailResult.append(SubjectDetailData(majorItem: "SQL 기본", score: 40, minorItems: [("SELECT문", 20), ("함수", 10), ("WHERE절", 10)]))
-        self.subject2DetailResult.append(SubjectDetailData(majorItem: "SQL 활용", score: 20, minorItems: [("서브쿼리", 10), ("집합 연산자", 10)]))
-        self.subject1DetailResult.append(SubjectDetailData(majorItem: "데이터 모델링의 이해", score: 10, minorItems: [("TCL", 5), ("DDL", 5)]))
+        self.subject2DetailResult.append(SubjectDetailData(majorItem: "SQL 기본", score: 40, minorItems: [SubjectDetailMinorItem("SELECT문", 20), SubjectDetailMinorItem("함수", 10), SubjectDetailMinorItem("WHERE절", 10)]))
+        self.subject2DetailResult.append(SubjectDetailData(majorItem: "SQL 활용", score: 20, minorItems: [SubjectDetailMinorItem("서브쿼리", 10), SubjectDetailMinorItem("집합 연산자", 10)]))
+        self.subject1DetailResult.append(SubjectDetailData(majorItem: "데이터 모델링의 이해", score: 10, minorItems: [SubjectDetailMinorItem("TCL", 5), SubjectDetailMinorItem("DDL", 5)]))
     }
 }
