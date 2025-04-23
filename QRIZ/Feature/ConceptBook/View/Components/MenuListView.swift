@@ -94,7 +94,7 @@ final class MenuListView: UIView {
         config.background.cornerRadius = 12
         config.contentInsets = NSDirectionalEdgeInsets(top: 14, leading: 16,bottom: 14, trailing: 24.25)
         
-        let button = UIButton(configuration: config, primaryAction: nil)
+        let button = UIButton(configuration: config)
         button.contentHorizontalAlignment = .fill
         
         // shadow
