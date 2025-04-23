@@ -24,7 +24,9 @@ final class ResultScoresData: ObservableObject {
     
     func cumulativePercentage(idx: Int) -> CGFloat {
         var sum: CGFloat = 0.0
-        (0...idx).forEach({ sum += subjectScores[$0] })
+        (0...idx).forEach({
+            guard idx >= 0 && idx < 5 else { return }
+            sum += subjectScores[$0] })
         return sum / 100
     }
 }
