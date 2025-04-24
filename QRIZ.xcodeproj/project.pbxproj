@@ -98,6 +98,7 @@
 		E217C36B2D9BF0C30095A3D8 /* DailyResultViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E217C36A2D9BF0C30095A3D8 /* DailyResultViewController.swift */; };
 		E217C3702D9BF2860095A3D8 /* DailyTestFooterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E217C36F2D9BF2860095A3D8 /* DailyTestFooterView.swift */; };
 		E230669A2D2126B9001B509A /* ResultScoresData.swift in Sources */ = {isa = PBXBuildFile; fileRef = E23066992D2126B9001B509A /* ResultScoresData.swift */; };
+		E230669A2D2126B9001B509A /* PreviewScoresData.swift in Sources */ = {isa = PBXBuildFile; fileRef = E23066992D2126B9001B509A /* PreviewScoresData.swift */; };
 		E23824E12D0C3157009E7989 /* BeginOnboardingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E23824E02D0C3157009E7989 /* BeginOnboardingViewController.swift */; };
 		E23963092D083B900092B39B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E23963082D083B900092B39B /* AppDelegate.swift */; };
 		E239630B2D083B900092B39B /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E239630A2D083B900092B39B /* SceneDelegate.swift */; };
@@ -169,6 +170,10 @@
 		E29CCD4A2D29867F004AA30A /* GreetingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E29CCD472D29867F004AA30A /* GreetingViewModel.swift */; };
 		E29CCD4C2D299297004AA30A /* SwiftUIViews+.swift in Sources */ = {isa = PBXBuildFile; fileRef = E29CCD4B2D299297004AA30A /* SwiftUIViews+.swift */; };
 		E29CCD522D299AD5004AA30A /* PreviewResultIncorrectConceptsRankView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E29CCD512D299AD5004AA30A /* PreviewResultIncorrectConceptsRankView.swift */; };
+		E29FE4062DBA39EA00DECB26 /* UserInfoRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = E29FE4052DBA39EA00DECB26 /* UserInfoRequest.swift */; };
+		E29FE4082DBA3D9700DECB26 /* PreviewTestStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = E29FE4072DBA3D9700DECB26 /* PreviewTestStatus.swift */; };
+		E29FE40A2DBA3F2900DECB26 /* UserInfoManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E29FE4092DBA3F2900DECB26 /* UserInfoManager.swift */; };
+		E29FE40D2DBA3FBC00DECB26 /* UserInfoService.swift in Sources */ = {isa = PBXBuildFile; fileRef = E29FE40C2DBA3FBC00DECB26 /* UserInfoService.swift */; };
 		E2C084BE2D89AF2C0096CE20 /* PreviewResultInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2C084BD2D89AF2C0096CE20 /* PreviewResultInfoView.swift */; };
 		E2D70FE82D0DD322005A3F51 /* BeginPreviewTestViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2D70FE72D0DD322005A3F51 /* BeginPreviewTestViewModel.swift */; };
 		E2D70FEC2D0EBDDD005A3F51 /* CheckListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2D70FEB2D0EBDDD005A3F51 /* CheckListCell.swift */; };
@@ -294,6 +299,7 @@
 		E217C36A2D9BF0C30095A3D8 /* DailyResultViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyResultViewController.swift; sourceTree = "<group>"; };
 		E217C36F2D9BF2860095A3D8 /* DailyTestFooterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyTestFooterView.swift; sourceTree = "<group>"; };
 		E23066992D2126B9001B509A /* ResultScoresData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResultScoresData.swift; sourceTree = "<group>"; };
+		E23066992D2126B9001B509A /* PreviewScoresData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreviewScoresData.swift; sourceTree = "<group>"; };
 		E23824E02D0C3157009E7989 /* BeginOnboardingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BeginOnboardingViewController.swift; sourceTree = "<group>"; };
 		E23963052D083B8F0092B39B /* QRIZ.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = QRIZ.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E23963082D083B900092B39B /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -373,6 +379,10 @@
 		E29CCD472D29867F004AA30A /* GreetingViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GreetingViewModel.swift; sourceTree = "<group>"; };
 		E29CCD4B2D299297004AA30A /* SwiftUIViews+.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "SwiftUIViews+.swift"; sourceTree = "<group>"; };
 		E29CCD512D299AD5004AA30A /* PreviewResultIncorrectConceptsRankView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreviewResultIncorrectConceptsRankView.swift; sourceTree = "<group>"; };
+		E29FE4052DBA39EA00DECB26 /* UserInfoRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserInfoRequest.swift; sourceTree = "<group>"; };
+		E29FE4072DBA3D9700DECB26 /* PreviewTestStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreviewTestStatus.swift; sourceTree = "<group>"; };
+		E29FE4092DBA3F2900DECB26 /* UserInfoManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserInfoManager.swift; sourceTree = "<group>"; };
+		E29FE40C2DBA3FBC00DECB26 /* UserInfoService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserInfoService.swift; sourceTree = "<group>"; };
 		E2C084BD2D89AF2C0096CE20 /* PreviewResultInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreviewResultInfoView.swift; sourceTree = "<group>"; };
 		E2D70FE72D0DD322005A3F51 /* BeginPreviewTestViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BeginPreviewTestViewModel.swift; sourceTree = "<group>"; };
 		E2D70FEB2D0EBDDD005A3F51 /* CheckListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckListCell.swift; sourceTree = "<group>"; };
@@ -487,6 +497,7 @@
 		5485664D2D12411F002BAEE3 /* DTOs */ = {
 			isa = PBXGroup;
 			children = (
+				E29FE4042DBA39CE00DECB26 /* UserInfo */,
 				B1D8137B2D76A18900A9D447 /* Auth */,
 				B17D6AB92D9141D80023FCA5 /* ErrorResponse.swift */,
 			);
@@ -496,6 +507,7 @@
 		548566532D1241CB002BAEE3 /* Service */ = {
 			isa = PBXGroup;
 			children = (
+				E29FE40B2DBA3FA800DECB26 /* UserInfo */,
 				B1D8137C2D76A19500A9D447 /* Auth */,
 			);
 			path = Service;
@@ -861,6 +873,7 @@
 			children = (
 				B1D9A0E62D3686BA00E84934 /* CountdownTimer.swift */,
 				B17D6ADA2D9AB59A0023FCA5 /* KeychainManager.swift */,
+				E29FE4092DBA3F2900DECB26 /* UserInfoManager.swift */,
 			);
 			path = Manager;
 			sourceTree = "<group>";
@@ -1211,6 +1224,7 @@
 				E29BF8542D117CF1006DC6D0 /* SurveyCheckList.swift */,
 				E2DD0E832D2144D000DA3D18 /* PreviewConceptsData.swift */,
 				E2DD0E852D2146D900DA3D18 /* IncorrectCountData.swift */,
+				E29FE4072DBA3D9700DECB26 /* PreviewTestStatus.swift */,
 			);
 			path = OnboardingModel;
 			sourceTree = "<group>";
@@ -1375,6 +1389,22 @@
 				E29CCD322D298656004AA30A /* PreviewResultViewHostingController.swift */,
 			);
 			path = HostingController;
+			sourceTree = "<group>";
+		};
+		E29FE4042DBA39CE00DECB26 /* UserInfo */ = {
+			isa = PBXGroup;
+			children = (
+				E29FE4052DBA39EA00DECB26 /* UserInfoRequest.swift */,
+			);
+			path = UserInfo;
+			sourceTree = "<group>";
+		};
+		E29FE40B2DBA3FA800DECB26 /* UserInfo */ = {
+			isa = PBXGroup;
+			children = (
+				E29FE40C2DBA3FBC00DECB26 /* UserInfoService.swift */,
+			);
+			path = UserInfo;
 			sourceTree = "<group>";
 		};
 		E2F18BCA2D60606A00DC6F82 /* DailyLearn */ = {
@@ -1604,6 +1634,7 @@
 				B1D813772D6E0CD700A9D447 /* MyPageCoordinator.swift in Sources */,
 				B19C4FB92D6B15B300CD008A /* MyPageViewController.swift in Sources */,
 				B1DC70632DAE5F9C0007D943 /* SubjectType.swift in Sources */,
+				E29FE4082DBA3D9700DECB26 /* PreviewTestStatus.swift in Sources */,
 				E29CCD2F2D29855B004AA30A /* TestTimeLabel.swift in Sources */,
 				B168B7732D2846C80000F32E /* PasswordInputViewController.swift in Sources */,
 				E239630D2D083B900092B39B /* HomeViewController.swift in Sources */,
@@ -1638,6 +1669,7 @@
 				B162881E2D2D6624008057D0 /* UIViewController+.swift in Sources */,
 				B1D813732D6E0CB200A9D447 /* ConceptBookCoordinator.swift in Sources */,
 				54BC61592D1823F50094DC45 /* SocialLoginView.swift in Sources */,
+				E29FE40A2DBA3F2900DECB26 /* UserInfoManager.swift in Sources */,
 				B18F451A2D4139B00030F7DB /* UILabel+.swift in Sources */,
 				E25F335B2DAFBA97002347D4 /* DailyResultHostingController.swift in Sources */,
 				E23963092D083B900092B39B /* AppDelegate.swift in Sources */,
@@ -1663,6 +1695,7 @@
 				B1DC703A2DA94EEE0007D943 /* EmailAuthenticationRequest.swift in Sources */,
 				E29CCD4C2D299297004AA30A /* SwiftUIViews+.swift in Sources */,
 				541878612D0EC2970089F478 /* HTTPHeaderField.swift in Sources */,
+				E29FE4062DBA39EA00DECB26 /* UserInfoRequest.swift in Sources */,
 				E24907DE2D6648A7004D6E61 /* DailyTestState.swift in Sources */,
 				B168B76A2D2807470000F32E /* NameInputViewController.swift in Sources */,
 				B19C4FAB2D6120D100CD008A /* OneButtonCustomAlertViewController.swift in Sources */,
@@ -1683,6 +1716,7 @@
 				E29CCD2B2D29855B004AA30A /* QuestionTitleLabel.swift in Sources */,
 				E2DD0E842D2144D000DA3D18 /* PreviewConceptsData.swift in Sources */,
 				E29CCD302D29855B004AA30A /* TestTotalTimeRemainingLabel.swift in Sources */,
+				E29FE40D2DBA3FBC00DECB26 /* UserInfoService.swift in Sources */,
 				E29CCD2D2D29855B004AA30A /* TestPageIndicatorLabel.swift in Sources */,
 				E2939CA32D9D605C00F7E704 /* DailyTestContentsView.swift in Sources */,
 				E24CB16A2DB5373900D88451 /* ResultDetailScoreView.swift in Sources */,
