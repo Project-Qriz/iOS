@@ -12,7 +12,7 @@ final class VerificationInputView: UIView {
     
     // MARK: - Enums
     
-    enum textFieldType {
+    enum TextFieldType {
         case email
         case code
     }
@@ -216,7 +216,7 @@ final class VerificationInputView: UIView {
     }
     
     func updateErrorState(
-        for type: textFieldType,
+        for type: TextFieldType,
         isValid: Bool,
         message: String? = nil
     ) {
