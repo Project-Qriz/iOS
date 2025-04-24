@@ -114,6 +114,7 @@ final class CustomTextField: UITextField {
         self.layer.borderWidth = 1
         self.layer.borderColor = UIColor.coolNeutral200.cgColor
         self.isSecureTextEntry = isSecure
+        self.autocapitalizationType = .none
         
         let leftPaddingView = UIView(frame: CGRect(x: 0, y: 0, width: 16, height: 1))
         self.leftView = leftPaddingView

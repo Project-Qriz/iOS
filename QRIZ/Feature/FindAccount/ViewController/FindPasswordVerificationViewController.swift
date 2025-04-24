@@ -104,7 +104,11 @@ final class FindPasswordVerificationViewController: UIViewController {
                     self.rootView.verificationInputView.handleEmailVerificationSuccess()
                     
                 case .emailVerificationDuplicate(let errorMessage):
-                    self.rootView.verificationInputView.showMessage(errorMessage, textColor: .customRed500)
+                    self.rootView.verificationInputView.updateErrorState(
+                        for: .email,
+                        isValid: false,
+                        message: errorMessage
+                    )
                     
                 case .showErrorAlert(let title):
                     self.showOneButtonAlert(with: title, storingIn: &cancellables)

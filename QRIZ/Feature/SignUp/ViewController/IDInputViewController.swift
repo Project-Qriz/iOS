@@ -81,18 +81,17 @@ final class IDInputViewController: UIViewController {
                 switch output {
                 case .isIDValid(let isValid):
                     self.rootView.idInputView.updateErrorState(isValid: isValid)
+                    self.rootView.idInputView.updateDuplicateButtonState(isEnabled: isValid)
                     
                 case .duplicateCheckResult(let message, let isAvailable):
                     self.rootView.idInputView.updateCheckMessage(message: message, isAvailable: isAvailable)
                     
                 case .updateNextButtonState(let isEnabled):
                     self.rootView.signUpFooterView.updateButtonState(isValid: isEnabled)
+                    self.rootView.idInputView.updateDuplicateButtonState(isEnabled: !isEnabled)
                     
                 case .showErrorAlert(let title):
                     self.showOneButtonAlert(with: title, storingIn: &cancellables)
-                    
-                case .resetColor:
-                    self.rootView.idInputView.resetColors()
                     
                 case .navigateToPasswordInputView:
                     self.coordinator?.showPasswordInput()

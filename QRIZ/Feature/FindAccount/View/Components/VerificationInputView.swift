@@ -12,7 +12,7 @@ final class VerificationInputView: UIView {
     
     // MARK: - Enums
     
-    enum textFieldType {
+    enum TextFieldType {
         case email
         case code
     }
@@ -215,24 +215,29 @@ final class VerificationInputView: UIView {
         )
     }
     
-    func updateErrorState(for type: textFieldType, isValid: Bool) {
+    func updateErrorState(
+        for type: TextFieldType,
+        isValid: Bool,
+        message: String? = nil
+    ) {
         let textField: UITextField
-        let errorText: String
+        let defaultText: String
         
         switch type {
         case .email:
             textField = emailTextField
-            errorText = Attributes.emailErrorText
+            defaultText = Attributes.emailErrorText
         case .code:
             textField = codeTextField
-            errorText = Attributes.codeErrorText
+            defaultText = Attributes.codeErrorText
         }
-        
+
         if isValid {
             hideMessage()
             textField.layer.borderColor = UIColor.customMint800.cgColor
         } else {
-            showErrorMessage(errorText)
+            let text = message ?? defaultText
+            showMessage(text, textColor: .customRed500)
             textField.layer.borderColor = UIColor.customRed500.cgColor
         }
     }
