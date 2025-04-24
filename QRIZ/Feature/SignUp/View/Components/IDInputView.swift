@@ -53,6 +53,8 @@ final class IDInputView: UIView {
         button.layer.cornerRadius = 8
         button.layer.borderColor = UIColor.coolNeutral200.cgColor
         button.layer.masksToBounds = true
+        button.isEnabled = false
+        button.alpha = 0.5
         button.addAction(UIAction { [weak self] _ in
             self?.buttonTappedSubject.send()
         }, for: .touchUpInside)
@@ -100,7 +102,13 @@ final class IDInputView: UIView {
     
     func updateErrorState(isValid: Bool) {
         noticeLabel.text = Attributes.noticeLabelText
+        noticeLabel.textColor = .customRed500
         noticeLabel.isHidden = isValid
+    }
+    
+    func updateDuplicateButtonState(isEnabled: Bool) {
+        duplicateCheckButton.isEnabled = isEnabled
+        duplicateCheckButton.alpha = isEnabled ? 1.0 : 0.5
     }
     
     func updateCheckMessage(message: String, isAvailable: Bool) {
@@ -108,11 +116,6 @@ final class IDInputView: UIView {
         noticeLabel.isHidden = false
         noticeLabel.textColor = isAvailable ? .customMint800 : .customRed500
         idTextField.layer.borderColor = isAvailable ? UIColor.customMint800.cgColor : UIColor.customRed500.cgColor
-    }
-    
-    func resetColors() {
-        noticeLabel.textColor = .coolNeutral800
-        idTextField.layer.borderColor = UIColor.clear.cgColor
     }
 }
 

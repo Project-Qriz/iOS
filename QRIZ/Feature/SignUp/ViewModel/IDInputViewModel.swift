@@ -102,7 +102,6 @@ extension IDInputViewModel {
         case duplicateCheckResult(message: String, isAvailable: Bool)
         case updateNextButtonState(Bool)
         case showErrorAlert(title: String)
-        case resetColor
         case navigateToPasswordInputView
     }
 }
