@@ -72,12 +72,9 @@ struct UserInfoRequest: Request {
     let method: HTTPMethod = .get
     
     var headers: HTTPHeader {
-        let authorization = HTTPHeaderField.authorization.rawValue
-        guard let accessToken = keyChainManager.retrieveToken(forKey: "accessToken") else {
-            print("UserInfoRequest Failed to retrieve accessToken")
-            return [authorization: ""]
-        }
-        return [authorization: accessToken]
+        let accessToken = keyChainManager.retrieveToken(forKey: "accessToken") ?? ""
+        if accessToken.isEmpty { print("UserInfoRequest received empty accessToken")}
+        return [HTTPHeaderField.authorization.rawValue: accessToken]
     }
 }
 

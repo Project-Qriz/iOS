@@ -174,6 +174,10 @@
 		E29FE4082DBA3D9700DECB26 /* PreviewTestStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = E29FE4072DBA3D9700DECB26 /* PreviewTestStatus.swift */; };
 		E29FE40A2DBA3F2900DECB26 /* UserInfoManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E29FE4092DBA3F2900DECB26 /* UserInfoManager.swift */; };
 		E29FE40D2DBA3FBC00DECB26 /* UserInfoService.swift in Sources */ = {isa = PBXBuildFile; fileRef = E29FE40C2DBA3FBC00DECB26 /* UserInfoService.swift */; };
+		E2A6C07C2DBA606A0059F960 /* SurveyRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2A6C07B2DBA606A0059F960 /* SurveyRequest.swift */; };
+		E2A6C07E2DBB58220059F960 /* PreviewTestListRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2A6C07D2DBB58220059F960 /* PreviewTestListRequest.swift */; };
+		E2A6C0802DBB61890059F960 /* PreviewSubmitRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2A6C07F2DBB61890059F960 /* PreviewSubmitRequest.swift */; };
+		E2A6C0822DBB65530059F960 /* AnalyzePreviewRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2A6C0812DBB65530059F960 /* AnalyzePreviewRequest.swift */; };
 		E2C084BE2D89AF2C0096CE20 /* PreviewResultInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2C084BD2D89AF2C0096CE20 /* PreviewResultInfoView.swift */; };
 		E2D70FE82D0DD322005A3F51 /* BeginPreviewTestViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2D70FE72D0DD322005A3F51 /* BeginPreviewTestViewModel.swift */; };
 		E2D70FEC2D0EBDDD005A3F51 /* CheckListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2D70FEB2D0EBDDD005A3F51 /* CheckListCell.swift */; };
@@ -383,6 +387,10 @@
 		E29FE4072DBA3D9700DECB26 /* PreviewTestStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreviewTestStatus.swift; sourceTree = "<group>"; };
 		E29FE4092DBA3F2900DECB26 /* UserInfoManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserInfoManager.swift; sourceTree = "<group>"; };
 		E29FE40C2DBA3FBC00DECB26 /* UserInfoService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserInfoService.swift; sourceTree = "<group>"; };
+		E2A6C07B2DBA606A0059F960 /* SurveyRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SurveyRequest.swift; sourceTree = "<group>"; };
+		E2A6C07D2DBB58220059F960 /* PreviewTestListRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreviewTestListRequest.swift; sourceTree = "<group>"; };
+		E2A6C07F2DBB61890059F960 /* PreviewSubmitRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreviewSubmitRequest.swift; sourceTree = "<group>"; };
+		E2A6C0812DBB65530059F960 /* AnalyzePreviewRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnalyzePreviewRequest.swift; sourceTree = "<group>"; };
 		E2C084BD2D89AF2C0096CE20 /* PreviewResultInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreviewResultInfoView.swift; sourceTree = "<group>"; };
 		E2D70FE72D0DD322005A3F51 /* BeginPreviewTestViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BeginPreviewTestViewModel.swift; sourceTree = "<group>"; };
 		E2D70FEB2D0EBDDD005A3F51 /* CheckListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckListCell.swift; sourceTree = "<group>"; };
@@ -497,6 +505,7 @@
 		5485664D2D12411F002BAEE3 /* DTOs */ = {
 			isa = PBXGroup;
 			children = (
+				E2A6C07A2DBA60550059F960 /* Onboarding */,
 				E29FE4042DBA39CE00DECB26 /* UserInfo */,
 				B1D8137B2D76A18900A9D447 /* Auth */,
 				B17D6AB92D9141D80023FCA5 /* ErrorResponse.swift */,
@@ -1407,6 +1416,17 @@
 			path = UserInfo;
 			sourceTree = "<group>";
 		};
+		E2A6C07A2DBA60550059F960 /* Onboarding */ = {
+			isa = PBXGroup;
+			children = (
+				E2A6C07B2DBA606A0059F960 /* SurveyRequest.swift */,
+				E2A6C07D2DBB58220059F960 /* PreviewTestListRequest.swift */,
+				E2A6C07F2DBB61890059F960 /* PreviewSubmitRequest.swift */,
+				E2A6C0812DBB65530059F960 /* AnalyzePreviewRequest.swift */,
+			);
+			path = Onboarding;
+			sourceTree = "<group>";
+		};
 		E2F18BCA2D60606A00DC6F82 /* DailyLearn */ = {
 			isa = PBXGroup;
 			children = (
@@ -1638,6 +1658,7 @@
 				E29CCD2F2D29855B004AA30A /* TestTimeLabel.swift in Sources */,
 				B168B7732D2846C80000F32E /* PasswordInputViewController.swift in Sources */,
 				E239630D2D083B900092B39B /* HomeViewController.swift in Sources */,
+				E2A6C07E2DBB58220059F960 /* PreviewTestListRequest.swift in Sources */,
 				B16774DF2D89F783001820F3 /* PasswordResetRequest.swift in Sources */,
 				B18F45182D3A528B0030F7DB /* FindIDViewModel.swift in Sources */,
 				B18F452A2D4D5B200030F7DB /* ResetPasswordViewController.swift in Sources */,
@@ -1650,6 +1671,7 @@
 				E29CCD292D29855B004AA30A /* QuestionNumberLabel.swift in Sources */,
 				E2D70FEE2D0EC037005A3F51 /* CheckConceptViewModel.swift in Sources */,
 				E29CCD2C2D29855B004AA30A /* TestButton.swift in Sources */,
+				E2A6C0802DBB61890059F960 /* PreviewSubmitRequest.swift in Sources */,
 				E217C3692D9BF0B20095A3D8 /* DailyResultViewModel.swift in Sources */,
 				B168B75F2D28073C0000F32E /* SignUpFooterView.swift in Sources */,
 				B162881C2D2CFC63008057D0 /* UIView+.swift in Sources */,
@@ -1701,6 +1723,7 @@
 				B19C4FAB2D6120D100CD008A /* OneButtonCustomAlertViewController.swift in Sources */,
 				B18F451E2D44D4080030F7DB /* FindPasswordVerificationViewModel.swift in Sources */,
 				E25F33652DB0D7D4002347D4 /* ResultGradeListCellView.swift in Sources */,
+				E2A6C07C2DBA606A0059F960 /* SurveyRequest.swift in Sources */,
 				E29CCD3F2D298656004AA30A /* PreviewResultIncorrectRankView.swift in Sources */,
 				E24CB1642DB357B100D88451 /* ResultDetailMenuItems.swift in Sources */,
 				B18F45152D3A40BE0030F7DB /* FindAccountType.swift in Sources */,
@@ -1709,6 +1732,7 @@
 				E24CB1582DB337FE00D88451 /* ResultDetailData.swift in Sources */,
 				E239630B2D083B900092B39B /* SceneDelegate.swift in Sources */,
 				E2D70FEC2D0EBDDD005A3F51 /* CheckListCell.swift in Sources */,
+				E2A6C0822DBB65530059F960 /* AnalyzePreviewRequest.swift in Sources */,
 				E283AC082D9E8D8F00DE005B /* DailyTestDescriptionView.swift in Sources */,
 				E28BAD772D2C111100B8388D /* TwoButtonCustomAlertView.swift in Sources */,
 				E29CCD2E2D29855B004AA30A /* TestProgressView.swift in Sources */,

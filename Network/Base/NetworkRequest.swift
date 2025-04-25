@@ -7,7 +7,7 @@
 
 import Foundation
 
-typealias QueryItems = [String: String]
+typealias QueryItems = [String: Any]
 typealias HTTPHeader = [String: String]
 
 protocol Request {
