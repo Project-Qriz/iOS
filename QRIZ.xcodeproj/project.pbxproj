@@ -74,6 +74,7 @@
 		B18F452A2D4D5B200030F7DB /* ResetPasswordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B18F45292D4D5B200030F7DB /* ResetPasswordViewController.swift */; };
 		B18F452C2D4D5CF00030F7DB /* ResetPasswordViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B18F452B2D4D5CF00030F7DB /* ResetPasswordViewModel.swift */; };
 		B18F452E2D4D5D640030F7DB /* ResetPasswordMainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B18F452D2D4D5D640030F7DB /* ResetPasswordMainView.swift */; };
+		B190A2D82DBB6E82008FDE86 /* HomeMainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B190A2D72DBB6E82008FDE86 /* HomeMainView.swift */; };
 		B19C4F6B2D5260DD00CD008A /* UIControl+.swift in Sources */ = {isa = PBXBuildFile; fileRef = B19C4F6A2D5260DD00CD008A /* UIControl+.swift */; };
 		B19C4F6D2D5262D900CD008A /* Combine+.swift in Sources */ = {isa = PBXBuildFile; fileRef = B19C4F6C2D5262D900CD008A /* Combine+.swift */; };
 		B19C4F6F2D55DCA400CD008A /* SignUpVerificationMainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B19C4F6E2D55DCA400CD008A /* SignUpVerificationMainView.swift */; };
@@ -270,6 +271,7 @@
 		B18F45292D4D5B200030F7DB /* ResetPasswordViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResetPasswordViewController.swift; sourceTree = "<group>"; };
 		B18F452B2D4D5CF00030F7DB /* ResetPasswordViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResetPasswordViewModel.swift; sourceTree = "<group>"; };
 		B18F452D2D4D5D640030F7DB /* ResetPasswordMainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResetPasswordMainView.swift; sourceTree = "<group>"; };
+		B190A2D72DBB6E82008FDE86 /* HomeMainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeMainView.swift; sourceTree = "<group>"; };
 		B19C4F6A2D5260DD00CD008A /* UIControl+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIControl+.swift"; sourceTree = "<group>"; };
 		B19C4F6C2D5262D900CD008A /* Combine+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Combine+.swift"; sourceTree = "<group>"; };
 		B19C4F6E2D55DCA400CD008A /* SignUpVerificationMainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpVerificationMainView.swift; sourceTree = "<group>"; };
@@ -563,6 +565,7 @@
 		54DB0D972D0950A500ABD458 /* Home */ = {
 			isa = PBXGroup;
 			children = (
+				B190A2D72DBB6E82008FDE86 /* HomeMainView.swift */,
 				E239630C2D083B900092B39B /* HomeViewController.swift */,
 				54DB0D982D0950DE00ABD458 /* HomeViewModel.swift */,
 				B1D813702D6E0C1F00A9D447 /* HomeCoordinator.swift */,
@@ -1589,11 +1592,11 @@
 				B168B76D2D2824BD0000F32E /* IDInputViewController.swift in Sources */,
 				B17FE3062D27F85C002EC7D7 /* LoginViewModel.swift in Sources */,
 				E28BAD792D2C2DEB00B8388D /* TwoButtonCustomAlertViewController.swift in Sources */,
+				B190A2D82DBB6E82008FDE86 /* HomeMainView.swift in Sources */,
 				E2C084BE2D89AF2C0096CE20 /* PreviewResultInfoView.swift in Sources */,
 				541878572D0E22700089F478 /* NetworkError.swift in Sources */,
 				E29CCD522D299AD5004AA30A /* PreviewResultIncorrectConceptsRankView.swift in Sources */,
 				E29CCD492D29867F004AA30A /* GreetingViewController.swift in Sources */,
-				B19C4FBC2D6B6D7000CD008A /* TextbookViewController.swift in Sources */,
 				E25F33672DB0E575002347D4 /* SingleSubjectView.swift in Sources */,
 				E29CCD1C2D298303004AA30A /* PreviewTestViewController.swift in Sources */,
 				E24CB1682DB522C800D88451 /* ResultDetailViewModel.swift in Sources */,
