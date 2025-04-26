@@ -36,9 +36,8 @@ final class LoginServiceImpl: LoginService {
         if let networkImp = network as? NetworkImp {
             let (loginResponse, httpResponse) = try await networkImp.sendWithHeaders(request)
             
-            if let authorizationHeader = httpResponse.allHeaderFields[HTTPHeaderField.authorization.rawValue] as? String {
-                let accessToken = authorizationHeader.replacingOccurrences(of: "Bearer ", with: "")
-                let saved = keychainManager.save(token: accessToken, forKey: "accessToken")
+            if let accessToken = httpResponse.allHeaderFields[HTTPHeaderField.authorization.rawValue] as? String {
+                let saved = keychainManager.save(token: accessToken, forKey: HTTPHeaderField.accessToken.rawValue)
                 os_log("%{public}@", saved ? "Access token saved" : "Failed to save access token")
             } else {
                 os_log("Authorization header missing", type: .error)
