@@ -37,5 +37,7 @@ struct PreviewSubmitRequest: Request {
 }
 
 struct PreviewSubmitResponse: Decodable {
-    
+    let code: Int
+    let msg: String
+    let data: String?
 }
