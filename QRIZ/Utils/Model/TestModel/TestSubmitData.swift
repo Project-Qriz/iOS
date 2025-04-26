@@ -10,7 +10,7 @@ import Foundation
 struct TestSubmitData: Codable {
     var question: SubmitQuestionData
     var questionNum: Int
-    var optionId: Int
+    var optionId: Int?
 }
 
 struct SubmitQuestionData: Codable {

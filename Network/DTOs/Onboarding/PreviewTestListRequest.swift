@@ -34,23 +34,23 @@ struct PreviewTestListResponse: Decodable {
     let data: dataInfo
     
     struct dataInfo: Decodable {
-        let questions: [PreviewTestListQuestions]
+        let questions: [PreviewTestListQuestion]
         let totalTimeLimit: Int
     }
-    
-    struct PreviewTestListQuestions: Decodable {
-        let questionId: Int
-        let skillId: Int
-        let category: Int
-        let question: String
-        let description: String?
-        let options: [PreviewTestListOptions]
-        let timeLimit: Int
-        let difficulty: Int
-    }
-    
-    struct PreviewTestListOptions: Decodable {
-        let id: Int
-        let content: String
-    }
+}
+
+struct PreviewTestListQuestion: Decodable {
+    let questionId: Int
+    let skillId: Int
+    let category: Int
+    let question: String
+    let description: String?
+    let options: [PreviewTestListOption]
+    let timeLimit: Int
+    let difficulty: Int
+}
+
+struct PreviewTestListOption: Decodable {
+    let id: Int
+    let content: String
 }
