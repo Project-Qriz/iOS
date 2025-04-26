@@ -121,6 +121,8 @@
 		E24CB1642DB357B100D88451 /* ResultDetailMenuItems.swift in Sources */ = {isa = PBXBuildFile; fileRef = E24CB1632DB357B100D88451 /* ResultDetailMenuItems.swift */; };
 		E24CB1682DB522C800D88451 /* ResultDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E24CB1672DB522C800D88451 /* ResultDetailViewModel.swift */; };
 		E24CB16A2DB5373900D88451 /* ResultDetailScoreView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E24CB1692DB5373900D88451 /* ResultDetailScoreView.swift */; };
+		E24CB1D92DBCAA3700D88451 /* OnboardingService.swift in Sources */ = {isa = PBXBuildFile; fileRef = E24CB1D82DBCAA3700D88451 /* OnboardingService.swift */; };
+		E24CB1DB2DBCB40200D88451 /* TestSubmitData.swift in Sources */ = {isa = PBXBuildFile; fileRef = E24CB1DA2DBCB40200D88451 /* TestSubmitData.swift */; };
 		E25856D42D0D766900355667 /* CheckConceptViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E25856D32D0D766900355667 /* CheckConceptViewController.swift */; };
 		E25856DE2D0DADD300355667 /* BeginOnboardingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E25856DD2D0DADD300355667 /* BeginOnboardingViewModel.swift */; };
 		E25907C82D80732C0093121C /* PreviewResultScoreView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E25907C72D80732C0093121C /* PreviewResultScoreView.swift */; };
@@ -331,6 +333,8 @@
 		E24CB1632DB357B100D88451 /* ResultDetailMenuItems.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResultDetailMenuItems.swift; sourceTree = "<group>"; };
 		E24CB1672DB522C800D88451 /* ResultDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResultDetailViewModel.swift; sourceTree = "<group>"; };
 		E24CB1692DB5373900D88451 /* ResultDetailScoreView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResultDetailScoreView.swift; sourceTree = "<group>"; };
+		E24CB1D82DBCAA3700D88451 /* OnboardingService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingService.swift; sourceTree = "<group>"; };
+		E24CB1DA2DBCB40200D88451 /* TestSubmitData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestSubmitData.swift; sourceTree = "<group>"; };
 		E25856D32D0D766900355667 /* CheckConceptViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = CheckConceptViewController.swift; path = QRIZ/Feature/Onboarding/CheckConcept/ViewController/CheckConceptViewController.swift; sourceTree = SOURCE_ROOT; };
 		E25856DD2D0DADD300355667 /* BeginOnboardingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BeginOnboardingViewModel.swift; sourceTree = "<group>"; };
 		E25907C72D80732C0093121C /* PreviewResultScoreView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreviewResultScoreView.swift; sourceTree = "<group>"; };
@@ -516,6 +520,7 @@
 		548566532D1241CB002BAEE3 /* Service */ = {
 			isa = PBXGroup;
 			children = (
+				E24CB1D72DBCA9E400D88451 /* Onboarding */,
 				E29FE40B2DBA3FA800DECB26 /* UserInfo */,
 				B1D8137C2D76A19500A9D447 /* Auth */,
 			);
@@ -873,6 +878,7 @@
 				B16774D62D89D2EE001820F3 /* AccountRecoveryService.swift */,
 				B16774D22D857FC6001820F3 /* SignUpService.swift */,
 				B17D6AD82D97FE450023FCA5 /* LoginService.swift */,
+				E24CB1D82DBCAA3700D88451 /* OnboardingService.swift */,
 			);
 			path = Auth;
 			sourceTree = "<group>";
@@ -1099,6 +1105,13 @@
 				E24CB1672DB522C800D88451 /* ResultDetailViewModel.swift */,
 			);
 			path = ViewModel;
+            sourceTree = "<group>";
+        };
+		E24CB1D72DBCA9E400D88451 /* Onboarding */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Onboarding;
 			sourceTree = "<group>";
 		};
 		E25856D72D0DA97400355667 /* BeginOnboarding */ = {
@@ -1246,6 +1259,7 @@
 				E24CB1532DB21F0400D88451 /* ResultGradeListData.swift */,
 				E24CB1572DB337FE00D88451 /* ResultDetailData.swift */,
 				E24CB1632DB357B100D88451 /* ResultDetailMenuItems.swift */,
+				E24CB1DA2DBCB40200D88451 /* TestSubmitData.swift */,
 			);
 			path = TestModel;
 			sourceTree = "<group>";
@@ -1690,6 +1704,8 @@
 				5485664B2D123FC2002BAEE3 /* Network.swift in Sources */,
 				B162881E2D2D6624008057D0 /* UIViewController+.swift in Sources */,
 				B1D813732D6E0CB200A9D447 /* ConceptBookCoordinator.swift in Sources */,
+				E24CB1D92DBCAA3700D88451 /* OnboardingService.swift in Sources */,
+				B1D813732D6E0CB200A9D447 /* TextbookCoordinator.swift in Sources */,
 				54BC61592D1823F50094DC45 /* SocialLoginView.swift in Sources */,
 				E29FE40A2DBA3F2900DECB26 /* UserInfoManager.swift in Sources */,
 				B18F451A2D4139B00030F7DB /* UILabel+.swift in Sources */,
@@ -1769,6 +1785,7 @@
 				B16288182D2CDB85008057D0 /* NameInputViewModel.swift in Sources */,
 				E28A93852D945F95006A15DB /* StudyContentCell.swift in Sources */,
 				B168B7632D28073C0000F32E /* NameInputMainView.swift in Sources */,
+				E24CB1DB2DBCB40200D88451 /* TestSubmitData.swift in Sources */,
 				E217C3702D9BF2860095A3D8 /* DailyTestFooterView.swift in Sources */,
 				54BC61552D14AFB70094DC45 /* LoginInputView.swift in Sources */,
 				E24907DA2D63698C004D6E61 /* DailyLearnSectionTitleLabel.swift in Sources */,

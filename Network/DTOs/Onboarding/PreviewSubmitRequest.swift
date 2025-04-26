@@ -13,6 +13,12 @@ struct PreviewSubmitRequest: Request {
     
     var path = "/api/v1/preview/submit"
     var method: HTTPMethod = .post
+    var testSubmitDataList: [TestSubmitData]
+    var query: QueryItems {
+        [
+            "activities": testSubmitDataList
+        ]
+    }
     
     var headers: HTTPHeader {
         let accessToken = keyChainManager.retrieveToken(forKey: "accessToken") ?? ""
