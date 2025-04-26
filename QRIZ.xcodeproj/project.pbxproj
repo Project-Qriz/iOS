@@ -878,7 +878,6 @@
 				B16774D62D89D2EE001820F3 /* AccountRecoveryService.swift */,
 				B16774D22D857FC6001820F3 /* SignUpService.swift */,
 				B17D6AD82D97FE450023FCA5 /* LoginService.swift */,
-				E24CB1D82DBCAA3700D88451 /* OnboardingService.swift */,
 			);
 			path = Auth;
 			sourceTree = "<group>";
@@ -1110,6 +1109,7 @@
 		E24CB1D72DBCA9E400D88451 /* Onboarding */ = {
 			isa = PBXGroup;
 			children = (
+				E24CB1D82DBCAA3700D88451 /* OnboardingService.swift */,
 			);
 			path = Onboarding;
 			sourceTree = "<group>";
