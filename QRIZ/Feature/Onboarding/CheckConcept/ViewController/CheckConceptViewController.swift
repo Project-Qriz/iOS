@@ -28,7 +28,7 @@ final class CheckConceptViewController: UIViewController {
     }()
     private let checkDoneButton = OnboardingButton("선택완료")
     
-    private let viewModel: CheckConceptViewModel = CheckConceptViewModel()
+    private let viewModel: CheckConceptViewModel = CheckConceptViewModel(onboardingService: OnboardingServiceImpl(keyChainManager: KeychainManagerImpl()))
     private let input: PassthroughSubject<CheckConceptViewModel.Input, Never> = .init()
     private var subscriptions = Set<AnyCancellable>()
     
@@ -65,7 +65,7 @@ final class CheckConceptViewController: UIViewController {
                 case .setDoneButtonState(let isActive):
                     checkDoneButtonHandler(isActive: isActive)
                 case .requestFailed:
-                    print("REQUEST FAIL") // handle error
+                    self.showOneButtonAlert(with: "잠시 후 다시 시도해주세요.", storingIn: &subscriptions)
                 }
             }
             .store(in: &subscriptions)
