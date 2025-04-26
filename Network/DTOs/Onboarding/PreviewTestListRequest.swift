@@ -35,6 +35,7 @@ struct PreviewTestListResponse: Decodable {
     
     struct dataInfo: Decodable {
         let questions: [PreviewTestListQuestions]
+        let totalTimeLimit: Int
     }
     
     struct PreviewTestListQuestions: Decodable {
