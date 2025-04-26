@@ -8,8 +8,10 @@
 import Foundation
 
 struct PreviewSubmitRequest: Request {
+    
+    // MARK: - Properties
     typealias Response = PreviewSubmitResponse
-    private let keyChainManager: KeychainManagerImpl = .init()
+    private let accessToken: String
     
     var path = "/api/v1/preview/submit"
     var method: HTTPMethod = .post
@@ -21,12 +23,16 @@ struct PreviewSubmitRequest: Request {
     }
     
     var headers: HTTPHeader {
-        let accessToken = keyChainManager.retrieveToken(forKey: "accessToken") ?? ""
-        if accessToken.isEmpty { print("PreviewSubmitRequest received empty accessToken")}
         return [
             HTTPHeaderField.contentType.rawValue: ContentType.json.rawValue,
             HTTPHeaderField.authorization.rawValue: accessToken
         ]
+    }
+    
+    // MARK: - Initializers
+    init(accessToken: String, testSubmitDataList: [TestSubmitData]) {
+        self.accessToken = accessToken
+        self.testSubmitDataList = testSubmitDataList
     }
 }
 

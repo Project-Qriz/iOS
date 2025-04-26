@@ -8,16 +8,23 @@
 import Foundation
 
 struct PreviewTestListRequest: Request {
+    
+    // MARK: - Properties
     typealias Response = PreviewTestListResponse
-    private let keyChainManager: KeychainManagerImpl = .init()
+    private let accessToken: String
     
     var path = "/api/v1/preview/get"
     var method: HTTPMethod = .get
     
     var headers: HTTPHeader {
-        let accessToken = keyChainManager.retrieveToken(forKey: "accessToken") ?? ""
-        if accessToken.isEmpty { print("PreviewTestListRequest received empty accessToken")}
-        return [HTTPHeaderField.authorization.rawValue: accessToken]
+        [
+            HTTPHeaderField.authorization.rawValue: accessToken
+        ]
+    }
+    
+    // MARK: - Initializers
+    init(accessToken: String) {
+        self.accessToken = accessToken
     }
 }
 
@@ -34,7 +41,7 @@ struct PreviewTestListResponse: Decodable {
         let questionId: Int
         let skillId: Int
         let category: Int
-        let questino: String
+        let question: String
         let description: String?
         let options: [PreviewTestListOptions]
         let timeLimit: Int

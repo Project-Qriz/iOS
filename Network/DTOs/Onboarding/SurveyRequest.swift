@@ -8,8 +8,10 @@
 import Foundation
 
 struct SurveyRequest: Request {
+    
+    // MARK: - Properties
     typealias Response = SurveyResponse
-    private let keyChainManager: KeychainManagerImpl = .init()
+    private let accessToken: String
     
     var path = "/api/v1/survey"
     var method: HTTPMethod = .post
@@ -21,12 +23,16 @@ struct SurveyRequest: Request {
     }
     
     var headers: HTTPHeader {
-        let accessToken = keyChainManager.retrieveToken(forKey: "accessToken") ?? ""
-        if accessToken.isEmpty { print("SurveyRequest received empty accessToken")}
-        return [
+        [
             HTTPHeaderField.contentType.rawValue: ContentType.json.rawValue,
             HTTPHeaderField.authorization.rawValue: accessToken
         ]
+    }
+    
+    // MARK: - Initializers
+    init(accessToken: String, keyConcepts: [String]) {
+        self.accessToken = accessToken
+        self.keyConcepts = keyConcepts
     }
 }
 
