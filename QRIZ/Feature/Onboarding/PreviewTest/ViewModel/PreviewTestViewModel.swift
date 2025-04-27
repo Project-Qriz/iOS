@@ -89,12 +89,10 @@ final class PreviewTestViewModel {
         Task {
             do {
                 let _ = try await onboardingService.submitPreview(testSubmitDataList: submitList)
-                print("SIUUUU")
                 exitTimer()
                 output.send(.submitSuccess)
                 output.send(.moveToPreviewResult)
             } catch {
-                print("ENCODE FAIL?")
                 output.send(.submitFail)
             }
         }
