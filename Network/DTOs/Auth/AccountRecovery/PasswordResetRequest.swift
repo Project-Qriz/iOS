@@ -37,7 +37,7 @@ struct PasswordResetRequest: Request {
     let method: HTTPMethod = .post
     let password: String
     
-    var query: QueryItems {
+    var body: Encodable? {
         ["password": password]
     }
     

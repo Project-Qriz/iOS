@@ -16,7 +16,7 @@ struct PreviewSubmitRequest: Request {
     var path = "/api/v1/preview/submit"
     var method: HTTPMethod = .post
     var testSubmitDataList: [TestSubmitData]
-    var query: QueryItems {
+    var body: Encodable? {
         [
             "activities": testSubmitDataList
         ]

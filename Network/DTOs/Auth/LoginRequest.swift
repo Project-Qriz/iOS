@@ -39,7 +39,7 @@ struct LoginRequest: Request {
     let id: String
     let password: String
     
-    var query: QueryItems {
+    var body: Encodable? {
         [
             "username": id,
             "password": password

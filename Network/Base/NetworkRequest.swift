@@ -7,7 +7,7 @@
 
 import Foundation
 
-typealias QueryItems = [String: Any]
+typealias QueryItems = [String: String]
 typealias HTTPHeader = [String: String]
 
 protocol Request {
@@ -18,6 +18,7 @@ protocol Request {
     var method: HTTPMethod { get }
     var query: QueryItems { get }
     var headers: HTTPHeader { get }
+    var body: Encodable? { get }
 }
 
 extension Request {
@@ -32,6 +33,7 @@ extension Request {
     }
     var query: QueryItems { [:] }
     var headers: HTTPHeader { [:] }
+    var body: Encodable? { nil }
     
     var endpoint: URL {
         return baseURL.appendingPathComponent(path)
@@ -67,8 +69,11 @@ final class RequestFactory<T: Request> {
     }
     
     private func makePostRequest() throws -> URLRequest {
-        let body = try JSONSerialization.data(withJSONObject: request.query, options: [])
-        return try makeURLRequest(httpBody: body)
+        guard let encodableBody = request.body else {
+            throw NetworkError.invalidURL(message: "POST 요청에 body가 없습니다.")
+        }
+        let bodyData = try JSONEncoder().encode(encodableBody)
+        return try makeURLRequest(httpBody: bodyData)
     }
     
     private func makeURLRequest(httpBody: Data? = nil) throws -> URLRequest {

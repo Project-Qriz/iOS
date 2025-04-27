@@ -32,7 +32,7 @@ struct FindIDRequest: Request {
     let method: HTTPMethod = .post
     let email: String
     
-    var query: QueryItems {
+    var body: Encodable? {
         ["email": email]
     }
     

@@ -16,7 +16,7 @@ struct SurveyRequest: Request {
     var path = "/api/v1/survey"
     var method: HTTPMethod = .post
     var keyConcepts: [String]
-    var query: QueryItems {
+    var body: Encodable? {
         [
             "keyConcepts": keyConcepts
         ]

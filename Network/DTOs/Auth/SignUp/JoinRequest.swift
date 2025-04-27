@@ -65,7 +65,7 @@ struct JoinRequest: Request {
     let nickname: String
     let email: String
     
-    var query: QueryItems {
+    var body: Encodable? {
         [
             "username": username,
             "password": password,
