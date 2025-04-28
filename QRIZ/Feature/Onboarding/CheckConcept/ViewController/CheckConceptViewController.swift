@@ -41,6 +41,10 @@ final class CheckConceptViewController: UIViewController {
         addViews()
         navigationController?.navigationBar.isHidden = true
         addButtonAction()
+    }
+    
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
         addCustomShadow()
     }
     
@@ -98,9 +102,13 @@ final class CheckConceptViewController: UIViewController {
     
     private func addCustomShadow() {
         checkDoneButton.layer.masksToBounds = false
-        checkDoneButton.layer.shadowColor = UIColor.coolNeutral100.cgColor
-        checkDoneButton.layer.cornerRadius = 10
-        checkDoneButton.layer.shadowOpacity = 1
+        checkDoneButton.layer.shadowColor = UIColor.customBlue100.cgColor
+        checkDoneButton.layer.cornerRadius = 8
+        checkDoneButton.layer.shadowOpacity = 0.7
+        checkDoneButton.layer.shadowPath = UIBezierPath(rect: CGRect(x: checkListCollectionView.bounds.minX - 1,
+                                                                     y: checkDoneButton.bounds.minY - 6,
+                                                                     width: checkDoneButton.bounds.width + 2,
+                                                                     height: checkDoneButton.bounds.height)).cgPath
     }
 }
 
