@@ -65,16 +65,21 @@
 import Foundation
 
 struct UserInfoRequest: Request {
+    
+    // MARK: - Properties
     typealias Response = UserInfoResponse
-    private let keyChainManager: KeychainManagerImpl = .init()
+    private let accessToken: String
     
     let path = "/api/v1/user/info"
     let method: HTTPMethod = .get
     
     var headers: HTTPHeader {
-        let accessToken = keyChainManager.retrieveToken(forKey: "accessToken") ?? ""
-        if accessToken.isEmpty { print("UserInfoRequest received empty accessToken")}
         return [HTTPHeaderField.authorization.rawValue: accessToken]
+    }
+    
+    // MARK: - Initializers
+    init(accessToken: String) {
+        self.accessToken = accessToken
     }
 }
 
