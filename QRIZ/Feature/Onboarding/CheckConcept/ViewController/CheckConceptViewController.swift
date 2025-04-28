@@ -126,6 +126,10 @@ extension CheckConceptViewController: UICollectionViewDelegateFlowLayout {
         return 5
     }
     
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
+        UIEdgeInsets(top: 0, left: 0, bottom: 30, right: 0)
+    }
+    
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         self.input.send(.someCheckboxClicked(idx: indexPath.item))
     }
@@ -186,7 +190,7 @@ extension CheckConceptViewController {
             dividerView.heightAnchor.constraint(equalToConstant: 2),
             
             checkListCollectionView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 42),
-            checkListCollectionView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: -16),
+            checkListCollectionView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: -18),
             checkListCollectionView.topAnchor.constraint(equalTo: checkAllButton.bottomAnchor, constant: 16),
             checkListCollectionView.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor, constant: -65),
             
