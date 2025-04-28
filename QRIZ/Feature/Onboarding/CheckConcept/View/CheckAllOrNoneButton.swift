@@ -81,7 +81,7 @@ final class CheckAllOrNoneButton : UIView {
     }
     
     private func setLabelText() {
-        label.text = isAllButton ? "전부 아는 개념이에요! 😆" : "모든 개념을 처음 봐요 😅"
+        label.text = isAllButton ? "전부 아는 개념이에요!" : "모든 개념을 처음 봐요"
     }
     
     private func setBorder() {
