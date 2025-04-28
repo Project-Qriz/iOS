@@ -24,7 +24,7 @@ final class OnboardingServiceImpl: OnboardingService {
     private let keychainManager: KeychainManager
     
     // MARK: - Initializers
-    init(network: Network = NetworkImp(session: URLSession.shared), keyChainManager: KeychainManager) {
+    init(network: Network = NetworkImp(session: URLSession.shared), keyChainManager: KeychainManager = KeychainManagerImpl()) {
         self.network = network
         self.keychainManager = keyChainManager
     }

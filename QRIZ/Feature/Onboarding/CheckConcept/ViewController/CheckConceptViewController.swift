@@ -28,7 +28,7 @@ final class CheckConceptViewController: UIViewController {
     }()
     private let checkDoneButton = OnboardingButton("선택완료")
     
-    private let viewModel: CheckConceptViewModel = CheckConceptViewModel(onboardingService: OnboardingServiceImpl(keyChainManager: KeychainManagerImpl()))
+    private let viewModel: CheckConceptViewModel = CheckConceptViewModel(onboardingService: OnboardingServiceImpl())
     private let input: PassthroughSubject<CheckConceptViewModel.Input, Never> = .init()
     private var subscriptions = Set<AnyCancellable>()
     

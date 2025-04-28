@@ -48,7 +48,7 @@ final class PreviewTestViewController: UIViewController {
     }()
     private let submitAlertViewController = TwoButtonCustomAlertViewController(title: "제출하시겠습니까?", description: "확인 버튼을 누르면 다시 돌아올 수 없어요.")
     
-    private let viewModel: PreviewTestViewModel = PreviewTestViewModel(onboardingService: OnboardingServiceImpl(keyChainManager: KeychainManagerImpl()))
+    private let viewModel: PreviewTestViewModel = PreviewTestViewModel(onboardingService: OnboardingServiceImpl())
     private var subscriptions = Set<AnyCancellable>()
     private let input: PassthroughSubject<PreviewTestViewModel.Input, Never> = .init()
     
