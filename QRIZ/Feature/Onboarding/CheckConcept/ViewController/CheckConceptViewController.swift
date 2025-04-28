@@ -41,6 +41,7 @@ final class CheckConceptViewController: UIViewController {
         addViews()
         navigationController?.navigationBar.isHidden = true
         addButtonAction()
+        addCustomShadow()
     }
     
     private func bind() {
@@ -86,12 +87,20 @@ final class CheckConceptViewController: UIViewController {
             guard let self = self else { return }
             self.foldButton.toggleImage()
             checkListCollectionView.isHidden.toggle()
+            checkDoneButton.layer.masksToBounds.toggle()
         }), for: .touchUpInside)
         
         checkDoneButton.addAction(UIAction(handler: { [weak self] _ in
             guard let self = self else { return }
             self.input.send(.didDoneButtonClicked)
         }), for: .touchUpInside)
+    }
+    
+    private func addCustomShadow() {
+        checkDoneButton.layer.masksToBounds = false
+        checkDoneButton.layer.shadowColor = UIColor.coolNeutral100.cgColor
+        checkDoneButton.layer.cornerRadius = 10
+        checkDoneButton.layer.shadowOpacity = 1
     }
 }
 
