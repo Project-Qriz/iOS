@@ -22,6 +22,7 @@ final class CheckListCell: UICollectionViewCell {
         self.backgroundColor = .white
         self.layer.cornerRadius = 8
         addViews()
+        addShadow()
     }
     
     required init?(coder: NSCoder) {
@@ -38,6 +39,12 @@ final class CheckListCell: UICollectionViewCell {
         textLabel.font = .systemFont(ofSize: 15)
         textLabel.textColor = .black
         textLabel.textAlignment = .left
+    }
+    
+    private func addShadow() {
+        self.layer.shadowColor = UIColor.coolNeutral100.cgColor
+        self.layer.shadowOpacity = 1
+        self.layer.shadowRadius = 6
     }
 }
 
