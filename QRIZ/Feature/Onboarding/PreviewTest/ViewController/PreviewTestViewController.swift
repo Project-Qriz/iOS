@@ -93,7 +93,8 @@ final class PreviewTestViewController: UIViewController {
                     submitAlertViewController.dismiss(animated: true) // coordinator role
                     print("submit success")
                 case .submitFail:
-                    print("Preview test submit failed..") // network error
+                    submitAlertViewController.dismiss(animated: true)
+                    self.showOneButtonAlert(with: "잠시 후 다시 시도해주세요.", storingIn: &subscriptions)
                 }
             }
             .store(in: &subscriptions)
