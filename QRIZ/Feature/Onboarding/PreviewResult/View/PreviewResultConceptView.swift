@@ -13,7 +13,7 @@ struct PreviewResultConceptView: View {
     
     var body: some View {
         VStack {
-            if previewConceptsData.numOfTotalConcept != 0 {
+            if previewConceptsData.numOfTotalConcept > 1 {
                 HStack {
                     Text("틀린 문제").font(.system(size: 20, weight: .bold)) +
                     Text("에\n").font(.system(size: 20, weight: .medium)) +

@@ -14,7 +14,7 @@ struct PreviewResultBarGraphsView: View {
     var body: some View {
         VStack(spacing: 0) {
             HStack(alignment: .bottom, spacing: 30) {
-                ForEach(previewConceptsData.incorrectCountDataArr.filter { $0.id <= 3 }) { data in
+                ForEach(previewConceptsData.incorrectCountDataArr.filter { $0.id <= 2 }) { data in
                     VStack {
                         Text("\(data.topic[0])" + "\(getCountText(numOfConcepts: data.topic.count))")
                             .frame(width: 80)

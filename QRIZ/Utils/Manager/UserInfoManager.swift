@@ -8,7 +8,7 @@
 import Foundation
 
 struct UserInfoManager {
-    static var name: String = ""
+    static var name: String = "채영" // 임시 값, 추후에 UserInfoService를 통해 갱신
     static var userId: String = ""
     static var email: String = ""
     static var previewTestStatus: PreviewTestStatus = .previewCompleted

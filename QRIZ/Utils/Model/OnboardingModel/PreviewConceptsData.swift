@@ -30,7 +30,7 @@ final class PreviewConceptsData: ObservableObject {
     init() {}
     
     func initAnimationChart(numOfCharts: Int) {
-        for idx in 1...numOfCharts {
+        for idx in 0..<numOfCharts {
             incorrectCountDataArr.append(IncorrectCountData(id: idx, incorrectCount: 0, topic: [""]))
         }
     }

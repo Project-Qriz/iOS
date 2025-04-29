@@ -18,16 +18,25 @@ final class PreviewResultViewModel {
     }
     
     enum Output {
-        case createDataFailed
+        case fetchFailed
         case moveToGreetingView
     }
     
     // MARK: - Properties
     var previewScoresData = ResultScoresData()
     var previewConceptsData = PreviewConceptsData()
+    private var subjectScores: [CGFloat] = [0, 0, 0, 0, 0]
+    private var incorrectCountDataArr: [IncorrectCountData] = []
     
     private let output: PassthroughSubject<Output, Never> = .init()
     private var subscriptions = Set<AnyCancellable>()
+    
+    private let onboardingService: OnboardingService
+    
+    // MARK: - Intializers
+    init(onboardingService: OnboardingService) {
+        self.onboardingService = onboardingService
+    }
     
     // MARK: - Methods
     func transform(input: AnyPublisher<Input, Never>) -> AnyPublisher<Output, Never> {
@@ -35,11 +44,10 @@ final class PreviewResultViewModel {
             guard let self = self else { return }
             switch event {
             case .viewDidLoad:
-                updateTextData()
-                setChartLayout()
+                analyzePreviewResult()
             case .viewDidAppear:
-                updateScoreAnimationData()
-                updateConceptAnimationData()
+                animateScoreData()
+                animateConceptData()
                 
             case .toHomeButtonClicked:
                 output.send(.moveToGreetingView)
@@ -49,48 +57,74 @@ final class PreviewResultViewModel {
         return output.eraseToAnyPublisher()
     }
     
-    private func updateTextData() {
-        updateMockTextData()
+    private func analyzePreviewResult() {
+        Task {
+            do {
+                let response = try await onboardingService.analyzePreview()
+                setChartLayout(response.data)
+                updateData(response.data)
+            } catch {
+                output.send(.fetchFailed)
+            }
+        }
     }
     
-    private func updateScoreAnimationData() {
-        updateMockScoreAnimationData()
-    }
-    
-    private func updateConceptAnimationData() {
-        updateMockConceptAnimationData()
-    }
-    
-    private func setChartLayout() {
-        setMockChartLayout()
-    }
-    
-    // MARK: - Test Methods
-    private func updateMockTextData() {
-        self.previewScoresData.nickname = "채영"
-        self.previewScoresData.expectScore = 58
+    private func updateData(_ data: AnalyzePreviewResponse.DataInfo) {
+        DispatchQueue.main.async { [weak self] in
+            guard let self = self else { return }
+            previewScoresData.nickname = UserInfoManager.name
+            self.previewScoresData.expectScore = data.estimatedScore
+            
+            if data.topConceptsToImprove.count >= 2 {
+                previewConceptsData.firstConcept = data.topConceptsToImprove[0]
+                previewConceptsData.secondConcept = data.topConceptsToImprove[1]
+            }
+            
+            previewConceptsData.totalQuestions = data.weakAreaAnalysis.totalQuestions
+        }
         
-        self.previewConceptsData.firstConcept = "DDL"
-        self.previewConceptsData.secondConcept = "조인"
-        self.previewConceptsData.totalQuestions = 20
+        updateScoreData(data)
+        updateConceptData(data)
     }
     
-    private func updateMockScoreAnimationData() {
-        self.previewScoresData.subjectScores[0] = 40
-        self.previewScoresData.subjectScores[1] = 20
-        self.previewScoresData.subjectCount = 2
+    private func updateScoreData(_ data: AnalyzePreviewResponse.DataInfo) {
+        subjectScores[0] = CGFloat(data.scoreBreakdown.part1Score)
+        subjectScores[1] = CGFloat(data.scoreBreakdown.part2Score)
+        DispatchQueue.main.async { [weak self] in
+            guard let self = self else { return }
+            self.previewScoresData.subjectCount = 2
+        }
     }
     
-    private func updateMockConceptAnimationData() {
-        self.previewConceptsData.incorrectCountDataArr = [
-            IncorrectCountData(id: 1, incorrectCount: 5, topic: ["DDL"]),
-            IncorrectCountData(id: 2, incorrectCount: 5, topic: ["속성"]),
-            IncorrectCountData(id: 3, incorrectCount: 3, topic: ["조인"]),
-        ]
+    private func animateScoreData() {
+        DispatchQueue.main.async { [weak self] in
+            guard let self = self else { return }
+            self.previewScoresData.subjectScores[0] = self.subjectScores[0]
+            self.previewScoresData.subjectScores[1] = self.subjectScores[1]
+        }
     }
     
-    private func setMockChartLayout() {
-        self.previewConceptsData.numOfTotalConcept = 3
-        self.previewConceptsData.initAnimationChart(numOfCharts: 3)
+    private func updateConceptData(_ data: AnalyzePreviewResponse.DataInfo) {
+        for i in 0..<previewConceptsData.numOfTotalConcept {
+            incorrectCountDataArr.append(IncorrectCountData(
+                id: i,
+                incorrectCount: data.weakAreaAnalysis.weakAreas[i].incorrectCount,
+                topic: [data.weakAreaAnalysis.weakAreas[i].topic]))
+        }
+    }
+    
+    private func animateConceptData() {
+        DispatchQueue.main.async { [weak self] in
+            guard let self = self else { return }
+            self.previewConceptsData.incorrectCountDataArr = self.incorrectCountDataArr
+        }
+    }
+    
+    private func setChartLayout(_ data: AnalyzePreviewResponse.DataInfo) {
+        DispatchQueue.main.async { [weak self] in
+            guard let self = self else { return }
+            self.previewConceptsData.numOfTotalConcept = data.weakAreaAnalysis.weakAreas.count
+            self.previewConceptsData.initAnimationChart(numOfCharts: self.previewConceptsData.numOfTotalConcept)
+        }
     }
 }

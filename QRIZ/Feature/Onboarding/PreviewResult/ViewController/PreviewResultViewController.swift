@@ -14,7 +14,7 @@ final class PreviewResultViewController: UIViewController {
     // MARK: - Properties
     private var previewResultViewHostingController: PreviewResultViewHostingController!
     
-    private var viewModel = PreviewResultViewModel()
+    private var viewModel = PreviewResultViewModel(onboardingService: OnboardingServiceImpl())
     private let input: PassthroughSubject<PreviewResultViewModel.Input, Never> = .init()
     private var subscriptions = Set<AnyCancellable>()
     
@@ -41,8 +41,8 @@ final class PreviewResultViewController: UIViewController {
             .sink { [weak self] event in
                 guard let self = self else { return }
                 switch event {
-                case .createDataFailed:
-                    print("create Data Failed : PreviewResultViewController")
+                case .fetchFailed:
+                    self.showOneButtonAlert(with: "잠시 후 다시 시도해주세요.", storingIn: &subscriptions)
                 case .moveToGreetingView:
                     // coordinator role
                     navigationController?.pushViewController(GreetingViewController(), animated: true)
