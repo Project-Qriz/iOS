@@ -74,6 +74,7 @@
 		B18F452A2D4D5B200030F7DB /* ResetPasswordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B18F45292D4D5B200030F7DB /* ResetPasswordViewController.swift */; };
 		B18F452C2D4D5CF00030F7DB /* ResetPasswordViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B18F452B2D4D5CF00030F7DB /* ResetPasswordViewModel.swift */; };
 		B18F452E2D4D5D640030F7DB /* ResetPasswordMainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B18F452D2D4D5D640030F7DB /* ResetPasswordMainView.swift */; };
+		B190A2E42DC0E023008FDE86 /* RoundBoxLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B190A2E32DC0E023008FDE86 /* RoundBoxLabel.swift */; };
 		B19C4F6B2D5260DD00CD008A /* UIControl+.swift in Sources */ = {isa = PBXBuildFile; fileRef = B19C4F6A2D5260DD00CD008A /* UIControl+.swift */; };
 		B19C4F6D2D5262D900CD008A /* Combine+.swift in Sources */ = {isa = PBXBuildFile; fileRef = B19C4F6C2D5262D900CD008A /* Combine+.swift */; };
 		B19C4F6F2D55DCA400CD008A /* SignUpVerificationMainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B19C4F6E2D55DCA400CD008A /* SignUpVerificationMainView.swift */; };
@@ -270,6 +271,7 @@
 		B18F45292D4D5B200030F7DB /* ResetPasswordViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResetPasswordViewController.swift; sourceTree = "<group>"; };
 		B18F452B2D4D5CF00030F7DB /* ResetPasswordViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResetPasswordViewModel.swift; sourceTree = "<group>"; };
 		B18F452D2D4D5D640030F7DB /* ResetPasswordMainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResetPasswordMainView.swift; sourceTree = "<group>"; };
+		B190A2E32DC0E023008FDE86 /* RoundBoxLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoundBoxLabel.swift; sourceTree = "<group>"; };
 		B19C4F6A2D5260DD00CD008A /* UIControl+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIControl+.swift"; sourceTree = "<group>"; };
 		B19C4F6C2D5262D900CD008A /* Combine+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Combine+.swift"; sourceTree = "<group>"; };
 		B19C4F6E2D55DCA400CD008A /* SignUpVerificationMainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpVerificationMainView.swift; sourceTree = "<group>"; };
@@ -625,6 +627,7 @@
 				54E91B752D18FACD00474D0A /* RoundButton.swift */,
 				B17FE30B2D27F931002EC7D7 /* CustomTextField.swift */,
 				E24907D42D619FD4004D6E61 /* TestNavigatorButton.swift */,
+				B190A2E32DC0E023008FDE86 /* RoundBoxLabel.swift */,
 			);
 			path = CommonViews;
 			sourceTree = "<group>";
@@ -1695,6 +1698,7 @@
 				E29BF8552D117CF1006DC6D0 /* SurveyCheckList.swift in Sources */,
 				E2DD0E862D2146D900DA3D18 /* IncorrectCountData.swift in Sources */,
 				E217C36B2D9BF0C30095A3D8 /* DailyResultViewController.swift in Sources */,
+				B190A2E42DC0E023008FDE86 /* RoundBoxLabel.swift in Sources */,
 				E24907D32D619F39004D6E61 /* DailyLearnViewModel.swift in Sources */,
 				B17D6ABA2D9141D80023FCA5 /* ErrorResponse.swift in Sources */,
 				B15188662D782CCE000EFE41 /* SignUpCoordinator.swift in Sources */,
