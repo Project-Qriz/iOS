@@ -18,13 +18,18 @@ final class ExamScheduleCardCell: UICollectionViewCell {
         static let statusLabelTopOffset: CGFloat = 16.0
         static let suggestionLabelTopOffset: CGFloat = 10.0
         static let actionButtonTopOffset: CGFloat = 16.0
+        static let actionButtonHeightMultiple: CGFloat = 40 / 291
+    }
+    
+    private enum Attributes {
+        static let suggestionText: String = "지금 바로 등록할까요?"
+        static let actionButtonTitle: String = "등록하기"
     }
     
     // MARK: - UI
     
     private let titleLabel: UILabel = {
         let label = UILabel()
-        label.text = "채영님의\n시험 일정을 등록해보세요!"
         label.font = .systemFont(ofSize: 22, weight: .bold)
         label.textColor = .coolNeutral800
         label.numberOfLines = 2
@@ -39,7 +44,6 @@ final class ExamScheduleCardCell: UICollectionViewCell {
     
     private let statusLabel: UILabel = {
         let label = UILabel()
-        label.text = "등록된 일정이 없어요."
         label.font = .systemFont(ofSize: 18, weight: .bold)
         label.textColor = .coolNeutral800
         return label
@@ -47,7 +51,7 @@ final class ExamScheduleCardCell: UICollectionViewCell {
     
     private let suggestionLabel: UILabel = {
         let label = UILabel()
-        label.text = "지금 바로 등록할까요?"
+        label.text = Attributes.suggestionText
         label.font = .systemFont(ofSize: 14, weight: .regular)
         label.textColor = .coolNeutral500
         return label
@@ -55,10 +59,11 @@ final class ExamScheduleCardCell: UICollectionViewCell {
     
     private let actionButton: UIButton = {
         let button = UIButton(type: .system)
-        button.setTitle("등록하기", for: .normal)
-        button.titleLabel?.font = .systemFont(ofSize: 16, weight: .semibold)
-        button.tintColor = .coolNeutral200
+        button.setTitle(Attributes.actionButtonTitle, for: .normal)
+        button.titleLabel?.font = .systemFont(ofSize: 14, weight: .medium)
+        button.tintColor = .coolNeutral800
         button.layer.cornerRadius = 8
+        button.layer.borderWidth = 1
         button.layer.borderColor = UIColor.coolNeutral200.cgColor
         return button
     }()
@@ -69,6 +74,7 @@ final class ExamScheduleCardCell: UICollectionViewCell {
         super.init(frame: frame)
         addSubviews()
         setupConstraints()
+        setupUI()
     }
     
     required init?(coder: NSCoder) {
@@ -77,16 +83,17 @@ final class ExamScheduleCardCell: UICollectionViewCell {
     
     // MARK: - Functions
     
-    func configure(
-        userName: String,
-        statusText: String,
-        suggestionText: String,
-        buttonTitle: String = "등록하기"
-    ) {
-        titleLabel.text = "\(userName)님의\n시험 일정을 등록해보세요!"
+    private func setupUI() {
+        backgroundColor = .white
+        layer.cornerRadius = 8
+        layer.borderWidth = 1
+        layer.borderColor = UIColor.coolNeutral100.cgColor
+    }
+    
+    func configure(userName: String? = nil, statusText: String) {
+        let titleText = userName != nil ? "\(userName!)님의\n시험 일정을 등록해보세요!" : "앗,\n등록했던 시험일이 지났어요."
+        titleLabel.text = titleText
         statusLabel.text = statusText
-        suggestionLabel.text = suggestionText
-        actionButton.setTitle(buttonTitle, for: .normal)
     }
 }
 
@@ -132,6 +139,7 @@ extension ExamScheduleCardCell {
             actionButton.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Metric.defaultMargnin),
             actionButton.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -Metric.defaultMargnin),
             actionButton.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -Metric.defaultMargnin),
+            actionButton.heightAnchor.constraint(equalTo: actionButton.widthAnchor, multiplier: Metric.actionButtonHeightMultiple)
         ])
     }
 }
