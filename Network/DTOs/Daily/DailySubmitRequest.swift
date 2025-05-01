@@ -9,7 +9,7 @@ import Foundation
 
 struct DailySubmitRequest: Request {
     
-    // MARK: - Initializers
+    // MARK: - Properties
     typealias Response = DailySubmitResponse
     private let accessToken: String
     
