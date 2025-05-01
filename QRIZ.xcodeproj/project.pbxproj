@@ -126,6 +126,10 @@
 		E25856DE2D0DADD300355667 /* BeginOnboardingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E25856DD2D0DADD300355667 /* BeginOnboardingViewModel.swift */; };
 		E25907C82D80732C0093121C /* PreviewResultScoreView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E25907C72D80732C0093121C /* PreviewResultScoreView.swift */; };
 		E25907CC2D8328FC0093121C /* PreviewResultView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E25907CB2D8328FC0093121C /* PreviewResultView.swift */; };
+		E25AB7A62DC0C41E00E7A7E3 /* DailyDetailAndStatusRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = E25AB7A52DC0C41E00E7A7E3 /* DailyDetailAndStatusRequest.swift */; };
+		E25AB7A82DC0C89100E7A7E3 /* DailyTestListRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = E25AB7A72DC0C89100E7A7E3 /* DailyTestListRequest.swift */; };
+		E25AB8082DC0CB2C00E7A7E3 /* DailySubmitRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = E25AB8072DC0CB2C00E7A7E3 /* DailySubmitRequest.swift */; };
+		E25AB80A2DC0CC0D00E7A7E3 /* DailySubmitData.swift in Sources */ = {isa = PBXBuildFile; fileRef = E25AB8092DC0CC0D00E7A7E3 /* DailySubmitData.swift */; };
 		E25F335B2DAFBA97002347D4 /* DailyResultHostingController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E25F335A2DAFBA97002347D4 /* DailyResultHostingController.swift */; };
 		E25F335D2DAFBAF8002347D4 /* DailyResultView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E25F335C2DAFBAF8002347D4 /* DailyResultView.swift */; };
 		E25F335F2DAFC222002347D4 /* DailyResultScoreView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E25F335E2DAFC222002347D4 /* DailyResultScoreView.swift */; };
@@ -337,6 +341,10 @@
 		E25856DD2D0DADD300355667 /* BeginOnboardingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BeginOnboardingViewModel.swift; sourceTree = "<group>"; };
 		E25907C72D80732C0093121C /* PreviewResultScoreView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreviewResultScoreView.swift; sourceTree = "<group>"; };
 		E25907CB2D8328FC0093121C /* PreviewResultView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreviewResultView.swift; sourceTree = "<group>"; };
+		E25AB7A52DC0C41E00E7A7E3 /* DailyDetailAndStatusRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyDetailAndStatusRequest.swift; sourceTree = "<group>"; };
+		E25AB7A72DC0C89100E7A7E3 /* DailyTestListRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyTestListRequest.swift; sourceTree = "<group>"; };
+		E25AB8072DC0CB2C00E7A7E3 /* DailySubmitRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailySubmitRequest.swift; sourceTree = "<group>"; };
+		E25AB8092DC0CC0D00E7A7E3 /* DailySubmitData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailySubmitData.swift; sourceTree = "<group>"; };
 		E25F335A2DAFBA97002347D4 /* DailyResultHostingController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyResultHostingController.swift; sourceTree = "<group>"; };
 		E25F335C2DAFBAF8002347D4 /* DailyResultView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyResultView.swift; sourceTree = "<group>"; };
 		E25F335E2DAFC222002347D4 /* DailyResultScoreView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyResultScoreView.swift; sourceTree = "<group>"; };
@@ -507,6 +515,7 @@
 		5485664D2D12411F002BAEE3 /* DTOs */ = {
 			isa = PBXGroup;
 			children = (
+				E25AB7A42DC0C35A00E7A7E3 /* Daily */,
 				E2A6C07A2DBA60550059F960 /* Onboarding */,
 				E29FE4042DBA39CE00DECB26 /* UserInfo */,
 				B1D8137B2D76A18900A9D447 /* Auth */,
@@ -1046,6 +1055,7 @@
 			children = (
 				E24907D72D61A289004D6E61 /* DailyLearnType.swift */,
 				E24907DD2D6648A7004D6E61 /* DailyTestState.swift */,
+				E25AB8092DC0CC0D00E7A7E3 /* DailySubmitData.swift */,
 			);
 			path = DailyLearnModel;
 			sourceTree = "<group>";
@@ -1138,6 +1148,16 @@
 				E29CCD162D29814A004AA30A /* ViewController */,
 			);
 			path = BeginPreviewTest;
+			sourceTree = "<group>";
+		};
+		E25AB7A42DC0C35A00E7A7E3 /* Daily */ = {
+			isa = PBXGroup;
+			children = (
+				E25AB7A52DC0C41E00E7A7E3 /* DailyDetailAndStatusRequest.swift */,
+				E25AB7A72DC0C89100E7A7E3 /* DailyTestListRequest.swift */,
+				E25AB8072DC0CB2C00E7A7E3 /* DailySubmitRequest.swift */,
+			);
+			path = Daily;
 			sourceTree = "<group>";
 		};
 		E25F33572DAFBA27002347D4 /* Daily */ = {
@@ -1629,6 +1649,7 @@
 				E25F94CB2D0CB1DB00BA765F /* OnboardingTitleLabel.swift in Sources */,
 				B16288242D2E8914008057D0 /* IDInputViewModel.swift in Sources */,
 				E25F94D12D0CB74700BA765F /* OnboardingButton.swift in Sources */,
+				E25AB8082DC0CB2C00E7A7E3 /* DailySubmitRequest.swift in Sources */,
 				E25907CC2D8328FC0093121C /* PreviewResultView.swift in Sources */,
 				B16288222D2E3CAB008057D0 /* UINavigationBar+.swift in Sources */,
 				B18F450A2D39901D0030F7DB /* FindIDViewController.swift in Sources */,
@@ -1710,6 +1731,7 @@
 				E23963092D083B900092B39B /* AppDelegate.swift in Sources */,
 				B16774CF2D82D680001820F3 /* UsernameDuplicationRequest.swift in Sources */,
 				E2D70FE82D0DD322005A3F51 /* BeginPreviewTestViewModel.swift in Sources */,
+				E25AB7A82DC0C89100E7A7E3 /* DailyTestListRequest.swift in Sources */,
 				E29BF86D2D16895B006DC6D0 /* QuestionData.swift in Sources */,
 				E29CCD2A2D29855B004AA30A /* QuestionOptionLabel.swift in Sources */,
 				E25F33612DAFC30B002347D4 /* DailyResultGradesListView.swift in Sources */,
@@ -1719,6 +1741,7 @@
 				E24674452D6C730B00697D34 /* CheckAllOrNoneButton.swift in Sources */,
 				E24907D52D619FD4004D6E61 /* TestNavigatorButton.swift in Sources */,
 				E24CB1622DB3562C00D88451 /* DailyResultDetailViewModel.swift in Sources */,
+				E25AB80A2DC0CC0D00E7A7E3 /* DailySubmitData.swift in Sources */,
 				E25F335D2DAFBAF8002347D4 /* DailyResultView.swift in Sources */,
 				B18F450D2D3994380030F7DB /* FindIDMainView.swift in Sources */,
 				B168B7692D2807470000F32E /* SignUpVerificationViewController.swift in Sources */,
@@ -1802,6 +1825,7 @@
 				B17D6AD72D940FD50023FCA5 /* LoginRequest.swift in Sources */,
 				54C7A3132D1461A6001175D9 /* LoginMainView.swift in Sources */,
 				B19C4F6F2D55DCA400CD008A /* SignUpVerificationMainView.swift in Sources */,
+				E25AB7A62DC0C41E00E7A7E3 /* DailyDetailAndStatusRequest.swift in Sources */,
 				E24CB15A2DB3494A00D88451 /* ResultSubjectListView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
