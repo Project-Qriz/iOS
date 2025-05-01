@@ -43,7 +43,7 @@ struct SurveyResponse: Decodable {
     
     struct SurveyResponseData: Decodable {
         let userId: Int
-        let skillId: Int
+        let skillId: Int?
         let checked: Bool
         let knowsNothing: Bool
     }
