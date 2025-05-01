@@ -23,21 +23,16 @@ final class PreviewResultViewController: UIViewController {
         super.viewDidLoad()
         self.view.backgroundColor = .white
         setNavigationItems()
-        bind()
         addViews()
+        bind()
         input.send(.viewDidLoad)
-    }
-    
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        input.send(.viewDidAppear)
     }
     
     private func bind() {
         let output = viewModel.transform(input: input.eraseToAnyPublisher())
         
         output
-            .receive(on: RunLoop.main)
+            .receive(on: DispatchQueue.main)
             .sink { [weak self] event in
                 guard let self = self else { return }
                 switch event {
@@ -67,7 +62,7 @@ final class PreviewResultViewController: UIViewController {
     }
     
     @objc private func cancelTestResult() {
-        self.dismiss(animated: true)
+        input.send(.toHomeButtonClicked)
     }
     
     private func loadResultView() -> UIView {

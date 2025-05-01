@@ -13,7 +13,6 @@ final class PreviewResultViewModel {
     // MARK: - Input & Output
     enum Input {
         case viewDidLoad
-        case viewDidAppear
         case toHomeButtonClicked
     }
     
@@ -25,7 +24,6 @@ final class PreviewResultViewModel {
     // MARK: - Properties
     var previewScoresData = ResultScoresData()
     var previewConceptsData = PreviewConceptsData()
-    private var subjectScores: [CGFloat] = [0, 0, 0, 0, 0]
     private var incorrectCountDataArr: [IncorrectCountData] = []
     
     private let output: PassthroughSubject<Output, Never> = .init()
@@ -45,10 +43,6 @@ final class PreviewResultViewModel {
             switch event {
             case .viewDidLoad:
                 analyzePreviewResult()
-            case .viewDidAppear:
-                animateScoreData()
-                animateConceptData()
-                
             case .toHomeButtonClicked:
                 output.send(.moveToGreetingView)
             }
@@ -61,7 +55,6 @@ final class PreviewResultViewModel {
         Task {
             do {
                 let response = try await onboardingService.analyzePreview()
-                setChartLayout(response.data)
                 updateData(response.data)
             } catch {
                 output.send(.fetchFailed)
@@ -84,47 +77,59 @@ final class PreviewResultViewModel {
         }
         
         updateScoreData(data)
-        updateConceptData(data)
+        updateIncorrectArr(data)
     }
     
     private func updateScoreData(_ data: AnalyzePreviewResponse.DataInfo) {
-        subjectScores[0] = CGFloat(data.scoreBreakdown.part1Score)
-        subjectScores[1] = CGFloat(data.scoreBreakdown.part2Score)
         DispatchQueue.main.async { [weak self] in
             guard let self = self else { return }
-            self.previewScoresData.subjectCount = 2
+            previewScoresData.subjectScores[0] = CGFloat(data.scoreBreakdown.part1Score)
+            previewScoresData.subjectScores[1] = CGFloat(data.scoreBreakdown.part2Score)
+            previewScoresData.subjectCount = 2
         }
     }
     
-    private func animateScoreData() {
-        DispatchQueue.main.async { [weak self] in
+    private func updateIncorrectArr(_ data: AnalyzePreviewResponse.DataInfo) {
+        updateLocIncorrectArr(data)
+        updateConceptIncorrectArr()
+    }
+    
+    private func updateLocIncorrectArr(_ data: AnalyzePreviewResponse.DataInfo) {
+        var dic: [Int: [String]] = [:]
+        
+        data.weakAreaAnalysis.weakAreas.forEach { item in
+            if let _ = dic[item.incorrectCount] {
+                dic[item.incorrectCount]?.append(item.topic)
+            } else {
+                dic[item.incorrectCount] = [item.topic]
+            }
+        }
+        
+        dic.enumerated().forEach { [weak self] idx, item in
             guard let self = self else { return }
-            self.previewScoresData.subjectScores[0] = self.subjectScores[0]
-            self.previewScoresData.subjectScores[1] = self.subjectScores[1]
+            self.incorrectCountDataArr.append(
+                IncorrectCountData(id: idx + 1,
+                                   incorrectCount: item.key,
+                                   topic: item.value))
+        }
+        incorrectCountDataArr.sort { (lhs, rhs) -> Bool in
+            return lhs.incorrectCount > rhs.incorrectCount
+        }
+        for i in 0..<incorrectCountDataArr.count {
+            incorrectCountDataArr[i].id = i + 1
         }
     }
     
-    private func updateConceptData(_ data: AnalyzePreviewResponse.DataInfo) {
-        for i in 0..<previewConceptsData.numOfTotalConcept {
-            incorrectCountDataArr.append(IncorrectCountData(
-                id: i,
-                incorrectCount: data.weakAreaAnalysis.weakAreas[i].incorrectCount,
-                topic: [data.weakAreaAnalysis.weakAreas[i].topic]))
-        }
-    }
-    
-    private func animateConceptData() {
+    private func updateConceptIncorrectArr() {
+        
         DispatchQueue.main.async { [weak self] in
             guard let self = self else { return }
-            self.previewConceptsData.incorrectCountDataArr = self.incorrectCountDataArr
-        }
-    }
-    
-    private func setChartLayout(_ data: AnalyzePreviewResponse.DataInfo) {
-        DispatchQueue.main.async { [weak self] in
-            guard let self = self else { return }
-            self.previewConceptsData.numOfTotalConcept = data.weakAreaAnalysis.weakAreas.count
-            self.previewConceptsData.initAnimationChart(numOfCharts: self.previewConceptsData.numOfTotalConcept)
+            self.previewConceptsData.numOfChartToPresent = self.incorrectCountDataArr.count
+            self.previewConceptsData.initAnimationChart()
+            
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.50) {
+                self.previewConceptsData.incorrectCountDataArr = self.incorrectCountDataArr
+            }
         }
     }
 }

@@ -14,14 +14,17 @@ struct PreviewResultBarGraphsView: View {
     var body: some View {
         VStack(spacing: 0) {
             HStack(alignment: .bottom, spacing: 30) {
-                ForEach(previewConceptsData.incorrectCountDataArr.filter { $0.id <= 2 }) { data in
+                ForEach(previewConceptsData.incorrectCountDataArr.filter { $0.id <= 3 }) { data in
                     VStack {
-                        Text("\(data.topic[0])" + "\(getCountText(numOfConcepts: data.topic.count))")
-                            .frame(width: 80)
-                            .font(.system(size: 14, weight: .bold))
-                            .lineLimit(1)
+                        HStack(spacing: 0) {
+                            Text("\(data.topic[0])")
+                                .frame(width: 40)
+                            Text("\(getCountText(numOfConcepts: data.topic.count))")
+                        }
+                        .font(.system(size: 14, weight: .bold))
+                        .lineLimit(1)
                         Rectangle()
-                            .frame(width: 28, height: CGFloat(data.incorrectCount * 15))
+                            .frame(width: 28, height: CGFloat(data.incorrectCount * 6))
                             .cornerRadius(8, corners: [.topLeft, .topRight])
                             .animation(.easeInOut(duration: 1), value: CGFloat(data.incorrectCount))
                     }
@@ -29,7 +32,6 @@ struct PreviewResultBarGraphsView: View {
                     .foregroundStyle(setBarColor(rank: data.id))
                 }
             }
-
             Divider()
                 .overlay(Color.customBlue200)
         }
