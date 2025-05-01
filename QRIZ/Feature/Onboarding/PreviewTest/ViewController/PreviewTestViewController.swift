@@ -91,7 +91,6 @@ final class PreviewTestViewController: UIViewController {
                     submitAlertViewController.dismiss(animated: true) // coordinator role
                 case .submitSuccess:
                     submitAlertViewController.dismiss(animated: true) // coordinator role
-                    print("submit success")
                 case .submitFail:
                     submitAlertViewController.dismiss(animated: true)
                     self.showOneButtonAlert(with: "잠시 후 다시 시도해주세요.", storingIn: &subscriptions)
