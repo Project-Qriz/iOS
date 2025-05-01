@@ -13,9 +13,9 @@ struct SurveyRequest: Request {
     typealias Response = SurveyResponse
     private let accessToken: String
     
-    var path = "/api/v1/survey"
-    var method: HTTPMethod = .post
-    var keyConcepts: [String]
+    let path = "/api/v1/survey"
+    let method: HTTPMethod = .post
+    private let keyConcepts: [String]
     var body: Encodable? {
         [
             "keyConcepts": keyConcepts

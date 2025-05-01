@@ -13,8 +13,8 @@ struct AnalyzePreviewRequest: Request {
     typealias Response = AnalyzePreviewResponse
     private let accessToken: String
     
-    var path = "/api/v1/preview/analyze"
-    var method: HTTPMethod = .get
+    let path = "/api/v1/preview/analyze"
+    let method: HTTPMethod = .get
     
     var headers: HTTPHeader {
         [

@@ -13,9 +13,9 @@ struct PreviewSubmitRequest: Request {
     typealias Response = PreviewSubmitResponse
     private let accessToken: String
     
-    var path = "/api/v1/preview/submit"
-    var method: HTTPMethod = .post
-    var testSubmitDataList: [TestSubmitData]
+    let path = "/api/v1/preview/submit"
+    let method: HTTPMethod = .post
+    private let testSubmitDataList: [TestSubmitData]
     var body: Encodable? {
         [
             "activities": testSubmitDataList

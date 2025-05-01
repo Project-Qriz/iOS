@@ -13,8 +13,8 @@ struct PreviewTestListRequest: Request {
     typealias Response = PreviewTestListResponse
     private let accessToken: String
     
-    var path = "/api/v1/preview/get"
-    var method: HTTPMethod = .get
+    let path = "/api/v1/preview/get"
+    let method: HTTPMethod = .get
     
     var headers: HTTPHeader {
         [
