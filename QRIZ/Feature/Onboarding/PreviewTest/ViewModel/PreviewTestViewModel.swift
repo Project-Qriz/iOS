@@ -179,7 +179,6 @@ extension PreviewTestViewModel {
         let timeRemaining = totalTimeLimit - timeElapsed
         if timeRemaining >= 0 {
             output.send(.updateTime(timeLimit: totalTimeLimit, timeRemaining: timeRemaining))
-            print(totalTimeLimit, timeRemaining)
         } else {
             // send result
             output.send(.moveToPreviewResult)
