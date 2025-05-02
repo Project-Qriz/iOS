@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Combine
 
 final class ExamScheduleCardCell: UICollectionViewCell {
     
@@ -24,6 +25,15 @@ final class ExamScheduleCardCell: UICollectionViewCell {
     private enum Attributes {
         static let suggestionText: String = "지금 바로 등록할까요?"
         static let actionButtonTitle: String = "등록하기"
+    }
+    
+    // MARK: - Properties
+    
+    private let buttonTapSubject = PassthroughSubject<Void, Never>()
+    var cancellables = Set<AnyCancellable>()
+    
+    var buttonTapPublisher: AnyPublisher<Void, Never> {
+        buttonTapSubject.eraseToAnyPublisher()
     }
     
     // MARK: - UI
@@ -57,7 +67,7 @@ final class ExamScheduleCardCell: UICollectionViewCell {
         return label
     }()
     
-    private let actionButton: UIButton = {
+    private lazy var actionButton: UIButton = {
         let button = UIButton(type: .system)
         button.setTitle(Attributes.actionButtonTitle, for: .normal)
         button.titleLabel?.font = .systemFont(ofSize: 14, weight: .medium)
@@ -65,6 +75,9 @@ final class ExamScheduleCardCell: UICollectionViewCell {
         button.layer.cornerRadius = 8
         button.layer.borderWidth = 1
         button.layer.borderColor = UIColor.coolNeutral200.cgColor
+        button.addAction(UIAction { [weak self] _ in
+            self?.buttonTapSubject.send()
+        }, for: .touchUpInside)
         return button
     }()
     
