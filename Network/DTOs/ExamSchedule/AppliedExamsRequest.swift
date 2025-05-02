@@ -25,7 +25,7 @@ struct AppliedExamsRequest: Request {
 struct AppliedExamsResponse: Decodable {
     let code: Int
     let msg: String
-    let data: ExamInfo?
+    let data: ExamInfo
 
     struct ExamInfo: Decodable {
         let examName: String
