@@ -13,11 +13,11 @@ struct ExamQuestionRequest: Request {
     typealias Response = ExamQuestionResponse
     private let accessToken: String
     
+    private let examId: Int
+    let method: HTTPMethod = .get
     var path: String {
         "/api/v1/exam/get/\(examId)"
     }
-    var examId: Int
-    var method: HTTPMethod = .get
         
     var headers: HTTPHeader {
         [

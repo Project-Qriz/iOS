@@ -15,8 +15,8 @@ struct ExamListRequest: Request {
     
     let path = "/api/v1/exam/session-list"
     let method: HTTPMethod = .get
-    let examStatus: ExamStatus?
-    let isAscSortedByDate: Bool
+    private let examStatus: ExamStatus?
+    private let isAscSortedByDate: Bool
     var query: QueryItems {
         var dic: [String: String] = [:]
 
