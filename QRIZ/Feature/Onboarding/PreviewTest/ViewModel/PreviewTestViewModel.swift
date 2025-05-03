@@ -145,7 +145,7 @@ final class PreviewTestViewModel {
     private func initSubmitList(_ response: PreviewTestListResponse) {
         response.data.questions.enumerated().forEach { [weak self] idx, question in
             guard let self = self else { return }
-            self.submitList.append(TestSubmitData(question: SubmitQuestionData(questionId: question.questionId, category: question.category), questionNum: idx + 1, optionId: -1))
+            self.submitList.append(TestSubmitData(question: SubmitQuestionData(questionId: question.questionId, category: question.category), questionNum: idx + 1, optionId: nil))
         }
     }
     
