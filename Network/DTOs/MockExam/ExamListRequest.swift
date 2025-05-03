@@ -20,17 +20,14 @@ struct ExamListRequest: Request {
 
     var query: QueryItems {
         var dic: [String: String] = [:]
-
         if isAscSortedByDate { dic["sort"] = "asc" }
-
         if let examStatus = examStatus { dic["status"] = examStatus.rawValue }
-
         return dic
     }
     
     var headers: HTTPHeader {
         [
-            HTTPHeaderField.accessToken.rawValue: accessToken
+            HTTPHeaderField.authorization.rawValue: accessToken
         ]
     }
     

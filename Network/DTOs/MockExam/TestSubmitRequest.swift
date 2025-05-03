@@ -12,9 +12,9 @@ struct TestSubmitRequest: Request {
     // MARK: - Properties
     typealias Response = TestSubmitResponse
 
-    private let accessToken: String
     let path = "/api/v1/exam/submit"
     let method: HTTPMethod = .post
+    private let accessToken: String
     private let testSubmitData: [TestSubmitData]
 
     var body: Encodable? {
