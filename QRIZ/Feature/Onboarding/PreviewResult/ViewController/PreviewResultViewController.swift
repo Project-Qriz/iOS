@@ -14,7 +14,7 @@ final class PreviewResultViewController: UIViewController {
     // MARK: - Properties
     private var previewResultViewHostingController: PreviewResultViewHostingController!
     
-    private var viewModel = PreviewResultViewModel()
+    private var viewModel = PreviewResultViewModel(onboardingService: OnboardingServiceImpl())
     private let input: PassthroughSubject<PreviewResultViewModel.Input, Never> = .init()
     private var subscriptions = Set<AnyCancellable>()
     
@@ -23,26 +23,21 @@ final class PreviewResultViewController: UIViewController {
         super.viewDidLoad()
         self.view.backgroundColor = .white
         setNavigationItems()
-        bind()
         addViews()
+        bind()
         input.send(.viewDidLoad)
-    }
-    
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        input.send(.viewDidAppear)
     }
     
     private func bind() {
         let output = viewModel.transform(input: input.eraseToAnyPublisher())
         
         output
-            .receive(on: RunLoop.main)
+            .receive(on: DispatchQueue.main)
             .sink { [weak self] event in
                 guard let self = self else { return }
                 switch event {
-                case .createDataFailed:
-                    print("create Data Failed : PreviewResultViewController")
+                case .fetchFailed:
+                    self.showOneButtonAlert(with: "잠시 후 다시 시도해주세요.", storingIn: &subscriptions)
                 case .moveToGreetingView:
                     // coordinator role
                     navigationController?.pushViewController(GreetingViewController(), animated: true)
@@ -67,7 +62,7 @@ final class PreviewResultViewController: UIViewController {
     }
     
     @objc private func cancelTestResult() {
-        self.dismiss(animated: true)
+        input.send(.toHomeButtonClicked)
     }
     
     private func loadResultView() -> UIView {

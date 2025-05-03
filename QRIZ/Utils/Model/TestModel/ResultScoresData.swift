@@ -10,7 +10,7 @@ import SwiftUI
 final class ResultScoresData: ObservableObject {
     @Published var nickname: String = ""
     @Published var subjectScores: [CGFloat] = [0, 0, 0, 0, 0]
-    @Published var expectScore: Int = 0
+    @Published var expectScore: CGFloat = 0
     @Published var subjectCount: Int = 0
     @Published var passed: Bool = false
     @Published var dayNum: String = ""

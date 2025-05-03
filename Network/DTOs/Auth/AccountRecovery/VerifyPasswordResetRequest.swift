@@ -33,7 +33,7 @@ struct VerifyPasswordResetRequest: Request {
     let email: String
     let authNumber: String
     
-    var query: QueryItems {
+    var body: Encodable? {
         [
             "email": email,
             "authNumber": authNumber

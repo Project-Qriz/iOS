@@ -48,7 +48,7 @@ final class PreviewTestViewController: UIViewController {
     }()
     private let submitAlertViewController = TwoButtonCustomAlertViewController(title: "제출하시겠습니까?", description: "확인 버튼을 누르면 다시 돌아올 수 없어요.")
     
-    private let viewModel: PreviewTestViewModel = PreviewTestViewModel()
+    private let viewModel: PreviewTestViewModel = PreviewTestViewModel(onboardingService: OnboardingServiceImpl())
     private var subscriptions = Set<AnyCancellable>()
     private let input: PassthroughSubject<PreviewTestViewModel.Input, Never> = .init()
     
@@ -65,11 +65,6 @@ final class PreviewTestViewController: UIViewController {
         input.send(.viewDidLoad)
     }
     
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(true)
-        input.send(.viewDidAppear)
-    }
-    
     private func bind() {
         let output = viewModel.transform(input: input.eraseToAnyPublisher())
         
@@ -78,8 +73,10 @@ final class PreviewTestViewController: UIViewController {
             .sink { [weak self] event in
                 guard let self = self else { return }
                 switch event {
-                case .updateQuestion(let question):
-                    updateQuestionUI(question: question)
+                case .fetchFailed:
+                    self.showOneButtonAlert(with: "문제 불러오기 실패", for: "잠시 후 다시 시도해주세요.", storingIn: &subscriptions)
+                case .updateQuestion(let question, let curNum, let selectedOption):
+                    updateQuestionUI(question: question, curNum: curNum, selectedOption: selectedOption)
                 case .updateLastQuestionNum(let num):
                     self.lastQuestionNum = num
                 case .updateTime(let timeLimit, let timeRemaining):
@@ -94,9 +91,9 @@ final class PreviewTestViewController: UIViewController {
                     submitAlertViewController.dismiss(animated: true) // coordinator role
                 case .submitSuccess:
                     submitAlertViewController.dismiss(animated: true) // coordinator role
-                    print("submit success")
                 case .submitFail:
-                    print("Preview test submit failed..") // network error
+                    submitAlertViewController.dismiss(animated: true)
+                    self.showOneButtonAlert(with: "잠시 후 다시 시도해주세요.", storingIn: &subscriptions)
                 }
             }
             .store(in: &subscriptions)
@@ -134,19 +131,18 @@ final class PreviewTestViewController: UIViewController {
         input.send(.escapeButtonClicked)
     }
     
-    private func updateQuestionUI(question: QuestionData) {
-        curNum = question.questionNumber
-        let optStringArr: [String] = [
-            question.option1, question.option2, question.option3, question.option4
-        ]
-
-        questionNumberLabel.setNumber(question.questionNumber)
+    private func updateQuestionUI(question: PreviewTestListQuestion, curNum: Int, selectedOption: Int?) {
+        self.curNum = curNum
+        let optStringArr: [String] = question.options.map { question in
+            question.content
+        }
+        questionNumberLabel.setNumber(curNum)
         questionTitleLabel.setTitle(question.question)
-        setSelectedOption(question.selectedOption)
+        setSelectedOption(selectedOption)
         setOptionsString(optStringArr)
-        pageIndicatorLabel.setCurPage(curPage: question.questionNumber)
+        pageIndicatorLabel.setCurPage(curPage: curNum)
         pageIndicatorLabel.setTotalPage(totalPage: lastQuestionNum)
-        setPageButtonsUI(question.questionNumber)
+        setPageButtonsUI(curNum)
     }
 }
 

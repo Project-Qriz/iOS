@@ -28,7 +28,7 @@ final class CheckConceptViewController: UIViewController {
     }()
     private let checkDoneButton = OnboardingButton("선택완료")
     
-    private let viewModel: CheckConceptViewModel = CheckConceptViewModel()
+    private let viewModel: CheckConceptViewModel = CheckConceptViewModel(onboardingService: OnboardingServiceImpl())
     private let input: PassthroughSubject<CheckConceptViewModel.Input, Never> = .init()
     private var subscriptions = Set<AnyCancellable>()
     
@@ -41,6 +41,11 @@ final class CheckConceptViewController: UIViewController {
         addViews()
         navigationController?.navigationBar.isHidden = true
         addButtonAction()
+    }
+    
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        addCustomShadow()
     }
     
     private func bind() {
@@ -65,7 +70,7 @@ final class CheckConceptViewController: UIViewController {
                 case .setDoneButtonState(let isActive):
                     checkDoneButtonHandler(isActive: isActive)
                 case .requestFailed:
-                    print("REQUEST FAIL") // handle error
+                    self.showOneButtonAlert(with: "잠시 후 다시 시도해주세요.", storingIn: &subscriptions)
                 }
             }
             .store(in: &subscriptions)
@@ -86,12 +91,24 @@ final class CheckConceptViewController: UIViewController {
             guard let self = self else { return }
             self.foldButton.toggleImage()
             checkListCollectionView.isHidden.toggle()
+            checkDoneButton.layer.masksToBounds.toggle()
         }), for: .touchUpInside)
         
         checkDoneButton.addAction(UIAction(handler: { [weak self] _ in
             guard let self = self else { return }
             self.input.send(.didDoneButtonClicked)
         }), for: .touchUpInside)
+    }
+    
+    private func addCustomShadow() {
+        checkDoneButton.layer.masksToBounds = false
+        checkDoneButton.layer.shadowColor = UIColor.customBlue100.cgColor
+        checkDoneButton.layer.cornerRadius = 8
+        checkDoneButton.layer.shadowOpacity = 0.7
+        checkDoneButton.layer.shadowPath = UIBezierPath(rect: CGRect(x: checkListCollectionView.bounds.minX - 1,
+                                                                     y: checkDoneButton.bounds.minY - 6,
+                                                                     width: checkDoneButton.bounds.width + 2,
+                                                                     height: checkDoneButton.bounds.height)).cgPath
     }
 }
 
@@ -124,6 +141,10 @@ extension CheckConceptViewController: UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
         return 5
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
+        UIEdgeInsets(top: 0, left: 0, bottom: 30, right: 0)
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
@@ -186,7 +207,7 @@ extension CheckConceptViewController {
             dividerView.heightAnchor.constraint(equalToConstant: 2),
             
             checkListCollectionView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 42),
-            checkListCollectionView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: -16),
+            checkListCollectionView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: -18),
             checkListCollectionView.topAnchor.constraint(equalTo: checkAllButton.bottomAnchor, constant: 16),
             checkListCollectionView.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor, constant: -65),
             

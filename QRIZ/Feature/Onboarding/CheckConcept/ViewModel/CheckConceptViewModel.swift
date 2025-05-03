@@ -28,11 +28,18 @@ final class CheckConceptViewModel {
     }
     
     // MARK: - Properties
+    private(set) var selectedSet = Set<Int>()
+    private var isDoneButtonActivated: Bool = false
+    
     private let output: PassthroughSubject<Output, Never> = .init()
     private var subscriptions = Set<AnyCancellable>()
     
-    private(set) var selectedSet = Set<Int>()
-    private var isDoneButtonActivated: Bool = false
+    private let onboardingService: OnboardingService
+    
+    // MARK: - Initializers
+    init(onboardingService: OnboardingService) {
+        self.onboardingService = onboardingService
+    }
     
     // MARK: - Methods
     func transform(input: AnyPublisher<Input, Never>) -> AnyPublisher<Output, Never> {
@@ -47,9 +54,7 @@ final class CheckConceptViewModel {
                 doneButtonStateHandler(checkNoneClicked: isOn)
             case .didDoneButtonClicked:
                 // API request send
-                if isDoneButtonActivated {
-                    self.output.send(.moveToNextPage)
-                }
+                sendSurvey()
             case .someCheckboxClicked(let idx):
                 conceptStateHandler(idx)
                 output.send(.setAllAndNone(numOfSelectedConcept: selectedSet.count, checkNoneClicked: false))
@@ -112,6 +117,20 @@ final class CheckConceptViewModel {
         if isDoneButtonActivated != newState {
             isDoneButtonActivated = newState
             output.send(.setDoneButtonState(isActive: newState))
+        }
+    }
+    
+    private func sendSurvey() {
+        Task {
+            do {
+                if isDoneButtonActivated {
+                    let keyConcepts = selectedSet.map { SurveyCheckList.list[$0] }
+                    _ = try await onboardingService.sendSurvey(keyConcepts: keyConcepts)
+                    self.output.send(.moveToNextPage)
+                }
+            } catch {
+                output.send(.requestFailed)
+            }
         }
     }
 }

@@ -36,7 +36,7 @@ struct PreviewResultScoreView: View {
             Spacer(minLength: 15)
             
             HStack(spacing: 4) {
-                Text("예측 점수: \(previewScoresData.expectScore)점")
+                Text("예측 점수: \(formatScore(previewScoresData.expectScore))점")
                     .font(.system(size: 16, weight: .medium))
                     .foregroundStyle(.coolNeutral700)
                 Button(action: {
@@ -59,6 +59,12 @@ struct PreviewResultScoreView: View {
             SingleSubjectView(circleColor: .customBlue500, subjectText: "SQL 기본 및 활용", score: previewScoresData.subjectScores[1])
         }
         .padding(EdgeInsets(top: 24, leading: 18, bottom: 24, trailing: 18))
+    }
+    
+    func formatScore(_ score: CGFloat) -> String {
+        score.truncatingRemainder(dividingBy: 1) == 0 ?
+        String(format: "%.0f", score) :
+        String(format: "%.1f", score)
     }
 }
 

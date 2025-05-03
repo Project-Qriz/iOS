@@ -41,6 +41,7 @@ final class CheckAllOrNoneButton : UIView {
         setBorder()
         addViews()
         addAction()
+        addShadow()
     }
     
     required init?(coder: NSCoder) {
@@ -81,12 +82,11 @@ final class CheckAllOrNoneButton : UIView {
     }
     
     private func setLabelText() {
-        label.text = isAllButton ? "전부 아는 개념이에요! 😆" : "모든 개념을 처음 봐요 😅"
+        label.text = isAllButton ? "전부 아는 개념이에요!" : "모든 개념을 처음 봐요"
     }
     
     private func setBorder() {
         layer.cornerRadius = 8
-        layer.masksToBounds = true
         layer.borderWidth = 1
         layer.borderColor = UIColor.coolNeutral100.cgColor
     }
@@ -102,6 +102,12 @@ final class CheckAllOrNoneButton : UIView {
         } else {
             state == .on ? input.send(.checkNoneClicked(isOn: false)) : input.send(.checkNoneClicked(isOn: true))
         }
+    }
+    
+    private func addShadow() {
+        self.layer.shadowColor = UIColor.coolNeutral100.cgColor
+        self.layer.shadowOpacity = 1
+        self.layer.shadowRadius = 8
     }
 }
 

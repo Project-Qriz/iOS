@@ -15,7 +15,7 @@ struct EmailAuthenticationRequest: Request {
     let email: String
     let authNumber: String
     
-    var query: QueryItems {
+    var body: Encodable? {
         [
             "email": email,
             "authNum": authNumber
