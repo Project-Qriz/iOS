@@ -6,8 +6,17 @@
 //
 
 import UIKit
+import Combine
 
 final class HomeMainView: UIView {
+    
+    // MARK: - Properties
+    
+    private let examButtonTappedSubject = PassthroughSubject<Void, Never>()
+    
+    var examButtonTappedPublisher: AnyPublisher<Void, Never> {
+        examButtonTappedSubject.eraseToAnyPublisher()
+    }
     
     // MARK: - UI
     
@@ -28,37 +37,40 @@ final class HomeMainView: UIView {
         return collectionView
     }()
     
-    private lazy var dataSource = UICollectionViewDiffableDataSource<HomeSection, HomeSectionItem>(collectionView: collectionView) {
-            collectionView, indexPath, itemIdentifier in
-            switch itemIdentifier {
+    private lazy var dataSource = UICollectionViewDiffableDataSource<
+        HomeSection, HomeSectionItem>(collectionView: collectionView) { [weak self]
+            collectionView, indexPath, item in
+            guard let self else { return UICollectionViewCell() }
+            
+            switch item {
             case let .examSchedule(model):
-                
                 switch model.kind {
-                case .notRegistered:
-                    guard let cell = collectionView.dequeueReusableCell(
+                case .notRegistered, .expired:
+                    let cell = collectionView.dequeueReusableCell(
                         withReuseIdentifier: String(describing: ExamScheduleCardCell.self),
                         for: indexPath
-                    ) as? ExamScheduleCardCell else { return UICollectionViewCell() }
+                    ) as! ExamScheduleCardCell
+                    cell.configure(userName: model.userName,
+                                   statusText: model.kind == .notRegistered
+                                   ? "등록된 일정이 없어요."
+                                   : "등록했던 시험일이 지났어요.")
                     
-                    cell.configure(userName: model.userName, statusText: "등록된 일정이 없어요.")
-                    return cell
-                    
-                case .expired:
-                    guard let cell = collectionView.dequeueReusableCell(
-                        withReuseIdentifier: String(describing: ExamScheduleCardCell.self),
-                        for: indexPath
-                    ) as? ExamScheduleCardCell else { return UICollectionViewCell() }
-                    
-                    cell.configure(userName: model.userName, statusText: "등록했던 시험일이 지났어요.")
+                    cell.buttonTapPublisher
+                        .sink { [weak self] in self?.examButtonTappedSubject.send() }
+                        .store(in: &cell.cancellables)
                     return cell
                     
                 case let .registered(dDay, detail):
-                    guard let cell = collectionView.dequeueReusableCell(
+                    let cell = collectionView.dequeueReusableCell(
                         withReuseIdentifier: String(describing: ExamScheduleRegisteredCell.self),
                         for: indexPath
-                    ) as? ExamScheduleRegisteredCell else { return UICollectionViewCell() }
-                    
-                    cell.configure(userName: model.userName, dday: dDay, detail: detail)
+                    ) as! ExamScheduleRegisteredCell
+                    cell.configure(userName: model.userName,
+                                   dday: dDay,
+                                   detail: detail)
+                    cell.buttonTapPublisher
+                        .sink { [weak self] in self?.examButtonTappedSubject.send() }
+                        .store(in: &cell.cancellables)
                     return cell
                 }
             }
@@ -71,7 +83,6 @@ final class HomeMainView: UIView {
         addSubviews()
         setupConstraints()
         setupUI()
-        applyInitialSnapshot()
     }
     
     required init?(coder: NSCoder) {
@@ -84,35 +95,26 @@ final class HomeMainView: UIView {
         backgroundColor = .customBlue50
     }
     
-    func applyInitialSnapshot() {
+    func applySnapshot(registered item: ExamScheduleItem) {
         var snapshot = NSDiffableDataSourceSnapshot<HomeSection, HomeSectionItem>()
         snapshot.appendSections([.examSchedule])
-        
-        let notReg = ExamScheduleItem(
-            userName: "채영",
-            kind: .notRegistered
-        )
-        
-        let expired = ExamScheduleItem(
-            userName: "채영",
-            kind: .expired
-        )
-        
-        let detail = ExamScheduleItem.Kind.Detail(
-            examDateText: "시험일: 3월9일(토)",
-            examName: "제 52회 SQL 개발자",
-            applyPeriod: "접수기간: 01.29(월) 10:00 ~ 02.02(금) 18:00"
-        )
-        
-        let registered = ExamScheduleItem(
-            userName: "채영",
-            kind: .registered(dDay: 24, detail: detail)
-        )
-        
-        snapshot.appendItems([
-            .examSchedule(registered)
-        ], toSection: .examSchedule)
-        
+        snapshot.appendItems([.examSchedule(item)], toSection: .examSchedule)
+        dataSource.apply(snapshot, animatingDifferences: true)
+    }
+    
+    func applySnapshot(notRegisteredFor user: String) {
+        let item = ExamScheduleItem(userName: user, kind: .notRegistered)
+        var snapshot = NSDiffableDataSourceSnapshot<HomeSection, HomeSectionItem>()
+        snapshot.appendSections([.examSchedule])
+        snapshot.appendItems([.examSchedule(item)], toSection: .examSchedule)
+        dataSource.apply(snapshot, animatingDifferences: true)
+    }
+    
+    func applySnapshot(expiredFor user: String) {
+        let item = ExamScheduleItem(userName: user, kind: .expired)
+        var snapshot = NSDiffableDataSourceSnapshot<HomeSection, HomeSectionItem>()
+        snapshot.appendSections([.examSchedule])
+        snapshot.appendItems([.examSchedule(item)], toSection: .examSchedule)
         dataSource.apply(snapshot, animatingDifferences: true)
     }
 }

@@ -18,7 +18,6 @@
 		54C7A3102D146190001175D9 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54C7A30F2D146190001175D9 /* LoginViewController.swift */; };
 		54C7A3132D1461A6001175D9 /* LoginMainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54C7A3122D1461A6001175D9 /* LoginMainView.swift */; };
 		54C7A3162D14A5A6001175D9 /* LoginLogoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54C7A3152D14A5A6001175D9 /* LoginLogoView.swift */; };
-		54DB0D992D0950DE00ABD458 /* HomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54DB0D982D0950DE00ABD458 /* HomeViewModel.swift */; };
 		54DB0DA12D0951C000ABD458 /* Font+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54DB0DA02D0951C000ABD458 /* Font+.swift */; };
 		54DB0DA52D099D6700ABD458 /* Colors.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 54DB0DA42D099D6700ABD458 /* Colors.xcassets */; };
 		54E91B762D18FACD00474D0A /* RoundButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54E91B752D18FACD00474D0A /* RoundButton.swift */; };
@@ -101,7 +100,6 @@
 		E23824E12D0C3157009E7989 /* BeginOnboardingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E23824E02D0C3157009E7989 /* BeginOnboardingViewController.swift */; };
 		E23963092D083B900092B39B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E23963082D083B900092B39B /* AppDelegate.swift */; };
 		E239630B2D083B900092B39B /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E239630A2D083B900092B39B /* SceneDelegate.swift */; };
-		E239630D2D083B900092B39B /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E239630C2D083B900092B39B /* HomeViewController.swift */; };
 		E23963122D083B900092B39B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E23963112D083B900092B39B /* Assets.xcassets */; };
 		E23963202D083B910092B39B /* QRIZTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E239631F2D083B910092B39B /* QRIZTests.swift */; };
 		E239632A2D083B910092B39B /* QRIZUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E23963292D083B910092B39B /* QRIZUITests.swift */; };
@@ -225,7 +223,6 @@
 		54C7A30F2D146190001175D9 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		54C7A3122D1461A6001175D9 /* LoginMainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginMainView.swift; sourceTree = "<group>"; };
 		54C7A3152D14A5A6001175D9 /* LoginLogoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginLogoView.swift; sourceTree = "<group>"; };
-		54DB0D982D0950DE00ABD458 /* HomeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewModel.swift; sourceTree = "<group>"; };
 		54DB0DA02D0951C000ABD458 /* Font+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Font+.swift"; sourceTree = "<group>"; };
 		54DB0DA42D099D6700ABD458 /* Colors.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Colors.xcassets; sourceTree = "<group>"; };
 		54E91B752D18FACD00474D0A /* RoundButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoundButton.swift; sourceTree = "<group>"; };
@@ -309,7 +306,6 @@
 		E23963052D083B8F0092B39B /* QRIZ.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = QRIZ.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E23963082D083B900092B39B /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		E239630A2D083B900092B39B /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		E239630C2D083B900092B39B /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
 		E23963112D083B900092B39B /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		E23963162D083B900092B39B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		E239631B2D083B910092B39B /* QRIZTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = QRIZTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -448,6 +444,10 @@
 		B17D6ABB2D9146C90023FCA5 /* FindAccount */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = FindAccount; sourceTree = "<group>"; };
 		B18729F32DB5E5FB0050811C /* PDF */ = {isa = PBXFileSystemSynchronizedRootGroup; exceptions = (B1872A172DB68F100050811C /* PBXFileSystemSynchronizedBuildFileExceptionSet */, ); explicitFileTypes = {}; explicitFolders = (); path = PDF; sourceTree = "<group>"; };
 		B190A2D92DBBC7C6008FDE86 /* View */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = View; sourceTree = "<group>"; };
+		B190A2E62DC2A2EB008FDE86 /* ExamSchedule */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = ExamSchedule; sourceTree = "<group>"; };
+		B190A2E92DC2ADCA008FDE86 /* ExamSchedule */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = ExamSchedule; sourceTree = "<group>"; };
+		B190A2EE2DC4EAAD008FDE86 /* ViewController */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = ViewController; sourceTree = "<group>"; };
+		B190A2EF2DC4EAC5008FDE86 /* ViewModel */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = ViewModel; sourceTree = "<group>"; };
 		B1DC70412DAC36FE0007D943 /* View */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = View; sourceTree = "<group>"; };
 		B1DC70442DAC37350007D943 /* ViewController */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = ViewController; sourceTree = "<group>"; };
 		B1DC70452DAC37480007D943 /* ViewModel */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = ViewModel; sourceTree = "<group>"; };
@@ -512,6 +512,7 @@
 			children = (
 				E2A6C07A2DBA60550059F960 /* Onboarding */,
 				E29FE4042DBA39CE00DECB26 /* UserInfo */,
+				B190A2E62DC2A2EB008FDE86 /* ExamSchedule */,
 				B1D8137B2D76A18900A9D447 /* Auth */,
 				B17D6AB92D9141D80023FCA5 /* ErrorResponse.swift */,
 			);
@@ -523,6 +524,7 @@
 			children = (
 				E24CB1D72DBCA9E400D88451 /* Onboarding */,
 				E29FE40B2DBA3FA800DECB26 /* UserInfo */,
+				B190A2E92DC2ADCA008FDE86 /* ExamSchedule */,
 				B1D8137C2D76A19500A9D447 /* Auth */,
 			);
 			path = Service;
@@ -591,8 +593,8 @@
 			isa = PBXGroup;
 			children = (
 				B190A2D92DBBC7C6008FDE86 /* View */,
-				E239630C2D083B900092B39B /* HomeViewController.swift */,
-				54DB0D982D0950DE00ABD458 /* HomeViewModel.swift */,
+				B190A2EE2DC4EAAD008FDE86 /* ViewController */,
+				B190A2EF2DC4EAC5008FDE86 /* ViewModel */,
 				B1D813702D6E0C1F00A9D447 /* HomeCoordinator.swift */,
 			);
 			path = Home;
@@ -1479,6 +1481,10 @@
 			);
 			fileSystemSynchronizedGroups = (
 				B190A2D92DBBC7C6008FDE86 /* View */,
+				B190A2E62DC2A2EB008FDE86 /* ExamSchedule */,
+				B190A2E92DC2ADCA008FDE86 /* ExamSchedule */,
+				B190A2EE2DC4EAAD008FDE86 /* ViewController */,
+				B190A2EF2DC4EAC5008FDE86 /* ViewModel */,
 				B1DC70412DAC36FE0007D943 /* View */,
 				B1DC70442DAC37350007D943 /* ViewController */,
 				B1DC70452DAC37480007D943 /* ViewModel */,
@@ -1674,7 +1680,6 @@
 				E29FE4082DBA3D9700DECB26 /* PreviewTestStatus.swift in Sources */,
 				E29CCD2F2D29855B004AA30A /* TestTimeLabel.swift in Sources */,
 				B168B7732D2846C80000F32E /* PasswordInputViewController.swift in Sources */,
-				E239630D2D083B900092B39B /* HomeViewController.swift in Sources */,
 				E2A6C07E2DBB58220059F960 /* PreviewTestListRequest.swift in Sources */,
 				B16774DF2D89F783001820F3 /* PasswordResetRequest.swift in Sources */,
 				B18F45182D3A528B0030F7DB /* FindIDViewModel.swift in Sources */,
@@ -1729,7 +1734,6 @@
 				B18F450D2D3994380030F7DB /* FindIDMainView.swift in Sources */,
 				B168B7692D2807470000F32E /* SignUpVerificationViewController.swift in Sources */,
 				54E91B762D18FACD00474D0A /* RoundButton.swift in Sources */,
-				54DB0D992D0950DE00ABD458 /* HomeViewModel.swift in Sources */,
 				E217C3622D9BEA8D0095A3D8 /* DailyTestViewController.swift in Sources */,
 				B17FE30A2D27F8E9002EC7D7 /* UITextField+.swift in Sources */,
 				B19C4FC52D6C226500CD008A /* TabBarCoordinator.swift in Sources */,
