@@ -105,18 +105,14 @@ final class PreviewResultViewModel {
             }
         }
         
-        dic.enumerated().forEach { [weak self] idx, item in
+        dic.sorted { lhs, rhs in
+            lhs.key > rhs.key
+        }.enumerated().forEach { [weak self] idx, item in
             guard let self = self else { return }
             self.incorrectCountDataArr.append(
                 IncorrectCountData(id: idx + 1,
                                    incorrectCount: item.key,
                                    topic: item.value))
-        }
-        incorrectCountDataArr.sort { (lhs, rhs) -> Bool in
-            return lhs.incorrectCount > rhs.incorrectCount
-        }
-        for i in 0..<incorrectCountDataArr.count {
-            incorrectCountDataArr[i].id = i + 1
         }
     }
     
