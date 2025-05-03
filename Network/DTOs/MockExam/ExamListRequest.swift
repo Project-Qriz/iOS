@@ -11,12 +11,13 @@ struct ExamListRequest: Request {
     
     // MARK: - Properties
     typealias Response = ExamListResponse
-    private let accessToken: String
-    
+
     let path = "/api/v1/exam/session-list"
     let method: HTTPMethod = .get
+    private let accessToken: String
     private let examStatus: ExamStatus?
     private let isAscSortedByDate: Bool
+
     var query: QueryItems {
         var dic: [String: String] = [:]
 

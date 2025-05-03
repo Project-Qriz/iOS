@@ -11,10 +11,11 @@ struct ExamQuestionRequest: Request {
     
     // MARK: - Properties
     typealias Response = ExamQuestionResponse
-    private let accessToken: String
-    
-    private let examId: Int
+
     let method: HTTPMethod = .get
+    private let accessToken: String
+    private let examId: Int
+
     var path: String {
         "/api/v1/exam/get/\(examId)"
     }
