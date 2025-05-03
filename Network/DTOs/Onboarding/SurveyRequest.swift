@@ -11,11 +11,12 @@ struct SurveyRequest: Request {
     
     // MARK: - Properties
     typealias Response = SurveyResponse
-    private let accessToken: String
-    
+
     let path = "/api/v1/survey"
     let method: HTTPMethod = .post
+    private let accessToken: String
     private let keyConcepts: [String]
+
     var body: Encodable? {
         [
             "keyConcepts": keyConcepts

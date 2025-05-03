@@ -11,10 +11,10 @@ struct PreviewTestListRequest: Request {
     
     // MARK: - Properties
     typealias Response = PreviewTestListResponse
-    private let accessToken: String
-    
+
     let path = "/api/v1/preview/get"
     let method: HTTPMethod = .get
+    private let accessToken: String
     
     var headers: HTTPHeader {
         [

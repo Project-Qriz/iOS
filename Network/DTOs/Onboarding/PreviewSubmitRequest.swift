@@ -11,11 +11,12 @@ struct PreviewSubmitRequest: Request {
     
     // MARK: - Properties
     typealias Response = PreviewSubmitResponse
-    private let accessToken: String
     
     let path = "/api/v1/preview/submit"
     let method: HTTPMethod = .post
+    private let accessToken: String
     private let testSubmitDataList: [TestSubmitData]
+    
     var body: Encodable? {
         [
             "activities": testSubmitDataList

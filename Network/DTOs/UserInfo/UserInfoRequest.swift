@@ -68,10 +68,10 @@ struct UserInfoRequest: Request {
     
     // MARK: - Properties
     typealias Response = UserInfoResponse
-    private let accessToken: String
-    
+
     let path = "/api/v1/user/info"
     let method: HTTPMethod = .get
+    private let accessToken: String
     
     var headers: HTTPHeader {
         return [HTTPHeaderField.authorization.rawValue: accessToken]

@@ -11,10 +11,10 @@ struct AnalyzePreviewRequest: Request {
     
     // MARK: - Properties
     typealias Response = AnalyzePreviewResponse
-    private let accessToken: String
-    
+
     let path = "/api/v1/preview/analyze"
     let method: HTTPMethod = .get
+    private let accessToken: String
     
     var headers: HTTPHeader {
         [
