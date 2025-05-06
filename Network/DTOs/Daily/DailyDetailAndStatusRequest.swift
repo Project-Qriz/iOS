@@ -11,13 +11,14 @@ struct DailyDetailAndStatusRequest: Request {
     
     // MARK: - Properties
     typealias Response = DailyDetailAndStatusResponse
-    private let accessToken: String
     
+    let method: HTTPMethod = .get
+    private let accessToken: String
+    private let dayNumber: Int
+
     var path: String {
         "/api/v1/daily/detail-status/\(dayNumber)"
     }
-    var method: HTTPMethod = .get
-    var dayNumber: Int
     
     var headers: HTTPHeader {
         return [

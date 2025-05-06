@@ -11,13 +11,14 @@ struct DailyResultRequest: Request {
     
     // MARK: - Properties
     typealias Response = DailyResultResponse
+    
+    let method: HTTPMethod = .get
     private let accessToken: String
+    private let dayNumber: Int
     
     var path: String {
         "/api/v1/subject-details/\(dayNumber)"
     }
-    var method: HTTPMethod = .get
-    var dayNumber: Int
     
     var headers: HTTPHeader {
         return [

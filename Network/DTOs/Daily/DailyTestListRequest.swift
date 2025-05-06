@@ -11,14 +11,15 @@ struct DailyTestListRequest: Request {
     
     // MARK: - Properties
     typealias Response = DailyTestListResponse
+    
+    let method: HTTPMethod = .get
     private let accessToken: String
+    private let dayNumber: Int
     
     var path: String {
         "/api/v1/daily/get/\(dayNumber)"
     }
-    var method: HTTPMethod = .get
-    var dayNumber: Int
-    
+
     var headers: HTTPHeader {
         return [
             HTTPHeaderField.authorization.rawValue: accessToken

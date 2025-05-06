@@ -11,14 +11,16 @@ struct DailySubmitRequest: Request {
     
     // MARK: - Properties
     typealias Response = DailySubmitResponse
-    private let accessToken: String
     
+    let method: HTTPMethod = .post
+    private let accessToken: String
+    private let dayNumber: Int
+    private let dailySubmitData: [DailySubmitData]
+
     var path: String {
         "/api/v1/daily/submit/\(dayNumber)"
     }
-    var method: HTTPMethod = .post
-    var dayNumber: Int
-    var dailySubmitData: [DailySubmitData]
+
     var body: Encodable? {
         [
             "activities": dailySubmitData
