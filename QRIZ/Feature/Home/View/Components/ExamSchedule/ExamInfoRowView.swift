@@ -13,7 +13,9 @@ final class ExamInfoRowView: UIView {
     // MARK: - Enums
     
     private enum Metric {
-        static let defaultMargnin: CGFloat = 24.0
+        static let defaultMargnin: CGFloat = 18.0
+        static let verticalInset: CGFloat = 16.0
+        static let separatorHeight: CGFloat = 1.0
     }
     
     private enum Attributes {
@@ -38,7 +40,7 @@ final class ExamInfoRowView: UIView {
     
     private lazy var examInfoVStackVeiw: UIStackView = {
         let stackView = UIStackView(arrangedSubviews: [
-            examNameLabel, examDateLabel, periodLabel
+            examNameLabel, periodLabel, examDateLabel
         ])
         stackView.axis = .vertical
         stackView.spacing = 16
@@ -49,25 +51,22 @@ final class ExamInfoRowView: UIView {
     
     private let examNameLabel: UILabel = {
         let label = UILabel()
-        label.text = "제 52회 SQL 개발자"
         label.font = .systemFont(ofSize: 16, weight: .bold)
-        label.textColor = .coolNeutral800
-        return label
-    }()
-    
-    private let examDateLabel: UILabel = {
-        let label = UILabel()
-        label.text = "접수기간: 01.29(월) 10:00 ~ 02.02(금) 18:00"
-        label.font = .systemFont(ofSize: 14, weight: .regular)
         label.textColor = .coolNeutral800
         return label
     }()
     
     private let periodLabel: UILabel = {
         let label = UILabel()
-        label.text = "시험일: 5월25일(토)"
         label.font = .systemFont(ofSize: 14, weight: .regular)
         label.textColor = .coolNeutral500
+        return label
+    }()
+    
+    private let examDateLabel: UILabel = {
+        let label = UILabel()
+        label.font = .systemFont(ofSize: 14, weight: .regular)
+        label.textColor = .coolNeutral800
         return label
     }()
     
@@ -115,17 +114,17 @@ extension ExamInfoRowView {
         
         NSLayoutConstraint.activate([
             separator.topAnchor.constraint(equalTo: topAnchor),
-            separator.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 18),
-            separator.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -18),
-            separator.heightAnchor.constraint(equalToConstant: 1),
+            separator.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Metric.defaultMargnin),
+            separator.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -Metric.defaultMargnin),
+            separator.heightAnchor.constraint(equalToConstant: Metric.separatorHeight),
             
             statusImageView.centerYAnchor.constraint(equalTo: centerYAnchor),
-            statusImageView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 18),
+            statusImageView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Metric.defaultMargnin),
             
-            examInfoVStackVeiw.topAnchor.constraint(equalTo: topAnchor, constant: 16),
-            examInfoVStackVeiw.leadingAnchor.constraint(equalTo: statusImageView.trailingAnchor, constant: 16),
-            examInfoVStackVeiw.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -18),
-            examInfoVStackVeiw.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -16),
+            examInfoVStackVeiw.topAnchor.constraint(equalTo: topAnchor, constant: Metric.verticalInset),
+            examInfoVStackVeiw.leadingAnchor.constraint(equalTo: statusImageView.trailingAnchor, constant: Metric.verticalInset),
+            examInfoVStackVeiw.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -Metric.defaultMargnin),
+            examInfoVStackVeiw.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -Metric.verticalInset),
         ])
     }
 }
