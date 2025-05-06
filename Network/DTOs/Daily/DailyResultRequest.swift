@@ -57,6 +57,7 @@ struct DailyResultResponse: Decodable {
         }
         
         struct SubjectResult: Decodable {
+            let questionId: Int
             let skillName: String
             let question: String
             let correction: Bool
