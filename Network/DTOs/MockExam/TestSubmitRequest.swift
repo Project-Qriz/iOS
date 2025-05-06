@@ -12,10 +12,14 @@ struct TestSubmitRequest: Request {
     // MARK: - Properties
     typealias Response = TestSubmitResponse
 
-    let path = "/api/v1/exam/submit"
     let method: HTTPMethod = .post
     private let accessToken: String
+    private let examId: Int
     private let testSubmitData: [TestSubmitData]
+    
+    var path: String {
+        "/api/v1/exam/submit/\(examId)"
+    }
 
     var body: Encodable? {
         [
@@ -31,8 +35,9 @@ struct TestSubmitRequest: Request {
     }
     
     // MARK: - Initializers
-    init(accessToken: String, testSubmitData: [TestSubmitData]) {
+    init(accessToken: String, examId: Int, testSubmitData: [TestSubmitData]) {
         self.accessToken = accessToken
+        self.examId = examId
         self.testSubmitData = testSubmitData
     }
 }
@@ -40,5 +45,5 @@ struct TestSubmitRequest: Request {
 struct TestSubmitResponse: Decodable {
     let code: Int
     let msg: String
-    let data: String? // **** 확인 필요 ****
+    let data: String?
 }
