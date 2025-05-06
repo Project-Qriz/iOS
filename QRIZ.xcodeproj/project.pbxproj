@@ -531,7 +531,7 @@
 		5485664D2D12411F002BAEE3 /* DTOs */ = {
 			isa = PBXGroup;
 			children = (
-				E2A6C1482DC5CC980059F960 /* MockExam */,
+				E2A6C1482DC5CC980059F960 /* Exam */,
 				E25AB7A42DC0C35A00E7A7E3 /* Daily */,
 				E2A6C07A2DBA60550059F960 /* Onboarding */,
 				E29FE4042DBA39CE00DECB26 /* UserInfo */,
@@ -1487,7 +1487,7 @@
 			path = Onboarding;
 			sourceTree = "<group>";
 		};
-		E2A6C1482DC5CC980059F960 /* MockExam */ = {
+		E2A6C1482DC5CC980059F960 /* Exam */ = {
 			isa = PBXGroup;
 			children = (
 				E2A6C1442DC4CE110059F960 /* ExamListRequest.swift */,
@@ -1496,7 +1496,7 @@
 				E2A6C3232DC610420059F960 /* ExamScoreRequest.swift */,
 				E2A6C6752DCA45970059F960 /* ExamResultRequest.swift */,
 			);
-			path = MockExam;
+			path = Exam;
 			sourceTree = "<group>";
 		};
 		E2F18BCA2D60606A00DC6F82 /* DailyLearn */ = {
