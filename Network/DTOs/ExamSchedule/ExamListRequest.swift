@@ -40,3 +40,21 @@ struct ExamInfo: Decodable {
     let examDate: String
     let releaseDate: String
 }
+
+extension ExamListResponse {
+    func convert() -> [ExamRowState] {
+        let todayMD = Date.todayMonthDay
+        
+        return data.applications.map { info in
+            let examMD = monthDay(from: info.examDate) ?? .max
+            return ExamRowState(
+                id:         info.applyId,
+                examName:   info.examName,
+                periodText: "접수기간: \(info.period)",
+                dateText:   "시험일: \(info.examDate)",
+                isSelected: info.applyId == data.registeredApplicationId,
+                isExpired:  examMD < todayMD
+            )
+        }
+    }
+}
