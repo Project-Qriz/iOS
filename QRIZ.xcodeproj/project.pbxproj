@@ -59,6 +59,7 @@
 		B17FE3082D27F87E002EC7D7 /* String+.swift in Sources */ = {isa = PBXBuildFile; fileRef = B17FE3072D27F87E002EC7D7 /* String+.swift */; };
 		B17FE30A2D27F8E9002EC7D7 /* UITextField+.swift in Sources */ = {isa = PBXBuildFile; fileRef = B17FE3092D27F8E9002EC7D7 /* UITextField+.swift */; };
 		B17FE30C2D27F931002EC7D7 /* CustomTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = B17FE30B2D27F931002EC7D7 /* CustomTextField.swift */; };
+		B18CDBF92DCCF8C700DD361A /* Date+.swift in Sources */ = {isa = PBXBuildFile; fileRef = B18CDBF82DCCF8C700DD361A /* Date+.swift */; };
 		B18F450A2D39901D0030F7DB /* FindIDViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B18F45092D39901D0030F7DB /* FindIDViewController.swift */; };
 		B18F450D2D3994380030F7DB /* FindIDMainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B18F450C2D3994380030F7DB /* FindIDMainView.swift */; };
 		B18F45102D3997280030F7DB /* FindAccountHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B18F450F2D3997280030F7DB /* FindAccountHeaderView.swift */; };
@@ -264,6 +265,7 @@
 		B17FE3072D27F87E002EC7D7 /* String+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+.swift"; sourceTree = "<group>"; };
 		B17FE3092D27F8E9002EC7D7 /* UITextField+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITextField+.swift"; sourceTree = "<group>"; };
 		B17FE30B2D27F931002EC7D7 /* CustomTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTextField.swift; sourceTree = "<group>"; };
+		B18CDBF82DCCF8C700DD361A /* Date+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+.swift"; sourceTree = "<group>"; };
 		B18F45092D39901D0030F7DB /* FindIDViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FindIDViewController.swift; sourceTree = "<group>"; };
 		B18F450C2D3994380030F7DB /* FindIDMainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FindIDMainView.swift; sourceTree = "<group>"; };
 		B18F450F2D3997280030F7DB /* FindAccountHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FindAccountHeaderView.swift; sourceTree = "<group>"; };
@@ -443,6 +445,7 @@
 		B159A1292DA27AE6001153B5 /* Service */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Service; sourceTree = "<group>"; };
 		B17D6ABB2D9146C90023FCA5 /* FindAccount */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = FindAccount; sourceTree = "<group>"; };
 		B18729F32DB5E5FB0050811C /* PDF */ = {isa = PBXFileSystemSynchronizedRootGroup; exceptions = (B1872A172DB68F100050811C /* PBXFileSystemSynchronizedBuildFileExceptionSet */, ); explicitFileTypes = {}; explicitFolders = (); path = PDF; sourceTree = "<group>"; };
+		B18CDBF52DCCF82800DD361A /* Model */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Model; sourceTree = "<group>"; };
 		B190A2D92DBBC7C6008FDE86 /* View */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = View; sourceTree = "<group>"; };
 		B190A2E62DC2A2EB008FDE86 /* ExamSchedule */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = ExamSchedule; sourceTree = "<group>"; };
 		B190A2E92DC2ADCA008FDE86 /* ExamSchedule */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = ExamSchedule; sourceTree = "<group>"; };
@@ -595,6 +598,7 @@
 				B190A2D92DBBC7C6008FDE86 /* View */,
 				B190A2EE2DC4EAAD008FDE86 /* ViewController */,
 				B190A2EF2DC4EAC5008FDE86 /* ViewModel */,
+				B18CDBF52DCCF82800DD361A /* Model */,
 				B1D813702D6E0C1F00A9D447 /* HomeCoordinator.swift */,
 			);
 			path = Home;
@@ -625,6 +629,7 @@
 				B19C4F6A2D5260DD00CD008A /* UIControl+.swift */,
 				B19C4F6C2D5262D900CD008A /* Combine+.swift */,
 				E2908E612DAF5B8400B8E81B /* Int+.swift */,
+				B18CDBF82DCCF8C700DD361A /* Date+.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -1480,6 +1485,7 @@
 			dependencies = (
 			);
 			fileSystemSynchronizedGroups = (
+				B18CDBF52DCCF82800DD361A /* Model */,
 				B190A2D92DBBC7C6008FDE86 /* View */,
 				B190A2E62DC2A2EB008FDE86 /* ExamSchedule */,
 				B190A2E92DC2ADCA008FDE86 /* ExamSchedule */,
@@ -1657,6 +1663,7 @@
 				E29CCD3C2D298656004AA30A /* PreviewResultBarGraphsView.swift in Sources */,
 				B19C4FBF2D6B6E3400CD008A /* MistakeNoteViewController.swift in Sources */,
 				B16774DD2D89F6C6001820F3 /* VerifyPasswordResetRequest.swift in Sources */,
+				B18CDBF92DCCF8C700DD361A /* Date+.swift in Sources */,
 				E29CCD3C2D298656004AA30A /* PreviewResultBarGraphsView.swift in Sources */,
 				54DB0DA12D0951C000ABD458 /* Font+.swift in Sources */,
 				B16774C92D80A244001820F3 /* JoinRequest.swift in Sources */,
