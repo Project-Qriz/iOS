@@ -27,6 +27,7 @@ final class HomeCoordinatorImp: HomeCoordinator {
         let homeVM = HomeViewModel(examScheduleService: examService)
         let homeVC = HomeViewController(homeVM: homeVM)
         let navi = UINavigationController(rootViewController: homeVC)
+        homeVC.coordinator = self
         navigationController = navi
         return navi
     }
