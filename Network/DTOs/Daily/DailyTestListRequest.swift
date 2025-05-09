@@ -36,22 +36,22 @@ struct DailyTestListRequest: Request {
 struct DailyTestListResponse: Decodable {
     let code: Int
     let msg: String
-    let data: DataInfo?
+    let data: [DailyTestInfo]?
     
-    struct DataInfo: Decodable {
-        let questionId: Int
-        let skillId: Int
-        let category: Int
-        let question: String
-        let description: String
-        let options: [OptionInfo]
-        let timeLimit: Int
-        let difficulty: Int
-        
-        struct OptionInfo: Decodable {
-            let id: Int
-            let content: String
-        }
+}
+
+struct DailyTestInfo: Decodable {
+    let questionId: Int
+    let skillId: Int
+    let category: Int
+    let question: String
+    let description: String?
+    let options: [OptionInfo]
+    let timeLimit: Int
+    let difficulty: Int
+    
+    struct OptionInfo: Decodable {
+        let id: Int
+        let content: String
     }
-    
 }

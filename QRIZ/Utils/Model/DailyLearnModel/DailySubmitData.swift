@@ -10,6 +10,6 @@ import Foundation
 struct DailySubmitData: Codable {
     var question: SubmitQuestionData
     var questionNum: Int
-    var optionId: Int
+    var optionId: Int?
     var timeSpent: Int
 }

@@ -29,29 +29,37 @@ final class DailyTestViewModel {
         case updateOptionState(optionIdx: Int, isSelected: Bool)
         case setButtonVisibility(isVisible: Bool)
         case alterButtonText
-        case moveToDailyResult
+        case moveToDailyResult(type: DailyLearnType, day: Int)
         case moveToHomeView
         case popSubmitAlert
         case cancelAlert
         case submitSuccess
+        case submitFailed
     }
     
     // MARK: - Properties
     
     private var questionList: [QuestionData] = []
+    private var submitData: [DailySubmitData] = []
+    private var dailyTestList: [DailyTestInfo] = []
     private var curNum: Int? = nil
     private var timer: Timer? = nil
     private var timeLimit: Int? = nil
     private var startTime: Date? = nil
-    
-    var dailyTestType: DailyLearnType
+    private var timeRemaining: Int = 0
+    private let dailyTestType: DailyLearnType
+    private let day: Int
     
     private let output: PassthroughSubject<Output, Never> = .init()
     private var subscriptions = Set<AnyCancellable>()
     
+    private let dailyService: DailyService
+    
     // MARK: - Initializers
-    init(dailyTestType: DailyLearnType) {
+    init(dailyTestType: DailyLearnType, day: Int, dailyService: DailyService) {
         self.dailyTestType = dailyTestType
+        self.day = day
+        self.dailyService = dailyService
     }
     
     // MARK: - Deinitializer
@@ -78,8 +86,7 @@ final class DailyTestViewModel {
             case .nextButtonClicked:
                 buttonClickEventHandler()
             case .alertSubmitButtonClicked:
-                exitTimer()
-                output.send(.submitSuccess)
+                sendSubmitData()
             case .alertCancelButtonClicked:
                 output.send(.cancelAlert)
             }
@@ -89,23 +96,40 @@ final class DailyTestViewModel {
     }
     
     private func fetchData() {
-        fetchMockData()
-        if questionList.count == 0 { return }
-        curNum = 1
-        output.send(.updateTotalPage(totalPage: questionList.count))
-        questionStateHandler()
-    }
-    
-    private func fetchMockData() {
-        questionList = QuestionData.dailySampleList
+        Task {
+            do {
+                let response = try await dailyService.getDailyTestList(dayNumber: day)
+                guard let data = response.data else { return }
+                dailyTestList = data
+                data.enumerated().forEach {
+                    questionList.append(QuestionData(question: $1.question,
+                                                     option1: $1.options[0].content,
+                                                     option2: $1.options[1].content,
+                                                     option3: $1.options[2].content,
+                                                     option4: $1.options[3].content,
+                                                     timeLimit: $1.timeLimit,
+                                                     questionNumber: $0 + 1,
+                                                     description: $1.description))
+                    submitData.append(
+                        DailySubmitData(
+                            question: SubmitQuestionData(questionId: $1.questionId, category: $1.category),
+                            questionNum: $0 + 1,
+                            optionId: nil, timeSpent: 0))
+                }
+                if questionList.count == 0 { throw NetworkError.unknownError }
+                curNum = 1
+                output.send(.updateTotalPage(totalPage: questionList.count))
+                questionStateHandler()
+            } catch {
+                output.send(.fetchFailed)
+            }
+        }
     }
     
     private func questionStateHandler() {
         guard let curNum = curNum else { return }
         if curNum > questionList.count {
-            exitTimer()
-            output.send(.moveToDailyResult)
-            // submit answer sheet here
+            sendSubmitData()
             return
         }
         output.send(.updateQuestion(question: questionList[curNum - 1]))
@@ -118,13 +142,16 @@ final class DailyTestViewModel {
         guard let curNum = curNum else { return }
         if let prevSelectedIdx = questionList[curNum - 1].selectedOption {
             questionList[curNum - 1].selectedOption = nil
+            submitData[curNum - 1].optionId = nil
             output.send(.updateOptionState(optionIdx: prevSelectedIdx, isSelected: false))
             if prevSelectedIdx != optionIdx {
                 questionList[curNum - 1].selectedOption = optionIdx
+                submitData[curNum - 1].optionId = dailyTestList[curNum - 1].options[optionIdx - 1].id
                 output.send(.updateOptionState(optionIdx: optionIdx, isSelected: true))
             }
         } else {
             questionList[curNum - 1].selectedOption = optionIdx
+            submitData[curNum - 1].optionId = dailyTestList[curNum - 1].options[optionIdx - 1].id
             output.send(.updateOptionState(optionIdx: optionIdx, isSelected: true))
         }
         
@@ -164,6 +191,22 @@ final class DailyTestViewModel {
             output.send(.updateOptionState(optionIdx: idx, isSelected: false))
         }
     }
+    
+    private func sendSubmitData() {
+        Task {
+            do {
+                let _ = try await dailyService.submitDaily(dayNumber: day, dailySubmitData: submitData)
+                print("SUBMIT SUCCESS")
+                exitTimer()
+                if timeRemaining > 0 {
+                    output.send(.submitSuccess)
+                }
+                output.send(.moveToDailyResult(type: dailyTestType, day: day))
+            } catch {
+                output.send(.submitFailed)
+            }
+        }
+    }
 }
 
 // MARK: - Timer Methods
@@ -179,10 +222,9 @@ extension DailyTestViewModel {
     @objc func updateTimerPerSecond() {
         guard let timeLimit = timeLimit, let startTime = startTime else { return }
         let timeElapsed = Int(Date().timeIntervalSince(startTime))
-        let timeRemaining = timeLimit - timeElapsed
+        timeRemaining = timeLimit - timeElapsed
         if timeRemaining >= 0 {
             output.send(.updateTime(timeLimit: timeLimit, timeRemaining: timeRemaining))
-            print(timeLimit, timeRemaining)
         } else {
             guard let currentNumber = curNum else { return }
             curNum = currentNumber + 1
@@ -192,6 +234,9 @@ extension DailyTestViewModel {
     
     private func resetTimer() {
         guard let curNum = curNum else { return }
+        if curNum >= 2 {
+            submitData[curNum - 2].timeSpent = questionList[curNum - 2].timeLimit - timeRemaining
+        }
         startTime = Date()
         timeLimit = questionList[curNum - 1].timeLimit
     }

@@ -63,7 +63,7 @@ final class DailyTestViewController: UIViewController {
                 guard let self = self else { return }
                 switch event {
                 case .fetchFailed:
-                    print("DailyTestViewModel failed to fetch")
+                    showOneButtonAlert(with: "잠시 후 다시 시도해주세요.", storingIn: &subscriptions)
                 case .updateQuestion(let question):
                     contentsView.updateQuestion(question)
                     footerView.updateCurPage(curPage: question.questionNumber)
@@ -78,8 +78,9 @@ final class DailyTestViewController: UIViewController {
                     footerView.setButtonsVisibility(isVisible: isVisible)
                 case .alterButtonText:
                     footerView.alterButtonText()
-                case .moveToDailyResult:
-                    self.navigationController?.pushViewController(DailyResultViewController(viewModel: DailyResultViewModel(dailyTestType: viewModel.dailyTestType)), animated: true)
+                case .moveToDailyResult(let type, let day):
+                    self.navigationController?.pushViewController(DailyResultViewController(viewModel: DailyResultViewModel(dailyTestType: type)), animated: true)
+                    // 결과 뷰모델 인자 수정 후 삽입 예정.
                 case .moveToHomeView:
                     print("Move To Home View")
                 case .popSubmitAlert:
@@ -89,7 +90,9 @@ final class DailyTestViewController: UIViewController {
                 case .submitSuccess:
                     submitAlertViewController.dismiss(animated: true)
                     removeNavigationItems()
-                    self.navigationController?.pushViewController(DailyResultViewController(viewModel: DailyResultViewModel(dailyTestType: viewModel.dailyTestType)), animated: true)
+                case .submitFailed:
+                    submitAlertViewController.dismiss(animated: true)
+                    showOneButtonAlert(with: "잠시 후 다시 시도해주세요.", storingIn: &subscriptions)
                 }
             }
             .store(in: &subscriptions)
