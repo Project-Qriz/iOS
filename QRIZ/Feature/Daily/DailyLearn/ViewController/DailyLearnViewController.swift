@@ -39,7 +39,7 @@ final class DailyLearnViewController: UIViewController {
     private let input: PassthroughSubject<DailyLearnViewModel.Input, Never> = .init()
     private var subscriptions = Set<AnyCancellable>()
     
-    private var conceptArr: [(String, String)] = []
+    private var conceptArr: [(Int, String)] = []
     
     // MARK: - Initializer
     init(dailyLearnViewModel: DailyLearnViewModel) {
@@ -75,15 +75,17 @@ final class DailyLearnViewController: UIViewController {
                     setNavigatorButton(state: state, type: type, score: score)
                     setNavigatorButtonHeight(state: state)
                 case .fetchFailed:
-                    print("Fetch Failed")
+                    showOneButtonAlert(with: "잠시 후 다시 시도해주세요.", storingIn: &subscriptions)
                 case .updateContent(let conceptArr):
                     self.conceptArr = conceptArr
                     updateCollectionViewHeight()
-                case .moveToDailyTest(let isRetest):
+                case .moveToDailyTest(let isRetest, let type, let day):
+                    print("MOVE TO DAILY TEST \(isRetest ? "재시험" : "시험"), \(type), \(day)")
                     // modal will be added
-                    print("MOVE TO DAILY TEST")
                 case .moveToDailyTestResult:
                     print("MOVE TO DAILY TEST RESULT")
+                case .moveToConcept(let conceptIdx):
+                    print("MOVE TO CONCEPT \(SurveyCheckList.list[conceptIdx - 1])")
                 }
             }
             .store(in: &subscriptions)
@@ -109,8 +111,13 @@ final class DailyLearnViewController: UIViewController {
         }
     }
     
-    private func setNavigatorButton(state: DailyTestState, type: DailyLearnType, score: Int?) {
+    private func setNavigatorButton(state: DailyTestState, type: DailyLearnType, score: CGFloat?) {
         testNavigator.setDailyUI(state: state, type: type, score: score)
+        testNavigator.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(sendTestNavigatorClicked)))
+    }
+    
+    @objc private func sendTestNavigatorClicked() {
+        input.send(.testNavigatorButtonClicked)
     }
     
     private func setCollectionViewDataSourceAndDelegate() {
@@ -134,8 +141,8 @@ extension DailyLearnViewController: UICollectionViewDataSource {
             return UICollectionViewCell()
         }
 
-        cell.setLabelText(titleText: "\(indexPath.item + 1). \(conceptArr[indexPath.item].0)",
-                          descriptionText: "·  \(conceptArr[indexPath.item].1)")
+        cell.setLabelText(titleText: "\(SurveyCheckList.list[conceptArr[indexPath.item].0 - 1])",
+                          descriptionText: "\(conceptArr[indexPath.item].1)")
 
         return cell
     }
@@ -156,7 +163,7 @@ extension DailyLearnViewController: UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         if conceptArr.count != 0 {
-            print(conceptArr[indexPath.item].0)
+            input.send(.toConceptClicked(conceptIdx: conceptArr[indexPath.row].0))
         }
     }
 }
@@ -199,15 +206,15 @@ extension DailyLearnViewController {
             studyContentView.leadingAnchor.constraint(equalTo: scrollInnerView.leadingAnchor, constant: 18),
             studyContentView.trailingAnchor.constraint(equalTo: scrollInnerView.trailingAnchor, constant: -18),
             
-            testSubtextLabel.topAnchor.constraint(equalTo: studyContentView.bottomAnchor, constant: 32),
-            testSubtextLabel.leadingAnchor.constraint(equalTo: scrollInnerView.leadingAnchor, constant: 18),
-            testSubtextLabel.trailingAnchor.constraint(equalTo: scrollInnerView.trailingAnchor, constant: 18),
-            
-            relatedTestTitleLabel.topAnchor.constraint(equalTo: testSubtextLabel.bottomAnchor, constant: 19),
+            relatedTestTitleLabel.topAnchor.constraint(equalTo: studyContentView.bottomAnchor, constant: 32),
             relatedTestTitleLabel.leadingAnchor.constraint(equalTo: scrollInnerView.leadingAnchor, constant: 18),
             relatedTestTitleLabel.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor, constant: -18),
             
-            testNavigator.topAnchor.constraint(equalTo: relatedTestTitleLabel.bottomAnchor, constant: 18),
+            testSubtextLabel.topAnchor.constraint(equalTo: relatedTestTitleLabel.bottomAnchor, constant: 19),
+            testSubtextLabel.leadingAnchor.constraint(equalTo: scrollInnerView.leadingAnchor, constant: 18),
+            testSubtextLabel.trailingAnchor.constraint(equalTo: scrollInnerView.trailingAnchor, constant: 18),
+            
+            testNavigator.topAnchor.constraint(equalTo: testSubtextLabel.bottomAnchor, constant: 18),
             testNavigator.leadingAnchor.constraint(equalTo: scrollInnerView.leadingAnchor, constant: 18),
             testNavigator.trailingAnchor.constraint(equalTo: scrollInnerView.trailingAnchor, constant: -18),
             testNavigator.bottomAnchor.constraint(equalTo: scrollInnerView.bottomAnchor, constant: -100)
