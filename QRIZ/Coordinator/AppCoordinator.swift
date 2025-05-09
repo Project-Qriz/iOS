@@ -24,15 +24,19 @@ protocol AppCoordinatorDependency {
     var loginService: LoginService { get }
     var signUpService: SignUpService { get }
     var accountRecoveryService: AccountRecoveryService { get }
+    var examScheduleService: ExamScheduleService { get }
 }
 
 @MainActor
 final class AppCoordinatorDependencyImp: AppCoordinatorDependency {
     
     private lazy var network: Network = NetworkImp(session: .shared)
-    lazy var loginService: LoginService = LoginServiceImpl(network: network, keychainManager: KeychainManagerImpl())
+    private lazy var keychain: KeychainManager = KeychainManagerImpl()
+    
+    lazy var loginService: LoginService = LoginServiceImpl(network: network, keychainManager: keychain)
     lazy var signUpService: SignUpService = SignUpServiceImpl(network: network)
     lazy var accountRecoveryService: AccountRecoveryService = AccountRecoveryServiceImpl(network: network)
+    lazy var examScheduleService: ExamScheduleService = ExamScheduleServiceImpl(network: network, keychain: keychain)
     
     private lazy var _loginCoordinator: LoginCoordinator = {
         let navi = UINavigationController()
@@ -49,7 +53,7 @@ final class AppCoordinatorDependencyImp: AppCoordinatorDependency {
     }
     
     var tabBarCoordinator: TabBarCoordinator {
-        let tabBarDependency = TabBarCoordinatorDependencyImp()
+        let tabBarDependency = TabBarCoordinatorDependencyImp(examService: examScheduleService)
         return TabBarCoordinatorImp(dependency: tabBarDependency)
     }
 }

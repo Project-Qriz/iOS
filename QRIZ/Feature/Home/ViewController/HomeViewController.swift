@@ -12,6 +12,7 @@ final class HomeViewController: UIViewController {
     
     // MARK: - Properties
     
+    weak var coordinator: HomeCoordinator?
     private let rootView: HomeMainView
     private let HomeVM: HomeViewModel
     private let inputSubject = PassthroughSubject<HomeViewModel.Input, Never>()
@@ -69,13 +70,8 @@ final class HomeViewController: UIViewController {
             .store(in: &cancellables)
         
         rootView.examButtonTappedPublisher
-            .sink { [weak self] in self?.presentExamForm() }
+            .sink { [weak self] in self?.coordinator?.showExamSelectionSheet() }
             .store(in: &cancellables)
-    }
-    
-    private func presentExamForm() {
-        let vc = MistakeNoteViewController()
-        navigationController?.pushViewController(vc, animated: true)
     }
     
     private func setupNavigationBar() {
