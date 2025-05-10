@@ -45,7 +45,6 @@ struct DailyResultResponse: Decodable {
         let subjectResultsList: [SubjectResult]
 
         struct UserDailyInfo: Decodable {
-            let skillId: Int
             let title: String
             let totalScore: CGFloat
             let items: [Item]
