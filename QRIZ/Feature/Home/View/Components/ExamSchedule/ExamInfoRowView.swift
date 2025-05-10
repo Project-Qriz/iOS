@@ -22,6 +22,10 @@ final class ExamInfoRowView: UIView {
         static let statusImage: String = "record.circle.fill"
     }
     
+    // MARK: - Properties
+    
+    private var applyId: Int?
+    
     // MARK: - UI
     
     private let separator: UIView = {
@@ -33,7 +37,7 @@ final class ExamInfoRowView: UIView {
     private let statusImageView: UIImageView = {
         let config = UIImage.SymbolConfiguration(pointSize: 24, weight: .regular)
         let image  = UIImage(systemName: Attributes.statusImage, withConfiguration: config)?
-            .withTintColor(.systemBlue, renderingMode: .alwaysOriginal)
+            .withRenderingMode(.alwaysTemplate)
         let imageView = UIImageView(image: image)
         return imageView
     }()
@@ -59,14 +63,14 @@ final class ExamInfoRowView: UIView {
     private let periodLabel: UILabel = {
         let label = UILabel()
         label.font = .systemFont(ofSize: 14, weight: .regular)
-        label.textColor = .coolNeutral500
+        label.textColor = .coolNeutral800
         return label
     }()
     
     private let examDateLabel: UILabel = {
         let label = UILabel()
         label.font = .systemFont(ofSize: 14, weight: .regular)
-        label.textColor = .coolNeutral800
+        label.textColor = .coolNeutral500
         return label
     }()
     
@@ -89,10 +93,36 @@ final class ExamInfoRowView: UIView {
         backgroundColor = .white
     }
     
-    func configure(examDate: String, examName: String, period: String) {
-        examDateLabel.text = examDate
-        examNameLabel.text = examName
+    func configure(with state: ExamRowState) {
+        self.applyId = state.id
+        setTexts(
+            name: state.examName,
+            period: state.periodText,
+            date: state.dateText
+        )
+        setSelected(state.isSelected)
+        setExpired(state.isExpired)
+    }
+    
+    private func setTexts(
+        name: String,
+        period: String,
+        date: String
+    ) {
+        examNameLabel.text = name
         periodLabel.text = period
+        examDateLabel.text = date
+    }
+    
+    private func setSelected(_ isSelected: Bool) {
+        statusImageView.tintColor = isSelected ? .customBlue500 : .coolNeutral200
+    }
+    
+    private func setExpired(_ isExpired: Bool) {
+        backgroundColor = isExpired ? .coolNeutral100 : .white
+        examNameLabel.textColor = isExpired ? .coolNeutral300 : .coolNeutral800
+        periodLabel.textColor = isExpired ? .coolNeutral300 : .coolNeutral500
+        examDateLabel.textColor = isExpired ? .coolNeutral300 : .coolNeutral800
     }
 }
 
