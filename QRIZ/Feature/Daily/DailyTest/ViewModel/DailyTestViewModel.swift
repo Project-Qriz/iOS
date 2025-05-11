@@ -196,7 +196,6 @@ final class DailyTestViewModel {
         Task {
             do {
                 let _ = try await dailyService.submitDaily(dayNumber: day, dailySubmitData: submitData)
-                print("SUBMIT SUCCESS")
                 exitTimer()
                 if timeRemaining > 0 {
                     output.send(.submitSuccess)
@@ -236,7 +235,6 @@ extension DailyTestViewModel {
         guard let curNum = curNum else { return }
         if curNum >= 2 {
             submitData[curNum - 2].timeSpent = questionList[curNum - 2].timeLimit - timeRemaining
-            print(submitData[curNum - 2].timeSpent)
         }
         // 기존 타이머는 1초마다 감지하기 때문에 문제 변경 시 즉각적인 타이머 변경을 위한 로직 추가
         startTime = Date()
