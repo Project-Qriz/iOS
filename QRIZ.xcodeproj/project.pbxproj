@@ -136,6 +136,10 @@
 		E25855A62DC3AE0800AE174C /* DailyService.swift in Sources */ = {isa = PBXBuildFile; fileRef = E25855A52DC3AE0800AE174C /* DailyService.swift */; };
 		E25856D42D0D766900355667 /* CheckConceptViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E25856D32D0D766900355667 /* CheckConceptViewController.swift */; };
 		E25856DE2D0DADD300355667 /* BeginOnboardingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E25856DD2D0DADD300355667 /* BeginOnboardingViewModel.swift */; };
+		E258577F2DD093A700AE174C /* ExamListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E258577E2DD093A700AE174C /* ExamListViewController.swift */; };
+		E25857862DD09ED600AE174C /* ExamListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E25857852DD09ED600AE174C /* ExamListViewModel.swift */; };
+		E25857892DD0A06800AE174C /* ExamListFilterType.swift in Sources */ = {isa = PBXBuildFile; fileRef = E25857882DD0A06800AE174C /* ExamListFilterType.swift */; };
+		E258578D2DD0C7C300AE174C /* ExamListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E258578C2DD0C7C300AE174C /* ExamListCell.swift */; };
 		E25907C82D80732C0093121C /* PreviewResultScoreView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E25907C72D80732C0093121C /* PreviewResultScoreView.swift */; };
 		E25907CC2D8328FC0093121C /* PreviewResultView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E25907CB2D8328FC0093121C /* PreviewResultView.swift */; };
 		E25AB7A62DC0C41E00E7A7E3 /* DailyDetailAndStatusRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = E25AB7A52DC0C41E00E7A7E3 /* DailyDetailAndStatusRequest.swift */; };
@@ -196,7 +200,6 @@
 		E2A6C0802DBB61890059F960 /* PreviewSubmitRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2A6C07F2DBB61890059F960 /* PreviewSubmitRequest.swift */; };
 		E2A6C0822DBB65530059F960 /* AnalyzePreviewRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2A6C0812DBB65530059F960 /* AnalyzePreviewRequest.swift */; };
 		E2A6C1452DC4CE110059F960 /* ExamListRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2A6C1442DC4CE110059F960 /* ExamListRequest.swift */; };
-		E2A6C1472DC5C72B0059F960 /* ExamStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2A6C1462DC5C72B0059F960 /* ExamStatus.swift */; };
 		E2A6C14A2DC5E0B10059F960 /* ExamQuestionRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2A6C1492DC5E0B10059F960 /* ExamQuestionRequest.swift */; };
 		E2A6C14C2DC5E33F0059F960 /* TestSubmitRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2A6C14B2DC5E33F0059F960 /* TestSubmitRequest.swift */; };
 		E2A6C3242DC610420059F960 /* ExamScoreRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2A6C3232DC610420059F960 /* ExamScoreRequest.swift */; };
@@ -371,6 +374,10 @@
 		E25855A52DC3AE0800AE174C /* DailyService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyService.swift; sourceTree = "<group>"; };
 		E25856D32D0D766900355667 /* CheckConceptViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = CheckConceptViewController.swift; path = QRIZ/Feature/Onboarding/CheckConcept/ViewController/CheckConceptViewController.swift; sourceTree = SOURCE_ROOT; };
 		E25856DD2D0DADD300355667 /* BeginOnboardingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BeginOnboardingViewModel.swift; sourceTree = "<group>"; };
+		E258577E2DD093A700AE174C /* ExamListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExamListViewController.swift; sourceTree = "<group>"; };
+		E25857852DD09ED600AE174C /* ExamListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExamListViewModel.swift; sourceTree = "<group>"; };
+		E25857882DD0A06800AE174C /* ExamListFilterType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExamListFilterType.swift; sourceTree = "<group>"; };
+		E258578C2DD0C7C300AE174C /* ExamListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExamListCell.swift; sourceTree = "<group>"; };
 		E25907C72D80732C0093121C /* PreviewResultScoreView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreviewResultScoreView.swift; sourceTree = "<group>"; };
 		E25907CB2D8328FC0093121C /* PreviewResultView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreviewResultView.swift; sourceTree = "<group>"; };
 		E25AB7A52DC0C41E00E7A7E3 /* DailyDetailAndStatusRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyDetailAndStatusRequest.swift; sourceTree = "<group>"; };
@@ -434,7 +441,6 @@
 		E2A6C07F2DBB61890059F960 /* PreviewSubmitRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreviewSubmitRequest.swift; sourceTree = "<group>"; };
 		E2A6C0812DBB65530059F960 /* AnalyzePreviewRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnalyzePreviewRequest.swift; sourceTree = "<group>"; };
 		E2A6C1442DC4CE110059F960 /* ExamListRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExamListRequest.swift; sourceTree = "<group>"; };
-		E2A6C1462DC5C72B0059F960 /* ExamStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExamStatus.swift; sourceTree = "<group>"; };
 		E2A6C1492DC5E0B10059F960 /* ExamQuestionRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExamQuestionRequest.swift; sourceTree = "<group>"; };
 		E2A6C14B2DC5E33F0059F960 /* TestSubmitRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestSubmitRequest.swift; sourceTree = "<group>"; };
 		E2A6C3232DC610420059F960 /* ExamScoreRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExamScoreRequest.swift; sourceTree = "<group>"; };
@@ -630,6 +636,7 @@
 		54DB0D962D09506C00ABD458 /* Feature */ = {
 			isa = PBXGroup;
 			children = (
+				E258577D2DD0939500AE174C /* Exam */,
 				54E91B742D18FA9600474D0A /* CommonViews */,
 				B19C4FC32D6C223E00CD008A /* TabBar */,
 				E29CCD282D29855B004AA30A /* TestComponents */,
@@ -1224,6 +1231,56 @@
 			path = BeginPreviewTest;
 			sourceTree = "<group>";
 		};
+		E258577D2DD0939500AE174C /* Exam */ = {
+			isa = PBXGroup;
+			children = (
+				E25857822DD09E9800AE174C /* ExamList */,
+			);
+			path = Exam;
+			sourceTree = "<group>";
+		};
+		E25857822DD09E9800AE174C /* ExamList */ = {
+			isa = PBXGroup;
+			children = (
+				E258578A2DD0C76B00AE174C /* View */,
+				E25857832DD09E9E00AE174C /* ViewModel */,
+				E25857842DD09EA400AE174C /* ViewController */,
+			);
+			path = ExamList;
+			sourceTree = "<group>";
+		};
+		E25857832DD09E9E00AE174C /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				E25857852DD09ED600AE174C /* ExamListViewModel.swift */,
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		E25857842DD09EA400AE174C /* ViewController */ = {
+			isa = PBXGroup;
+			children = (
+				E258577E2DD093A700AE174C /* ExamListViewController.swift */,
+			);
+			path = ViewController;
+			sourceTree = "<group>";
+		};
+		E25857872DD0A02100AE174C /* ExamModel */ = {
+			isa = PBXGroup;
+			children = (
+				E25857882DD0A06800AE174C /* ExamListFilterType.swift */,
+			);
+			path = ExamModel;
+			sourceTree = "<group>";
+		};
+		E258578A2DD0C76B00AE174C /* View */ = {
+			isa = PBXGroup;
+			children = (
+				E258578C2DD0C7C300AE174C /* ExamListCell.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
 		E25AB7A42DC0C35A00E7A7E3 /* Daily */ = {
 			isa = PBXGroup;
 			children = (
@@ -1329,6 +1386,7 @@
 				E24907D62D61A26D004D6E61 /* DailyLearnModel */,
 				E29BF86B2D16894C006DC6D0 /* TestModel */,
 				E29BF85A2D11D3B2006DC6D0 /* OnboardingModel */,
+				E25857872DD0A02100AE174C /* ExamModel */,
 				E28BAD7B2D2C339100B8388D /* AlertType.swift */,
 				B1DC70622DAE5F9C0007D943 /* SubjectType.swift */,
 			);
@@ -1355,7 +1413,6 @@
 				E24CB1632DB357B100D88451 /* ResultDetailMenuItems.swift */,
 				E23ADF112DC07AE100FE1C0B /* ResultScoresData.swift */,
 				E24CB1DA2DBCB40200D88451 /* TestSubmitData.swift */,
-				E2A6C1462DC5C72B0059F960 /* ExamStatus.swift */,
 			);
 			path = TestModel;
 			sourceTree = "<group>";
@@ -1755,6 +1812,7 @@
 				B18CDF732DD3066E00DD361A /* TermsAgreementHeaderView.swift in Sources */,
 				E25F94CB2D0CB1DB00BA765F /* OnboardingTitleLabel.swift in Sources */,
 				B16288242D2E8914008057D0 /* IDInputViewModel.swift in Sources */,
+				E258578D2DD0C7C300AE174C /* ExamListCell.swift in Sources */,
 				E25F94D12D0CB74700BA765F /* OnboardingButton.swift in Sources */,
 				E25AB8082DC0CB2C00E7A7E3 /* DailySubmitRequest.swift in Sources */,
 				E25907CC2D8328FC0093121C /* PreviewResultView.swift in Sources */,
@@ -1809,7 +1867,6 @@
 				B18F452A2D4D5B200030F7DB /* ResetPasswordViewController.swift in Sources */,
 				E2F18BCF2D6060E900DC6F82 /* DailyLearnViewController.swift in Sources */,
 				B16288262D300CBA008057D0 /* PasswordInputViewModel.swift in Sources */,
-				E2A6C1472DC5C72B0059F960 /* ExamStatus.swift in Sources */,
 				E2908E682DB3A68E00B8E81B /* ResultDetailView.swift in Sources */,
 				B1D813712D6E0C1F00A9D447 /* HomeCoordinator.swift in Sources */,
 				E23824E12D0C3157009E7989 /* BeginOnboardingViewController.swift in Sources */,
@@ -1829,6 +1886,7 @@
 				E2908E622DAF5B8400B8E81B /* Int+.swift in Sources */,
 				B18CDF6F2DD2FF9500DD361A /* TermsAgreementModalViewController.swift in Sources */,
 				E29CCD422D298656004AA30A /* PreviewResultViewModel.swift in Sources */,
+				E258577F2DD093A700AE174C /* ExamListViewController.swift in Sources */,
 				548566492D123C94002BAEE3 /* NetworkRequest.swift in Sources */,
 				B15188622D76D29B000EFE41 /* EmailSendRequest.swift in Sources */,
 				B17D6ADB2D9AB59A0023FCA5 /* KeychainManager.swift in Sources */,
@@ -1885,6 +1943,7 @@
 				E24CB1582DB337FE00D88451 /* ResultDetailData.swift in Sources */,
 				E239630B2D083B900092B39B /* SceneDelegate.swift in Sources */,
 				E2D70FEC2D0EBDDD005A3F51 /* CheckListCell.swift in Sources */,
+				E25857862DD09ED600AE174C /* ExamListViewModel.swift in Sources */,
 				E2A6C0822DBB65530059F960 /* AnalyzePreviewRequest.swift in Sources */,
 				E283AC082D9E8D8F00DE005B /* DailyTestDescriptionView.swift in Sources */,
 				E28BAD772D2C111100B8388D /* TwoButtonCustomAlertView.swift in Sources */,
@@ -1950,6 +2009,7 @@
 				54C7A3132D1461A6001175D9 /* LoginMainView.swift in Sources */,
 				B19C4F6F2D55DCA400CD008A /* SignUpVerificationMainView.swift in Sources */,
 				E25AB7A62DC0C41E00E7A7E3 /* DailyDetailAndStatusRequest.swift in Sources */,
+				E25857892DD0A06800AE174C /* ExamListFilterType.swift in Sources */,
 				E24CB15A2DB3494A00D88451 /* ResultSubjectListView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
