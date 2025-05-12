@@ -66,6 +66,7 @@ final class ExamListViewController: UIViewController {
                 case .setCollectionViewItem(let examList):
                     self.examList = examList
                     listCollectionView.reloadData()
+                    listCollectionView.setContentOffset(.zero, animated: false)
                 case .selectFilterItem(let filterType):
                     examListFilterItemsView.setItemSelected(selectedType: filterType)
                     examListFilterButton.setText(filterType: filterType)
