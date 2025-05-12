@@ -55,7 +55,7 @@ final class RequestFactory<T: Request> {
         switch request.method {
         case .get, .delete:
             return try makeGetRequest()
-        case .post:
+        case .post, .patch:
             return try makePostRequest()
         }
     }
