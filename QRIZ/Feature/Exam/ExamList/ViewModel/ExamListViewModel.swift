@@ -13,7 +13,9 @@ final class ExamListViewModel {
     // MARK: - Input & Output
     enum Input {
         case viewDidLoad
-        case filterSelected(filterType: ExamListFilterType)
+        case filterButtonClicked
+        case filterItemSelected(filterType: ExamListFilterType)
+        case otherAreaClicked
         case cancelButtonClicked
         case examClicked(idx: Int)
     }
@@ -22,6 +24,7 @@ final class ExamListViewModel {
         case fetchFailed
         case setCollectionViewItem(examList: [ExamListDataInfo])
         case selectFilterItem(filterType: ExamListFilterType)
+        case setFilterItemsVisibility(isVisible: Bool)
         case moveToExamView(examId: Int)
         case cancelExamListView
     }
@@ -29,6 +32,7 @@ final class ExamListViewModel {
     // MARK: - Properties
     private var filterSelected: ExamListFilterType = .total
     private var examList: [ExamListDataInfo] = []
+    private var isFilterItemsPresented: Bool = false
     
     private let output: PassthroughSubject<Output, Never> = .init()
     private var subscriptions = Set<AnyCancellable>()
@@ -46,9 +50,16 @@ final class ExamListViewModel {
             switch event {
             case .viewDidLoad:
                 fetchData()
-            case .filterSelected(let filterType):
-                self.filterSelected = filterType
-                fetchData()
+            case .filterButtonClicked:
+                self.isFilterItemsPresented.toggle()
+                output.send(.setFilterItemsVisibility(isVisible: self.isFilterItemsPresented))
+            case .filterItemSelected(let filterType):
+                filterItemSelectionHandler(filterType: filterType)
+            case .otherAreaClicked:
+                if isFilterItemsPresented {
+                    isFilterItemsPresented = false
+                    output.send(.setFilterItemsVisibility(isVisible: false))
+                }
             case .cancelButtonClicked:
                 output.send(.cancelExamListView)
             case .examClicked(let idx):
@@ -76,5 +87,13 @@ final class ExamListViewModel {
         let sessionText = examList[clickedIdx].session
         guard let session = Int(sessionText.replacingOccurrences(of: "회차", with: "")) else { return }
         output.send(.moveToExamView(examId: session))
+    }
+    
+    private func filterItemSelectionHandler(filterType: ExamListFilterType) {
+        if self.filterSelected == filterType { return }
+        self.filterSelected = filterType
+        fetchData()
+        self.isFilterItemsPresented = false
+        output.send(.setFilterItemsVisibility(isVisible: self.isFilterItemsPresented))
     }
 }

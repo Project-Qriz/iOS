@@ -16,6 +16,14 @@ final class ExamListViewController: UIViewController {
         collectionView.backgroundColor = .customBlue50
         return collectionView
     }()
+    private let examListFilterButton: ExamListFilterButton = .init()
+    private let examListFilterItemsView: ExamListFilterItemsView = .init()
+    private let customClearView: UIView = {
+        let view = UIView(frame: .zero)
+        view.backgroundColor = .clear
+        view.isHidden = true
+        return view
+    }()
     
     private var examList: [ExamListDataInfo] = []
     
@@ -41,10 +49,12 @@ final class ExamListViewController: UIViewController {
         addViews()
         bind()
         input.send(.viewDidLoad)
+        addClearViewAction()
     }
     
     private func bind() {
-        let output = viewModel.transform(input: input.eraseToAnyPublisher())
+        let mergedInput = input.merge(with: examListFilterButton.input, examListFilterItemsView.input)
+        let output = viewModel.transform(input: mergedInput.eraseToAnyPublisher())
         
         output
             .receive(on: DispatchQueue.main)
@@ -57,7 +67,11 @@ final class ExamListViewController: UIViewController {
                     self.examList = examList
                     listCollectionView.reloadData()
                 case .selectFilterItem(let filterType):
-                    print("")
+                    examListFilterItemsView.setItemSelected(selectedType: filterType)
+                    examListFilterButton.setText(filterType: filterType)
+                case .setFilterItemsVisibility(let isVisible):
+                    examListFilterItemsView.isHidden = !isVisible
+                    customClearView.isHidden = !isVisible
                 case .moveToExamView(let examId):
                     print("EXAMID: \(examId)")
                 case .cancelExamListView:
@@ -91,6 +105,15 @@ final class ExamListViewController: UIViewController {
         listCollectionView.dataSource = self
         listCollectionView.delegate = self
     }
+    
+    private func addClearViewAction() {
+        customClearView.isUserInteractionEnabled = true
+        customClearView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(sendOtherAreaClicked)))
+    }
+    
+    @objc private func sendOtherAreaClicked() {
+        input.send(.otherAreaClicked)
+    }
 }
 
 extension ExamListViewController: UICollectionViewDataSource {
@@ -103,7 +126,6 @@ extension ExamListViewController: UICollectionViewDataSource {
             return UICollectionViewCell()
         }
         cell.configure(examInfo: examList[indexPath.item])
-        print(examList[indexPath.item])
         return cell
     }
 }
@@ -126,14 +148,33 @@ extension ExamListViewController: UICollectionViewDelegateFlowLayout {
 extension ExamListViewController {
     private func addViews() {
         self.view.addSubview(listCollectionView)
+        self.view.addSubview(examListFilterButton)
+        self.view.addSubview(customClearView)
+        self.view.addSubview(examListFilterItemsView)
         
         listCollectionView.translatesAutoresizingMaskIntoConstraints = false
+        examListFilterButton.translatesAutoresizingMaskIntoConstraints = false
+        customClearView.translatesAutoresizingMaskIntoConstraints = false
+        examListFilterItemsView.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
-            listCollectionView.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor),
+            examListFilterButton.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor, constant: 24),
+            examListFilterButton.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 18),
+            examListFilterButton.widthAnchor.constraint(equalToConstant: 90),
+            examListFilterButton.heightAnchor.constraint(equalToConstant: 32),
+            
+            examListFilterItemsView.topAnchor.constraint(equalTo: examListFilterButton.bottomAnchor, constant: 8),
+            examListFilterItemsView.leadingAnchor.constraint(equalTo: examListFilterButton.leadingAnchor),
+            
+            listCollectionView.topAnchor.constraint(equalTo: examListFilterButton.bottomAnchor, constant: 24),
             listCollectionView.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor),
-            listCollectionView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 18),
+            listCollectionView.leadingAnchor.constraint(equalTo: examListFilterButton.leadingAnchor),
             listCollectionView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: -18),
+            
+            customClearView.topAnchor.constraint(equalTo: self.view.topAnchor),
+            customClearView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor),
+            customClearView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
+            customClearView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor)
         ])
     }
 }
