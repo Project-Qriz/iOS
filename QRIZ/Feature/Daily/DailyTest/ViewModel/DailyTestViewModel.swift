@@ -101,6 +101,7 @@ final class DailyTestViewModel {
                 let response = try await dailyService.getDailyTestList(dayNumber: day)
                 guard let data = response.data else { return }
                 dailyTestList = data
+                if data.count == 0 { throw NetworkError.unknownError }
                 data.enumerated().forEach {
                     questionList.append(QuestionData(question: $1.question,
                                                      option1: $1.options[0].content,
@@ -116,7 +117,6 @@ final class DailyTestViewModel {
                             questionNum: $0 + 1,
                             optionId: nil, timeSpent: 0))
                 }
-                if questionList.count == 0 { throw NetworkError.unknownError }
                 curNum = 1
                 output.send(.updateTotalPage(totalPage: questionList.count))
                 questionStateHandler()

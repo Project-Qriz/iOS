@@ -37,7 +37,6 @@ struct DailyTestListResponse: Decodable {
     let code: Int
     let msg: String
     let data: [DailyTestInfo]?
-    
 }
 
 struct DailyTestInfo: Decodable {
