@@ -108,6 +108,8 @@
 		E217C3692D9BF0B20095A3D8 /* DailyResultViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E217C3682D9BF0B20095A3D8 /* DailyResultViewModel.swift */; };
 		E217C36B2D9BF0C30095A3D8 /* DailyResultViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E217C36A2D9BF0C30095A3D8 /* DailyResultViewController.swift */; };
 		E217C3702D9BF2860095A3D8 /* DailyTestFooterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E217C36F2D9BF2860095A3D8 /* DailyTestFooterView.swift */; };
+		E22341AD2DD4C35D00A67D04 /* ExamSummaryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E22341AC2DD4C35D00A67D04 /* ExamSummaryViewController.swift */; };
+		E22341AF2DD4C5B000A67D04 /* ExamSummaryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E22341AE2DD4C5B000A67D04 /* ExamSummaryViewModel.swift */; };
 		E23824E12D0C3157009E7989 /* BeginOnboardingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E23824E02D0C3157009E7989 /* BeginOnboardingViewController.swift */; };
 		E23963092D083B900092B39B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E23963082D083B900092B39B /* AppDelegate.swift */; };
 		E239630B2D083B900092B39B /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E239630A2D083B900092B39B /* SceneDelegate.swift */; };
@@ -343,6 +345,8 @@
 		E217C3682D9BF0B20095A3D8 /* DailyResultViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyResultViewModel.swift; sourceTree = "<group>"; };
 		E217C36A2D9BF0C30095A3D8 /* DailyResultViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyResultViewController.swift; sourceTree = "<group>"; };
 		E217C36F2D9BF2860095A3D8 /* DailyTestFooterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyTestFooterView.swift; sourceTree = "<group>"; };
+		E22341AC2DD4C35D00A67D04 /* ExamSummaryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExamSummaryViewController.swift; sourceTree = "<group>"; };
+		E22341AE2DD4C5B000A67D04 /* ExamSummaryViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExamSummaryViewModel.swift; sourceTree = "<group>"; };
 		E23824E02D0C3157009E7989 /* BeginOnboardingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BeginOnboardingViewController.swift; sourceTree = "<group>"; };
 		E23963052D083B8F0092B39B /* QRIZ.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = QRIZ.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E23963082D083B900092B39B /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -1040,6 +1044,54 @@
 			path = View;
 			sourceTree = "<group>";
 		};
+		E22341A92DD4C26300A67D04 /* ExamSummary */ = {
+			isa = PBXGroup;
+			children = (
+				E22341AB2DD4C34100A67D04 /* ViewModel */,
+				E22341AA2DD4C33A00A67D04 /* ViewController */,
+			);
+			path = ExamSummary;
+			sourceTree = "<group>";
+		};
+		E22341AA2DD4C33A00A67D04 /* ViewController */ = {
+			isa = PBXGroup;
+			children = (
+				E22341AC2DD4C35D00A67D04 /* ExamSummaryViewController.swift */,
+			);
+			path = ViewController;
+			sourceTree = "<group>";
+		};
+		E22341AB2DD4C34100A67D04 /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				E22341AE2DD4C5B000A67D04 /* ExamSummaryViewModel.swift */,
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		E22341B02DD4D36100A67D04 /* ExamTest */ = {
+			isa = PBXGroup;
+			children = (
+				E22341B22DD4D36E00A67D04 /* ViewController */,
+				E22341B12DD4D36700A67D04 /* ViewModel */,
+			);
+			path = ExamTest;
+			sourceTree = "<group>";
+		};
+		E22341B12DD4D36700A67D04 /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		E22341B22DD4D36E00A67D04 /* ViewController */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = ViewController;
+			sourceTree = "<group>";
+		};
 		E23824DF2D0C1FA7009E7989 /* Onboarding */ = {
 			isa = PBXGroup;
 			children = (
@@ -1238,6 +1290,8 @@
 		E258577D2DD0939500AE174C /* Exam */ = {
 			isa = PBXGroup;
 			children = (
+				E22341B02DD4D36100A67D04 /* ExamTest */,
+				E22341A92DD4C26300A67D04 /* ExamSummary */,
 				E25857822DD09E9800AE174C /* ExamList */,
 			);
 			path = Exam;
@@ -1833,6 +1887,7 @@
 				E25F335F2DAFC222002347D4 /* DailyResultScoreView.swift in Sources */,
 				B19C4F6D2D5262D900CD008A /* Combine+.swift in Sources */,
 				B18F452C2D4D5CF00030F7DB /* ResetPasswordViewModel.swift in Sources */,
+				E22341AD2DD4C35D00A67D04 /* ExamSummaryViewController.swift in Sources */,
 				B17D6AD92D97FE450023FCA5 /* LoginService.swift in Sources */,
 				54C7A3102D146190001175D9 /* LoginViewController.swift in Sources */,
 				E29CCD3C2D298656004AA30A /* PreviewResultBarGraphsView.swift in Sources */,
@@ -1887,6 +1942,7 @@
 				B162881C2D2CFC63008057D0 /* UIView+.swift in Sources */,
 				E27E54A92D6D74C500BF3B55 /* CheckListFoldButton.swift in Sources */,
 				B18F45122D3A26520030F7DB /* FindIDInputView.swift in Sources */,
+				E22341AF2DD4C5B000A67D04 /* ExamSummaryViewModel.swift in Sources */,
 				541878542D0E21620089F478 /* HTTPMethod.swift in Sources */,
 				B18F45222D4645EC0030F7DB /* VerificationInputView.swift in Sources */,
 				E2908E622DAF5B8400B8E81B /* Int+.swift in Sources */,

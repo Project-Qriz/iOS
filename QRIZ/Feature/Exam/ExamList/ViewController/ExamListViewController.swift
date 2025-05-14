@@ -37,7 +37,7 @@ final class ExamListViewController: UIViewController {
     }
     
     required init?(coder: NSCoder) {
-        fatalError()
+        fatalError("no initializer for coder: ExamListViewController")
     }
 
     // MARK: - Methods
@@ -74,7 +74,7 @@ final class ExamListViewController: UIViewController {
                     examListFilterItemsView.isHidden = !isVisible
                     customClearView.isHidden = !isVisible
                 case .moveToExamView(let examId):
-                    print("EXAMID: \(examId)")
+                    self.navigationController?.pushViewController(ExamSummaryViewController(viewModel: ExamSummaryViewModel(examId: examId)), animated: true)
                 case .cancelExamListView:
                     self.dismiss(animated: true)
                 }
