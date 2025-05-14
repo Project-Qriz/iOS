@@ -197,9 +197,7 @@ final class DailyTestViewModel {
             do {
                 let _ = try await dailyService.submitDaily(dayNumber: day, dailySubmitData: submitData)
                 exitTimer()
-                if timeRemaining > 0 {
-                    output.send(.submitSuccess)
-                }
+                output.send(.submitSuccess)
                 output.send(.moveToDailyResult(type: dailyTestType, day: day))
             } catch {
                 output.send(.submitFailed)
