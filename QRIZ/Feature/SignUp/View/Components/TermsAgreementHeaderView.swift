@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Combine
 
 final class TermsAgreementHeaderView: UIView {
     
@@ -20,6 +21,14 @@ final class TermsAgreementHeaderView: UIView {
         static let xmark: String = "xmark"
     }
     
+    // MARK: - Properties
+    
+    private let dismissButtonTappedSubject = PassthroughSubject<Void, Never>()
+    
+    var dismissButtonTappedPublisher: AnyPublisher<Void, Never> {
+        dismissButtonTappedSubject.eraseToAnyPublisher()
+    }
+    
     // MARK: - UI
     
     private let titleLabel: UILabel = {
@@ -30,11 +39,14 @@ final class TermsAgreementHeaderView: UIView {
         return label
     }()
     
-    private let xmarkImageView: UIImageView = {
-        let imageView = UIImageView(image: UIImage(systemName: Attributes.xmark))
-        imageView.tintColor = .coolNeutral800
-        imageView.contentMode = .scaleAspectFit
-        return imageView
+    private lazy var dismissButton: UIButton = {
+        let button = UIButton(type: .system)
+        button.setImage(UIImage(systemName: Attributes.xmark), for: .normal)
+        button.tintColor = .coolNeutral800
+        button.addAction(UIAction { [weak self] _ in
+            self?.dismissButtonTappedSubject.send()
+        }, for: .touchUpInside)
+        return button
     }()
     
     // MARK: - Initialize
@@ -55,7 +67,6 @@ final class TermsAgreementHeaderView: UIView {
     private func setupUI() {
         self.backgroundColor = .white
     }
-
 }
 
 // MARK: - Layout Setup
@@ -64,23 +75,23 @@ extension TermsAgreementHeaderView {
     private func addSubviews() {
         [
             titleLabel,
-            xmarkImageView
+            dismissButton
         ].forEach(addSubview(_:))
     }
     
     private func setupConstraints() {
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
-        xmarkImageView.translatesAutoresizingMaskIntoConstraints = false
+        dismissButton.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
             titleLabel.topAnchor.constraint(equalTo: topAnchor),
             titleLabel.leadingAnchor.constraint(equalTo: leadingAnchor),
             titleLabel.bottomAnchor.constraint(equalTo: bottomAnchor),
             
-            xmarkImageView.centerYAnchor.constraint(equalTo: titleLabel.centerYAnchor),
-            xmarkImageView.trailingAnchor.constraint(equalTo: trailingAnchor),
-            xmarkImageView.widthAnchor.constraint(equalToConstant: Metric.xmarkSize),
-            xmarkImageView.heightAnchor.constraint(equalToConstant: Metric.xmarkSize),
+            dismissButton.centerYAnchor.constraint(equalTo: titleLabel.centerYAnchor),
+            dismissButton.trailingAnchor.constraint(equalTo: trailingAnchor),
+            dismissButton.widthAnchor.constraint(equalToConstant: Metric.xmarkSize),
+            dismissButton.heightAnchor.constraint(equalToConstant: Metric.xmarkSize),
         ])
     }
 }

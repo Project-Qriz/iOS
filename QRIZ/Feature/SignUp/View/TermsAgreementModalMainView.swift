@@ -25,7 +25,7 @@ final class TermsAgreementModalMainView: UIView {
     
     // MARK: - Properties
     
-    private let headerView = TermsAgreementHeaderView()
+    let headerView = TermsAgreementHeaderView()
     private let allAgreeView = TermsAgreementAllView()
     
     private let itemsVStackView: UIStackView = {

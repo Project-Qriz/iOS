@@ -14,11 +14,14 @@ final class TermsAgreementModalViewController: UIViewController {
     
     weak var coordinator: SignUpCoordinator?
     private let rootView: TermsAgreementModalMainView
+    private let viewModel: TermsAgreementModalViewModel
+    private var cancellables = Set<AnyCancellable>()
     
     // MARK: - Initialize
     
-    init() {
+    init(viewModel: TermsAgreementModalViewModel) {
         self.rootView = TermsAgreementModalMainView()
+        self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -40,6 +43,23 @@ final class TermsAgreementModalViewController: UIViewController {
     // MARK: - Functions
     
     private func bind() {
+        let exitButtonTapped = rootView.headerView.dismissButtonTappedPublisher.map { TermsAgreementModalViewModel.Input.dismissButtonTapped }
+        
+        let input = exitButtonTapped
+            .eraseToAnyPublisher()
+        
+        let output = viewModel.transform(input: input)
+        
+        output
+            .sink { [weak self] output in
+                guard let self = self else { return }
+                
+                switch output {
+                case .dismissModal:
+                    self.dismiss(animated: true)
+                }
+            }
+            .store(in: &cancellables)
     }
     
 //    private func showOneButtonAlert() {

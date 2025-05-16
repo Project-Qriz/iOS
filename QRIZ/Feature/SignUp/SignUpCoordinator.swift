@@ -14,6 +14,8 @@ protocol SignUpCoordinator: Coordinator {
     func showNameInput()
     func showIDInput()
     func showPasswordInput()
+    func showTermsAgreementModal()
+    func dismissTermsAgreementModal()
 }
 
 @MainActor
@@ -68,5 +70,23 @@ final class SignUpCoordinatorImpl: SignUpCoordinator {
         let passwordInputVC = PasswordInputViewController(passwordInputVM: passwordInputVM)
         passwordInputVC.coordinator = self
         navigationController.pushViewController(passwordInputVC, animated: true)
+    }
+    
+    func showTermsAgreementModal() {
+        let viewModel = TermsAgreementModalViewModel()
+        let vc = TermsAgreementModalViewController(viewModel: viewModel)
+        vc.modalPresentationStyle = .pageSheet
+
+        if let sheet = vc.sheetPresentationController {
+            sheet.detents = [.medium()]
+            sheet.selectedDetentIdentifier = .medium
+            sheet.preferredCornerRadius = 24
+        }
+
+        navigationController.present(vc, animated: true)
+    }
+    
+    func dismissTermsAgreementModal() {
+        navigationController.dismiss(animated: true)
     }
 }
