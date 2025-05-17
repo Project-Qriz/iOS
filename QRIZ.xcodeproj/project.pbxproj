@@ -198,6 +198,7 @@
 		E2D70FEE2D0EC037005A3F51 /* CheckConceptViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2D70FED2D0EC037005A3F51 /* CheckConceptViewModel.swift */; };
 		E2DD0E842D2144D000DA3D18 /* PreviewConceptsData.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2DD0E832D2144D000DA3D18 /* PreviewConceptsData.swift */; };
 		E2DD0E862D2146D900DA3D18 /* IncorrectCountData.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2DD0E852D2146D900DA3D18 /* IncorrectCountData.swift */; };
+		E2DE75702DD84C5B0056D42C /* DailyWeeklyScoreRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2DE756F2DD84C5B0056D42C /* DailyWeeklyScoreRequest.swift */; };
 		E2F18BCF2D6060E900DC6F82 /* DailyLearnViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2F18BCE2D6060E900DC6F82 /* DailyLearnViewController.swift */; };
 /* End PBXBuildFile section */
 
@@ -425,6 +426,7 @@
 		E2D70FED2D0EC037005A3F51 /* CheckConceptViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckConceptViewModel.swift; sourceTree = "<group>"; };
 		E2DD0E832D2144D000DA3D18 /* PreviewConceptsData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreviewConceptsData.swift; sourceTree = "<group>"; };
 		E2DD0E852D2146D900DA3D18 /* IncorrectCountData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IncorrectCountData.swift; sourceTree = "<group>"; };
+		E2DE756F2DD84C5B0056D42C /* DailyWeeklyScoreRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyWeeklyScoreRequest.swift; sourceTree = "<group>"; };
 		E2F18BCE2D6060E900DC6F82 /* DailyLearnViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyLearnViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -1186,6 +1188,7 @@
 				E25AB7A72DC0C89100E7A7E3 /* DailyTestListRequest.swift */,
 				E25AB8072DC0CB2C00E7A7E3 /* DailySubmitRequest.swift */,
 				E25854E62DC3A4AF00AE174C /* DailyResultRequest.swift */,
+				E2DE756F2DD84C5B0056D42C /* DailyWeeklyScoreRequest.swift */,
 			);
 			path = Daily;
 			sourceTree = "<group>";
@@ -1708,6 +1711,7 @@
 				B18F450A2D39901D0030F7DB /* FindIDViewController.swift in Sources */,
 				B1D8137A2D768D9B00A9D447 /* AppCoordinator.swift in Sources */,
 				B19C4FAF2D67E58D00CD008A /* LoginCoordinator.swift in Sources */,
+				E2DE75702DD84C5B0056D42C /* DailyWeeklyScoreRequest.swift in Sources */,
 				B168B7602D28073C0000F32E /* SignUpHeaderView.swift in Sources */,
 				B16774D52D8959B3001820F3 /* FindIDRequest.swift in Sources */,
 				B168B7712D28276F0000F32E /* IDInputView.swift in Sources */,

@@ -28,7 +28,7 @@ struct DailySubmitRequest: Request {
     }
     
     var headers: HTTPHeader {
-        return [
+        [
             HTTPHeaderField.contentType.rawValue: ContentType.json.rawValue,
             HTTPHeaderField.authorization.rawValue: accessToken
         ]

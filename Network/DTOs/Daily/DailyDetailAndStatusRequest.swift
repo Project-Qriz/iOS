@@ -21,7 +21,7 @@ struct DailyDetailAndStatusRequest: Request {
     }
     
     var headers: HTTPHeader {
-        return [
+        [
             HTTPHeaderField.authorization.rawValue: accessToken
         ]
     }

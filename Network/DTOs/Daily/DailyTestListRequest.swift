@@ -21,7 +21,7 @@ struct DailyTestListRequest: Request {
     }
 
     var headers: HTTPHeader {
-        return [
+        [
             HTTPHeaderField.authorization.rawValue: accessToken
         ]
     }

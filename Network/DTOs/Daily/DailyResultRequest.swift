@@ -17,11 +17,11 @@ struct DailyResultRequest: Request {
     private let dayNumber: Int
     
     var path: String {
-        "/api/v1/subject-details/\(dayNumber)"
+        "/api/v1/daily/subject-details/\(dayNumber)"
     }
     
     var headers: HTTPHeader {
-        return [
+        [
             HTTPHeaderField.authorization.rawValue: accessToken
         ]
     }
