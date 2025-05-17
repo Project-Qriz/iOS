@@ -52,11 +52,12 @@ struct DailyResultResponse: Decodable {
             let score: CGFloat
         }
         
-        struct SubjectResult: Decodable {
-            let questionId: Int
-            let detailType: String
-            let question: String
-            let correction: Bool
-        }
     }
+}
+
+struct SubjectResult: Decodable {
+    let questionId: Int
+    let detailType: String
+    let question: String
+    let correction: Bool
 }

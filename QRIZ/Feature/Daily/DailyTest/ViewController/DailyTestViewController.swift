@@ -79,8 +79,7 @@ final class DailyTestViewController: UIViewController {
                 case .alterButtonText:
                     footerView.alterButtonText()
                 case .moveToDailyResult(let type, let day):
-                    self.navigationController?.pushViewController(DailyResultViewController(viewModel: DailyResultViewModel(dailyTestType: type)), animated: true)
-                    // 결과 뷰모델 인자 수정 후 삽입 예정.
+                    self.navigationController?.pushViewController(DailyResultViewController(viewModel: DailyResultViewModel(dailyTestType: type, day: day, dailyService: DailyServiceImpl())), animated: true)
                 case .moveToHomeView:
                     print("Move To Home View")
                 case .popSubmitAlert:

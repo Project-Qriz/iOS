@@ -37,11 +37,6 @@ final class DailyResultViewController: UIViewController {
         input.send(.viewDidLoad)
     }
     
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        input.send(.viewDidAppear)
-    }
-    
     private func bind() {
         let mergedInput = input.merge(with: dailyResultViewHostingController.rootView.input)
         let output = viewModel.transform(input: mergedInput.eraseToAnyPublisher())
@@ -50,6 +45,8 @@ final class DailyResultViewController: UIViewController {
             .sink { [weak self] event in
                 guard let self = self else { return }
                 switch event {
+                case .fetchFailed:
+                    showOneButtonAlert(with: "잠시 후 다시 시도해주세요.", storingIn: &subscriptions)
                 case .moveToConcept:
                     print("Move To Concept")
                 case .moveToDailyLearn:

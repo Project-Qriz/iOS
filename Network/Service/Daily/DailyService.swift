@@ -15,6 +15,8 @@ protocol DailyService {
     func submitDaily(dayNumber: Int, dailySubmitData: [DailySubmitData]) async throws
     
     func getDailyTestResult(dayNumber: Int) async throws -> DailyResultResponse
+    
+    func getDailyWeeklyScore(dayNumber: Int) async throws -> DailyWeeklyScoreResponse
 }
 
 final class DailyServiceImpl: DailyService {
@@ -47,6 +49,11 @@ final class DailyServiceImpl: DailyService {
     
     func getDailyTestResult(dayNumber: Int) async throws -> DailyResultResponse {
         let request = DailyResultRequest(accessToken: getAccessToken(), dayNumber: dayNumber)
+        return try await network.send(request)
+    }
+    
+    func getDailyWeeklyScore(dayNumber: Int) async throws -> DailyWeeklyScoreResponse {
+        let request = DailyWeeklyScoreRequest(accessToken: getAccessToken(), day: dayNumber)
         return try await network.send(request)
     }
     

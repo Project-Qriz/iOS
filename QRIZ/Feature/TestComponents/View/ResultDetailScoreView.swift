@@ -46,13 +46,14 @@ struct ResultDetailScoreView: View {
                     .font(.system(size: 16, weight: .medium))
                     .foregroundStyle(.black)
                 Spacer()
-                
             }
+            
+            Spacer(minLength: 4)
             
             ForEach(subjectData.minorItems.indices, id: \.self) { idx in
                 VStack(spacing: 8) {
                     HStack {
-                        Text("\(subjectData.minorItems[idx].concept)")
+                        Text("\(subjectData.minorItems[idx].subItem)")
                             .font(.system(size: 14, weight: .regular))
                             .foregroundStyle(.black)
                         

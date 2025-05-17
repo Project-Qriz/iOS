@@ -36,32 +36,41 @@ final class DailyResultDetailViewModel: ResultDetailViewModel {
     }
     
     private func initScoresData() {
-        for i in 0..<resultScoresData.subjectScores.count {
-            resultScoresData.subjectScores[i] = 0
+        for i in 0..<self.resultScoresData.subjectScores.count {
+            self.resultScoresData.subjectScores[i] = 0
         }
-        resultScoresData.subjectCount = 0
+        self.resultScoresData.subjectCount = 0
     }
     
     private func setScoresData(_ selectedItem: ResultDetailMenuItems) {
-        let subject1Count: Int = resultDetailData.subject1DetailResult.count
-        let subject2Count: Int = resultDetailData.subject2DetailResult.count
-
-        initScoresData()
+        let subject1Count: Int = self.resultDetailData.subject1DetailResult.count
+        let subject2Count: Int = self.resultDetailData.subject2DetailResult.count
         
-        switch selectedItem {
-        case .total:
-            resultScoresData.subjectCount = subject1Count + subject2Count
-        case .subject1:
-            resultScoresData.subjectCount = subject1Count
-        case .subject2:
-            resultScoresData.subjectCount = subject2Count
-        }
-
-        for i in 0..<subject1Count {
-            resultScoresData.subjectScores[i] = resultDetailData.subject1DetailResult[i].score
-        }
-        for i in 0..<subject2Count {
-            resultScoresData.subjectScores[subject1Count + i] = resultDetailData.subject2DetailResult[i].score
+        DispatchQueue.main.async { [weak self] in
+            guard let self = self else { return }
+            
+            self.initScoresData()
+            
+            switch selectedItem {
+            case .total:
+                self.resultScoresData.subjectCount = subject1Count + subject2Count
+                for i in 0..<subject1Count {
+                    resultScoresData.subjectScores[i] = resultDetailData.subject1DetailResult[i].score
+                }
+                for i in 0..<subject2Count {
+                    resultScoresData.subjectScores[subject1Count + i] = resultDetailData.subject2DetailResult[i].score
+                }
+            case .subject1:
+                self.resultScoresData.subjectCount = subject1Count
+                for i in 0..<subject1Count {
+                    resultScoresData.subjectScores[i] = resultDetailData.subject1DetailResult[i].score
+                }
+            case .subject2:
+                self.resultScoresData.subjectCount = subject2Count
+                for i in 0..<subject2Count {
+                    resultScoresData.subjectScores[i] = resultDetailData.subject2DetailResult[i].score
+                }
+            }
         }
     }
 }

@@ -52,11 +52,12 @@ struct DailyWeeklyScoreResponse: Decodable {
                 let score: CGFloat
                 let subItemScores: [SubItemInfo]
                 
-                struct SubItemInfo: Decodable {
-                    let subItem: String
-                    let score: CGFloat
-                }
             }
         }
     }
+}
+
+struct SubItemInfo: Decodable {
+    let subItem: String
+    let score: CGFloat
 }
