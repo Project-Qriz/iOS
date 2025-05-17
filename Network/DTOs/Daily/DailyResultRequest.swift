@@ -36,29 +36,25 @@ struct DailyResultRequest: Request {
 struct DailyResultResponse: Decodable {
     let code: Int
     let msg: String
-    let dataInfo: DataInfo
+    let data: DataInfo
     
     struct DataInfo: Decodable {
         let dayNumber: String
         let passed: Bool
-        let userDailyInfoList: [UserDailyInfo]
+        let reviewDay: Bool
+        let comprehensiveReviewDay: Bool
+        let items: [ItemInfo]
         let subjectResultsList: [SubjectResult]
+        let totalScore: CGFloat
 
-        struct UserDailyInfo: Decodable {
-            let title: String
-            let totalScore: CGFloat
-            let items: [Item]
-
-            struct Item: Decodable {
-                let skillId: Int
-                let type: String
-                let score: CGFloat
-            }
+        struct ItemInfo: Decodable {
+            let skillId: Int
+            let score: CGFloat
         }
         
         struct SubjectResult: Decodable {
             let questionId: Int
-            let skillName: String
+            let detailType: String
             let question: String
             let correction: Bool
         }
