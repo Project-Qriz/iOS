@@ -74,8 +74,12 @@ final class DailyLearnViewController: UIViewController {
                     setTestSubtextLabel(state: state)
                     setNavigatorButton(state: state, type: type, score: score)
                     setNavigatorButtonHeight(state: state)
-                case .fetchFailed:
-                    showOneButtonAlert(with: "잠시 후 다시 시도해주세요.", storingIn: &subscriptions)
+                case .fetchFailed(let isServerError):
+                    if isServerError {
+                        showOneButtonAlert(with: "Server Error", for: "관리자에게 문의하세요.", storingIn: &subscriptions)
+                    } else {
+                        showOneButtonAlert(with: "잠시 후 다시 시도해주세요.", storingIn: &subscriptions)
+                    }
                 case .updateContent(let conceptArr):
                     self.conceptArr = conceptArr
                     updateCollectionViewHeight()

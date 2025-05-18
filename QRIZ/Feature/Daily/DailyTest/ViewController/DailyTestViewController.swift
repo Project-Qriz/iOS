@@ -62,8 +62,12 @@ final class DailyTestViewController: UIViewController {
             .sink { [weak self] event in
                 guard let self = self else { return }
                 switch event {
-                case .fetchFailed:
-                    showOneButtonAlert(with: "잠시 후 다시 시도해주세요.", storingIn: &subscriptions)
+                case .fetchFailed(let isServerError):
+                    if isServerError {
+                        showOneButtonAlert(with: "Server Error", for: "관리자에게 문의하세요.", storingIn: &subscriptions)
+                    } else {
+                        showOneButtonAlert(with: "잠시 후 다시 시도해주세요.", storingIn: &subscriptions)
+                    }
                 case .updateQuestion(let question):
                     contentsView.updateQuestion(question)
                     footerView.updateCurPage(curPage: question.questionNumber)

@@ -23,7 +23,7 @@ final class DailyLearnViewModel {
                           score: CGFloat?
         )
         case updateContent(conceptArr: [(Int, String)])
-        case fetchFailed
+        case fetchFailed(isServerError: Bool)
         case moveToDailyTest(isRetest: Bool, type: DailyLearnType, day: Int)
         case moveToDailyTestResult
         case moveToConcept(conceptIdx: Int)
@@ -81,8 +81,10 @@ final class DailyLearnViewModel {
                 }
                 output.send(.fetchSuccess(state: state, type: type, score: score))
                 output.send(.updateContent(conceptArr: conceptArr))
+            } catch NetworkError.serverError {
+                output.send(.fetchFailed(isServerError: true))
             } catch {
-                output.send(.fetchFailed)
+                output.send(.fetchFailed(isServerError: false))
             }
         }
     }

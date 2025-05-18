@@ -22,7 +22,7 @@ final class DailyTestViewModel {
     }
     
     enum Output {
-        case fetchFailed
+        case fetchFailed(isServerError: Bool)
         case updateQuestion(question: QuestionData)
         case updateTotalPage(totalPage: Int)
         case updateTime(timeLimit: Int, timeRemaining: Int)
@@ -120,8 +120,10 @@ final class DailyTestViewModel {
                 curNum = 1
                 output.send(.updateTotalPage(totalPage: questionList.count))
                 questionStateHandler()
+            } catch NetworkError.serverError {
+                output.send(.fetchFailed(isServerError: true))
             } catch {
-                output.send(.fetchFailed)
+                output.send(.fetchFailed(isServerError: false))
             }
         }
     }

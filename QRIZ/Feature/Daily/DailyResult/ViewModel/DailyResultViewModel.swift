@@ -19,7 +19,7 @@ final  class DailyResultViewModel {
     }
     
     enum Output {
-        case fetchFailed
+        case fetchFailed(isServerError: Bool)
         case moveToDailyLearn
         case moveToConcept
         case moveToResultDetail
@@ -110,8 +110,10 @@ final  class DailyResultViewModel {
                 } else {
                     try await fetchDailyAndComprehensiveResult()
                 }
+            } catch NetworkError.serverError {
+                output.send(.fetchFailed(isServerError: true))
             } catch {
-                output.send(.fetchFailed)
+                output.send(.fetchFailed(isServerError: false))
             }
         }
     }
