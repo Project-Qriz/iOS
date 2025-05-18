@@ -34,6 +34,12 @@ final class DailyLearnViewController: UIViewController {
     }()
     private let relatedTestTitleLabel: DailyLearnSectionTitleLabel = .init()
     private let testNavigator: TestNavigatorButton = .init()
+    private let retestAlertViewController: TwoButtonCustomAlertViewController = .init(
+        title: "시험을 다시 보겠습니까?",
+        description: """
+        이미 한번 봤던 시험입니다.
+        만약 미달인 경우 재시험의 기회가 없습니다.
+        """)
     
     private let viewModel: DailyLearnViewModel
     private let input: PassthroughSubject<DailyLearnViewModel.Input, Never> = .init()
@@ -57,6 +63,7 @@ final class DailyLearnViewController: UIViewController {
         setNavigationBarTitle(title: "오늘의 공부")
         setCollectionViewDataSourceAndDelegate()
         bind()
+        setAlertButtonActions()
         input.send(.viewDidLoad)
         addViews()
     }
@@ -83,16 +90,46 @@ final class DailyLearnViewController: UIViewController {
                 case .updateContent(let conceptArr):
                     self.conceptArr = conceptArr
                     updateCollectionViewHeight()
-                case .moveToDailyTest(let isRetest, let type, let day):
-                    print("MOVE TO DAILY TEST \(isRetest ? "재시험" : "시험"), \(type), \(day)")
-                    // modal will be added
-                case .moveToDailyTestResult:
-                    print("MOVE TO DAILY TEST RESULT")
+                case .moveToDailyTest(let type, let day):
+                    navigationController?.pushViewController(
+                        DailyTestViewController(
+                            viewModel: DailyTestViewModel(
+                                dailyTestType: type,
+                                day: day,
+                                dailyService: DailyServiceImpl())), animated: true)
+                case .showRetestAlert:
+                    present(retestAlertViewController, animated: true)
+                case .moveToDailyTestResult(let type, let day):
+                    navigationController?.pushViewController(
+                        DailyResultViewController(
+                            viewModel: DailyResultViewModel(
+                                dailyTestType: type,
+                                day: day,
+                                dailyService: DailyServiceImpl())), animated: true)
                 case .moveToConcept(let conceptIdx):
-                    print("MOVE TO CONCEPT \(SurveyCheckList.list[conceptIdx - 1])")
+                    navigationController?.pushViewController(ConceptPDFViewController(
+                        conceptPDFViewModel: ConceptPDFViewModel(
+                            chapter: SurveyCheckList.getChapter(conceptIdx - 1),
+                            conceptItem: SurveyCheckList.getConceptItem(conceptIdx - 1))), animated: true)
+                case .dismissAlert:
+                    retestAlertViewController.dismiss(animated: true)
                 }
             }
             .store(in: &subscriptions)
+    }
+    
+    private func setAlertButtonActions() {
+        let confirmAction = UIAction { [weak self] _ in
+            guard let self = self else { return }
+            self.input.send(.alertMoveClicked)
+        }
+        
+        let cancelAction = UIAction { [weak self] _ in
+            guard let self = self else { return }
+            self.input.send(.alertCancelClicked)
+        }
+        
+        retestAlertViewController.setupButtonActions(confirmAction: confirmAction, cancelAction: cancelAction)
     }
     
     private func setTitleLabels(type: DailyLearnType) {

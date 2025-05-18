@@ -78,8 +78,20 @@ final  class DailyResultViewModel {
     }
     
     private func fetchData() {
-        fetchResult()
-        updateData()
+        Task {
+            do {
+                if dailyTestType == .weekly {
+                    try await fetchWeeklyResult()
+                } else {
+                    try await fetchDailyAndComprehensiveResult()
+                }
+                updateData()
+            } catch NetworkError.serverError {
+                output.send(.fetchFailed(isServerError: true))
+            } catch {
+                output.send(.fetchFailed(isServerError: false))
+            }
+        }
     }
     
     private func updateData() {
@@ -98,22 +110,6 @@ final  class DailyResultViewModel {
             
             for i in 0...4 {
                 self.resultScoresData.subjectScores[i] = self.subjectScores[i]
-            }
-        }
-    }
-    
-    private func fetchResult() {
-        Task {
-            do {
-                if dailyTestType == .weekly {
-                    try await fetchWeeklyResult()
-                } else {
-                    try await fetchDailyAndComprehensiveResult()
-                }
-            } catch NetworkError.serverError {
-                output.send(.fetchFailed(isServerError: true))
-            } catch {
-                output.send(.fetchFailed(isServerError: false))
             }
         }
     }

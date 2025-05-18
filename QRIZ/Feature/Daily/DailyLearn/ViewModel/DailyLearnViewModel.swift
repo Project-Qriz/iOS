@@ -15,6 +15,8 @@ final class DailyLearnViewModel {
         case viewDidLoad
         case testNavigatorButtonClicked
         case toConceptClicked(conceptIdx: Int)
+        case alertMoveClicked
+        case alertCancelClicked
     }
     
     enum Output {
@@ -24,9 +26,11 @@ final class DailyLearnViewModel {
         )
         case updateContent(conceptArr: [(Int, String)])
         case fetchFailed(isServerError: Bool)
-        case moveToDailyTest(isRetest: Bool, type: DailyLearnType, day: Int)
-        case moveToDailyTestResult
+        case moveToDailyTest(type: DailyLearnType, day: Int)
+        case showRetestAlert
+        case moveToDailyTestResult(type: DailyLearnType, day: Int)
         case moveToConcept(conceptIdx: Int)
+        case dismissAlert
     }
     
     // MARK: - Properties
@@ -59,6 +63,11 @@ final class DailyLearnViewModel {
                 handleNavigateAction()
             case .toConceptClicked(let conceptIdx):
                 output.send(.moveToConcept(conceptIdx: conceptIdx))
+            case .alertMoveClicked:
+                output.send(.dismissAlert)
+                output.send(.moveToDailyTest(type: type, day: day))
+            case .alertCancelClicked:
+                output.send(.dismissAlert)
             }
         }
         .store(in: &subscriptions)
@@ -118,11 +127,11 @@ final class DailyLearnViewModel {
         case .unavailable:
             return
         case .zeroAttempt:
-            output.send(.moveToDailyTest(isRetest: false, type: type, day: day))
+            output.send(.moveToDailyTest(type: type, day: day))
         case .retestRequired:
-            output.send(.moveToDailyTest(isRetest: true, type: type, day: day))
+            output.send(.showRetestAlert)
         case .passed, .failed:
-            output.send(.moveToDailyTestResult)
+            output.send(.moveToDailyTestResult(type: type, day: day))
         }
     }
 }
