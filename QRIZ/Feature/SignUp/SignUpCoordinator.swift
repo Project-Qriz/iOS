@@ -75,6 +75,7 @@ final class SignUpCoordinatorImpl: SignUpCoordinator {
     func showTermsAgreementModal() {
         let viewModel = TermsAgreementModalViewModel()
         let vc = TermsAgreementModalViewController(viewModel: viewModel)
+        vc.coordinator = self
         vc.modalPresentationStyle = .pageSheet
 
         if let sheet = vc.sheetPresentationController {
