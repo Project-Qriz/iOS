@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Combine
 
 final class TermsAgreementModalMainView: UIView {
     
@@ -25,17 +26,31 @@ final class TermsAgreementModalMainView: UIView {
     
     // MARK: - Properties
     
-    let headerView = TermsAgreementHeaderView()
-    private let allAgreeView = TermsAgreementAllView()
+    private let cellTapSubject   = PassthroughSubject<Int, Never>()
+    private let detailTapSubject = PassthroughSubject<Int, Never>()
+    private var cancellables = Set<AnyCancellable>()
     
-    private let itemsVStackView: UIStackView = {
+    var cellTapPublisher: AnyPublisher<Int, Never> {
+        cellTapSubject.eraseToAnyPublisher()
+    }
+    
+    var detailTapPublisher: AnyPublisher<Int, Never> {
+        detailTapSubject.eraseToAnyPublisher()
+    }
+    
+    // MARK: - UI
+    
+    let headerView = TermsAgreementHeaderView()
+    let allAgreeView = TermsAgreementAllView()
+    
+    let itemsVStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .vertical
         stackView.spacing = 16.0
         return stackView
     }()
     
-    private let footerView = SignUpFooterView()
+    let footerView = SignUpFooterView()
     
     // MARK: - Initialize
     
@@ -54,16 +69,31 @@ final class TermsAgreementModalMainView: UIView {
     
     private func setupUI() {
         self.backgroundColor = .white
-        configureItems()
         footerView.configure(buttonTitle: Attributes.footerTitle)
     }
     
-    private func configureItems() {
-        let itmes = ["서비스 이용약관 동의", "개인정보 처리방침 동의"]
+    func configureItems(items: [TermItem]) {
+        itemsVStackView.arrangedSubviews.forEach { $0.removeFromSuperview() }
+        cancellables.removeAll()
         
-        itmes.forEach { item in
-            let view = TermsAgreementItemView(title: item)
-            itemsVStackView.addArrangedSubview(view)
+        items.enumerated().forEach { idx, term in
+            let cell = TermsAgreementItemView(index: idx, title: term.title)
+            
+            cell.cellTapPublisher
+                .subscribe(cellTapSubject)
+                .store(in: &cancellables)
+
+            cell.detailTapPublisher
+                .subscribe(detailTapSubject)
+                .store(in: &cancellables)
+            
+            itemsVStackView.addArrangedSubview(cell)
+        }
+    }
+    
+    func updateItemCheck(at idx: Int, on: Bool) {
+        if let cell = itemsVStackView.arrangedSubviews[idx] as? TermsAgreementItemView {
+            cell.setChecked(on)
         }
     }
 }

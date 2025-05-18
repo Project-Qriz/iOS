@@ -45,18 +45,47 @@ final class TermsAgreementModalViewController: UIViewController {
     private func bind() {
         let exitButtonTapped = rootView.headerView.dismissButtonTappedPublisher.map { TermsAgreementModalViewModel.Input.dismissButtonTapped }
         
+        let allToggle = rootView.allAgreeView.checkBoxButtonTappedPublisher
+            .scan(false) { last, _ in !last }
+            .map { TermsAgreementModalViewModel.Input.allToggle($0) }
+        
+        let itemToggle = rootView.cellTapPublisher
+            .map { TermsAgreementModalViewModel.Input.termToggle(index: $0) }
+        
+        let detailTapped = rootView.detailTapPublisher
+            .map { TermsAgreementModalViewModel.Input.showDetail(index: $0) }
+        
         let input = exitButtonTapped
+            .merge(with: allToggle)
+            .merge(with: itemToggle)
+            .merge(with: detailTapped)
             .eraseToAnyPublisher()
         
         let output = viewModel.transform(input: input)
         
         output
+            .receive(on: DispatchQueue.main)
             .sink { [weak self] output in
                 guard let self = self else { return }
                 
                 switch output {
+                case .initialTerms(let terms):
+                    self.rootView.configureItems(items: terms)
+                    
                 case .dismissModal:
-                    self.dismiss(animated: true)
+                    self.coordinator?.dismissTermsAgreementModal()
+                    
+                case .allAgreeChanged(let isOn):
+                    self.rootView.allAgreeView.setChecked(isOn)
+                    
+                case .termChanged(let index, let on):
+                    self.rootView.updateItemCheck(at: index, on: on)
+                    
+                case .updateSignUpButtonState(let canSignUp):
+                    self.rootView.footerView.updateButtonState(isValid: canSignUp)
+                    
+                case .showTermsDetail(let index):
+                    break
                 }
             }
             .store(in: &cancellables)

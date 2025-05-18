@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Combine
 
 final class TermsAgreementAllView: UIView {
     
@@ -21,11 +22,23 @@ final class TermsAgreementAllView: UIView {
         static let title: String = "전체 동의"
     }
     
+    // MARK: - Properties
+    
+    private let checkBoxButtonTappedSubject = PassthroughSubject<Void, Never>()
+    
+    var checkBoxButtonTappedPublisher: AnyPublisher<Void, Never> {
+        checkBoxButtonTappedSubject.eraseToAnyPublisher()
+    }
+    
     // MARK: - UI
     
-    private let checkBoxImageView: UIImageView = {
-        let imageView = UIImageView(image: .checkboxOffIcon)
-        return imageView
+    private lazy var checkBoxButton: UIButton = {
+        let button = UIButton()
+        button.setImage(.checkboxOffIcon, for: .normal)
+        button.addAction(UIAction { [weak self] _ in
+            self?.checkBoxButtonTappedSubject.send()
+        }, for: .touchUpInside)
+        return button
     }()
     
     private let titleLabel: UILabel = {
@@ -63,6 +76,11 @@ final class TermsAgreementAllView: UIView {
         layer.shadowOffset = CGSize(width: 0, height: 1)
         layer.shadowRadius = 10
     }
+    
+    func setChecked(_ isOn: Bool) {
+        let image = isOn ? UIImage.checkboxOnIcon : UIImage.checkboxOffIcon
+        checkBoxButton.setImage(image, for: .normal)
+    }
 }
 
 // MARK: - Layout Setup
@@ -70,24 +88,24 @@ final class TermsAgreementAllView: UIView {
 extension TermsAgreementAllView {
     private func addSubviews() {
         [
-            checkBoxImageView,
+            checkBoxButton,
             titleLabel
         ].forEach(addSubview(_:))
     }
     
     private func setupConstraints() {
-        checkBoxImageView.translatesAutoresizingMaskIntoConstraints = false
+        checkBoxButton.translatesAutoresizingMaskIntoConstraints = false
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
-            checkBoxImageView.topAnchor.constraint(equalTo: topAnchor, constant: Metric.verticalMargin),
-            checkBoxImageView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Metric.horizontalMargin),
-            checkBoxImageView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -Metric.verticalMargin),
-            checkBoxImageView.widthAnchor.constraint(equalToConstant: Metric.checkBoxSize),
-            checkBoxImageView.heightAnchor.constraint(equalToConstant: Metric.checkBoxSize),
+            checkBoxButton.topAnchor.constraint(equalTo: topAnchor, constant: Metric.verticalMargin),
+            checkBoxButton.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Metric.horizontalMargin),
+            checkBoxButton.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -Metric.verticalMargin),
+            checkBoxButton.widthAnchor.constraint(equalToConstant: Metric.checkBoxSize),
+            checkBoxButton.heightAnchor.constraint(equalToConstant: Metric.checkBoxSize),
             
-            titleLabel.centerYAnchor.constraint(equalTo: checkBoxImageView.centerYAnchor),
-            titleLabel.leadingAnchor.constraint(equalTo: checkBoxImageView.trailingAnchor, constant: Metric.horizontalMargin),
+            titleLabel.centerYAnchor.constraint(equalTo: checkBoxButton.centerYAnchor),
+            titleLabel.leadingAnchor.constraint(equalTo: checkBoxButton.trailingAnchor, constant: Metric.horizontalMargin),
         ])
     }
 }

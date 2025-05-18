@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Combine
 
 final class TermsAgreementItemView: UIView {
     
@@ -21,6 +22,20 @@ final class TermsAgreementItemView: UIView {
         static let checkmark: String = "checkmark"
         static let chevron: String = "chevron.right"
         static let requiredText: String = "(필수)"
+    }
+    
+    // MARK: - Properties
+    
+    private let index: Int
+    private let cellTapSubject = PassthroughSubject<Int, Never>()
+    private let detailTapSubject = PassthroughSubject<Int, Never>()
+        
+    var cellTapPublisher: AnyPublisher<Int, Never> {
+        cellTapSubject.eraseToAnyPublisher()
+    }
+    
+    var detailTapPublisher: AnyPublisher<Int, Never> {
+        detailTapSubject.eraseToAnyPublisher()
     }
     
     // MARK: - UI
@@ -56,12 +71,14 @@ final class TermsAgreementItemView: UIView {
     
     // MARK: - Initialize
     
-    init(title: String) {
+    init(index: Int, title: String) {
+        self.index = index
         super.init(frame: .zero)
         titleLabel.text = title
         addSubviews()
         setupConstraints()
         setupUI()
+        addTapGesture()
     }
     
     required init?(coder: NSCoder) {
@@ -72,6 +89,30 @@ final class TermsAgreementItemView: UIView {
     
     private func setupUI() {
         self.backgroundColor = .white
+    }
+    
+    func setChecked(_ on: Bool) {
+        let color: UIColor = on ? .customBlue500 : .coolNeutral200
+        checkmarkImageView.tintColor = color
+    }
+    
+    // MARK: - Actions
+    
+    private func addTapGesture() {
+        let cellTap = UITapGestureRecognizer(target: self, action: #selector(handleWholeTap))
+        addGestureRecognizer(cellTap)
+
+        let chevronTap = UITapGestureRecognizer(target: self, action: #selector(handleChevronTap))
+        chevronImageView.addGestureRecognizer(chevronTap)
+        chevronImageView.isUserInteractionEnabled = true
+    }
+    
+    @objc private func handleWholeTap()   {
+        cellTapSubject.send(index)
+    }
+    
+    @objc private func handleChevronTap() {
+        detailTapSubject.send(index)
     }
 }
 
