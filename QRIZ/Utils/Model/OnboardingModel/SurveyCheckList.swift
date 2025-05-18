@@ -40,4 +40,34 @@ struct SurveyCheckList {
         "DDL",
         "DCL"
     ]
+    
+    static func getChapter(_ idx: Int) -> Chapter {
+        switch idx {
+        case 0...4:
+            return .dataModeling
+        case 5...9:
+            return .dataModelAndSQL
+        case 10...17:
+            return .sqlBasic
+        case 18...25:
+            return .sqlAdvanced
+        case 26...29:
+            return .sqlCommands
+        default:
+            print("Static Method getChapter received wrong arg")
+            return .dataModelAndSQL
+        }
+    }
+    
+    static func getConceptItem(_ idx: Int) -> ConceptItem {
+        let chapter = self.getChapter(idx)
+        let conceptItems = chapter.conceptItems
+        let conceptItem = conceptItems.first { $0.0 == list[idx] }
+        if let conceptItem {
+            return conceptItem
+        } else {
+            print("getConceptItem Method Received wrong argv")
+            return ConceptItem("", "")
+        }
+    }
 }
