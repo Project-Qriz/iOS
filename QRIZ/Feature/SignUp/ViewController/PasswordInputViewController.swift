@@ -14,8 +14,6 @@ final class PasswordInputViewController: UIViewController {
     
     private enum Attributes {
         static let navigationTitle: String = "회원가입"
-        static let alertTitle: String = "회원가입 완료!"
-        static let alertDescription: String = "회원가입이 완료되었습니다.\n합격을 향한 여정을 함께 시작해봐요!"
     }
     
     // MARK: - Properties
@@ -25,7 +23,6 @@ final class PasswordInputViewController: UIViewController {
     private let passwordInputVM: PasswordInputViewModel
     private var cancellables = Set<AnyCancellable>()
     private var keyboardCancellable: AnyCancellable?
-    
     
     // MARK: - Initialize
     
@@ -93,11 +90,8 @@ final class PasswordInputViewController: UIViewController {
                 case .updateSignUpButtonState(let canSignUp):
                     self.rootView.signUpFooterView.updateButtonState(isValid: canSignUp)
                     
-                case .showErrorAlert(let title, let description):
-                    self.showOneButtonAlert(with: title, for: description, storingIn: &cancellables)
-                    
-                case .navigateToAlertView:
-                    self.showOneButtonAlert()
+                case .showSignUpCompleteAlert:
+                    self.coordinator?.showTermsAgreementModal()
                 }
             }
             .store(in: &cancellables)
@@ -111,23 +105,5 @@ final class PasswordInputViewController: UIViewController {
                 self?.view.endEditing(true)
             }
             .store(in: &cancellables)
-    }
-    
-    private func showOneButtonAlert() {
-        let oneButtonAlert = OneButtonCustomAlertViewController(
-            title: Attributes.alertTitle,
-            description: Attributes.alertDescription
-        )
-        oneButtonAlert.confirmButtonTappedPublisher
-            .sink { [weak self] _ in
-                oneButtonAlert.dismiss(animated: true) {
-                    guard let self = self,
-                          let coordinator = self.coordinator else { return }
-                    self.coordinator?.delegate?.didFinishSignUp(coordinator)
-                }
-            }
-            .store(in: &cancellables)
-        
-        present(oneButtonAlert, animated: true)
     }
 }

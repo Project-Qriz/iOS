@@ -70,6 +70,7 @@ final class TermsAgreementModalMainView: UIView {
     private func setupUI() {
         self.backgroundColor = .white
         footerView.configure(buttonTitle: Attributes.footerTitle)
+        footerView.updateButtonState(isValid: false)
     }
     
     func configureItems(items: [TermItem]) {

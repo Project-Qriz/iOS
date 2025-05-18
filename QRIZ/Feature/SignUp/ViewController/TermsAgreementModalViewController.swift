@@ -55,10 +55,14 @@ final class TermsAgreementModalViewController: UIViewController {
         let detailTapped = rootView.detailTapPublisher
             .map { TermsAgreementModalViewModel.Input.showDetail(index: $0) }
         
+        let signUpButtonTapped = rootView.footerView.buttonTappedPublisher
+            .map { TermsAgreementModalViewModel.Input.signUpButtonTapped }
+        
         let input = exitButtonTapped
             .merge(with: allToggle)
             .merge(with: itemToggle)
             .merge(with: detailTapped)
+            .merge(with: signUpButtonTapped)
             .eraseToAnyPublisher()
         
         let output = viewModel.transform(input: input)
@@ -73,7 +77,7 @@ final class TermsAgreementModalViewController: UIViewController {
                     self.rootView.configureItems(items: terms)
                     
                 case .dismissModal:
-                    self.coordinator?.dismissTermsAgreementModal()
+                    self.coordinator?.dismiss()
                     
                 case .allAgreeChanged(let isOn):
                     self.rootView.allAgreeView.setChecked(isOn)
@@ -86,26 +90,14 @@ final class TermsAgreementModalViewController: UIViewController {
                     
                 case .showTermsDetail(let index):
                     break
+                    
+                case .showErrorAlert(let title, let description):
+                    self.showOneButtonAlert(with: title, for: description, storingIn: &cancellables)
+                    
+                case .signUpSucceeded:
+                    self.coordinator?.showSignUpCompleteAlert()
                 }
             }
             .store(in: &cancellables)
     }
-    
-//    private func showOneButtonAlert() {
-//        let oneButtonAlert = OneButtonCustomAlertViewController(
-//            title: Attributes.alertTitle,
-//            description: Attributes.alertDescription
-//        )
-//        oneButtonAlert.confirmButtonTappedPublisher
-//            .sink { [weak self] _ in
-//                oneButtonAlert.dismiss(animated: true) {
-//                    guard let self = self,
-//                          let coordinator = self.coordinator else { return }
-//                    self.coordinator?.delegate?.didFinishSignUp(coordinator)
-//                }
-//            }
-//            .store(in: &cancellables)
-//        
-//        present(oneButtonAlert, animated: true)
-//    }
 }

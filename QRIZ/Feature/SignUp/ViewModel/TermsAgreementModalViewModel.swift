@@ -7,6 +7,7 @@
 
 import Foundation
 import Combine
+import os.log
 
 struct TermItem {
     let title: String
@@ -17,13 +18,22 @@ final class TermsAgreementModalViewModel {
     
     // MARK: - Properties
     
+    private let signUpFlowViewModel: SignUpFlowViewModel
     private let outputSubject: PassthroughSubject<Output, Never> = .init()
     private var cancellables = Set<AnyCancellable>()
+    private let logger = Logger(subsystem: Bundle.main.bundleIdentifier ?? "kr.QRIZ",
+                                category: "TermsAgreementModalVM")
     
     private var terms: [TermItem] = [
         .init(title: "서비스 이용약관 동의", isAgreed: false),
         .init(title: "개인정보 처리방침 동의", isAgreed: false)
     ]
+    
+    // MARK: - Initialize
+    
+    init(signUpFlowViewModel: SignUpFlowViewModel) {
+        self.signUpFlowViewModel = signUpFlowViewModel
+    }
     
     // MARK: - Functions
     
@@ -60,6 +70,9 @@ final class TermsAgreementModalViewModel {
                     
                 case .showDetail(let index):
                     outputSubject.send(.showTermsDetail(index: index))
+                    
+                case .signUpButtonTapped:
+                    performJoin()
                 }
             }
             .store(in: &cancellables)
@@ -73,6 +86,29 @@ final class TermsAgreementModalViewModel {
         let canSignUp = terms.allSatisfy(\.isAgreed)
         outputSubject.send(.updateSignUpButtonState(canSignUp))
     }
+    
+    private func performJoin() {
+        Task {
+            do {
+                _ = try await signUpFlowViewModel.join()
+                outputSubject.send(.signUpSucceeded)
+            } catch {
+                if let networkError = error as? NetworkError {
+                    switch networkError {
+                    case .clientError(let statusCode, _, _)
+                        where statusCode == 400:
+                        outputSubject.send(.showErrorAlert(title: "가입 실패", description: "처음부터 다시 진행해 주세요."))
+                        logger.error("Client error 400 in performJoin: \(networkError.description, privacy: .public)")
+                    default:
+                        outputSubject.send(.showErrorAlert(title: networkError.errorMessage))
+                    }
+                } else {
+                    outputSubject.send(.showErrorAlert(title: "회원가입 도중 오류가 발생했습니다."))
+                    logger.error("Unhandled error in performJoin: \(String(describing: error), privacy: .public)")
+                }
+            }
+        }
+    }
 }
 
 extension TermsAgreementModalViewModel {
@@ -82,6 +118,7 @@ extension TermsAgreementModalViewModel {
         case allToggle(Bool)
         case termToggle(index: Int)
         case showDetail(index: Int)
+        case signUpButtonTapped
     }
     
     enum Output {
@@ -91,5 +128,7 @@ extension TermsAgreementModalViewModel {
         case termChanged(index: Int, isAgreed: Bool)
         case updateSignUpButtonState(Bool)
         case showTermsDetail(index: Int)
+        case showErrorAlert(title: String, description: String? = nil)
+        case signUpSucceeded
     }
 }

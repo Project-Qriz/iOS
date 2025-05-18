@@ -19,7 +19,7 @@ final class OneButtonCustomAlertViewController: UIViewController {
     // MARK: - Properties
     
     private let rootView: OneButtonCustomAlertMainView
-    private var cancellables = Set<AnyCancellable>()
+    var cancellables = Set<AnyCancellable>()
     
     var confirmButtonTappedPublisher: AnyPublisher<Void, Never> {
         rootView.confirmButtonTappedPublisher

@@ -15,7 +15,8 @@ protocol SignUpCoordinator: Coordinator {
     func showIDInput()
     func showPasswordInput()
     func showTermsAgreementModal()
-    func dismissTermsAgreementModal()
+    func showSignUpCompleteAlert()
+    func dismiss()
 }
 
 @MainActor
@@ -73,21 +74,49 @@ final class SignUpCoordinatorImpl: SignUpCoordinator {
     }
     
     func showTermsAgreementModal() {
-        let viewModel = TermsAgreementModalViewModel()
+        let viewModel = TermsAgreementModalViewModel(signUpFlowViewModel: signUpFlowVM)
         let vc = TermsAgreementModalViewController(viewModel: viewModel)
         vc.coordinator = self
         vc.modalPresentationStyle = .pageSheet
-
+        
         if let sheet = vc.sheetPresentationController {
             sheet.detents = [.medium()]
             sheet.selectedDetentIdentifier = .medium
             sheet.preferredCornerRadius = 24
         }
-
+        
         navigationController.present(vc, animated: true)
     }
     
-    func dismissTermsAgreementModal() {
+    func showSignUpCompleteAlert() {
+        if let presented = navigationController.presentedViewController {
+            presented.dismiss(animated: true) { [weak self] in
+                self?.presentSignUpAlert()
+            }
+        } else {
+            presentSignUpAlert()
+        }
+    }
+    
+    private func presentSignUpAlert() {
+        let alert = OneButtonCustomAlertViewController(
+            title: "회원가입 완료!",
+            description: "회원가입이 완료되었습니다.\n합격을 향한 여정을 함께 시작해봐요!"
+        )
+        
+        alert.confirmButtonTappedPublisher
+            .sink { [weak self] _ in
+                alert.dismiss(animated: true) {
+                    guard let self else { return }
+                    self.delegate?.didFinishSignUp(self)
+                }
+            }
+            .store(in: &alert.cancellables)
+        
+        navigationController.present(alert, animated: true)
+    }
+    
+    func dismiss() {
         navigationController.dismiss(animated: true)
     }
 }

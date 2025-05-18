@@ -7,7 +7,6 @@
 
 import Foundation
 import Combine
-import os
 
 final class PasswordInputViewModel {
     
@@ -19,7 +18,6 @@ final class PasswordInputViewModel {
     private var confirmPasswordDidEdit: Bool = false
     private let outputSubject: PassthroughSubject<Output, Never> = .init()
     private var cancellables = Set<AnyCancellable>()
-    private let logger = Logger(subsystem: Bundle.main.bundleIdentifier ?? "kr.QRIZ", category: "PasswordInputViewModel")
     
     // MARK: - Initialize
     
@@ -45,7 +43,7 @@ final class PasswordInputViewModel {
                     
                 case .buttonTapped:
                     self.signUpFlowViewModel.updatePassword(self.confirmPassword)
-                    self.performJoin()
+                    self.outputSubject.send(.showSignUpCompleteAlert)
                 }
             }
             .store(in: &cancellables)
@@ -69,29 +67,6 @@ final class PasswordInputViewModel {
         let canSignUp = passwordValid && (confirmPasswordDidEdit ? (confirmPassword == password) : false)
         outputSubject.send(.updateSignUpButtonState(canSignUp))
     }
-    
-    private func performJoin() {
-        Task {
-            do {
-                _ = try await signUpFlowViewModel.join()
-                outputSubject.send(.navigateToAlertView)
-            } catch {
-                if let networkError = error as? NetworkError {
-                    switch networkError {
-                    case .clientError(let statusCode, _, _)
-                        where statusCode == 400:
-                        outputSubject.send(.showErrorAlert(title: "가입 실패", description: "처음부터 다시 진행해 주세요."))
-                        logger.error("Client error 400 in performJoin: \(networkError.description, privacy: .public)")
-                    default:
-                        outputSubject.send(.showErrorAlert(title: networkError.errorMessage))
-                    }
-                } else {
-                    outputSubject.send(.showErrorAlert(title: "회원가입 도중 오류가 발생했습니다."))
-                    logger.error("Unhandled error in performJoin: \(String(describing: error), privacy: .public)")
-                }
-            }
-        }
-    }
 }
 
 extension PasswordInputViewModel {
@@ -106,7 +81,6 @@ extension PasswordInputViewModel {
         case lengthRequirementChanged(Bool)
         case confirmValidChanged(Bool)
         case updateSignUpButtonState(Bool)
-        case showErrorAlert(title: String, description: String? = nil)
-        case navigateToAlertView
+        case showSignUpCompleteAlert
     }
 }
