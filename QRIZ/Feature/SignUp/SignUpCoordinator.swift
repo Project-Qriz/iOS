@@ -15,8 +15,9 @@ protocol SignUpCoordinator: Coordinator {
     func showIDInput()
     func showPasswordInput()
     func showTermsAgreementModal()
+    func showTermsDetail()
     func showSignUpCompleteAlert()
-    func dismiss()
+    func dismissView()
 }
 
 @MainActor
@@ -75,17 +76,31 @@ final class SignUpCoordinatorImpl: SignUpCoordinator {
     
     func showTermsAgreementModal() {
         let viewModel = TermsAgreementModalViewModel(signUpFlowViewModel: signUpFlowVM)
-        let vc = TermsAgreementModalViewController(viewModel: viewModel)
-        vc.coordinator = self
-        vc.modalPresentationStyle = .pageSheet
+        let rootView = TermsAgreementModalViewController(viewModel: viewModel)
+        rootView.coordinator = self
         
-        if let sheet = vc.sheetPresentationController {
+        let sheetNavi = UINavigationController(rootViewController: rootView)
+        sheetNavi.modalPresentationStyle = .pageSheet
+        sheetNavi.setNavigationBarHidden(true, animated: false)
+        
+        if let sheet = sheetNavi.sheetPresentationController {
             sheet.detents = [.medium()]
             sheet.selectedDetentIdentifier = .medium
             sheet.preferredCornerRadius = 24
         }
         
-        navigationController.present(vc, animated: true)
+        navigationController.present(sheetNavi, animated: true)
+    }
+    
+    func showTermsDetail() {
+        guard let sheetNav = navigationController.presentedViewController
+                as? UINavigationController else { return }
+
+        let viewModel = TermsDetailViewModel()
+        let vc = TermsDetailViewController(viewModel: viewModel)
+        vc.coordinator = self
+        vc.modalPresentationStyle = .fullScreen
+        sheetNav.present(vc, animated: true)
     }
     
     func showSignUpCompleteAlert() {
@@ -116,7 +131,7 @@ final class SignUpCoordinatorImpl: SignUpCoordinator {
         navigationController.present(alert, animated: true)
     }
     
-    func dismiss() {
+    func dismissView() {
         navigationController.dismiss(animated: true)
     }
 }

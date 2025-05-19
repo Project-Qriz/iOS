@@ -43,7 +43,7 @@ final class TermsAgreementModalViewController: UIViewController {
     // MARK: - Functions
     
     private func bind() {
-        let exitButtonTapped = rootView.headerView.dismissButtonTappedPublisher.map { TermsAgreementModalViewModel.Input.dismissButtonTapped }
+        let dismissButtonTapped = rootView.headerView.dismissButtonTappedPublisher.map { TermsAgreementModalViewModel.Input.dismissButtonTapped }
         
         let allToggle = rootView.allAgreeView.checkBoxButtonTappedPublisher
             .scan(false) { last, _ in !last }
@@ -58,7 +58,7 @@ final class TermsAgreementModalViewController: UIViewController {
         let signUpButtonTapped = rootView.footerView.buttonTappedPublisher
             .map { TermsAgreementModalViewModel.Input.signUpButtonTapped }
         
-        let input = exitButtonTapped
+        let input = dismissButtonTapped
             .merge(with: allToggle)
             .merge(with: itemToggle)
             .merge(with: detailTapped)
@@ -77,7 +77,7 @@ final class TermsAgreementModalViewController: UIViewController {
                     self.rootView.configureItems(items: terms)
                     
                 case .dismissModal:
-                    self.coordinator?.dismiss()
+                    self.coordinator?.dismissView()
                     
                 case .allAgreeChanged(let isOn):
                     self.rootView.allAgreeView.setChecked(isOn)

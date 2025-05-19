@@ -43,9 +43,6 @@ final class TermsAgreementModalViewModel {
                 guard let self = self else { return }
                 
                 switch event {
-                case .viewDidLoad:
-                    outputSubject.send(.initialTerms(terms))
-                    
                 case .dismissButtonTapped:
                     outputSubject.send(.dismissModal)
                     
@@ -113,7 +110,6 @@ final class TermsAgreementModalViewModel {
 
 extension TermsAgreementModalViewModel {
     enum Input {
-        case viewDidLoad
         case dismissButtonTapped
         case allToggle(Bool)
         case termToggle(index: Int)
