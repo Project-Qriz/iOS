@@ -46,8 +46,7 @@ final class TermsAgreementModalViewController: UIViewController {
         let dismissButtonTapped = rootView.headerView.dismissButtonTappedPublisher.map { TermsAgreementModalViewModel.Input.dismissButtonTapped }
         
         let allToggle = rootView.allAgreeView.checkBoxButtonTappedPublisher
-            .scan(false) { last, _ in !last }
-            .map { TermsAgreementModalViewModel.Input.allToggle($0) }
+            .map { TermsAgreementModalViewModel.Input.allToggle }
         
         let itemToggle = rootView.cellTapPublisher
             .map { TermsAgreementModalViewModel.Input.termToggle(index: $0) }
@@ -88,8 +87,8 @@ final class TermsAgreementModalViewController: UIViewController {
                 case .updateSignUpButtonState(let canSignUp):
                     self.rootView.footerView.updateButtonState(isValid: canSignUp)
                     
-                case .showTermsDetail(let index):
-                    break
+                case .showTermsDetail(let termItem):
+                    self.coordinator?.showTermsDetail(for: termItem)
                     
                 case .showErrorAlert(let title, let description):
                     self.showOneButtonAlert(with: title, for: description, storingIn: &cancellables)

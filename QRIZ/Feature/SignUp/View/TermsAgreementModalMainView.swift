@@ -78,7 +78,7 @@ final class TermsAgreementModalMainView: UIView {
         cancellables.removeAll()
         
         items.enumerated().forEach { idx, term in
-            let cell = TermsAgreementItemView(index: idx, title: term.title)
+            let cell = TermsAgreementItemView(index: idx, title: "\(term.title) 동의")
             
             cell.cellTapPublisher
                 .subscribe(cellTapSubject)

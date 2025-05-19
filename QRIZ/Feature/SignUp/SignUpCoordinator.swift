@@ -15,7 +15,7 @@ protocol SignUpCoordinator: Coordinator {
     func showIDInput()
     func showPasswordInput()
     func showTermsAgreementModal()
-    func showTermsDetail()
+    func showTermsDetail(for term: TermItem)
     func showSignUpCompleteAlert()
     func dismissView()
 }
@@ -92,11 +92,11 @@ final class SignUpCoordinatorImpl: SignUpCoordinator {
         navigationController.present(sheetNavi, animated: true)
     }
     
-    func showTermsDetail() {
+    func showTermsDetail(for term: TermItem) {
         guard let sheetNav = navigationController.presentedViewController
                 as? UINavigationController else { return }
 
-        let viewModel = TermsDetailViewModel()
+        let viewModel = TermsDetailViewModel(termItem: term)
         let vc = TermsDetailViewController(viewModel: viewModel)
         vc.coordinator = self
         vc.modalPresentationStyle = .fullScreen

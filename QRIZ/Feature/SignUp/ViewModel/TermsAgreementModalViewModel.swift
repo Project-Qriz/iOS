@@ -11,6 +11,7 @@ import os.log
 
 struct TermItem {
     let title: String
+    let pdfName: String
     var isAgreed: Bool
 }
 
@@ -25,8 +26,8 @@ final class TermsAgreementModalViewModel {
                                 category: "TermsAgreementModalVM")
     
     private var terms: [TermItem] = [
-        .init(title: "서비스 이용약관 동의", isAgreed: false),
-        .init(title: "개인정보 처리방침 동의", isAgreed: false)
+        .init(title: "서비스 이용약관", pdfName: "TermsOfService", isAgreed: false),
+        .init(title: "개인정보 처리방침", pdfName: "PrivacyPolicy", isAgreed: false)
     ]
     
     // MARK: - Initialize
@@ -46,12 +47,19 @@ final class TermsAgreementModalViewModel {
                 case .dismissButtonTapped:
                     outputSubject.send(.dismissModal)
                     
-                case .allToggle(let on):
-                    terms = terms.map { .init(title: $0.title, isAgreed: on) }
-                    outputSubject.send(.allAgreeChanged(on))
+                case .allToggle:
+                    let newState = !terms.allSatisfy(\.isAgreed)
                     
-                    terms.enumerated().forEach { index, term in
-                        self.outputSubject.send(.termChanged(index: index, isAgreed: term.isAgreed))
+                    terms = terms.map {
+                        .init(title: $0.title,
+                              pdfName: $0.pdfName,
+                              isAgreed: newState)
+                    }
+                    
+                    outputSubject.send(.allAgreeChanged(newState))
+                    
+                    for (index, _) in terms.enumerated() {
+                        outputSubject.send(.termChanged(index: index, isAgreed: newState))
                     }
                     
                     sendSignUpState()
@@ -66,7 +74,7 @@ final class TermsAgreementModalViewModel {
                     sendSignUpState()
                     
                 case .showDetail(let index):
-                    outputSubject.send(.showTermsDetail(index: index))
+                    outputSubject.send(.showTermsDetail(termItem: terms[index]))
                     
                 case .signUpButtonTapped:
                     performJoin()
@@ -111,7 +119,7 @@ final class TermsAgreementModalViewModel {
 extension TermsAgreementModalViewModel {
     enum Input {
         case dismissButtonTapped
-        case allToggle(Bool)
+        case allToggle
         case termToggle(index: Int)
         case showDetail(index: Int)
         case signUpButtonTapped
@@ -123,7 +131,7 @@ extension TermsAgreementModalViewModel {
         case allAgreeChanged(Bool)
         case termChanged(index: Int, isAgreed: Bool)
         case updateSignUpButtonState(Bool)
-        case showTermsDetail(index: Int)
+        case showTermsDetail(termItem: TermItem)
         case showErrorAlert(title: String, description: String? = nil)
         case signUpSucceeded
     }
