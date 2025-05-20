@@ -22,6 +22,10 @@
 		54DB0DA12D0951C000ABD458 /* Font+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54DB0DA02D0951C000ABD458 /* Font+.swift */; };
 		54DB0DA52D099D6700ABD458 /* Colors.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 54DB0DA42D099D6700ABD458 /* Colors.xcassets */; };
 		54E91B762D18FACD00474D0A /* RoundButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54E91B752D18FACD00474D0A /* RoundButton.swift */; };
+		B13045242DD9F9350036EBE2 /* TermsDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B13045232DD9F9350036EBE2 /* TermsDetailViewController.swift */; };
+		B13045262DD9F9AD0036EBE2 /* TermsDetailMainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B13045252DD9F9AD0036EBE2 /* TermsDetailMainView.swift */; };
+		B13045282DD9FA580036EBE2 /* TermsDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B13045272DD9FA580036EBE2 /* TermsDetailViewModel.swift */; };
+		B130452F2DDC77030036EBE2 /* UIScreen+.swift in Sources */ = {isa = PBXBuildFile; fileRef = B130452E2DDC77030036EBE2 /* UIScreen+.swift */; };
 		B15188622D76D29B000EFE41 /* EmailSendRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = B15188612D76D29B000EFE41 /* EmailSendRequest.swift */; };
 		B15188662D782CCE000EFE41 /* SignUpCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = B15188652D782CCE000EFE41 /* SignUpCoordinator.swift */; };
 		B16288182D2CDB85008057D0 /* NameInputViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B16288172D2CDB85008057D0 /* NameInputViewModel.swift */; };
@@ -60,6 +64,12 @@
 		B17FE3082D27F87E002EC7D7 /* String+.swift in Sources */ = {isa = PBXBuildFile; fileRef = B17FE3072D27F87E002EC7D7 /* String+.swift */; };
 		B17FE30A2D27F8E9002EC7D7 /* UITextField+.swift in Sources */ = {isa = PBXBuildFile; fileRef = B17FE3092D27F8E9002EC7D7 /* UITextField+.swift */; };
 		B17FE30C2D27F931002EC7D7 /* CustomTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = B17FE30B2D27F931002EC7D7 /* CustomTextField.swift */; };
+		B18CDF6F2DD2FF9500DD361A /* TermsAgreementModalViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B18CDF6E2DD2FF9500DD361A /* TermsAgreementModalViewController.swift */; };
+		B18CDF712DD3001B00DD361A /* TermsAgreementModalMainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B18CDF702DD3001B00DD361A /* TermsAgreementModalMainView.swift */; };
+		B18CDF732DD3066E00DD361A /* TermsAgreementHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B18CDF722DD3066E00DD361A /* TermsAgreementHeaderView.swift */; };
+		B18CDF752DD425D100DD361A /* TermsAgreementAllView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B18CDF742DD425D100DD361A /* TermsAgreementAllView.swift */; };
+		B18CDF772DD4A53A00DD361A /* TermsAgreementItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B18CDF762DD4A53A00DD361A /* TermsAgreementItemView.swift */; };
+		B18CDF792DD5DF9800DD361A /* TermsAgreementModalViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B18CDF782DD5DF9800DD361A /* TermsAgreementModalViewModel.swift */; };
 		B18F450A2D39901D0030F7DB /* FindIDViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B18F45092D39901D0030F7DB /* FindIDViewController.swift */; };
 		B18F450D2D3994380030F7DB /* FindIDMainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B18F450C2D3994380030F7DB /* FindIDMainView.swift */; };
 		B18F45102D3997280030F7DB /* FindAccountHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B18F450F2D3997280030F7DB /* FindAccountHeaderView.swift */; };
@@ -242,6 +252,10 @@
 		54DB0DA02D0951C000ABD458 /* Font+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Font+.swift"; sourceTree = "<group>"; };
 		54DB0DA42D099D6700ABD458 /* Colors.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Colors.xcassets; sourceTree = "<group>"; };
 		54E91B752D18FACD00474D0A /* RoundButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoundButton.swift; sourceTree = "<group>"; };
+		B13045232DD9F9350036EBE2 /* TermsDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TermsDetailViewController.swift; sourceTree = "<group>"; };
+		B13045252DD9F9AD0036EBE2 /* TermsDetailMainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TermsDetailMainView.swift; sourceTree = "<group>"; };
+		B13045272DD9FA580036EBE2 /* TermsDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TermsDetailViewModel.swift; sourceTree = "<group>"; };
+		B130452E2DDC77030036EBE2 /* UIScreen+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIScreen+.swift"; sourceTree = "<group>"; };
 		B15188612D76D29B000EFE41 /* EmailSendRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmailSendRequest.swift; sourceTree = "<group>"; };
 		B15188652D782CCE000EFE41 /* SignUpCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpCoordinator.swift; sourceTree = "<group>"; };
 		B16288172D2CDB85008057D0 /* NameInputViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NameInputViewModel.swift; sourceTree = "<group>"; };
@@ -280,6 +294,12 @@
 		B17FE3072D27F87E002EC7D7 /* String+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+.swift"; sourceTree = "<group>"; };
 		B17FE3092D27F8E9002EC7D7 /* UITextField+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITextField+.swift"; sourceTree = "<group>"; };
 		B17FE30B2D27F931002EC7D7 /* CustomTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTextField.swift; sourceTree = "<group>"; };
+		B18CDF6E2DD2FF9500DD361A /* TermsAgreementModalViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TermsAgreementModalViewController.swift; sourceTree = "<group>"; };
+		B18CDF702DD3001B00DD361A /* TermsAgreementModalMainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TermsAgreementModalMainView.swift; sourceTree = "<group>"; };
+		B18CDF722DD3066E00DD361A /* TermsAgreementHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TermsAgreementHeaderView.swift; sourceTree = "<group>"; };
+		B18CDF742DD425D100DD361A /* TermsAgreementAllView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TermsAgreementAllView.swift; sourceTree = "<group>"; };
+		B18CDF762DD4A53A00DD361A /* TermsAgreementItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TermsAgreementItemView.swift; sourceTree = "<group>"; };
+		B18CDF782DD5DF9800DD361A /* TermsAgreementModalViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TermsAgreementModalViewModel.swift; sourceTree = "<group>"; };
 		B18F45092D39901D0030F7DB /* FindIDViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FindIDViewController.swift; sourceTree = "<group>"; };
 		B18F450C2D3994380030F7DB /* FindIDMainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FindIDMainView.swift; sourceTree = "<group>"; };
 		B18F450F2D3997280030F7DB /* FindAccountHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FindAccountHeaderView.swift; sourceTree = "<group>"; };
@@ -464,6 +484,8 @@
 				SQLCommands/DDL.pdf,
 				SQLCommands/DML.pdf,
 				SQLCommands/TCL.pdf,
+				TermsAgreement/PrivacyPolicy.pdf,
+				TermsAgreement/TermsOfService.pdf,
 			);
 			target = E23963042D083B8F0092B39B /* QRIZ */;
 		};
@@ -651,6 +673,7 @@
 				B19C4F6A2D5260DD00CD008A /* UIControl+.swift */,
 				B19C4F6C2D5262D900CD008A /* Combine+.swift */,
 				E2908E612DAF5B8400B8E81B /* Int+.swift */,
+				B130452E2DDC77030036EBE2 /* UIScreen+.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -691,6 +714,8 @@
 				B16288172D2CDB85008057D0 /* NameInputViewModel.swift */,
 				B16288232D2E8914008057D0 /* IDInputViewModel.swift */,
 				B16288252D300CBA008057D0 /* PasswordInputViewModel.swift */,
+				B18CDF782DD5DF9800DD361A /* TermsAgreementModalViewModel.swift */,
+				B13045272DD9FA580036EBE2 /* TermsDetailViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -736,6 +761,9 @@
 				B168B7702D28276F0000F32E /* IDInputView.swift */,
 				B168B7762D28481D0000F32E /* PasswordInputView.swift */,
 				B168B7572D28073C0000F32E /* SignUpFooterView.swift */,
+				B18CDF722DD3066E00DD361A /* TermsAgreementHeaderView.swift */,
+				B18CDF742DD425D100DD361A /* TermsAgreementAllView.swift */,
+				B18CDF762DD4A53A00DD361A /* TermsAgreementItemView.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -748,6 +776,8 @@
 				B168B75C2D28073C0000F32E /* NameInputMainView.swift */,
 				B168B76E2D2826010000F32E /* IDInputMainView.swift */,
 				B168B7742D2846DD0000F32E /* PasswordInputMainView.swift */,
+				B18CDF702DD3001B00DD361A /* TermsAgreementModalMainView.swift */,
+				B13045252DD9F9AD0036EBE2 /* TermsDetailMainView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -759,6 +789,8 @@
 				B168B7662D2807470000F32E /* NameInputViewController.swift */,
 				B168B76C2D2824BD0000F32E /* IDInputViewController.swift */,
 				B168B7722D2846C80000F32E /* PasswordInputViewController.swift */,
+				B18CDF6E2DD2FF9500DD361A /* TermsAgreementModalViewController.swift */,
+				B13045232DD9F9350036EBE2 /* TermsDetailViewController.swift */,
 			);
 			path = ViewController;
 			sourceTree = "<group>";
@@ -1702,6 +1734,7 @@
 			files = (
 				E2A6C1452DC4CE110059F960 /* ExamListRequest.swift in Sources */,
 				E2A6C14C2DC5E33F0059F960 /* TestSubmitRequest.swift in Sources */,
+				B18CDF732DD3066E00DD361A /* TermsAgreementHeaderView.swift in Sources */,
 				E25F94CB2D0CB1DB00BA765F /* OnboardingTitleLabel.swift in Sources */,
 				B16288242D2E8914008057D0 /* IDInputViewModel.swift in Sources */,
 				E25F94D12D0CB74700BA765F /* OnboardingButton.swift in Sources */,
@@ -1726,6 +1759,7 @@
 				E29CCD3C2D298656004AA30A /* PreviewResultBarGraphsView.swift in Sources */,
 				54DB0DA12D0951C000ABD458 /* Font+.swift in Sources */,
 				B16774C92D80A244001820F3 /* JoinRequest.swift in Sources */,
+				B18CDF772DD4A53A00DD361A /* TermsAgreementItemView.swift in Sources */,
 				B168B76D2D2824BD0000F32E /* IDInputViewController.swift in Sources */,
 				B17FE3062D27F85C002EC7D7 /* LoginViewModel.swift in Sources */,
 				E28BAD792D2C2DEB00B8388D /* TwoButtonCustomAlertViewController.swift in Sources */,
@@ -1735,6 +1769,8 @@
 				E2A6C6762DCA45970059F960 /* ExamResultRequest.swift in Sources */,
 				E29CCD522D299AD5004AA30A /* PreviewResultIncorrectConceptsRankView.swift in Sources */,
 				E29CCD492D29867F004AA30A /* GreetingViewController.swift in Sources */,
+				B18CDF752DD425D100DD361A /* TermsAgreementAllView.swift in Sources */,
+				B130452F2DDC77030036EBE2 /* UIScreen+.swift in Sources */,
 				E25F33672DB0E575002347D4 /* SingleSubjectView.swift in Sources */,
 				E29CCD1C2D298303004AA30A /* PreviewTestViewController.swift in Sources */,
 				E24CB1682DB522C800D88451 /* ResultDetailViewModel.swift in Sources */,
@@ -1765,6 +1801,7 @@
 				E29CCD2C2D29855B004AA30A /* TestButton.swift in Sources */,
 				E2A6C0802DBB61890059F960 /* PreviewSubmitRequest.swift in Sources */,
 				E217C3692D9BF0B20095A3D8 /* DailyResultViewModel.swift in Sources */,
+				B18CDF792DD5DF9800DD361A /* TermsAgreementModalViewModel.swift in Sources */,
 				B168B75F2D28073C0000F32E /* SignUpFooterView.swift in Sources */,
 				B162881C2D2CFC63008057D0 /* UIView+.swift in Sources */,
 				E27E54A92D6D74C500BF3B55 /* CheckListFoldButton.swift in Sources */,
@@ -1772,6 +1809,7 @@
 				541878542D0E21620089F478 /* HTTPMethod.swift in Sources */,
 				B18F45222D4645EC0030F7DB /* VerificationInputView.swift in Sources */,
 				E2908E622DAF5B8400B8E81B /* Int+.swift in Sources */,
+				B18CDF6F2DD2FF9500DD361A /* TermsAgreementModalViewController.swift in Sources */,
 				E29CCD422D298656004AA30A /* PreviewResultViewModel.swift in Sources */,
 				548566492D123C94002BAEE3 /* NetworkRequest.swift in Sources */,
 				B15188622D76D29B000EFE41 /* EmailSendRequest.swift in Sources */,
@@ -1833,12 +1871,15 @@
 				E2A6C0822DBB65530059F960 /* AnalyzePreviewRequest.swift in Sources */,
 				E283AC082D9E8D8F00DE005B /* DailyTestDescriptionView.swift in Sources */,
 				E28BAD772D2C111100B8388D /* TwoButtonCustomAlertView.swift in Sources */,
+				B13045242DD9F9350036EBE2 /* TermsDetailViewController.swift in Sources */,
 				E29CCD2E2D29855B004AA30A /* TestProgressView.swift in Sources */,
 				E28BAD7C2D2C339100B8388D /* AlertType.swift in Sources */,
 				E29CCD2B2D29855B004AA30A /* QuestionTitleLabel.swift in Sources */,
+				B13045282DD9FA580036EBE2 /* TermsDetailViewModel.swift in Sources */,
 				E2DD0E842D2144D000DA3D18 /* PreviewConceptsData.swift in Sources */,
 				E29CCD302D29855B004AA30A /* TestTotalTimeRemainingLabel.swift in Sources */,
 				E29FE40D2DBA3FBC00DECB26 /* UserInfoService.swift in Sources */,
+				B18CDF712DD3001B00DD361A /* TermsAgreementModalMainView.swift in Sources */,
 				E29CCD2D2D29855B004AA30A /* TestPageIndicatorLabel.swift in Sources */,
 				E2939CA32D9D605C00F7E704 /* DailyTestContentsView.swift in Sources */,
 				E24CB16A2DB5373900D88451 /* ResultDetailScoreView.swift in Sources */,
@@ -1876,6 +1917,7 @@
 				E2A6C7352DCA4C850059F960 /* ExamService.swift in Sources */,
 				E2908E6B2DB3B55700B8E81B /* DailyResultDetailHostingController.swift in Sources */,
 				B19C4F6B2D5260DD00CD008A /* UIControl+.swift in Sources */,
+				B13045262DD9F9AD0036EBE2 /* TermsDetailMainView.swift in Sources */,
 				B1D813752D6E0CC900A9D447 /* MistakeNoteCoordinator.swift in Sources */,
 				B168B7752D2846DD0000F32E /* PasswordInputMainView.swift in Sources */,
 				B16288202D2E2595008057D0 /* SignUpVerificationViewModel.swift in Sources */,
@@ -2075,7 +2117,7 @@
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -2104,7 +2146,7 @@
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

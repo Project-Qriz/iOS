@@ -14,6 +14,10 @@ protocol SignUpCoordinator: Coordinator {
     func showNameInput()
     func showIDInput()
     func showPasswordInput()
+    func showTermsAgreementModal()
+    func showTermsDetail(for term: TermItem)
+    func showSignUpCompleteAlert()
+    func dismissView()
 }
 
 @MainActor
@@ -68,5 +72,76 @@ final class SignUpCoordinatorImpl: SignUpCoordinator {
         let passwordInputVC = PasswordInputViewController(passwordInputVM: passwordInputVM)
         passwordInputVC.coordinator = self
         navigationController.pushViewController(passwordInputVC, animated: true)
+    }
+    
+    func showTermsAgreementModal() {
+        let viewModel = TermsAgreementModalViewModel(signUpFlowViewModel: signUpFlowVM)
+        let rootVC = TermsAgreementModalViewController(viewModel: viewModel)
+        rootVC.coordinator = self
+        
+        let sheetNavi = UINavigationController(rootViewController: rootVC)
+        sheetNavi.setNavigationBarHidden(true, animated: false)
+        sheetNavi.modalPresentationStyle = .pageSheet
+        
+        if let sheet = sheetNavi.sheetPresentationController {
+            if UIScreen.main.isSESize {
+                sheet.detents = [.medium()]
+                sheet.selectedDetentIdentifier = .medium
+            } else {
+                let halfDetent = UISheetPresentationController.Detent
+                    .custom(identifier: .init("half")) { ctx in
+                        ctx.maximumDetentValue * 0.4
+                    }
+                sheet.detents = [halfDetent]
+                sheet.selectedDetentIdentifier = halfDetent.identifier
+            }
+            
+            sheet.preferredCornerRadius = 24
+        }
+        
+        navigationController.present(sheetNavi, animated: true)
+    }
+    
+    func showTermsDetail(for term: TermItem) {
+        guard let sheetNav = navigationController.presentedViewController
+                as? UINavigationController else { return }
+
+        let viewModel = TermsDetailViewModel(termItem: term)
+        let vc = TermsDetailViewController(viewModel: viewModel)
+        vc.coordinator = self
+        vc.modalPresentationStyle = .fullScreen
+        sheetNav.present(vc, animated: true)
+    }
+    
+    func showSignUpCompleteAlert() {
+        if let presented = navigationController.presentedViewController {
+            presented.dismiss(animated: true) { [weak self] in
+                self?.presentSignUpAlert()
+            }
+        } else {
+            presentSignUpAlert()
+        }
+    }
+    
+    private func presentSignUpAlert() {
+        let alert = OneButtonCustomAlertViewController(
+            title: "회원가입 완료!",
+            description: "회원가입이 완료되었습니다.\n합격을 향한 여정을 함께 시작해봐요!"
+        )
+        
+        alert.confirmButtonTappedPublisher
+            .sink { [weak self] _ in
+                alert.dismiss(animated: true) {
+                    guard let self else { return }
+                    self.delegate?.didFinishSignUp(self)
+                }
+            }
+            .store(in: &alert.cancellables)
+        
+        navigationController.present(alert, animated: true)
+    }
+    
+    func dismissView() {
+        navigationController.dismiss(animated: true)
     }
 }
