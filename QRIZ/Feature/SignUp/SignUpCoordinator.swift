@@ -76,16 +76,26 @@ final class SignUpCoordinatorImpl: SignUpCoordinator {
     
     func showTermsAgreementModal() {
         let viewModel = TermsAgreementModalViewModel(signUpFlowViewModel: signUpFlowVM)
-        let rootView = TermsAgreementModalViewController(viewModel: viewModel)
-        rootView.coordinator = self
+        let rootVC = TermsAgreementModalViewController(viewModel: viewModel)
+        rootVC.coordinator = self
         
-        let sheetNavi = UINavigationController(rootViewController: rootView)
-        sheetNavi.modalPresentationStyle = .pageSheet
+        let sheetNavi = UINavigationController(rootViewController: rootVC)
         sheetNavi.setNavigationBarHidden(true, animated: false)
+        sheetNavi.modalPresentationStyle = .pageSheet
         
         if let sheet = sheetNavi.sheetPresentationController {
-            sheet.detents = [.medium()]
-            sheet.selectedDetentIdentifier = .medium
+            if UIScreen.main.isSESize {
+                sheet.detents = [.medium()]
+                sheet.selectedDetentIdentifier = .medium
+            } else {
+                let halfDetent = UISheetPresentationController.Detent
+                    .custom(identifier: .init("half")) { ctx in
+                        ctx.maximumDetentValue * 0.5
+                    }
+                sheet.detents = [halfDetent]
+                sheet.selectedDetentIdentifier = halfDetent.identifier
+            }
+            
             sheet.preferredCornerRadius = 24
         }
         
