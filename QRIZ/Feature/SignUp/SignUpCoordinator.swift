@@ -90,7 +90,7 @@ final class SignUpCoordinatorImpl: SignUpCoordinator {
             } else {
                 let halfDetent = UISheetPresentationController.Detent
                     .custom(identifier: .init("half")) { ctx in
-                        ctx.maximumDetentValue * 0.5
+                        ctx.maximumDetentValue * 0.4
                     }
                 sheet.detents = [halfDetent]
                 sheet.selectedDetentIdentifier = halfDetent.identifier
