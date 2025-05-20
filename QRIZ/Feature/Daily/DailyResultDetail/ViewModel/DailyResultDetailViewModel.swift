@@ -12,9 +12,9 @@ final class DailyResultDetailViewModel: ResultDetailViewModel {
     
     // MARK: - Intializers
     init(resultDetailData: ResultDetailData) {
-        self.resultDetailData = resultDetailData
-        super.init()
-        self.setScoresData(.total)
+            self.resultDetailData = resultDetailData
+            super.init()
+            Task { await self.setScoresData(.total) }
     }
     
     // MARK: - Properties
@@ -25,11 +25,13 @@ final class DailyResultDetailViewModel: ResultDetailViewModel {
     
     // MARK: - Methods
     func transform(input: AnyPublisher<ResultDetailViewModel.Input, Never>) {
-        input.sink { [weak self] event in
+        input
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] event in
             guard let self = self else { return }
             switch event {
             case .menuItemSelected(let selected):
-                self.setScoresData(selected)
+                Task { await self.setScoresData(selected) }
             }
         }
         .store(in: &subscriptions)
@@ -42,34 +44,31 @@ final class DailyResultDetailViewModel: ResultDetailViewModel {
         self.resultScoresData.subjectCount = 0
     }
     
+    @MainActor
     private func setScoresData(_ selectedItem: ResultDetailMenuItems) {
         let subject1Count: Int = self.resultDetailData.subject1DetailResult.count
         let subject2Count: Int = self.resultDetailData.subject2DetailResult.count
         
-        DispatchQueue.main.async { [weak self] in
-            guard let self = self else { return }
-            
-            self.initScoresData()
-            
-            switch selectedItem {
-            case .total:
-                self.resultScoresData.subjectCount = subject1Count + subject2Count
-                for i in 0..<subject1Count {
-                    resultScoresData.subjectScores[i] = resultDetailData.subject1DetailResult[i].score
-                }
-                for i in 0..<subject2Count {
-                    resultScoresData.subjectScores[subject1Count + i] = resultDetailData.subject2DetailResult[i].score
-                }
-            case .subject1:
-                self.resultScoresData.subjectCount = subject1Count
-                for i in 0..<subject1Count {
-                    resultScoresData.subjectScores[i] = resultDetailData.subject1DetailResult[i].score
-                }
-            case .subject2:
-                self.resultScoresData.subjectCount = subject2Count
-                for i in 0..<subject2Count {
-                    resultScoresData.subjectScores[i] = resultDetailData.subject2DetailResult[i].score
-                }
+        self.initScoresData()
+        
+        switch selectedItem {
+        case .total:
+            self.resultScoresData.subjectCount = subject1Count + subject2Count
+            for i in 0..<subject1Count {
+                resultScoresData.subjectScores[i] = resultDetailData.subject1DetailResult[i].score
+            }
+            for i in 0..<subject2Count {
+                resultScoresData.subjectScores[subject1Count + i] = resultDetailData.subject2DetailResult[i].score
+            }
+        case .subject1:
+            self.resultScoresData.subjectCount = subject1Count
+            for i in 0..<subject1Count {
+                resultScoresData.subjectScores[i] = resultDetailData.subject1DetailResult[i].score
+            }
+        case .subject2:
+            self.resultScoresData.subjectCount = subject2Count
+            for i in 0..<subject2Count {
+                resultScoresData.subjectScores[i] = resultDetailData.subject2DetailResult[i].score
             }
         }
     }
