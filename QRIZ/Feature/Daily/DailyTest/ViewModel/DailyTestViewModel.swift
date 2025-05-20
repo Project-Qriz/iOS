@@ -99,9 +99,9 @@ final class DailyTestViewModel {
         Task {
             do {
                 let response = try await dailyService.getDailyTestList(dayNumber: day)
-                guard let data = response.data else { return }
-                dailyTestList = data
+                guard let data = response.data else { throw NetworkError.unknownError }
                 if data.count == 0 { throw NetworkError.unknownError }
+                dailyTestList = data
                 data.enumerated().forEach {
                     questionList.append(QuestionData(question: $1.question,
                                                      option1: $1.options[0].content,
