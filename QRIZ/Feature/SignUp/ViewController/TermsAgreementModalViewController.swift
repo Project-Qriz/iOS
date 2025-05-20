@@ -48,7 +48,7 @@ final class TermsAgreementModalViewController: UIViewController {
         let allToggle = rootView.allAgreeView.checkBoxButtonTappedPublisher
             .map { TermsAgreementModalViewModel.Input.allToggle }
         
-        let itemToggle = rootView.cellTapPublisher
+        let itemToggle = rootView.checkmarkTapPublisher
             .map { TermsAgreementModalViewModel.Input.termToggle(index: $0) }
         
         let detailTapped = rootView.detailTapPublisher

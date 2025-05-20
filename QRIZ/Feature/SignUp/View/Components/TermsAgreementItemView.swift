@@ -27,11 +27,11 @@ final class TermsAgreementItemView: UIView {
     // MARK: - Properties
     
     private let index: Int
-    private let cellTapSubject = PassthroughSubject<Int, Never>()
+    private let checkmarkTapSubject = PassthroughSubject<Int, Never>()
     private let detailTapSubject = PassthroughSubject<Int, Never>()
         
-    var cellTapPublisher: AnyPublisher<Int, Never> {
-        cellTapSubject.eraseToAnyPublisher()
+    var checkmarkTapPublisher: AnyPublisher<Int, Never> {
+        checkmarkTapSubject.eraseToAnyPublisher()
     }
     
     var detailTapPublisher: AnyPublisher<Int, Never> {
@@ -99,16 +99,17 @@ final class TermsAgreementItemView: UIView {
     // MARK: - Actions
     
     private func addTapGesture() {
-        let cellTap = UITapGestureRecognizer(target: self, action: #selector(handleWholeTap))
-        addGestureRecognizer(cellTap)
+        let checkmarkTap = UITapGestureRecognizer(target: self, action: #selector(handleCheckmarkTap))
+        checkmarkImageView.isUserInteractionEnabled = true
+        checkmarkImageView.addGestureRecognizer(checkmarkTap)
 
         let chevronTap = UITapGestureRecognizer(target: self, action: #selector(handleChevronTap))
         chevronImageView.addGestureRecognizer(chevronTap)
         chevronImageView.isUserInteractionEnabled = true
     }
     
-    @objc private func handleWholeTap()   {
-        cellTapSubject.send(index)
+    @objc private func handleCheckmarkTap()   {
+        checkmarkTapSubject.send(index)
     }
     
     @objc private func handleChevronTap() {

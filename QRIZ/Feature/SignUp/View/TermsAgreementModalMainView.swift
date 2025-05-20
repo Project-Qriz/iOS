@@ -26,12 +26,12 @@ final class TermsAgreementModalMainView: UIView {
     
     // MARK: - Properties
     
-    private let cellTapSubject   = PassthroughSubject<Int, Never>()
+    private let checkmarkTapSubject   = PassthroughSubject<Int, Never>()
     private let detailTapSubject = PassthroughSubject<Int, Never>()
     private var cancellables = Set<AnyCancellable>()
     
-    var cellTapPublisher: AnyPublisher<Int, Never> {
-        cellTapSubject.eraseToAnyPublisher()
+    var checkmarkTapPublisher: AnyPublisher<Int, Never> {
+        checkmarkTapSubject.eraseToAnyPublisher()
     }
     
     var detailTapPublisher: AnyPublisher<Int, Never> {
@@ -80,8 +80,8 @@ final class TermsAgreementModalMainView: UIView {
         items.enumerated().forEach { idx, term in
             let cell = TermsAgreementItemView(index: idx, title: "\(term.title) 동의")
             
-            cell.cellTapPublisher
-                .subscribe(cellTapSubject)
+            cell.checkmarkTapPublisher
+                .subscribe(checkmarkTapSubject)
                 .store(in: &cancellables)
 
             cell.detailTapPublisher
