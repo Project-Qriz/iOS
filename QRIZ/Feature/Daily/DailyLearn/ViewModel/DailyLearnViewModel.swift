@@ -22,7 +22,7 @@ final class DailyLearnViewModel {
     enum Output {
         case fetchSuccess(state: DailyTestState,
                           type: DailyLearnType,
-                          score: CGFloat?
+                          score: Double?
         )
         case updateContent(conceptArr: [(Int, String)])
         case fetchFailed(isServerError: Bool)
@@ -37,7 +37,7 @@ final class DailyLearnViewModel {
     private let day: Int
     private let type: DailyLearnType
     private var state: DailyTestState = .unavailable
-    private var score: CGFloat? = nil
+    private var score: Double? = nil
     private var conceptArr: [(Int, String)] = []
     
     private let output: PassthroughSubject<Output, Never> = .init()

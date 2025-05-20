@@ -67,7 +67,7 @@ final class TestNavigatorButton: UIView {
     }
     
     // MARK: - Methods
-    func setDailyUI(state: DailyTestState, type: DailyLearnType, score: CGFloat?) {
+    func setDailyUI(state: DailyTestState, type: DailyLearnType, score: Double?) {
         updateBgColor(state: state)
         updateTestStatusLabel(state: state)
         updateTestTitleLabel(type: type)
@@ -75,7 +75,7 @@ final class TestNavigatorButton: UIView {
         updateRetryBadge(state: state)
     }
     
-    func setMockExamUI(isTestDone: Bool, examRound: Int, score: CGFloat?) {
+    func setMockExamUI(isTestDone: Bool, examRound: Int, score: Double?) {
         retryBadge.isHidden = true
         backgroundColor = .white
         testStatusLabel.textColor = .coolNeutral600
@@ -114,7 +114,7 @@ final class TestNavigatorButton: UIView {
         testTitleLabel.text = type.rawValue
     }
     
-    private func updateScoreLabel(score: CGFloat?) {
+    private func updateScoreLabel(score: Double?) {
         let scoreText = score.map { String(format: "%.1f", $0) } ?? ""
         scoreLabel.text = "총 점수: \(scoreText)점"
     }

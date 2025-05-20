@@ -152,7 +152,7 @@ final class DailyLearnViewController: UIViewController {
         }
     }
     
-    private func setNavigatorButton(state: DailyTestState, type: DailyLearnType, score: CGFloat?) {
+    private func setNavigatorButton(state: DailyTestState, type: DailyLearnType, score: Double?) {
         testNavigator.setDailyUI(state: state, type: type, score: score)
         testNavigator.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(sendTestNavigatorClicked)))
     }
