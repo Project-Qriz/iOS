@@ -57,9 +57,10 @@ final class CheckConceptViewController: UIViewController {
             .sink { [weak self] event in
                 guard let self = self else { return }
                 switch event {
-                case .moveToNextPage:
-                    // if selected 'no nothing' -> pushViewController(HomeViewController)
+                case .moveToBeginPreviewTest:
                     self.navigationController?.pushViewController(BeginPreviewTestViewController(), animated: true)
+                case .moveToGreeting:
+                    self.navigationController?.pushViewController(GreetingViewController(), animated: true)
                 case .setAllAndNone(let numOfSelectedConcept, let checkNoneClicked):
                     checkNoneButton.checkboxHandler(numOfSelectedConcept: numOfSelectedConcept, checkNoneClicked: checkNoneClicked)
                     checkAllButton.checkboxHandler(numOfSelectedConcept: numOfSelectedConcept)

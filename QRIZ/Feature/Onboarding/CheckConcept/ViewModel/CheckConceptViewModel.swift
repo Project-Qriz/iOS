@@ -19,7 +19,8 @@ final class CheckConceptViewModel {
     }
     
     enum Output {
-        case moveToNextPage
+        case moveToBeginPreviewTest
+        case moveToGreeting
         case setAllAndNone(numOfSelectedConcept: Int, checkNoneClicked: Bool)
         case checkboxToOn(idx: Int)
         case checkboxToOff(idx: Int)
@@ -53,8 +54,11 @@ final class CheckConceptViewModel {
                 noneStateHandler()
                 doneButtonStateHandler(checkNoneClicked: isOn)
             case .didDoneButtonClicked:
-                // API request send
-                sendSurvey()
+                if selectedSet.isEmpty {
+                    output.send(.moveToGreeting)
+                } else {
+                    sendSurvey()
+                }
             case .someCheckboxClicked(let idx):
                 conceptStateHandler(idx)
                 output.send(.setAllAndNone(numOfSelectedConcept: selectedSet.count, checkNoneClicked: false))
@@ -126,7 +130,7 @@ final class CheckConceptViewModel {
                 if isDoneButtonActivated {
                     let keyConcepts = selectedSet.map { SurveyCheckList.list[$0] }
                     _ = try await onboardingService.sendSurvey(keyConcepts: keyConcepts)
-                    self.output.send(.moveToNextPage)
+                    self.output.send(.moveToBeginPreviewTest)
                 }
             } catch {
                 output.send(.requestFailed)
