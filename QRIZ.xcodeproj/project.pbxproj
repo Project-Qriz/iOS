@@ -25,6 +25,7 @@
 		B13045242DD9F9350036EBE2 /* TermsDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B13045232DD9F9350036EBE2 /* TermsDetailViewController.swift */; };
 		B13045262DD9F9AD0036EBE2 /* TermsDetailMainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B13045252DD9F9AD0036EBE2 /* TermsDetailMainView.swift */; };
 		B13045282DD9FA580036EBE2 /* TermsDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B13045272DD9FA580036EBE2 /* TermsDetailViewModel.swift */; };
+		B130452F2DDC77030036EBE2 /* UIScreen+.swift in Sources */ = {isa = PBXBuildFile; fileRef = B130452E2DDC77030036EBE2 /* UIScreen+.swift */; };
 		B15188622D76D29B000EFE41 /* EmailSendRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = B15188612D76D29B000EFE41 /* EmailSendRequest.swift */; };
 		B15188662D782CCE000EFE41 /* SignUpCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = B15188652D782CCE000EFE41 /* SignUpCoordinator.swift */; };
 		B16288182D2CDB85008057D0 /* NameInputViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B16288172D2CDB85008057D0 /* NameInputViewModel.swift */; };
@@ -240,6 +241,7 @@
 		B13045232DD9F9350036EBE2 /* TermsDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TermsDetailViewController.swift; sourceTree = "<group>"; };
 		B13045252DD9F9AD0036EBE2 /* TermsDetailMainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TermsDetailMainView.swift; sourceTree = "<group>"; };
 		B13045272DD9FA580036EBE2 /* TermsDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TermsDetailViewModel.swift; sourceTree = "<group>"; };
+		B130452E2DDC77030036EBE2 /* UIScreen+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIScreen+.swift"; sourceTree = "<group>"; };
 		B15188612D76D29B000EFE41 /* EmailSendRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmailSendRequest.swift; sourceTree = "<group>"; };
 		B15188652D782CCE000EFE41 /* SignUpCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpCoordinator.swift; sourceTree = "<group>"; };
 		B16288172D2CDB85008057D0 /* NameInputViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NameInputViewModel.swift; sourceTree = "<group>"; };
@@ -639,6 +641,7 @@
 				B19C4F6A2D5260DD00CD008A /* UIControl+.swift */,
 				B19C4F6C2D5262D900CD008A /* Combine+.swift */,
 				E2908E612DAF5B8400B8E81B /* Int+.swift */,
+				B130452E2DDC77030036EBE2 /* UIScreen+.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -1687,6 +1690,7 @@
 				E29CCD522D299AD5004AA30A /* PreviewResultIncorrectConceptsRankView.swift in Sources */,
 				E29CCD492D29867F004AA30A /* GreetingViewController.swift in Sources */,
 				B18CDF752DD425D100DD361A /* TermsAgreementAllView.swift in Sources */,
+				B130452F2DDC77030036EBE2 /* UIScreen+.swift in Sources */,
 				E25F33672DB0E575002347D4 /* SingleSubjectView.swift in Sources */,
 				E29CCD1C2D298303004AA30A /* PreviewTestViewController.swift in Sources */,
 				E24CB1682DB522C800D88451 /* ResultDetailViewModel.swift in Sources */,
