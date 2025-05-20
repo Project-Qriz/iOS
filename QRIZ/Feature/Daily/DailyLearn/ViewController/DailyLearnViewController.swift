@@ -34,12 +34,18 @@ final class DailyLearnViewController: UIViewController {
     }()
     private let relatedTestTitleLabel: DailyLearnSectionTitleLabel = .init()
     private let testNavigator: TestNavigatorButton = .init()
+    private let retestAlertViewController: TwoButtonCustomAlertViewController = .init(
+        title: "시험을 다시 보겠습니까?",
+        description: """
+        이미 한번 봤던 시험입니다.
+        만약 미달인 경우 재시험의 기회가 없습니다.
+        """)
     
     private let viewModel: DailyLearnViewModel
     private let input: PassthroughSubject<DailyLearnViewModel.Input, Never> = .init()
     private var subscriptions = Set<AnyCancellable>()
     
-    private var conceptArr: [(String, String)] = []
+    private var conceptArr: [(Int, String)] = []
     
     // MARK: - Initializer
     init(dailyLearnViewModel: DailyLearnViewModel) {
@@ -57,6 +63,7 @@ final class DailyLearnViewController: UIViewController {
         setNavigationBarTitle(title: "오늘의 공부")
         setCollectionViewDataSourceAndDelegate()
         bind()
+        setAlertButtonActions()
         input.send(.viewDidLoad)
         addViews()
     }
@@ -74,19 +81,55 @@ final class DailyLearnViewController: UIViewController {
                     setTestSubtextLabel(state: state)
                     setNavigatorButton(state: state, type: type, score: score)
                     setNavigatorButtonHeight(state: state)
-                case .fetchFailed:
-                    print("Fetch Failed")
+                case .fetchFailed(let isServerError):
+                    if isServerError {
+                        showOneButtonAlert(with: "Server Error", for: "관리자에게 문의하세요.", storingIn: &subscriptions)
+                    } else {
+                        showOneButtonAlert(with: "잠시 후 다시 시도해주세요.", storingIn: &subscriptions)
+                    }
                 case .updateContent(let conceptArr):
                     self.conceptArr = conceptArr
                     updateCollectionViewHeight()
-                case .moveToDailyTest(let isRetest):
-                    // modal will be added
-                    print("MOVE TO DAILY TEST")
-                case .moveToDailyTestResult:
-                    print("MOVE TO DAILY TEST RESULT")
+                case .moveToDailyTest(let type, let day):
+                    navigationController?.pushViewController(
+                        DailyTestViewController(
+                            viewModel: DailyTestViewModel(
+                                dailyTestType: type,
+                                day: day,
+                                dailyService: DailyServiceImpl())), animated: true)
+                case .showRetestAlert:
+                    present(retestAlertViewController, animated: true)
+                case .moveToDailyTestResult(let type, let day):
+                    navigationController?.pushViewController(
+                        DailyResultViewController(
+                            viewModel: DailyResultViewModel(
+                                dailyTestType: type,
+                                day: day,
+                                dailyService: DailyServiceImpl())), animated: true)
+                case .moveToConcept(let conceptIdx):
+                    navigationController?.pushViewController(ConceptPDFViewController(
+                        conceptPDFViewModel: ConceptPDFViewModel(
+                            chapter: SurveyCheckList.getChapter(conceptIdx - 1),
+                            conceptItem: SurveyCheckList.getConceptItem(conceptIdx - 1))), animated: true)
+                case .dismissAlert:
+                    retestAlertViewController.dismiss(animated: true)
                 }
             }
             .store(in: &subscriptions)
+    }
+    
+    private func setAlertButtonActions() {
+        let confirmAction = UIAction { [weak self] _ in
+            guard let self = self else { return }
+            self.input.send(.alertMoveClicked)
+        }
+        
+        let cancelAction = UIAction { [weak self] _ in
+            guard let self = self else { return }
+            self.input.send(.alertCancelClicked)
+        }
+        
+        retestAlertViewController.setupButtonActions(confirmAction: confirmAction, cancelAction: cancelAction)
     }
     
     private func setTitleLabels(type: DailyLearnType) {
@@ -109,8 +152,13 @@ final class DailyLearnViewController: UIViewController {
         }
     }
     
-    private func setNavigatorButton(state: DailyTestState, type: DailyLearnType, score: Int?) {
+    private func setNavigatorButton(state: DailyTestState, type: DailyLearnType, score: Double?) {
         testNavigator.setDailyUI(state: state, type: type, score: score)
+        testNavigator.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(sendTestNavigatorClicked)))
+    }
+    
+    @objc private func sendTestNavigatorClicked() {
+        input.send(.testNavigatorButtonClicked)
     }
     
     private func setCollectionViewDataSourceAndDelegate() {
@@ -134,8 +182,8 @@ extension DailyLearnViewController: UICollectionViewDataSource {
             return UICollectionViewCell()
         }
 
-        cell.setLabelText(titleText: "\(indexPath.item + 1). \(conceptArr[indexPath.item].0)",
-                          descriptionText: "·  \(conceptArr[indexPath.item].1)")
+        cell.setLabelText(titleText: "\(SurveyCheckList.list[conceptArr[indexPath.item].0 - 1])",
+                          descriptionText: "\(conceptArr[indexPath.item].1)")
 
         return cell
     }
@@ -156,7 +204,7 @@ extension DailyLearnViewController: UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         if conceptArr.count != 0 {
-            print(conceptArr[indexPath.item].0)
+            input.send(.toConceptClicked(conceptIdx: conceptArr[indexPath.row].0))
         }
     }
 }
@@ -199,15 +247,15 @@ extension DailyLearnViewController {
             studyContentView.leadingAnchor.constraint(equalTo: scrollInnerView.leadingAnchor, constant: 18),
             studyContentView.trailingAnchor.constraint(equalTo: scrollInnerView.trailingAnchor, constant: -18),
             
-            testSubtextLabel.topAnchor.constraint(equalTo: studyContentView.bottomAnchor, constant: 32),
-            testSubtextLabel.leadingAnchor.constraint(equalTo: scrollInnerView.leadingAnchor, constant: 18),
-            testSubtextLabel.trailingAnchor.constraint(equalTo: scrollInnerView.trailingAnchor, constant: 18),
-            
-            relatedTestTitleLabel.topAnchor.constraint(equalTo: testSubtextLabel.bottomAnchor, constant: 19),
+            relatedTestTitleLabel.topAnchor.constraint(equalTo: studyContentView.bottomAnchor, constant: 32),
             relatedTestTitleLabel.leadingAnchor.constraint(equalTo: scrollInnerView.leadingAnchor, constant: 18),
             relatedTestTitleLabel.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor, constant: -18),
             
-            testNavigator.topAnchor.constraint(equalTo: relatedTestTitleLabel.bottomAnchor, constant: 18),
+            testSubtextLabel.topAnchor.constraint(equalTo: relatedTestTitleLabel.bottomAnchor, constant: 19),
+            testSubtextLabel.leadingAnchor.constraint(equalTo: scrollInnerView.leadingAnchor, constant: 18),
+            testSubtextLabel.trailingAnchor.constraint(equalTo: scrollInnerView.trailingAnchor, constant: 18),
+            
+            testNavigator.topAnchor.constraint(equalTo: testSubtextLabel.bottomAnchor, constant: 18),
             testNavigator.leadingAnchor.constraint(equalTo: scrollInnerView.leadingAnchor, constant: 18),
             testNavigator.trailingAnchor.constraint(equalTo: scrollInnerView.trailingAnchor, constant: -18),
             testNavigator.bottomAnchor.constraint(equalTo: scrollInnerView.bottomAnchor, constant: -100)

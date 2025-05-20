@@ -14,32 +14,42 @@ final class DailyLearnViewModel {
     enum Input {
         case viewDidLoad
         case testNavigatorButtonClicked
+        case toConceptClicked(conceptIdx: Int)
+        case alertMoveClicked
+        case alertCancelClicked
     }
     
     enum Output {
         case fetchSuccess(state: DailyTestState,
                           type: DailyLearnType,
-                          score: Int?
+                          score: Double?
         )
-        case updateContent(conceptArr: [(String, String)])
-        case fetchFailed
-        case moveToDailyTest(isRetest: Bool)
-        case moveToDailyTestResult
+        case updateContent(conceptArr: [(Int, String)])
+        case fetchFailed(isServerError: Bool)
+        case moveToDailyTest(type: DailyLearnType, day: Int)
+        case showRetestAlert
+        case moveToDailyTestResult(type: DailyLearnType, day: Int)
+        case moveToConcept(conceptIdx: Int)
+        case dismissAlert
     }
     
     // MARK: - Properties
-    private var day: Int
+    private let day: Int
+    private let type: DailyLearnType
     private var state: DailyTestState = .unavailable
-    private var type: DailyLearnType = .daily
-    private var score: Int? = nil
-    private var conceptArr: [(String, String)] = []
+    private var score: Double? = nil
+    private var conceptArr: [(Int, String)] = []
     
     private let output: PassthroughSubject<Output, Never> = .init()
     private var subscriptions = Set<AnyCancellable>()
     
+    private let dailyService: DailyService
+    
     // MARK: - Intiailizer
-    init(day: Int) {
+    init(day: Int, type: DailyLearnType, dailyService: DailyService) {
         self.day = day
+        self.type = type
+        self.dailyService = dailyService
     }
     
     // MARK: - Methods
@@ -51,6 +61,13 @@ final class DailyLearnViewModel {
                 fetchData()
             case .testNavigatorButtonClicked:
                 handleNavigateAction()
+            case .toConceptClicked(let conceptIdx):
+                output.send(.moveToConcept(conceptIdx: conceptIdx))
+            case .alertMoveClicked:
+                output.send(.dismissAlert)
+                output.send(.moveToDailyTest(type: type, day: day))
+            case .alertCancelClicked:
+                output.send(.dismissAlert)
             }
         }
         .store(in: &subscriptions)
@@ -58,20 +75,51 @@ final class DailyLearnViewModel {
     }
     
     private func fetchData() {
-        requestMockData()
-        // will be replaced to network code && update properties
-        output.send(.fetchSuccess(state: state, type: type, score: score))
-        output.send(.updateContent(conceptArr: conceptArr))
+        Task {
+            do {
+                let response = try await dailyService.getDailyDetailAndStatus(dayNumber: day)
+                let status = response.data.status
+
+                setTestState(attemptCount: status.attemptCount,
+                             passed: status.passed,
+                             retestEligible: status.retestEligible,
+                             available: status.available)
+                setTestScore(attemptCount: status.attemptCount, score: status.totalScore)
+                response.data.skills.forEach {
+                    conceptArr.append(($0.id, $0.description))
+                }
+                output.send(.fetchSuccess(state: state, type: type, score: score))
+                output.send(.updateContent(conceptArr: conceptArr))
+            } catch NetworkError.serverError {
+                output.send(.fetchFailed(isServerError: true))
+            } catch {
+                output.send(.fetchFailed(isServerError: false))
+            }
+        }
     }
     
-    private func requestMockData() {
-        state = .retestRequired
-        type = .daily
-        score = 30
-        conceptArr = [
-            ("데이터 모델의 이해", "JOIN은 두 개 이상의 테이블을 연결하여 데이터를 출력하는 것을 의미한다."),
-            ("엔터티", "JOIN은 두 개 이상의 테이블을 연결하여 데이터를 출력하는 것을 의미한다.")
-        ]
+    private func setTestState(attemptCount: Int, passed: Bool, retestEligible: Bool, available: Bool) {
+        if !available {
+            state = .unavailable
+            return
+        }
+        if passed {
+            state = .passed
+            return
+        }
+        if retestEligible {
+            state = .retestRequired
+            return
+        }
+        if attemptCount == 0 {
+            state = .zeroAttempt
+            return
+        }
+        state = .failed
+    }
+    
+    private func setTestScore(attemptCount: Int, score: CGFloat) {
+        self.score = attemptCount > 0 ? score : nil
     }
     
     private func handleNavigateAction() {
@@ -79,11 +127,11 @@ final class DailyLearnViewModel {
         case .unavailable:
             return
         case .zeroAttempt:
-            output.send(.moveToDailyTest(isRetest: false))
+            output.send(.moveToDailyTest(type: type, day: day))
         case .retestRequired:
-            output.send(.moveToDailyTest(isRetest: true))
+            output.send(.showRetestAlert)
         case .passed, .failed:
-            output.send(.moveToDailyTestResult)
+            output.send(.moveToDailyTestResult(type: type, day: day))
         }
     }
 }

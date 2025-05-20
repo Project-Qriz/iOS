@@ -180,8 +180,7 @@ extension PreviewTestViewModel {
         if timeRemaining >= 0 {
             output.send(.updateTime(timeLimit: totalTimeLimit, timeRemaining: timeRemaining))
         } else {
-            // send result
-            output.send(.moveToPreviewResult)
+            submitHandler()
             exitTimer()
         }
     }
