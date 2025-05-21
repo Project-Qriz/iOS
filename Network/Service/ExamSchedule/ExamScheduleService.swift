@@ -13,7 +13,12 @@ protocol ExamScheduleService {
     
     /// 시험 접수 목록 조회
     func fetchExamList() async throws -> ExamListResponse
-
+    
+    /// 시험 접수 신청
+    func applyExamSchedule(applyId: Int) async throws -> ApplyExamScheduleResponse
+    
+    /// 시험 일정 변경
+    func updateExamSchedule(userApplyId: Int, newApplyId: Int) async throws -> UpdateExamScheduleResponse
 }
 
 final class ExamScheduleServiceImpl: ExamScheduleService {
@@ -44,6 +49,22 @@ final class ExamScheduleServiceImpl: ExamScheduleService {
     func fetchExamList() async throws -> ExamListResponse {
         let access = keychain.retrieveToken(forKey: HTTPHeaderField.accessToken.rawValue) ?? ""
         let request = ExamListRequest(accessToken: access)
+        return try await network.send(request)
+    }
+    
+    func applyExamSchedule(applyId: Int) async throws -> ApplyExamScheduleResponse {
+        let access = keychain.retrieveToken(forKey: HTTPHeaderField.accessToken.rawValue) ?? ""
+        let request = ApplyExamScheduleRequest(accessToken: access, applyId: applyId)
+        return try await network.send(request)
+    }
+    
+    func updateExamSchedule(userApplyId: Int, newApplyId: Int) async throws -> UpdateExamScheduleResponse {
+        let access = keychain.retrieveToken(forKey: HTTPHeaderField.accessToken.rawValue) ?? ""
+        let request = UpdateExamScheduleRequest(
+            accessToken: access,
+            userApplyId: userApplyId,
+            newApplyId: newApplyId
+        )
         return try await network.send(request)
     }
 }
