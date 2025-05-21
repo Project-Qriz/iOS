@@ -146,11 +146,12 @@ final class ExamScheduleRegisteredCell: UICollectionViewCell {
     }
     
     func configure(userName: String, dday: Int, detail: ExamScheduleItem.Kind.Detail) {
-        titleLabel.text = "\(userName)님이\n등록한 시험까지"
+        let title = "\(userName)님이\n등록한 시험까지"
+        titleLabel.attributedText = UILabel.setLineSpacing(6, text: title)
         numberBox.setText("\(dday)")
-        examDateLabel.text = detail.examDateText
+        examDateLabel.text = "시험일: \(detail.examDateText)"
         examNameLabel.text = detail.examName
-        periodLabel.text   = detail.applyPeriod
+        periodLabel.text = "접수기간: \(detail.applyPeriod)"
     }
 }
 

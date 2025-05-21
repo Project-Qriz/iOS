@@ -51,9 +51,7 @@ final class HomeViewModel {
                 examName: data.examName,
                 applyPeriod: data.period
             )
-            
-            let dDay = calcDDay(from: data.examDate)
-            
+            let dDay = remainingDays(from: data.examDate)
             let item = ExamScheduleItem(userName: "세훈", kind: .registered(dDay: dDay, detail: detail))
             
             outputSubject.send(.showRegistered(item: item))
@@ -64,18 +62,6 @@ final class HomeViewModel {
             outputSubject.send(.showErrorAlert("잠시 후 다시 시도해 주세요."))
             logger.error("Unhandled error in loadExamSchedule: \(error.localizedDescription, privacy: .public)")
         }
-    }
-    
-    func calcDDay(from dateString: String) -> Int {
-        let formatter = DateFormatter()
-        formatter.locale = Locale(identifier: "ko_KR")
-        formatter.timeZone = TimeZone(identifier: "Asia/Seoul")
-        formatter.dateFormat = "M월 d일(EEE)"
-        
-        guard let examDate = formatter.date(from: dateString) else { return 0 }
-        let today  = Calendar.current.startOfDay(for: Date())
-        let target = Calendar.current.startOfDay(for: examDate)
-        return Calendar.current.dateComponents([.day], from: today, to: target).day ?? 0
     }
     
     private func handleNetworkError(_ error: NetworkError) {
@@ -90,6 +76,33 @@ final class HomeViewModel {
             outputSubject.send(.showErrorAlert(error.errorMessage))
         }
         logger.error("NetworkError in loadExamSchedule: \(error.description, privacy: .public)")
+    }
+    
+    /// 시험일까지 남은 일수를 계산해주는 메서드입니다.
+    private func remainingDays(from dateString: String) -> Int {
+        let trimmed = dateString.split(separator: "(").first.map(String.init) ?? dateString
+        let formatter = DateFormatter()
+        formatter.locale = Locale(identifier: "ko_KR")
+        formatter.timeZone = TimeZone(identifier: "Asia/Seoul")
+        formatter.dateFormat = "M월 d일"
+        
+        guard
+            let mdDate = formatter.date(from: trimmed),
+            let md = Calendar.current.dateComponents([.month, .day], from: mdDate) as DateComponents?
+        else { return 0 }
+        
+        let components = DateComponents(
+            calendar: Calendar.current,
+            timeZone: TimeZone(identifier: "Asia/Seoul"),
+            year: Calendar.current.component(.year, from: Date()),
+            month: md.month,
+            day: md.day
+        )
+        guard let target = components.date else { return 0 }
+        
+        let today = Calendar.current.startOfDay(for: Date())
+        let diff = Calendar.current.dateComponents([.day], from: today, to: target).day ?? 0
+        return max(diff, 0)
     }
 }
 
