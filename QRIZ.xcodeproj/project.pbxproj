@@ -1069,29 +1069,6 @@
 			path = ViewModel;
 			sourceTree = "<group>";
 		};
-		E22341B02DD4D36100A67D04 /* ExamTest */ = {
-			isa = PBXGroup;
-			children = (
-				E22341B22DD4D36E00A67D04 /* ViewController */,
-				E22341B12DD4D36700A67D04 /* ViewModel */,
-			);
-			path = ExamTest;
-			sourceTree = "<group>";
-		};
-		E22341B12DD4D36700A67D04 /* ViewModel */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = ViewModel;
-			sourceTree = "<group>";
-		};
-		E22341B22DD4D36E00A67D04 /* ViewController */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = ViewController;
-			sourceTree = "<group>";
-		};
 		E23824DF2D0C1FA7009E7989 /* Onboarding */ = {
 			isa = PBXGroup;
 			children = (
@@ -1290,7 +1267,6 @@
 		E258577D2DD0939500AE174C /* Exam */ = {
 			isa = PBXGroup;
 			children = (
-				E22341B02DD4D36100A67D04 /* ExamTest */,
 				E22341A92DD4C26300A67D04 /* ExamSummary */,
 				E25857822DD09E9800AE174C /* ExamList */,
 			);
