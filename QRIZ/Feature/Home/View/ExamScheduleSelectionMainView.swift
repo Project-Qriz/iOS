@@ -23,6 +23,13 @@ final class ExamScheduleSelectionMainView: UIView {
     
     // MARK: - Properties
     
+    private let examTappedSubject = PassthroughSubject<Int, Never>()
+    private var cancellables = Set<AnyCancellable>()
+    
+    var examTappedPublisher: AnyPublisher<Int, Never> {
+        examTappedSubject.eraseToAnyPublisher()
+    }
+    
     // MARK: - UI
     
     private let titleLabel: UILabel = {
@@ -60,14 +67,24 @@ final class ExamScheduleSelectionMainView: UIView {
     }
     
     func updateExamList(rows: [ExamRowState]) {
+        cancellables.removeAll()
         listVStackView.arrangedSubviews.forEach { $0.removeFromSuperview() }
         
         rows.forEach { state in
             let row = ExamInfoRowView()
             row.configure(with: state)
             listVStackView.addArrangedSubview(row)
+            
+            guard state.isExpired == false else { return }
+            
+            row.tapGestureEndedPublisher()
+                .sink { [weak self] in
+                    self?.examTappedSubject.send(state.id)
+                }
+                .store(in: &cancellables)
         }
-    }}
+    }
+}
 
 // MARK: - Layout Setup
 

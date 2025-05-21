@@ -14,7 +14,6 @@ final class ExamScheduleSelectionViewController: UIViewController {
     
     private let rootView: ExamScheduleSelectionMainView
     private let examScheduleSelectionVM: ExamScheduleSelectionViewModel
-    private let inputSubject = PassthroughSubject<ExamScheduleSelectionViewModel.Input, Never>()
     private var cancellables = Set<AnyCancellable>()
     
     // MARK: - Initialize
@@ -34,7 +33,6 @@ final class ExamScheduleSelectionViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         bind()
-        inputSubject.send(.viewDidLoad)
     }
     
     override func loadView() {
@@ -44,7 +42,18 @@ final class ExamScheduleSelectionViewController: UIViewController {
     // MARK: - Functions
     
     private func bind() {
-        let output = examScheduleSelectionVM.transform(input: inputSubject.eraseToAnyPublisher())
+        let viewDidLoad = Just(ExamScheduleSelectionViewModel.Input.viewDidLoad)
+            .eraseToAnyPublisher()
+        
+        let examTapped = rootView.examTappedPublisher
+            .map { ExamScheduleSelectionViewModel.Input.examTapped($0) }
+            .eraseToAnyPublisher()
+        
+        let input = viewDidLoad
+            .merge(with: examTapped)
+            .eraseToAnyPublisher()
+        
+        let output = examScheduleSelectionVM.transform(input: input)
         
         output
             .sink { [weak self] output in

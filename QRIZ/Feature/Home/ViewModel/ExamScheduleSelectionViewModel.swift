@@ -18,6 +18,9 @@ final class ExamScheduleSelectionViewModel {
     private var cancellables = Set<AnyCancellable>()
     private let logger = Logger(subsystem: Bundle.main.bundleIdentifier ?? "kr.QRIZ", category: "ExamScheduleSelectionViewModel")
     
+    private var registeredApplicationId: Int?
+    private var registeredUserApplyId: Int?
+    
     // MARK: - Initialize
     
     init(examScheduleService: ExamScheduleService) {
@@ -33,6 +36,9 @@ final class ExamScheduleSelectionViewModel {
                 switch event {
                 case .viewDidLoad:
                     Task { await self.loadExamList() }
+                    
+                case .examTapped(let id):
+                    Task { await self.handleExamTapped(id: id) }
                 }
             }
             .store(in: &cancellables)
@@ -44,7 +50,11 @@ final class ExamScheduleSelectionViewModel {
     @MainActor
     private func loadExamList() async {
         do {
-            let rows = try await examScheduleService.fetchExamList().convert()
+            let response = try await examScheduleService.fetchExamList()
+            registeredApplicationId = response.data.registeredApplicationId
+            registeredUserApplyId = response.data.registeredUserApplyId
+            
+            let rows = response.convert()
             outputSubject.send(.loadExamList(rows: rows))
             
         } catch let error as NetworkError {
@@ -56,11 +66,38 @@ final class ExamScheduleSelectionViewModel {
             logger.error("Unhandled error(fetchExamList): \(error.localizedDescription, privacy: .public)")
         }
     }
+    
+    @MainActor
+    private func handleExamTapped(id: Int) async {
+        guard id != registeredApplicationId else { return }
+        
+        do {
+            if let userApplyId = registeredUserApplyId {
+                _ = try await examScheduleService.updateExamSchedule(
+                    userApplyId: userApplyId,
+                    newApplyId: id
+                )
+            } else {
+                _ = try await examScheduleService.applyExamSchedule(applyId: id)
+            }
+            
+            await loadExamList()
+            
+        } catch let error as NetworkError {
+            outputSubject.send(.showErrorAlert(error.errorMessage))
+            logger.error("NetworkError(fetchExamDetail): \(error.description, privacy: .public)")
+            
+        } catch {
+            outputSubject.send(.showErrorAlert("시험 정보를 불러오지 못했습니다."))
+            logger.error("Unhandled error(fetchExamDetail): \(error.localizedDescription, privacy: .public)")
+        }
+    }
 }
 
 extension ExamScheduleSelectionViewModel {
     enum Input {
         case viewDidLoad
+        case examTapped(Int)
     }
     
     enum Output {

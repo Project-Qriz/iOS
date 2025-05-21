@@ -22,10 +22,6 @@ final class ExamInfoRowView: UIView {
         static let statusImage: String = "record.circle.fill"
     }
     
-    // MARK: - Properties
-    
-    private var applyId: Int?
-    
     // MARK: - UI
     
     private let separator: UIView = {
@@ -94,7 +90,6 @@ final class ExamInfoRowView: UIView {
     }
     
     func configure(with state: ExamRowState) {
-        self.applyId = state.id
         setTexts(
             name: state.examName,
             period: state.periodText,
