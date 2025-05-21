@@ -52,5 +52,5 @@ struct ExamListResponse: Decodable {
 struct ExamListDataInfo: Decodable {
     let completed: Bool
     let session: String
-    let totalScore: CGFloat?
+    let totalScore: Double?
 }
