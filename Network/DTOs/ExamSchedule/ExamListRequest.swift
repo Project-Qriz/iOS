@@ -11,7 +11,7 @@ struct ExamListRequest: Request {
     typealias Response = ExamListResponse
 
     let accessToken: String
-    let path = "/api/v1/application-list"
+    let path = "/api/v1/applications"
     let method: HTTPMethod = .get
 
     var headers: HTTPHeader {
@@ -30,11 +30,13 @@ struct ExamListResponse: Decodable {
 
 struct ExamListData: Decodable {
     let registeredApplicationId: Int?
+    let registeredUserApplyId: Int?
     let applications: [ExamInfo]
 }
 
 struct ExamInfo: Decodable {
-    let applyId: Int
+    let applicationId: Int
+    let userApplyId: Int?
     let examName: String
     let period: String
     let examDate: String
@@ -48,11 +50,11 @@ extension ExamListResponse {
         return data.applications.map { info in
             let examMD = monthDay(from: info.examDate) ?? .max
             return ExamRowState(
-                id:         info.applyId,
+                id:         info.applicationId,
                 examName:   info.examName,
                 periodText: "접수기간: \(info.period)",
                 dateText:   "시험일: \(info.examDate)",
-                isSelected: info.applyId == data.registeredApplicationId,
+                isSelected: info.applicationId == data.registeredApplicationId,
                 isExpired:  examMD < todayMD
             )
         }

@@ -11,7 +11,7 @@ struct AppliedExamsRequest: Request {
     typealias Response = AppliedExamsResponse
 
     let accessToken: String
-    let path = "/api/v1/applied"
+    let path = "/api/v1/applications/applied"
     let method: HTTPMethod = .get
 
     var headers: HTTPHeader {
