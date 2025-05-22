@@ -13,6 +13,7 @@ final class ExamScheduleSelectionViewModel {
     
     // MARK: - Properties
     
+    weak var delegate: ExamSelectionDelegate?
     private let examScheduleService: ExamScheduleService
     private let outputSubject: PassthroughSubject<Output, Never> = .init()
     private var cancellables = Set<AnyCancellable>()
@@ -82,6 +83,7 @@ final class ExamScheduleSelectionViewModel {
             }
             
             await loadExamList()
+            delegate?.didUpdateExamSchedule()
             
         } catch let error as NetworkError {
             outputSubject.send(.showErrorAlert(error.errorMessage))

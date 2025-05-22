@@ -13,10 +13,17 @@ protocol HomeCoordinator: Coordinator {
 }
 
 @MainActor
+protocol ExamSelectionDelegate: AnyObject {
+    /// 시험을 등록 및 업데이트 시 호출되는 델리게이트
+    func didUpdateExamSchedule()
+}
+
+@MainActor
 final class HomeCoordinatorImp: HomeCoordinator {
     
-    private let examService: ExamScheduleService
     private weak var navigationController: UINavigationController?
+    private let examService: ExamScheduleService
+    private var homeVM: HomeViewModel?
     var childCoordinators: [Coordinator] = []
     
     init(examService: ExamScheduleService) {
@@ -24,8 +31,9 @@ final class HomeCoordinatorImp: HomeCoordinator {
     }
     
     func start() -> UIViewController {
-        let homeVM = HomeViewModel(examScheduleService: examService)
-        let homeVC = HomeViewController(homeVM: homeVM)
+        let viewModel = HomeViewModel(examScheduleService: examService)
+        homeVM = viewModel
+        let homeVC = HomeViewController(homeVM: viewModel)
         let navi = UINavigationController(rootViewController: homeVC)
         homeVC.coordinator = self
         navigationController = navi
@@ -33,8 +41,9 @@ final class HomeCoordinatorImp: HomeCoordinator {
     }
     
     func showExamSelectionSheet() {
-        let vm = ExamScheduleSelectionViewModel(examScheduleService: examService)
-        let vc = ExamScheduleSelectionViewController(examScheduleSelectionVM: vm)
+        let viewModel = ExamScheduleSelectionViewModel(examScheduleService: examService)
+        let vc = ExamScheduleSelectionViewController(examScheduleSelectionVM: viewModel)
+        viewModel.delegate = self
         vc.modalPresentationStyle = .pageSheet
         
         if let sheet = vc.sheetPresentationController {
@@ -50,5 +59,13 @@ final class HomeCoordinatorImp: HomeCoordinator {
         }
         
         navigationController?.present(vc, animated: true)
+    }
+}
+
+// MARK: - ExamSelectionDelegate
+
+extension HomeCoordinatorImp: ExamSelectionDelegate {
+    func didUpdateExamSchedule() {
+        homeVM?.reloadExamSchedule()
     }
 }

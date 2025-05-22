@@ -118,3 +118,10 @@ extension HomeViewModel {
         case showErrorAlert(String)
     }
 }
+
+extension HomeViewModel {
+    @MainActor
+    func reloadExamSchedule() {
+        Task { await loadExamSchedule() }
+    }
+}
