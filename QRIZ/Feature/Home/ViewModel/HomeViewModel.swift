@@ -40,6 +40,8 @@ final class HomeViewModel {
         return outputSubject.eraseToAnyPublisher()
     }
     
+    // TODO: - 사용자 정보(userName) API 추후에 연동 필요
+    
     @MainActor
     private func loadExamSchedule() async {
         do {
