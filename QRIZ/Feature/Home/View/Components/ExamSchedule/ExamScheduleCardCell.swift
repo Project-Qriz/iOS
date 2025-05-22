@@ -105,7 +105,7 @@ final class ExamScheduleCardCell: UICollectionViewCell {
     
     func configure(userName: String? = nil, statusText: String) {
         let titleText = userName != nil ? "\(userName!)님의\n시험 일정을 등록해보세요!" : "앗,\n등록했던 시험일이 지났어요."
-        titleLabel.text = titleText
+        titleLabel.attributedText = UILabel.setLineSpacing(6, text: titleText)
         statusLabel.text = statusText
     }
 }
