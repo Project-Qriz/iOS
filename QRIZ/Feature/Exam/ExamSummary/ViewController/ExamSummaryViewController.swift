@@ -66,7 +66,13 @@ final class ExamSummaryViewController: UIViewController {
                 guard let self = self else { return }
                 switch event {
                 case .moveToExam(let examId):
-                    print("MOVE TO EXAM : \(examId)")
+                    let vc = UINavigationController(
+                        rootViewController: ExamTestViewController(
+                            viewModel: ExamTestViewModel(
+                            examId: examId,
+                            examService: ExamServiceImpl())))
+                    vc.modalPresentationStyle = .fullScreen
+                    present(vc, animated: true)
                 }
             }
             .store(in: &subscriptions)
