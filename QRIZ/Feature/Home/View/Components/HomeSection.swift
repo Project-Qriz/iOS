@@ -41,7 +41,7 @@ enum HomeLayoutFactory {
         static let estimated: CGFloat = 364.0
     }
     
-    // MARK: - Fuinctions
+    // MARK: - Functions
     
     static func examSchedule() -> NSCollectionLayoutSection {
         let itemSize = NSCollectionLayoutSize(
