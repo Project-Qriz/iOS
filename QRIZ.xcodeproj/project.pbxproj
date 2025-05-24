@@ -442,10 +442,10 @@
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
+		B13048972DE1E6370036EBE2 /* Home */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Home; sourceTree = "<group>"; };
 		B159A1292DA27AE6001153B5 /* Service */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Service; sourceTree = "<group>"; };
 		B17D6ABB2D9146C90023FCA5 /* FindAccount */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = FindAccount; sourceTree = "<group>"; };
 		B18729F32DB5E5FB0050811C /* PDF */ = {isa = PBXFileSystemSynchronizedRootGroup; exceptions = (B1872A172DB68F100050811C /* PBXFileSystemSynchronizedBuildFileExceptionSet */, ); explicitFileTypes = {}; explicitFolders = (); path = PDF; sourceTree = "<group>"; };
-		B18CDBF52DCCF82800DD361A /* Model */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Model; sourceTree = "<group>"; };
 		B190A2D92DBBC7C6008FDE86 /* View */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = View; sourceTree = "<group>"; };
 		B190A2E62DC2A2EB008FDE86 /* ExamSchedule */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = ExamSchedule; sourceTree = "<group>"; };
 		B190A2E92DC2ADCA008FDE86 /* ExamSchedule */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = ExamSchedule; sourceTree = "<group>"; };
@@ -598,7 +598,6 @@
 				B190A2D92DBBC7C6008FDE86 /* View */,
 				B190A2EE2DC4EAAD008FDE86 /* ViewController */,
 				B190A2EF2DC4EAC5008FDE86 /* ViewModel */,
-				B18CDBF52DCCF82800DD361A /* Model */,
 				B1D813702D6E0C1F00A9D447 /* HomeCoordinator.swift */,
 			);
 			path = Home;
@@ -1241,6 +1240,7 @@
 		E29BF8532D117CD5006DC6D0 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				B13048972DE1E6370036EBE2 /* Home */,
 				E24907D62D61A26D004D6E61 /* DailyLearnModel */,
 				E29BF86B2D16894C006DC6D0 /* TestModel */,
 				E29BF85A2D11D3B2006DC6D0 /* OnboardingModel */,
@@ -1485,7 +1485,7 @@
 			dependencies = (
 			);
 			fileSystemSynchronizedGroups = (
-				B18CDBF52DCCF82800DD361A /* Model */,
+				B13048972DE1E6370036EBE2 /* Home */,
 				B190A2D92DBBC7C6008FDE86 /* View */,
 				B190A2E62DC2A2EB008FDE86 /* ExamSchedule */,
 				B190A2E92DC2ADCA008FDE86 /* ExamSchedule */,
