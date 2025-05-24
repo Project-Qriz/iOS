@@ -28,8 +28,10 @@ protocol TabBarCoordinatorDependency {
 @MainActor
 final class TabBarCoordinatorDependencyImp: TabBarCoordinatorDependency {
     
+    private let examService: ExamScheduleService
+    
     var homeCoordinator: HomeCoordinator {
-        return HomeCoordinatorImp()
+        return HomeCoordinatorImp(examService: examService)
     }
     
     var conceptBookCoordinator: ConceptBookCoordinator {
@@ -42,6 +44,10 @@ final class TabBarCoordinatorDependencyImp: TabBarCoordinatorDependency {
     
     var myPageCoordinator: MyPageCoordinator {
         return MyPageCoordinatorImp()
+    }
+    
+    init(examService: ExamScheduleService) {
+        self.examService = examService
     }
 }
 
