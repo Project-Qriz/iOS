@@ -30,7 +30,7 @@ final class ExamTestViewModel {
         case updateOptionState(optionIdx: Int, isSelected: Bool)
         case updatePrevButton(isVisible: Bool)
         case updateNextButton(isVisible: Bool, isTextSubmit: Bool)
-        case moveToExamResult
+        case moveToExamResult(examId: Int)
         case moveToExamList
         case popSubmitAlert
         case cancelAlert
@@ -132,7 +132,7 @@ final class ExamTestViewModel {
                 let _ = try await examService.submitTest(examId: examId, testSubmitData: submitData)
                 exitTimer()
                 output.send(.submitSuccess)
-                output.send(.moveToExamResult)
+                output.send(.moveToExamResult(examId: examId))
             } catch NetworkError.serverError {
                 output.send(.fetchFailed(isServerError: true))
             } catch {

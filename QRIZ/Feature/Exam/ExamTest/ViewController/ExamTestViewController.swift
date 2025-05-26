@@ -92,9 +92,9 @@ final class ExamTestViewController: UIViewController {
                     footerView.updatePrevButton(isVisible: isVisible)
                 case .updateNextButton(let isVisible, let isTextSubmit):
                     footerView.updateNextButton(isVisible: isVisible, isTextSubmit: isTextSubmit)
-                case .moveToExamResult:
+                case .moveToExamResult(let examId):
                     removeNavigationItems()
-//                    self.navigationController?.pushViewController(ExamResultViewController, animated: true)
+                    self.navigationController?.pushViewController(ExamResultViewController(viewModel: ExamResultViewModel(examId: examId, examService: ExamServiceImpl())), animated: true)
                 case .moveToExamList:
                     removeNavigationItems()
                     self.dismiss(animated: true)

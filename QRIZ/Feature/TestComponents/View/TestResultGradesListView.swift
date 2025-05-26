@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct DailyResultGradesListView: View {
+struct TestResultGradesListView: View {
     
     @ObservedObject var resultGradeListData: ResultGradeListData
     
@@ -30,5 +30,5 @@ struct DailyResultGradesListView: View {
 }
 
 #Preview {
-    DailyResultGradesListView(resultGradeListData: ResultGradeListData())
+    TestResultGradesListView(resultGradeListData: ResultGradeListData())
 }

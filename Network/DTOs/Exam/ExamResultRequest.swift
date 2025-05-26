@@ -50,16 +50,16 @@ struct ExamResultResponse: Decodable {
         let question: String
         let correction: Bool
     }
+}
+
+struct HistoricalScore: Decodable {
+    let completionDateTime: String
+    let itemScores: [ItemScore]
+    let attemptCount: Int
+    let displayDate: String
     
-    struct HistoricalScore: Decodable {
-        let completionDate: String
-        let itemScores: [ItemScore]
-        let attemptCount: Int
-        let displayDate: String
-        
-        struct ItemScore: Decodable {
-            let type: String
-            let score: CGFloat
-        }
+    struct ItemScore: Decodable {
+        let type: String
+        let score: CGFloat
     }
 }

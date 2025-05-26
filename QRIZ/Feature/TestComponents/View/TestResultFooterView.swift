@@ -8,7 +8,7 @@
 import SwiftUI
 import Combine
 
-struct DailyResultFooterView: View {
+struct TestResultFooterView: View {
     
     @ObservedObject var resultScoresData: ResultScoresData
     
@@ -42,5 +42,5 @@ struct DailyResultFooterView: View {
 }
 
 #Preview {
-    DailyResultFooterView(resultScoresData: ResultScoresData())
+    TestResultFooterView(resultScoresData: ResultScoresData())
 }

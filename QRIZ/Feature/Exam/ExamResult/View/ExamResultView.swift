@@ -1,28 +1,26 @@
 //
-//  DailyResultView.swift
+//  ExamResultView.swift
 //  QRIZ
 //
-//  Created by 이창현 on 4/16/25.
+//  Created by 이창현 on 5/26/25.
 //
 
 import SwiftUI
 import Combine
 
-struct DailyResultView: View {
+struct ExamResultView: View {
     
     @StateObject var resultScoresData: ResultScoresData
     @StateObject var resultGradeListData: ResultGradeListData
     @StateObject var resultDetailData: ResultDetailData
-    @State var dailyLearnType: DailyLearnType
     
-    let input: PassthroughSubject<DailyResultViewModel.Input, Never> = .init()
+    let input: PassthroughSubject<ExamResultViewModel.Input, Never> = .init()
     
     var body: some View {
         ScrollView(.vertical) {
             LazyVStack(spacing: 0) {
-                DailyResultScoreView(resultScoresData: resultScoresData,
+                ExamResultScoreView(resultScoresData: resultScoresData,
                                      resultDetailData: resultDetailData,
-                                     dailyLearnType: $dailyLearnType,
                                      input: input)
                 Spacer(minLength: 16)
                 TestResultGradesListView(resultGradeListData: resultGradeListData)
@@ -35,5 +33,5 @@ struct DailyResultView: View {
 }
 
 #Preview {
-    DailyResultView(resultScoresData: ResultScoresData(), resultGradeListData: ResultGradeListData(), resultDetailData: ResultDetailData(), dailyLearnType: .daily)
+    ExamResultView(resultScoresData: ResultScoresData(), resultGradeListData: ResultGradeListData(), resultDetailData: ResultDetailData())
 }

@@ -19,7 +19,7 @@ struct DailyResultScoreView: View {
     var body: some View {
         VStack(spacing: 24) {
             HStack {
-                Text("채영님의\n").font(.system(size: 20, weight: .regular)) +
+                Text("\(resultScoresData.nickname) 님의\n").font(.system(size: 20, weight: .regular)) +
                 Text("\(dailyLearnType.rawValue) 결과").font(.system(size: 20, weight: .bold)) +
                 Text("에요!").font(.system(size: 20, weight: .regular))
                 
