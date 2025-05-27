@@ -34,6 +34,11 @@ final class HomeMainView: UIView {
             forCellWithReuseIdentifier: String(describing: ExamScheduleRegisteredCell.self)
         )
         
+        collectionView.register(
+            ExamEntryCardCell.self,
+            forCellWithReuseIdentifier: String(describing: ExamEntryCardCell.self)
+        )
+        
         return collectionView
     }()
     
@@ -73,6 +78,14 @@ final class HomeMainView: UIView {
                         .store(in: &cell.cancellables)
                     return cell
                 }
+                
+            case let .examEntry(state):
+                let cell = collectionView.dequeueReusableCell(
+                    withReuseIdentifier: String(describing: ExamEntryCardCell.self),
+                    for: indexPath
+                ) as! ExamEntryCardCell
+                cell.configure(state: state)
+                return cell
             }
         }
     
@@ -95,26 +108,11 @@ final class HomeMainView: UIView {
         backgroundColor = .customBlue50
     }
     
-    func applySnapshot(registered item: ExamScheduleItem) {
+    func apply(_ state: HomeState) {
         var snapshot = NSDiffableDataSourceSnapshot<HomeSection, HomeSectionItem>()
-        snapshot.appendSections([.examSchedule])
-        snapshot.appendItems([.examSchedule(item)], toSection: .examSchedule)
-        dataSource.apply(snapshot, animatingDifferences: true)
-    }
-    
-    func applySnapshot(notRegisteredFor user: String) {
-        let item = ExamScheduleItem(userName: user, kind: .notRegistered)
-        var snapshot = NSDiffableDataSourceSnapshot<HomeSection, HomeSectionItem>()
-        snapshot.appendSections([.examSchedule])
-        snapshot.appendItems([.examSchedule(item)], toSection: .examSchedule)
-        dataSource.apply(snapshot, animatingDifferences: true)
-    }
-    
-    func applySnapshot(expiredFor user: String) {
-        let item = ExamScheduleItem(userName: user, kind: .expired)
-        var snapshot = NSDiffableDataSourceSnapshot<HomeSection, HomeSectionItem>()
-        snapshot.appendSections([.examSchedule])
-        snapshot.appendItems([.examSchedule(item)], toSection: .examSchedule)
+        snapshot.appendSections([.examSchedule, .examEntry])
+        snapshot.appendItems([.examSchedule(state.examItem)], toSection: .examSchedule)
+        snapshot.appendItems([.examEntry(state.entryState)], toSection: .examEntry)
         dataSource.apply(snapshot, animatingDifferences: true)
     }
 }
