@@ -60,3 +60,16 @@ extension String {
         return NSPredicate(format: "SELF MATCHES %@", nameRegex).evaluate(with: self)
     }
 }
+
+extension String {
+    /// 모의고사 점수변동 그래프 Date
+    var graphDate: Date {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "MM-dd"
+        guard let date = dateFormatter.date(from: self) else {
+            print("Failed to convert from String to GraphDate")
+            return Date()
+        }
+        return date
+    }
+}

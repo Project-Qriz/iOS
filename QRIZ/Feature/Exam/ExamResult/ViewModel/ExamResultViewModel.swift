@@ -16,6 +16,7 @@ final class ExamResultViewModel {
         case cancelButtonClicked
         case moveToConceptButtonClicked
         case resultDetailButtonClicked
+        case scoreGraphFilterSelected(filterType: ScoreGraphFilterType)
     }
     
     enum Output {
@@ -41,6 +42,7 @@ final class ExamResultViewModel {
     var resultScoresData = ResultScoresData()
     var resultGradeListData = ResultGradeListData()
     var resultDetailData = ResultDetailData()
+    var scoreGraphData = ScoreGraphData()
     
     private let output: PassthroughSubject<Output, Never> = .init()
     private var subscriptions = Set<AnyCancellable>()
@@ -62,11 +64,12 @@ final class ExamResultViewModel {
                 fetchData()
             case .cancelButtonClicked:
                 output.send(.moveToExamList)
-                // examList reload 추가
             case .moveToConceptButtonClicked:
                 output.send(.moveToConcept)
             case .resultDetailButtonClicked:
                 output.send(.moveToResultDetail)
+            case .scoreGraphFilterSelected(let filterType):
+                print("YEYE")
             }
         }
         .store(in: &subscriptions)
@@ -147,6 +150,8 @@ final class ExamResultViewModel {
             for i in 0...4 {
                 self.resultScoresData.subjectScores[i] = self.subjectScores[i]
             }
+            
+            scoreGraphData.convertGraphScoreData(self.historicalScores.sorted())
         }
     }
     

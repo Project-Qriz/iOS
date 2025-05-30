@@ -103,12 +103,14 @@
 		B1D9A0E72D3686BA00E84934 /* CountdownTimer.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1D9A0E62D3686BA00E84934 /* CountdownTimer.swift */; };
 		B1DC703A2DA94EEE0007D943 /* EmailAuthenticationRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1DC70392DA94EEE0007D943 /* EmailAuthenticationRequest.swift */; };
 		B1DC70632DAE5F9C0007D943 /* SubjectType.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1DC70622DAE5F9C0007D943 /* SubjectType.swift */; };
+		E2019A242DE9E1F5008AD668 /* Date+.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2019A232DE9E1F5008AD668 /* Date+.swift */; };
 		E211ADFA2DE467A000AB24FE /* ExamResultViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E211ADF92DE467A000AB24FE /* ExamResultViewController.swift */; };
 		E211ADFC2DE467B700AB24FE /* ExamResultViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E211ADFB2DE467B700AB24FE /* ExamResultViewModel.swift */; };
 		E211ADFE2DE47AED00AB24FE /* ExamResultHostingController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E211ADFD2DE47AED00AB24FE /* ExamResultHostingController.swift */; };
 		E211AE012DE47B2900AB24FE /* ExamResultView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E211AE002DE47B2900AB24FE /* ExamResultView.swift */; };
 		E211AE032DE47D4D00AB24FE /* ExamResultScoreView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E211AE022DE47D4D00AB24FE /* ExamResultScoreView.swift */; };
 		E211AE052DE480A500AB24FE /* TestResultDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E211AE042DE480A500AB24FE /* TestResultDetailViewController.swift */; };
+		E211AE072DE48FE700AB24FE /* ExamScoresGraphView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E211AE062DE48FE700AB24FE /* ExamScoresGraphView.swift */; };
 		E217C3622D9BEA8D0095A3D8 /* DailyTestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E217C3612D9BEA8D0095A3D8 /* DailyTestViewController.swift */; };
 		E217C3662D9BEAC50095A3D8 /* DailyTestViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E217C3652D9BEAC50095A3D8 /* DailyTestViewModel.swift */; };
 		E217C3692D9BF0B20095A3D8 /* DailyResultViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E217C3682D9BF0B20095A3D8 /* DailyResultViewModel.swift */; };
@@ -130,6 +132,8 @@
 		E24907D82D61A289004D6E61 /* DailyLearnType.swift in Sources */ = {isa = PBXBuildFile; fileRef = E24907D72D61A289004D6E61 /* DailyLearnType.swift */; };
 		E24907DA2D63698C004D6E61 /* DailyLearnSectionTitleLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E24907D92D63698C004D6E61 /* DailyLearnSectionTitleLabel.swift */; };
 		E24907DE2D6648A7004D6E61 /* DailyTestState.swift in Sources */ = {isa = PBXBuildFile; fileRef = E24907DD2D6648A7004D6E61 /* DailyTestState.swift */; };
+		E24991B32DE599B70012BA13 /* ScoreGraphFilterType.swift in Sources */ = {isa = PBXBuildFile; fileRef = E24991B22DE599B70012BA13 /* ScoreGraphFilterType.swift */; };
+		E24991B52DE5BC430012BA13 /* ScoreGraphData.swift in Sources */ = {isa = PBXBuildFile; fileRef = E24991B42DE5BC430012BA13 /* ScoreGraphData.swift */; };
 		E24CB1542DB21F0400D88451 /* ResultGradeListData.swift in Sources */ = {isa = PBXBuildFile; fileRef = E24CB1532DB21F0400D88451 /* ResultGradeListData.swift */; };
 		E24CB1582DB337FE00D88451 /* ResultDetailData.swift in Sources */ = {isa = PBXBuildFile; fileRef = E24CB1572DB337FE00D88451 /* ResultDetailData.swift */; };
 		E24CB15A2DB3494A00D88451 /* ResultSubjectListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E24CB1592DB3494A00D88451 /* ResultSubjectListView.swift */; };
@@ -348,12 +352,14 @@
 		B1D9A0E62D3686BA00E84934 /* CountdownTimer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountdownTimer.swift; sourceTree = "<group>"; };
 		B1DC70392DA94EEE0007D943 /* EmailAuthenticationRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmailAuthenticationRequest.swift; sourceTree = "<group>"; };
 		B1DC70622DAE5F9C0007D943 /* SubjectType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubjectType.swift; sourceTree = "<group>"; };
+		E2019A232DE9E1F5008AD668 /* Date+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+.swift"; sourceTree = "<group>"; };
 		E211ADF92DE467A000AB24FE /* ExamResultViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExamResultViewController.swift; sourceTree = "<group>"; };
 		E211ADFB2DE467B700AB24FE /* ExamResultViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExamResultViewModel.swift; sourceTree = "<group>"; };
 		E211ADFD2DE47AED00AB24FE /* ExamResultHostingController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExamResultHostingController.swift; sourceTree = "<group>"; };
 		E211AE002DE47B2900AB24FE /* ExamResultView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExamResultView.swift; sourceTree = "<group>"; };
 		E211AE022DE47D4D00AB24FE /* ExamResultScoreView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExamResultScoreView.swift; sourceTree = "<group>"; };
 		E211AE042DE480A500AB24FE /* TestResultDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestResultDetailViewController.swift; sourceTree = "<group>"; };
+		E211AE062DE48FE700AB24FE /* ExamScoresGraphView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExamScoresGraphView.swift; sourceTree = "<group>"; };
 		E217C3612D9BEA8D0095A3D8 /* DailyTestViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyTestViewController.swift; sourceTree = "<group>"; };
 		E217C3652D9BEAC50095A3D8 /* DailyTestViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyTestViewModel.swift; sourceTree = "<group>"; };
 		E217C3682D9BF0B20095A3D8 /* DailyResultViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyResultViewModel.swift; sourceTree = "<group>"; };
@@ -380,6 +386,8 @@
 		E24907D72D61A289004D6E61 /* DailyLearnType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyLearnType.swift; sourceTree = "<group>"; };
 		E24907D92D63698C004D6E61 /* DailyLearnSectionTitleLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyLearnSectionTitleLabel.swift; sourceTree = "<group>"; };
 		E24907DD2D6648A7004D6E61 /* DailyTestState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyTestState.swift; sourceTree = "<group>"; };
+		E24991B22DE599B70012BA13 /* ScoreGraphFilterType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScoreGraphFilterType.swift; sourceTree = "<group>"; };
+		E24991B42DE5BC430012BA13 /* ScoreGraphData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScoreGraphData.swift; sourceTree = "<group>"; };
 		E24CB1532DB21F0400D88451 /* ResultGradeListData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResultGradeListData.swift; sourceTree = "<group>"; };
 		E24CB1572DB337FE00D88451 /* ResultDetailData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResultDetailData.swift; sourceTree = "<group>"; };
 		E24CB1592DB3494A00D88451 /* ResultSubjectListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResultSubjectListView.swift; sourceTree = "<group>"; };
@@ -715,6 +723,7 @@
 				E2908E612DAF5B8400B8E81B /* Int+.swift */,
 				B130452E2DDC77030036EBE2 /* UIScreen+.swift */,
 				B18CDBF82DCCF8C700DD361A /* Date+.swift */,
+				E2019A232DE9E1F5008AD668 /* Date+.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -1036,6 +1045,7 @@
 			children = (
 				E211AE002DE47B2900AB24FE /* ExamResultView.swift */,
 				E211AE022DE47D4D00AB24FE /* ExamResultScoreView.swift */,
+				E211AE062DE48FE700AB24FE /* ExamScoresGraphView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -1544,6 +1554,8 @@
 				E24CB1632DB357B100D88451 /* ResultDetailMenuItems.swift */,
 				E23ADF112DC07AE100FE1C0B /* ResultScoresData.swift */,
 				E24CB1DA2DBCB40200D88451 /* TestSubmitData.swift */,
+				E24991B22DE599B70012BA13 /* ScoreGraphFilterType.swift */,
+				E24991B42DE5BC430012BA13 /* ScoreGraphData.swift */,
 			);
 			path = TestModel;
 			sourceTree = "<group>";
@@ -1976,6 +1988,7 @@
 				E28BAD792D2C2DEB00B8388D /* TwoButtonCustomAlertViewController.swift in Sources */,
 				E2C084BE2D89AF2C0096CE20 /* PreviewResultInfoView.swift in Sources */,
 				E25855A62DC3AE0800AE174C /* DailyService.swift in Sources */,
+				E24991B52DE5BC430012BA13 /* ScoreGraphData.swift in Sources */,
 				541878572D0E22700089F478 /* NetworkError.swift in Sources */,
 				E2A6C6762DCA45970059F960 /* ExamResultRequest.swift in Sources */,
 				E29CCD522D299AD5004AA30A /* PreviewResultIncorrectConceptsRankView.swift in Sources */,
@@ -2005,6 +2018,7 @@
 				B16288262D300CBA008057D0 /* PasswordInputViewModel.swift in Sources */,
 				E2908E682DB3A68E00B8E81B /* ResultDetailView.swift in Sources */,
 				B1D813712D6E0C1F00A9D447 /* HomeCoordinator.swift in Sources */,
+				E2019A242DE9E1F5008AD668 /* Date+.swift in Sources */,
 				E23824E12D0C3157009E7989 /* BeginOnboardingViewController.swift in Sources */,
 				B16774D72D89D2EE001820F3 /* AccountRecoveryService.swift in Sources */,
 				E29CCD292D29855B004AA30A /* QuestionNumberLabel.swift in Sources */,
@@ -2050,6 +2064,7 @@
 				E2A6C3242DC610420059F960 /* ExamScoreRequest.swift in Sources */,
 				E29CCD2A2D29855B004AA30A /* QuestionOptionLabel.swift in Sources */,
 				E25F33612DAFC30B002347D4 /* TestResultGradesListView.swift in Sources */,
+				E211AE072DE48FE700AB24FE /* ExamScoresGraphView.swift in Sources */,
 				E25856D42D0D766900355667 /* CheckConceptViewController.swift in Sources */,
 				B18F451C2D441E150030F7DB /* FindPasswordVerificationViewController.swift in Sources */,
 				E25F94C82D0CAF1B00BA765F /* BeginPreviewTestViewController.swift in Sources */,
@@ -2062,6 +2077,8 @@
 				B18F450D2D3994380030F7DB /* FindIDMainView.swift in Sources */,
 				B168B7692D2807470000F32E /* SignUpVerificationViewController.swift in Sources */,
 				54E91B762D18FACD00474D0A /* RoundButton.swift in Sources */,
+				54DB0D992D0950DE00ABD458 /* HomeViewModel.swift in Sources */,
+				E24991B32DE599B70012BA13 /* ScoreGraphFilterType.swift in Sources */,
 				E217C3622D9BEA8D0095A3D8 /* DailyTestViewController.swift in Sources */,
 				B17FE30A2D27F8E9002EC7D7 /* UITextField+.swift in Sources */,
 				B19C4FC52D6C226500CD008A /* TabBarCoordinator.swift in Sources */,

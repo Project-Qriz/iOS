@@ -69,7 +69,8 @@ final class ExamResultViewController: UIViewController {
             rootView: ExamResultView(
                 resultScoresData: self.viewModel.resultScoresData,
                 resultGradeListData: self.viewModel.resultGradeListData,
-                resultDetailData: self.viewModel.resultDetailData))
+                resultDetailData: self.viewModel.resultDetailData,
+                scoreGraphData: self.viewModel.scoreGraphData))
         self.addChild(examResultHostingController)
         examResultHostingController.didMove(toParent: self)
 

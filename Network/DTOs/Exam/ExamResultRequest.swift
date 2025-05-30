@@ -52,7 +52,7 @@ struct ExamResultResponse: Decodable {
     }
 }
 
-struct HistoricalScore: Decodable {
+struct HistoricalScore: Decodable, Comparable {
     let completionDateTime: String
     let itemScores: [ItemScore]
     let attemptCount: Int
@@ -60,6 +60,14 @@ struct HistoricalScore: Decodable {
     
     struct ItemScore: Decodable {
         let type: String
-        let score: CGFloat
+        let score: Double
+    }
+    
+    static func < (lhs: HistoricalScore, rhs: HistoricalScore) -> Bool {
+        lhs.displayDate < rhs.displayDate
+    }
+    
+    static func == (lhs: HistoricalScore, rhs: HistoricalScore) -> Bool {
+        lhs.displayDate == rhs.displayDate
     }
 }
