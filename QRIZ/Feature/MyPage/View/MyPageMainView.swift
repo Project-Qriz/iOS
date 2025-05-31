@@ -23,6 +23,11 @@ final class MyPageMainView: UIView {
             forCellWithReuseIdentifier: String(describing: ProfileCell.self)
         )
         
+        collectionView.register(
+            QuickActionsCell.self,
+            forCellWithReuseIdentifier: String(describing: QuickActionsCell.self)
+        )
+        
         return collectionView
     }()
     
@@ -38,6 +43,13 @@ final class MyPageMainView: UIView {
                     for: indexPath
                 ) as? ProfileCell else { return UICollectionViewCell() }
                 cell.configure(with: userName)
+                return cell
+                
+            case .quickActions:
+                guard let cell = collectionView.dequeueReusableCell(
+                    withReuseIdentifier: String(describing: QuickActionsCell.self),
+                    for: indexPath
+                ) as? QuickActionsCell else { return UICollectionViewCell() }
                 return cell
             }
         }
@@ -64,8 +76,9 @@ final class MyPageMainView: UIView {
     
     private func applyInitialSnapshot() {
         var snapshot = NSDiffableDataSourceSnapshot<MyPageSection, MyPageSectionItem>()
-        snapshot.appendSections([.profile])
+        snapshot.appendSections([.profile, .quickActions])
         snapshot.appendItems([.profile(userName: "김세훈")], toSection: .profile)
+        snapshot.appendItems([.quickActions], toSection: .quickActions)
         dataSource.apply(snapshot, animatingDifferences: false)
     }
 }
