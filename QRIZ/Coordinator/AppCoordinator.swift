@@ -33,7 +33,7 @@ final class AppCoordinatorDependencyImp: AppCoordinatorDependency {
     private lazy var network: Network = NetworkImp(session: .shared)
     private lazy var keychain: KeychainManager = KeychainManagerImpl()
     
-    lazy var loginService: LoginService = LoginServiceImpl(network: network, keychainManager: keychain)
+    lazy var loginService: LoginService = LoginServiceImpl(network: network)
     lazy var signUpService: SignUpService = SignUpServiceImpl(network: network)
     lazy var accountRecoveryService: AccountRecoveryService = AccountRecoveryServiceImpl(network: network)
     lazy var examScheduleService: ExamScheduleService = ExamScheduleServiceImpl(network: network, keychain: keychain)

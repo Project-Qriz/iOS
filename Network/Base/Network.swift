@@ -14,95 +14,112 @@ protocol Network {
 
 final class NetworkImp: Network {
     
-    private let session: URLSession
+    // MARK: - Properties
     
-    init(session: URLSession) {
+    private let session: URLSession
+    private let keychain: KeychainManager
+    private let decoder = JSONDecoder()
+    private let authKey = HTTPHeaderField.authorization.rawValue
+    
+    // MARK: - Initialize
+    
+    init(
+        session: URLSession = .shared,
+        keychain: KeychainManager = KeychainManagerImpl()
+    ) {
         self.session = session
+        self.keychain = keychain
     }
     
-    func send<T>(_ request: T) async throws -> T.Response where T: Request {
+    // MARK: - Functions
+    
+    func send<T: Request>(_ request: T) async throws -> T.Response {
+        try await send(request, shouldRetry: true)
+    }
+}
+
+private extension NetworkImp {
+    func send<T: Request>(_ request: T, shouldRetry: Bool) async throws -> T.Response {
+        let urlRequest = try RequestFactory(request: request).urlRequestRepresentation()
+        let needsRetry = urlRequest.value(forHTTPHeaderField: authKey) != nil
+        
+        let (data, response) = try await session.data(for: urlRequest)
+        saveAccessTokenIfPresent(in: response)
+        
         do {
-            let urlRequest = try RequestFactory(request: request).urlRequestRepresentation()
-            let (data, response) = try await session.data(for: urlRequest)
-            
-            try validate(response, data: data)
-            return try JSONDecoder().decode(T.Response.self, from: data)
-        } catch let error {
+            try validate(response, data)
+            return try decode(T.Response.self, from: data)
+        } catch NetworkError.unAuthorizedError where shouldRetry && needsRetry {
+            return try await retry(urlRequest, responseType: T.Response.self)
+        } catch {
             throw mapToNetworkError(error)
         }
     }
-}
-
-extension NetworkImp {
-    private func validate(_ response: URLResponse, data: Data) throws {
-        guard let httpResponse = response as? HTTPURLResponse else {
+    
+    /// 401 응답 시 재요청 메서드
+    func retry<T: Decodable>(_ request: URLRequest, responseType: T.Type) async throws -> T {
+        guard let token = keychain.retrieveToken(forKey: HTTPHeaderField.accessToken.rawValue) else {
+            keychain.deleteToken(forKey: HTTPHeaderField.accessToken.rawValue)
+            throw NetworkError.unAuthorizedError
+        }
+        
+        var retried = request
+        retried.setValue(token, forHTTPHeaderField: authKey)
+        
+        let (data, response) = try await session.data(for: retried)
+        saveAccessTokenIfPresent(in: response)
+        try validate(response, data)
+        return try decode(responseType, from: data)
+    }
+    
+    /// 응답 헤더에 토큰 존재 시 저장 메서드
+    func saveAccessTokenIfPresent(in response: URLResponse) {
+        guard
+            let http = response as? HTTPURLResponse,
+            let bearer = http.value(forHTTPHeaderField: authKey),
+            bearer.isEmpty == false
+        else { return }
+        _ = keychain.save(token: bearer, forKey: HTTPHeaderField.accessToken.rawValue)
+    }
+    
+    /// HTTP 상태코드 검증 메서드
+    func validate(_ response: URLResponse, _ data: Data) throws {
+        guard let http = response as? HTTPURLResponse else {
             throw NetworkError.unknownError
         }
         
-        switch httpResponse.statusCode {
+        switch http.statusCode {
         case 200..<300: return
+        case 401:
+            throw NetworkError.unAuthorizedError
         case 400..<500:
-            let errorResponse = try? JSONDecoder().decode(ErrorResponse.self, from: data)
+            let errorResponse = try? decoder.decode(ErrorResponse.self, from: data)
+            
             throw NetworkError.clientError(
-                httpStatus: httpResponse.statusCode,
+                httpStatus: http.statusCode,
                 serverCode: errorResponse?.code,
                 message: errorResponse?.msg ?? "클라이언트 에러입니다."
             )
-        case 500..<600: throw NetworkError.serverError
-        default: throw NetworkError.unknownError
+        case 500..<600:
+            throw NetworkError.serverError
+        default:
+            throw NetworkError.unknownError
         }
     }
     
-    private func mapToNetworkError(_ error: Error) -> NetworkError {
-        if let networkError = error as? NetworkError {
-            return networkError
+    /// JSON → Response 디코딩 메서드
+    func decode<T: Decodable>(_ type: T.Type, from data: Data) throws -> T {
+        do { return try decoder.decode(T.self, from: data) }
+        catch { throw NetworkError.jsonDecodingError }
+    }
+    
+    /// Error 매핑
+    func mapToNetworkError(_ error: Error) -> NetworkError {
+        switch error {
+        case let networkError as NetworkError: return networkError
+        case let urlError as URLError: return .invalidURL(message: urlError.localizedDescription)
+        case is DecodingError: return .jsonDecodingError
+        default: return .unknownError
         }
-        
-        if let urlError = error as? URLError {
-            return .invalidURL(message: urlError.localizedDescription)
-        }
-        
-        if error is DecodingError {
-            return .jsonDecodingError
-        }
-        
-        return .unknownError
     }
 }
-
-// MARK: - Headers
-
-extension NetworkImp {
-    func sendWithHeaders<T: Request>(_ request: T) async throws -> (T.Response, HTTPURLResponse) {
-        let urlRequest = try RequestFactory(request: request).urlRequestRepresentation()
-        let (data, response) = try await session.data(for: urlRequest)
-        
-        try validate(response, data: data)
-        
-        guard let httpResponse = response as? HTTPURLResponse else {
-            throw NetworkError.unknownError
-        }
-        
-        let decodedResponse = try JSONDecoder().decode(T.Response.self, from: data)
-        return (decodedResponse, httpResponse)
-    }
-}
-
-// MARK: - Combine
-
-//func send<T>(_ request: T) -> AnyPublisher<T.Response, NetworkError> where T: Request {
-//    guard let urlRequest = try? RequestFactory(request: request).urlRequestRepresentation() else {
-//        return Fail(error: NetworkError.invalidURL(message: "URL 생성에 실패했습니다."))
-//            .eraseToAnyPublisher()
-//    }
-//    
-//    return session.dataTaskPublisher(for: urlRequest)
-//        .tryMap { data, response in
-//            try self.validate(response)
-//            return data
-//        }
-//        .decode(type: T.Response.self, decoder: JSONDecoder())
-//        .mapError { self.mapToNetworkError($0) }
-//        .eraseToAnyPublisher()
-//}
-
