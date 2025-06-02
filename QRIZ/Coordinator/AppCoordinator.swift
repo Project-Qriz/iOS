@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Combine
 
 @MainActor
 protocol Coordinator: AnyObject {
@@ -19,24 +20,34 @@ protocol AppCoordinator: Coordinator {
 
 @MainActor
 protocol AppCoordinatorDependency {
+    // Coordinators
     var loginCoordinator: LoginCoordinator { get }
     var tabBarCoordinator: TabBarCoordinator { get }
+    
+    // Services
     var loginService: LoginService { get }
     var signUpService: SignUpService { get }
     var accountRecoveryService: AccountRecoveryService { get }
     var examScheduleService: ExamScheduleService { get }
+    var userInfoService: UserInfoService { get }
+    
+    // Utils
+    var keychain: KeychainManager { get }
+    var sessionNotifier: SessionEventNotifier { get }
 }
 
 @MainActor
 final class AppCoordinatorDependencyImp: AppCoordinatorDependency {
     
-    private lazy var network: Network = NetworkImp(session: .shared)
-    private lazy var keychain: KeychainManager = KeychainManagerImpl()
-    
+    var keychain: KeychainManager = KeychainManagerImpl()
+    var sessionNotifier: SessionEventNotifier = SessionEventNotifierImpl()
+    private lazy var network: Network = NetworkImp(session: .shared, notifier: sessionNotifier)
+
     lazy var loginService: LoginService = LoginServiceImpl(network: network)
     lazy var signUpService: SignUpService = SignUpServiceImpl(network: network)
     lazy var accountRecoveryService: AccountRecoveryService = AccountRecoveryServiceImpl(network: network)
     lazy var examScheduleService: ExamScheduleService = ExamScheduleServiceImpl(network: network, keychain: keychain)
+    lazy var userInfoService: UserInfoService = UserInfoServiceImpl(network: network, keychainManager: keychain)
     
     private lazy var _loginCoordinator: LoginCoordinator = {
         let navi = UINavigationController()
@@ -61,41 +72,83 @@ final class AppCoordinatorDependencyImp: AppCoordinatorDependency {
 @MainActor
 final class AppCoordinatorImp: AppCoordinator {
     
+    // MARK: - Properties
+    
     var window: UIWindow
     private let dependency: AppCoordinatorDependency
-    var childCoordinators: [Coordinator] = []
+    private var splashCoordinator: SplashCoordinator?
+    private var childCoordinators: [Coordinator] = []
+    private var cancellables = Set<AnyCancellable>()
+    
+    // MARK: - Initialize
     
     init(window: UIWindow, dependency: AppCoordinatorDependency) {
         self.window = window
         self.dependency = dependency
+        bindSessionEvent()
     }
     
     func start() -> UIViewController {
-        /// 임시 로그인 상태
-        let isLoggedIn = true
         _ = UINavigationBar.defaultBackButtonStyle()
-        return isLoggedIn ? showTabBar() : showLogin()
+        return showSplash()
+    }
+    
+    private func showSplash() -> UIViewController {
+        let splash = SplashCoordinatorImpl(
+            window: window,
+            userInfoService: dependency.userInfoService,
+            keychain: dependency.keychain
+        )
+        splash.delegate = self
+        splashCoordinator = splash
+        childCoordinators.append(splash)
+        return splash.start()
+    }
+    
+    private func showLogin() -> UIViewController {
+        let loginCoordinator = dependency.loginCoordinator
+        (loginCoordinator as? LoginCoordinatorImp)?.delegate = self
+        childCoordinators.append(loginCoordinator)
+        
+        let loginVC = loginCoordinator.start()
+        window.rootViewController = loginVC
+        window.makeKeyAndVisible()
+        return loginVC
     }
     
     private func showTabBar() -> UIViewController {
         let tabBarCoordinator = dependency.tabBarCoordinator
         childCoordinators.append(tabBarCoordinator)
+        
         let tabBarVC = tabBarCoordinator.start()
         window.rootViewController = tabBarVC
         window.makeKeyAndVisible()
         return tabBarVC
     }
+
+    private func bindSessionEvent() {
+        dependency.sessionNotifier.event
+            .receive(on: RunLoop.main)
+            .sink { [weak self] event in
+                guard let self else { return }
+                switch event { case .expired: self.resetToLogin() }
+            }
+            .store(in: &cancellables)
+    }
     
-    private func showLogin() -> UIViewController {
-        let loginCoordinator = dependency.loginCoordinator
-        if let loginCoordinatorImp = loginCoordinator as? LoginCoordinatorImp {
-            loginCoordinatorImp.delegate = self
-        }
-        childCoordinators.append(loginCoordinator)
-        let loginVC = loginCoordinator.start()
-        window.rootViewController = loginVC
-        window.makeKeyAndVisible()
-        return loginVC
+    private func resetToLogin() {
+        childCoordinators.removeAll()
+        _ = showLogin()
+    }
+}
+
+// MARK: - SplashCoordinatorDelegate
+
+extension AppCoordinatorImp: SplashCoordinatorDelegate {
+    func didFinishSplash(_ coordinator: SplashCoordinator, isLoggedIn: Bool) {
+        childCoordinators.removeAll { $0 === coordinator }
+        splashCoordinator = nil
+        _ = isLoggedIn ? showTabBar() : showLogin()
     }
 }
 
@@ -104,11 +157,6 @@ final class AppCoordinatorImp: AppCoordinator {
 extension AppCoordinatorImp: LoginCoordinatorDelegate {
     func didLogin(_ coordinator: LoginCoordinator) {
         childCoordinators.removeAll { $0 === coordinator }
-        let tabBarCoordinator = dependency.tabBarCoordinator
-        childCoordinators.append(tabBarCoordinator)
-        
-        let tabBarVC = tabBarCoordinator.start()
-        window.rootViewController = tabBarVC
-        window.makeKeyAndVisible()
+        _ = showTabBar()
     }
 }
