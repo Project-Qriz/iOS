@@ -65,7 +65,7 @@ final class PreviewResultViewModel {
     private func updateData(_ data: AnalyzePreviewResponse.DataInfo) {
         DispatchQueue.main.async { [weak self] in
             guard let self = self else { return }
-            previewScoresData.nickname = UserInfoManager.name
+            previewScoresData.nickname = UserInfoManager.shared.name
             self.previewScoresData.expectScore = data.estimatedScore
             
             if data.topConceptsToImprove.count >= 2 {

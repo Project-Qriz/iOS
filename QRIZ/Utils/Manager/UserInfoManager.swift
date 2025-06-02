@@ -7,10 +7,31 @@
 
 import Foundation
 
-struct UserInfoManager {
-    static var name: String = "채영" // 임시 값, 추후에 UserInfoService를 통해 갱신
-    static var userId: String = ""
-    static var email: String = ""
-    static var previewTestStatus: PreviewTestStatus = .previewCompleted
-    static var provider: String? = nil
+final class UserInfoManager {
+    
+    static let shared = UserInfoManager()
+    
+    private init() {}
+    
+    var name: String = ""
+    var userId: String = ""
+    var email: String = ""
+    var previewTestStatus: PreviewTestStatus = .notStarted
+    var provider: String? = nil
+    
+    func update(from response: UserInfo) {
+        name = response.name
+        userId = response.userId
+        email = response.email
+        previewTestStatus = response.previewTestStatus
+        provider = response.provider
+    }
+    
+    func reset() {
+        name = ""
+        userId = ""
+        email = ""
+        previewTestStatus = .notStarted
+        provider = nil
+    }
 }
