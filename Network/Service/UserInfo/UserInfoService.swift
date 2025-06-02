@@ -27,7 +27,7 @@ final class UserInfoServiceImpl: UserInfoService {
     }
     
     private func getAccessToken() -> String {
-        let accessToken = keychainManager.retrieveToken(forKey: "accessToken") ?? ""
+        let accessToken = keychainManager.retrieveToken(forKey: HTTPHeaderField.accessToken.rawValue) ?? ""
         if accessToken.isEmpty { print("OnboardingService failed to get accessToken") }
         return accessToken
     }
