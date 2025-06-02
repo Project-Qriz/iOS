@@ -19,16 +19,19 @@ final class NetworkImp: Network {
     private let session: URLSession
     private let keychain: KeychainManager
     private let decoder = JSONDecoder()
+    private let notifier: SessionEventNotifier
     private let authKey = HTTPHeaderField.authorization.rawValue
     
     // MARK: - Initialize
     
     init(
         session: URLSession = .shared,
+        notifier: SessionEventNotifier = SessionEventNotifierImpl(),
         keychain: KeychainManager = KeychainManagerImpl()
     ) {
         self.session = session
         self.keychain = keychain
+        self.notifier = notifier
     }
     
     // MARK: - Functions
@@ -60,6 +63,7 @@ private extension NetworkImp {
     func retry<T: Decodable>(_ request: URLRequest, responseType: T.Type) async throws -> T {
         guard let token = keychain.retrieveToken(forKey: HTTPHeaderField.accessToken.rawValue) else {
             keychain.deleteToken(forKey: HTTPHeaderField.accessToken.rawValue)
+            notifier.notify(.expired)
             throw NetworkError.unAuthorizedError
         }
         
@@ -68,8 +72,15 @@ private extension NetworkImp {
         
         let (data, response) = try await session.data(for: retried)
         saveAccessTokenIfPresent(in: response)
-        try validate(response, data)
-        return try decode(responseType, from: data)
+
+        do {
+            try validate(response, data)
+            return try decode(responseType, from: data)
+        } catch NetworkError.unAuthorizedError {
+            keychain.deleteToken(forKey: HTTPHeaderField.accessToken.rawValue)
+            notifier.notify(.expired)
+            throw NetworkError.unAuthorizedError
+        }
     }
     
     /// 응답 헤더에 토큰 존재 시 저장 메서드
