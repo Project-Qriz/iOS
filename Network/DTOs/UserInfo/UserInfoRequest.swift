@@ -84,6 +84,12 @@ struct UserInfoRequest: Request {
 }
 
 struct UserInfoResponse: Decodable {
+    let code: Int
+    let msg: String
+    let data: UserInfo
+}
+
+struct UserInfo: Decodable {
     let name: String
     let userId: String
     let email: String
