@@ -57,6 +57,16 @@ final class ExamSummaryViewController: UIViewController {
         addButtonAction()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        setNavigationColor(isDefault: false)
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        setNavigationColor(isDefault: true)
+    }
+    
     private func bind() {
         let output = viewModel.transform(input: input.eraseToAnyPublisher())
         
@@ -110,5 +120,17 @@ extension ExamSummaryViewController {
             bottomButton.heightAnchor.constraint(equalToConstant: 48)
             
         ])
+    }
+    
+    private func setNavigationColor(isDefault: Bool) {
+        let appearance = UINavigationBar.defaultBackButtonStyle()
+        
+        if !isDefault {
+            appearance.backgroundColor = .customBlue50
+        }
+        
+        navigationController?.navigationBar.standardAppearance = appearance
+        navigationController?.navigationBar.compactAppearance = appearance
+        navigationController?.navigationBar.scrollEdgeAppearance = appearance
     }
 }
