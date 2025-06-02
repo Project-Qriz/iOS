@@ -37,11 +37,11 @@ protocol AppCoordinatorDependency {
 }
 
 @MainActor
-final class AppCoordinatorDependencyImp: AppCoordinatorDependency {
+final class AppCoordinatorDependencyImpl: AppCoordinatorDependency {
     
     var keychain: KeychainManager = KeychainManagerImpl()
     var sessionNotifier: SessionEventNotifier = SessionEventNotifierImpl()
-    private lazy var network: Network = NetworkImp(session: .shared, notifier: sessionNotifier)
+    private lazy var network: Network = NetworkImpl(session: .shared, notifier: sessionNotifier)
 
     lazy var loginService: LoginService = LoginServiceImpl(network: network)
     lazy var signUpService: SignUpService = SignUpServiceImpl(network: network)
@@ -70,7 +70,7 @@ final class AppCoordinatorDependencyImp: AppCoordinatorDependency {
 }
 
 @MainActor
-final class AppCoordinatorImp: AppCoordinator {
+final class AppCoordinatorImpl: AppCoordinator {
     
     // MARK: - Properties
     
@@ -144,7 +144,7 @@ final class AppCoordinatorImp: AppCoordinator {
 
 // MARK: - SplashCoordinatorDelegate
 
-extension AppCoordinatorImp: SplashCoordinatorDelegate {
+extension AppCoordinatorImpl: SplashCoordinatorDelegate {
     func didFinishSplash(_ coordinator: SplashCoordinator, isLoggedIn: Bool) {
         childCoordinators.removeAll { $0 === coordinator }
         splashCoordinator = nil
@@ -154,7 +154,7 @@ extension AppCoordinatorImp: SplashCoordinatorDelegate {
 
 // MARK: - LoginCoordinatorDelegate
 
-extension AppCoordinatorImp: LoginCoordinatorDelegate {
+extension AppCoordinatorImpl: LoginCoordinatorDelegate {
     func didLogin(_ coordinator: LoginCoordinator) {
         childCoordinators.removeAll { $0 === coordinator }
         _ = showTabBar()

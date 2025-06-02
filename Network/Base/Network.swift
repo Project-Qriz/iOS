@@ -12,7 +12,7 @@ protocol Network {
     func send<T: Request>(_ request: T) async throws -> T.Response
 }
 
-final class NetworkImp: Network {
+final class NetworkImpl: Network {
     
     // MARK: - Properties
     
@@ -41,7 +41,7 @@ final class NetworkImp: Network {
     }
 }
 
-private extension NetworkImp {
+private extension NetworkImpl {
     func send<T: Request>(_ request: T, shouldRetry: Bool) async throws -> T.Response {
         let urlRequest = try RequestFactory(request: request).urlRequestRepresentation()
         let needsRetry = urlRequest.value(forHTTPHeaderField: authKey) != nil

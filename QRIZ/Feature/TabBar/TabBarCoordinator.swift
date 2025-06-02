@@ -31,7 +31,7 @@ final class TabBarCoordinatorDependencyImp: TabBarCoordinatorDependency {
     private let examService: ExamScheduleService
     
     var homeCoordinator: HomeCoordinator {
-        return HomeCoordinatorImp(examService: examService)
+        return HomeCoordinatorImpl(examService: examService)
     }
     
     var conceptBookCoordinator: ConceptBookCoordinator {

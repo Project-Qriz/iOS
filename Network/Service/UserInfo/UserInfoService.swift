@@ -16,7 +16,7 @@ final class UserInfoServiceImpl: UserInfoService {
     private let network: Network
     private let keychainManager: KeychainManager
     
-    init(network: Network = NetworkImp(session: URLSession.shared), keychainManager: KeychainManager = KeychainManagerImpl()) {
+    init(network: Network = NetworkImpl(session: URLSession.shared), keychainManager: KeychainManager = KeychainManagerImpl()) {
         self.network = network
         self.keychainManager = keychainManager
     }

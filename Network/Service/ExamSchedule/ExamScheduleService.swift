@@ -31,7 +31,7 @@ final class ExamScheduleServiceImpl: ExamScheduleService {
     // MARK: - Initialize
     
     init(
-        network: Network = NetworkImp(session: URLSession.shared),
+        network: Network = NetworkImpl(session: URLSession.shared),
         keychain: KeychainManager = KeychainManagerImpl()
     ) {
         self.network = network

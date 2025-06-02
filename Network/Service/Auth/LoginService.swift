@@ -21,7 +21,7 @@ final class LoginServiceImpl: LoginService {
     
     // MARK: - Initialize
     
-    init(network: Network = NetworkImp()) {
+    init(network: Network = NetworkImpl()) {
         self.network = network
     }
     

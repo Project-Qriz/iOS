@@ -19,7 +19,7 @@ protocol ExamSelectionDelegate: AnyObject {
 }
 
 @MainActor
-final class HomeCoordinatorImp: HomeCoordinator {
+final class HomeCoordinatorImpl: HomeCoordinator {
     
     private weak var navigationController: UINavigationController?
     private let examService: ExamScheduleService
@@ -64,7 +64,7 @@ final class HomeCoordinatorImp: HomeCoordinator {
 
 // MARK: - ExamSelectionDelegate
 
-extension HomeCoordinatorImp: ExamSelectionDelegate {
+extension HomeCoordinatorImpl: ExamSelectionDelegate {
     func didUpdateExamSchedule() {
         homeVM?.reloadExamSchedule()
     }

@@ -31,7 +31,7 @@ final class AccountRecoveryServiceImpl: AccountRecoveryService {
     
     // MARK: - Initialize
     
-    init(network: Network = NetworkImp(session: URLSession.shared)) {
+    init(network: Network = NetworkImpl(session: URLSession.shared)) {
         self.network = network
     }
     
