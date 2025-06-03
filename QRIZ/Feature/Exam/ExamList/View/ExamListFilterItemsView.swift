@@ -23,8 +23,8 @@ final class ExamListFilterItemsView: UIStackView {
         setStackView()
         appendItemLabels()
         addSubviews()
-        isHidden = true
         setLayer()
+        isHidden = true
     }
     
     required init(coder: NSCoder) {
