@@ -38,7 +38,7 @@ final class ExamListFilterButton: UIView {
     }
     
     required init?(coder: NSCoder) {
-        fatalError("no initializer for coder: DailyLearnFilterButton")
+        fatalError("no initializer for coder: ExamListFilterButton")
     }
     
     // MARK: - Methods
