@@ -56,11 +56,8 @@ final class ExamListFilterItemsView: UIStackView {
             button.setTitle(type.rawValue, for: .normal)
             button.contentHorizontalAlignment = .left
             
-            if type == .total {
-                setButtonState(button: button, isSelected: true)
-            } else {
-                setButtonState(button: button, isSelected: false)
-            }
+            let isSelected = (type == .total)
+            setButtonState(button: button, isSelected: isSelected)
             
             button.addAction(UIAction(handler: { [weak self] _ in
                 guard let self = self else { return }
