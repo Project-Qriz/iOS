@@ -13,7 +13,7 @@ struct ExamResultScoreView: View {
     @ObservedObject var resultScoresData: ResultScoresData
     @ObservedObject var resultDetailData: ResultDetailData
     
-    let input: PassthroughSubject<ExamResultViewModel.Input, Never>
+    let input: PassthroughSubject<Void, Never>
     
     var body: some View {
         VStack(spacing: 24) {
@@ -33,7 +33,7 @@ struct ExamResultScoreView: View {
             ResultSubjectListView(resultDetailData: resultDetailData)
             
             Button {
-                input.send(.resultDetailButtonClicked)
+                input.send()
             } label: {
                 Text("상세보기")
                     .font(.system(size: 14, weight: .medium))
@@ -50,5 +50,5 @@ struct ExamResultScoreView: View {
 }
 
 #Preview {
-    ExamResultScoreView(resultScoresData: ResultScoresData(), resultDetailData: ResultDetailData(), input: PassthroughSubject<ExamResultViewModel.Input, Never>())
+    ExamResultScoreView(resultScoresData: ResultScoresData(), resultDetailData: ResultDetailData(), input: PassthroughSubject<Void, Never>())
 }

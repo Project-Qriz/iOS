@@ -15,14 +15,22 @@ struct ExamResultView: View {
     @StateObject var resultDetailData: ResultDetailData
     @StateObject var scoreGraphData: ScoreGraphData
     
-    let input: PassthroughSubject<ExamResultViewModel.Input, Never> = .init()
+    private let contentsInput: PassthroughSubject<Void, Never> = .init()
+    private let footerInput: PassthroughSubject<Void, Never> = .init()
+    
+    var resultDetailTappedPublisher: AnyPublisher<Void, Never> {
+        contentsInput.eraseToAnyPublisher()
+    }
+    var conceptTappedPublisher: AnyPublisher<Void, Never> {
+        footerInput.eraseToAnyPublisher()
+    }
     
     var body: some View {
         ScrollView(.vertical) {
             LazyVStack(spacing: 0) {
                 ExamResultScoreView(resultScoresData: resultScoresData,
                                      resultDetailData: resultDetailData,
-                                     input: input)
+                                     input: contentsInput)
                 Spacer(minLength: 16)
                 
                 if scoreGraphData.totalScores.count > 1 {
@@ -33,7 +41,7 @@ struct ExamResultView: View {
 
                 TestResultGradesListView(resultGradeListData: resultGradeListData)
                 
-                TestResultFooterView(resultScoresData: resultScoresData)
+                TestResultFooterView(resultScoresData: resultScoresData, input: footerInput)
             }
             .background(.customBlue50)
         }

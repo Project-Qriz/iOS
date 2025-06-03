@@ -38,7 +38,14 @@ final class DailyResultViewController: UIViewController {
     }
     
     private func bind() {
-        let mergedInput = input.merge(with: dailyResultViewHostingController.rootView.input)
+        let resultDetailTapped = dailyResultViewHostingController.rootView.resultDetailTappedPublisher.map {
+            DailyResultViewModel.Input.resultDetailButtonClicked
+        }
+        let conceptTapped = dailyResultViewHostingController.rootView.conceptTappedPublisher.map {
+            DailyResultViewModel.Input.moveToConceptButtonClicked
+        }
+        
+        let mergedInput = input.merge(with: resultDetailTapped, conceptTapped)
         let output = viewModel.transform(input: mergedInput.eraseToAnyPublisher())
         output
             .receive(on: DispatchQueue.main)

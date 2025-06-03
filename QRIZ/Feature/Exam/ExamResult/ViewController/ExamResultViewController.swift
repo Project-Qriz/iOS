@@ -38,7 +38,14 @@ final class ExamResultViewController: UIViewController {
     }
     
     private func bind() {
-        let mergedInput = input.merge(with: examResultHostingController.rootView.input)
+        let resultDetailTapped = examResultHostingController.rootView.resultDetailTappedPublisher.map {
+            ExamResultViewModel.Input.resultDetailButtonClicked
+        }
+        let conceptTapped = examResultHostingController.rootView.conceptTappedPublisher.map {
+            ExamResultViewModel.Input.moveToConceptButtonClicked
+        }
+        
+        let mergedInput = input.merge(with: resultDetailTapped, conceptTapped)
         let output = viewModel.transform(input: mergedInput.eraseToAnyPublisher())
         output
             .receive(on: DispatchQueue.main)

@@ -15,7 +15,15 @@ struct DailyResultView: View {
     @StateObject var resultDetailData: ResultDetailData
     @State var dailyLearnType: DailyLearnType
     
-    let input: PassthroughSubject<DailyResultViewModel.Input, Never> = .init()
+    private let contentsInput: PassthroughSubject<Void, Never> = .init()
+    private let footerInput: PassthroughSubject<Void, Never> = .init()
+    
+    var resultDetailTappedPublisher: AnyPublisher<Void, Never> {
+        contentsInput.eraseToAnyPublisher()
+    }
+    var conceptTappedPublisher: AnyPublisher<Void, Never> {
+        footerInput.eraseToAnyPublisher()
+    }
     
     var body: some View {
         ScrollView(.vertical) {
@@ -23,10 +31,10 @@ struct DailyResultView: View {
                 DailyResultScoreView(resultScoresData: resultScoresData,
                                      resultDetailData: resultDetailData,
                                      dailyLearnType: $dailyLearnType,
-                                     input: input)
+                                     input: contentsInput)
                 Spacer(minLength: 16)
                 TestResultGradesListView(resultGradeListData: resultGradeListData)
-                TestResultFooterView(resultScoresData: resultScoresData)
+                TestResultFooterView(resultScoresData: resultScoresData, input: footerInput)
             }
             .background(.customBlue50)
         }
