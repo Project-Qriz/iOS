@@ -18,16 +18,7 @@ struct ExamListRequest: Request {
     private let filterType: ExamListFilterType
 
     var query: QueryItems {
-        switch filterType {
-        case .completed:
-            return ["status": "completed"]
-        case .incomplete:
-            return ["status": "incomplete"]
-        case .sortByDate:
-            return ["sort": "asc"]
-        default:
-            return [:]
-        }
+        return filterType.queryParameter
     }
     
     var headers: HTTPHeader {

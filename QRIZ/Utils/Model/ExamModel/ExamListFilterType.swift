@@ -26,4 +26,17 @@ enum ExamListFilterType: String, CaseIterable, Comparable {
         case .sortByDate: return 3
         }
     }
+    
+    var queryParameter: [String: String] {
+        switch self {
+        case .incomplete:
+            return ["status": "incomplete"]
+        case .completed:
+            return ["status": "completed"]
+        case .sortByDate:
+            return ["sort": "asc"]
+        default:
+            return [:]
+        }
+    }
 }
