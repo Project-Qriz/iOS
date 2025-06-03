@@ -39,20 +39,14 @@ struct ExamScoreResponse: Decodable {
     let data: [SubjectInfo]
     
     struct SubjectInfo: Decodable {
-        let tiitle: String
+        let title: String
         let totalScore: CGFloat
         let majorItems: [MajorItemInfo]
         
         struct MajorItemInfo: Decodable {
             let majorItem: String
             let score: CGFloat
-            let subItemScores: [SubItemScoreInfo]
-            
-            struct SubItemScoreInfo: Decodable {
-                let subItem: String
-                let score: CGFloat
-            }
+            let subItemScores: [SubItemInfo]
         }
     }
-    
 }

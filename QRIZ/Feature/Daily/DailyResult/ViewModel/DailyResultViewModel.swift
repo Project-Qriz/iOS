@@ -8,7 +8,7 @@
 import Foundation
 import Combine
 
-final  class DailyResultViewModel {
+final class DailyResultViewModel {
     
     // MARK: - Input & Output
     enum Input {

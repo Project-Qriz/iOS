@@ -1,5 +1,5 @@
 //
-//  DailyTestOptionsView.swift
+//  TestContentsView.swift
 //  QRIZ
 //
 //  Created by 이창현 on 4/2/25.
@@ -8,12 +8,12 @@
 import UIKit
 import Combine
 
-final class DailyTestContentsView: UIStackView {
+final class TestContentsView: UIStackView {
     
     // MARK: - Properties
     private let numberLabel: QuestionNumberLabel = .init()
     private let titleLabel: QuestionTitleLabel = .init()
-    private let descriptionLabel: DailyTestDescriptionView = .init()
+    private let descriptionLabel: TestDescriptionView = .init()
     private let optionLabels: [QuestionOptionLabel] = {
         var arr: [QuestionOptionLabel] = []
         for optionIdx in 1...4 {
@@ -24,7 +24,10 @@ final class DailyTestContentsView: UIStackView {
         return arr
     }()
     
-    let input: PassthroughSubject<DailyTestViewModel.Input, Never> = .init()
+    private let optionTappedSubject: PassthroughSubject<Int, Never> = .init()
+    var optionTappedPublisher: AnyPublisher<Int, Never> {
+        optionTappedSubject.eraseToAnyPublisher()
+    }
     
     // MARK: - Initializers
     init() {
@@ -36,7 +39,7 @@ final class DailyTestContentsView: UIStackView {
     }
     
     required init(coder: NSCoder) {
-        fatalError("no initializer for coder: DailyTestContentsView")
+        fatalError("no initializer for coder: TestContentsView")
     }
     
     // MARK: - Methods
@@ -79,12 +82,12 @@ final class DailyTestContentsView: UIStackView {
     
     @objc private func sendTappedOption(_ sender: UITapGestureRecognizer) {
         guard let optionIdx = sender.view?.tag else { return }
-        input.send(.optionTapped(optionIdx: optionIdx))
+        optionTappedSubject.send(optionIdx)
     }
 }
     
 // MARK: - Layout
-extension DailyTestContentsView {
+extension TestContentsView {
     private func addViews() {
         addArrangedSubview(numberLabel)
         addArrangedSubview(titleLabel)

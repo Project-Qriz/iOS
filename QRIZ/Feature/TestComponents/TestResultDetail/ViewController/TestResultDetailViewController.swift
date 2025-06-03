@@ -8,17 +8,17 @@
 import UIKit
 import Combine
 
-final class DailyResultDetailViewController: UIViewController {
+final class TestResultDetailViewController: UIViewController {
     
     // MARK: - Properties
-    private var dailyResultDetailHostingController: DailyResultDetailHostingController!
+    private var dailyResultDetailHostingController: ResultDetailHostingController!
 
-    private let viewModel: DailyResultDetailViewModel
-    private let input: PassthroughSubject<DailyResultDetailViewModel.Input, Never> = .init()
+    private let viewModel: TestResultDetailViewModel
+    private let input: PassthroughSubject<TestResultDetailViewModel.Input, Never> = .init()
     private var subscriptions = Set<AnyCancellable>()
     
     // MARK: - Initializers
-    init(viewModel: DailyResultDetailViewModel) {
+    init(viewModel: TestResultDetailViewModel) {
         self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
     }
@@ -41,7 +41,7 @@ final class DailyResultDetailViewController: UIViewController {
     }
     
     private func loadDetailView() -> UIView {
-        dailyResultDetailHostingController = DailyResultDetailHostingController(
+        dailyResultDetailHostingController = ResultDetailHostingController(
             rootView: ResultDetailView(
                 resultScoreData: self.viewModel.resultScoresData,
                 resultDetailData: self.viewModel.resultDetailData))
@@ -54,7 +54,7 @@ final class DailyResultDetailViewController: UIViewController {
 }
 
 // MARK: - Auto Layout
-extension DailyResultDetailViewController {
+extension TestResultDetailViewController {
     private func addViews() {
         let resultDetailView = loadDetailView()
         self.view.addSubview(resultDetailView)

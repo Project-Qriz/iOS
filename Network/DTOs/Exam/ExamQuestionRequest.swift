@@ -36,23 +36,26 @@ struct ExamQuestionRequest: Request {
 struct ExamQuestionResponse: Decodable {
     let code: Int
     let msg: String
-    let data: DataInfo
-    
-    struct DataInfo: Decodable {
-        let questions: [QuestionInfo]
+    let data: ExamTestInfo
+
+    struct ExamTestInfo: Decodable {
+        let questions: [ExamQuestionInfo]
         let totalTimeLimit: Int
-        
-        struct QuestionInfo: Decodable {
-            let questionId: Int
-            let skillId: Int
-            let category: Int
-            let question: String
-            let description: String?
-            let option1: String
-            let option2: String
-            let option3: String
-            let option4: String
-            let timeLimit: Int
-        }
+    }
+}
+
+struct ExamQuestionInfo: Decodable {
+    let questionId: Int
+    let skillId: Int
+    let category: Int
+    let question: String
+    let description: String?
+    let options: [OptionInfo]
+    let timeLimit: Int
+    let difficulty: Int
+    
+    struct OptionInfo: Decodable {
+        let id: Int
+        let content: String
     }
 }

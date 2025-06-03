@@ -15,14 +15,10 @@ struct ExamListRequest: Request {
     let path = "/api/v1/exam/session-list"
     let method: HTTPMethod = .get
     private let accessToken: String
-    private let examStatus: ExamStatus?
-    private let isAscSortedByDate: Bool
+    private let filterType: ExamListFilterType
 
     var query: QueryItems {
-        var dic: [String: String] = [:]
-        if isAscSortedByDate { dic["sort"] = "asc" }
-        if let examStatus = examStatus { dic["status"] = examStatus.rawValue }
-        return dic
+        return filterType.queryParameter
     }
     
     var headers: HTTPHeader {
@@ -32,21 +28,20 @@ struct ExamListRequest: Request {
     }
     
     // MARK: - Initializers
-    init(accessToken: String, examStatus: ExamStatus? = nil, isAscSortedByDate: Bool = false) {
+    init(accessToken: String, filterType: ExamListFilterType) {
         self.accessToken = accessToken
-        self.examStatus = examStatus
-        self.isAscSortedByDate = isAscSortedByDate
+        self.filterType = filterType
     }
 }
 
 struct ExamListResponse: Decodable {
     let code: Int
     let msg: String
-    let data: [DataInfo]
-    
-    struct DataInfo: Decodable {
-        let completed: Bool
-        let session: String
-        let totalScore: CGFloat?
-    }
+    let data: [ExamListDataInfo]
+}
+
+struct ExamListDataInfo: Decodable {
+    let completed: Bool
+    let session: String
+    let totalScore: Double?
 }

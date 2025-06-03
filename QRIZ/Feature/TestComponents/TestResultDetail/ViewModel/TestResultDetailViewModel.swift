@@ -8,7 +8,7 @@
 import Foundation
 import Combine
 
-final class DailyResultDetailViewModel: ResultDetailViewModel {
+final class TestResultDetailViewModel: ResultDetailViewModel {
     
     // MARK: - Intializers
     init(resultDetailData: ResultDetailData) {

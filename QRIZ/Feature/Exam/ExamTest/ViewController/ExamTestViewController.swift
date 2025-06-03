@@ -1,14 +1,14 @@
 //
-//  DailyTestViewController.swift
+//  ExamTestViewController.swift
 //  QRIZ
 //
-//  Created by 이창현 on 4/1/25.
+//  Created by ch on 5/21/25.
 //
 
 import UIKit
 import Combine
 
-final class DailyTestViewController: UIViewController {
+final class ExamTestViewController: UIViewController {
     
     // MARK: - Properties
     private let scrollView: UIScrollView = {
@@ -17,24 +17,25 @@ final class DailyTestViewController: UIViewController {
         return scrollView
     }()
     private let progressView: TestProgressView = .init()
-    private let footerView: DailyTestFooterView = .init()
+    private let footerView: ExamTestFooterView = .init()
     private let contentsView: TestContentsView = .init()
-    private let timerLabel: DailyTestTimerLabel = .init()
-    
-    private let viewModel: DailyTestViewModel
-    private let input: PassthroughSubject<DailyTestViewModel.Input, Never> = .init()
+    private let timeLabel: TestTimeLabel = TestTimeLabel()
+    private let totalTimeRemainingLabel: TestTotalTimeRemainingLabel = TestTotalTimeRemainingLabel()
+
+    private let viewModel: ExamTestViewModel
+    private let input: PassthroughSubject<ExamTestViewModel.Input, Never> = .init()
     private var subscriptions = Set<AnyCancellable>()
     
     private let submitAlertViewController = TwoButtonCustomAlertViewController(title: "제출하시겠습니까?", description: "확인 버튼을 누르면 다시 돌아올 수 없어요.")
     
     // MARK: - Initializers
-    init(viewModel: DailyTestViewModel) {
+    init(viewModel: ExamTestViewModel) {
         self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
     }
     
     required init?(coder: NSCoder) {
-        fatalError("no initializer for coder: DailyTestViewController")
+        fatalError("no initializer for coder: ExamTestViewController")
     }
 
     // MARK: - Methods
@@ -54,18 +55,24 @@ final class DailyTestViewController: UIViewController {
     }
     
     private func bind() {
-        let optionTapped = contentsView.optionTappedPublisher.map {
-            DailyTestViewModel.Input.optionTapped(optionIdx: $0)
+        let optionTapped = contentsView.optionTappedPublisher.map { ExamTestViewModel.Input.optionTapped(optionIdx: $0)
         }
-        let mergedInput = input.merge(with: optionTapped, footerView.input)
-        let output = viewModel.transform(input: mergedInput.eraseToAnyPublisher())
+        let prevTapped = footerView.prevButtonTappedPublisher.map {
+            ExamTestViewModel.Input.prevButtonClicked
+        }
+        let nextTapped = footerView.nextButtonTappedPublisher.map {
+            ExamTestViewModel.Input.nextButtonClicked
+        }
+        let mergedInput = input.merge(with: optionTapped, prevTapped, nextTapped)
         
+        let output = viewModel.transform(input: mergedInput.eraseToAnyPublisher())
         output
             .receive(on: DispatchQueue.main)
             .sink { [weak self] event in
                 guard let self = self else { return }
                 switch event {
                 case .fetchFailed(let isServerError):
+                    submitAlertViewController.dismiss(animated: true)
                     if isServerError {
                         showOneButtonAlert(with: "Server Error", for: "관리자에게 문의하세요.", storingIn: &subscriptions)
                     } else {
@@ -81,21 +88,22 @@ final class DailyTestViewController: UIViewController {
                     updateProgress(timeLimit: timeLimit, timeRemaining: timeRemaining)
                 case .updateOptionState(let optionIdx, let isSelected):
                     contentsView.setOptionState(optionIdx: optionIdx, isSelected: isSelected)
-                case .setButtonVisibility(let isVisible):
-                    footerView.setButtonsVisibility(isVisible: isVisible)
-                case .alterButtonText:
-                    footerView.alterButtonText()
-                case .moveToDailyResult(let type, let day):
-                    self.navigationController?.pushViewController(DailyResultViewController(viewModel: DailyResultViewModel(dailyTestType: type, day: day, dailyService: DailyServiceImpl())), animated: true)
-                case .moveToHomeView:
-                    print("Move To Home View")
+                case .updatePrevButton(let isVisible):
+                    footerView.updatePrevButton(isVisible: isVisible)
+                case .updateNextButton(let isVisible, let isTextSubmit):
+                    footerView.updateNextButton(isVisible: isVisible, isTextSubmit: isTextSubmit)
+                case .moveToExamResult(let examId):
+                    removeNavigationItems()
+                    self.navigationController?.pushViewController(ExamResultViewController(viewModel: ExamResultViewModel(examId: examId, examService: ExamServiceImpl())), animated: true)
+                case .moveToExamList:
+                    removeNavigationItems()
+                    self.dismiss(animated: true)
                 case .popSubmitAlert:
                     present(submitAlertViewController, animated: true)
                 case .cancelAlert:
                     submitAlertViewController.dismiss(animated: true)
                 case .submitSuccess:
                     submitAlertViewController.dismiss(animated: true)
-                    removeNavigationItems()
                 case .submitFailed:
                     submitAlertViewController.dismiss(animated: true)
                     showOneButtonAlert(with: "잠시 후 다시 시도해주세요.", storingIn: &subscriptions)
@@ -105,11 +113,17 @@ final class DailyTestViewController: UIViewController {
     }
     
     private func setNavigationItems() {
-        let cancelButtonItem = UIBarButtonItem(title: "취소", style: .done, target: self, action: #selector(moveToHome))
+        let cancelButtonItem = UIBarButtonItem(title: "취소", style: .done, target: self, action: #selector(moveToExamList))
         cancelButtonItem.tintColor = .coolNeutral800
         navigationItem.leftBarButtonItem = cancelButtonItem
-        
-        navigationItem.rightBarButtonItem = UIBarButtonItem(customView: timerLabel)
+        navigationItem.rightBarButtonItems = [
+            UIBarButtonItem(customView: timeLabel),
+            UIBarButtonItem(customView: totalTimeRemainingLabel)
+        ]
+    }
+    
+    @objc private func moveToExamList() {
+        input.send(.cancelButtonClicked)
     }
     
     private func removeNavigationItems() {
@@ -117,13 +131,9 @@ final class DailyTestViewController: UIViewController {
         navigationItem.rightBarButtonItem = nil
     }
     
-    @objc private func moveToHome() {
-        input.send(.cancelButtonClicked)
-    }
-    
     private func updateProgress(timeLimit: Int, timeRemaining: Int) {
-        timerLabel.updateTime(timeRemaining: timeRemaining)
-        progressView.progress = Float(timeLimit - timeRemaining) / Float(timeLimit)
+        progressView.progress = Float(timeRemaining) / Float(timeLimit)
+        timeLabel.text = timeRemaining.formattedTime
     }
     
     private func setAlertButtonActions() {
@@ -141,8 +151,7 @@ final class DailyTestViewController: UIViewController {
     }
 }
 
-// Auto Layout
-extension DailyTestViewController {
+extension ExamTestViewController {
     private func addViews() {
         self.view.addSubview(progressView)
         self.view.addSubview(scrollView)
@@ -178,4 +187,5 @@ extension DailyTestViewController {
             contentsView.widthAnchor.constraint(equalTo: scrollView.widthAnchor),
         ])
     }
+
 }

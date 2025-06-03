@@ -7,7 +7,7 @@
 
 import UIKit
 
-final class DailyTestDescriptionView: UIView {
+final class TestDescriptionView: UIView {
     
     // MARK: - Properties
     private let label: UILabel = {
@@ -51,7 +51,7 @@ final class DailyTestDescriptionView: UIView {
     }
 }
 
-extension DailyTestDescriptionView {
+extension TestDescriptionView {
     private func addViews() {
         addSubview(label)
         

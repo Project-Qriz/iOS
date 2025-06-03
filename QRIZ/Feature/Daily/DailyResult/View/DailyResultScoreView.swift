@@ -14,12 +14,12 @@ struct DailyResultScoreView: View {
     @ObservedObject var resultDetailData: ResultDetailData
     @Binding var dailyLearnType: DailyLearnType
     
-    let input: PassthroughSubject<DailyResultViewModel.Input, Never>
+    let input: PassthroughSubject<Void, Never>
     
     var body: some View {
         VStack(spacing: 24) {
             HStack {
-                Text("채영님의\n").font(.system(size: 20, weight: .regular)) +
+                Text("\(resultScoresData.nickname) 님의\n").font(.system(size: 20, weight: .regular)) +
                 Text("\(dailyLearnType.rawValue) 결과").font(.system(size: 20, weight: .bold)) +
                 Text("에요!").font(.system(size: 20, weight: .regular))
                 
@@ -48,7 +48,7 @@ struct DailyResultScoreView: View {
             
             if dailyLearnType == .weekly {
                 Button {
-                    input.send(.resultDetailButtonClicked)
+                    input.send()
                 } label: {
                     Text("상세보기")
                         .font(.system(size: 14, weight: .medium))
@@ -66,5 +66,5 @@ struct DailyResultScoreView: View {
 }
 
 #Preview {
-    DailyResultScoreView(resultScoresData: ResultScoresData(), resultDetailData: ResultDetailData(), dailyLearnType: .constant(.weekly), input: PassthroughSubject<DailyResultViewModel.Input, Never>())
+    DailyResultScoreView(resultScoresData: ResultScoresData(), resultDetailData: ResultDetailData(), dailyLearnType: .constant(.weekly), input: PassthroughSubject<Void, Never>())
 }

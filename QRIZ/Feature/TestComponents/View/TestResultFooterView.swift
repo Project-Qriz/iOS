@@ -8,9 +8,10 @@
 import SwiftUI
 import Combine
 
-struct DailyResultFooterView: View {
+struct TestResultFooterView: View {
     
     @ObservedObject var resultScoresData: ResultScoresData
+    let input: PassthroughSubject<Void, Never>
     
     var body: some View {
         VStack(spacing: 16) {
@@ -25,7 +26,7 @@ struct DailyResultFooterView: View {
             .foregroundStyle(.coolNeutral800)
 
             Button {
-                
+                input.send()
             } label: {
                 Text("개념서 보러 가기")
                     .font(.system(size: 16, weight: .semibold))
@@ -42,5 +43,5 @@ struct DailyResultFooterView: View {
 }
 
 #Preview {
-    DailyResultFooterView(resultScoresData: ResultScoresData())
+    TestResultFooterView(resultScoresData: ResultScoresData(), input: PassthroughSubject<Void, Never>())
 }

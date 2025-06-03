@@ -1,30 +1,30 @@
 //
-//  DailyResultViewController.swift
+//  ExamResultViewController.swift
 //  QRIZ
 //
-//  Created by 이창현 on 4/1/25.
+//  Created by 이창현 on 5/26/25.
 //
 
 import UIKit
 import Combine
 
-final class DailyResultViewController: UIViewController {
+final class ExamResultViewController: UIViewController {
     
     // MARK: - Properties
-    private var dailyResultViewHostingController: DailyResultViewHostingController!
+    private var examResultHostingController: ExamResultHostingController!
     
-    private let viewModel: DailyResultViewModel
-    private let input: PassthroughSubject<DailyResultViewModel.Input, Never> = .init()
+    private let viewModel: ExamResultViewModel
+    private let input: PassthroughSubject<ExamResultViewModel.Input, Never> = .init()
     private var subscriptions = Set<AnyCancellable>()
     
     // MARK: - Initializers
-    init(viewModel: DailyResultViewModel) {
+    init(viewModel: ExamResultViewModel) {
         self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
     }
     
     required init?(coder: NSCoder) {
-        fatalError("no initializer for coder: DailyResultViewController")
+        fatalError("no initializer for coder: ExamResultViewController")
     }
 
     // MARK: - Methods
@@ -38,11 +38,11 @@ final class DailyResultViewController: UIViewController {
     }
     
     private func bind() {
-        let resultDetailTapped = dailyResultViewHostingController.rootView.resultDetailTappedPublisher.map {
-            DailyResultViewModel.Input.resultDetailButtonClicked
+        let resultDetailTapped = examResultHostingController.rootView.resultDetailTappedPublisher.map {
+            ExamResultViewModel.Input.resultDetailButtonClicked
         }
-        let conceptTapped = dailyResultViewHostingController.rootView.conceptTappedPublisher.map {
-            DailyResultViewModel.Input.moveToConceptButtonClicked
+        let conceptTapped = examResultHostingController.rootView.conceptTappedPublisher.map {
+            ExamResultViewModel.Input.moveToConceptButtonClicked
         }
         
         let mergedInput = input.merge(with: resultDetailTapped, conceptTapped)
@@ -60,8 +60,8 @@ final class DailyResultViewController: UIViewController {
                     }
                 case .moveToConcept:
                     print("Move To Concept")
-                case .moveToDailyLearn:
-                    print("Move To Daily Learn")
+                case .moveToExamList:
+                    print("Move To ExamList")
                 case .moveToResultDetail:
                     let vm = TestResultDetailViewModel(resultDetailData: self.viewModel.resultDetailData)
                     let vc = TestResultDetailViewController(viewModel: vm)
@@ -72,16 +72,16 @@ final class DailyResultViewController: UIViewController {
     }
     
     private func loadResultView() -> UIView {
-        dailyResultViewHostingController = DailyResultViewHostingController(
-            rootView: DailyResultView(
+        examResultHostingController = ExamResultHostingController(
+            rootView: ExamResultView(
                 resultScoresData: self.viewModel.resultScoresData,
                 resultGradeListData: self.viewModel.resultGradeListData,
                 resultDetailData: self.viewModel.resultDetailData,
-                dailyLearnType: self.viewModel.dailyTestType))
-        self.addChild(dailyResultViewHostingController)
-        dailyResultViewHostingController.didMove(toParent: self)
+                scoreGraphData: self.viewModel.scoreGraphData))
+        self.addChild(examResultHostingController)
+        examResultHostingController.didMove(toParent: self)
 
-        let resultView = dailyResultViewHostingController.view ?? UIView(frame: .zero)
+        let resultView = examResultHostingController.view ?? UIView(frame: .zero)
         return resultView
     }
     
@@ -106,18 +106,18 @@ final class DailyResultViewController: UIViewController {
 }
 
 // MARK: - AutoLayout
-extension DailyResultViewController {
+extension ExamResultViewController {
     private func addViews() {
-        let dailyResultView = loadResultView()
-        self.view.addSubview(dailyResultView)
+        let examResultView = loadResultView()
+        self.view.addSubview(examResultView)
         
-        dailyResultView.translatesAutoresizingMaskIntoConstraints = false
+        examResultView.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
-            dailyResultView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
-            dailyResultView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor),
-            dailyResultView.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor),
-            dailyResultView.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor)
+            examResultView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
+            examResultView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor),
+            examResultView.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor),
+            examResultView.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor)
         ])
     }
 }

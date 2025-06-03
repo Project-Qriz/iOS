@@ -8,7 +8,7 @@
 import Foundation
 
 protocol ExamService {
-    func getExamList() async throws -> ExamScheduleListResponse
+    func getExamList(filterType: ExamListFilterType) async throws -> ExamListResponse
     
     func getExamQuestion(examId: Int) async throws -> ExamQuestionResponse
     
@@ -32,8 +32,8 @@ final class ExamServiceImpl: ExamService {
     }
     
     // MARK: - Methods
-    func getExamList() async throws -> ExamScheduleListResponse {
-        let request = ExamScheduleListRequest(accessToken: getAccessToken())
+    func getExamList(filterType: ExamListFilterType) async throws -> ExamListResponse {
+        let request = ExamListRequest(accessToken: getAccessToken(), filterType: filterType)
         return try await network.send(request)
     }
     

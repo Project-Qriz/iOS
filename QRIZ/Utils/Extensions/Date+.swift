@@ -13,6 +13,14 @@ extension Date {
         let cal = Calendar.current
         return cal.component(.month, from: Date()) * 100 + cal.component(.day, from: Date())
     }
+    
+    /// `점수 변동 그래프를 위한 날짜 변환기입니다.`
+    var graphText: String {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "MM.dd"
+        let str = dateFormatter.string(from: self)
+        return dateFormatter.string(from: self)
+    }
 }
 
 /// `3월 8일(토) 형식의 날짜를 MM * 100 + dd 형태의 정수로 (예: 3월 8일 → 308) 변환해주는 연산 프로퍼티입니다.`
