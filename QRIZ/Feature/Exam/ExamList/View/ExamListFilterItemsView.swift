@@ -49,9 +49,7 @@ final class ExamListFilterItemsView: UIStackView {
     }
 
     private func appendItemLabels() {
-        ExamListFilterType.allCases.forEach { [weak self] type in
-            guard let self = self else { return }
-
+        ExamListFilterType.allCases.forEach { type in
             let button = UIButton()
             button.setTitle(type.rawValue, for: .normal)
             button.contentHorizontalAlignment = .left
