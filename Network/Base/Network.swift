@@ -37,12 +37,6 @@ final class NetworkImpl: Network {
     // MARK: - Functions
     
     func send<T: Request>(_ request: T) async throws -> T.Response {
-        try await send(request, shouldRetry: true)
-    }
-}
-
-private extension NetworkImpl {
-    func send<T: Request>(_ request: T, shouldRetry: Bool) async throws -> T.Response {
         let urlRequest = try RequestFactory(request: request).urlRequestRepresentation()
         let needsRetry = urlRequest.value(forHTTPHeaderField: authKey) != nil
         
@@ -52,13 +46,15 @@ private extension NetworkImpl {
         do {
             try validate(response, data)
             return try decode(T.Response.self, from: data)
-        } catch NetworkError.unAuthorizedError where shouldRetry && needsRetry {
+        } catch NetworkError.unAuthorizedError where needsRetry {
             return try await retry(urlRequest, responseType: T.Response.self)
         } catch {
             throw mapToNetworkError(error)
         }
     }
-    
+}
+
+private extension NetworkImpl {
     /// 401 응답 시 재요청 메서드
     func retry<T: Decodable>(_ request: URLRequest, responseType: T.Type) async throws -> T {
         guard let token = keychain.retrieveToken(forKey: HTTPHeaderField.accessToken.rawValue) else {
