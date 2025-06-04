@@ -56,7 +56,7 @@ final class NetworkImpl: Network {
 
 private extension NetworkImpl {
     /// 401 응답 시 재요청 메서드
-    func retry<T: Decodable>(_ request: URLRequest, responseType: T.Type) async throws -> T {
+    private func retry<T: Decodable>(_ request: URLRequest, responseType: T.Type) async throws -> T {
         guard let token = keychain.retrieveToken(forKey: HTTPHeaderField.accessToken.rawValue) else {
             notifier.notify(.expired)
             throw NetworkError.unAuthorizedError
@@ -79,7 +79,7 @@ private extension NetworkImpl {
     }
     
     /// 응답 헤더에 토큰 존재 시 저장 메서드
-    func saveAccessTokenIfPresent(in response: URLResponse) {
+    private func saveAccessTokenIfPresent(in response: URLResponse) {
         guard
             let http = response as? HTTPURLResponse,
             let bearer = http.value(forHTTPHeaderField: authKey),
@@ -89,7 +89,7 @@ private extension NetworkImpl {
     }
     
     /// HTTP 상태코드 검증 메서드
-    func validate(_ response: URLResponse, _ data: Data) throws {
+    private func validate(_ response: URLResponse, _ data: Data) throws {
         guard let http = response as? HTTPURLResponse else {
             throw NetworkError.unknownError
         }
@@ -114,13 +114,13 @@ private extension NetworkImpl {
     }
     
     /// JSON → Response 디코딩 메서드
-    func decode<T: Decodable>(_ type: T.Type, from data: Data) throws -> T {
+    private func decode<T: Decodable>(_ type: T.Type, from data: Data) throws -> T {
         do { return try decoder.decode(T.self, from: data) }
         catch { throw NetworkError.jsonDecodingError }
     }
     
     /// Error 매핑
-    func mapToNetworkError(_ error: Error) -> NetworkError {
+    private func mapToNetworkError(_ error: Error) -> NetworkError {
         switch error {
         case let networkError as NetworkError: return networkError
         case let urlError as URLError: return .invalidURL(message: urlError.localizedDescription)
