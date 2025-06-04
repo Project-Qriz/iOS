@@ -58,7 +58,6 @@ private extension NetworkImpl {
     /// 401 응답 시 재요청 메서드
     func retry<T: Decodable>(_ request: URLRequest, responseType: T.Type) async throws -> T {
         guard let token = keychain.retrieveToken(forKey: HTTPHeaderField.accessToken.rawValue) else {
-            keychain.deleteToken(forKey: HTTPHeaderField.accessToken.rawValue)
             notifier.notify(.expired)
             throw NetworkError.unAuthorizedError
         }
