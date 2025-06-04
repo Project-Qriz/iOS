@@ -21,6 +21,7 @@
 		54DB0DA12D0951C000ABD458 /* Font+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54DB0DA02D0951C000ABD458 /* Font+.swift */; };
 		54DB0DA52D099D6700ABD458 /* Colors.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 54DB0DA42D099D6700ABD458 /* Colors.xcassets */; };
 		54E91B762D18FACD00474D0A /* RoundButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54E91B752D18FACD00474D0A /* RoundButton.swift */; };
+		B127B6E22DED89B00048401F /* SessionEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = B127B6E12DED89B00048401F /* SessionEvent.swift */; };
 		B13045242DD9F9350036EBE2 /* TermsDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B13045232DD9F9350036EBE2 /* TermsDetailViewController.swift */; };
 		B13045262DD9F9AD0036EBE2 /* TermsDetailMainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B13045252DD9F9AD0036EBE2 /* TermsDetailMainView.swift */; };
 		B13045282DD9FA580036EBE2 /* TermsDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B13045272DD9FA580036EBE2 /* TermsDetailViewModel.swift */; };
@@ -269,6 +270,7 @@
 		54DB0DA02D0951C000ABD458 /* Font+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Font+.swift"; sourceTree = "<group>"; };
 		54DB0DA42D099D6700ABD458 /* Colors.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Colors.xcassets; sourceTree = "<group>"; };
 		54E91B752D18FACD00474D0A /* RoundButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoundButton.swift; sourceTree = "<group>"; };
+		B127B6E12DED89B00048401F /* SessionEvent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionEvent.swift; sourceTree = "<group>"; };
 		B13045232DD9F9350036EBE2 /* TermsDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TermsDetailViewController.swift; sourceTree = "<group>"; };
 		B13045252DD9F9AD0036EBE2 /* TermsDetailMainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TermsDetailMainView.swift; sourceTree = "<group>"; };
 		B13045272DD9FA580036EBE2 /* TermsDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TermsDetailViewModel.swift; sourceTree = "<group>"; };
@@ -528,6 +530,7 @@
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
+		B127B6D52DECBE1A0048401F /* Splash */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Splash; sourceTree = "<group>"; };
 		B13048972DE1E6370036EBE2 /* Home */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Home; sourceTree = "<group>"; };
 		B159A1292DA27AE6001153B5 /* Service */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Service; sourceTree = "<group>"; };
 		B17D6ABB2D9146C90023FCA5 /* FindAccount */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = FindAccount; sourceTree = "<group>"; };
@@ -666,6 +669,7 @@
 		54DB0D962D09506C00ABD458 /* Feature */ = {
 			isa = PBXGroup;
 			children = (
+				B127B6D52DECBE1A0048401F /* Splash */,
 				54E91B742D18FA9600474D0A /* CommonViews */,
 				B19C4FC32D6C223E00CD008A /* TabBar */,
 				E29CCD282D29855B004AA30A /* TestComponents */,
@@ -998,6 +1002,7 @@
 				B1D9A0E62D3686BA00E84934 /* CountdownTimer.swift */,
 				B17D6ADA2D9AB59A0023FCA5 /* KeychainManager.swift */,
 				E29FE4092DBA3F2900DECB26 /* UserInfoManager.swift */,
+				B127B6E12DED89B00048401F /* SessionEvent.swift */,
 			);
 			path = Manager;
 			sourceTree = "<group>";
@@ -1789,6 +1794,7 @@
 			dependencies = (
 			);
 			fileSystemSynchronizedGroups = (
+				B127B6D52DECBE1A0048401F /* Splash */,
 				B13048972DE1E6370036EBE2 /* Home */,
 				B183DF772DE23C5D0026A5D7 /* ExamSchedule */,
 				B190A2D92DBBC7C6008FDE86 /* View */,
@@ -1978,6 +1984,7 @@
 				B18CDBF92DCCF8C700DD361A /* Date+.swift in Sources */,
 				E29CCD3C2D298656004AA30A /* PreviewResultBarGraphsView.swift in Sources */,
 				54DB0DA12D0951C000ABD458 /* Font+.swift in Sources */,
+				B127B6E22DED89B00048401F /* SessionEvent.swift in Sources */,
 				B16774C92D80A244001820F3 /* JoinRequest.swift in Sources */,
 				B18CDF772DD4A53A00DD361A /* TermsAgreementItemView.swift in Sources */,
 				B168B76D2D2824BD0000F32E /* IDInputViewController.swift in Sources */,

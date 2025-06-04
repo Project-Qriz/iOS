@@ -26,7 +26,7 @@ final class ExamServiceImpl: ExamService {
     private let keychainManager: KeychainManager
     
     // MARK: - Initializers
-    init(network: Network = NetworkImp(session: URLSession.shared), keychainManager: KeychainManager = KeychainManagerImpl()) {
+    init(network: Network = NetworkImpl(session: URLSession.shared), keychainManager: KeychainManager = KeychainManagerImpl()) {
         self.network = network
         self.keychainManager = keychainManager
     }

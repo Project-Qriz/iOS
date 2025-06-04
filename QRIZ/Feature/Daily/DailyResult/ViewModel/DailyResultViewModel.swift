@@ -33,7 +33,7 @@ final class DailyResultViewModel {
     private var subject2DetailResult: [SubjectDetailData] = []
     private var passed: Bool = false
     private var numOfDataToPresent: Int = 0
-    private let nickname: String = UserInfoManager.name
+    private let nickname: String = UserInfoManager.shared.name
     private let day: Int
     let dailyTestType: DailyLearnType
     private var dayNum: String {
