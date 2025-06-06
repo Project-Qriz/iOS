@@ -67,7 +67,7 @@ final class QuickActionsCell: UICollectionViewCell {
         let button = UIButton(configuration: config)
         button.backgroundColor = .white
         button.layer.cornerRadius = 16
-        button.layer.masksToBounds = true
+        button.applyQRIZShadow(radius: 16)
         
         button.addAction(UIAction(handler: { _ in
             print(button.titleLabel!.text!)

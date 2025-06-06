@@ -55,4 +55,18 @@ extension UIView {
             })
         }
     }
+    
+    /// `QRIZ effect 그림자 설정용 메서드입니다.`
+    func applyQRIZShadow(
+        radius: CGFloat,
+        color: UIColor = .coolNeutral300,
+        opacity: Float = 0.12,
+        offset: CGSize = .init(width: 0, height: 1)
+    ) {
+        layer.masksToBounds = false
+        layer.shadowColor = color.cgColor
+        layer.shadowOpacity = opacity
+        layer.shadowOffset = offset
+        layer.shadowRadius = radius
+    }
 }
