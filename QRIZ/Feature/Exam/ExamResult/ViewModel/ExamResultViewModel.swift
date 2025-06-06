@@ -35,7 +35,7 @@ final class ExamResultViewModel {
     private var historicalScores: [HistoricalScore] = []
     private var numOfDataToPresent: Int = 0
     private var nickname: String {
-        UserInfoManager.name
+        UserInfoManager.shared.name
     }
     private let examId: Int
     
