@@ -14,43 +14,59 @@ final class MyPageMainView: UIView {
     
     // MARK: - UI
     
+    private let profileRegistration = UICollectionView.CellRegistration<ProfileCell, String>
+    { cell, _, userName in cell.configure(with: userName) }
+    
+    private let quickActionRegistration = UICollectionView.CellRegistration<QuickActionsCell, Void>
+    { _,_,_ in }
+    
+    private let supportHeaderRegistration = UICollectionView.CellRegistration<SupportHeaderCell, Void>
+    { _, _, _ in }
+    
+    private let supportMenuRegistration = UICollectionView.CellRegistration<SupportMenuCell, MyPageSectionItem.SupportMenu> {
+        cell, _, menu in cell.configure(title: menu.rawValue) }
+    
     private let collectionView: UICollectionView = {
-        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: MyPageLayoutFactory.makeLayout())
+        let collectionView = UICollectionView(
+            frame: .zero,
+            collectionViewLayout: MyPageLayoutFactory.makeLayout()
+        )
         collectionView.backgroundColor = .customBlue50
-        
-        collectionView.register(
-            ProfileCell.self,
-            forCellWithReuseIdentifier: String(describing: ProfileCell.self)
-        )
-        
-        collectionView.register(
-            QuickActionsCell.self,
-            forCellWithReuseIdentifier: String(describing: QuickActionsCell.self)
-        )
-        
         return collectionView
     }()
     
-    private lazy var dataSource = UICollectionViewDiffableDataSource<
-        MyPageSection, MyPageSectionItem>(collectionView: collectionView) { [weak self]
-            collectionView, indexPath, item in
+    private lazy var dataSource = UICollectionViewDiffableDataSource<MyPageSection, MyPageSectionItem>(
+        collectionView: collectionView) { [weak self] collectionView, indexPath, item in
             guard let self else { return UICollectionViewCell() }
             
             switch item {
-            case .profile(let userName):
-                guard let cell = collectionView.dequeueReusableCell(
-                    withReuseIdentifier: String(describing: ProfileCell.self),
-                    for: indexPath
-                ) as? ProfileCell else { return UICollectionViewCell() }
-                cell.configure(with: userName)
-                return cell
+            case .profile(let name):
+                return collectionView.dequeueConfiguredReusableCell(
+                    using: self.profileRegistration,
+                    for: indexPath,
+                    item: name
+                )
                 
             case .quickActions:
-                guard let cell = collectionView.dequeueReusableCell(
-                    withReuseIdentifier: String(describing: QuickActionsCell.self),
-                    for: indexPath
-                ) as? QuickActionsCell else { return UICollectionViewCell() }
-                return cell
+                return collectionView.dequeueConfiguredReusableCell(
+                    using: self.quickActionRegistration,
+                    for: indexPath,
+                    item: ()
+                )
+                
+            case .supportHeader:
+                return collectionView.dequeueConfiguredReusableCell(
+                    using: self.supportHeaderRegistration,
+                    for: indexPath,
+                    item: ()
+                )
+                
+            case .supportMenu(let menu):
+                return collectionView.dequeueConfiguredReusableCell(
+                    using: self.supportMenuRegistration,
+                    for: indexPath,
+                    item: menu
+                )
             }
         }
     
@@ -76,9 +92,15 @@ final class MyPageMainView: UIView {
     
     private func applyInitialSnapshot() {
         var snapshot = NSDiffableDataSourceSnapshot<MyPageSection, MyPageSectionItem>()
-        snapshot.appendSections([.profile, .quickActions])
+        snapshot.appendSections([.profile, .quickActions, .support])
         snapshot.appendItems([.profile(userName: "김세훈")], toSection: .profile)
         snapshot.appendItems([.quickActions], toSection: .quickActions)
+        snapshot.appendItems(
+            [.supportHeader,
+             .supportMenu(.termsOfService),
+             .supportMenu(.privacyPolicy),
+             .supportMenu(.versionInfo)], toSection: .support
+        )
         dataSource.apply(snapshot, animatingDifferences: false)
     }
 }
