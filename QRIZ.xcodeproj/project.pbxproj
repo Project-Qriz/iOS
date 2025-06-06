@@ -26,6 +26,7 @@
 		B13045262DD9F9AD0036EBE2 /* TermsDetailMainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B13045252DD9F9AD0036EBE2 /* TermsDetailMainView.swift */; };
 		B13045282DD9FA580036EBE2 /* TermsDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B13045272DD9FA580036EBE2 /* TermsDetailViewModel.swift */; };
 		B130452F2DDC77030036EBE2 /* UIScreen+.swift in Sources */ = {isa = PBXBuildFile; fileRef = B130452E2DDC77030036EBE2 /* UIScreen+.swift */; };
+		B1386C6E2DF0C787009D041F /* CardBackgroundView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1386C6D2DF0C787009D041F /* CardBackgroundView.swift */; };
 		B15188622D76D29B000EFE41 /* EmailSendRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = B15188612D76D29B000EFE41 /* EmailSendRequest.swift */; };
 		B15188662D782CCE000EFE41 /* SignUpCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = B15188652D782CCE000EFE41 /* SignUpCoordinator.swift */; };
 		B16288182D2CDB85008057D0 /* NameInputViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B16288172D2CDB85008057D0 /* NameInputViewModel.swift */; };
@@ -256,6 +257,7 @@
 		B13045252DD9F9AD0036EBE2 /* TermsDetailMainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TermsDetailMainView.swift; sourceTree = "<group>"; };
 		B13045272DD9FA580036EBE2 /* TermsDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TermsDetailViewModel.swift; sourceTree = "<group>"; };
 		B130452E2DDC77030036EBE2 /* UIScreen+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIScreen+.swift"; sourceTree = "<group>"; };
+		B1386C6D2DF0C787009D041F /* CardBackgroundView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardBackgroundView.swift; sourceTree = "<group>"; };
 		B15188612D76D29B000EFE41 /* EmailSendRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmailSendRequest.swift; sourceTree = "<group>"; };
 		B15188652D782CCE000EFE41 /* SignUpCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpCoordinator.swift; sourceTree = "<group>"; };
 		B16288172D2CDB85008057D0 /* NameInputViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NameInputViewModel.swift; sourceTree = "<group>"; };
@@ -492,10 +494,10 @@
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
-		B127B6D52DECBE1A0048401F /* Splash */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Splash; sourceTree = "<group>"; };
 		B127B6412DEA1E410048401F /* ViewController */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = ViewController; sourceTree = "<group>"; };
 		B127B6422DEA1E540048401F /* View */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = View; sourceTree = "<group>"; };
 		B127B6432DEA1E600048401F /* ViewModel */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = ViewModel; sourceTree = "<group>"; };
+		B127B6D52DECBE1A0048401F /* Splash */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Splash; sourceTree = "<group>"; };
 		B13048972DE1E6370036EBE2 /* Home */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Home; sourceTree = "<group>"; };
 		B159A1292DA27AE6001153B5 /* Service */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Service; sourceTree = "<group>"; };
 		B17D6ABB2D9146C90023FCA5 /* FindAccount */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = FindAccount; sourceTree = "<group>"; };
@@ -718,6 +720,7 @@
 				B17FE30B2D27F931002EC7D7 /* CustomTextField.swift */,
 				E24907D42D619FD4004D6E61 /* TestNavigatorButton.swift */,
 				B190A2E32DC0E023008FDE86 /* RoundBoxLabel.swift */,
+				B1386C6D2DF0C787009D041F /* CardBackgroundView.swift */,
 			);
 			path = CommonViews;
 			sourceTree = "<group>";
@@ -1599,10 +1602,10 @@
 			dependencies = (
 			);
 			fileSystemSynchronizedGroups = (
-				B127B6D52DECBE1A0048401F /* Splash */,
 				B127B6412DEA1E410048401F /* ViewController */,
 				B127B6422DEA1E540048401F /* View */,
 				B127B6432DEA1E600048401F /* ViewModel */,
+				B127B6D52DECBE1A0048401F /* Splash */,
 				B13048972DE1E6370036EBE2 /* Home */,
 				B183DF772DE23C5D0026A5D7 /* ExamSchedule */,
 				B190A2D92DBBC7C6008FDE86 /* View */,
@@ -1797,6 +1800,7 @@
 				E28BAD792D2C2DEB00B8388D /* TwoButtonCustomAlertViewController.swift in Sources */,
 				E2C084BE2D89AF2C0096CE20 /* PreviewResultInfoView.swift in Sources */,
 				E25855A62DC3AE0800AE174C /* DailyService.swift in Sources */,
+				B1386C6E2DF0C787009D041F /* CardBackgroundView.swift in Sources */,
 				541878572D0E22700089F478 /* NetworkError.swift in Sources */,
 				E2A6C6762DCA45970059F960 /* ExamResultRequest.swift in Sources */,
 				E29CCD522D299AD5004AA30A /* PreviewResultIncorrectConceptsRankView.swift in Sources */,
