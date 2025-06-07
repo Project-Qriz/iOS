@@ -56,8 +56,9 @@ final class GreetingViewController: UIViewController {
                 guard let self = self else { return }
                 switch event {
                 case .moveToHome:
-                    // coordinator delegate
-                    self.dismiss(animated: true)
+                    if let coordinator = coordinator {
+                        coordinator.delegate?.didFinishOnboarding(coordinator)
+                    }
                 }
             }
             .store(in: &subscriptions)

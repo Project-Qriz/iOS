@@ -160,3 +160,19 @@ extension AppCoordinatorImpl: LoginCoordinatorDelegate {
         _ = showTabBar()
     }
 }
+
+// MARK: - OnboardingCoordinatorDelegate
+
+extension AppCoordinatorImpl: OnboardingCoordinatorDelegate {
+    func didFinishOnboarding(_ coordinator: any OnboardingCoordinator) {
+        let service = dependency.userInfoService
+        
+        Task {
+            let response = try await service.getUserInfo()
+            UserInfoManager.shared.update(from: response.data)
+        }
+        
+        childCoordinators.removeAll() { $0 === coordinator }
+        _ = showTabBar()
+    }
+}

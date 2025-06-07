@@ -96,7 +96,9 @@ final class PreviewTestViewController: UIViewController {
                 case .moveToPreviewResult:
                     self.coordinator?.showPreviewResult()
                 case .moveToHome:
-                    self.dismiss(animated: true)
+                    if let coordinator = self.coordinator {
+                        coordinator.delegate?.didFinishOnboarding(coordinator)
+                    }
                 case .popUpAlert:
                     present(submitAlertViewController, animated: true)
                 case .cancelAlert:

@@ -25,7 +25,7 @@ protocol OnboardingCoordinatorDelegate: AnyObject {
 }
 
 @MainActor
-final class OnboardingCoordinatorImp: OnboardingCoordinator {
+final class OnboardingCoordinatorImpl: OnboardingCoordinator {
     
     // MARK: - Properties
     weak var delegate: OnboardingCoordinatorDelegate?
@@ -48,7 +48,8 @@ final class OnboardingCoordinatorImp: OnboardingCoordinator {
             showBeginOnboarding()
         case .surveyCompleted:
             showBeginPreviewTest()
-        default: // case : previewSkipped, previewCompleted
+        default:
+            // case : previewSkipped, previewCompleted
             break
         }
         return navigationController
