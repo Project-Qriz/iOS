@@ -23,7 +23,7 @@ final class BeginPreviewTestViewController: UIViewController {
     weak var coordinator: OnboardingCoordinator?
     
     // MARK - Initializers
-    init(viewModel: BeginPreviewTestViewModel = BeginPreviewTestViewModel()) {
+    init(viewModel: BeginPreviewTestViewModel) {
         self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
     }

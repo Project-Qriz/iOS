@@ -23,7 +23,7 @@ final class BeginOnboardingViewController: UIViewController {
     weak var coordinator: OnboardingCoordinator?
     
     // MARK: - Initializers
-    init(viewModel: BeginOnboardingViewModel = BeginOnboardingViewModel()) {
+    init(viewModel: BeginOnboardingViewModel) {
         self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
     }
