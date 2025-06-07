@@ -16,9 +16,21 @@ final class GreetingViewController: UIViewController {
     private let greetingSubtitleLabel: UILabel = OnboardingSubtitleLabel("준비되어 있는 오늘의 공부와, 모의고사로\n시험을 같이 준비해봐요!")
     private let greetingImageView: UIImageView = UIImageView(image: UIImage(named: "onboarding3"))
     
-    private var viewModel: GreetingViewModel = GreetingViewModel()
+    private var viewModel: GreetingViewModel
     private var subscriptions = Set<AnyCancellable>()
     private let input: PassthroughSubject<GreetingViewModel.Input, Never> = .init()
+    
+    weak var coordinator: OnboardingCoordinator?
+    
+    // MARK: - Initializers
+    init(viewModel: GreetingViewModel = GreetingViewModel()) {
+        self.viewModel = viewModel
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError()
+    }
     
     // MARK: - Methods
     override func viewDidLoad() {
@@ -44,7 +56,7 @@ final class GreetingViewController: UIViewController {
                 guard let self = self else { return }
                 switch event {
                 case .moveToHome:
-                    // coordinator role
+                    // coordinator delegate
                     self.dismiss(animated: true)
                 }
             }

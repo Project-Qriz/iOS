@@ -14,9 +14,21 @@ final class PreviewResultViewController: UIViewController {
     // MARK: - Properties
     private var previewResultViewHostingController: PreviewResultViewHostingController!
     
-    private var viewModel = PreviewResultViewModel(onboardingService: OnboardingServiceImpl())
+    private var viewModel: PreviewResultViewModel
     private let input: PassthroughSubject<PreviewResultViewModel.Input, Never> = .init()
     private var subscriptions = Set<AnyCancellable>()
+    
+    weak var coordinator: OnboardingCoordinator?
+    
+    // MARK: - Initializers
+    init(viewModel: PreviewResultViewModel) {
+        self.viewModel = viewModel
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError()
+    }
     
     // MARK: - Methods
     override func viewDidLoad() {
@@ -39,8 +51,7 @@ final class PreviewResultViewController: UIViewController {
                 case .fetchFailed:
                     self.showOneButtonAlert(with: "잠시 후 다시 시도해주세요.", storingIn: &subscriptions)
                 case .moveToGreetingView:
-                    // coordinator role
-                    navigationController?.pushViewController(GreetingViewController(), animated: true)
+                    self.coordinator?.showGreeting()
                 }
             }
             .store(in: &subscriptions)

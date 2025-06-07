@@ -16,9 +16,21 @@ final class BeginOnboardingViewController: UIViewController {
     private let beginOnboardingImageView: UIImageView = UIImageView(image: UIImage(named: "onboarding1"))
     private let beginOnboardingStartButton: UIButton = OnboardingButton("시작하기")
     
-    private var viewModel: BeginOnboardingViewModel = BeginOnboardingViewModel()
+    private var viewModel: BeginOnboardingViewModel
     private let input: PassthroughSubject<BeginOnboardingViewModel.Input, Never> = .init()
     private var subscriptions = Set<AnyCancellable>()
+    
+    weak var coordinator: OnboardingCoordinator?
+    
+    // MARK: - Initializers
+    init(viewModel: BeginOnboardingViewModel = BeginOnboardingViewModel()) {
+        self.viewModel = viewModel
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError()
+    }
     
     // MARK: - Methods
     override func viewDidLoad() {
@@ -38,8 +50,7 @@ final class BeginOnboardingViewController: UIViewController {
                 guard let self = self else { return }
                 switch event {
                 case .moveToCheckConcept:
-                    // should modify to using coordinator
-                    self.navigationController?.pushViewController(CheckConceptViewController(), animated: true)
+                    self.coordinator?.showCheckConcept()
                 }
             }
             .store(in: &subscriptions)

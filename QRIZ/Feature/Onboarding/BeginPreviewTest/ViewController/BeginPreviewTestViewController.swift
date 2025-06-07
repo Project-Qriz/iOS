@@ -16,9 +16,21 @@ final class BeginPreviewTestViewController: UIViewController {
     let beginImageView: UIImageView = UIImageView(image: UIImage(named: "onboarding2"))
     let beginTestButton: UIButton = OnboardingButton("간단한 테스트 시작")
     
-    private var viewModel: BeginPreviewTestViewModel = BeginPreviewTestViewModel()
+    private var viewModel: BeginPreviewTestViewModel
     private let input: PassthroughSubject<BeginPreviewTestViewModel.Input, Never> = .init()
     private var subscriptions = Set<AnyCancellable>()
+    
+    weak var coordinator: OnboardingCoordinator?
+    
+    // MARK - Initializers
+    init(viewModel: BeginPreviewTestViewModel = BeginPreviewTestViewModel()) {
+        self.viewModel = viewModel
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError()
+    }
     
     // MARK: - Methods
     override func viewDidLoad() {
@@ -39,8 +51,7 @@ final class BeginPreviewTestViewController: UIViewController {
                 guard let self = self else { return }
                 switch event {
                 case .moveToPreviewTest:
-                    self.navigationController?.pushViewController(PreviewTestViewController(), animated: true)
-                    // coordinator
+                    self.coordinator?.showPreviewTest()
                 }
             }
             .store(in: &subscriptions)
