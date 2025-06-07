@@ -8,6 +8,19 @@
 import Foundation
 
 struct HomeState: Equatable {
-    var examItem: ExamScheduleItem
+    var userName: String
+    var examStatus: ExamStatus
     var entryState: ExamEntryCardCell.State
+}
+
+enum ExamStatus: Equatable, Hashable {
+    case none
+    case expired(detail: ExamDetail)
+    case registered(dDay: Int, detail: ExamDetail)
+}
+
+struct ExamDetail: Equatable, Hashable {
+    let examDateText: String
+    let examName: String
+    let applyPeriod: String
 }

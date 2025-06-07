@@ -13,26 +13,8 @@ enum HomeSection: Int, CaseIterable {
 }
 
 enum HomeSectionItem: Hashable {
-    case examSchedule(ExamScheduleItem)
-    case examEntry(ExamEntryCardCell.State)
-}
-
-struct ExamScheduleItem: Hashable {
-    let id = UUID()
-    let userName: String
-    let kind: Kind
-    
-    enum Kind: Hashable {
-        case notRegistered
-        case expired
-        case registered(dDay: Int, detail: Detail)
-        
-        struct Detail: Hashable {
-            let examDateText: String
-            let examName: String
-            let applyPeriod: String
-        }
-    }
+    case schedule(userName: String, status: ExamStatus)
+    case entry(ExamEntryCardCell.State)
 }
 
 enum HomeLayoutFactory {
