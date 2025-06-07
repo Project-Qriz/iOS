@@ -28,9 +28,21 @@ final class CheckConceptViewController: UIViewController {
     }()
     private let checkDoneButton = OnboardingButton("선택완료")
     
-    private let viewModel: CheckConceptViewModel = CheckConceptViewModel(onboardingService: OnboardingServiceImpl())
+    private let viewModel: CheckConceptViewModel
     private let input: PassthroughSubject<CheckConceptViewModel.Input, Never> = .init()
     private var subscriptions = Set<AnyCancellable>()
+    
+    weak var coordinator: OnboardingCoordinator?
+    
+    // MARK: - Initializers
+    init(viewModel: CheckConceptViewModel) {
+        self.viewModel = viewModel
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError()
+    }
     
     // MARK: - Methods
     override func viewDidLoad() {
@@ -39,7 +51,6 @@ final class CheckConceptViewController: UIViewController {
         setCollectionView()
         bind()
         addViews()
-        navigationController?.navigationBar.isHidden = true
         addButtonAction()
     }
     
@@ -58,9 +69,9 @@ final class CheckConceptViewController: UIViewController {
                 guard let self = self else { return }
                 switch event {
                 case .moveToBeginPreviewTest:
-                    self.navigationController?.pushViewController(BeginPreviewTestViewController(), animated: true)
+                    self.coordinator?.showBeginPreviewTest()
                 case .moveToGreeting:
-                    self.navigationController?.pushViewController(GreetingViewController(), animated: true)
+                    self.coordinator?.showGreeting()
                 case .setAllAndNone(let numOfSelectedConcept, let checkNoneClicked):
                     checkNoneButton.checkboxHandler(numOfSelectedConcept: numOfSelectedConcept, checkNoneClicked: checkNoneClicked)
                     checkAllButton.checkboxHandler(numOfSelectedConcept: numOfSelectedConcept)

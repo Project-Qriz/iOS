@@ -58,8 +58,7 @@ final class DailyServiceImpl: DailyService {
     }
     
     private func getAccessToken() -> String {
-        let accessToken = keychainManager.retrieveToken(forKey: "accessToken") ?? ""
-        if accessToken.isEmpty { print("DailyService failed to get accessToken") }
+        let accessToken = keychainManager.retrieveToken(forKey: HTTPHeaderField.accessToken.rawValue) ?? ""
         return accessToken
     }
 }

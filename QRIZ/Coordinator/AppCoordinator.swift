@@ -23,6 +23,7 @@ protocol AppCoordinatorDependency {
     // Coordinators
     var loginCoordinator: LoginCoordinator { get }
     var tabBarCoordinator: TabBarCoordinator { get }
+    var onboardingCoordinator: OnboardingCoordinator { get }
     
     // Services
     var loginService: LoginService { get }
@@ -30,6 +31,7 @@ protocol AppCoordinatorDependency {
     var accountRecoveryService: AccountRecoveryService { get }
     var examScheduleService: ExamScheduleService { get }
     var userInfoService: UserInfoService { get }
+    var onboardingService: OnboardingService { get }
     
     // Utils
     var keychain: KeychainManager { get }
@@ -48,6 +50,7 @@ final class AppCoordinatorDependencyImpl: AppCoordinatorDependency {
     lazy var accountRecoveryService: AccountRecoveryService = AccountRecoveryServiceImpl(network: network)
     lazy var examScheduleService: ExamScheduleService = ExamScheduleServiceImpl(network: network, keychain: keychain)
     lazy var userInfoService: UserInfoService = UserInfoServiceImpl(network: network, keychainManager: keychain)
+    lazy var onboardingService: OnboardingService = OnboardingServiceImpl(network: network, keychainManager: keychain)
     
     private lazy var _loginCoordinator: LoginCoordinator = {
         let navi = UINavigationController()
@@ -66,6 +69,13 @@ final class AppCoordinatorDependencyImpl: AppCoordinatorDependency {
     var tabBarCoordinator: TabBarCoordinator {
         let tabBarDependency = TabBarCoordinatorDependencyImp(examService: examScheduleService)
         return TabBarCoordinatorImp(dependency: tabBarDependency)
+    }
+    
+    var onboardingCoordinator: OnboardingCoordinator {
+        let navi = UINavigationController()
+        return OnboardingCoordinatorImpl(navigationController: navi,
+                                         onboardingService: onboardingService,
+                                         userInfoService: userInfoService)
     }
 }
 
@@ -125,6 +135,17 @@ final class AppCoordinatorImpl: AppCoordinator {
         window.makeKeyAndVisible()
         return tabBarVC
     }
+    
+    private func showOnboarding() -> UIViewController {
+        let onboardingCoordinator = dependency.onboardingCoordinator
+        (onboardingCoordinator as? OnboardingCoordinatorImpl)?.delegate = self
+        childCoordinators.append(onboardingCoordinator)
+        
+        let onboardingVC = onboardingCoordinator.start()
+        window.rootViewController = onboardingVC
+        window.makeKeyAndVisible()
+        return onboardingVC
+    }
 
     private func bindSessionEvent() {
         dependency.sessionNotifier.event
@@ -157,6 +178,16 @@ extension AppCoordinatorImpl: SplashCoordinatorDelegate {
 extension AppCoordinatorImpl: LoginCoordinatorDelegate {
     func didLogin(_ coordinator: LoginCoordinator) {
         childCoordinators.removeAll { $0 === coordinator }
+        _ = UserInfoManager.shared.previewTestStatus == .notStarted ?
+        showOnboarding() : showTabBar()
+    }
+}
+
+// MARK: - OnboardingCoordinatorDelegate
+
+extension AppCoordinatorImpl: OnboardingCoordinatorDelegate {
+    func didFinishOnboarding(_ coordinator: any OnboardingCoordinator) {
+        childCoordinators.removeAll() { $0 === coordinator }
         _ = showTabBar()
     }
 }

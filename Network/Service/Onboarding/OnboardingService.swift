@@ -53,8 +53,7 @@ final class OnboardingServiceImpl: OnboardingService {
     
     // reissue로 인한 키체인의 accessToken이 변경되는 경우를 대비해서 매번 가져옴
     private func getAccessToken() -> String {
-        let accessToken = keychainManager.retrieveToken(forKey: "accessToken") ?? ""
-        if accessToken.isEmpty { print("OnboardingService failed to get accessToken") }
+        let accessToken = keychainManager.retrieveToken(forKey: HTTPHeaderField.accessToken.rawValue) ?? ""
         return accessToken
     }
 }

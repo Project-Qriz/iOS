@@ -16,9 +16,21 @@ final class GreetingViewController: UIViewController {
     private let greetingSubtitleLabel: UILabel = OnboardingSubtitleLabel("준비되어 있는 오늘의 공부와, 모의고사로\n시험을 같이 준비해봐요!")
     private let greetingImageView: UIImageView = UIImageView(image: UIImage(named: "onboarding3"))
     
-    private var viewModel: GreetingViewModel = GreetingViewModel()
+    private var viewModel: GreetingViewModel
     private var subscriptions = Set<AnyCancellable>()
     private let input: PassthroughSubject<GreetingViewModel.Input, Never> = .init()
+    
+    weak var coordinator: OnboardingCoordinator?
+    
+    // MARK: - Initializers
+    init(viewModel: GreetingViewModel) {
+        self.viewModel = viewModel
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError()
+    }
     
     // MARK: - Methods
     override func viewDidLoad() {
@@ -43,9 +55,14 @@ final class GreetingViewController: UIViewController {
             .sink { [weak self] event in
                 guard let self = self else { return }
                 switch event {
+                case .updateNickname(let nickname):
+                    updateNickname(nickname)
                 case .moveToHome:
-                    // coordinator role
-                    self.dismiss(animated: true)
+                    if let coordinator = coordinator {
+                        coordinator.delegate?.didFinishOnboarding(coordinator)
+                    }
+                case .fetchFailed:
+                    showOneButtonAlert(with: "잠시 후 다시 시도해주세요.", storingIn: &subscriptions)
                 }
             }
             .store(in: &subscriptions)
@@ -53,6 +70,10 @@ final class GreetingViewController: UIViewController {
 
     private func setTitleLabelText() {
         greetingTitleLabel.text = "\(nickname)\(greetingTitleLabel.text ?? "님\n환영합니다")"
+    }
+    
+    private func updateNickname(_ nickname: String) {
+        self.nickname = nickname
     }
 }
 

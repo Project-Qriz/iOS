@@ -12,11 +12,14 @@ final class GreetingViewModel {
     
     // MARK: - Input & Output
     enum Input {
+        case viewDidLoad
         case viewDidAppear
     }
     
     enum Output {
+        case updateNickname(nickname: String)
         case moveToHome
+        case fetchFailed
     }
     
     // MARK: - Properties
@@ -24,11 +27,21 @@ final class GreetingViewModel {
     private var subscriptions = Set<AnyCancellable>()
     private var timer: Timer?
     
+    private let userInfoService: UserInfoService
+    
+    // MARK: - Initializer
+    init(userInfoService: UserInfoService) {
+        self.userInfoService = userInfoService
+    }
+    
     // MARK: - Methods
     func transform(input: AnyPublisher<Input, Never>) -> AnyPublisher<Output, Never> {
         input.sink { [weak self] event in
             guard let self = self else { return }
             switch event {
+            case .viewDidLoad:
+                self.updateUserInfo()
+                output.send(.updateNickname(nickname: UserInfoManager.shared.name))
             case .viewDidAppear:
                 self.startTimer()
             }
@@ -44,6 +57,17 @@ final class GreetingViewModel {
             guard let self = self else { return }
             self.output.send(.moveToHome)
             timer?.invalidate()
+        }
+    }
+    
+    private func updateUserInfo() {
+        Task {
+            do {
+                let response = try await userInfoService.getUserInfo()
+                UserInfoManager.shared.update(from: response.data)
+            } catch {
+                output.send(.fetchFailed)
+            }
         }
     }
 }

@@ -222,6 +222,7 @@
 		E2A6C6762DCA45970059F960 /* ExamResultRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2A6C6752DCA45970059F960 /* ExamResultRequest.swift */; };
 		E2A6C7352DCA4C850059F960 /* ExamService.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2A6C7342DCA4C850059F960 /* ExamService.swift */; };
 		E2C084BE2D89AF2C0096CE20 /* PreviewResultInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2C084BD2D89AF2C0096CE20 /* PreviewResultInfoView.swift */; };
+		E2C1016B2DF2E10200C3512E /* OnboardingCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2C1016A2DF2E10200C3512E /* OnboardingCoordinator.swift */; };
 		E2D70FE82D0DD322005A3F51 /* BeginPreviewTestViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2D70FE72D0DD322005A3F51 /* BeginPreviewTestViewModel.swift */; };
 		E2D70FEC2D0EBDDD005A3F51 /* CheckListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2D70FEB2D0EBDDD005A3F51 /* CheckListCell.swift */; };
 		E2D70FEE2D0EC037005A3F51 /* CheckConceptViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2D70FED2D0EC037005A3F51 /* CheckConceptViewModel.swift */; };
@@ -479,6 +480,7 @@
 		E2A6C6752DCA45970059F960 /* ExamResultRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExamResultRequest.swift; sourceTree = "<group>"; };
 		E2A6C7342DCA4C850059F960 /* ExamService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExamService.swift; sourceTree = "<group>"; };
 		E2C084BD2D89AF2C0096CE20 /* PreviewResultInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreviewResultInfoView.swift; sourceTree = "<group>"; };
+		E2C1016A2DF2E10200C3512E /* OnboardingCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingCoordinator.swift; sourceTree = "<group>"; };
 		E2D70FE72D0DD322005A3F51 /* BeginPreviewTestViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BeginPreviewTestViewModel.swift; sourceTree = "<group>"; };
 		E2D70FEB2D0EBDDD005A3F51 /* CheckListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckListCell.swift; sourceTree = "<group>"; };
 		E2D70FED2D0EC037005A3F51 /* CheckConceptViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckConceptViewModel.swift; sourceTree = "<group>"; };
@@ -1149,6 +1151,7 @@
 				E29CCD182D2982AD004AA30A /* PreviewTest */,
 				E29CCD3B2D298656004AA30A /* PreviewResult */,
 				E29CCD482D29867F004AA30A /* Greeting */,
+				E2C1016A2DF2E10200C3512E /* OnboardingCoordinator.swift */,
 			);
 			path = Onboarding;
 			sourceTree = "<group>";
@@ -2022,7 +2025,6 @@
 				B16288262D300CBA008057D0 /* PasswordInputViewModel.swift in Sources */,
 				E2908E682DB3A68E00B8E81B /* ResultDetailView.swift in Sources */,
 				B1D813712D6E0C1F00A9D447 /* HomeCoordinator.swift in Sources */,
-				E2019A242DE9E1F5008AD668 /* Date+.swift in Sources */,
 				E23824E12D0C3157009E7989 /* BeginOnboardingViewController.swift in Sources */,
 				B16774D72D89D2EE001820F3 /* AccountRecoveryService.swift in Sources */,
 				E29CCD292D29855B004AA30A /* QuestionNumberLabel.swift in Sources */,
@@ -2081,7 +2083,6 @@
 				B18F450D2D3994380030F7DB /* FindIDMainView.swift in Sources */,
 				B168B7692D2807470000F32E /* SignUpVerificationViewController.swift in Sources */,
 				54E91B762D18FACD00474D0A /* RoundButton.swift in Sources */,
-				54DB0D992D0950DE00ABD458 /* HomeViewModel.swift in Sources */,
 				E24991B32DE599B70012BA13 /* ScoreGraphFilterType.swift in Sources */,
 				E217C3622D9BEA8D0095A3D8 /* DailyTestViewController.swift in Sources */,
 				B17FE30A2D27F8E9002EC7D7 /* UITextField+.swift in Sources */,
@@ -2125,6 +2126,7 @@
 				E25856DE2D0DADD300355667 /* BeginOnboardingViewModel.swift in Sources */,
 				E27843212DDE13B600E9AD07 /* ExamTestViewController.swift in Sources */,
 				B1D9A0E72D3686BA00E84934 /* CountdownTimer.swift in Sources */,
+				E2C1016B2DF2E10200C3512E /* OnboardingCoordinator.swift in Sources */,
 				B18F45102D3997280030F7DB /* FindAccountHeaderView.swift in Sources */,
 				E29BF8552D117CF1006DC6D0 /* SurveyCheckList.swift in Sources */,
 				E2DD0E862D2146D900DA3D18 /* IncorrectCountData.swift in Sources */,

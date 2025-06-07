@@ -48,9 +48,21 @@ final class PreviewTestViewController: UIViewController {
     }()
     private let submitAlertViewController = TwoButtonCustomAlertViewController(title: "제출하시겠습니까?", description: "확인 버튼을 누르면 다시 돌아올 수 없어요.")
     
-    private let viewModel: PreviewTestViewModel = PreviewTestViewModel(onboardingService: OnboardingServiceImpl())
+    private let viewModel: PreviewTestViewModel
     private var subscriptions = Set<AnyCancellable>()
     private let input: PassthroughSubject<PreviewTestViewModel.Input, Never> = .init()
+    
+    weak var coordinator: OnboardingCoordinator?
+    
+    // MARK: - Initializers
+    init(viewModel: PreviewTestViewModel) {
+        self.viewModel = viewModel
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError()
+    }
     
     // MARK: - Methods
     override func viewDidLoad() {
@@ -82,15 +94,17 @@ final class PreviewTestViewController: UIViewController {
                 case .updateTime(let timeLimit, let timeRemaining):
                     updateProgress(timeLimit: timeLimit, timeRemaining: timeRemaining)
                 case .moveToPreviewResult:
-                    self.navigationController?.pushViewController(PreviewResultViewController(), animated: true)
+                    self.coordinator?.showPreviewResult()
                 case .moveToHome:
-                    self.dismiss(animated: true)
+                    if let coordinator = self.coordinator {
+                        coordinator.delegate?.didFinishOnboarding(coordinator)
+                    }
                 case .popUpAlert:
-                    present(submitAlertViewController, animated: true) // coordniator role
+                    present(submitAlertViewController, animated: true)
                 case .cancelAlert:
-                    submitAlertViewController.dismiss(animated: true) // coordinator role
+                    submitAlertViewController.dismiss(animated: true)
                 case .submitSuccess:
-                    submitAlertViewController.dismiss(animated: true) // coordinator role
+                    submitAlertViewController.dismiss(animated: true)
                 case .submitFail:
                     submitAlertViewController.dismiss(animated: true)
                     self.showOneButtonAlert(with: "잠시 후 다시 시도해주세요.", storingIn: &subscriptions)
