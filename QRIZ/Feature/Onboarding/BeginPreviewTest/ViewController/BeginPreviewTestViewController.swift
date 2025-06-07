@@ -36,7 +36,6 @@ final class BeginPreviewTestViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = .white
-        self.navigationItem.hidesBackButton = true
         bind()
         addViews()
         addButtonAction()

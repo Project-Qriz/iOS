@@ -92,7 +92,7 @@ final class OnboardingCoordinatorImpl: OnboardingCoordinator {
     
     func showGreeting() {
         let vm = GreetingViewModel()
-        let vc = GreetingViewController()
+        let vc = GreetingViewController(viewModel: vm)
         vc.coordinator = self
         navigationController.pushViewController(vc, animated: true)
     }

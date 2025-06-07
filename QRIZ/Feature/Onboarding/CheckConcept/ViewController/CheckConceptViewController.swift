@@ -51,7 +51,6 @@ final class CheckConceptViewController: UIViewController {
         setCollectionView()
         bind()
         addViews()
-        navigationController?.navigationBar.isHidden = true
         addButtonAction()
     }
     

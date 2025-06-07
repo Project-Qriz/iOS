@@ -39,6 +39,7 @@ final class BeginOnboardingViewController: UIViewController {
         bind()
         addViews()
         addButtonAction()
+        navigationController?.navigationBar.isHidden = true
     }
     
     private func bind() {
