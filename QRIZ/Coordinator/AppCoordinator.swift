@@ -57,6 +57,7 @@ final class AppCoordinatorDependencyImpl: AppCoordinatorDependency {
         return LoginCoordinatorImp(
             navigationController: navi,
             loginService: loginService,
+            userInfoService: userInfoService,
             signUpService: signUpService,
             accountRecoveryService: accountRecoveryService
         )

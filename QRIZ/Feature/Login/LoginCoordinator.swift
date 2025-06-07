@@ -28,24 +28,28 @@ final class LoginCoordinatorImp: LoginCoordinator {
     weak var delegate: LoginCoordinatorDelegate?
     private let navigationController: UINavigationController
     private var childCoordinators: [Coordinator] = []
+    
     private let loginService: LoginService
+    private let userInfoService: UserInfoService
     private let signUpService: SignUpService
     private let accountRecoveryService: AccountRecoveryService
     
     init(
         navigationController: UINavigationController,
         loginService: LoginService,
+        userInfoService: UserInfoService,
         signUpService: SignUpService,
         accountRecoveryService: AccountRecoveryService
     ) {
         self.navigationController = navigationController
         self.loginService = loginService
+        self.userInfoService = userInfoService
         self.signUpService = signUpService
         self.accountRecoveryService = accountRecoveryService
     }
     
     func start() -> UIViewController {
-        let loginVM = LoginViewModel(loginService: loginService)
+        let loginVM = LoginViewModel(loginService: loginService, userInfoService: userInfoService)
         let loginVC = LoginViewController(loginVM: loginVM)
         loginVC.coordinator = self
         navigationController.viewControllers = [loginVC]

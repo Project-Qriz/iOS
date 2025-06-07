@@ -14,6 +14,7 @@ final class LoginViewModel {
     // MARK: - Properties
     
     private let loginService: LoginService
+    private let userInfoService: UserInfoService
     private let outputSubject: PassthroughSubject<Output, Never> = .init()
     private var cancellables = Set<AnyCancellable>()
     private let logger = Logger(subsystem: Bundle.main.bundleIdentifier ?? "kr.QRIZ", category: "LoginViewModel")
@@ -23,8 +24,12 @@ final class LoginViewModel {
     
     // MARK: - Initialize
     
-    init(loginService: LoginService) {
+    init(
+        loginService: LoginService,
+        userInfoService: UserInfoService
+    ) {
         self.loginService = loginService
+        self.userInfoService = userInfoService
     }
     
     // MARK: - Functions
@@ -77,6 +82,8 @@ final class LoginViewModel {
         Task {
             do {
                 _ = try await loginService.login(id: id, password: password)
+                let userInfo = try await userInfoService.getUserInfo()
+                UserInfoManager.shared.update(from: userInfo.data)
                 outputSubject.send(.loginSucceeded)
             } catch {
                 let title = "아이디 또는 비밀번호 확인"
