@@ -145,7 +145,7 @@ final class ExamScheduleRegisteredCell: UICollectionViewCell {
         backgroundColor = .customBlue50
     }
     
-    func configure(userName: String, dday: Int, detail: ExamScheduleItem.Kind.Detail) {
+    func configure(userName: String, dday: Int, detail: ExamDetail) {
         let title = "\(userName)님이\n등록한 시험까지"
         titleLabel.attributedText = UILabel.setLineSpacing(6, text: title)
         numberBox.setText("\(dday)")

@@ -14,10 +14,8 @@ final class HomeViewModel {
     // MARK: - Properties
     
     private let examScheduleService: ExamScheduleService
-    private let stateSubject = CurrentValueSubject<HomeState, Never>(
-        .init(examItem: .init(userName: "", kind: .notRegistered),
-              entryState: .preview)
-    )
+    private let userInfo = UserInfoManager.shared
+    private let stateSubject: CurrentValueSubject<HomeState, Never>
     private let outputSubject: PassthroughSubject<Output, Never> = .init()
     private var cancellables = Set<AnyCancellable>()
     private let logger = Logger(subsystem: Bundle.main.bundleIdentifier ?? "kr.QRIZ", category: "HomeViewModel")
@@ -25,7 +23,15 @@ final class HomeViewModel {
     // MARK: - Initialize
     
     init(examScheduleService: ExamScheduleService) {
+        let initEntry: ExamEntryCardCell.State = userInfo.previewTestStatus == .previewCompleted ? .mock : .preview
+        let initState = HomeState(
+            userName: userInfo.name,
+            examStatus: .none,
+            entryState: initEntry
+        )
+        
         self.examScheduleService = examScheduleService
+        self.stateSubject = .init(initState)
     }
     
     // MARK: - Functions
@@ -44,13 +50,11 @@ final class HomeViewModel {
         return outputSubject.eraseToAnyPublisher()
     }
     
-    // TODO: - 사용자 정보(userName) API 추후에 연동 필요
-    
     @MainActor
     private func loadExamSchedule() async {
         do {
-            let item = try await buildExamItem()
-            updateState { $0.examItem = item }
+            let state = try await makeState()
+            updateState { $0 = state }
             
         } catch let networkError as NetworkError {
             handleNetworkError(networkError)
@@ -61,28 +65,40 @@ final class HomeViewModel {
         }
     }
     
-    private func buildExamItem() async throws -> ExamScheduleItem {
-        let response = try await examScheduleService.fetchAppliedExams()
-        let detail = ExamScheduleItem.Kind.Detail(
-            examDateText: response.data.examDate,
-            examName:     response.data.examName,
-            applyPeriod:  response.data.period
-        )
-        let dDay = remainingDays(from: response.data.examDate)
-        let kind = makeKind(dDay: dDay, detail: detail)
-        return ExamScheduleItem(userName: "세훈", kind: kind)
-    }
-    
-    /// D- day 값에 따라 expired를 판별해주는 메서드
-    private func makeKind(dDay: Int, detail: ExamScheduleItem.Kind.Detail) -> ExamScheduleItem.Kind {
-        return dDay < 0 ? .expired : .registered(dDay: dDay, detail: detail)
+    private func makeState() async throws -> HomeState {
+        do {
+            let response = try await examScheduleService.fetchAppliedExams()
+            let detail = ExamDetail(
+                examDateText: response.data.examDate,
+                examName: response.data.examName,
+                applyPeriod: response.data.period
+            )
+            let dDay = calculateDday(from: response.data.examDate)
+            let status: ExamStatus = dDay <= 0 ? .expired(detail: detail) : .registered(dDay: dDay, detail: detail)
+            let entry: ExamEntryCardCell.State = userInfo.previewTestStatus == .previewCompleted ? .mock : .preview
+            return HomeState(
+                userName: userInfo.name,
+                examStatus: status,
+                entryState: entry
+            )
+        } catch let error as NetworkError {
+            if case .clientError(let status, _, _) = error, status == 400 {
+                let entry: ExamEntryCardCell.State = userInfo.previewTestStatus == .previewCompleted ? .mock : .preview
+                return HomeState(
+                    userName: userInfo.name,
+                    examStatus: .none,
+                    entryState: entry
+                )
+            }
+            throw error
+        }
     }
     
     private func handleNetworkError(_ error: NetworkError) {
         switch error {
         case .clientError(let status, _, _) where status == 400:
-            updateState { $0.examItem = ExamScheduleItem(userName: "세훈", kind: .notRegistered) }
-            
+            let entry: ExamEntryCardCell.State = userInfo.previewTestStatus == .previewCompleted ? .mock : .preview
+            updateState { $0 = HomeState(userName: userInfo.name, examStatus: .none, entryState: entry) }
         default:
             outputSubject.send(.showErrorAlert(error.errorMessage))
         }
@@ -90,25 +106,20 @@ final class HomeViewModel {
     }
     
     /// 시험일까지 남은 일수를 계산해주는 메서드입니다.
-    private func remainingDays(from dateString: String) -> Int {
+    private func calculateDday(from dateString: String) -> Int {
         let trimmed = dateString.split(separator: "(").first.map(String.init) ?? dateString
         let formatter = DateFormatter()
         formatter.locale = Locale(identifier: "ko_KR")
         formatter.timeZone = TimeZone(identifier: "Asia/Seoul")
         formatter.dateFormat = "M월 d일"
-        
-        guard
-            let mdDate = formatter.date(from: trimmed),
-            let comps = Calendar.current.dateComponents([.month, .day], from: mdDate) as DateComponents?
-        else { return Int.min }
-        
-        var targetComps = Calendar.current.dateComponents([.year], from: Date())
-        targetComps.month = comps.month
-        targetComps.day = comps.day
-        targetComps.calendar = Calendar.current
-        targetComps.timeZone = TimeZone(identifier: "Asia/Seoul")
-        
-        guard let target = targetComps.date else { return Int.min }
+        guard let mdDate = formatter.date(from: trimmed) else { return Int.min }
+        var comps = Calendar.current.dateComponents([.year], from: Date())
+        let mdComps = Calendar.current.dateComponents([.month, .day], from: mdDate)
+        comps.month = mdComps.month
+        comps.day = mdComps.day
+        comps.calendar = Calendar.current
+        comps.timeZone = TimeZone(identifier: "Asia/Seoul")
+        guard let target = comps.date else { return Int.min }
         let today = Calendar.current.startOfDay(for: Date())
         return Calendar.current.dateComponents([.day], from: today, to: target).day ?? Int.min
     }
