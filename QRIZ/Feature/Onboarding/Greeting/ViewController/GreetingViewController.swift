@@ -55,6 +55,8 @@ final class GreetingViewController: UIViewController {
             .sink { [weak self] event in
                 guard let self = self else { return }
                 switch event {
+                case .updateNickname(let nickname):
+                    updateNickname(nickname)
                 case .moveToHome:
                     if let coordinator = coordinator {
                         coordinator.delegate?.didFinishOnboarding(coordinator)
@@ -68,6 +70,10 @@ final class GreetingViewController: UIViewController {
 
     private func setTitleLabelText() {
         greetingTitleLabel.text = "\(nickname)\(greetingTitleLabel.text ?? "님\n환영합니다")"
+    }
+    
+    private func updateNickname(_ nickname: String) {
+        self.nickname = nickname
     }
 }
 

@@ -17,6 +17,7 @@ final class GreetingViewModel {
     }
     
     enum Output {
+        case updateNickname(nickname: String)
         case moveToHome
         case fetchFailed
     }
@@ -40,6 +41,7 @@ final class GreetingViewModel {
             switch event {
             case .viewDidLoad:
                 self.updateUserInfo()
+                output.send(.updateNickname(nickname: UserInfoManager.shared.name))
             case .viewDidAppear:
                 self.startTimer()
             }
