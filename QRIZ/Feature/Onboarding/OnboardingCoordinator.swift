@@ -31,15 +31,17 @@ final class OnboardingCoordinatorImpl: OnboardingCoordinator {
     weak var delegate: OnboardingCoordinatorDelegate?
     private let navigationController: UINavigationController
     private let onboardingService: OnboardingService
+    private let userInfoService: UserInfoService
     
     var previewTestStatus: PreviewTestStatus {
         UserInfoManager.shared.previewTestStatus
     }
     
     // MARK: - Initializers
-    init(navigationController: UINavigationController, onboardingService: OnboardingService) {
+    init(navigationController: UINavigationController, onboardingService: OnboardingService, userInfoService: UserInfoService) {
         self.navigationController = navigationController
         self.onboardingService = onboardingService
+        self.userInfoService = userInfoService
     }
     
     func start() -> UIViewController {
@@ -91,7 +93,7 @@ final class OnboardingCoordinatorImpl: OnboardingCoordinator {
     }
     
     func showGreeting() {
-        let vm = GreetingViewModel()
+        let vm = GreetingViewModel(userInfoService: userInfoService)
         let vc = GreetingViewController(viewModel: vm)
         vc.coordinator = self
         navigationController.pushViewController(vc, animated: true)

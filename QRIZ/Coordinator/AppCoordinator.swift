@@ -73,7 +73,9 @@ final class AppCoordinatorDependencyImpl: AppCoordinatorDependency {
     
     var onboardingCoordinator: OnboardingCoordinator {
         let navi = UINavigationController()
-        return OnboardingCoordinatorImpl(navigationController: navi, onboardingService: onboardingService)
+        return OnboardingCoordinatorImpl(navigationController: navi,
+                                         onboardingService: onboardingService,
+                                         userInfoService: userInfoService)
     }
 }
 
@@ -167,13 +169,7 @@ extension AppCoordinatorImpl: SplashCoordinatorDelegate {
     func didFinishSplash(_ coordinator: SplashCoordinator, isLoggedIn: Bool) {
         childCoordinators.removeAll { $0 === coordinator }
         splashCoordinator = nil
-        
-        if isLoggedIn {
-            _ = UserInfoManager.shared.previewTestStatus == .notStarted ?
-            showOnboarding() : showTabBar()
-        } else {
-            _ = showLogin()
-        }
+        _ = isLoggedIn ? showTabBar() : showLogin()
     }
 }
 
@@ -182,7 +178,8 @@ extension AppCoordinatorImpl: SplashCoordinatorDelegate {
 extension AppCoordinatorImpl: LoginCoordinatorDelegate {
     func didLogin(_ coordinator: LoginCoordinator) {
         childCoordinators.removeAll { $0 === coordinator }
-        _ = showSplash()
+        _ = UserInfoManager.shared.previewTestStatus == .notStarted ?
+        showOnboarding() : showTabBar()
     }
 }
 
@@ -191,6 +188,6 @@ extension AppCoordinatorImpl: LoginCoordinatorDelegate {
 extension AppCoordinatorImpl: OnboardingCoordinatorDelegate {
     func didFinishOnboarding(_ coordinator: any OnboardingCoordinator) {
         childCoordinators.removeAll() { $0 === coordinator }
-        _ = showSplash()
+        _ = showTabBar()
     }
 }

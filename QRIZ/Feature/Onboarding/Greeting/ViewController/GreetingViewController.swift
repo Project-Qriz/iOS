@@ -59,6 +59,8 @@ final class GreetingViewController: UIViewController {
                     if let coordinator = coordinator {
                         coordinator.delegate?.didFinishOnboarding(coordinator)
                     }
+                case .fetchFailed:
+                    showOneButtonAlert(with: "잠시 후 다시 시도해주세요.", storingIn: &subscriptions)
                 }
             }
             .store(in: &subscriptions)
