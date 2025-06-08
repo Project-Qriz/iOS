@@ -39,6 +39,8 @@ final class BeginPreviewTestViewController: UIViewController {
         bind()
         addViews()
         addButtonAction()
+        self.navigationController?.navigationBar.isHidden = true
+        tabBarController?.tabBar.isHidden = true
     }
     
     private func bind() {

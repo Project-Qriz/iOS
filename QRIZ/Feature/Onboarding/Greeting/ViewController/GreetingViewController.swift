@@ -48,6 +48,11 @@ final class GreetingViewController: UIViewController {
         self.input.send(.viewDidAppear)
     }
     
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        self.tabBarController?.tabBar.isHidden = false
+    }
+    
     private func bind() {
         let output = viewModel.transform(input: input.eraseToAnyPublisher())
         
