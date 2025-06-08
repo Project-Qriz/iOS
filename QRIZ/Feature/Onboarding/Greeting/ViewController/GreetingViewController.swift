@@ -40,6 +40,7 @@ final class GreetingViewController: UIViewController {
         setTitleLabelText()
         bind()
         addViews()
+        input.send(.viewDidLoad)
     }
     
     override func viewDidAppear(_ animated: Bool) {
