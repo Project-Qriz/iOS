@@ -40,11 +40,17 @@ final class GreetingViewController: UIViewController {
         setTitleLabelText()
         bind()
         addViews()
+        input.send(.viewDidLoad)
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         self.input.send(.viewDidAppear)
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        self.tabBarController?.tabBar.isHidden = false
     }
     
     private func bind() {

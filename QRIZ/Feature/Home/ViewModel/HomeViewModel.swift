@@ -14,6 +14,8 @@ final class HomeViewModel {
     // MARK: - Properties
     
     private let examScheduleService: ExamScheduleService
+    private let userInfo = UserInfoManager.shared
+    private let stateSubject: CurrentValueSubject<HomeState, Never>
     private let outputSubject: PassthroughSubject<Output, Never> = .init()
     private var cancellables = Set<AnyCancellable>()
     private let logger = Logger(subsystem: Bundle.main.bundleIdentifier ?? "kr.QRIZ", category: "HomeViewModel")
@@ -21,7 +23,24 @@ final class HomeViewModel {
     // MARK: - Initialize
     
     init(examScheduleService: ExamScheduleService) {
+        let name = UserInfoManager.shared.name
+        let previewStatus = UserInfoManager.shared.previewTestStatus
+        let initEntry: ExamEntryCardCell.State = {
+            switch previewStatus {
+            case .previewCompleted, .previewSkipped:
+                return .mock
+            default:
+                return .preview
+            }
+        }()
+        
+        let initState = HomeState(
+            userName: name,
+            examStatus: .none,
+            entryState: initEntry
+        )
         self.examScheduleService = examScheduleService
+        self.stateSubject = .init(initState)
     }
     
     // MARK: - Functions
@@ -33,6 +52,15 @@ final class HomeViewModel {
                 switch event {
                 case .viewDidLoad:
                     Task { await self.loadExamSchedule() }
+                case .entryTapped:
+                    let entryState = self.stateSubject.value.entryState
+                    
+                    switch entryState {
+                    case .preview:
+                        self.outputSubject.send(.navigateToOnboarding)
+                    case .mock:
+                        self.outputSubject.send(.navigateToExamList)
+                    }
                 }
             }
             .store(in: &cancellables)
@@ -40,84 +68,87 @@ final class HomeViewModel {
         return outputSubject.eraseToAnyPublisher()
     }
     
-    // TODO: - 사용자 정보(userName) API 추후에 연동 필요
-    
     @MainActor
     private func loadExamSchedule() async {
         do {
-            let response = try await examScheduleService.fetchAppliedExams()
-            let data = response.data
-            
-            let detail = ExamScheduleItem.Kind.Detail(
-                examDateText: data.examDate,
-                examName: data.examName,
-                applyPeriod: data.period
-            )
-            let dDay = remainingDays(from: data.examDate)
-            let item = ExamScheduleItem(userName: "세훈", kind: .registered(dDay: dDay, detail: detail))
-            
-            outputSubject.send(.showRegistered(item: item))
+            let state = try await makeState()
+            updateState { $0 = state }
             
         } catch let networkError as NetworkError {
             handleNetworkError(networkError)
+            
         } catch {
             outputSubject.send(.showErrorAlert("잠시 후 다시 시도해 주세요."))
             logger.error("Unhandled error in loadExamSchedule: \(error.localizedDescription, privacy: .public)")
         }
     }
     
+    private func makeState() async throws -> HomeState {
+        do {
+            let response = try await examScheduleService.fetchAppliedExams()
+            let detail = ExamDetail(
+                examDateText: response.data.examDate,
+                examName: response.data.examName,
+                applyPeriod: response.data.period
+            )
+            let dDay = response.data.examDate.dDay
+            let status: ExamStatus = dDay <= 0 ? .expired(detail: detail) : .registered(dDay: dDay, detail: detail)
+            let entry: ExamEntryCardCell.State = {
+                switch userInfo.previewTestStatus {
+                case .previewCompleted, .previewSkipped:
+                    return .mock
+                default:
+                    return .preview
+                }
+            }()
+            return HomeState(
+                userName: userInfo.name,
+                examStatus: status,
+                entryState: entry
+            )
+        } catch let error as NetworkError {
+            if case .clientError(let status, _, _) = error, status == 400 {
+                let entry: ExamEntryCardCell.State = userInfo.previewTestStatus == .previewCompleted ? .mock : .preview
+                return HomeState(
+                    userName: userInfo.name,
+                    examStatus: .none,
+                    entryState: entry
+                )
+            }
+            throw error
+        }
+    }
+    
     private func handleNetworkError(_ error: NetworkError) {
         switch error {
-        case .clientError(let statusCode, _, let message):
-            if statusCode == 400 {
-                outputSubject.send(.showNotRegistered(user: "김세훈"))
-            } else {
-                outputSubject.send(.showErrorAlert(message))
-            }
+        case .clientError(let status, _, _) where status == 400:
+            let entry: ExamEntryCardCell.State = userInfo.previewTestStatus == .previewCompleted ? .mock : .preview
+            updateState { $0 = HomeState(userName: userInfo.name, examStatus: .none, entryState: entry) }
         default:
             outputSubject.send(.showErrorAlert(error.errorMessage))
         }
-        logger.error("NetworkError in loadExamSchedule: \(error.description, privacy: .public)")
+        logger.error("NetworkError: \(error.description, privacy: .public)")
     }
     
-    /// 시험일까지 남은 일수를 계산해주는 메서드입니다.
-    private func remainingDays(from dateString: String) -> Int {
-        let trimmed = dateString.split(separator: "(").first.map(String.init) ?? dateString
-        let formatter = DateFormatter()
-        formatter.locale = Locale(identifier: "ko_KR")
-        formatter.timeZone = TimeZone(identifier: "Asia/Seoul")
-        formatter.dateFormat = "M월 d일"
-        
-        guard
-            let mdDate = formatter.date(from: trimmed),
-            let md = Calendar.current.dateComponents([.month, .day], from: mdDate) as DateComponents?
-        else { return 0 }
-        
-        let components = DateComponents(
-            calendar: Calendar.current,
-            timeZone: TimeZone(identifier: "Asia/Seoul"),
-            year: Calendar.current.component(.year, from: Date()),
-            month: md.month,
-            day: md.day
-        )
-        guard let target = components.date else { return 0 }
-        
-        let today = Calendar.current.startOfDay(for: Date())
-        let diff = Calendar.current.dateComponents([.day], from: today, to: target).day ?? 0
-        return max(diff, 0)
+    private func updateState(_ mutate: (inout HomeState) -> Void) {
+        var newState = stateSubject.value
+        mutate(&newState)
+        stateSubject.send(newState)
+        outputSubject.send(.updateState(newState))
     }
 }
 
 extension HomeViewModel {
     enum Input {
         case viewDidLoad
+        case entryTapped
     }
     
     enum Output {
-        case showNotRegistered(user: String)
-        case showExpired(user: String)
-        case showRegistered(item: ExamScheduleItem)
+        case updateState(HomeState)
         case showErrorAlert(String)
+        case navigateToOnboarding
+        case navigateToExamList
     }
 }
 
@@ -125,5 +156,18 @@ extension HomeViewModel {
     @MainActor
     func reloadExamSchedule() {
         Task { await loadExamSchedule() }
+    }
+    
+    @MainActor
+    func reloadUserState() {
+        updateState { state in
+            print(state)
+            switch userInfo.previewTestStatus {
+            case .previewCompleted, .previewSkipped:
+                state.entryState = .mock
+            default:
+                state.entryState = .preview
+            }
+        }
     }
 }

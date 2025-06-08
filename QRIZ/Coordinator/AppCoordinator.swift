@@ -57,6 +57,7 @@ final class AppCoordinatorDependencyImpl: AppCoordinatorDependency {
         return LoginCoordinatorImp(
             navigationController: navi,
             loginService: loginService,
+            userInfoService: userInfoService,
             signUpService: signUpService,
             accountRecoveryService: accountRecoveryService
         )
@@ -67,7 +68,11 @@ final class AppCoordinatorDependencyImpl: AppCoordinatorDependency {
     }
     
     var tabBarCoordinator: TabBarCoordinator {
-        let tabBarDependency = TabBarCoordinatorDependencyImp(examService: examScheduleService)
+        let tabBarDependency = TabBarCoordinatorDependencyImp(
+            examService: examScheduleService,
+            onboardingService: onboardingService,
+            userInfoService: userInfoService
+        )
         return TabBarCoordinatorImp(dependency: tabBarDependency)
     }
     

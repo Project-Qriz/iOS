@@ -14,7 +14,7 @@ final class HomeViewController: UIViewController {
     
     weak var coordinator: HomeCoordinator?
     private let rootView: HomeMainView
-    private let HomeVM: HomeViewModel
+    private let viewModel: HomeViewModel
     private let inputSubject = PassthroughSubject<HomeViewModel.Input, Never>()
     private var cancellables = Set<AnyCancellable>()
     
@@ -22,7 +22,7 @@ final class HomeViewController: UIViewController {
     
     init(homeVM: HomeViewModel) {
         self.rootView = HomeMainView()
-        self.HomeVM = homeVM
+        self.viewModel = homeVM
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -32,6 +32,10 @@ final class HomeViewController: UIViewController {
     
     // MARK: - LifeCycle
     
+    override func loadView() {
+        self.view = rootView
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         bind()
@@ -39,14 +43,18 @@ final class HomeViewController: UIViewController {
         inputSubject.send(.viewDidLoad)
     }
     
-    override func loadView() {
-        self.view = rootView
-    }
-    
     // MARK: - Functions
     
     private func bind() {
-        let output = HomeVM.transform(input: inputSubject.eraseToAnyPublisher())
+        let viewDidLoad = Just(HomeViewModel.Input.viewDidLoad)
+        
+        let entryTapped = rootView.entryTappedPublisher.map { HomeViewModel.Input.entryTapped }
+        
+        let input = viewDidLoad
+            .merge(with: entryTapped)
+            .eraseToAnyPublisher()
+        
+        let output = viewModel.transform(input: input)
         
         output
             .receive(on: DispatchQueue.main)
@@ -54,17 +62,18 @@ final class HomeViewController: UIViewController {
                 guard let self else { return }
                 
                 switch output {
-                case .showRegistered(let item):
-                    self.rootView.applySnapshot(registered: item)
-                    
-                case .showNotRegistered(let user):
-                    self.rootView.applySnapshot(notRegisteredFor: user)
-                    
-                case .showExpired(let user):
-                    self.rootView.applySnapshot(expiredFor: user)
+                case .updateState(let state):
+                    self.rootView.apply(state)
                     
                 case .showErrorAlert(let message):
                     self.showOneButtonAlert(with: message, storingIn: &cancellables)
+                    
+                case .navigateToOnboarding:
+                    self.coordinator?.showOnboarding()
+                    
+                case .navigateToExamList:
+                    // TODO: - Coordinator 연결 필요
+                    print("Coordinator 연결")
                 }
             }
             .store(in: &cancellables)

@@ -13,73 +13,97 @@ final class HomeMainView: UIView {
     // MARK: - Properties
     
     private let examButtonTappedSubject = PassthroughSubject<Void, Never>()
+    private let entryTappedSubject = PassthroughSubject<Void, Never>()
     
     var examButtonTappedPublisher: AnyPublisher<Void, Never> {
         examButtonTappedSubject.eraseToAnyPublisher()
     }
     
+    var entryTappedPublisher: AnyPublisher<Void, Never> {
+        entryTappedSubject.eraseToAnyPublisher()
+    }
+    
     // MARK: - UI
+    
+    private lazy var scheduleRegistration = UICollectionView.CellRegistration<ExamScheduleCardCell, HomeSectionItem>
+    { cell, _, item in
+        guard case let .schedule(userName, status) = item else { return }
+        let statusText: String = {
+            switch status {
+            case .none: return "등록된 일정이 없어요."
+            case .expired: return "등록했던 시험일이 지났어요."
+            default: return ""
+            }
+        }()
+        cell.configure(userName: userName, statusText: statusText)
+        cell.buttonTapPublisher
+            .sink { [weak self] in self?.examButtonTappedSubject.send() }
+            .store(in: &cell.cancellables)
+    }
+    
+    private lazy var registeredRegistration = UICollectionView.CellRegistration<ExamScheduleRegisteredCell, HomeSectionItem>
+    { cell, _, item in
+        guard case let .schedule(userName, .registered(dDay, detail)) = item else { return }
+        
+        cell.configure(userName: userName, dday: dDay, detail: detail)
+        cell.buttonTapPublisher
+            .sink { [weak self] in self?.examButtonTappedSubject.send() }
+            .store(in: &cell.cancellables)
+    }
+    
+    private lazy var entryRegistration = UICollectionView.CellRegistration<ExamEntryCardCell, HomeSectionItem> { [weak self] cell, _, item in
+        guard case .entry(let state) = item else { return }
+        cell.configure(state: state)
+        
+        cell.contentView.gestureRecognizers?.forEach {
+            cell.contentView.removeGestureRecognizer($0)
+        }
+        
+        let tap = UITapGestureRecognizer(target: self, action: #selector(self?.didTapEntryCell))
+        cell.contentView.addGestureRecognizer(tap)
+    }
     
     private let collectionView: UICollectionView = {
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: HomeLayoutFactory.makeLayout())
         collectionView.backgroundColor = .customBlue50
-        
-        collectionView.register(
-            ExamScheduleCardCell.self,
-            forCellWithReuseIdentifier: String(describing: ExamScheduleCardCell.self)
-        )
-        
-        collectionView.register(
-            ExamScheduleRegisteredCell.self,
-            forCellWithReuseIdentifier: String(describing: ExamScheduleRegisteredCell.self)
-        )
-        
         return collectionView
     }()
     
-    private lazy var dataSource = UICollectionViewDiffableDataSource<
-        HomeSection, HomeSectionItem>(collectionView: collectionView) { [weak self]
-            collectionView, indexPath, item in
-            guard let self else { return UICollectionViewCell() }
-            
+    private lazy var dataSource = UICollectionViewDiffableDataSource<HomeSection, HomeSectionItem>(collectionView: collectionView)
+    { [weak self] collectionView, indexPath, item in
+        guard let self = self else { return UICollectionViewCell() }
+        switch item {
+        case .schedule:
             switch item {
-            case let .examSchedule(model):
-                switch model.kind {
-                case .notRegistered, .expired:
-                    let cell = collectionView.dequeueReusableCell(
-                        withReuseIdentifier: String(describing: ExamScheduleCardCell.self),
-                        for: indexPath
-                    ) as! ExamScheduleCardCell
-                    cell.configure(userName: model.userName,
-                                   statusText: model.kind == .notRegistered
-                                   ? "등록된 일정이 없어요."
-                                   : "등록했던 시험일이 지났어요.")
-                    
-                    cell.buttonTapPublisher
-                        .sink { [weak self] in self?.examButtonTappedSubject.send() }
-                        .store(in: &cell.cancellables)
-                    return cell
-                    
-                case let .registered(dDay, detail):
-                    let cell = collectionView.dequeueReusableCell(
-                        withReuseIdentifier: String(describing: ExamScheduleRegisteredCell.self),
-                        for: indexPath
-                    ) as! ExamScheduleRegisteredCell
-                    cell.configure(userName: model.userName,
-                                   dday: dDay,
-                                   detail: detail)
-                    cell.buttonTapPublisher
-                        .sink { [weak self] in self?.examButtonTappedSubject.send() }
-                        .store(in: &cell.cancellables)
-                    return cell
-                }
+            case .schedule(_, .registered):
+                return collectionView.dequeueConfiguredReusableCell(
+                    using: self.registeredRegistration,
+                    for: indexPath,
+                    item: item
+                )
+            default:
+                return collectionView.dequeueConfiguredReusableCell(
+                    using: self.scheduleRegistration,
+                    for: indexPath,
+                    item: item
+                )
             }
+        case .entry:
+            return collectionView.dequeueConfiguredReusableCell(
+                using: self.entryRegistration,
+                for: indexPath,
+                item: item
+            )
         }
+    }
     
     // MARK: - Initialize
     
     override init(frame: CGRect) {
         super.init(frame: frame)
+        _ = scheduleRegistration
+        _ = registeredRegistration
+        _ = entryRegistration
         addSubviews()
         setupConstraints()
         setupUI()
@@ -95,27 +119,19 @@ final class HomeMainView: UIView {
         backgroundColor = .customBlue50
     }
     
-    func applySnapshot(registered item: ExamScheduleItem) {
+    func apply(_ state: HomeState) {
         var snapshot = NSDiffableDataSourceSnapshot<HomeSection, HomeSectionItem>()
-        snapshot.appendSections([.examSchedule])
-        snapshot.appendItems([.examSchedule(item)], toSection: .examSchedule)
+        snapshot.appendSections([.examSchedule, .examEntry])
+        snapshot.appendItems([.schedule(userName: state.userName, status: state.examStatus)], toSection: .examSchedule)
+        snapshot.appendItems([.entry(state.entryState)], toSection: .examEntry)
         dataSource.apply(snapshot, animatingDifferences: true)
     }
     
-    func applySnapshot(notRegisteredFor user: String) {
-        let item = ExamScheduleItem(userName: user, kind: .notRegistered)
-        var snapshot = NSDiffableDataSourceSnapshot<HomeSection, HomeSectionItem>()
-        snapshot.appendSections([.examSchedule])
-        snapshot.appendItems([.examSchedule(item)], toSection: .examSchedule)
-        dataSource.apply(snapshot, animatingDifferences: true)
-    }
+    // MARK: - Actions
     
-    func applySnapshot(expiredFor user: String) {
-        let item = ExamScheduleItem(userName: user, kind: .expired)
-        var snapshot = NSDiffableDataSourceSnapshot<HomeSection, HomeSectionItem>()
-        snapshot.appendSections([.examSchedule])
-        snapshot.appendItems([.examSchedule(item)], toSection: .examSchedule)
-        dataSource.apply(snapshot, animatingDifferences: true)
+    @objc
+    private func didTapEntryCell() {
+        entryTappedSubject.send()
     }
 }
 
