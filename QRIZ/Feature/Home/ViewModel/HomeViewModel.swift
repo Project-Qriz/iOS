@@ -23,13 +23,22 @@ final class HomeViewModel {
     // MARK: - Initialize
     
     init(examScheduleService: ExamScheduleService) {
-        let initEntry: ExamEntryCardCell.State = userInfo.previewTestStatus == .previewCompleted ? .mock : .preview
+        let name = UserInfoManager.shared.name
+        let previewStatus = UserInfoManager.shared.previewTestStatus
+        let initEntry: ExamEntryCardCell.State = {
+            switch previewStatus {
+            case .previewCompleted, .previewSkipped:
+                return .mock
+            default:
+                return .preview
+            }
+        }()
+        
         let initState = HomeState(
-            userName: userInfo.name,
+            userName: name,
             examStatus: .none,
             entryState: initEntry
         )
-        
         self.examScheduleService = examScheduleService
         self.stateSubject = .init(initState)
     }
@@ -43,6 +52,15 @@ final class HomeViewModel {
                 switch event {
                 case .viewDidLoad:
                     Task { await self.loadExamSchedule() }
+                case .entryTapped:
+                    let entryState = self.stateSubject.value.entryState
+                    
+                    switch entryState {
+                    case .preview:
+                        self.outputSubject.send(.navigateToOnboarding)
+                    case .mock:
+                        self.outputSubject.send(.navigateToExamList)
+                    }
                 }
             }
             .store(in: &cancellables)
@@ -75,7 +93,14 @@ final class HomeViewModel {
             )
             let dDay = calculateDday(from: response.data.examDate)
             let status: ExamStatus = dDay <= 0 ? .expired(detail: detail) : .registered(dDay: dDay, detail: detail)
-            let entry: ExamEntryCardCell.State = userInfo.previewTestStatus == .previewCompleted ? .mock : .preview
+            let entry: ExamEntryCardCell.State = {
+                switch userInfo.previewTestStatus {
+                case .previewCompleted, .previewSkipped:
+                    return .mock
+                default:
+                    return .preview
+                }
+            }()
             return HomeState(
                 userName: userInfo.name,
                 examStatus: status,
@@ -135,11 +160,14 @@ final class HomeViewModel {
 extension HomeViewModel {
     enum Input {
         case viewDidLoad
+        case entryTapped
     }
     
     enum Output {
         case updateState(HomeState)
         case showErrorAlert(String)
+        case navigateToOnboarding
+        case navigateToExamList
     }
 }
 
@@ -147,5 +175,19 @@ extension HomeViewModel {
     @MainActor
     func reloadExamSchedule() {
         Task { await loadExamSchedule() }
+    }
+    
+    @MainActor
+    func reloadUserState() {
+        print(UserInfoManager.shared.previewTestStatus)
+        updateState { state in
+            print(state)
+            switch userInfo.previewTestStatus {
+            case .previewCompleted, .previewSkipped:
+                state.entryState = .mock
+            default:
+                state.entryState = .preview
+            }
+        }
     }
 }

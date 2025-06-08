@@ -46,7 +46,15 @@ final class HomeViewController: UIViewController {
     // MARK: - Functions
     
     private func bind() {
-        let output = viewModel.transform(input: inputSubject.eraseToAnyPublisher())
+        let viewDidLoad = Just(HomeViewModel.Input.viewDidLoad)
+        
+        let entryTapped = rootView.entryTappedPublisher.map { HomeViewModel.Input.entryTapped }
+        
+        let input = viewDidLoad
+            .merge(with: entryTapped)
+            .eraseToAnyPublisher()
+        
+        let output = viewModel.transform(input: input)
         
         output
             .receive(on: DispatchQueue.main)
@@ -59,6 +67,13 @@ final class HomeViewController: UIViewController {
                     
                 case .showErrorAlert(let message):
                     self.showOneButtonAlert(with: message, storingIn: &cancellables)
+                    
+                case .navigateToOnboarding:
+                    self.coordinator?.showOnboarding()
+                    
+                case .navigateToExamList:
+                    // TODO: - Coordinator 연결 필요
+                    print("Coordinator 연결")
                 }
             }
             .store(in: &cancellables)

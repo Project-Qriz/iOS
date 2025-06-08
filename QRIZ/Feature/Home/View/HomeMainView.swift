@@ -13,9 +13,14 @@ final class HomeMainView: UIView {
     // MARK: - Properties
     
     private let examButtonTappedSubject = PassthroughSubject<Void, Never>()
+    private let entryTappedSubject = PassthroughSubject<Void, Never>()
     
     var examButtonTappedPublisher: AnyPublisher<Void, Never> {
         examButtonTappedSubject.eraseToAnyPublisher()
+    }
+    
+    var entryTappedPublisher: AnyPublisher<Void, Never> {
+        entryTappedSubject.eraseToAnyPublisher()
     }
     
     // MARK: - UI
@@ -38,19 +43,26 @@ final class HomeMainView: UIView {
     
     private lazy var registeredRegistration = UICollectionView.CellRegistration<ExamScheduleRegisteredCell, HomeSectionItem>
     { cell, _, item in
-    guard case let .schedule(userName, .registered(dDay, detail)) = item else { return }
+        guard case let .schedule(userName, .registered(dDay, detail)) = item else { return }
         
-    cell.configure(userName: userName, dday: dDay, detail: detail)
-    cell.buttonTapPublisher
-        .sink { [weak self] in self?.examButtonTappedSubject.send() }
-        .store(in: &cell.cancellables)
-}
-    
-    private let entryRegistration = UICollectionView.CellRegistration<ExamEntryCardCell, HomeSectionItem> { cell, _, item in
-        guard case let .entry(state) = item else { return }
-        cell.configure(state: state)
+        cell.configure(userName: userName, dday: dDay, detail: detail)
+        cell.buttonTapPublisher
+            .sink { [weak self] in self?.examButtonTappedSubject.send() }
+            .store(in: &cell.cancellables)
     }
-
+    
+    private lazy var entryRegistration = UICollectionView.CellRegistration<ExamEntryCardCell, HomeSectionItem> { [weak self] cell, _, item in
+        guard case .entry(let state) = item else { return }
+        cell.configure(state: state)
+        
+        cell.contentView.gestureRecognizers?.forEach {
+            cell.contentView.removeGestureRecognizer($0)
+        }
+        
+        let tap = UITapGestureRecognizer(target: self, action: #selector(self?.didTapEntryCell))
+        cell.contentView.addGestureRecognizer(tap)
+    }
+    
     private let collectionView: UICollectionView = {
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: HomeLayoutFactory.makeLayout())
         collectionView.backgroundColor = .customBlue50
@@ -91,6 +103,7 @@ final class HomeMainView: UIView {
         super.init(frame: frame)
         _ = scheduleRegistration
         _ = registeredRegistration
+        _ = entryRegistration
         addSubviews()
         setupConstraints()
         setupUI()
@@ -112,6 +125,13 @@ final class HomeMainView: UIView {
         snapshot.appendItems([.schedule(userName: state.userName, status: state.examStatus)], toSection: .examSchedule)
         snapshot.appendItems([.entry(state.entryState)], toSection: .examEntry)
         dataSource.apply(snapshot, animatingDifferences: true)
+    }
+    
+    // MARK: - Actions
+    
+    @objc
+    private func didTapEntryCell() {
+        entryTappedSubject.send()
     }
 }
 
