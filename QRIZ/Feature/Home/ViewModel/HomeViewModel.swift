@@ -91,7 +91,7 @@ final class HomeViewModel {
                 examName: response.data.examName,
                 applyPeriod: response.data.period
             )
-            let dDay = calculateDday(from: response.data.examDate)
+            let dDay = response.data.examDate.dDay
             let status: ExamStatus = dDay <= 0 ? .expired(detail: detail) : .registered(dDay: dDay, detail: detail)
             let entry: ExamEntryCardCell.State = {
                 switch userInfo.previewTestStatus {
@@ -130,25 +130,6 @@ final class HomeViewModel {
         logger.error("NetworkError: \(error.description, privacy: .public)")
     }
     
-    /// 시험일까지 남은 일수를 계산해주는 메서드입니다.
-    private func calculateDday(from dateString: String) -> Int {
-        let trimmed = dateString.split(separator: "(").first.map(String.init) ?? dateString
-        let formatter = DateFormatter()
-        formatter.locale = Locale(identifier: "ko_KR")
-        formatter.timeZone = TimeZone(identifier: "Asia/Seoul")
-        formatter.dateFormat = "M월 d일"
-        guard let mdDate = formatter.date(from: trimmed) else { return Int.min }
-        var comps = Calendar.current.dateComponents([.year], from: Date())
-        let mdComps = Calendar.current.dateComponents([.month, .day], from: mdDate)
-        comps.month = mdComps.month
-        comps.day = mdComps.day
-        comps.calendar = Calendar.current
-        comps.timeZone = TimeZone(identifier: "Asia/Seoul")
-        guard let target = comps.date else { return Int.min }
-        let today = Calendar.current.startOfDay(for: Date())
-        return Calendar.current.dateComponents([.day], from: today, to: target).day ?? Int.min
-    }
-    
     private func updateState(_ mutate: (inout HomeState) -> Void) {
         var newState = stateSubject.value
         mutate(&newState)
@@ -179,7 +160,6 @@ extension HomeViewModel {
     
     @MainActor
     func reloadUserState() {
-        print(UserInfoManager.shared.previewTestStatus)
         updateState { state in
             print(state)
             switch userInfo.previewTestStatus {
