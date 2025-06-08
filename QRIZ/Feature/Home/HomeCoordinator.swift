@@ -10,6 +10,7 @@ import UIKit
 @MainActor
 protocol HomeCoordinator: Coordinator {
     func showExamSelectionSheet()
+    func showOnboarding()
 }
 
 @MainActor
@@ -23,19 +24,30 @@ final class HomeCoordinatorImpl: HomeCoordinator {
     
     private weak var navigationController: UINavigationController?
     private let examService: ExamScheduleService
+    private let onboardingService: OnboardingService
+    private let userInfoService: UserInfoService
     private var homeVM: HomeViewModel?
-    var childCoordinators: [Coordinator] = []
     
-    init(examService: ExamScheduleService) {
+    var childCoordinators: [Coordinator] = []
+    private var onboardingCoordinator: OnboardingCoordinator?
+    
+    init(
+        examService: ExamScheduleService,
+        onboardingService: OnboardingService,
+        userInfoService: UserInfoService
+    ) {
         self.examService = examService
+        self.onboardingService = onboardingService
+        self.userInfoService = userInfoService
     }
     
     func start() -> UIViewController {
         let viewModel = HomeViewModel(examScheduleService: examService)
         homeVM = viewModel
         let homeVC = HomeViewController(homeVM: viewModel)
-        let navi = UINavigationController(rootViewController: homeVC)
         homeVC.coordinator = self
+        
+        let navi = UINavigationController(rootViewController: homeVC)
         navigationController = navi
         return navi
     }
@@ -60,6 +72,18 @@ final class HomeCoordinatorImpl: HomeCoordinator {
         
         navigationController?.present(vc, animated: true)
     }
+    
+    func showOnboarding() {
+        guard let navi = navigationController else { return }
+        let onboarding = OnboardingCoordinatorImpl(
+            navigationController: navi,
+            onboardingService: onboardingService,
+            userInfoService: userInfoService
+        )
+        onboarding.delegate = self
+        childCoordinators.append(onboarding)
+        _ = onboarding.start()
+    }
 }
 
 // MARK: - ExamSelectionDelegate
@@ -67,5 +91,15 @@ final class HomeCoordinatorImpl: HomeCoordinator {
 extension HomeCoordinatorImpl: ExamSelectionDelegate {
     func didUpdateExamSchedule() {
         homeVM?.reloadExamSchedule()
+    }
+}
+
+// MARK: - OnboardingCoordinatorDelegate
+
+extension HomeCoordinatorImpl: OnboardingCoordinatorDelegate {
+    func didFinishOnboarding(_ coordinator: OnboardingCoordinator) {
+        childCoordinators.removeAll { $0 === coordinator }
+        navigationController?.popToRootViewController(animated: true)
+        homeVM?.reloadUserState()
     }
 }
