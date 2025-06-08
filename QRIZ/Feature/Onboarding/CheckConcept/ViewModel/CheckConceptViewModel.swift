@@ -126,6 +126,7 @@ final class CheckConceptViewModel {
                 if isDoneButtonActivated {
                     let keyConcepts = selectedSet.map { SurveyCheckList.list[$0] }
                     _ = try await onboardingService.sendSurvey(keyConcepts: keyConcepts)
+                    UserInfoManager.shared.previewTestStatus = .surveyCompleted
                     if selectedSet.isEmpty {
                         output.send(.moveToGreeting)
                     } else {
