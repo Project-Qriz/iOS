@@ -19,10 +19,18 @@ enum MyPageSectionItem: Hashable {
     case supportHeader
     case supportMenu(SupportMenu)
     
-    enum SupportMenu: String, CaseIterable {
-        case termsOfService = "서비스 이용약관"
-        case privacyPolicy = "개인정보 처리방침"
-        case versionInfo = "버전 정보"
+    enum SupportMenu: Hashable {
+        case termsOfService
+        case privacyPolicy
+        case versionInfo(version: String)
+        
+        var title: String {
+            switch self {
+            case .termsOfService: return "서비스 이용약관"
+            case .privacyPolicy: return "개인정보 처리방침"
+            case .versionInfo: return "버전 정보"
+            }
+        }
     }
 }
 
