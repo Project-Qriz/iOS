@@ -118,6 +118,14 @@ final class SupportMenuCell: UICollectionViewCell {
         return button
     }()
     
+    private let versionLabel: UILabel = {
+        let label = UILabel()
+        label.font = .systemFont(ofSize: 16, weight: .medium)
+        label.textColor = .coolNeutral400
+        label.isHidden = true
+        return label
+    }()
+    
     // MARK: Initialize
     
     override init(frame: CGRect) {
@@ -137,8 +145,17 @@ final class SupportMenuCell: UICollectionViewCell {
         backgroundColor = .white
     }
     
-    func configure(title: String) {
+    func configure(title: String, version: String? = nil) {
         titleLabel.text = title
+        
+        if let version = version {
+            versionLabel.text = version
+            versionLabel.isHidden = false
+            chevronButton.isHidden = true
+        } else {
+            versionLabel.isHidden = true
+            chevronButton.isHidden = false
+        }
     }
 }
 
@@ -148,13 +165,15 @@ extension SupportMenuCell {
     private func addSubviews() {
         [
             titleLabel,
-            chevronButton
+            chevronButton,
+            versionLabel
         ].forEach(contentView.addSubview(_:))
     }
     
     private func setupConstraints() {
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
         chevronButton.translatesAutoresizingMaskIntoConstraints = false
+        versionLabel.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
             titleLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: Metric.horizontalSpacing),
@@ -162,6 +181,9 @@ extension SupportMenuCell {
             
             chevronButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -Metric.horizontalSpacing),
             chevronButton.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
+            
+            versionLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -Metric.horizontalSpacing),
+            versionLabel.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
         ])
     }
 }
