@@ -499,6 +499,8 @@
 		B127B6432DEA1E600048401F /* ViewModel */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = ViewModel; sourceTree = "<group>"; };
 		B127B6D52DECBE1A0048401F /* Splash */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Splash; sourceTree = "<group>"; };
 		B13048972DE1E6370036EBE2 /* Home */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Home; sourceTree = "<group>"; };
+		B138789D2DF71A0D009D041F /* MyPage */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = MyPage; sourceTree = "<group>"; };
+		B13878A02DF745F1009D041F /* MyPage */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = MyPage; sourceTree = "<group>"; };
 		B159A1292DA27AE6001153B5 /* Service */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Service; sourceTree = "<group>"; };
 		B17D6ABB2D9146C90023FCA5 /* FindAccount */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = FindAccount; sourceTree = "<group>"; };
 		B183DF772DE23C5D0026A5D7 /* ExamSchedule */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = ExamSchedule; sourceTree = "<group>"; };
@@ -575,6 +577,7 @@
 				E29FE4042DBA39CE00DECB26 /* UserInfo */,
 				B190A2E62DC2A2EB008FDE86 /* ExamSchedule */,
 				B1D8137B2D76A18900A9D447 /* Auth */,
+				B138789D2DF71A0D009D041F /* MyPage */,
 				B17D6AB92D9141D80023FCA5 /* ErrorResponse.swift */,
 			);
 			path = DTOs;
@@ -589,6 +592,7 @@
 				E24CB1D72DBCA9E400D88451 /* Onboarding */,
 				E29FE40B2DBA3FA800DECB26 /* UserInfo */,
 				B1D8137C2D76A19500A9D447 /* Auth */,
+				B13878A02DF745F1009D041F /* MyPage */,
 			);
 			path = Service;
 			sourceTree = "<group>";
@@ -1607,6 +1611,8 @@
 				B127B6432DEA1E600048401F /* ViewModel */,
 				B127B6D52DECBE1A0048401F /* Splash */,
 				B13048972DE1E6370036EBE2 /* Home */,
+				B138789D2DF71A0D009D041F /* MyPage */,
+				B13878A02DF745F1009D041F /* MyPage */,
 				B183DF772DE23C5D0026A5D7 /* ExamSchedule */,
 				B190A2D92DBBC7C6008FDE86 /* View */,
 				B190A2E62DC2A2EB008FDE86 /* ExamSchedule */,
