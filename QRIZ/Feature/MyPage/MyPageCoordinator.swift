@@ -17,8 +17,9 @@ final class MyPageCoordinatorImp: MyPageCoordinator {
     var childCoordinators: [Coordinator] = []
     
     func start() -> UIViewController {
-        let myPageVC = MyPageViewController()
-        let nav = UINavigationController(rootViewController: myPageVC)
-        return nav
+        let viewModel = MyPageViewModel(userName: UserInfoManager.shared.name)
+        let myPageVC = MyPageViewController(viewModel: viewModel)
+        let navi = UINavigationController(rootViewController: myPageVC)
+        return navi
     }
 }

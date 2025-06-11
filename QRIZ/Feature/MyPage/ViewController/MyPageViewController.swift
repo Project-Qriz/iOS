@@ -20,11 +20,15 @@ final class MyPageViewController: UIViewController {
     
     weak var coordinator: HomeCoordinator?
     private let rootView: MyPageMainView
+    private let viewModel: MyPageViewModel
+    private let inputSubject = PassthroughSubject<MyPageViewModel.Input, Never>()
+    private var cancellables = Set<AnyCancellable>()
     
     // MARK: - Initialize
     
-    init() {
+    init(viewModel: MyPageViewModel) {
         self.rootView = MyPageMainView()
+        self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -38,6 +42,7 @@ final class MyPageViewController: UIViewController {
         super.viewDidLoad()
         bind()
         setNavigationBarTitle(title: Attributes.navigationTitle)
+        inputSubject.send(.viewDidLoad)
     }
     
     override func loadView() {
@@ -47,6 +52,23 @@ final class MyPageViewController: UIViewController {
     // MARK: - Functions
     
     private func bind() {
+        let viewDidLoad = inputSubject
+        
+        let input = viewDidLoad
+            .eraseToAnyPublisher()
+        
+        let output = viewModel.transform(input: input)
+        
+        output
+            .sink { [weak self] output in
+                guard let self else { return }
+                
+                switch output {
+                case .setupView(let userName, let version):
+                    rootView.applySnapshot(userName: userName, appVersion: version)
+                }
+            }
+            .store(in: &cancellables)
     }
 }
 

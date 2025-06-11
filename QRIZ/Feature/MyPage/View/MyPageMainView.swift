@@ -8,61 +8,73 @@
 import UIKit
 import Combine
 
+private typealias ProfileRegistration = UICollectionView.CellRegistration<ProfileCell, String>
+private typealias QuickActionsRegistration = UICollectionView.CellRegistration<QuickActionsCell, Void>
+private typealias SupportHeaderRegistration = UICollectionView.CellRegistration<SupportHeaderCell, Void>
+private typealias SupportMenuRegistration = UICollectionView.CellRegistration<SupportMenuCell, MyPageSectionItem.SupportMenu>
+
 final class MyPageMainView: UIView {
     
     // MARK: - Properties
     
     // MARK: - UI
     
-    private let profileRegistration = UICollectionView.CellRegistration<ProfileCell, String>
-    { cell, _, userName in cell.configure(with: userName) }
+    private let profileRegistration = ProfileRegistration { cell, _, userName in
+        cell.configure(with: userName)
+    }
     
-    private let quickActionRegistration = UICollectionView.CellRegistration<QuickActionsCell, Void>
-    { _,_,_ in }
+    private let quickActionRegistration = QuickActionsRegistration { _,_,_ in
+    }
     
-    private let supportHeaderRegistration = UICollectionView.CellRegistration<SupportHeaderCell, Void>
-    { _, _, _ in }
+    private let supportHeaderRegistration = SupportHeaderRegistration { _, _, _ in
+    }
     
-    private let supportMenuRegistration = UICollectionView.CellRegistration<SupportMenuCell, MyPageSectionItem.SupportMenu> {
-        cell, _, menu in cell.configure(title: menu.rawValue) }
+    private let supportMenuRegistration = SupportMenuRegistration { cell, _, menu in
+        switch menu {
+        case .versionInfo(let version):
+            cell.configure(title: menu.title, version: version)
+        default:
+            cell.configure(title: menu.title)
+        }
+    }
     
     private let collectionView: UICollectionView = {
-        let collectionView = UICollectionView(
+        let cv = UICollectionView(
             frame: .zero,
             collectionViewLayout: MyPageLayoutFactory.makeLayout()
         )
-        collectionView.backgroundColor = .customBlue50
-        return collectionView
+        cv.backgroundColor = .customBlue50
+        return cv
     }()
     
     private lazy var dataSource = UICollectionViewDiffableDataSource<MyPageSection, MyPageSectionItem>(
-        collectionView: collectionView) { [weak self] collectionView, indexPath, item in
+        collectionView: collectionView) { [weak self] cv, indexPath, item in
             guard let self else { return UICollectionViewCell() }
             
             switch item {
             case .profile(let name):
-                return collectionView.dequeueConfiguredReusableCell(
+                return cv.dequeueConfiguredReusableCell(
                     using: self.profileRegistration,
                     for: indexPath,
                     item: name
                 )
                 
             case .quickActions:
-                return collectionView.dequeueConfiguredReusableCell(
+                return cv.dequeueConfiguredReusableCell(
                     using: self.quickActionRegistration,
                     for: indexPath,
                     item: ()
                 )
                 
             case .supportHeader:
-                return collectionView.dequeueConfiguredReusableCell(
+                return cv.dequeueConfiguredReusableCell(
                     using: self.supportHeaderRegistration,
                     for: indexPath,
                     item: ()
                 )
                 
             case .supportMenu(let menu):
-                return collectionView.dequeueConfiguredReusableCell(
+                return cv.dequeueConfiguredReusableCell(
                     using: self.supportMenuRegistration,
                     for: indexPath,
                     item: menu
@@ -77,7 +89,6 @@ final class MyPageMainView: UIView {
         addSubviews()
         setupConstraints()
         setupUI()
-        applyInitialSnapshot()
     }
     
     required init?(coder: NSCoder) {
@@ -90,17 +101,18 @@ final class MyPageMainView: UIView {
         backgroundColor = .customBlue50
     }
     
-    private func applyInitialSnapshot() {
+    func applySnapshot(userName: String, appVersion: String) {
         var snapshot = NSDiffableDataSourceSnapshot<MyPageSection, MyPageSectionItem>()
         snapshot.appendSections([.profile, .quickActions, .support])
-        snapshot.appendItems([.profile(userName: "김세훈")], toSection: .profile)
+        snapshot.appendItems([.profile(userName: userName)], toSection: .profile)
         snapshot.appendItems([.quickActions], toSection: .quickActions)
-        snapshot.appendItems(
-            [.supportHeader,
-             .supportMenu(.termsOfService),
-             .supportMenu(.privacyPolicy),
-             .supportMenu(.versionInfo)], toSection: .support
-        )
+        snapshot.appendItems([
+            .supportHeader,
+            .supportMenu(.termsOfService),
+            .supportMenu(.privacyPolicy),
+            .supportMenu(.versionInfo(version: appVersion))
+        ], toSection: .support)
+        
         dataSource.apply(snapshot, animatingDifferences: false)
     }
 }
