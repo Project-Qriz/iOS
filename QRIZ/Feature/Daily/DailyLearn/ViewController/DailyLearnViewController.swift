@@ -45,6 +45,8 @@ final class DailyLearnViewController: UIViewController {
     private let input: PassthroughSubject<DailyLearnViewModel.Input, Never> = .init()
     private var subscriptions = Set<AnyCancellable>()
     
+    weak var coordinator: DailyCoordinator?
+    
     private var conceptArr: [(Int, String)] = []
     
     // MARK: - Initializer
@@ -91,26 +93,15 @@ final class DailyLearnViewController: UIViewController {
                     self.conceptArr = conceptArr
                     updateCollectionViewHeight()
                 case .moveToDailyTest(let type, let day):
-                    navigationController?.pushViewController(
-                        DailyTestViewController(
-                            viewModel: DailyTestViewModel(
-                                dailyTestType: type,
-                                day: day,
-                                dailyService: DailyServiceImpl())), animated: true)
+                    coordinator?.showDailyTest()
                 case .showRetestAlert:
                     present(retestAlertViewController, animated: true)
                 case .moveToDailyTestResult(let type, let day):
-                    navigationController?.pushViewController(
-                        DailyResultViewController(
-                            viewModel: DailyResultViewModel(
-                                dailyTestType: type,
-                                day: day,
-                                dailyService: DailyServiceImpl())), animated: true)
+                    coordinator?.showDailyResult()
                 case .moveToConcept(let conceptIdx):
-                    navigationController?.pushViewController(ConceptPDFViewController(
-                        conceptPDFViewModel: ConceptPDFViewModel(
-                            chapter: SurveyCheckList.getChapter(conceptIdx - 1),
-                            conceptItem: SurveyCheckList.getConceptItem(conceptIdx - 1))), animated: true)
+                    coordinator?.showConcept(chapter: SurveyCheckList.getChapter(conceptIdx - 1),
+                                             conceptItem: SurveyCheckList.getConceptItem(conceptIdx - 1))
+
                 case .dismissAlert:
                     retestAlertViewController.dismiss(animated: true)
                 }

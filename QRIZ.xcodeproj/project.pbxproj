@@ -174,6 +174,7 @@
 		E27843212DDE13B600E9AD07 /* ExamTestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E27843202DDE13B600E9AD07 /* ExamTestViewController.swift */; };
 		E27843242DDE152C00E9AD07 /* ExamTestFooterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E27843232DDE152C00E9AD07 /* ExamTestFooterView.swift */; };
 		E27E54A92D6D74C500BF3B55 /* CheckListFoldButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = E27E54A82D6D74C500BF3B55 /* CheckListFoldButton.swift */; };
+		E2804CF32DFAABD800F5F05D /* DailyCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2804CF22DFAABD800F5F05D /* DailyCoordinator.swift */; };
 		E283AC082D9E8D8F00DE005B /* TestDescriptionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E283AC072D9E8D8F00DE005B /* TestDescriptionView.swift */; };
 		E28A93852D945F95006A15DB /* StudyContentCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E28A93842D945F94006A15DB /* StudyContentCell.swift */; };
 		E28BAD772D2C111100B8388D /* TwoButtonCustomAlertView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E28BAD762D2C111100B8388D /* TwoButtonCustomAlertView.swift */; };
@@ -432,6 +433,7 @@
 		E27843202DDE13B600E9AD07 /* ExamTestViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExamTestViewController.swift; sourceTree = "<group>"; };
 		E27843232DDE152C00E9AD07 /* ExamTestFooterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExamTestFooterView.swift; sourceTree = "<group>"; };
 		E27E54A82D6D74C500BF3B55 /* CheckListFoldButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckListFoldButton.swift; sourceTree = "<group>"; };
+		E2804CF22DFAABD800F5F05D /* DailyCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyCoordinator.swift; sourceTree = "<group>"; };
 		E283AC072D9E8D8F00DE005B /* TestDescriptionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestDescriptionView.swift; sourceTree = "<group>"; };
 		E28A93842D945F94006A15DB /* StudyContentCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StudyContentCell.swift; sourceTree = "<group>"; };
 		E28BAD762D2C111100B8388D /* TwoButtonCustomAlertView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TwoButtonCustomAlertView.swift; sourceTree = "<group>"; };
@@ -1415,6 +1417,7 @@
 				E2F18BCA2D60606A00DC6F82 /* DailyLearn */,
 				E217C35F2D9BEA500095A3D8 /* DailyTest */,
 				E217C3672D9BF0A10095A3D8 /* DailyResult */,
+				E2804CF22DFAABD800F5F05D /* DailyCoordinator.swift */,
 			);
 			path = Daily;
 			sourceTree = "<group>";
@@ -2158,6 +2161,7 @@
 				54BC61552D14AFB70094DC45 /* LoginInputView.swift in Sources */,
 				E24907DA2D63698C004D6E61 /* DailyLearnSectionTitleLabel.swift in Sources */,
 				E217C3662D9BEAC50095A3D8 /* DailyTestViewModel.swift in Sources */,
+				E2804CF32DFAABD800F5F05D /* DailyCoordinator.swift in Sources */,
 				E2A6C7352DCA4C850059F960 /* ExamService.swift in Sources */,
 				E2908E6B2DB3B55700B8E81B /* ResultDetailHostingController.swift in Sources */,
 				B19C4F6B2D5260DD00CD008A /* UIControl+.swift in Sources */,

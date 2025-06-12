@@ -17,6 +17,8 @@ final class DailyResultViewController: UIViewController {
     private let input: PassthroughSubject<DailyResultViewModel.Input, Never> = .init()
     private var subscriptions = Set<AnyCancellable>()
     
+    weak var coordinator: DailyCoordinator?
+    
     // MARK: - Initializers
     init(viewModel: DailyResultViewModel) {
         self.viewModel = viewModel
@@ -63,9 +65,7 @@ final class DailyResultViewController: UIViewController {
                 case .moveToDailyLearn:
                     print("Move To Daily Learn")
                 case .moveToResultDetail:
-                    let vm = TestResultDetailViewModel(resultDetailData: self.viewModel.resultDetailData)
-                    let vc = TestResultDetailViewController(viewModel: vm)
-                    self.navigationController?.pushViewController(vc, animated: true)
+                    coordinator?.showResultDetail(resultDetailData: self.viewModel.resultDetailData)
                 }
             }
             .store(in: &subscriptions)

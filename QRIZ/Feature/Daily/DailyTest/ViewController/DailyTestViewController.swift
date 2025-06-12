@@ -27,6 +27,8 @@ final class DailyTestViewController: UIViewController {
     
     private let submitAlertViewController = TwoButtonCustomAlertViewController(title: "제출하시겠습니까?", description: "확인 버튼을 누르면 다시 돌아올 수 없어요.")
     
+    weak var coordinator: DailyCoordinator?
+    
     // MARK: - Initializers
     init(viewModel: DailyTestViewModel) {
         self.viewModel = viewModel
@@ -86,9 +88,9 @@ final class DailyTestViewController: UIViewController {
                 case .alterButtonText:
                     footerView.alterButtonText()
                 case .moveToDailyResult(let type, let day):
-                    self.navigationController?.pushViewController(DailyResultViewController(viewModel: DailyResultViewModel(dailyTestType: type, day: day, dailyService: DailyServiceImpl())), animated: true)
+                    coordinator?.showDailyResult()
                 case .moveToHomeView:
-                    print("Move To Home View")
+                    coordinator?.dismissModal()
                 case .popSubmitAlert:
                     present(submitAlertViewController, animated: true)
                 case .cancelAlert:
