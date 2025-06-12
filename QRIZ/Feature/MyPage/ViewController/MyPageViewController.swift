@@ -18,7 +18,7 @@ final class MyPageViewController: UIViewController {
     
     // MARK: - Properties
     
-    weak var coordinator: HomeCoordinator?
+    weak var coordinator: MyPageCoordinator?
     private let rootView: MyPageMainView
     private let viewModel: MyPageViewModel
     private let inputSubject = PassthroughSubject<MyPageViewModel.Input, Never>()
@@ -54,7 +54,17 @@ final class MyPageViewController: UIViewController {
     private func bind() {
         let viewDidLoad = inputSubject
         
+        let menuTap = rootView.selectionPublisher
+            .compactMap { item -> MyPageViewModel.Input? in
+                switch item {
+                case .supportMenu(.termsOfService): return .didTapTermsOfService
+                case .supportMenu(.privacyPolicy):  return .didTapPrivacyPolicy
+                default: return nil
+                }
+            }
+        
         let input = viewDidLoad
+            .merge(with: menuTap)
             .eraseToAnyPublisher()
         
         let output = viewModel.transform(input: input)
@@ -65,7 +75,10 @@ final class MyPageViewController: UIViewController {
                 
                 switch output {
                 case .setupView(let userName, let version):
-                    rootView.applySnapshot(userName: userName, appVersion: version)
+                    self.rootView.applySnapshot(userName: userName, appVersion: version)
+                    
+                case .showTermsDetail(let termItem):
+                    self.coordinator?.showTermsDetail(for: termItem)
                 }
             }
             .store(in: &cancellables)

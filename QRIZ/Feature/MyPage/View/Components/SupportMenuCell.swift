@@ -111,10 +111,6 @@ final class SupportMenuCell: UICollectionViewCell {
         let image = UIImage(systemName: Attributes.chevron, withConfiguration: config)
         button.setImage(image, for: .normal)
         button.tintColor = .coolNeutral800
-        
-        button.addAction(UIAction(handler: { _ in
-            print("터치터치")
-        }), for: .touchUpInside)
         return button
     }()
     

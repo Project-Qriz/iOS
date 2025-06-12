@@ -68,10 +68,6 @@ final class QuickActionsCell: UICollectionViewCell {
         button.backgroundColor = .white
         button.layer.cornerRadius = 16
         button.applyQRIZShadow(radius: 16)
-        
-        button.addAction(UIAction(handler: { _ in
-            print(button.titleLabel!.text!)
-        }), for: .touchUpInside)
         return button
     }
 }

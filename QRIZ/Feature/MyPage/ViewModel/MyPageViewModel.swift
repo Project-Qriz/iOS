@@ -30,7 +30,19 @@ final class MyPageViewModel {
                 guard let self = self else { return }
                 switch event {
                 case .viewDidLoad:
-                    fetchVersion()
+                    self.fetchVersion()
+                    
+                case .didTapTermsOfService:
+                    self.outputSubject.send(.showTermsDetail(termItem: TermItem(
+                        title: "서비스 이용약관",
+                        pdfName: "TermsOfService",
+                        isAgreed: false)))
+                    
+                case .didTapPrivacyPolicy:
+                    self.outputSubject.send(.showTermsDetail(termItem:TermItem(
+                        title: "개인정보 처리방침",
+                        pdfName: "PrivacyPolicy",
+                        isAgreed: false)))
                 }
             }
             .store(in: &cancellables)
@@ -47,9 +59,12 @@ final class MyPageViewModel {
 extension MyPageViewModel {
     enum Input {
         case viewDidLoad
+        case didTapTermsOfService
+        case didTapPrivacyPolicy
     }
     
     enum Output {
         case setupView(userName: String, version: String)
+        case showTermsDetail(termItem: TermItem)
     }
 }

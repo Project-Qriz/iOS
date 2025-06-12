@@ -17,6 +17,12 @@ final class MyPageMainView: UIView {
     
     // MARK: - Properties
     
+    private let selectionSubject = PassthroughSubject<MyPageSectionItem, Never>()
+    
+    var selectionPublisher: AnyPublisher<MyPageSectionItem, Never> {
+        selectionSubject.eraseToAnyPublisher()
+    }
+    
     // MARK: - UI
     
     private let profileRegistration = ProfileRegistration { cell, _, userName in
@@ -89,6 +95,7 @@ final class MyPageMainView: UIView {
         addSubviews()
         setupConstraints()
         setupUI()
+        collectionView.delegate = self
     }
     
     required init?(coder: NSCoder) {
@@ -136,3 +143,12 @@ extension MyPageMainView {
     }
 }
 
+// MARK: - UICollectionViewDelegate
+
+extension MyPageMainView: UICollectionViewDelegate {
+    func collectionView(_ cv: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        if let item = dataSource.itemIdentifier(for: indexPath) {
+            selectionSubject.send(item)
+        }
+    }
+}
