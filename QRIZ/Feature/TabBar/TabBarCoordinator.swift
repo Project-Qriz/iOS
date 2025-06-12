@@ -43,7 +43,7 @@ final class TabBarCoordinatorDependencyImp: TabBarCoordinatorDependency {
     }
     
     var myPageCoordinator: MyPageCoordinator {
-        return MyPageCoordinatorImp()
+        return MyPageCoordinatorImp(examService: examService)
     }
     
     init(examService: ExamScheduleService) {

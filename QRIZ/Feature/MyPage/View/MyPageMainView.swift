@@ -18,9 +18,14 @@ final class MyPageMainView: UIView {
     // MARK: - Properties
     
     private let selectionSubject = PassthroughSubject<MyPageSectionItem, Never>()
+    private let quickActionTappedSubject = PassthroughSubject<MyPageViewModel.Input, Never>()
     
     var selectionPublisher: AnyPublisher<MyPageSectionItem, Never> {
         selectionSubject.eraseToAnyPublisher()
+    }
+
+    var quickActionTappedPublisher: AnyPublisher<MyPageViewModel.Input, Never> {
+        quickActionTappedSubject.eraseToAnyPublisher()
     }
     
     // MARK: - UI
@@ -29,8 +34,17 @@ final class MyPageMainView: UIView {
         cell.configure(with: userName)
     }
     
-    private let quickActionRegistration = QuickActionsRegistration { _,_,_ in
-    }
+    private lazy var quickActionRegistration: QuickActionsRegistration = {
+        return QuickActionsRegistration { [weak self] cell, _, _ in
+            guard let self else { return }
+
+            cell.registerExamTappedPublisher
+                .sink { [weak self] _ in
+                    self?.quickActionTappedSubject.send(.didTapRegisterExam)
+                }
+                .store(in: &cell.cancellables)
+        }
+    }()
     
     private let supportHeaderRegistration = SupportHeaderRegistration { _, _, _ in
     }
@@ -105,6 +119,7 @@ final class MyPageMainView: UIView {
     // MARK: - Functions
     
     private func setupUI() {
+        _ = quickActionRegistration
         backgroundColor = .customBlue50
     }
     

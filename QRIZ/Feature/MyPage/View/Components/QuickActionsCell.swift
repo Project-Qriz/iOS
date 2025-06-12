@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Combine
 
 final class QuickActionsCell: UICollectionViewCell {
     
@@ -21,14 +22,28 @@ final class QuickActionsCell: UICollectionViewCell {
         static let registerExamText: String = "시험 등록"
     }
     
+    // MARK: - Properties
+    
+    private let registerExamTappedSubject = PassthroughSubject<Void, Never>()
+    var cancellables = Set<AnyCancellable>()
+    
+    var registerExamTappedPublisher: AnyPublisher<Void, Never> {
+        registerExamTappedSubject.eraseToAnyPublisher()
+    }
+    
     // MARK: - UI
     
     private lazy var resetPlanButton: UIButton = {
-        return buildButton(title: Attributes.resetPlanText, image: .reset)
+        let button = buildButton(title: Attributes.resetPlanText, image: .reset)
+        return button
     }()
     
     private lazy var registerExamButton: UIButton = {
-        return buildButton(title: Attributes.registerExamText, image: .examRegister)
+        let button = buildButton(title: Attributes.registerExamText, image: .examRegister)
+        button.addAction(UIAction { [weak self] _ in
+            self?.registerExamTappedSubject.send()
+        }, for: .touchUpInside)
+        return button
     }()
     
     // MARK: - Initialize

@@ -32,6 +32,9 @@ final class MyPageViewModel {
                 case .viewDidLoad:
                     self.fetchVersion()
                     
+                case .didTapRegisterExam:
+                    self.outputSubject.send(.showExamSchedule)
+                    
                 case .didTapTermsOfService:
                     self.outputSubject.send(.showTermsDetail(termItem: TermItem(
                         title: "서비스 이용약관",
@@ -59,12 +62,14 @@ final class MyPageViewModel {
 extension MyPageViewModel {
     enum Input {
         case viewDidLoad
+        case didTapRegisterExam
         case didTapTermsOfService
         case didTapPrivacyPolicy
     }
     
     enum Output {
         case setupView(userName: String, version: String)
+        case showExamSchedule
         case showTermsDetail(termItem: TermItem)
     }
 }

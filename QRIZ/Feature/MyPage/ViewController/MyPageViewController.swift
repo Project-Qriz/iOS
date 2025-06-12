@@ -54,6 +54,8 @@ final class MyPageViewController: UIViewController {
     private func bind() {
         let viewDidLoad = inputSubject
         
+        let quickActionTap = rootView.quickActionTappedPublisher
+        
         let menuTap = rootView.selectionPublisher
             .compactMap { item -> MyPageViewModel.Input? in
                 switch item {
@@ -65,6 +67,7 @@ final class MyPageViewController: UIViewController {
         
         let input = viewDidLoad
             .merge(with: menuTap)
+            .merge(with: quickActionTap)
             .eraseToAnyPublisher()
         
         let output = viewModel.transform(input: input)
@@ -77,8 +80,12 @@ final class MyPageViewController: UIViewController {
                 case .setupView(let userName, let version):
                     self.rootView.applySnapshot(userName: userName, appVersion: version)
                     
+                case .showExamSchedule:
+                    self.coordinator?.showExamSelectionSheet()
+                    
                 case .showTermsDetail(let termItem):
                     self.coordinator?.showTermsDetail(for: termItem)
+
                 }
             }
             .store(in: &cancellables)
