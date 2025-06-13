@@ -96,7 +96,7 @@ final class DailyCoordinatorImpl: DailyCoordinator {
         navigationController.pushViewController(vc, animated: true)
     }
     
-    /// Daily 내부에서 테스트나 결과에서 DailyLearn으로 이동하는 메서드
+    /// Daily 내부 테스트나 결과에서 DailyLearn으로 이동하는 메서드
     func quitDaily() {
         if let dailyLearnVC = dailyLearnViewController, let dailyLearnVM = dailyLearnViewModel {
             _ = self.navigationController.popToViewController(dailyLearnVC, animated: true)

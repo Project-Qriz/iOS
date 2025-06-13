@@ -20,6 +20,7 @@ protocol ExamCoordinator: Coordinator {
 
 @MainActor
 protocol ExamCoordinatorDelegate: AnyObject {
+    /// ExamCoordinator 자체를 벗어나 홈으로 이동하는 메서드
     func didQuitExam(_ coordinator: ExamCoordinator)
     func moveFromExamToConcept(_ coordinator: ExamCoordinator)
 }
@@ -82,6 +83,7 @@ final class ExamCoordinatorImpl: ExamCoordinator {
         self.navigationController.pushViewController(vc, animated: true)
     }
     
+    /// Exam 내부 테스트나 결과에서 ExamList로 이동하는 메서드
     func quitExam() {
         if let examListVC = examListViewController, let examListVM = examListViewModel {
             _ = self.navigationController.popToViewController(examListVC, animated: true)
