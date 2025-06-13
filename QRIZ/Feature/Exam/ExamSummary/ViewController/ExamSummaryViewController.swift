@@ -38,6 +38,8 @@ final class ExamSummaryViewController: UIViewController {
     private let input: PassthroughSubject<ExamSummaryViewModel.Input, Never> = .init()
     private var subscriptions = Set<AnyCancellable>()
     
+    weak var coordinator: ExamCoordinator?
+    
     // MARK: - Initializers
     init(viewModel: ExamSummaryViewModel) {
         self.viewModel = viewModel
@@ -76,13 +78,7 @@ final class ExamSummaryViewController: UIViewController {
                 guard let self = self else { return }
                 switch event {
                 case .moveToExam(let examId):
-                    let vc = UINavigationController(
-                        rootViewController: ExamTestViewController(
-                            viewModel: ExamTestViewModel(
-                            examId: examId,
-                            examService: ExamServiceImpl())))
-                    vc.modalPresentationStyle = .fullScreen
-                    present(vc, animated: true)
+                    coordinator?.showExamTest(examId: examId)
                 }
             }
             .store(in: &subscriptions)

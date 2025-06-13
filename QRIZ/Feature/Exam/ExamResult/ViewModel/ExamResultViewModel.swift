@@ -16,7 +16,6 @@ final class ExamResultViewModel {
         case cancelButtonClicked
         case moveToConceptButtonClicked
         case resultDetailButtonClicked
-        case scoreGraphFilterSelected(filterType: ScoreGraphFilterType)
     }
     
     enum Output {
@@ -68,8 +67,6 @@ final class ExamResultViewModel {
                 output.send(.moveToConcept)
             case .resultDetailButtonClicked:
                 output.send(.moveToResultDetail)
-            case .scoreGraphFilterSelected(let filterType):
-                print("YEYE")
             }
         }
         .store(in: &subscriptions)

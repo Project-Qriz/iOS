@@ -9,8 +9,10 @@ import UIKit
 
 @MainActor
 protocol HomeCoordinator: Coordinator {
+    var delegate: HomeCoordinatorDelegate? { get set }
     func showExamSelectionSheet()
     func showOnboarding()
+    func showExam()
 }
 
 @MainActor
@@ -20,10 +22,17 @@ protocol ExamSelectionDelegate: AnyObject {
 }
 
 @MainActor
+protocol HomeCoordinatorDelegate: AnyObject {
+    func moveToConcept()
+}
+
+@MainActor
 final class HomeCoordinatorImpl: HomeCoordinator {
     
+    weak var delegate: HomeCoordinatorDelegate?
     private weak var navigationController: UINavigationController?
     private let examService: ExamScheduleService
+    private let examTestService: ExamService
     private let onboardingService: OnboardingService
     private let userInfoService: UserInfoService
     private var homeVM: HomeViewModel?
@@ -33,10 +42,12 @@ final class HomeCoordinatorImpl: HomeCoordinator {
     
     init(
         examService: ExamScheduleService,
+        examTestService: ExamService,
         onboardingService: OnboardingService,
         userInfoService: UserInfoService
     ) {
         self.examService = examService
+        self.examTestService = examTestService
         self.onboardingService = onboardingService
         self.userInfoService = userInfoService
     }
@@ -84,6 +95,14 @@ final class HomeCoordinatorImpl: HomeCoordinator {
         childCoordinators.append(onboarding)
         _ = onboarding.start()
     }
+    
+    func showExam() {
+        guard let navi = navigationController else { return }
+        let exam = ExamCoordinatorImpl(navigationController: navi, examService: examTestService)
+        exam.delegate = self
+        childCoordinators.append(exam)
+        _ = exam.start()
+    }
 }
 
 // MARK: - ExamSelectionDelegate
@@ -101,5 +120,20 @@ extension HomeCoordinatorImpl: OnboardingCoordinatorDelegate {
         childCoordinators.removeAll { $0 === coordinator }
         navigationController?.popToRootViewController(animated: true)
         homeVM?.reloadUserState()
+    }
+}
+
+// MARK: - ExamCoordinatorDelegate
+
+extension HomeCoordinatorImpl: ExamCoordinatorDelegate {
+    func didQuitExam(_ coordinator: any ExamCoordinator) {
+        childCoordinators.removeAll { $0 === coordinator }
+        navigationController?.popToRootViewController(animated: true)
+    }
+    
+    func moveToConcept(_ coordinator: any ExamCoordinator) {
+        childCoordinators.removeAll { $0 === coordinator }
+        navigationController?.popToRootViewController(animated: true)
+        delegate?.moveToConcept()
     }
 }

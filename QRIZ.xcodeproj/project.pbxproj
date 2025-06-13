@@ -175,6 +175,7 @@
 		E27843242DDE152C00E9AD07 /* ExamTestFooterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E27843232DDE152C00E9AD07 /* ExamTestFooterView.swift */; };
 		E27E54A92D6D74C500BF3B55 /* CheckListFoldButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = E27E54A82D6D74C500BF3B55 /* CheckListFoldButton.swift */; };
 		E2804CF32DFAABD800F5F05D /* DailyCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2804CF22DFAABD800F5F05D /* DailyCoordinator.swift */; };
+		E2804CF52DFAD5D500F5F05D /* ExamCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2804CF42DFAD5D500F5F05D /* ExamCoordinator.swift */; };
 		E283AC082D9E8D8F00DE005B /* TestDescriptionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E283AC072D9E8D8F00DE005B /* TestDescriptionView.swift */; };
 		E28A93852D945F95006A15DB /* StudyContentCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E28A93842D945F94006A15DB /* StudyContentCell.swift */; };
 		E28BAD772D2C111100B8388D /* TwoButtonCustomAlertView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E28BAD762D2C111100B8388D /* TwoButtonCustomAlertView.swift */; };
@@ -434,6 +435,7 @@
 		E27843232DDE152C00E9AD07 /* ExamTestFooterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExamTestFooterView.swift; sourceTree = "<group>"; };
 		E27E54A82D6D74C500BF3B55 /* CheckListFoldButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckListFoldButton.swift; sourceTree = "<group>"; };
 		E2804CF22DFAABD800F5F05D /* DailyCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyCoordinator.swift; sourceTree = "<group>"; };
+		E2804CF42DFAD5D500F5F05D /* ExamCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExamCoordinator.swift; sourceTree = "<group>"; };
 		E283AC072D9E8D8F00DE005B /* TestDescriptionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestDescriptionView.swift; sourceTree = "<group>"; };
 		E28A93842D945F94006A15DB /* StudyContentCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StudyContentCell.swift; sourceTree = "<group>"; };
 		E28BAD762D2C111100B8388D /* TwoButtonCustomAlertView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TwoButtonCustomAlertView.swift; sourceTree = "<group>"; };
@@ -1351,6 +1353,7 @@
 				E278431A2DDE0DE800E9AD07 /* ExamTest */,
 				E22341A92DD4C26300A67D04 /* ExamSummary */,
 				E25857822DD09E9800AE174C /* ExamList */,
+				E2804CF42DFAD5D500F5F05D /* ExamCoordinator.swift */,
 			);
 			path = Exam;
 			sourceTree = "<group>";
@@ -2033,6 +2036,7 @@
 				E29CCD292D29855B004AA30A /* QuestionNumberLabel.swift in Sources */,
 				E2D70FEE2D0EC037005A3F51 /* CheckConceptViewModel.swift in Sources */,
 				E29CCD2C2D29855B004AA30A /* TestButton.swift in Sources */,
+				E2804CF52DFAD5D500F5F05D /* ExamCoordinator.swift in Sources */,
 				E2A6C0802DBB61890059F960 /* PreviewSubmitRequest.swift in Sources */,
 				E217C3692D9BF0B20095A3D8 /* DailyResultViewModel.swift in Sources */,
 				B18CDF792DD5DF9800DD361A /* TermsAgreementModalViewModel.swift in Sources */,

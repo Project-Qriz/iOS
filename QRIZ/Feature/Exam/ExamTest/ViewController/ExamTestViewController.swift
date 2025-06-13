@@ -28,6 +28,8 @@ final class ExamTestViewController: UIViewController {
     
     private let submitAlertViewController = TwoButtonCustomAlertViewController(title: "제출하시겠습니까?", description: "확인 버튼을 누르면 다시 돌아올 수 없어요.")
     
+    weak var coordinator: ExamCoordinator?
+    
     // MARK: - Initializers
     init(viewModel: ExamTestViewModel) {
         self.viewModel = viewModel
@@ -94,10 +96,10 @@ final class ExamTestViewController: UIViewController {
                     footerView.updateNextButton(isVisible: isVisible, isTextSubmit: isTextSubmit)
                 case .moveToExamResult(let examId):
                     removeNavigationItems()
-                    self.navigationController?.pushViewController(ExamResultViewController(viewModel: ExamResultViewModel(examId: examId, examService: ExamServiceImpl())), animated: true)
+                    coordinator?.showExamResult(examId: examId)
                 case .moveToExamList:
                     removeNavigationItems()
-                    self.dismiss(animated: true)
+                    coordinator?.quitExam()
                 case .popSubmitAlert:
                     present(submitAlertViewController, animated: true)
                 case .cancelAlert:

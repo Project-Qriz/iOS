@@ -62,6 +62,7 @@ final class DailyCoordinatorImpl: DailyCoordinator {
         let vm = DailyTestViewModel(dailyTestType: type, day: day, dailyService: service)
         let vc = DailyTestViewController(viewModel: vm)
         vc.coordinator = self
+        modalNavigationController = nil
         modalNavigationController = UINavigationController(rootViewController: vc)
         modalNavigationController?.modalPresentationStyle = .fullScreen
         if let modal = modalNavigationController {
