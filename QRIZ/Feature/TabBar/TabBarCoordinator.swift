@@ -57,36 +57,46 @@ final class TabBarCoordinatorImp: TabBarCoordinator {
     weak var delegate: TabBarCoordinatorDelegate?
     var childCoordinators: [Coordinator] = []
     private let dependency: TabBarCoordinatorDependency
+    private let homeCoordinator: HomeCoordinatorImpl
+    private let myPageCoordinator: MyPageCoordinatorImp
     
     init(dependency: TabBarCoordinatorDependency) {
         self.dependency = dependency
+        
+        guard
+            let home = dependency.homeCoordinator as? HomeCoordinatorImpl,
+            let my = dependency.myPageCoordinator as? MyPageCoordinatorImp
+        else {
+            fatalError("TabBar 의존성 주입 오류: 예상한 Coordinator 타입이 아닙니다‼️")
+        }
+
+        self.homeCoordinator = home
+        self.myPageCoordinator = my
     }
     
     func start() -> UIViewController {
-        let tabBarController = UITabBarController()
-        configureTabBarController(tabBarController)
+        homeCoordinator.examDelegate = self
+        myPageCoordinator.examDelegate = self
         
-        let homeCoordinator = dependency.homeCoordinator
-        let conceptBookCoordinator = dependency.conceptBookCoordinator
-        let mistakeNoteCoordinator = dependency.mistakeNoteCoordinator
-        let myPageCoordinator = dependency.myPageCoordinator
-        
-        childCoordinators.append(contentsOf: [
-            homeCoordinator,
-            conceptBookCoordinator,
-            mistakeNoteCoordinator,
-            myPageCoordinator
-        ])
-        
-        var viewControllers: [UIViewController] = []
-        viewControllers.append(homeCoordinator.start())
-        viewControllers.append(conceptBookCoordinator.start())
-        viewControllers.append(mistakeNoteCoordinator.start())
-        viewControllers.append(myPageCoordinator.start())
+        var viewControllers: [UIViewController] = [
+            homeCoordinator.start(),
+            dependency.conceptBookCoordinator.start(),
+            dependency.mistakeNoteCoordinator.start(),
+            myPageCoordinator.start()
+        ]
         setupTabBarItems(for: &viewControllers)
         
-        tabBarController.viewControllers = viewControllers
-        return tabBarController
+        let tabBar = UITabBarController()
+        configureTabBarController(tabBar)
+        tabBar.viewControllers = viewControllers
+        
+        childCoordinators = [
+            homeCoordinator,
+            dependency.conceptBookCoordinator,
+            dependency.mistakeNoteCoordinator,
+            myPageCoordinator
+        ]
+        return tabBar
     }
     
     private func configureTabBarController(_ tabBarController: UITabBarController) {
@@ -125,5 +135,18 @@ final class TabBarCoordinatorImp: TabBarCoordinator {
     
     func logout() {
         delegate?.didLogout(self)
+    }
+}
+
+// MARK: - ExamSelectionDelegate
+
+extension TabBarCoordinatorImp: ExamSelectionDelegate {
+    func didUpdateExamSchedule() {
+        if let tabBar = homeCoordinator.navigationController?.tabBarController,
+           tabBar.selectedIndex == 0 {
+            homeCoordinator.homeVM?.reloadExamSchedule()
+        } else {
+            homeCoordinator.needsRefresh = true
+        }
     }
 }

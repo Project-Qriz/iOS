@@ -32,6 +32,10 @@ final class HomeViewController: UIViewController {
     
     // MARK: - LifeCycle
     
+    override func loadView() {
+        self.view = rootView
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         bind()
@@ -39,8 +43,13 @@ final class HomeViewController: UIViewController {
         inputSubject.send(.viewDidLoad)
     }
     
-    override func loadView() {
-        self.view = rootView
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+
+        if coordinator?.needsRefresh == true {
+            coordinator?.needsRefresh = false
+            inputSubject.send(.viewDidLoad)
+        }
     }
     
     // MARK: - Functions

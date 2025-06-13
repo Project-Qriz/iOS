@@ -17,6 +17,7 @@ protocol MyPageCoordinator: Coordinator {
 final class MyPageCoordinatorImp: MyPageCoordinator {
     
     private weak var navigationController: UINavigationController?
+    weak var examDelegate: ExamSelectionDelegate?
     private let examService: ExamScheduleService
     var childCoordinators: [Coordinator] = []
     
@@ -36,6 +37,7 @@ final class MyPageCoordinatorImp: MyPageCoordinator {
     
     func showExamSelectionSheet() {
         let viewModel = ExamScheduleSelectionViewModel(examScheduleService: examService)
+        viewModel.delegate = examDelegate
         let vc = ExamScheduleSelectionViewController(examScheduleSelectionVM: viewModel)
         vc.modalPresentationStyle = .pageSheet
         

@@ -9,6 +9,7 @@ import UIKit
 
 @MainActor
 protocol HomeCoordinator: Coordinator {
+    var needsRefresh: Bool { get set }
     func showExamSelectionSheet()
 }
 
@@ -21,9 +22,12 @@ protocol ExamSelectionDelegate: AnyObject {
 @MainActor
 final class HomeCoordinatorImpl: HomeCoordinator {
     
-    private weak var navigationController: UINavigationController?
+    private(set) weak var navigationController: UINavigationController?
+    weak var examDelegate: ExamSelectionDelegate?
     private let examService: ExamScheduleService
-    private var homeVM: HomeViewModel?
+    private(set) var homeVM: HomeViewModel?
+    
+    var needsRefresh: Bool = false
     var childCoordinators: [Coordinator] = []
     
     init(examService: ExamScheduleService) {
@@ -43,7 +47,7 @@ final class HomeCoordinatorImpl: HomeCoordinator {
     func showExamSelectionSheet() {
         let viewModel = ExamScheduleSelectionViewModel(examScheduleService: examService)
         let vc = ExamScheduleSelectionViewController(examScheduleSelectionVM: viewModel)
-        viewModel.delegate = self
+        viewModel.delegate = examDelegate ?? self
         vc.modalPresentationStyle = .pageSheet
         
         if let sheet = vc.sheetPresentationController {
