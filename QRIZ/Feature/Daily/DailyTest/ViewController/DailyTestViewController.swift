@@ -90,7 +90,7 @@ final class DailyTestViewController: UIViewController {
                 case .moveToDailyResult(let type, let day):
                     coordinator?.showDailyResult()
                 case .moveToHomeView:
-                    coordinator?.dismissModal()
+                    coordinator?.quitDaily()
                 case .popSubmitAlert:
                     present(submitAlertViewController, animated: true)
                 case .cancelAlert:

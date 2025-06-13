@@ -80,7 +80,6 @@ final class ExamListViewController: UIViewController {
                 case .moveToExamView(let examId):
                     coordinator?.showExamSummary(examId: examId)
                 case .cancelExamListView:
-                    self.dismiss(animated: true)
                     tabBarController?.tabBar.isHidden = false
                     if let coordinator = coordinator {
                         coordinator.delegate?.didQuitExam(coordinator)

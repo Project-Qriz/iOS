@@ -30,8 +30,9 @@ protocol AppCoordinatorDependency {
     var signUpService: SignUpService { get }
     var accountRecoveryService: AccountRecoveryService { get }
     var examScheduleService: ExamScheduleService { get }
-    var userInfoService: UserInfoService { get }
     var examTestService: ExamService { get }
+    var dailyService: DailyService { get }
+    var userInfoService: UserInfoService { get }
     var onboardingService: OnboardingService { get }
     
     // Utils
@@ -51,6 +52,7 @@ final class AppCoordinatorDependencyImpl: AppCoordinatorDependency {
     lazy var accountRecoveryService: AccountRecoveryService = AccountRecoveryServiceImpl(network: network)
     lazy var examScheduleService: ExamScheduleService = ExamScheduleServiceImpl(network: network, keychain: keychain)
     lazy var examTestService: ExamService = ExamServiceImpl(network: network, keychainManager: keychain)
+    lazy var dailyService: DailyService = DailyServiceImpl(network: network, keychainManager: keychain)
     lazy var userInfoService: UserInfoService = UserInfoServiceImpl(network: network, keychainManager: keychain)
     lazy var onboardingService: OnboardingService = OnboardingServiceImpl(network: network, keychainManager: keychain)
     
@@ -73,6 +75,7 @@ final class AppCoordinatorDependencyImpl: AppCoordinatorDependency {
         let tabBarDependency = TabBarCoordinatorDependencyImp(
             examService: examScheduleService,
             examTestService: examTestService,
+            dailyService: dailyService,
             onboardingService: onboardingService,
             userInfoService: userInfoService
         )

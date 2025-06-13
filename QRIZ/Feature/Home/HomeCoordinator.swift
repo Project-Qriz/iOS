@@ -13,6 +13,7 @@ protocol HomeCoordinator: Coordinator {
     func showExamSelectionSheet()
     func showOnboarding()
     func showExam()
+    func showDaily(day: Int, type: DailyLearnType)
 }
 
 @MainActor
@@ -33,6 +34,7 @@ final class HomeCoordinatorImpl: HomeCoordinator {
     private weak var navigationController: UINavigationController?
     private let examService: ExamScheduleService
     private let examTestService: ExamService
+    private let dailyService: DailyService
     private let onboardingService: OnboardingService
     private let userInfoService: UserInfoService
     private var homeVM: HomeViewModel?
@@ -43,11 +45,13 @@ final class HomeCoordinatorImpl: HomeCoordinator {
     init(
         examService: ExamScheduleService,
         examTestService: ExamService,
+        dailyService: DailyService,
         onboardingService: OnboardingService,
         userInfoService: UserInfoService
     ) {
         self.examService = examService
         self.examTestService = examTestService
+        self.dailyService = dailyService
         self.onboardingService = onboardingService
         self.userInfoService = userInfoService
     }
@@ -103,6 +107,14 @@ final class HomeCoordinatorImpl: HomeCoordinator {
         childCoordinators.append(exam)
         _ = exam.start()
     }
+    
+    func showDaily(day: Int, type: DailyLearnType) {
+        guard let navi = navigationController else { return }
+        let daily = DailyCoordinatorImpl(navigationController: navi, dailyService: dailyService, day: day, type: type)
+        daily.delegate = self
+        childCoordinators.append(daily)
+        _ = daily.start()
+    }
 }
 
 // MARK: - ExamSelectionDelegate
@@ -131,7 +143,21 @@ extension HomeCoordinatorImpl: ExamCoordinatorDelegate {
         navigationController?.popToRootViewController(animated: true)
     }
     
-    func moveToConcept(_ coordinator: any ExamCoordinator) {
+    func moveFromExamToConcept(_ coordinator: any ExamCoordinator) {
+        childCoordinators.removeAll { $0 === coordinator }
+        navigationController?.popToRootViewController(animated: true)
+        delegate?.moveToConcept()
+    }
+}
+
+// MARK: - DailyCoordinatorDelegate
+extension HomeCoordinatorImpl: DailyCoordinatorDelegate {
+    func didQuitDaily(_ coordinator: any DailyCoordinator) {
+        childCoordinators.removeAll { $0 === coordinator }
+        navigationController?.popToRootViewController(animated: true)
+    }
+    
+    func moveFromDailyToConcept(_ coordinator: any DailyCoordinator) {
         childCoordinators.removeAll { $0 === coordinator }
         navigationController?.popToRootViewController(animated: true)
         delegate?.moveToConcept()

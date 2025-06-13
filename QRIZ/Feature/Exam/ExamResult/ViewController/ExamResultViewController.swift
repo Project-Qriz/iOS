@@ -63,7 +63,7 @@ final class ExamResultViewController: UIViewController {
                 case .moveToConcept:
                     tabBarController?.tabBar.isHidden = false
                     if let coordinator = coordinator {
-                        coordinator.delegate?.moveToConcept(coordinator)
+                        coordinator.delegate?.moveFromExamToConcept(coordinator)
                     }
                 case .moveToExamList:
                     coordinator?.quitExam()

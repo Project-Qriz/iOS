@@ -61,9 +61,13 @@ final class DailyResultViewController: UIViewController {
                         showOneButtonAlert(with: "잠시 후 다시 시도해주세요.", storingIn: &subscriptions)
                     }
                 case .moveToConcept:
-                    print("Move To Concept")
+                    tabBarController?.tabBar.isHidden = false
+                    if let coordinator = coordinator {
+                        coordinator.delegate?.moveFromDailyToConcept(coordinator)
+                    }
+                    
                 case .moveToDailyLearn:
-                    print("Move To Daily Learn")
+                    coordinator?.quitDaily()
                 case .moveToResultDetail:
                     coordinator?.showResultDetail(resultDetailData: self.viewModel.resultDetailData)
                 }

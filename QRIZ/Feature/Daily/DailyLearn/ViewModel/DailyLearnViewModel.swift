@@ -17,6 +17,7 @@ final class DailyLearnViewModel {
         case toConceptClicked(conceptIdx: Int)
         case alertMoveClicked
         case alertCancelClicked
+        case backButtonClicked
     }
     
     enum Output {
@@ -26,11 +27,12 @@ final class DailyLearnViewModel {
         )
         case updateContent(conceptArr: [(Int, String)])
         case fetchFailed(isServerError: Bool)
-        case moveToDailyTest(type: DailyLearnType, day: Int)
+        case moveToDailyTest
         case showRetestAlert
-        case moveToDailyTestResult(type: DailyLearnType, day: Int)
-        case moveToConcept(conceptIdx: Int)
+        case moveToDailyTestResult
+        case moveToConcept(chapter: Chapter, conceptItem: ConceptItem)
         case dismissAlert
+        case moveToHome
     }
     
     // MARK: - Properties
@@ -62,12 +64,15 @@ final class DailyLearnViewModel {
             case .testNavigatorButtonClicked:
                 handleNavigateAction()
             case .toConceptClicked(let conceptIdx):
-                output.send(.moveToConcept(conceptIdx: conceptIdx))
+                output.send(.moveToConcept(chapter: SurveyCheckList.getChapter(conceptIdx - 1),
+                                           conceptItem: SurveyCheckList.getConceptItem(conceptIdx - 1)))
             case .alertMoveClicked:
                 output.send(.dismissAlert)
-                output.send(.moveToDailyTest(type: type, day: day))
+                output.send(.moveToDailyTest)
             case .alertCancelClicked:
                 output.send(.dismissAlert)
+            case .backButtonClicked:
+                output.send(.moveToHome)
             }
         }
         .store(in: &subscriptions)
@@ -127,11 +132,16 @@ final class DailyLearnViewModel {
         case .unavailable:
             return
         case .zeroAttempt:
-            output.send(.moveToDailyTest(type: type, day: day))
+            output.send(.moveToDailyTest)
         case .retestRequired:
             output.send(.showRetestAlert)
         case .passed, .failed:
-            output.send(.moveToDailyTestResult(type: type, day: day))
+            output.send(.moveToDailyTestResult)
         }
+    }
+    
+    func reloadData() {
+        conceptArr = []
+        fetchData()
     }
 }

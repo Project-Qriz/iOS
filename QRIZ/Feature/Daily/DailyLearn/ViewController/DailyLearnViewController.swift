@@ -62,12 +62,14 @@ final class DailyLearnViewController: UIViewController {
     // MARK: - Methods
     override func viewDidLoad() {
         super.viewDidLoad()
-        setNavigationBarTitle(title: "오늘의 공부")
+        self.view.backgroundColor = .customBlue50
+        setNavigationItems()
         setCollectionViewDataSourceAndDelegate()
         bind()
         setAlertButtonActions()
         input.send(.viewDidLoad)
         addViews()
+        tabBarController?.tabBar.isHidden = true
     }
     
     private func bind() {
@@ -92,18 +94,21 @@ final class DailyLearnViewController: UIViewController {
                 case .updateContent(let conceptArr):
                     self.conceptArr = conceptArr
                     updateCollectionViewHeight()
-                case .moveToDailyTest(let type, let day):
+                case .moveToDailyTest:
                     coordinator?.showDailyTest()
                 case .showRetestAlert:
                     present(retestAlertViewController, animated: true)
-                case .moveToDailyTestResult(let type, let day):
+                case .moveToDailyTestResult:
                     coordinator?.showDailyResult()
-                case .moveToConcept(let conceptIdx):
-                    coordinator?.showConcept(chapter: SurveyCheckList.getChapter(conceptIdx - 1),
-                                             conceptItem: SurveyCheckList.getConceptItem(conceptIdx - 1))
-
+                case .moveToConcept(let chapter, let conceptItem):
+                    coordinator?.showConcept(chapter: chapter, conceptItem: conceptItem)
                 case .dismissAlert:
                     retestAlertViewController.dismiss(animated: true)
+                case .moveToHome:
+                    tabBarController?.tabBar.isHidden = false
+                    if let coordinator = coordinator {
+                        coordinator.delegate?.didQuitDaily(coordinator)
+                    }
                 }
             }
             .store(in: &subscriptions)
@@ -141,6 +146,24 @@ final class DailyLearnViewController: UIViewController {
         case .failed:
             testSubtextLabel.text = "학습완료. 수고하셨어요!"
         }
+    }
+    
+    private func setNavigationItems() {
+        let titleView = UILabel()
+        titleView.text = "오늘의 공부"
+        titleView.font = .boldSystemFont(ofSize: 18)
+        titleView.textAlignment = .center
+        titleView.textColor = .coolNeutral700
+        self.navigationItem.titleView = titleView
+        
+        let backImage = UIImage(systemName: "chevron.left")?.withTintColor(.coolNeutral800, renderingMode: .alwaysOriginal)
+        let button = UIButton(frame: CGRectMake(0, 0, 28, 28))
+        button.setImage(backImage, for: .normal)
+        button.addAction(UIAction(handler: { [weak self] _ in
+            guard let self = self else { return }
+            input.send(.backButtonClicked)
+        }), for: .touchUpInside)
+        self.navigationItem.leftBarButtonItem = UIBarButtonItem(customView: button)
     }
     
     private func setNavigatorButton(state: DailyTestState, type: DailyLearnType, score: Double?) {

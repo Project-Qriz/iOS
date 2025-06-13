@@ -30,6 +30,7 @@ final class TabBarCoordinatorDependencyImp: TabBarCoordinatorDependency {
     
     private let examService: ExamScheduleService
     private let examTestService: ExamService
+    private let dailyService: DailyService
     private let onboardingService: OnboardingService
     private let userInfoService: UserInfoService
     
@@ -37,6 +38,7 @@ final class TabBarCoordinatorDependencyImp: TabBarCoordinatorDependency {
         return HomeCoordinatorImpl(
             examService: examService,
             examTestService: examTestService,
+            dailyService: dailyService,
             onboardingService: onboardingService,
             userInfoService: userInfoService
         )
@@ -57,11 +59,13 @@ final class TabBarCoordinatorDependencyImp: TabBarCoordinatorDependency {
     init(
         examService: ExamScheduleService,
         examTestService: ExamService,
+        dailyService: DailyService,
         onboardingService: OnboardingService,
         userInfoService: UserInfoService
     ) {
         self.examService = examService
         self.examTestService = examTestService
+        self.dailyService = dailyService
         self.onboardingService = onboardingService
         self.userInfoService = userInfoService
     }
