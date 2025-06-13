@@ -23,7 +23,7 @@ protocol LoginCoordinatorDelegate: AnyObject {
 }
 
 @MainActor
-final class LoginCoordinatorImp: LoginCoordinator {
+final class LoginCoordinatorImpl: LoginCoordinator {
     
     weak var delegate: LoginCoordinatorDelegate?
     private let navigationController: UINavigationController
@@ -92,7 +92,7 @@ final class LoginCoordinatorImp: LoginCoordinator {
 
 // MARK: - SignUpCoordinatorDelegate
 
-extension LoginCoordinatorImp: SignUpCoordinatorDelegate {
+extension LoginCoordinatorImpl: SignUpCoordinatorDelegate {
     func didFinishSignUp(_ coordinator: SignUpCoordinator) {
         childCoordinators.removeAll { $0 === coordinator }
         navigationController.popToRootViewController(animated: true)

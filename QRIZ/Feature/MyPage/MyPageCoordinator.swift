@@ -14,7 +14,7 @@ protocol MyPageCoordinator: Coordinator {
 }
 
 @MainActor
-final class MyPageCoordinatorImp: MyPageCoordinator {
+final class MyPageCoordinatorImpl: MyPageCoordinator {
     
     private weak var navigationController: UINavigationController?
     weak var examDelegate: ExamSelectionDelegate?
@@ -67,7 +67,7 @@ final class MyPageCoordinatorImp: MyPageCoordinator {
 
 // MARK: - TermsDetailDismissible
 
-extension MyPageCoordinatorImp: TermsDetailDismissible {
+extension MyPageCoordinatorImpl: TermsDetailDismissible {
     func dismissTermsDetail() {
         navigationController?.dismiss(animated: true)
     }

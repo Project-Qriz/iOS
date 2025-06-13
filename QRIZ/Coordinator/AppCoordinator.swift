@@ -51,7 +51,7 @@ final class AppCoordinatorDependencyImpl: AppCoordinatorDependency {
     
     private lazy var _loginCoordinator: LoginCoordinator = {
         let navi = UINavigationController()
-        return LoginCoordinatorImp(
+        return LoginCoordinatorImpl(
             navigationController: navi,
             loginService: loginService,
             signUpService: signUpService,
@@ -64,8 +64,8 @@ final class AppCoordinatorDependencyImpl: AppCoordinatorDependency {
     }
     
     var tabBarCoordinator: TabBarCoordinator {
-        let tabBarDependency = TabBarCoordinatorDependencyImp(examService: examScheduleService)
-        return TabBarCoordinatorImp(dependency: tabBarDependency)
+        let tabBarDependency = TabBarCoordinatorDependencyImpl(examService: examScheduleService)
+        return TabBarCoordinatorImpl(dependency: tabBarDependency)
     }
 }
 
@@ -107,7 +107,7 @@ final class AppCoordinatorImpl: AppCoordinator {
     
     private func showLogin() -> UIViewController {
         let loginCoordinator = dependency.loginCoordinator
-        (loginCoordinator as? LoginCoordinatorImp)?.delegate = self
+        (loginCoordinator as? LoginCoordinatorImpl)?.delegate = self
         childCoordinators.append(loginCoordinator)
         
         let loginVC = loginCoordinator.start()

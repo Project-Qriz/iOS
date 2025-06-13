@@ -14,7 +14,7 @@ protocol ConceptBookCoordinator: Coordinator {
 }
 
 @MainActor
-final class ConceptBookCoordinatorImp: ConceptBookCoordinator {
+final class ConceptBookCoordinatorImpl: ConceptBookCoordinator {
     
     var childCoordinators: [Coordinator] = []
     private var navigationController: UINavigationController?

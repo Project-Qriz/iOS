@@ -26,7 +26,7 @@ protocol TabBarCoordinatorDependency {
 }
 
 @MainActor
-final class TabBarCoordinatorDependencyImp: TabBarCoordinatorDependency {
+final class TabBarCoordinatorDependencyImpl: TabBarCoordinatorDependency {
     
     private let examService: ExamScheduleService
     
@@ -35,15 +35,15 @@ final class TabBarCoordinatorDependencyImp: TabBarCoordinatorDependency {
     }
     
     var conceptBookCoordinator: ConceptBookCoordinator {
-        return ConceptBookCoordinatorImp()
+        return ConceptBookCoordinatorImpl()
     }
     
     var mistakeNoteCoordinator: MistakeNoteCoordinator {
-        return MistakeNoteCoordinatorImp()
+        return MistakeNoteCoordinatorImpl()
     }
     
     var myPageCoordinator: MyPageCoordinator {
-        return MyPageCoordinatorImp(examService: examService)
+        return MyPageCoordinatorImpl(examService: examService)
     }
     
     init(examService: ExamScheduleService) {
@@ -52,20 +52,20 @@ final class TabBarCoordinatorDependencyImp: TabBarCoordinatorDependency {
 }
 
 @MainActor
-final class TabBarCoordinatorImp: TabBarCoordinator {
+final class TabBarCoordinatorImpl: TabBarCoordinator {
     
     weak var delegate: TabBarCoordinatorDelegate?
     var childCoordinators: [Coordinator] = []
     private let dependency: TabBarCoordinatorDependency
     private let homeCoordinator: HomeCoordinatorImpl
-    private let myPageCoordinator: MyPageCoordinatorImp
+    private let myPageCoordinator: MyPageCoordinatorImpl
     
     init(dependency: TabBarCoordinatorDependency) {
         self.dependency = dependency
         
         guard
             let home = dependency.homeCoordinator as? HomeCoordinatorImpl,
-            let my = dependency.myPageCoordinator as? MyPageCoordinatorImp
+            let my = dependency.myPageCoordinator as? MyPageCoordinatorImpl
         else {
             fatalError("TabBar 의존성 주입 오류: 예상한 Coordinator 타입이 아닙니다‼️")
         }
@@ -140,7 +140,7 @@ final class TabBarCoordinatorImp: TabBarCoordinator {
 
 // MARK: - ExamSelectionDelegate
 
-extension TabBarCoordinatorImp: ExamSelectionDelegate {
+extension TabBarCoordinatorImpl: ExamSelectionDelegate {
     func didUpdateExamSchedule() {
         if let tabBar = homeCoordinator.navigationController?.tabBarController,
            tabBar.selectedIndex == 0 {
