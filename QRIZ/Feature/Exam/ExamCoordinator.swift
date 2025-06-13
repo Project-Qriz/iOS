@@ -21,7 +21,7 @@ protocol ExamCoordinator: Coordinator {
 @MainActor
 protocol ExamCoordinatorDelegate: AnyObject {
     func didQuitExam(_ coordinator: ExamCoordinator)
-    func moveToConcept(_ coordinator: ExamCoordinator)
+    func moveFromExamToConcept(_ coordinator: ExamCoordinator)
 }
 
 @MainActor
@@ -30,8 +30,8 @@ final class ExamCoordinatorImpl: ExamCoordinator {
     // MARK: - Properties
     weak var delegate: ExamCoordinatorDelegate?
     private let navigationController: UINavigationController
-    private weak var examListViewController: UIViewController?
-    private weak var examListViewModel: ExamListViewModel?
+    private var examListViewController: UIViewController?
+    private var examListViewModel: ExamListViewModel?
     private let service: ExamService
     
     // MARK: - Initializers
