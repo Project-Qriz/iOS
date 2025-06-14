@@ -69,10 +69,10 @@ final class RequestFactory<T: Request> {
     }
     
     private func makePostRequest() throws -> URLRequest {
-        guard let encodableBody = request.body else {
-            throw NetworkError.invalidURL(message: "POST 요청에 body가 없습니다.")
-        }
-        let bodyData = try JSONEncoder().encode(encodableBody)
+        let bodyData: Data? = {
+            guard let encodableBody = request.body else { return nil }
+            return try? JSONEncoder().encode(encodableBody)
+        }()
         return try makeURLRequest(httpBody: bodyData)
     }
     
