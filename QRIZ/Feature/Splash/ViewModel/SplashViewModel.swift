@@ -41,8 +41,8 @@ final class SplashViewModel {
     }
 
     private func performInitialChecks() async {
+        try? await Task.sleep(nanoseconds: 1_500_000_000)
         let isLoggedIn = await validateSession()
-        try? await Task.sleep(nanoseconds: 2_000_000_000)
         
         outputSubject.send(.finished(isLoggedIn: isLoggedIn))
     }
