@@ -10,6 +10,9 @@ import Foundation
 protocol MyPageService {
     /// 버전 정보
     func fetchVersion() async throws -> VersionResponse
+    
+    ///  플랜 초기화
+    func resetPlan() async throws -> DailyResetResponse
 }
 
 final class MyPageServiceImpl: MyPageService {
@@ -34,6 +37,12 @@ final class MyPageServiceImpl: MyPageService {
     func fetchVersion() async throws -> VersionResponse {
         let access = keychain.retrieveToken(forKey: HTTPHeaderField.accessToken.rawValue) ?? ""
         let request = VersionRequest(accessToken: access)
+        return try await network.send(request)
+    }
+    
+    func resetPlan() async throws -> DailyResetResponse {
+        let access = keychain.retrieveToken(forKey: HTTPHeaderField.accessToken.rawValue) ?? ""
+        let request = DailyResetRequest(accessToken: access)
         return try await network.send(request)
     }
 }
