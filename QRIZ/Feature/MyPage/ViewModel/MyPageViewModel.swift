@@ -21,7 +21,7 @@ final class MyPageViewModel {
     
     // MARK: - Initialize
     
-    init(userName: String, myPageService: MyPageService = MyPageServiceImpl()) {
+    init(userName: String, myPageService: MyPageService) {
         self.userName = userName
         self.myPageService = myPageService
     }

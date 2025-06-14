@@ -20,14 +20,22 @@ final class MyPageCoordinatorImpl: MyPageCoordinator {
     private weak var navigationController: UINavigationController?
     weak var examDelegate: ExamSelectionDelegate?
     private let examService: ExamScheduleService
+    private let myPageService: MyPageService
     var childCoordinators: [Coordinator] = []
     
-    init(examService: ExamScheduleService) {
+    init(
+        examService: ExamScheduleService,
+        myPageService: MyPageService
+    ) {
         self.examService = examService
+        self.myPageService = myPageService
     }
     
     func start() -> UIViewController {
-        let viewModel = MyPageViewModel(userName: UserInfoManager.shared.name)
+        let viewModel = MyPageViewModel(
+            userName: UserInfoManager.shared.name,
+            myPageService: myPageService
+        )
         let myPageVC = MyPageViewController(viewModel: viewModel)
         myPageVC.coordinator = self
         

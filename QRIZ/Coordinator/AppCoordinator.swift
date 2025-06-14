@@ -47,6 +47,7 @@ final class AppCoordinatorDependencyImpl: AppCoordinatorDependency {
     lazy var signUpService: SignUpService = SignUpServiceImpl(network: network)
     lazy var accountRecoveryService: AccountRecoveryService = AccountRecoveryServiceImpl(network: network)
     lazy var examScheduleService: ExamScheduleService = ExamScheduleServiceImpl(network: network, keychain: keychain)
+    lazy var myPageService: MyPageService = MyPageServiceImpl(network: network, keychain: keychain)
     lazy var userInfoService: UserInfoService = UserInfoServiceImpl(network: network, keychainManager: keychain)
     
     private lazy var _loginCoordinator: LoginCoordinator = {
@@ -64,7 +65,10 @@ final class AppCoordinatorDependencyImpl: AppCoordinatorDependency {
     }
     
     var tabBarCoordinator: TabBarCoordinator {
-        let tabBarDependency = TabBarCoordinatorDependencyImpl(examService: examScheduleService)
+        let tabBarDependency = TabBarCoordinatorDependencyImpl(
+            examService: examScheduleService,
+            myPageService: myPageService
+        )
         return TabBarCoordinatorImpl(dependency: tabBarDependency)
     }
 }

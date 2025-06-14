@@ -29,6 +29,7 @@ protocol TabBarCoordinatorDependency {
 final class TabBarCoordinatorDependencyImpl: TabBarCoordinatorDependency {
     
     private let examService: ExamScheduleService
+    private let myPageService: MyPageService
     
     var homeCoordinator: HomeCoordinator {
         return HomeCoordinatorImpl(examService: examService)
@@ -43,11 +44,15 @@ final class TabBarCoordinatorDependencyImpl: TabBarCoordinatorDependency {
     }
     
     var myPageCoordinator: MyPageCoordinator {
-        return MyPageCoordinatorImpl(examService: examService)
+        return MyPageCoordinatorImpl(examService: examService, myPageService: myPageService)
     }
     
-    init(examService: ExamScheduleService) {
+    init(
+        examService: ExamScheduleService,
+        myPageService: MyPageService
+    ) {
         self.examService = examService
+        self.myPageService = myPageService
     }
 }
 
