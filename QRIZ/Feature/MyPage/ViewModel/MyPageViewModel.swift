@@ -7,19 +7,23 @@
 
 import Foundation
 import Combine
+import os
 
 final class MyPageViewModel {
     
     // MARK: - Properties
     
     private let userName: String
+    private let myPageService: MyPageService
     private let outputSubject = PassthroughSubject<Output, Never>()
     private var cancellables = Set<AnyCancellable>()
+    private let logger = Logger(subsystem: Bundle.main.bundleIdentifier ?? "kr.QRIZ", category: "MyPageViewModel")
     
     // MARK: - Initialize
     
-    init(userName: String) {
+    init(userName: String, myPageService: MyPageService = MyPageServiceImpl()) {
         self.userName = userName
+        self.myPageService = myPageService
     }
     
     // MARK: - Functions
@@ -31,6 +35,12 @@ final class MyPageViewModel {
                 switch event {
                 case .viewDidLoad:
                     self.fetchVersion()
+                    
+                case .didTapResetPlan:
+                    self.outputSubject.send(.showResetAlert)
+                    
+                case .didConfirmResetPlan:
+                    Task { await self.performReset() }
                     
                 case .didTapRegisterExam:
                     self.outputSubject.send(.showExamSchedule)
@@ -57,11 +67,29 @@ final class MyPageViewModel {
     private func fetchVersion() {
         outputSubject.send(.setupView(userName: userName, version: "2.1.2"))
     }
+    
+    @MainActor
+    private func performReset() async {
+        do {
+            let response = try await myPageService.resetPlan()
+            outputSubject.send(.resetSucceeded(message: response.msg))
+            
+        } catch let error as NetworkError  {
+            outputSubject.send(.showErrorAlert(error.errorMessage))
+            logger.error("NetworkError(resetPlan): \(error.description, privacy: .public)")
+            
+        } catch {
+            outputSubject.send(.showErrorAlert("플랜 초기화에 실패했습니다."))
+            logger.error("Unhandled error(resetPlan): \(error.localizedDescription, privacy: .public)")
+        }
+    }
 }
 
 extension MyPageViewModel {
     enum Input {
         case viewDidLoad
+        case didTapResetPlan
+        case didConfirmResetPlan
         case didTapRegisterExam
         case didTapTermsOfService
         case didTapPrivacyPolicy
@@ -69,6 +97,9 @@ extension MyPageViewModel {
     
     enum Output {
         case setupView(userName: String, version: String)
+        case showResetAlert
+        case resetSucceeded(message: String)
+        case showErrorAlert(String)
         case showExamSchedule
         case showTermsDetail(termItem: TermItem)
     }

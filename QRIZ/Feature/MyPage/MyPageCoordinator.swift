@@ -10,6 +10,7 @@ import UIKit
 @MainActor
 protocol MyPageCoordinator: Coordinator {
     func showTermsDetail(for term: TermItem)
+    func showResetAlert(confirm: @escaping () -> Void)
     func showExamSelectionSheet()
 }
 
@@ -33,6 +34,21 @@ final class MyPageCoordinatorImpl: MyPageCoordinator {
         let navi = UINavigationController(rootViewController: myPageVC)
         self.navigationController = navi
         return navi
+    }
+    
+    func showResetAlert(confirm: @escaping () -> Void) {
+        let alert = TwoButtonCustomAlertViewController(
+            title: "플랜을 초기화 할까요?",
+            description: "지금까지의 플랜이 초기화되며,\nDay1부터 다시 시작됩니다.",
+            confirmAction: UIAction { [weak self] _ in
+                confirm()
+                self?.navigationController?.dismiss(animated: true)
+            },
+            cancelAction: UIAction { [weak self] _ in
+                self?.navigationController?.dismiss(animated: true)
+            }
+        )
+        navigationController?.present(alert, animated: true)
     }
     
     func showExamSelectionSheet() {

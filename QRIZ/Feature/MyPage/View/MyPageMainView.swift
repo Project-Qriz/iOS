@@ -38,6 +38,12 @@ final class MyPageMainView: UIView {
         return QuickActionsRegistration { [weak self] cell, _, _ in
             guard let self else { return }
 
+            cell.resetPlanTappedPublisher
+                .sink { [weak self] _ in
+                    self?.quickActionTappedSubject.send(.didTapResetPlan)
+                }
+                .store(in: &cell.cancellables)
+            
             cell.registerExamTappedPublisher
                 .sink { [weak self] _ in
                     self?.quickActionTappedSubject.send(.didTapRegisterExam)

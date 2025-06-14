@@ -80,6 +80,15 @@ final class MyPageViewController: UIViewController {
                 case .setupView(let userName, let version):
                     self.rootView.applySnapshot(userName: userName, appVersion: version)
                     
+                case .showResetAlert:
+                    self.coordinator?.showResetAlert { self.inputSubject.send(.didConfirmResetPlan) }
+                    
+                case .resetSucceeded(let message):
+                    self.showOneButtonAlert(with: message, storingIn: &cancellables)
+                    
+                case .showErrorAlert(let message):
+                    self.showOneButtonAlert(with: message, storingIn: &cancellables)
+                    
                 case .showExamSchedule:
                     self.coordinator?.showExamSelectionSheet()
                     

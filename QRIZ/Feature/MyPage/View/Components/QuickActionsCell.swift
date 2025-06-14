@@ -24,8 +24,13 @@ final class QuickActionsCell: UICollectionViewCell {
     
     // MARK: - Properties
     
+    private let resetPlanTappedSubject = PassthroughSubject<Void, Never>()
     private let registerExamTappedSubject = PassthroughSubject<Void, Never>()
     var cancellables = Set<AnyCancellable>()
+    
+    var resetPlanTappedPublisher: AnyPublisher<Void, Never> {
+        resetPlanTappedSubject.eraseToAnyPublisher()
+    }
     
     var registerExamTappedPublisher: AnyPublisher<Void, Never> {
         registerExamTappedSubject.eraseToAnyPublisher()
@@ -35,6 +40,9 @@ final class QuickActionsCell: UICollectionViewCell {
     
     private lazy var resetPlanButton: UIButton = {
         let button = buildButton(title: Attributes.resetPlanText, image: .reset)
+        button.addAction(UIAction { [weak self] _ in
+            self?.resetPlanTappedSubject.send()
+        }, for: .touchUpInside)
         return button
     }()
     
