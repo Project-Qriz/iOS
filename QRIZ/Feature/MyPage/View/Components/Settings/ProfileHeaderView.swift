@@ -50,11 +50,14 @@ final class ProfileHeaderView: UIView {
     // MARK: - Functions
     
     private func setupUI() {
-        backgroundColor = .customBlue50
+        backgroundColor = .white
+        layer.borderWidth = 1.0
+        layer.borderColor = UIColor.customBlue100.cgColor
+        layer.cornerRadius = 8.0
     }
     
     func configure(name: String, email: String) {
-        nameLabel.text = name
+        nameLabel.text = "\(name)님"
         emailLabel.text = email
     }
 }
@@ -79,7 +82,7 @@ extension ProfileHeaderView {
             
             emailLabel.topAnchor.constraint(equalTo: nameLabel.bottomAnchor, constant: Metric.emailLabelTopOffset),
             emailLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Metric.spacing),
-            emailLabel.bottomAnchor.constraint(equalTo: bottomAnchor, constant: Metric.spacing)
+            emailLabel.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -Metric.spacing)
         ])
     }
 }

@@ -19,16 +19,17 @@ final class SettingsViewController: UIViewController {
     // MARK: - Properties
     
     weak var coordinator: MyPageCoordinator?
-    private let rootView: MyPageMainView
-    private let viewModel: MyPageViewModel
+    private let rootView: SettingsMainView
+    private let viewModel: SettingsViewModel
     private var cancellables = Set<AnyCancellable>()
     
     // MARK: - Initialize
     
-    init(viewModel: MyPageViewModel) {
-        self.rootView = MyPageMainView()
+    init(viewModel: SettingsViewModel) {
+        self.rootView = SettingsMainView()
         self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
+        self.hidesBottomBarWhenPushed = true
     }
     
     required init?(coder: NSCoder) {
@@ -37,14 +38,19 @@ final class SettingsViewController: UIViewController {
     
     // MARK: - LifeCycle
     
+    override func loadView() {
+        self.view = rootView
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         bind()
         setNavigationBarTitle(title: Attributes.navigationTitle)
     }
     
-    override func loadView() {
-        self.view = rootView
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        self.hidesBottomBarWhenPushed = false
     }
     
     // MARK: - Functions
