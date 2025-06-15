@@ -31,20 +31,31 @@ final class TabBarCoordinatorDependencyImpl: TabBarCoordinatorDependency {
     private let examService: ExamScheduleService
     private let myPageService: MyPageService
     
+    private lazy var _homeCoordinator = HomeCoordinatorImpl(examService: examService)
+    
     var homeCoordinator: HomeCoordinator {
-        return HomeCoordinatorImpl(examService: examService)
+        _homeCoordinator
     }
+    
+    private lazy var _conceptBookCoordinator = ConceptBookCoordinatorImpl()
     
     var conceptBookCoordinator: ConceptBookCoordinator {
-        return ConceptBookCoordinatorImpl()
+        _conceptBookCoordinator
     }
+    
+    private lazy var _mistakeNoteCoordinator = MistakeNoteCoordinatorImpl()
     
     var mistakeNoteCoordinator: MistakeNoteCoordinator {
-        return MistakeNoteCoordinatorImpl()
+        _mistakeNoteCoordinator
     }
     
+    private lazy var _myPageCoordinator = MyPageCoordinatorImpl(
+        examService: examService,
+        myPageService: myPageService
+    )
+    
     var myPageCoordinator: MyPageCoordinator {
-        return MyPageCoordinatorImpl(examService: examService, myPageService: myPageService)
+        _myPageCoordinator
     }
     
     init(
