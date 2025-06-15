@@ -9,9 +9,10 @@ import UIKit
 
 @MainActor
 protocol MyPageCoordinator: Coordinator {
-    func showTermsDetail(for term: TermItem)
+    func showSettingsView()
     func showResetAlert(confirm: @escaping () -> Void)
     func showExamSelectionSheet()
+    func showTermsDetail(for term: TermItem)
 }
 
 @MainActor
@@ -42,6 +43,17 @@ final class MyPageCoordinatorImpl: MyPageCoordinator {
         let navi = UINavigationController(rootViewController: myPageVC)
         self.navigationController = navi
         return navi
+    }
+    
+    func showSettingsView() {
+        let viewModel = SettingsViewModel(
+            userName: UserInfoManager.shared.name,
+            email: UserInfoManager.shared.email,
+            myPageService: myPageService
+        )
+        let vc = SettingsViewController(viewModel: viewModel)
+        vc.coordinator = self
+        navigationController?.pushViewController(vc, animated: true)
     }
     
     func showResetAlert(confirm: @escaping () -> Void) {

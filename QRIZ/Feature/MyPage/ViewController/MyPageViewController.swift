@@ -53,7 +53,7 @@ final class MyPageViewController: UIViewController {
     
     private func bind() {
         let viewDidLoad = inputSubject
-        
+        let profileTap = rootView.profileTapPublisher.map { MyPageViewModel.Input.didTapProfile }
         let quickActionTap = rootView.quickActionTappedPublisher
         
         let menuTap = rootView.selectionPublisher
@@ -66,6 +66,7 @@ final class MyPageViewController: UIViewController {
             }
         
         let input = viewDidLoad
+            .merge(with: profileTap)
             .merge(with: menuTap)
             .merge(with: quickActionTap)
             .eraseToAnyPublisher()
@@ -79,6 +80,9 @@ final class MyPageViewController: UIViewController {
                 switch output {
                 case .setupView(let userName, let version):
                     self.rootView.applySnapshot(userName: userName, appVersion: version)
+                    
+                case .navigateToSettingsView:
+                    self.coordinator?.showSettingsView()
                     
                 case .showResetAlert:
                     self.coordinator?.showResetAlert { self.inputSubject.send(.didConfirmResetPlan) }

@@ -36,6 +36,9 @@ final class MyPageViewModel {
                 case .viewDidLoad:
                     self.fetchVersion()
                     
+                case .didTapProfile:
+                    self.outputSubject.send(.navigateToSettingsView)
+                    
                 case .didTapResetPlan:
                     self.outputSubject.send(.showResetAlert)
                     
@@ -88,6 +91,7 @@ final class MyPageViewModel {
 extension MyPageViewModel {
     enum Input {
         case viewDidLoad
+        case didTapProfile
         case didTapResetPlan
         case didConfirmResetPlan
         case didTapRegisterExam
@@ -97,6 +101,7 @@ extension MyPageViewModel {
     
     enum Output {
         case setupView(userName: String, version: String)
+        case navigateToSettingsView
         case showResetAlert
         case resetSucceeded(message: String)
         case showErrorAlert(String)

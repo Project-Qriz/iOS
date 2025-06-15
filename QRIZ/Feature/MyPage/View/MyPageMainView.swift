@@ -17,8 +17,13 @@ final class MyPageMainView: UIView {
     
     // MARK: - Properties
     
+    private let profileTapSubject = PassthroughSubject<Void, Never>()
     private let selectionSubject = PassthroughSubject<MyPageSectionItem, Never>()
     private let quickActionTappedSubject = PassthroughSubject<MyPageViewModel.Input, Never>()
+    
+    var profileTapPublisher: AnyPublisher<Void, Never> {
+        profileTapSubject.eraseToAnyPublisher()
+    }
     
     var selectionPublisher: AnyPublisher<MyPageSectionItem, Never> {
         selectionSubject.eraseToAnyPublisher()
@@ -30,8 +35,14 @@ final class MyPageMainView: UIView {
     
     // MARK: - UI
     
-    private let profileRegistration = ProfileRegistration { cell, _, userName in
+    private lazy var profileRegistration = ProfileRegistration { cell, _, userName in
         cell.configure(with: userName)
+        
+        cell.chevronTappedPublisher
+            .sink { [weak self] in
+                self?.profileTapSubject.send()
+            }
+            .store(in: &cell.cancellables)
     }
     
     private lazy var quickActionRegistration: QuickActionsRegistration = {
@@ -126,6 +137,7 @@ final class MyPageMainView: UIView {
     
     private func setupUI() {
         _ = quickActionRegistration
+        _ = profileRegistration
         backgroundColor = .customBlue50
     }
     

@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Combine
 
 final class ProfileCell: UICollectionViewCell {
     
@@ -19,6 +20,15 @@ final class ProfileCell: UICollectionViewCell {
         static let chevron: String = "chevron.right"
     }
     
+    // MARK: - Properties
+    
+    private let chevronTappedSubject = PassthroughSubject<Void, Never>()
+    var cancellables = Set<AnyCancellable>()
+    
+    var chevronTappedPublisher: AnyPublisher<Void, Never> {
+        chevronTappedSubject.eraseToAnyPublisher()
+    }
+    
     // MARK: - UI
     
     private let userNameLabel: UILabel = {
@@ -28,16 +38,16 @@ final class ProfileCell: UICollectionViewCell {
         return label
     }()
     
-    private let chevronButton: UIButton = {
+    private lazy var chevronButton: UIButton = {
         let button = UIButton()
         let config = UIImage.SymbolConfiguration(pointSize: 16, weight: .medium)
         let image = UIImage(systemName: Attributes.chevron, withConfiguration: config)
         button.setImage(image, for: .normal)
         button.tintColor = .coolNeutral800
         
-        button.addAction(UIAction(handler: { _ in
-            print("터치터치")
-        }), for: .touchUpInside)
+        button.addAction(UIAction { [weak self] _ in
+            self?.chevronTappedSubject.send()
+        }, for: .touchUpInside)
         return button
     }()
     
