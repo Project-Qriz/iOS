@@ -7,7 +7,7 @@
 
 import UIKit
 
-final class ProfileHeaderView: UICollectionViewCell {
+final class ProfileHeaderView: UIView {
     
     // MARK: - Enums
     
@@ -66,7 +66,7 @@ extension ProfileHeaderView {
         [
             nameLabel,
             emailLabel
-        ].forEach(contentView.addSubview(_:))
+        ].forEach(addSubview(_:))
     }
     
     private func setupConstraints() {
@@ -74,12 +74,12 @@ extension ProfileHeaderView {
         emailLabel.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
-            nameLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: Metric.spacing),
-            nameLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: Metric.spacing),
+            nameLabel.topAnchor.constraint(equalTo: topAnchor, constant: Metric.spacing),
+            nameLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Metric.spacing),
             
             emailLabel.topAnchor.constraint(equalTo: nameLabel.bottomAnchor, constant: Metric.emailLabelTopOffset),
-            emailLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: Metric.spacing),
-            emailLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: Metric.spacing)
+            emailLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Metric.spacing),
+            emailLabel.bottomAnchor.constraint(equalTo: bottomAnchor, constant: Metric.spacing)
         ])
     }
 }
