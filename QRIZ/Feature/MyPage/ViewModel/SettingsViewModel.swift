@@ -8,6 +8,12 @@
 import Foundation
 import Combine
 
+enum SettingsOption: String, CaseIterable {
+    case resetPassword = "비밀번호 재설정"
+    case logout = "로그아웃"
+    case deleteAccount = "계정 탈퇴"
+}
+
 final class SettingsViewModel {
     
     // MARK: - Properties
@@ -37,6 +43,17 @@ final class SettingsViewModel {
             .sink { [weak self] event in
                 guard let self = self else { return }
                 switch event {
+                case .viewDidLoad:
+                    self.outputSubject.send(.setupProfile(userName: userName, email: email))
+                
+                case .didTapResetPassword:
+                    outputSubject.send(.navigateToResetPassword)
+                
+                case .didTapLogout:
+                    outputSubject.send(.showLogoutAlert)
+                    
+                case .didTapDeleteAccount:
+                    outputSubject.send(.navigateToDeleteAccount)
                 }
             }
             .store(in: &cancellables)
@@ -47,8 +64,16 @@ final class SettingsViewModel {
 
 extension SettingsViewModel {
     enum Input {
+        case viewDidLoad
+        case didTapResetPassword
+        case didTapLogout
+        case didTapDeleteAccount
     }
     
     enum Output {
+        case setupProfile(userName: String, email: String)
+        case navigateToResetPassword
+        case showLogoutAlert
+        case navigateToDeleteAccount
     }
 }
