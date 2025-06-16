@@ -17,6 +17,8 @@ final class DailyResultViewController: UIViewController {
     private let input: PassthroughSubject<DailyResultViewModel.Input, Never> = .init()
     private var subscriptions = Set<AnyCancellable>()
     
+    weak var coordinator: DailyCoordinator?
+    
     // MARK: - Initializers
     init(viewModel: DailyResultViewModel) {
         self.viewModel = viewModel
@@ -59,13 +61,15 @@ final class DailyResultViewController: UIViewController {
                         showOneButtonAlert(with: "잠시 후 다시 시도해주세요.", storingIn: &subscriptions)
                     }
                 case .moveToConcept:
-                    print("Move To Concept")
+                    tabBarController?.tabBar.isHidden = false
+                    if let coordinator = coordinator {
+                        coordinator.delegate?.moveFromDailyToConcept(coordinator)
+                    }
+                    
                 case .moveToDailyLearn:
-                    print("Move To Daily Learn")
+                    coordinator?.quitDaily()
                 case .moveToResultDetail:
-                    let vm = TestResultDetailViewModel(resultDetailData: self.viewModel.resultDetailData)
-                    let vc = TestResultDetailViewController(viewModel: vm)
-                    self.navigationController?.pushViewController(vc, animated: true)
+                    coordinator?.showResultDetail(resultDetailData: self.viewModel.resultDetailData)
                 }
             }
             .store(in: &subscriptions)

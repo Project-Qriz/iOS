@@ -72,8 +72,7 @@ final class HomeViewController: UIViewController {
                     self.coordinator?.showOnboarding()
                     
                 case .navigateToExamList:
-                    // TODO: - Coordinator 연결 필요
-                    print("Coordinator 연결")
+                    self.coordinator?.showExam()
                 }
             }
             .store(in: &cancellables)

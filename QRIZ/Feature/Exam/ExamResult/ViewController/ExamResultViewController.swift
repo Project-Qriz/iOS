@@ -17,6 +17,8 @@ final class ExamResultViewController: UIViewController {
     private let input: PassthroughSubject<ExamResultViewModel.Input, Never> = .init()
     private var subscriptions = Set<AnyCancellable>()
     
+    weak var coordinator: ExamCoordinator?
+    
     // MARK: - Initializers
     init(viewModel: ExamResultViewModel) {
         self.viewModel = viewModel
@@ -59,13 +61,14 @@ final class ExamResultViewController: UIViewController {
                         showOneButtonAlert(with: "잠시 후 다시 시도해주세요.", storingIn: &subscriptions)
                     }
                 case .moveToConcept:
-                    print("Move To Concept")
+                    tabBarController?.tabBar.isHidden = false
+                    if let coordinator = coordinator {
+                        coordinator.delegate?.moveFromExamToConcept(coordinator)
+                    }
                 case .moveToExamList:
-                    print("Move To ExamList")
+                    coordinator?.quitExam()
                 case .moveToResultDetail:
-                    let vm = TestResultDetailViewModel(resultDetailData: self.viewModel.resultDetailData)
-                    let vc = TestResultDetailViewController(viewModel: vm)
-                    self.navigationController?.pushViewController(vc, animated: true)
+                    coordinator?.showResultDetail(resultDetailData: self.viewModel.resultDetailData)
                 }
             }
             .store(in: &subscriptions)

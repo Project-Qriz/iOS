@@ -31,6 +31,9 @@ final class ExamListViewController: UIViewController {
     private let input: PassthroughSubject<ExamListViewModel.Input, Never> = .init()
     private var subscriptions = Set<AnyCancellable>()
     
+    weak var coordinator: ExamCoordinator?
+    
+    // MARK: - Initializers
     init(viewModel: ExamListViewModel) {
         self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
@@ -50,6 +53,7 @@ final class ExamListViewController: UIViewController {
         bind()
         input.send(.viewDidLoad)
         addClearViewAction()
+        tabBarController?.tabBar.isHidden = true
     }
     
     private func bind() {
@@ -74,9 +78,12 @@ final class ExamListViewController: UIViewController {
                     examListFilterItemsView.isHidden = !isVisible
                     customClearView.isHidden = !isVisible
                 case .moveToExamView(let examId):
-                    self.navigationController?.pushViewController(ExamSummaryViewController(viewModel: ExamSummaryViewModel(examId: examId)), animated: true)
+                    coordinator?.showExamSummary(examId: examId)
                 case .cancelExamListView:
-                    self.dismiss(animated: true)
+                    tabBarController?.tabBar.isHidden = false
+                    if let coordinator = coordinator {
+                        coordinator.delegate?.didQuitExam(coordinator)
+                    }
                 }
             }
             .store(in: &subscriptions)

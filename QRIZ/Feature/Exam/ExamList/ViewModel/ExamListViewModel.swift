@@ -96,4 +96,9 @@ final class ExamListViewModel {
         self.isFilterItemsPresented = false
         output.send(.setFilterItemsVisibility(isVisible: self.isFilterItemsPresented))
     }
+    
+    func reloadList() {
+        self.filterSelected = .total
+        fetchData()
+    }
 }

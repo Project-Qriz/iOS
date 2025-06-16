@@ -29,12 +29,16 @@ protocol TabBarCoordinatorDependency {
 final class TabBarCoordinatorDependencyImp: TabBarCoordinatorDependency {
     
     private let examService: ExamScheduleService
+    private let examTestService: ExamService
+    private let dailyService: DailyService
     private let onboardingService: OnboardingService
     private let userInfoService: UserInfoService
     
     var homeCoordinator: HomeCoordinator {
         return HomeCoordinatorImpl(
             examService: examService,
+            examTestService: examTestService,
+            dailyService: dailyService,
             onboardingService: onboardingService,
             userInfoService: userInfoService
         )
@@ -54,10 +58,14 @@ final class TabBarCoordinatorDependencyImp: TabBarCoordinatorDependency {
     
     init(
         examService: ExamScheduleService,
+        examTestService: ExamService,
+        dailyService: DailyService,
         onboardingService: OnboardingService,
         userInfoService: UserInfoService
     ) {
         self.examService = examService
+        self.examTestService = examTestService
+        self.dailyService = dailyService
         self.onboardingService = onboardingService
         self.userInfoService = userInfoService
     }
@@ -69,6 +77,7 @@ final class TabBarCoordinatorImp: TabBarCoordinator {
     weak var delegate: TabBarCoordinatorDelegate?
     var childCoordinators: [Coordinator] = []
     private let dependency: TabBarCoordinatorDependency
+    private var tabBarController: UITabBarController?
     
     init(dependency: TabBarCoordinatorDependency) {
         self.dependency = dependency
@@ -82,6 +91,8 @@ final class TabBarCoordinatorImp: TabBarCoordinator {
         let conceptBookCoordinator = dependency.conceptBookCoordinator
         let mistakeNoteCoordinator = dependency.mistakeNoteCoordinator
         let myPageCoordinator = dependency.myPageCoordinator
+        
+        homeCoordinator.delegate = self
         
         childCoordinators.append(contentsOf: [
             homeCoordinator,
@@ -98,6 +109,9 @@ final class TabBarCoordinatorImp: TabBarCoordinator {
         setupTabBarItems(for: &viewControllers)
         
         tabBarController.viewControllers = viewControllers
+        
+        self.tabBarController = tabBarController
+        
         return tabBarController
     }
     
@@ -137,5 +151,14 @@ final class TabBarCoordinatorImp: TabBarCoordinator {
     
     func logout() {
         delegate?.didLogout(self)
+    }
+}
+
+@MainActor
+extension TabBarCoordinatorImp: HomeCoordinatorDelegate {
+    func moveToConcept() {
+        if let tabBarController = self.tabBarController {
+            tabBarController.selectedIndex = 1
+        }
     }
 }
