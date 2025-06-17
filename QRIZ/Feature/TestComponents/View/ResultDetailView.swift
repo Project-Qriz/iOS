@@ -10,7 +10,7 @@ import Combine
 
 struct ResultDetailView: View {
     
-    @StateObject var resultScoreData: ResultScoresData
+    @ObservedObject var resultScoreData: ResultScoresData
     @ObservedObject var resultDetailData: ResultDetailData
     let input: PassthroughSubject<ResultDetailViewModel.Input, Never> = .init()
     

@@ -10,10 +10,10 @@ import Combine
 
 struct ExamResultView: View {
     
-    @StateObject var resultScoresData: ResultScoresData
-    @StateObject var resultGradeListData: ResultGradeListData
-    @StateObject var resultDetailData: ResultDetailData
-    @StateObject var scoreGraphData: ScoreGraphData
+    @ObservedObject var resultScoresData: ResultScoresData
+    @ObservedObject var resultGradeListData: ResultGradeListData
+    @ObservedObject var resultDetailData: ResultDetailData
+    @ObservedObject var scoreGraphData: ScoreGraphData
     
     private let contentsInput: PassthroughSubject<Void, Never> = .init()
     private let footerInput: PassthroughSubject<Void, Never> = .init()
