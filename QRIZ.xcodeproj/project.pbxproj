@@ -28,6 +28,21 @@
 		B13045282DD9FA580036EBE2 /* TermsDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B13045272DD9FA580036EBE2 /* TermsDetailViewModel.swift */; };
 		B130452F2DDC77030036EBE2 /* UIScreen+.swift in Sources */ = {isa = PBXBuildFile; fileRef = B130452E2DDC77030036EBE2 /* UIScreen+.swift */; };
 		B1386C6E2DF0C787009D041F /* CardBackgroundView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1386C6D2DF0C787009D041F /* CardBackgroundView.swift */; };
+		B151082A2DFFEA8C00657506 /* DeleteAccountViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B15108262DFFEA8C00657506 /* DeleteAccountViewController.swift */; };
+		B151082B2DFFEA8C00657506 /* MyPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B15108272DFFEA8C00657506 /* MyPageViewController.swift */; };
+		B151082C2DFFEA8C00657506 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B15108282DFFEA8C00657506 /* SettingsViewController.swift */; };
+		B151083E2DFFEB2700657506 /* MyPageSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = B15108312DFFEB2700657506 /* MyPageSection.swift */; };
+		B151083F2DFFEB2700657506 /* ProfileCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B15108322DFFEB2700657506 /* ProfileCell.swift */; };
+		B15108402DFFEB2700657506 /* QuickActionsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B15108332DFFEB2700657506 /* QuickActionsCell.swift */; };
+		B15108412DFFEB2700657506 /* SupportMenuCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B15108342DFFEB2700657506 /* SupportMenuCell.swift */; };
+		B15108422DFFEB2700657506 /* ProfileHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B15108362DFFEB2700657506 /* ProfileHeaderView.swift */; };
+		B15108432DFFEB2700657506 /* SettingsOptionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B15108372DFFEB2700657506 /* SettingsOptionView.swift */; };
+		B15108442DFFEB2700657506 /* DeleteAccountMainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B151083A2DFFEB2700657506 /* DeleteAccountMainView.swift */; };
+		B15108452DFFEB2700657506 /* MyPageMainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B151083B2DFFEB2700657506 /* MyPageMainView.swift */; };
+		B15108462DFFEB2700657506 /* SettingsMainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B151083C2DFFEB2700657506 /* SettingsMainView.swift */; };
+		B151084F2E00346500657506 /* DeleteAccountViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B151084B2E00346500657506 /* DeleteAccountViewModel.swift */; };
+		B15108502E00346500657506 /* MyPageViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B151084C2E00346500657506 /* MyPageViewModel.swift */; };
+		B15108512E00346500657506 /* SettingsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B151084D2E00346500657506 /* SettingsViewModel.swift */; };
 		B15188622D76D29B000EFE41 /* EmailSendRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = B15188612D76D29B000EFE41 /* EmailSendRequest.swift */; };
 		B15188662D782CCE000EFE41 /* SignUpCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = B15188652D782CCE000EFE41 /* SignUpCoordinator.swift */; };
 		B16288182D2CDB85008057D0 /* NameInputViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B16288172D2CDB85008057D0 /* NameInputViewModel.swift */; };
@@ -260,6 +275,21 @@
 		B13045272DD9FA580036EBE2 /* TermsDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TermsDetailViewModel.swift; sourceTree = "<group>"; };
 		B130452E2DDC77030036EBE2 /* UIScreen+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIScreen+.swift"; sourceTree = "<group>"; };
 		B1386C6D2DF0C787009D041F /* CardBackgroundView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardBackgroundView.swift; sourceTree = "<group>"; };
+		B15108262DFFEA8C00657506 /* DeleteAccountViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeleteAccountViewController.swift; sourceTree = "<group>"; };
+		B15108272DFFEA8C00657506 /* MyPageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageViewController.swift; sourceTree = "<group>"; };
+		B15108282DFFEA8C00657506 /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
+		B15108312DFFEB2700657506 /* MyPageSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageSection.swift; sourceTree = "<group>"; };
+		B15108322DFFEB2700657506 /* ProfileCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileCell.swift; sourceTree = "<group>"; };
+		B15108332DFFEB2700657506 /* QuickActionsCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuickActionsCell.swift; sourceTree = "<group>"; };
+		B15108342DFFEB2700657506 /* SupportMenuCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SupportMenuCell.swift; sourceTree = "<group>"; };
+		B15108362DFFEB2700657506 /* ProfileHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileHeaderView.swift; sourceTree = "<group>"; };
+		B15108372DFFEB2700657506 /* SettingsOptionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsOptionView.swift; sourceTree = "<group>"; };
+		B151083A2DFFEB2700657506 /* DeleteAccountMainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeleteAccountMainView.swift; sourceTree = "<group>"; };
+		B151083B2DFFEB2700657506 /* MyPageMainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageMainView.swift; sourceTree = "<group>"; };
+		B151083C2DFFEB2700657506 /* SettingsMainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsMainView.swift; sourceTree = "<group>"; };
+		B151084B2E00346500657506 /* DeleteAccountViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeleteAccountViewModel.swift; sourceTree = "<group>"; };
+		B151084C2E00346500657506 /* MyPageViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageViewModel.swift; sourceTree = "<group>"; };
+		B151084D2E00346500657506 /* SettingsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewModel.swift; sourceTree = "<group>"; };
 		B15188612D76D29B000EFE41 /* EmailSendRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmailSendRequest.swift; sourceTree = "<group>"; };
 		B15188652D782CCE000EFE41 /* SignUpCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpCoordinator.swift; sourceTree = "<group>"; };
 		B16288172D2CDB85008057D0 /* NameInputViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NameInputViewModel.swift; sourceTree = "<group>"; };
@@ -496,9 +526,6 @@
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
-		B127B6412DEA1E410048401F /* ViewController */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = ViewController; sourceTree = "<group>"; };
-		B127B6422DEA1E540048401F /* View */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = View; sourceTree = "<group>"; };
-		B127B6432DEA1E600048401F /* ViewModel */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = ViewModel; sourceTree = "<group>"; };
 		B127B6D52DECBE1A0048401F /* Splash */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Splash; sourceTree = "<group>"; };
 		B13048972DE1E6370036EBE2 /* Home */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Home; sourceTree = "<group>"; };
 		B138789D2DF71A0D009D041F /* MyPage */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = MyPage; sourceTree = "<group>"; };
@@ -731,6 +758,66 @@
 			path = CommonViews;
 			sourceTree = "<group>";
 		};
+		B15108292DFFEA8C00657506 /* ViewController */ = {
+			isa = PBXGroup;
+			children = (
+				B15108272DFFEA8C00657506 /* MyPageViewController.swift */,
+				B15108282DFFEA8C00657506 /* SettingsViewController.swift */,
+				B15108262DFFEA8C00657506 /* DeleteAccountViewController.swift */,
+			);
+			path = ViewController;
+			sourceTree = "<group>";
+		};
+		B15108352DFFEB2700657506 /* MyPage */ = {
+			isa = PBXGroup;
+			children = (
+				B15108312DFFEB2700657506 /* MyPageSection.swift */,
+				B15108322DFFEB2700657506 /* ProfileCell.swift */,
+				B15108332DFFEB2700657506 /* QuickActionsCell.swift */,
+				B15108342DFFEB2700657506 /* SupportMenuCell.swift */,
+			);
+			path = MyPage;
+			sourceTree = "<group>";
+		};
+		B15108382DFFEB2700657506 /* Settings */ = {
+			isa = PBXGroup;
+			children = (
+				B15108362DFFEB2700657506 /* ProfileHeaderView.swift */,
+				B15108372DFFEB2700657506 /* SettingsOptionView.swift */,
+			);
+			path = Settings;
+			sourceTree = "<group>";
+		};
+		B15108392DFFEB2700657506 /* Components */ = {
+			isa = PBXGroup;
+			children = (
+				B15108352DFFEB2700657506 /* MyPage */,
+				B15108382DFFEB2700657506 /* Settings */,
+			);
+			path = Components;
+			sourceTree = "<group>";
+		};
+		B151083D2DFFEB2700657506 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				B15108392DFFEB2700657506 /* Components */,
+				B151083B2DFFEB2700657506 /* MyPageMainView.swift */,
+				B151083C2DFFEB2700657506 /* SettingsMainView.swift */,
+				B151083A2DFFEB2700657506 /* DeleteAccountMainView.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		B151084E2E00346500657506 /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				B151084C2E00346500657506 /* MyPageViewModel.swift */,
+				B151084D2E00346500657506 /* SettingsViewModel.swift */,
+				B151084B2E00346500657506 /* DeleteAccountViewModel.swift */,
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
 		B16288162D2CDB4D008057D0 /* ViewModel */ = {
 			isa = PBXGroup;
 			children = (
@@ -907,9 +994,9 @@
 		B19C4FB72D6A927C00CD008A /* MyPage */ = {
 			isa = PBXGroup;
 			children = (
-				B127B6422DEA1E540048401F /* View */,
-				B127B6412DEA1E410048401F /* ViewController */,
-				B127B6432DEA1E600048401F /* ViewModel */,
+				B151083D2DFFEB2700657506 /* View */,
+				B15108292DFFEA8C00657506 /* ViewController */,
+				B151084E2E00346500657506 /* ViewModel */,
 				B1D813762D6E0CD700A9D447 /* MyPageCoordinator.swift */,
 			);
 			path = MyPage;
@@ -1609,9 +1696,6 @@
 			dependencies = (
 			);
 			fileSystemSynchronizedGroups = (
-				B127B6412DEA1E410048401F /* ViewController */,
-				B127B6422DEA1E540048401F /* View */,
-				B127B6432DEA1E600048401F /* ViewModel */,
 				B127B6D52DECBE1A0048401F /* Splash */,
 				B13048972DE1E6370036EBE2 /* Home */,
 				B138789D2DF71A0D009D041F /* MyPage */,
@@ -1931,6 +2015,9 @@
 				B18F45102D3997280030F7DB /* FindAccountHeaderView.swift in Sources */,
 				E29BF8552D117CF1006DC6D0 /* SurveyCheckList.swift in Sources */,
 				E2DD0E862D2146D900DA3D18 /* IncorrectCountData.swift in Sources */,
+				B151082A2DFFEA8C00657506 /* DeleteAccountViewController.swift in Sources */,
+				B151082B2DFFEA8C00657506 /* MyPageViewController.swift in Sources */,
+				B151082C2DFFEA8C00657506 /* SettingsViewController.swift in Sources */,
 				E217C36B2D9BF0C30095A3D8 /* DailyResultViewController.swift in Sources */,
 				B190A2E42DC0E023008FDE86 /* RoundBoxLabel.swift in Sources */,
 				E24907D32D619F39004D6E61 /* DailyLearnViewModel.swift in Sources */,
@@ -1950,6 +2037,15 @@
 				E23ADF122DC07AE100FE1C0B /* ResultScoresData.swift in Sources */,
 				B168B76F2D2826010000F32E /* IDInputMainView.swift in Sources */,
 				B16774CD2D82A44C001820F3 /* SignUpFlowViewModel.swift in Sources */,
+				B151083E2DFFEB2700657506 /* MyPageSection.swift in Sources */,
+				B151083F2DFFEB2700657506 /* ProfileCell.swift in Sources */,
+				B15108402DFFEB2700657506 /* QuickActionsCell.swift in Sources */,
+				B15108412DFFEB2700657506 /* SupportMenuCell.swift in Sources */,
+				B15108422DFFEB2700657506 /* ProfileHeaderView.swift in Sources */,
+				B15108432DFFEB2700657506 /* SettingsOptionView.swift in Sources */,
+				B15108442DFFEB2700657506 /* DeleteAccountMainView.swift in Sources */,
+				B15108452DFFEB2700657506 /* MyPageMainView.swift in Sources */,
+				B15108462DFFEB2700657506 /* SettingsMainView.swift in Sources */,
 				B16288182D2CDB85008057D0 /* NameInputViewModel.swift in Sources */,
 				E28A93852D945F95006A15DB /* StudyContentCell.swift in Sources */,
 				B168B7632D28073C0000F32E /* NameInputMainView.swift in Sources */,
@@ -1974,6 +2070,9 @@
 				B16774DB2D89EFC2001820F3 /* FindPasswordRequest.swift in Sources */,
 				B17D6AD72D940FD50023FCA5 /* LoginRequest.swift in Sources */,
 				54C7A3132D1461A6001175D9 /* LoginMainView.swift in Sources */,
+				B151084F2E00346500657506 /* DeleteAccountViewModel.swift in Sources */,
+				B15108502E00346500657506 /* MyPageViewModel.swift in Sources */,
+				B15108512E00346500657506 /* SettingsViewModel.swift in Sources */,
 				B19C4F6F2D55DCA400CD008A /* SignUpVerificationMainView.swift in Sources */,
 				E25AB7A62DC0C41E00E7A7E3 /* DailyDetailAndStatusRequest.swift in Sources */,
 				E24CB15A2DB3494A00D88451 /* ResultSubjectListView.swift in Sources */,
