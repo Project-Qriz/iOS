@@ -13,6 +13,7 @@ protocol MyPageCoordinator: Coordinator {
     func showResetAlert(confirm: @escaping () -> Void)
     func showExamSelectionSheet()
     func showTermsDetail(for term: TermItem)
+    func showDeleteAccount()
 }
 
 @MainActor
@@ -98,6 +99,12 @@ final class MyPageCoordinatorImpl: MyPageCoordinator {
         vc.modalPresentationStyle = .fullScreen
         vc.dismissDelegate = self
         navigationController?.present(vc, animated: true)
+    }
+    
+    func showDeleteAccount() {
+        let viewModel = DeleteAccountViewModel()
+        let vc = DeleteAccountViewController(viewModel: viewModel)
+        navigationController?.pushViewController(vc, animated: true)
     }
 }
 
