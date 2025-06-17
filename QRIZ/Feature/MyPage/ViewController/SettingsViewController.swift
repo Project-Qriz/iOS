@@ -60,7 +60,17 @@ final class SettingsViewController: UIViewController {
     private func bind() {
         let viewDidLoad = inputSubject
         
+        let optionTap = rootView.optionTapPublisher
+            .compactMap { option -> SettingsViewModel.Input? in
+                switch option {
+                case .resetPassword: return .didTapResetPassword
+                case .logout: return .didTapLogout
+                case .deleteAccount: return .didTapDeleteAccount
+                }
+            }
+        
         let input = viewDidLoad
+            .merge(with: optionTap)
             .eraseToAnyPublisher()
         
         let output = viewModel.transform(input: input)
@@ -77,7 +87,7 @@ final class SettingsViewController: UIViewController {
             case .showLogoutAlert:
                 print("로그아웃 얼랏 표시")
             case .navigateToDeleteAccount:
-                print("회원탈퇴 뷰 이동")
+                self.coordinator?.showDeleteAccount()
             }
         }.store(in: &cancellables)
     }
