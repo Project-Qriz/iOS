@@ -94,7 +94,8 @@ final class ExamTestViewModel {
     }
     
     private func fetchData() {
-        Task {
+        Task { [weak self] in
+            guard let self = self else { return }
             do {
                 let response = try await examService.getExamQuestion(examId: examId)
                 let data = response.data
@@ -127,7 +128,8 @@ final class ExamTestViewModel {
     }
     
     private func sendSubmitData() {
-        Task {
+        Task { [weak self] in
+            guard let self = self else { return }
             do {
                 let _ = try await examService.submitTest(examId: examId, testSubmitData: submitData)
                 exitTimer()

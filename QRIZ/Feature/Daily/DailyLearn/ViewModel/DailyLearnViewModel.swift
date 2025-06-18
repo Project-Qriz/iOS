@@ -80,7 +80,8 @@ final class DailyLearnViewModel {
     }
     
     private func fetchData() {
-        Task {
+        Task { [weak self] in
+            guard let self = self else { return }
             do {
                 let response = try await dailyService.getDailyDetailAndStatus(dayNumber: day)
                 let status = response.data.status

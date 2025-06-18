@@ -10,8 +10,8 @@ import Combine
 
 struct PreviewResultView: View {
     
-    @StateObject var previewScoresData: ResultScoresData
-    @StateObject var previewConceptsData: PreviewConceptsData
+    @ObservedObject var previewScoresData: ResultScoresData
+    @ObservedObject var previewConceptsData: PreviewConceptsData
     
     var body: some View {
         ScrollView(.vertical) {

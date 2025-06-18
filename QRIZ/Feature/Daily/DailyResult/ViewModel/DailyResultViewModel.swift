@@ -78,7 +78,8 @@ final class DailyResultViewModel {
     }
     
     private func fetchData() {
-        Task {
+        Task { [weak self] in
+            guard let self = self else { return }
             do {
                 if dailyTestType == .weekly {
                     try await fetchWeeklyResult()

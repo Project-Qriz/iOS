@@ -10,9 +10,9 @@ import Combine
 
 struct DailyResultView: View {
     
-    @StateObject var resultScoresData: ResultScoresData
-    @StateObject var resultGradeListData: ResultGradeListData
-    @StateObject var resultDetailData: ResultDetailData
+    @ObservedObject var resultScoresData: ResultScoresData
+    @ObservedObject var resultGradeListData: ResultGradeListData
+    @ObservedObject var resultDetailData: ResultDetailData
     @State var dailyLearnType: DailyLearnType
     
     private let contentsInput: PassthroughSubject<Void, Never> = .init()

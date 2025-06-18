@@ -121,7 +121,8 @@ final class CheckConceptViewModel {
     }
     
     private func sendSurvey() {
-        Task {
+        Task { [weak self] in
+            guard let self = self else { return }
             do {
                 if isDoneButtonActivated {
                     let keyConcepts = selectedSet.map { SurveyCheckList.list[$0] }
@@ -130,7 +131,7 @@ final class CheckConceptViewModel {
                     if selectedSet.isEmpty {
                         output.send(.moveToGreeting)
                     } else {
-                        self.output.send(.moveToBeginPreviewTest)
+                        output.send(.moveToBeginPreviewTest)
                     }
                 }
             } catch {

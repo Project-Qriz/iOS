@@ -74,7 +74,8 @@ final class ExamResultViewModel {
     }
     
     private func fetchData() {
-        Task {
+        Task { [weak self] in
+            guard let self = self else { return }
             do {
                 try await fetchResultResponse()
                 try await fetchScoreResponse()

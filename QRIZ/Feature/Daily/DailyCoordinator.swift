@@ -61,7 +61,7 @@ final class DailyCoordinatorImpl: DailyCoordinator {
         dailyLearnViewController = vc
         dailyLearnViewModel = vm
         vc.coordinator = self
-        navigationController.setViewControllers([vc], animated: true)
+        navigationController.pushViewController(vc, animated: true)
     }
     
     func showConcept(chapter: Chapter, conceptItem: ConceptItem) {

@@ -14,7 +14,10 @@ final class TestResultDetailViewModel: ResultDetailViewModel {
     init(resultDetailData: ResultDetailData) {
             self.resultDetailData = resultDetailData
             super.init()
-            Task { await self.setScoresData(.total) }
+            Task { [weak self] in
+                guard let self = self else { return }
+                await setScoresData(.total)
+            }
     }
     
     // MARK: - Properties
@@ -31,7 +34,10 @@ final class TestResultDetailViewModel: ResultDetailViewModel {
             guard let self = self else { return }
             switch event {
             case .menuItemSelected(let selected):
-                Task { await self.setScoresData(selected) }
+                Task { [weak self] in
+                    guard let self = self else { return }
+                    await setScoresData(selected)
+                }
             }
         }
         .store(in: &subscriptions)

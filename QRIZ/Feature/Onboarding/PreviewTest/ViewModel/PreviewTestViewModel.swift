@@ -86,7 +86,8 @@ final class PreviewTestViewModel {
     }
     
     private func submitHandler() {
-        Task {
+        Task { [weak self] in
+            guard let self = self else { return }
             do {
                 let _ = try await onboardingService.submitPreview(testSubmitDataList: submitList)
                 exitTimer()
@@ -122,7 +123,8 @@ final class PreviewTestViewModel {
     }
     
     private func getPreviewTestList() {
-        Task {
+        Task { [weak self] in
+            guard let self = self else { return }
             do {
                 let response = try await onboardingService.getPreviewTestList()
                 let questions = response.data.questions
