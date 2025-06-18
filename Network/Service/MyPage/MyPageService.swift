@@ -11,8 +11,11 @@ protocol MyPageService {
     /// 버전 정보
     func fetchVersion() async throws -> VersionResponse
     
-    ///  플랜 초기화
+    /// 플랜 초기화
     func resetPlan() async throws -> DailyResetResponse
+    
+    /// 계정 탈퇴
+    func deleteAccount() async throws -> DeleteAccountResponse
 }
 
 final class MyPageServiceImpl: MyPageService {
@@ -43,6 +46,12 @@ final class MyPageServiceImpl: MyPageService {
     func resetPlan() async throws -> DailyResetResponse {
         let access = keychain.retrieveToken(forKey: HTTPHeaderField.accessToken.rawValue) ?? ""
         let request = DailyResetRequest(accessToken: access)
+        return try await network.send(request)
+    }
+    
+    func deleteAccount() async throws -> DeleteAccountResponse {
+        let access = keychain.retrieveToken(forKey: HTTPHeaderField.accessToken.rawValue) ?? ""
+        let request = DeleteAccountRequest(accessToken: access)
         return try await network.send(request)
     }
 }
