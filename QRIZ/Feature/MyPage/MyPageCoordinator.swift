@@ -14,6 +14,7 @@ protocol MyPageCoordinator: Coordinator {
     func showExamSelectionSheet()
     func showTermsDetail(for term: TermItem)
     func showDeleteAccount()
+    func showConfirmDeleteAlert(confirm: @escaping () -> Void)
 }
 
 @MainActor
@@ -102,9 +103,28 @@ final class MyPageCoordinatorImpl: MyPageCoordinator {
     }
     
     func showDeleteAccount() {
-        let viewModel = DeleteAccountViewModel()
+        let viewModel = DeleteAccountViewModel(myPageService: myPageService)
         let vc = DeleteAccountViewController(viewModel: viewModel)
+        vc.coordinator = self
         navigationController?.pushViewController(vc, animated: true)
+    }
+    
+    func showConfirmDeleteAlert(confirm: @escaping () -> Void) {
+        let alert = TwoButtonCustomAlertViewController(
+            title: "회원탈퇴",
+            description: "탈퇴 시 사용자와 관련된 모든 데이터는 즉시\n삭제되며, 복구가 불가능합니다.\n\n정말로 탈퇴하시겠어요?",
+            descriptionLine: 4,
+            confirmTitle: "탈퇴하기",
+            cancelTitle: "더 써볼래요",
+            confirmAction: UIAction { [weak self] _ in
+                confirm()
+                self?.navigationController?.dismiss(animated: true)
+            },
+            cancelAction: UIAction { [weak self] _ in
+                self?.navigationController?.dismiss(animated: true)
+            }
+        )
+        navigationController?.present(alert, animated: true)
     }
 }
 
