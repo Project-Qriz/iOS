@@ -71,7 +71,8 @@ final class ExamListViewModel {
     }
     
     private func fetchData() {
-        Task {
+        Task { [weak self] in
+            guard let self = self else { return }
             do {
                 let response = try await examService.getExamList(filterType: filterSelected)
                 examList = response.data

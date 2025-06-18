@@ -96,7 +96,8 @@ final class DailyTestViewModel {
     }
     
     private func fetchData() {
-        Task {
+        Task { [weak self] in
+            guard let self = self else { return }
             do {
                 let response = try await dailyService.getDailyTestList(dayNumber: day)
                 guard let data = response.data else { throw NetworkError.unknownError }
@@ -195,7 +196,8 @@ final class DailyTestViewModel {
     }
     
     private func sendSubmitData() {
-        Task {
+        Task { [weak self] in
+            guard let self = self else { return }
             do {
                 let _ = try await dailyService.submitDaily(dayNumber: day, dailySubmitData: submitData)
                 exitTimer()

@@ -61,7 +61,8 @@ final class GreetingViewModel {
     }
     
     private func updateUserInfo() {
-        Task {
+        Task { [weak self] in
+            guard let self = self else { return }
             do {
                 let response = try await userInfoService.getUserInfo()
                 UserInfoManager.shared.update(from: response.data)
