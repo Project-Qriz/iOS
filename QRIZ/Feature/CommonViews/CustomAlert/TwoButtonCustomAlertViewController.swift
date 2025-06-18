@@ -17,6 +17,8 @@ final class TwoButtonCustomAlertViewController: UIViewController {
         titleLine: Int = 1,
         description: String,
         descriptionLine: Int = 2,
+        confirmTitle: String = "확인",
+        cancelTitle: String = "취소",
         confirmAction: UIAction? = nil,
         cancelAction: UIAction? = nil
     ) {
@@ -24,7 +26,9 @@ final class TwoButtonCustomAlertViewController: UIViewController {
             title: title,
             titleLine: titleLine,
             description: description,
-            descriptionLine: descriptionLine
+            descriptionLine: descriptionLine,
+            confirmTitle: confirmTitle,
+            cancelTitle: cancelTitle
         )
         super.init(nibName: nil, bundle: nil)
         self.modalPresentationStyle = .overFullScreen
