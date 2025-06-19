@@ -14,6 +14,7 @@ protocol MyPageCoordinator: Coordinator {
     func showResetAlert(confirm: @escaping () -> Void)
     func showExamSelectionSheet()
     func showTermsDetail(for term: TermItem)
+    func showLogoutAlert()
     func showDeleteAccount()
     func showConfirmDeleteAlert(confirm: @escaping () -> Void)
 }
@@ -108,6 +109,23 @@ final class MyPageCoordinatorImpl: MyPageCoordinator {
         vc.modalPresentationStyle = .fullScreen
         vc.dismissDelegate = self
         navigationController?.present(vc, animated: true)
+    }
+    
+    func showLogoutAlert() {
+        let alert = TwoButtonCustomAlertViewController(
+            title: "로그아웃",
+            description: "로그아웃 하시겠습니까?",
+            confirmAction: UIAction { [weak self] _ in
+                guard let self = self else { return }
+                self.navigationController?.dismiss(animated: true, completion: {
+                    self.delegate?.myPageCoordinatorDidLogout(self)
+                })
+            },
+            cancelAction: UIAction { [weak self] _ in
+                self?.navigationController?.dismiss(animated: true)
+            }
+        )
+        navigationController?.present(alert, animated: true)
     }
     
     func showDeleteAccount() {

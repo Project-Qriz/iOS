@@ -84,8 +84,10 @@ final class SettingsViewController: UIViewController {
                 
             case .navigateToResetPassword:
                 print("패스워드 뷰 이동")
+                
             case .showLogoutAlert:
-                print("로그아웃 얼랏 표시")
+                self.coordinator?.showLogoutAlert()
+                
             case .navigateToDeleteAccount:
                 self.coordinator?.showDeleteAccount()
             }

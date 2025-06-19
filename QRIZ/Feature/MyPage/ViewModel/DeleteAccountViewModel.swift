@@ -61,7 +61,6 @@ final class DeleteAccountViewModel {
             logger.error("Unhandled error(deleteAccount): \(error.localizedDescription, privacy: .public)")
         }
     }
-    
 }
 
 extension DeleteAccountViewModel {

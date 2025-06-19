@@ -190,6 +190,7 @@ extension AppCoordinatorImpl: LoginCoordinatorDelegate {
 extension AppCoordinatorImpl: TabBarCoordinatorDelegate {
     func didLogout(_ coordinator: TabBarCoordinator) {
         childCoordinators.removeAll()
+        dependency.keychain.deleteToken(forKey: HTTPHeaderField.accessToken.rawValue)
         _ = showLogin()
     }
 }
