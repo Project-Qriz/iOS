@@ -93,6 +93,7 @@ final class TabBarCoordinatorImpl: TabBarCoordinator {
     func start() -> UIViewController {
         homeCoordinator.examDelegate = self
         myPageCoordinator.examDelegate = self
+        myPageCoordinator.delegate = self
         
         var viewControllers: [UIViewController] = [
             homeCoordinator.start(),
@@ -164,5 +165,13 @@ extension TabBarCoordinatorImpl: ExamSelectionDelegate {
         } else {
             homeCoordinator.needsRefresh = true
         }
+    }
+}
+
+// MARK: - MyPageCoordinatorDelegate
+
+extension TabBarCoordinatorImpl: MyPageCoordinatorDelegate {
+    func myPageCoordinatorDidLogout(_ coordinator: MyPageCoordinator) {
+        logout()
     }
 }

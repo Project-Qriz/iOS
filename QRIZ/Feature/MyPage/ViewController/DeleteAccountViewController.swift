@@ -76,7 +76,8 @@ final class DeleteAccountViewController: UIViewController {
                     }
                     
                 case .deletionSucceeded:
-                    print("회원 탈퇴 완료. 로그인 페이지로 이동")
+                    guard let coord = self.coordinator else { return }
+                    coord.delegate?.myPageCoordinatorDidLogout(coord)
                     
                 case .showErrorAlert(let message):
                     self.showOneButtonAlert(with: message, storingIn: &self.cancellables)

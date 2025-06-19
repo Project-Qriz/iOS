@@ -115,18 +115,17 @@ final class AppCoordinatorImpl: AppCoordinator {
         childCoordinators.append(loginCoordinator)
         
         let loginVC = loginCoordinator.start()
-        window.rootViewController = loginVC
-        window.makeKeyAndVisible()
+        replaceRootViewController(with: loginVC, animated: true)
         return loginVC
     }
     
     private func showTabBar() -> UIViewController {
         let tabBarCoordinator = dependency.tabBarCoordinator
+        tabBarCoordinator.delegate = self
         childCoordinators.append(tabBarCoordinator)
         
         let tabBarVC = tabBarCoordinator.start()
-        window.rootViewController = tabBarVC
-        window.makeKeyAndVisible()
+        replaceRootViewController(with: tabBarVC, animated: true)
         return tabBarVC
     }
 
@@ -143,6 +142,27 @@ final class AppCoordinatorImpl: AppCoordinator {
     private func resetToLogin() {
         childCoordinators.removeAll()
         _ = showLogin()
+    }
+    
+    private func replaceRootViewController(
+        with vc: UIViewController,
+        animated: Bool = true
+    ) {
+        let win = self.window
+        if animated {
+            UIView.transition(
+                with: win,
+                duration: 0.3,
+                options: .transitionCrossDissolve,
+                animations: {
+                    win.rootViewController = vc
+                },
+                completion: nil
+            )
+        } else {
+            win.rootViewController = vc
+            win.makeKeyAndVisible()
+        }
     }
 }
 
@@ -162,5 +182,14 @@ extension AppCoordinatorImpl: LoginCoordinatorDelegate {
     func didLogin(_ coordinator: LoginCoordinator) {
         childCoordinators.removeAll { $0 === coordinator }
         _ = showTabBar()
+    }
+}
+
+// MARK: - TabBarCoordinatorDelegate
+
+extension AppCoordinatorImpl: TabBarCoordinatorDelegate {
+    func didLogout(_ coordinator: TabBarCoordinator) {
+        childCoordinators.removeAll()
+        _ = showLogin()
     }
 }

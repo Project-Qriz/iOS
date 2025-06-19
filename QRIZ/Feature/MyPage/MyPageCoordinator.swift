@@ -9,6 +9,7 @@ import UIKit
 
 @MainActor
 protocol MyPageCoordinator: Coordinator {
+    var delegate: MyPageCoordinatorDelegate? { get set }
     func showSettingsView()
     func showResetAlert(confirm: @escaping () -> Void)
     func showExamSelectionSheet()
@@ -18,9 +19,16 @@ protocol MyPageCoordinator: Coordinator {
 }
 
 @MainActor
+protocol MyPageCoordinatorDelegate: AnyObject {
+  /// 회원탈퇴 완료 시 호출
+  func myPageCoordinatorDidLogout(_ coordinator: MyPageCoordinator)
+}
+
+@MainActor
 final class MyPageCoordinatorImpl: MyPageCoordinator {
     
     private weak var navigationController: UINavigationController?
+    weak var delegate: MyPageCoordinatorDelegate?
     weak var examDelegate: ExamSelectionDelegate?
     private let examService: ExamScheduleService
     private let myPageService: MyPageService
