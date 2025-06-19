@@ -21,6 +21,7 @@ final class DeleteAccountViewController: UIViewController {
     weak var coordinator: MyPageCoordinator?
     private let rootView: DeleteAccountMainView
     private let viewModel: DeleteAccountViewModel
+    private let inputSubject = PassthroughSubject<DeleteAccountViewModel.Input, Never>()
     private var cancellables = Set<AnyCancellable>()
     
     // MARK: - Initialize
@@ -56,5 +57,32 @@ final class DeleteAccountViewController: UIViewController {
     // MARK: - Functions
     
     private func bind() {
+        let didTapDeleteButton  = rootView.deleteTapPublisher
+            .map { DeleteAccountViewModel.Input.didTapDelete }
+        
+        let input = inputSubject
+            .merge(with: didTapDeleteButton)
+            .eraseToAnyPublisher()
+        
+        let output = viewModel.transform(input: input)
+        
+        output
+            .sink { [weak self] output in
+                guard let self = self else { return }
+                switch output {
+                case .showConfirmAlert:
+                    self.coordinator?.showConfirmDeleteAlert {
+                        self.inputSubject.send(.didConfirmDelete)
+                    }
+                    
+                case .deletionSucceeded:
+                    print("회원 탈퇴 완료. 로그인 페이지로 이동")
+                    
+                case .showErrorAlert(let message):
+                    self.showOneButtonAlert(with: message, storingIn: &self.cancellables)
+                }
+            }
+            .store(in: &cancellables)
+        
     }
 }

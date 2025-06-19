@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Combine
 
 final class DeleteAccountMainView: UIView {
     
@@ -27,6 +28,14 @@ final class DeleteAccountMainView: UIView {
         static let bullet2Text: String = "•  진행 중인 ‘오늘의 공부’를 포함해, 모든 데이터가 삭\n    제되며 복구할 수 없습니다."
         static let questionText: String = "QRIZ 회원 탈퇴를 하시겠습니까?"
         static let deleteButtonTitle: String = "회원 탈퇴"
+    }
+    
+    // MARK: - Properties
+    
+    private let deleteTapSubject = PassthroughSubject<Void, Never>()
+    
+    var deleteTapPublisher: AnyPublisher<Void, Never> {
+        deleteTapSubject.eraseToAnyPublisher()
     }
     
     // MARK: - UI
@@ -80,7 +89,7 @@ final class DeleteAccountMainView: UIView {
         return label
     }()
     
-    let deleteButton: UIButton = {
+    private lazy var deleteButton: UIButton = {
         var config = UIButton.Configuration.filled()
         config.title = Attributes.deleteButtonTitle
         config.baseBackgroundColor = .customBlue500
@@ -92,6 +101,9 @@ final class DeleteAccountMainView: UIView {
             return attrs
         }
         let button = UIButton(configuration: config)
+        button.addAction(UIAction { [weak self] _ in
+            self?.deleteTapSubject.send()
+        }, for: .touchUpInside)
         return button
     }()
     
