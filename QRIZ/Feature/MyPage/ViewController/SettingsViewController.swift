@@ -83,7 +83,7 @@ final class SettingsViewController: UIViewController {
                 rootView.profileHeaderView.configure(name: userName, email: email)
                 
             case .navigateToResetPassword:
-                print("패스워드 뷰 이동")
+                self.coordinator?.showChangePasswordView()
                 
             case .showLogoutAlert:
                 self.coordinator?.showLogoutAlert()
