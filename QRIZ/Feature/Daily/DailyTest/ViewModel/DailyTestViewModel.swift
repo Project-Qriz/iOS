@@ -104,7 +104,7 @@ final class DailyTestViewModel {
                 if data.count == 0 { throw NetworkError.unknownError }
                 dailyTestList = data
                 data.enumerated().forEach {
-                    questionList.append(QuestionData(question: $1.question,
+                    self.questionList.append(QuestionData(question: $1.question,
                                                      option1: $1.options[0].content,
                                                      option2: $1.options[1].content,
                                                      option3: $1.options[2].content,
@@ -112,7 +112,7 @@ final class DailyTestViewModel {
                                                      timeLimit: $1.timeLimit,
                                                      questionNumber: $0 + 1,
                                                      description: $1.description))
-                    submitData.append(
+                    self.submitData.append(
                         DailySubmitData(
                             question: SubmitQuestionData(questionId: $1.questionId, category: $1.category),
                             questionNum: $0 + 1,
