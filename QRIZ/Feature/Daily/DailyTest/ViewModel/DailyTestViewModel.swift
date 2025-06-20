@@ -29,7 +29,7 @@ final class DailyTestViewModel {
         case updateOptionState(optionIdx: Int, isSelected: Bool)
         case setButtonVisibility(isVisible: Bool)
         case alterButtonText
-        case moveToDailyResult(type: DailyLearnType, day: Int)
+        case moveToDailyResult
         case moveToHomeView
         case popSubmitAlert
         case cancelAlert
@@ -202,7 +202,7 @@ final class DailyTestViewModel {
                 let _ = try await dailyService.submitDaily(dayNumber: day, dailySubmitData: submitData)
                 exitTimer()
                 output.send(.submitSuccess)
-                output.send(.moveToDailyResult(type: dailyTestType, day: day))
+                output.send(.moveToDailyResult)
             } catch {
                 output.send(.submitFailed)
             }

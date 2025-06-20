@@ -87,7 +87,7 @@ final class DailyTestViewController: UIViewController {
                     footerView.setButtonsVisibility(isVisible: isVisible)
                 case .alterButtonText:
                     footerView.alterButtonText()
-                case .moveToDailyResult(let type, let day):
+                case .moveToDailyResult:
                     coordinator?.showDailyResult()
                 case .moveToHomeView:
                     coordinator?.quitDaily()
