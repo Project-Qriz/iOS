@@ -23,6 +23,7 @@ final class ChangePasswordViewController: UIViewController {
     private let viewModel: ChangePasswordViewModel
     private let inputSubject = PassthroughSubject<ChangePasswordViewModel.Input, Never>()
     private var cancellables = Set<AnyCancellable>()
+    private var keyboardCancellable: AnyCancellable?
     
     // MARK: - Initialize
     
@@ -46,6 +47,7 @@ final class ChangePasswordViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         bind()
+        observe()
         setNavigationBarTitle(title: Attributes.navigationTitle)
     }
     
@@ -54,8 +56,22 @@ final class ChangePasswordViewController: UIViewController {
         self.hidesBottomBarWhenPushed = false
     }
     
+    deinit {
+        keyboardCancellable?.cancel()
+    }
+    
     // MARK: - Functions
     
     private func bind() {
+    }
+    
+    private func observe() {
+        keyboardCancellable = observeKeyboardNotifications(for: rootView.signUpFooterView)
+        
+        view.tapGestureEndedPublisher()
+            .sink { [weak self] _ in
+                self?.view.endEditing(true)
+            }
+            .store(in: &cancellables)
     }
 }
