@@ -16,11 +16,13 @@ final class ChangePasswordMainView: UIView {
         static let titleLabelTopOffset: CGFloat = 40.0
         static let horizontalSpacing: CGFloat = 18.0
         static let verticalSpacing: CGFloat = 20.0
+        static let signUpFooterViewBottomOffset: CGFloat = -16.0
     }
     
     private enum Attributes {
         static let titleText: String = "소중한 정보를 보호하기 위해\n새로운 비밀번호로 변경해 주세요!"
-        static let buttonTitle: String = "비밀번호를 잊으셨나요?"
+        static let forgotPasswordButtonTitle: String = "비밀번호를 잊으셨나요?"
+        static let sendButtonTitle: String = "변경하기"
     }
     
     // MARK: - Properties
@@ -41,7 +43,7 @@ final class ChangePasswordMainView: UIView {
     
     private let forgotPasswordButton: UIButton = {
         let button = UIButton(type: .system)
-        let title = Attributes.buttonTitle
+        let title = Attributes.forgotPasswordButtonTitle
         let attributes: [NSAttributedString.Key: Any] = [
             .underlineStyle: NSUnderlineStyle.single.rawValue,
             .underlineColor: UIColor.coolNeutral500,
@@ -52,6 +54,8 @@ final class ChangePasswordMainView: UIView {
         button.setAttributedTitle(attributedTitle, for: .normal)
         return button
     }()
+    
+    let signUpFooterView = SignUpFooterView()
     
     // MARK: - Initialize
     
@@ -70,8 +74,9 @@ final class ChangePasswordMainView: UIView {
     
     private func setupUI() {
         backgroundColor = .white
+        signUpFooterView.configure(buttonTitle: Attributes.sendButtonTitle)
+        signUpFooterView.updateButtonState(isValid: false)
     }
-
 }
 
 // MARK: - Layout Setup
@@ -81,7 +86,8 @@ extension ChangePasswordMainView {
         [
             titleLabel,
             changePasswordInputView,
-            forgotPasswordButton
+            forgotPasswordButton,
+            signUpFooterView
         ].forEach(addSubview(_:))
     }
     
@@ -89,6 +95,7 @@ extension ChangePasswordMainView {
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
         changePasswordInputView.translatesAutoresizingMaskIntoConstraints = false
         forgotPasswordButton.translatesAutoresizingMaskIntoConstraints = false
+        signUpFooterView.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
             titleLabel.topAnchor.constraint(
@@ -121,9 +128,22 @@ extension ChangePasswordMainView {
                 equalTo: changePasswordInputView.bottomAnchor,
                 constant: Metric.verticalSpacing
             ),
-            forgotPasswordButton.centerXAnchor.constraint(equalTo: centerXAnchor)
+            forgotPasswordButton.centerXAnchor.constraint(
+                equalTo: centerXAnchor
+            ),
+            
+            signUpFooterView.leadingAnchor.constraint(
+                equalTo: leadingAnchor,
+                constant: Metric.horizontalSpacing
+            ),
+            signUpFooterView.trailingAnchor.constraint(
+                equalTo: trailingAnchor,
+                constant: -Metric.horizontalSpacing
+            ),
+            signUpFooterView.bottomAnchor.constraint(
+                equalTo: safeAreaLayoutGuide.bottomAnchor,
+                constant: Metric.signUpFooterViewBottomOffset
+            )
         ])
     }
 }
-
-
