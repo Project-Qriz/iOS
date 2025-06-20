@@ -43,6 +43,10 @@
 		B151084F2E00346500657506 /* DeleteAccountViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B151084B2E00346500657506 /* DeleteAccountViewModel.swift */; };
 		B15108502E00346500657506 /* MyPageViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B151084C2E00346500657506 /* MyPageViewModel.swift */; };
 		B15108512E00346500657506 /* SettingsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B151084D2E00346500657506 /* SettingsViewModel.swift */; };
+		B151097F2E04DF0900657506 /* ChangePasswordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B151097E2E04DF0900657506 /* ChangePasswordViewController.swift */; };
+		B15109812E04DF8700657506 /* ChangePasswordViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B15109802E04DF8700657506 /* ChangePasswordViewModel.swift */; };
+		B15109832E04DFA400657506 /* ChangePasswordMainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B15109822E04DFA400657506 /* ChangePasswordMainView.swift */; };
+		B15109852E05208B00657506 /* ChangePasswordInputView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B15109842E05208B00657506 /* ChangePasswordInputView.swift */; };
 		B15188622D76D29B000EFE41 /* EmailSendRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = B15188612D76D29B000EFE41 /* EmailSendRequest.swift */; };
 		B15188662D782CCE000EFE41 /* SignUpCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = B15188652D782CCE000EFE41 /* SignUpCoordinator.swift */; };
 		B16288182D2CDB85008057D0 /* NameInputViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B16288172D2CDB85008057D0 /* NameInputViewModel.swift */; };
@@ -290,6 +294,10 @@
 		B151084B2E00346500657506 /* DeleteAccountViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeleteAccountViewModel.swift; sourceTree = "<group>"; };
 		B151084C2E00346500657506 /* MyPageViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageViewModel.swift; sourceTree = "<group>"; };
 		B151084D2E00346500657506 /* SettingsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewModel.swift; sourceTree = "<group>"; };
+		B151097E2E04DF0900657506 /* ChangePasswordViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangePasswordViewController.swift; sourceTree = "<group>"; };
+		B15109802E04DF8700657506 /* ChangePasswordViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangePasswordViewModel.swift; sourceTree = "<group>"; };
+		B15109822E04DFA400657506 /* ChangePasswordMainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangePasswordMainView.swift; sourceTree = "<group>"; };
+		B15109842E05208B00657506 /* ChangePasswordInputView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangePasswordInputView.swift; sourceTree = "<group>"; };
 		B15188612D76D29B000EFE41 /* EmailSendRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmailSendRequest.swift; sourceTree = "<group>"; };
 		B15188652D782CCE000EFE41 /* SignUpCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpCoordinator.swift; sourceTree = "<group>"; };
 		B16288172D2CDB85008057D0 /* NameInputViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NameInputViewModel.swift; sourceTree = "<group>"; };
@@ -764,6 +772,7 @@
 				B15108272DFFEA8C00657506 /* MyPageViewController.swift */,
 				B15108282DFFEA8C00657506 /* SettingsViewController.swift */,
 				B15108262DFFEA8C00657506 /* DeleteAccountViewController.swift */,
+				B151097E2E04DF0900657506 /* ChangePasswordViewController.swift */,
 			);
 			path = ViewController;
 			sourceTree = "<group>";
@@ -784,6 +793,7 @@
 			children = (
 				B15108362DFFEB2700657506 /* ProfileHeaderView.swift */,
 				B15108372DFFEB2700657506 /* SettingsOptionView.swift */,
+				B15109842E05208B00657506 /* ChangePasswordInputView.swift */,
 			);
 			path = Settings;
 			sourceTree = "<group>";
@@ -804,6 +814,7 @@
 				B151083B2DFFEB2700657506 /* MyPageMainView.swift */,
 				B151083C2DFFEB2700657506 /* SettingsMainView.swift */,
 				B151083A2DFFEB2700657506 /* DeleteAccountMainView.swift */,
+				B15109822E04DFA400657506 /* ChangePasswordMainView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -814,6 +825,7 @@
 				B151084C2E00346500657506 /* MyPageViewModel.swift */,
 				B151084D2E00346500657506 /* SettingsViewModel.swift */,
 				B151084B2E00346500657506 /* DeleteAccountViewModel.swift */,
+				B15109802E04DF8700657506 /* ChangePasswordViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -1895,12 +1907,14 @@
 				E25855A62DC3AE0800AE174C /* DailyService.swift in Sources */,
 				B1386C6E2DF0C787009D041F /* CardBackgroundView.swift in Sources */,
 				541878572D0E22700089F478 /* NetworkError.swift in Sources */,
+				B15109832E04DFA400657506 /* ChangePasswordMainView.swift in Sources */,
 				E2A6C6762DCA45970059F960 /* ExamResultRequest.swift in Sources */,
 				E29CCD522D299AD5004AA30A /* PreviewResultIncorrectConceptsRankView.swift in Sources */,
 				E29CCD492D29867F004AA30A /* GreetingViewController.swift in Sources */,
 				B18CDF752DD425D100DD361A /* TermsAgreementAllView.swift in Sources */,
 				B130452F2DDC77030036EBE2 /* UIScreen+.swift in Sources */,
 				E25F33672DB0E575002347D4 /* SingleSubjectView.swift in Sources */,
+				B15109812E04DF8700657506 /* ChangePasswordViewModel.swift in Sources */,
 				E29CCD1C2D298303004AA30A /* PreviewTestViewController.swift in Sources */,
 				E24CB1682DB522C800D88451 /* ResultDetailViewModel.swift in Sources */,
 				E25907C82D80732C0093121C /* PreviewResultScoreView.swift in Sources */,
@@ -1927,6 +1941,7 @@
 				E29CCD292D29855B004AA30A /* QuestionNumberLabel.swift in Sources */,
 				E2D70FEE2D0EC037005A3F51 /* CheckConceptViewModel.swift in Sources */,
 				E29CCD2C2D29855B004AA30A /* TestButton.swift in Sources */,
+				B15109852E05208B00657506 /* ChangePasswordInputView.swift in Sources */,
 				E2A6C0802DBB61890059F960 /* PreviewSubmitRequest.swift in Sources */,
 				E217C3692D9BF0B20095A3D8 /* DailyResultViewModel.swift in Sources */,
 				B18CDF792DD5DF9800DD361A /* TermsAgreementModalViewModel.swift in Sources */,
@@ -1962,6 +1977,7 @@
 				E2A6C3242DC610420059F960 /* ExamScoreRequest.swift in Sources */,
 				E29CCD2A2D29855B004AA30A /* QuestionOptionLabel.swift in Sources */,
 				E25F33612DAFC30B002347D4 /* DailyResultGradesListView.swift in Sources */,
+				B151097F2E04DF0900657506 /* ChangePasswordViewController.swift in Sources */,
 				E25856D42D0D766900355667 /* CheckConceptViewController.swift in Sources */,
 				B18F451C2D441E150030F7DB /* FindPasswordVerificationViewController.swift in Sources */,
 				E25F94C82D0CAF1B00BA765F /* BeginPreviewTestViewController.swift in Sources */,
