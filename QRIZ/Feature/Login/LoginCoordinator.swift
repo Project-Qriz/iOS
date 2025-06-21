@@ -13,7 +13,6 @@ protocol LoginCoordinator: Coordinator {
     func showSignUp()
     func showFindId()
     func showFindPassword()
-    func showResetPassword()
     func popToRootViewController()
 }
 
@@ -70,19 +69,13 @@ final class LoginCoordinatorImpl: LoginCoordinator {
     }
     
     func showFindPassword() {
-        let findPasswordVerificationVM = FindPasswordVerificationViewModel(accountRecoveryService: accountRecoveryService)
-        let findPasswordVerificationVC = FindPasswordVerificationViewController(
-            findPasswordVerificationVM: findPasswordVerificationVM
+        let recoveryCoordinator = AccountRecoveryCoordinatorImpl(
+            navigationController: navigationController,
+            accountRecoveryService: accountRecoveryService
         )
-        findPasswordVerificationVC.coordinator = self
-        navigationController.pushViewController(findPasswordVerificationVC, animated: true)
-    }
-    
-    func showResetPassword() {
-        let resetPasswordVM = ResetPasswordViewModel(accountRecoveryService: accountRecoveryService)
-        let resetPasswordVC = ResetPasswordViewController(resetPasswordVM: resetPasswordVM)
-        resetPasswordVC.coordinator = self
-        navigationController.pushViewController(resetPasswordVC, animated: true)
+        recoveryCoordinator.delegate = self
+        childCoordinators.append(recoveryCoordinator)
+        _ = recoveryCoordinator.start()
     }
     
     func popToRootViewController() {
@@ -94,6 +87,15 @@ final class LoginCoordinatorImpl: LoginCoordinator {
 
 extension LoginCoordinatorImpl: SignUpCoordinatorDelegate {
     func didFinishSignUp(_ coordinator: SignUpCoordinator) {
+        childCoordinators.removeAll { $0 === coordinator }
+        navigationController.popToRootViewController(animated: true)
+    }
+}
+
+// MARK: - AccountRecoveryCoordinatorDelegate
+
+extension LoginCoordinatorImpl: AccountRecoveryCoordinatorDelegate {
+    func didFinishPasswordReset(_ coordinator: AccountRecoveryCoordinator) {
         childCoordinators.removeAll { $0 === coordinator }
         navigationController.popToRootViewController(animated: true)
     }

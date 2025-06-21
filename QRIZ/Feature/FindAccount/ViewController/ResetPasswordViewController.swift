@@ -20,7 +20,7 @@ final class ResetPasswordViewController: UIViewController {
     
     // MARK: - Properties
     
-    weak var coordinator: LoginCoordinator?
+    weak var coordinator: AccountRecoveryCoordinator?
     private let rootView: ResetPasswordMainView
     private let resetPasswordVM: ResetPasswordViewModel
     private var cancellables = Set<AnyCancellable>()

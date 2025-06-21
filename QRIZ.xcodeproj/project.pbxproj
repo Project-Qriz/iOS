@@ -47,6 +47,7 @@
 		B15109812E04DF8700657506 /* ChangePasswordViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B15109802E04DF8700657506 /* ChangePasswordViewModel.swift */; };
 		B15109832E04DFA400657506 /* ChangePasswordMainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B15109822E04DFA400657506 /* ChangePasswordMainView.swift */; };
 		B15109852E05208B00657506 /* ChangePasswordInputView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B15109842E05208B00657506 /* ChangePasswordInputView.swift */; };
+		B15109872E06CDBD00657506 /* AccountRecoveryCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = B15109862E06CDBD00657506 /* AccountRecoveryCoordinator.swift */; };
 		B15188622D76D29B000EFE41 /* EmailSendRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = B15188612D76D29B000EFE41 /* EmailSendRequest.swift */; };
 		B15188662D782CCE000EFE41 /* SignUpCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = B15188652D782CCE000EFE41 /* SignUpCoordinator.swift */; };
 		B16288182D2CDB85008057D0 /* NameInputViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B16288172D2CDB85008057D0 /* NameInputViewModel.swift */; };
@@ -298,6 +299,7 @@
 		B15109802E04DF8700657506 /* ChangePasswordViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangePasswordViewModel.swift; sourceTree = "<group>"; };
 		B15109822E04DFA400657506 /* ChangePasswordMainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangePasswordMainView.swift; sourceTree = "<group>"; };
 		B15109842E05208B00657506 /* ChangePasswordInputView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangePasswordInputView.swift; sourceTree = "<group>"; };
+		B15109862E06CDBD00657506 /* AccountRecoveryCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountRecoveryCoordinator.swift; sourceTree = "<group>"; };
 		B15188612D76D29B000EFE41 /* EmailSendRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmailSendRequest.swift; sourceTree = "<group>"; };
 		B15188652D782CCE000EFE41 /* SignUpCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpCoordinator.swift; sourceTree = "<group>"; };
 		B16288172D2CDB85008057D0 /* NameInputViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NameInputViewModel.swift; sourceTree = "<group>"; };
@@ -941,6 +943,7 @@
 				B18F450B2D3992C10030F7DB /* View */,
 				B18F45082D398FFD0030F7DB /* ViewController */,
 				B18F45162D3A52680030F7DB /* ViewModel */,
+				B15109862E06CDBD00657506 /* AccountRecoveryCoordinator.swift */,
 			);
 			path = FindAccount;
 			sourceTree = "<group>";
@@ -1871,6 +1874,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				E2A6C1452DC4CE110059F960 /* ExamListRequest.swift in Sources */,
+				B15109872E06CDBD00657506 /* AccountRecoveryCoordinator.swift in Sources */,
 				E2A6C14C2DC5E33F0059F960 /* TestSubmitRequest.swift in Sources */,
 				B18CDF732DD3066E00DD361A /* TermsAgreementHeaderView.swift in Sources */,
 				E25F94CB2D0CB1DB00BA765F /* OnboardingTitleLabel.swift in Sources */,
