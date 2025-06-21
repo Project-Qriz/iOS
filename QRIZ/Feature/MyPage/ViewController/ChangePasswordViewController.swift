@@ -51,11 +51,6 @@ final class ChangePasswordViewController: UIViewController {
         setNavigationBarTitle(title: Attributes.navigationTitle)
     }
     
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-        self.hidesBottomBarWhenPushed = false
-    }
-    
     deinit {
         keyboardCancellable?.cancel()
     }

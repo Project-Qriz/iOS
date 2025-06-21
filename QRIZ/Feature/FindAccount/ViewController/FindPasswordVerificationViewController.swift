@@ -32,6 +32,7 @@ final class FindPasswordVerificationViewController: UIViewController {
         self.rootView = FindPasswordVerificationMainView()
         self.findPasswordVerificationVM = findPasswordVerificationVM
         super.init(nibName: nil, bundle: nil)
+        self.hidesBottomBarWhenPushed = true
     }
     
     required init?(coder: NSCoder) {

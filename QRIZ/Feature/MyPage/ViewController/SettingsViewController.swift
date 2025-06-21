@@ -50,11 +50,6 @@ final class SettingsViewController: UIViewController {
         inputSubject.send(.viewDidLoad)
     }
     
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-        self.hidesBottomBarWhenPushed = false
-    }
-    
     // MARK: - Functions
     
     private func bind() {

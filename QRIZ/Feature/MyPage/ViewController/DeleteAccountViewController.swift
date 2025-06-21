@@ -49,11 +49,6 @@ final class DeleteAccountViewController: UIViewController {
         setNavigationBarTitle(title: Attributes.navigationTitle)
     }
     
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-        self.hidesBottomBarWhenPushed = false
-    }
-    
     // MARK: - Functions
     
     private func bind() {

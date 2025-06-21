@@ -155,6 +155,7 @@ final class MyPageCoordinatorImpl: MyPageCoordinator {
         let viewModel = DeleteAccountViewModel(myPageService: myPageService)
         let vc = DeleteAccountViewController(viewModel: viewModel)
         vc.coordinator = self
+        vc.hidesBottomBarWhenPushed = true
         navigationController?.pushViewController(vc, animated: true)
     }
     
