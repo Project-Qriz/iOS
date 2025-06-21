@@ -92,7 +92,7 @@ final class DailyLearnViewModel {
                              available: status.available)
                 setTestScore(attemptCount: status.attemptCount, score: status.totalScore)
                 response.data.skills.forEach {
-                    conceptArr.append(($0.id, $0.description))
+                    self.conceptArr.append(($0.id, $0.description))
                 }
                 output.send(.fetchSuccess(state: state, type: type, score: score))
                 output.send(.updateContent(conceptArr: conceptArr))

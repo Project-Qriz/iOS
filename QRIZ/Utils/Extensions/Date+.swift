@@ -18,7 +18,6 @@ extension Date {
     var graphText: String {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "MM.dd"
-        let str = dateFormatter.string(from: self)
         return dateFormatter.string(from: self)
     }
 }
