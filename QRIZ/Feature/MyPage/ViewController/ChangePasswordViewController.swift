@@ -76,7 +76,7 @@ final class ChangePasswordViewController: UIViewController {
                 guard let self = self else { return }
                 switch output {
                 case .navigateToFindPassword:
-                    print("coor")
+                    self.coordinator?.showFindPassword()
                 }
             }
             .store(in: &cancellables)

@@ -12,6 +12,7 @@ protocol MyPageCoordinator: Coordinator {
     var delegate: MyPageCoordinatorDelegate? { get set }
     func showSettingsView()
     func showChangePasswordView()
+    func showFindPassword()
     func showResetAlert(confirm: @escaping () -> Void)
     func showExamSelectionSheet()
     func showTermsDetail(for term: TermItem)
@@ -34,14 +35,17 @@ final class MyPageCoordinatorImpl: MyPageCoordinator {
     weak var examDelegate: ExamSelectionDelegate?
     private let examService: ExamScheduleService
     private let myPageService: MyPageService
+    private let accountRecoveryService: AccountRecoveryService
     var childCoordinators: [Coordinator] = []
     
     init(
         examService: ExamScheduleService,
-        myPageService: MyPageService
+        myPageService: MyPageService,
+        accountRecoveryService: AccountRecoveryService
     ) {
         self.examService = examService
         self.myPageService = myPageService
+        self.accountRecoveryService = accountRecoveryService
     }
     
     func start() -> UIViewController {
@@ -73,6 +77,17 @@ final class MyPageCoordinatorImpl: MyPageCoordinator {
         let vc = ChangePasswordViewController(viewModel: viewModel)
         vc.coordinator = self
         navigationController?.pushViewController(vc, animated: true)
+    }
+    
+    func showFindPassword() {
+        guard let navi = navigationController else { return }
+        let recoveryCoordinator = AccountRecoveryCoordinatorImpl(
+            navigationController: navi,
+            accountRecoveryService: accountRecoveryService
+        )
+        recoveryCoordinator.delegate = self
+        childCoordinators.append(recoveryCoordinator)
+        _ = recoveryCoordinator.start()
     }
     
     func showResetAlert(confirm: @escaping () -> Void) {
@@ -167,5 +182,14 @@ final class MyPageCoordinatorImpl: MyPageCoordinator {
 extension MyPageCoordinatorImpl: TermsDetailDismissible {
     func dismissTermsDetail() {
         navigationController?.dismiss(animated: true)
+    }
+}
+
+// MARK: - AccountRecoveryCoordinatorDelegate
+
+extension MyPageCoordinatorImpl: AccountRecoveryCoordinatorDelegate {
+    func didFinishPasswordReset(_ coordinator: AccountRecoveryCoordinator) {
+        childCoordinators.removeAll { $0 === coordinator }
+        navigationController?.popToRootViewController(animated: true)
     }
 }

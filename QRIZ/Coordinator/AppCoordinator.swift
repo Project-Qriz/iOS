@@ -67,7 +67,8 @@ final class AppCoordinatorDependencyImpl: AppCoordinatorDependency {
     var tabBarCoordinator: TabBarCoordinator {
         let tabBarDependency = TabBarCoordinatorDependencyImpl(
             examService: examScheduleService,
-            myPageService: myPageService
+            myPageService: myPageService,
+            accountRecoveryService: accountRecoveryService
         )
         return TabBarCoordinatorImpl(dependency: tabBarDependency)
     }
