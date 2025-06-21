@@ -27,6 +27,11 @@ final class ChangePasswordMainView: UIView {
     
     // MARK: - Properties
 
+    private let forgotPasswordSubject = PassthroughSubject<Void, Never>()
+    
+    var forgotPasswordTappedPublisher: AnyPublisher<Void, Never> {
+        forgotPasswordSubject.eraseToAnyPublisher()
+    }
     
     // MARK: - UI
     
@@ -41,7 +46,7 @@ final class ChangePasswordMainView: UIView {
 
     private let changePasswordInputView = ChangePasswordInputView()
     
-    private let forgotPasswordButton: UIButton = {
+    private lazy var forgotPasswordButton: UIButton = {
         let button = UIButton(type: .system)
         let title = Attributes.forgotPasswordButtonTitle
         let attributes: [NSAttributedString.Key: Any] = [
@@ -52,6 +57,12 @@ final class ChangePasswordMainView: UIView {
         ]
         let attributedTitle = NSAttributedString(string: title, attributes: attributes)
         button.setAttributedTitle(attributedTitle, for: .normal)
+        button.addAction(
+            UIAction { [weak self] _ in
+                self?.forgotPasswordSubject.send()
+            },
+            for: .touchUpInside
+        )
         return button
     }()
     

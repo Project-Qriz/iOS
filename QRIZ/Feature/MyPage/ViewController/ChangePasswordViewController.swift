@@ -63,6 +63,23 @@ final class ChangePasswordViewController: UIViewController {
     // MARK: - Functions
     
     private func bind() {
+        let forgotPasswordTap = rootView.forgotPasswordTappedPublisher
+            .map { ChangePasswordViewModel.Input.didTapForgotPassword }
+        
+        let input = forgotPasswordTap
+            .eraseToAnyPublisher()
+        
+        let output = viewModel.transform(input: input)
+        
+        output
+            .sink { [weak self] output in
+                guard let self = self else { return }
+                switch output {
+                case .navigateToFindPassword:
+                    print("coor")
+                }
+            }
+            .store(in: &cancellables)
     }
     
     private func observe() {

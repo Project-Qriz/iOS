@@ -69,7 +69,7 @@ final class MyPageCoordinatorImpl: MyPageCoordinator {
     }
     
     func showChangePasswordView() {
-        let viewModel = ChangePasswordViewModel()
+        let viewModel = ChangePasswordViewModel(myPageService: myPageService)
         let vc = ChangePasswordViewController(viewModel: viewModel)
         vc.coordinator = self
         navigationController?.pushViewController(vc, animated: true)
