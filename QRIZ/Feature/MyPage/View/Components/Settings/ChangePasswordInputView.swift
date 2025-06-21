@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Combine
 
 final class ChangePasswordInputView: UIView {
     
@@ -21,11 +22,22 @@ final class ChangePasswordInputView: UIView {
         static let newPasswordPlaceholder = "새 비밀번호"
     }
     
+    // MARK: - Properties
+    
+    var currentPasswordChangedPublisher: AnyPublisher<String, Never> {
+        currentPasswordTextField.textPublisher
+    }
+    
+    var newPasswordChangedPublisher: AnyPublisher<String, Never> {
+        newPasswordTextField.textPublisher
+    }
+    
     // MARK: - UI
     
     private let currentPasswordTextField: CustomTextField = {
         let textField = CustomTextField(
             placeholder: Attributes.currentPasswordPlaceholder,
+            isSecure: true,
             rightViewType: .passwordToggle
         )
         return textField
@@ -34,6 +46,7 @@ final class ChangePasswordInputView: UIView {
     private let newPasswordTextField: CustomTextField = {
         let textField = CustomTextField(
             placeholder: Attributes.newPasswordPlaceholder,
+            isSecure: true,
             rightViewType: .passwordToggle
         )
         return textField

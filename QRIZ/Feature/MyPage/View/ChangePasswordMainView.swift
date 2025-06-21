@@ -44,7 +44,7 @@ final class ChangePasswordMainView: UIView {
         return label
     }()
 
-    private let changePasswordInputView = ChangePasswordInputView()
+    let changePasswordInputView = ChangePasswordInputView()
     
     private lazy var forgotPasswordButton: UIButton = {
         let button = UIButton(type: .system)

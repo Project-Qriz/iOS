@@ -58,10 +58,20 @@ final class ChangePasswordViewController: UIViewController {
     // MARK: - Functions
     
     private func bind() {
+        
+        let currentPwdChanged = rootView.changePasswordInputView.newPasswordChangedPublisher
+            .map { ChangePasswordViewModel.Input.currentPasswordChanged($0) }
+        
+        let newPwdChanged = rootView.changePasswordInputView
+            .currentPasswordChangedPublisher
+            .map { ChangePasswordViewModel.Input.newPasswordChanged($0) }
+        
         let forgotPasswordTap = rootView.forgotPasswordTappedPublisher
             .map { ChangePasswordViewModel.Input.didTapForgotPassword }
         
-        let input = forgotPasswordTap
+        let input = currentPwdChanged
+            .merge(with: newPwdChanged)
+            .merge(with: forgotPasswordTap)
             .eraseToAnyPublisher()
         
         let output = viewModel.transform(input: input)
@@ -70,6 +80,9 @@ final class ChangePasswordViewController: UIViewController {
             .sink { [weak self] output in
                 guard let self = self else { return }
                 switch output {
+                case .updateChangeButtonState(let enabled):
+                    self.rootView.signUpFooterView.updateButtonState(isValid: enabled)
+                    
                 case .navigateToFindPassword:
                     self.coordinator?.showFindPassword()
                 }
