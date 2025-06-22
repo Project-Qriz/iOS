@@ -52,11 +52,11 @@ extension String {
     }
     
     /// 이메일 유효성 체크 조건:
-    /// 1. 이메일 아이디 부분: 영문 대소문자와 숫자만 허용, 최소 2자, 최대 10자
-    /// 2. 도메인 이름 부분: 영문 대소문자와 숫자만 허용, 최소 2자, 최대 6자
-    /// 3. 최상위 도메인 부분: 영문 대소문자만 허용, 최소 2자, 최대 3자 (예: com, net, org)
+    /// 1. 로컬 파트 ("@" 앞부분): 영문 대소문자, 숫자, ._%+- 허용, 2~64자
+    /// 2. 도메인 파트 ("@" 중간부분): 영문 대소문자, 숫자, .- 허용, 2~255자
+    /// 3. 최상위 도메인 파트 (마지막 "." 이후): 영문 대소문자 허용, 2~10자
     var isValidEmail: Bool {
-        let nameRegex = "^[a-zA-Z0-9]{2,10}@[a-zA-Z0-9]{2,6}\\.[a-zA-Z]{2,3}$"
-        return NSPredicate(format: "SELF MATCHES %@", nameRegex).evaluate(with: self)
+        let emailRegex = "^[a-zA-Z0-9._%+-]{2,64}@[a-zA-Z0-9.-]{2,255}\\.[a-zA-Z]{2,10}$"
+        return NSPredicate(format: "SELF MATCHES %@", emailRegex).evaluate(with: self)
     }
 }
