@@ -41,7 +41,7 @@ enum MyPageLayoutFactory {
         static let horizontalSpacing: CGFloat = 18.0
         static let profileEstimated: CGFloat = 90.0
         
-        static let quickActionTopOffset: CGFloat = 24.0
+        static let quickActionTopOffset: CGFloat = 40.0
         static let quickActionEstimated: CGFloat = 82.0
         
         static let supportTopOffset: CGFloat = 32.0
@@ -98,7 +98,7 @@ enum MyPageLayoutFactory {
         let group = NSCollectionLayoutGroup.vertical(layoutSize: groupSize, subitems: [item])
         let section = NSCollectionLayoutSection(group: group)
         section.contentInsets = NSDirectionalEdgeInsets(
-            top: Metric.supportTopOffset + 12,
+            top: Metric.supportTopOffset + 8,
             leading: Metric.horizontalSpacing + 1,
             bottom: 0,
             trailing: Metric.horizontalSpacing + 1
@@ -109,7 +109,7 @@ enum MyPageLayoutFactory {
         )
         
         background.contentInsets = NSDirectionalEdgeInsets(
-            top: Metric.supportTopOffset,
+            top: Metric.supportTopOffset + 6,
             leading: Metric.horizontalSpacing,
             bottom: -Metric.horizontalSpacing,
             trailing: Metric.horizontalSpacing

@@ -25,8 +25,9 @@ final class CardBackgroundView: UICollectionReusableView {
     private func setupUI() {
         backgroundColor = .white
         clipsToBounds = true
-        layer.cornerRadius = 16
+        layer.cornerRadius = 14
         layer.borderWidth = 1
         layer.borderColor = UIColor.coolNeutral100.cgColor
+        applyQRIZShadow(radius: 14)
     }
 }

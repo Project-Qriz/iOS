@@ -107,10 +107,10 @@ final class SupportMenuCell: UICollectionViewCell {
     
     private let chevronButton: UIButton = {
         let button = UIButton()
-        let config = UIImage.SymbolConfiguration(pointSize: 14, weight: .medium)
+        let config = UIImage.SymbolConfiguration(pointSize: 16, weight: .medium)
         let image = UIImage(systemName: Attributes.chevron, withConfiguration: config)
         button.setImage(image, for: .normal)
-        button.tintColor = .coolNeutral800
+        button.tintColor = .coolNeutral400
         return button
     }()
     
@@ -172,8 +172,9 @@ extension SupportMenuCell {
         versionLabel.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
+            titleLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 25),
             titleLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: Metric.horizontalSpacing),
-            titleLabel.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
+            titleLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -25),
             
             chevronButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -Metric.horizontalSpacing),
             chevronButton.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
