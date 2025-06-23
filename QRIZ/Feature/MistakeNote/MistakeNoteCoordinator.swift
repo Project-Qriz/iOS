@@ -12,7 +12,7 @@ protocol MistakeNoteCoordinator: Coordinator {
 }
 
 @MainActor
-final class MistakeNoteCoordinatorImp: MistakeNoteCoordinator {
+final class MistakeNoteCoordinatorImpl: MistakeNoteCoordinator {
     
     var childCoordinators: [Coordinator] = []
     

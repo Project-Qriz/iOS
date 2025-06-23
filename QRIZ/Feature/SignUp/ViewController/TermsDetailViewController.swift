@@ -9,11 +9,17 @@ import UIKit
 import Combine
 import PDFKit
 
+@MainActor
+protocol TermsDetailDismissible: AnyObject {
+    func dismissTermsDetail()
+}
+
 final class TermsDetailViewController: UIViewController {
     
     // MARK: - Properties
     
     weak var coordinator: SignUpCoordinator?
+    weak var dismissDelegate: TermsDetailDismissible?
     private let rootView: TermsDetailMainView
     private let viewModel: TermsDetailViewModel
     private let inputSubject = PassthroughSubject<TermsDetailViewModel.Input, Never>()
@@ -74,7 +80,7 @@ final class TermsDetailViewController: UIViewController {
                     self.showOneButtonAlert(with: message, storingIn: &cancellables)
 
                 case .dismissModal:
-                    self.coordinator?.dismissView()
+                    self.dismissDelegate?.dismissTermsDetail()
                 }
             }
             .store(in: &cancellables)

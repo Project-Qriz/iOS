@@ -20,7 +20,7 @@ final class FindPasswordVerificationViewController: UIViewController {
     
     // MARK: - Properties
     
-    weak var coordinator: LoginCoordinator?
+    weak var coordinator: AccountRecoveryCoordinator?
     private let rootView: FindPasswordVerificationMainView
     private let findPasswordVerificationVM: FindPasswordVerificationViewModel
     private var cancellables = Set<AnyCancellable>()
@@ -32,6 +32,7 @@ final class FindPasswordVerificationViewController: UIViewController {
         self.rootView = FindPasswordVerificationMainView()
         self.findPasswordVerificationVM = findPasswordVerificationVM
         super.init(nibName: nil, bundle: nil)
+        self.hidesBottomBarWhenPushed = true
     }
     
     required init?(coder: NSCoder) {

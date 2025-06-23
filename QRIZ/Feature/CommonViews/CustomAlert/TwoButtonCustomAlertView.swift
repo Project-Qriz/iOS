@@ -9,6 +9,9 @@ import UIKit
 
 final class TwoButtonCustomAlertView: UIView {
     
+    private let confirmTitle: String
+    private let cancelTitle: String
+    
     private let titleLabel: UILabel = {
         let label = UILabel()
         label.font = .boldSystemFont(ofSize: 18)
@@ -29,7 +32,7 @@ final class TwoButtonCustomAlertView: UIView {
     
     private lazy var confirmButton: UIButton = {
         return createButton(
-            title: "확인",
+            title: confirmTitle,
             font: UIFont.systemFont(ofSize: 16, weight: .medium),
             titleColor: .white,
             backgroundColor: .customBlue500
@@ -38,7 +41,7 @@ final class TwoButtonCustomAlertView: UIView {
     
     private lazy var cancelButton: UIButton = {
         return createButton(
-            title: "취소",
+            title: cancelTitle,
             font: UIFont.systemFont(ofSize: 16, weight: .medium),
             titleColor: .black,
             backgroundColor: .clear,
@@ -58,8 +61,12 @@ final class TwoButtonCustomAlertView: UIView {
         title: String,
         titleLine: Int = 1,
         description: String,
-        descriptionLine: Int
+        descriptionLine: Int = 2,
+        confirmTitle: String = "확인",
+        cancelTitle: String = "취소"
     ) {
+        self.confirmTitle = confirmTitle
+        self.cancelTitle = cancelTitle
         super.init(frame: .zero)
         backgroundColor = .coolNeutral100
         layer.cornerRadius = 8

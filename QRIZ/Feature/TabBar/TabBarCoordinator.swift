@@ -26,34 +26,48 @@ protocol TabBarCoordinatorDependency {
 }
 
 @MainActor
-final class TabBarCoordinatorDependencyImp: TabBarCoordinatorDependency {
+final class TabBarCoordinatorDependencyImpl: TabBarCoordinatorDependency {
     
     private let examService: ExamScheduleService
     private let examTestService: ExamService
     private let dailyService: DailyService
     private let onboardingService: OnboardingService
     private let userInfoService: UserInfoService
+    private let myPageService: MyPageService
+    private let accountRecoveryService: AccountRecoveryService
+    
+    private lazy var _homeCoordinator = HomeCoordinatorImpl(
+        examService: examService,
+        examTestService: examTestService,
+        dailyService: dailyService,
+        onboardingService: onboardingService,
+        userInfoService: userInfoService
+    )
     
     var homeCoordinator: HomeCoordinator {
-        return HomeCoordinatorImpl(
-            examService: examService,
-            examTestService: examTestService,
-            dailyService: dailyService,
-            onboardingService: onboardingService,
-            userInfoService: userInfoService
-        )
+        _homeCoordinator
     }
+    
+    private lazy var _conceptBookCoordinator = ConceptBookCoordinatorImpl()
     
     var conceptBookCoordinator: ConceptBookCoordinator {
-        return ConceptBookCoordinatorImp()
+        _conceptBookCoordinator
     }
+    
+    private lazy var _mistakeNoteCoordinator = MistakeNoteCoordinatorImpl()
     
     var mistakeNoteCoordinator: MistakeNoteCoordinator {
-        return MistakeNoteCoordinatorImp()
+        _mistakeNoteCoordinator
     }
     
+    private lazy var _myPageCoordinator = MyPageCoordinatorImpl(
+        examService: examService,
+        myPageService: myPageService,
+        accountRecoveryService: accountRecoveryService
+    )
+    
     var myPageCoordinator: MyPageCoordinator {
-        return MyPageCoordinatorImp()
+        _myPageCoordinator
     }
     
     init(
@@ -61,58 +75,68 @@ final class TabBarCoordinatorDependencyImp: TabBarCoordinatorDependency {
         examTestService: ExamService,
         dailyService: DailyService,
         onboardingService: OnboardingService,
-        userInfoService: UserInfoService
+        userInfoService: UserInfoService,
+        myPageService: MyPageService,
+        accountRecoveryService: AccountRecoveryService
     ) {
         self.examService = examService
         self.examTestService = examTestService
         self.dailyService = dailyService
         self.onboardingService = onboardingService
         self.userInfoService = userInfoService
+        self.myPageService = myPageService
+        self.accountRecoveryService = accountRecoveryService
     }
 }
 
 @MainActor
-final class TabBarCoordinatorImp: TabBarCoordinator {
+final class TabBarCoordinatorImpl: TabBarCoordinator {
     
     weak var delegate: TabBarCoordinatorDelegate?
     var childCoordinators: [Coordinator] = []
     private let dependency: TabBarCoordinatorDependency
     private var tabBarController: UITabBarController?
+    private let homeCoordinator: HomeCoordinatorImpl
+    private let myPageCoordinator: MyPageCoordinatorImpl
     
     init(dependency: TabBarCoordinatorDependency) {
         self.dependency = dependency
+        
+        guard
+            let home = dependency.homeCoordinator as? HomeCoordinatorImpl,
+            let my = dependency.myPageCoordinator as? MyPageCoordinatorImpl
+        else {
+            fatalError("TabBar 의존성 주입 오류: 예상한 Coordinator 타입이 아닙니다‼️")
+        }
+        
+        self.homeCoordinator = home
+        self.myPageCoordinator = my
     }
     
     func start() -> UIViewController {
-        let tabBarController = UITabBarController()
-        configureTabBarController(tabBarController)
+        homeCoordinator.examDelegate = self
+        myPageCoordinator.examDelegate = self
+        myPageCoordinator.delegate = self
         
-        let homeCoordinator = dependency.homeCoordinator
-        let conceptBookCoordinator = dependency.conceptBookCoordinator
-        let mistakeNoteCoordinator = dependency.mistakeNoteCoordinator
-        let myPageCoordinator = dependency.myPageCoordinator
-        
-        homeCoordinator.delegate = self
-        
-        childCoordinators.append(contentsOf: [
-            homeCoordinator,
-            conceptBookCoordinator,
-            mistakeNoteCoordinator,
-            myPageCoordinator
-        ])
-        
-        var viewControllers: [UIViewController] = []
-        viewControllers.append(homeCoordinator.start())
-        viewControllers.append(conceptBookCoordinator.start())
-        viewControllers.append(mistakeNoteCoordinator.start())
-        viewControllers.append(myPageCoordinator.start())
+        var viewControllers: [UIViewController] = [
+            homeCoordinator.start(),
+            dependency.conceptBookCoordinator.start(),
+            dependency.mistakeNoteCoordinator.start(),
+            myPageCoordinator.start()
+        ]
         setupTabBarItems(for: &viewControllers)
         
-        tabBarController.viewControllers = viewControllers
+        let tabBar = UITabBarController()
+        configureTabBarController(tabBar)
+        tabBar.viewControllers = viewControllers
         
-        self.tabBarController = tabBarController
-        
-        return tabBarController
+        childCoordinators = [
+            homeCoordinator,
+            dependency.conceptBookCoordinator,
+            dependency.mistakeNoteCoordinator,
+            myPageCoordinator
+        ]
+        return tabBar
     }
     
     private func configureTabBarController(_ tabBarController: UITabBarController) {
@@ -155,10 +179,31 @@ final class TabBarCoordinatorImp: TabBarCoordinator {
 }
 
 @MainActor
-extension TabBarCoordinatorImp: HomeCoordinatorDelegate {
+extension TabBarCoordinatorImpl: HomeCoordinatorDelegate {
     func moveToConcept() {
         if let tabBarController = self.tabBarController {
             tabBarController.selectedIndex = 1
         }
+    }
+}
+
+// MARK: - ExamSelectionDelegate
+
+extension TabBarCoordinatorImpl: ExamSelectionDelegate {
+    func didUpdateExamSchedule() {
+        if let tabBar = homeCoordinator.navigationController?.tabBarController,
+           tabBar.selectedIndex == 0 {
+            homeCoordinator.homeVM?.reloadExamSchedule()
+        } else {
+            homeCoordinator.needsRefresh = true
+        }
+    }
+}
+
+// MARK: - MyPageCoordinatorDelegate
+
+extension TabBarCoordinatorImpl: MyPageCoordinatorDelegate {
+    func myPageCoordinatorDidLogout(_ coordinator: MyPageCoordinator) {
+        logout()
     }
 }

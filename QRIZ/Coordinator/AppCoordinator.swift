@@ -53,12 +53,13 @@ final class AppCoordinatorDependencyImpl: AppCoordinatorDependency {
     lazy var examScheduleService: ExamScheduleService = ExamScheduleServiceImpl(network: network, keychain: keychain)
     lazy var examTestService: ExamService = ExamServiceImpl(network: network, keychainManager: keychain)
     lazy var dailyService: DailyService = DailyServiceImpl(network: network, keychainManager: keychain)
+    lazy var myPageService: MyPageService = MyPageServiceImpl(network: network, keychain: keychain)
     lazy var userInfoService: UserInfoService = UserInfoServiceImpl(network: network, keychainManager: keychain)
     lazy var onboardingService: OnboardingService = OnboardingServiceImpl(network: network, keychainManager: keychain)
     
     private lazy var _loginCoordinator: LoginCoordinator = {
         let navi = UINavigationController()
-        return LoginCoordinatorImp(
+        return LoginCoordinatorImpl(
             navigationController: navi,
             loginService: loginService,
             userInfoService: userInfoService,
@@ -72,14 +73,16 @@ final class AppCoordinatorDependencyImpl: AppCoordinatorDependency {
     }
     
     var tabBarCoordinator: TabBarCoordinator {
-        let tabBarDependency = TabBarCoordinatorDependencyImp(
+        let tabBarDependency = TabBarCoordinatorDependencyImpl(
             examService: examScheduleService,
             examTestService: examTestService,
             dailyService: dailyService,
             onboardingService: onboardingService,
-            userInfoService: userInfoService
+            userInfoService: userInfoService,
+            myPageService: myPageService,
+            accountRecoveryService: accountRecoveryService
         )
-        return TabBarCoordinatorImp(dependency: tabBarDependency)
+        return TabBarCoordinatorImpl(dependency: tabBarDependency)
     }
     
     var onboardingCoordinator: OnboardingCoordinator {
@@ -128,22 +131,21 @@ final class AppCoordinatorImpl: AppCoordinator {
     
     private func showLogin() -> UIViewController {
         let loginCoordinator = dependency.loginCoordinator
-        (loginCoordinator as? LoginCoordinatorImp)?.delegate = self
+        (loginCoordinator as? LoginCoordinatorImpl)?.delegate = self
         childCoordinators.append(loginCoordinator)
         
         let loginVC = loginCoordinator.start()
-        window.rootViewController = loginVC
-        window.makeKeyAndVisible()
+        replaceRootViewController(with: loginVC, animated: true)
         return loginVC
     }
     
     private func showTabBar() -> UIViewController {
         let tabBarCoordinator = dependency.tabBarCoordinator
+        tabBarCoordinator.delegate = self
         childCoordinators.append(tabBarCoordinator)
         
         let tabBarVC = tabBarCoordinator.start()
-        window.rootViewController = tabBarVC
-        window.makeKeyAndVisible()
+        replaceRootViewController(with: tabBarVC, animated: true)
         return tabBarVC
     }
     
@@ -171,6 +173,27 @@ final class AppCoordinatorImpl: AppCoordinator {
     private func resetToLogin() {
         childCoordinators.removeAll()
         _ = showLogin()
+    }
+    
+    private func replaceRootViewController(
+        with vc: UIViewController,
+        animated: Bool = true
+    ) {
+        let win = self.window
+        if animated {
+            UIView.transition(
+                with: win,
+                duration: 0.3,
+                options: .transitionCrossDissolve,
+                animations: {
+                    win.rootViewController = vc
+                },
+                completion: nil
+            )
+        } else {
+            win.rootViewController = vc
+            win.makeKeyAndVisible()
+        }
     }
 }
 
@@ -200,5 +223,15 @@ extension AppCoordinatorImpl: OnboardingCoordinatorDelegate {
     func didFinishOnboarding(_ coordinator: any OnboardingCoordinator) {
         childCoordinators.removeAll() { $0 === coordinator }
         _ = showTabBar()
+    }
+}
+
+// MARK: - TabBarCoordinatorDelegate
+
+extension AppCoordinatorImpl: TabBarCoordinatorDelegate {
+    func didLogout(_ coordinator: TabBarCoordinator) {
+        childCoordinators.removeAll()
+        dependency.keychain.deleteToken(forKey: HTTPHeaderField.accessToken.rawValue)
+        _ = showLogin()
     }
 }

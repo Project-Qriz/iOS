@@ -109,6 +109,7 @@ final class SignUpCoordinatorImpl: SignUpCoordinator {
         let viewModel = TermsDetailViewModel(termItem: term)
         let vc = TermsDetailViewController(viewModel: viewModel)
         vc.coordinator = self
+        vc.dismissDelegate = self
         vc.modalPresentationStyle = .fullScreen
         sheetNav.present(vc, animated: true)
     }
@@ -142,6 +143,14 @@ final class SignUpCoordinatorImpl: SignUpCoordinator {
     }
     
     func dismissView() {
+        navigationController.dismiss(animated: true)
+    }
+}
+
+// MARK: - TermsDetailDismissible
+
+extension SignUpCoordinatorImpl: TermsDetailDismissible {
+    func dismissTermsDetail() {
         navigationController.dismiss(animated: true)
     }
 }

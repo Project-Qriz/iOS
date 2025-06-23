@@ -10,6 +10,7 @@ import UIKit
 @MainActor
 protocol HomeCoordinator: Coordinator {
     var delegate: HomeCoordinatorDelegate? { get set }
+    var needsRefresh: Bool { get set }
     func showExamSelectionSheet()
     func showOnboarding()
     func showExam()
@@ -31,14 +32,15 @@ protocol HomeCoordinatorDelegate: AnyObject {
 final class HomeCoordinatorImpl: HomeCoordinator {
     
     weak var delegate: HomeCoordinatorDelegate?
-    private weak var navigationController: UINavigationController?
+    weak var examDelegate: ExamSelectionDelegate?
+    private(set) weak var navigationController: UINavigationController?
     private let examService: ExamScheduleService
     private let examTestService: ExamService
     private let dailyService: DailyService
     private let onboardingService: OnboardingService
     private let userInfoService: UserInfoService
-    private var homeVM: HomeViewModel?
-    
+    private(set) var homeVM: HomeViewModel?
+    var needsRefresh: Bool = false
     var childCoordinators: [Coordinator] = []
     private var onboardingCoordinator: OnboardingCoordinator?
     
@@ -70,7 +72,7 @@ final class HomeCoordinatorImpl: HomeCoordinator {
     func showExamSelectionSheet() {
         let viewModel = ExamScheduleSelectionViewModel(examScheduleService: examService)
         let vc = ExamScheduleSelectionViewController(examScheduleSelectionVM: viewModel)
-        viewModel.delegate = self
+        viewModel.delegate = examDelegate ?? self
         vc.modalPresentationStyle = .pageSheet
         
         if let sheet = vc.sheetPresentationController {

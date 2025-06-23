@@ -43,6 +43,15 @@ final class HomeViewController: UIViewController {
         inputSubject.send(.viewDidLoad)
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+
+        if coordinator?.needsRefresh == true {
+            coordinator?.needsRefresh = false
+            inputSubject.send(.viewDidLoad)
+        }
+    }
+    
     // MARK: - Functions
     
     private func bind() {
