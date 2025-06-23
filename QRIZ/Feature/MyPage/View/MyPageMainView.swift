@@ -38,7 +38,7 @@ final class MyPageMainView: UIView {
     private lazy var profileRegistration = ProfileRegistration { cell, _, userName in
         cell.configure(with: userName)
         
-        cell.chevronTappedPublisher
+        cell.tapPublisher
             .sink { [weak self] in
                 self?.profileTapSubject.send()
             }

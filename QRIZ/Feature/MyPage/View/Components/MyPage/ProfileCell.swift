@@ -22,11 +22,11 @@ final class ProfileCell: UICollectionViewCell {
     
     // MARK: - Properties
     
-    private let chevronTappedSubject = PassthroughSubject<Void, Never>()
+    private let tapSubject = PassthroughSubject<Void, Never>()
     var cancellables = Set<AnyCancellable>()
     
-    var chevronTappedPublisher: AnyPublisher<Void, Never> {
-        chevronTappedSubject.eraseToAnyPublisher()
+    var tapPublisher: AnyPublisher<Void, Never> {
+        tapSubject.eraseToAnyPublisher()
     }
     
     // MARK: - UI
@@ -44,10 +44,7 @@ final class ProfileCell: UICollectionViewCell {
         let image = UIImage(systemName: Attributes.chevron, withConfiguration: config)
         button.setImage(image, for: .normal)
         button.tintColor = .coolNeutral800
-        
-        button.addAction(UIAction { [weak self] _ in
-            self?.chevronTappedSubject.send()
-        }, for: .touchUpInside)
+        button.isUserInteractionEnabled = false
         return button
     }()
     
@@ -66,6 +63,7 @@ final class ProfileCell: UICollectionViewCell {
         addSubviews()
         setupConstraints()
         setupUI()
+        addTapGesture()
     }
     
     required init?(coder: NSCoder) {
@@ -80,6 +78,15 @@ final class ProfileCell: UICollectionViewCell {
     
     func configure(with userName: String) {
         userNameLabel.text = userName
+    }
+    
+    private func addTapGesture() {
+        let tap = UITapGestureRecognizer(target: self, action: #selector(handleTap))
+        contentView.addGestureRecognizer(tap)
+    }
+    
+    @objc private func handleTap() {
+        tapSubject.send()
     }
 }
 
