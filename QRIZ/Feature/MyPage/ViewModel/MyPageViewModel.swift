@@ -66,9 +66,22 @@ final class MyPageViewModel {
         return outputSubject.eraseToAnyPublisher()
     }
     
-    // 백엔드 수정중
     private func fetchVersion() {
-        outputSubject.send(.setupView(userName: userName, version: "2.1.2"))
+        Task { [weak self] in
+            guard let self = self else { return }
+            do {
+                let version = try await myPageService.fetchVersion()
+                outputSubject.send(.setupView(userName: userName, version: "\(version.data.versionInfo)"))
+                
+            } catch let error as NetworkError {
+                outputSubject.send(.showErrorAlert(error.errorMessage))
+                logger.error("NetworkError(fetchVersion): \(error.description, privacy: .public)")
+                
+            } catch {
+                outputSubject.send(.showErrorAlert("버전 정보를 가져오는데 실패했습니다."))
+                logger.error("Unhandled error(fetchVersion): \(error.localizedDescription, privacy: .public)")
+            }
+        }
     }
     
     @MainActor

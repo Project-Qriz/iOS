@@ -74,6 +74,7 @@ final class MyPageViewController: UIViewController {
         let output = viewModel.transform(input: input)
         
         output
+            .receive(on: DispatchQueue.main)
             .sink { [weak self] output in
                 guard let self else { return }
                 

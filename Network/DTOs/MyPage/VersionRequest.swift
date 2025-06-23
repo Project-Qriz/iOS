@@ -33,13 +33,7 @@ struct VersionResponse: Decodable {
 }
 
 struct VersionData: Decodable {
-    let versionID: Int
     let versionInfo: Float
     let updateInfo: String
-
-    enum CodingKeys: String, CodingKey {
-        case versionID = "version_id"
-        case versionInfo = "version_info"
-        case updateInfo = "update_info"
-    }
+    let date: String
 }
