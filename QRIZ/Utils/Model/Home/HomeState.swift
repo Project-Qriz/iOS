@@ -10,7 +10,7 @@ import Foundation
 struct HomeState: Equatable {
     var userName: String
     var examStatus: ExamStatus
-    var entryState: ExamEntryCardCell.State
+    var entryState: EntryCardState
 }
 
 enum ExamStatus: Equatable, Hashable {
@@ -23,4 +23,9 @@ struct ExamDetail: Equatable, Hashable {
     let examDateText: String
     let examName: String
     let applyPeriod: String
+}
+
+enum EntryCardState: Equatable, Hashable {
+    case preview
+    case mock
 }

@@ -25,7 +25,7 @@ final class HomeViewModel {
     init(examScheduleService: ExamScheduleService) {
         let name = UserInfoManager.shared.name
         let previewStatus = UserInfoManager.shared.previewTestStatus
-        let initEntry: ExamEntryCardCell.State = {
+        let initEntry: EntryCardState = {
             switch previewStatus {
             case .previewCompleted, .previewSkipped:
                 return .mock
@@ -93,7 +93,7 @@ final class HomeViewModel {
             )
             let dDay = response.data.examDate.dDay
             let status: ExamStatus = dDay <= 0 ? .expired(detail: detail) : .registered(dDay: dDay, detail: detail)
-            let entry: ExamEntryCardCell.State = {
+            let entry: EntryCardState = {
                 switch userInfo.previewTestStatus {
                 case .previewCompleted, .previewSkipped:
                     return .mock
@@ -108,7 +108,7 @@ final class HomeViewModel {
             )
         } catch let error as NetworkError {
             if case .clientError(let status, _, _) = error, status == 400 {
-                let entry: ExamEntryCardCell.State = userInfo.previewTestStatus == .previewCompleted ? .mock : .preview
+                let entry: EntryCardState = userInfo.previewTestStatus == .previewCompleted ? .mock : .preview
                 return HomeState(
                     userName: userInfo.name,
                     examStatus: .none,
@@ -122,7 +122,7 @@ final class HomeViewModel {
     private func handleNetworkError(_ error: NetworkError) {
         switch error {
         case .clientError(let status, _, _) where status == 400:
-            let entry: ExamEntryCardCell.State = userInfo.previewTestStatus == .previewCompleted ? .mock : .preview
+            let entry: EntryCardState = userInfo.previewTestStatus == .previewCompleted ? .mock : .preview
             updateState { $0 = HomeState(userName: userInfo.name, examStatus: .none, entryState: entry) }
         default:
             outputSubject.send(.showErrorAlert(error.errorMessage))

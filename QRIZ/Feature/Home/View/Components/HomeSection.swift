@@ -14,7 +14,7 @@ enum HomeSection: Int, CaseIterable {
 
 enum HomeSectionItem: Hashable {
     case schedule(userName: String, status: ExamStatus)
-    case entry(ExamEntryCardCell.State)
+    case entry(EntryCardState)
 }
 
 enum HomeLayoutFactory {
