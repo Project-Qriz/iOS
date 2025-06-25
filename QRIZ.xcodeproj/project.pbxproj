@@ -48,6 +48,7 @@
 		B15109832E04DFA400657506 /* ChangePasswordMainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B15109822E04DFA400657506 /* ChangePasswordMainView.swift */; };
 		B15109852E05208B00657506 /* ChangePasswordInputView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B15109842E05208B00657506 /* ChangePasswordInputView.swift */; };
 		B15109872E06CDBD00657506 /* AccountRecoveryCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = B15109862E06CDBD00657506 /* AccountRecoveryCoordinator.swift */; };
+		B1510DB22E0A92C400657506 /* DailyPlanRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1510DB12E0A92C400657506 /* DailyPlanRequest.swift */; };
 		B15188622D76D29B000EFE41 /* EmailSendRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = B15188612D76D29B000EFE41 /* EmailSendRequest.swift */; };
 		B15188662D782CCE000EFE41 /* SignUpCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = B15188652D782CCE000EFE41 /* SignUpCoordinator.swift */; };
 		B16288182D2CDB85008057D0 /* NameInputViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B16288172D2CDB85008057D0 /* NameInputViewModel.swift */; };
@@ -326,6 +327,7 @@
 		B15109822E04DFA400657506 /* ChangePasswordMainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangePasswordMainView.swift; sourceTree = "<group>"; };
 		B15109842E05208B00657506 /* ChangePasswordInputView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangePasswordInputView.swift; sourceTree = "<group>"; };
 		B15109862E06CDBD00657506 /* AccountRecoveryCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountRecoveryCoordinator.swift; sourceTree = "<group>"; };
+		B1510DB12E0A92C400657506 /* DailyPlanRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyPlanRequest.swift; sourceTree = "<group>"; };
 		B15188612D76D29B000EFE41 /* EmailSendRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmailSendRequest.swift; sourceTree = "<group>"; };
 		B15188652D782CCE000EFE41 /* SignUpCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpCoordinator.swift; sourceTree = "<group>"; };
 		B16288172D2CDB85008057D0 /* NameInputViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NameInputViewModel.swift; sourceTree = "<group>"; };
@@ -1527,6 +1529,7 @@
 		E25AB7A42DC0C35A00E7A7E3 /* Daily */ = {
 			isa = PBXGroup;
 			children = (
+				B1510DB12E0A92C400657506 /* DailyPlanRequest.swift */,
 				E25AB7A52DC0C41E00E7A7E3 /* DailyDetailAndStatusRequest.swift */,
 				E25AB7A72DC0C89100E7A7E3 /* DailyTestListRequest.swift */,
 				E25AB8072DC0CB2C00E7A7E3 /* DailySubmitRequest.swift */,
@@ -2119,6 +2122,7 @@
 				B18F452C2D4D5CF00030F7DB /* ResetPasswordViewModel.swift in Sources */,
 				E22341AD2DD4C35D00A67D04 /* ExamSummaryViewController.swift in Sources */,
 				B17D6AD92D97FE450023FCA5 /* LoginService.swift in Sources */,
+				B1510DB22E0A92C400657506 /* DailyPlanRequest.swift in Sources */,
 				54C7A3102D146190001175D9 /* LoginViewController.swift in Sources */,
 				E29CCD3C2D298656004AA30A /* PreviewResultBarGraphsView.swift in Sources */,
 				B19C4FBF2D6B6E3400CD008A /* MistakeNoteViewController.swift in Sources */,
