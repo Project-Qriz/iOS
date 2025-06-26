@@ -63,39 +63,61 @@ final class HomeMainView: UIView {
         cell.contentView.addGestureRecognizer(tap)
     }
     
+    private let dailyHeaderSupRegistration = UICollectionView.SupplementaryRegistration<DailyPlanHeaderView>(
+        elementKind: UICollectionView.elementKindSectionHeader) { view, _, _ in
+        }
+    
     private let collectionView: UICollectionView = {
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: HomeLayoutFactory.makeLayout())
         collectionView.backgroundColor = .customBlue50
         return collectionView
     }()
     
-    private lazy var dataSource = UICollectionViewDiffableDataSource<HomeSection, HomeSectionItem>(collectionView: collectionView)
-    { [weak self] collectionView, indexPath, item in
-        guard let self = self else { return UICollectionViewCell() }
-        switch item {
-        case .schedule:
-            switch item {
-            case .schedule(_, .registered):
-                return collectionView.dequeueConfiguredReusableCell(
-                    using: self.registeredRegistration,
-                    for: indexPath,
-                    item: item
-                )
-            default:
-                return collectionView.dequeueConfiguredReusableCell(
-                    using: self.scheduleRegistration,
-                    for: indexPath,
-                    item: item
-                )
+    private lazy var dataSource: UICollectionViewDiffableDataSource<HomeSection, HomeSectionItem> = {
+        let ds = UICollectionViewDiffableDataSource<HomeSection, HomeSectionItem>(
+            collectionView: collectionView) { [weak self] collectionView, indexPath, item in
+                guard let self = self else { return UICollectionViewCell() }
+                switch item {
+                case .schedule:
+                    switch item {
+                    case .schedule(_, .registered):
+                        return collectionView.dequeueConfiguredReusableCell(
+                            using: self.registeredRegistration,
+                            for: indexPath,
+                            item: item
+                        )
+                    default:
+                        return collectionView.dequeueConfiguredReusableCell(
+                            using: self.scheduleRegistration,
+                            for: indexPath,
+                            item: item
+                        )
+                    }
+                case .entry:
+                    return collectionView.dequeueConfiguredReusableCell(
+                        using: self.entryRegistration,
+                        for: indexPath,
+                        item: item
+                    )
+                }
             }
-        case .entry:
-            return collectionView.dequeueConfiguredReusableCell(
-                using: self.entryRegistration,
-                for: indexPath,
-                item: item
-            )
+        
+        
+        ds.supplementaryViewProvider = { [weak self] collectionView, kind, indexPath in
+            guard let self,
+                  let section = HomeSection(rawValue: indexPath.section) else { return nil }
+            
+            if section == .dailyHeader,
+               kind == UICollectionView.elementKindSectionHeader {
+                return collectionView.dequeueConfiguredReusableSupplementary(
+                    using: self.dailyHeaderSupRegistration,
+                    for: indexPath)
+            }
+            return nil
         }
-    }
+        
+        return ds
+    }()
     
     // MARK: - Initialize
     
@@ -121,9 +143,16 @@ final class HomeMainView: UIView {
     
     func apply(_ state: HomeState) {
         var snapshot = NSDiffableDataSourceSnapshot<HomeSection, HomeSectionItem>()
-        snapshot.appendSections([.examSchedule, .examEntry])
-        snapshot.appendItems([.schedule(userName: state.userName, status: state.examStatus)], toSection: .examSchedule)
-        snapshot.appendItems([.entry(state.entryState)], toSection: .examEntry)
+        snapshot.appendSections([.examSchedule, .examEntry, .dailyHeader])
+        snapshot.appendItems(
+            [.schedule(userName: state.userName, status: state.examStatus)],
+            toSection: .examSchedule
+        )
+        snapshot.appendItems(
+            [.entry(state.entryState)],
+            toSection: .examEntry
+        )
+        
         dataSource.apply(snapshot, animatingDifferences: true)
     }
     

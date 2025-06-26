@@ -10,6 +10,7 @@ import UIKit
 enum HomeSection: Int, CaseIterable {
     case examSchedule
     case examEntry
+    case dailyHeader
 }
 
 enum HomeSectionItem: Hashable {
@@ -23,9 +24,11 @@ enum HomeLayoutFactory {
         static let examScheduleEstimated: CGFloat = 364.0
         static let examScheduleTopOffset: CGFloat = 24.0
         static let horizontalSpacing: CGFloat = 18.0
+        static let verticalSpacing: CGFloat = 40.0
         
         static let examEntryEstimated: CGFloat = 106.0
-        static let examEntryTopOffset: CGFloat = 40.0
+        
+        static let studyHeaderHeight: CGFloat = 24.0
     }
     
     // MARK: - Functions
@@ -56,11 +59,43 @@ enum HomeLayoutFactory {
         let group = NSCollectionLayoutGroup.vertical(layoutSize: size, subitems: [item])
         let section = NSCollectionLayoutSection(group: group)
         section.contentInsets = NSDirectionalEdgeInsets(
-            top: Metric.examEntryTopOffset,
+            top: Metric.verticalSpacing,
+            leading: Metric.horizontalSpacing,
+            bottom: Metric.verticalSpacing,
+            trailing: Metric.horizontalSpacing
+        )
+        return section
+    }
+    
+    private static func dailyHeader() -> NSCollectionLayoutSection {
+        let size = NSCollectionLayoutSize(
+            widthDimension: .fractionalWidth(1),
+            heightDimension: .absolute(1)
+        )
+        let dummyItem  = NSCollectionLayoutItem(layoutSize: size)
+        let dummyGroup = NSCollectionLayoutGroup.horizontal(
+            layoutSize: size,
+            subitems: [dummyItem]
+        )
+        let section = NSCollectionLayoutSection(group: dummyGroup)
+        
+        let header = NSCollectionLayoutBoundarySupplementaryItem(
+            layoutSize: .init(
+                widthDimension: .fractionalWidth(1),
+                heightDimension: .estimated(Metric.studyHeaderHeight)
+            ),
+            elementKind: UICollectionView.elementKindSectionHeader,
+            alignment: .top
+        )
+        
+        header.contentInsets = NSDirectionalEdgeInsets(
+            top: 0,
             leading: Metric.horizontalSpacing,
             bottom: 0,
             trailing: Metric.horizontalSpacing
         )
+        
+        section.boundarySupplementaryItems = [header]
         return section
     }
     
@@ -70,6 +105,7 @@ enum HomeLayoutFactory {
             switch section {
             case .examSchedule: return examSchedule()
             case .examEntry: return examEntry()
+            case .dailyHeader: return dailyHeader()
             }
         }
     }
