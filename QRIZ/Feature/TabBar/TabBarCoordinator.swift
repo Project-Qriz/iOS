@@ -140,12 +140,15 @@ final class TabBarCoordinatorImpl: TabBarCoordinator {
     }
     
     private func configureTabBarController(_ tabBarController: UITabBarController) {
-        tabBarController.tabBar.backgroundColor = .white
+        let whiteAppearance = UITabBarAppearance()
+        whiteAppearance.configureWithOpaqueBackground()
+        whiteAppearance.backgroundColor = .white
+        whiteAppearance.shadowColor = UIColor.customBlue100
+        whiteAppearance.shadowImage = UIImage()
         tabBarController.tabBar.tintColor = .customBlue500
         tabBarController.tabBar.unselectedItemTintColor = .coolNeutral500
-        tabBarController.tabBar.layer.borderColor = UIColor.customBlue100.cgColor
-        tabBarController.tabBar.layer.borderWidth = 1.0
-        tabBarController.tabBar.layer.masksToBounds = true
+        tabBarController.tabBar.standardAppearance = whiteAppearance
+        tabBarController.tabBar.scrollEdgeAppearance = whiteAppearance
     }
     
     private func setupTabBarItems(for viewControllers: inout [UIViewController]) {
