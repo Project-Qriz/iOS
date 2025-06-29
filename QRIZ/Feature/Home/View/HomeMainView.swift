@@ -67,6 +67,11 @@ final class HomeMainView: UIView {
         elementKind: UICollectionView.elementKindSectionHeader) { view, _, _ in
         }
     
+    private lazy var dayRegistration = UICollectionView.CellRegistration<DayCardCell, HomeSectionItem> { [weak self] cell, _, item in
+        guard case .day(let n) = item else { return }
+        cell.configure(day: n)
+    }
+    
     private let collectionView: UICollectionView = {
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: HomeLayoutFactory.makeLayout())
         collectionView.backgroundColor = .customBlue50
@@ -99,6 +104,12 @@ final class HomeMainView: UIView {
                         for: indexPath,
                         item: item
                     )
+                case .day(_):
+                    return collectionView.dequeueConfiguredReusableCell(
+                        using: self.dayRegistration,
+                        for: indexPath,
+                        item: item
+                    )
                 }
             }
         
@@ -126,6 +137,7 @@ final class HomeMainView: UIView {
         _ = scheduleRegistration
         _ = registeredRegistration
         _ = entryRegistration
+        _ = dayRegistration
         addSubviews()
         setupConstraints()
         setupUI()
@@ -143,7 +155,7 @@ final class HomeMainView: UIView {
     
     func apply(_ state: HomeState) {
         var snapshot = NSDiffableDataSourceSnapshot<HomeSection, HomeSectionItem>()
-        snapshot.appendSections([.examSchedule, .examEntry, .dailyHeader])
+        snapshot.appendSections([.examSchedule, .examEntry, .dailyHeader, .daySelector])
         snapshot.appendItems(
             [.schedule(userName: state.userName, status: state.examStatus)],
             toSection: .examSchedule
@@ -152,6 +164,9 @@ final class HomeMainView: UIView {
             [.entry(state.entryState)],
             toSection: .examEntry
         )
+        
+        let dayItems = (1...31).map(HomeSectionItem.day)
+        snapshot.appendItems(dayItems, toSection: .daySelector)
         
         dataSource.apply(snapshot, animatingDifferences: true)
     }

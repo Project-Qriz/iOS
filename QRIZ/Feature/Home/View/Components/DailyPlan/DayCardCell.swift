@@ -19,6 +19,7 @@ final class DayCardCell: UICollectionViewCell {
     
     private enum Attributes {
         static let titleText: String = "Day"
+        static let flag: String = "flag.fill"
     }
     
     // MARK: - UI
@@ -40,6 +41,14 @@ final class DayCardCell: UICollectionViewCell {
         label.layer.cornerRadius = Metric.circleSize / 2
         label.layer.masksToBounds = true
         return label
+    }()
+    
+    private let flagImageView: UIImageView = {
+        let imageView = UIImageView(image: UIImage(systemName: Attributes.flag))
+        imageView.contentMode = .scaleAspectFit
+        imageView.tintColor = .coolNeutral400
+        imageView.isHidden = true
+        return imageView
     }()
     
     // MARK: - Initialize
@@ -64,7 +73,16 @@ final class DayCardCell: UICollectionViewCell {
     }
     
     func configure(day: Int) {
-        numberCircle.text = "\(day)"
+        if day == 31 {
+            titleLabel.text = "목표달성"
+            numberCircle.isHidden = true
+            flagImageView.isHidden = false
+        } else {
+            titleLabel.text = Attributes.titleText
+            numberCircle.isHidden = false
+            flagImageView.isHidden = true
+            numberCircle.text = "\(day)"
+        }
     }
 }
 
@@ -75,12 +93,14 @@ extension DayCardCell {
         [
             titleLabel,
             numberCircle,
+            flagImageView,
         ].forEach(contentView.addSubview(_:))
     }
     
     private func setupConstraints() {
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
         numberCircle.translatesAutoresizingMaskIntoConstraints = false
+        flagImageView.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
             titleLabel.topAnchor.constraint(
@@ -94,9 +114,24 @@ extension DayCardCell {
                 constant: Metric.numberCircleTopOffset
             ),
             numberCircle.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
-            numberCircle.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -Metric.verticalSpacing),
             numberCircle.widthAnchor.constraint(equalToConstant: Metric.circleSize),
             numberCircle.heightAnchor.constraint(equalToConstant: Metric.circleSize),
+            numberCircle.bottomAnchor.constraint(
+                equalTo: contentView.bottomAnchor,
+                constant: -Metric.verticalSpacing
+            ),
+            
+            flagImageView.topAnchor.constraint(
+                equalTo: titleLabel.bottomAnchor,
+                constant: Metric.numberCircleTopOffset
+            ),
+            flagImageView.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
+            flagImageView.widthAnchor.constraint(equalToConstant: Metric.circleSize),
+            flagImageView.heightAnchor.constraint(equalToConstant: Metric.circleSize),
+            flagImageView.bottomAnchor.constraint(
+                equalTo: contentView.bottomAnchor,
+                constant: -Metric.verticalSpacing
+            ),
         ])
     }
 }

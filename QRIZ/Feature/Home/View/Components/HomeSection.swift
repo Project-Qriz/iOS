@@ -11,11 +11,13 @@ enum HomeSection: Int, CaseIterable {
     case examSchedule
     case examEntry
     case dailyHeader
+    case daySelector
 }
 
 enum HomeSectionItem: Hashable {
     case schedule(userName: String, status: ExamStatus)
     case entry(EntryCardState)
+    case day(Int)
 }
 
 enum HomeLayoutFactory {
@@ -99,13 +101,47 @@ enum HomeLayoutFactory {
         return section
     }
     
+    private static func daySelector(env: NSCollectionLayoutEnvironment) -> NSCollectionLayoutSection {
+        let inset: CGFloat = Metric.horizontalSpacing
+        let spacing: CGFloat = 8
+        let avail = env.container.effectiveContentSize.width - inset * 2
+        let itemWidth = (avail - spacing * 2) / 3
+        let itemHeight = itemWidth * 0.6
+        
+        let itemSize  = NSCollectionLayoutSize(
+            widthDimension: .absolute(itemWidth),
+            heightDimension: .absolute(itemHeight)
+        )
+        let groupSize = NSCollectionLayoutSize(
+            widthDimension: .absolute(itemWidth),
+            heightDimension: .absolute(itemHeight)
+        )
+        let group = NSCollectionLayoutGroup.horizontal(
+            layoutSize: groupSize,
+            repeatingSubitem: .init(layoutSize: itemSize),
+            count: 1
+        )
+        
+        let section = NSCollectionLayoutSection(group: group)
+        section.interGroupSpacing = spacing
+        section.contentInsets = NSDirectionalEdgeInsets(
+            top: 19,
+            leading: inset,
+            bottom: 8,
+            trailing: inset
+        )
+        section.orthogonalScrollingBehavior = .groupPaging
+        return section
+    }
+    
     static func makeLayout() -> UICollectionViewLayout {
-        UICollectionViewCompositionalLayout { index, _ in
+        UICollectionViewCompositionalLayout { index, env in
             guard let section = HomeSection(rawValue: index) else { return nil }
             switch section {
             case .examSchedule: return examSchedule()
             case .examEntry: return examEntry()
             case .dailyHeader: return dailyHeader()
+            case .daySelector: return daySelector(env: env)
             }
         }
     }
