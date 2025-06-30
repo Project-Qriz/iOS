@@ -26,7 +26,13 @@ final class StudySummaryCell: UICollectionViewCell {
         static let vInset: CGFloat = 20.0
         static let cardVStackViewTopOffset: CGFloat = 12.0
         static let dashedLineHeight: CGFloat = 1.0
+        static let ellipsisTopOffset: CGFloat = 12.0
     }
+    
+    // MARK: - Properties
+    
+    private var cardStackToEllipsisConstraint: NSLayoutConstraint!
+    private var cardStackToBottomConstraint: NSLayoutConstraint!
     
     // MARK: - UI
     
@@ -44,6 +50,13 @@ final class StudySummaryCell: UICollectionViewCell {
         stackView.axis = .vertical
         stackView.spacing = 8
         return stackView
+    }()
+    
+    private let ellipsis: UIImageView = {
+        let imageView = UIImageView(image: .ellipsis)
+        imageView.contentMode = .scaleAspectFit
+        imageView.isHidden = true
+        return imageView
     }()
     
     // MARK: - Initialize
@@ -81,6 +94,11 @@ final class StudySummaryCell: UICollectionViewCell {
             let card = ConceptCardView(keyConcept: concept.type, description: concept.keyConcept)
             cardStack.addArrangedSubview(card)
         }
+        
+        let showEllipsis = concepts.count >= 3
+        ellipsis.isHidden = !showEllipsis
+        cardStackToEllipsisConstraint.isActive = showEllipsis
+        cardStackToBottomConstraint.isActive = !showEllipsis
     }
     
     private func makeTitleAttributedText(number: Int) -> NSAttributedString {
@@ -113,7 +131,8 @@ extension StudySummaryCell {
         [
             titleLabel,
             dashedLineView,
-            cardStack
+            cardStack,
+            ellipsis
         ].forEach(contentView.addSubview(_:))
     }
     
@@ -121,6 +140,7 @@ extension StudySummaryCell {
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
         dashedLineView.translatesAutoresizingMaskIntoConstraints = false
         cardStack.translatesAutoresizingMaskIntoConstraints = false
+        ellipsis.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
             titleLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: Metric.vInset),
@@ -135,7 +155,16 @@ extension StudySummaryCell {
             cardStack.topAnchor.constraint(equalTo: dashedLineView.bottomAnchor, constant: Metric.cardVStackViewTopOffset),
             cardStack.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: Metric.hInset),
             cardStack.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -Metric.hInset),
-            cardStack.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -Metric.vInset)
+            
+            ellipsis.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
+            ellipsis.topAnchor.constraint(equalTo: cardStack.bottomAnchor, constant: Metric.ellipsisTopOffset),
         ])
+        
+        cardStackToEllipsisConstraint =
+            cardStack.bottomAnchor.constraint(equalTo: ellipsis.topAnchor, constant: -Metric.ellipsisTopOffset)
+        cardStackToBottomConstraint =
+            cardStack.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -Metric.vInset)
+
+        cardStackToBottomConstraint.isActive = true
     }
 }
