@@ -49,6 +49,7 @@
 		B15109852E05208B00657506 /* ChangePasswordInputView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B15109842E05208B00657506 /* ChangePasswordInputView.swift */; };
 		B15109872E06CDBD00657506 /* AccountRecoveryCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = B15109862E06CDBD00657506 /* AccountRecoveryCoordinator.swift */; };
 		B1510DB22E0A92C400657506 /* DailyPlanRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1510DB12E0A92C400657506 /* DailyPlanRequest.swift */; };
+		B1510DBB2E11B2E800657506 /* DashedLineView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1510DBA2E11B2E800657506 /* DashedLineView.swift */; };
 		B15188622D76D29B000EFE41 /* EmailSendRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = B15188612D76D29B000EFE41 /* EmailSendRequest.swift */; };
 		B15188662D782CCE000EFE41 /* SignUpCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = B15188652D782CCE000EFE41 /* SignUpCoordinator.swift */; };
 		B16288182D2CDB85008057D0 /* NameInputViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B16288172D2CDB85008057D0 /* NameInputViewModel.swift */; };
@@ -328,6 +329,7 @@
 		B15109842E05208B00657506 /* ChangePasswordInputView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangePasswordInputView.swift; sourceTree = "<group>"; };
 		B15109862E06CDBD00657506 /* AccountRecoveryCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountRecoveryCoordinator.swift; sourceTree = "<group>"; };
 		B1510DB12E0A92C400657506 /* DailyPlanRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyPlanRequest.swift; sourceTree = "<group>"; };
+		B1510DBA2E11B2E800657506 /* DashedLineView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashedLineView.swift; sourceTree = "<group>"; };
 		B15188612D76D29B000EFE41 /* EmailSendRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmailSendRequest.swift; sourceTree = "<group>"; };
 		B15188652D782CCE000EFE41 /* SignUpCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpCoordinator.swift; sourceTree = "<group>"; };
 		B16288172D2CDB85008057D0 /* NameInputViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NameInputViewModel.swift; sourceTree = "<group>"; };
@@ -817,6 +819,7 @@
 				E24907D42D619FD4004D6E61 /* TestNavigatorButton.swift */,
 				B190A2E32DC0E023008FDE86 /* RoundBoxLabel.swift */,
 				B1386C6D2DF0C787009D041F /* CardBackgroundView.swift */,
+				B1510DBA2E11B2E800657506 /* DashedLineView.swift */,
 			);
 			path = CommonViews;
 			sourceTree = "<group>";
@@ -2118,6 +2121,7 @@
 				B16774D52D8959B3001820F3 /* FindIDRequest.swift in Sources */,
 				B168B7712D28276F0000F32E /* IDInputView.swift in Sources */,
 				E25F335F2DAFC222002347D4 /* DailyResultScoreView.swift in Sources */,
+				B1510DBB2E11B2E800657506 /* DashedLineView.swift in Sources */,
 				B19C4F6D2D5262D900CD008A /* Combine+.swift in Sources */,
 				B18F452C2D4D5CF00030F7DB /* ResetPasswordViewModel.swift in Sources */,
 				E22341AD2DD4C35D00A67D04 /* ExamSummaryViewController.swift in Sources */,
