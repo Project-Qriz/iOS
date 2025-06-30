@@ -41,7 +41,7 @@ struct DailyPlan: Decodable {
     let lastDay: Bool
 }
 
-struct PlannedSkill: Decodable {
+struct PlannedSkill: Equatable, Hashable, Decodable {
     let id: Int
     let type: String
     let keyConcept: String

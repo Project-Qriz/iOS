@@ -7,17 +7,23 @@
 
 import UIKit
 
+struct StudySummary: Equatable, Hashable {
+    let skills: [PlannedSkill]
+}
+
 enum HomeSection: Int, CaseIterable {
     case examSchedule
     case examEntry
     case dailyHeader
     case daySelector
+    case studySummary
 }
 
 enum HomeSectionItem: Hashable {
     case schedule(userName: String, status: ExamStatus)
     case entry(EntryCardState)
     case day(Int)
+    case studySummary(StudySummary)
 }
 
 enum HomeLayoutFactory {
@@ -31,6 +37,9 @@ enum HomeLayoutFactory {
         static let examEntryEstimated: CGFloat = 106.0
         
         static let studyHeaderHeight: CGFloat = 24.0
+        
+        static let studySummaryEstimated: CGFloat = 245.0
+        static let studySummaryTopOffset: CGFloat = 16.0
     }
     
     // MARK: - Functions
@@ -134,6 +143,30 @@ enum HomeLayoutFactory {
         return section
     }
     
+    private static func studySummary(env: NSCollectionLayoutEnvironment) -> NSCollectionLayoutSection {
+        let inset: CGFloat = Metric.horizontalSpacing
+        let avail = env.container.effectiveContentSize.width - inset * 2
+        let itemSize = NSCollectionLayoutSize(
+            widthDimension: .absolute(avail),
+            heightDimension: .estimated(Metric.studySummaryEstimated)
+        )
+        let group = NSCollectionLayoutGroup.vertical(
+            layoutSize: itemSize,
+            subitems: [.init(layoutSize: itemSize)]
+        )
+        let section = NSCollectionLayoutSection(group: group)
+        section.interGroupSpacing = 12
+        section.contentInsets = .init(
+            top: Metric.studySummaryTopOffset,
+            leading: Metric.horizontalSpacing,
+            bottom: 0,
+            trailing: Metric.horizontalSpacing
+        )
+        
+        section.orthogonalScrollingBehavior = .groupPagingCentered
+        return section
+    }
+    
     static func makeLayout() -> UICollectionViewLayout {
         UICollectionViewCompositionalLayout { index, env in
             guard let section = HomeSection(rawValue: index) else { return nil }
@@ -142,6 +175,7 @@ enum HomeLayoutFactory {
             case .examEntry: return examEntry()
             case .dailyHeader: return dailyHeader()
             case .daySelector: return daySelector(env: env)
+            case .studySummary: return studySummary(env: env)
             }
         }
     }
