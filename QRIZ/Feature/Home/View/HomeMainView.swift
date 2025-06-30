@@ -14,6 +14,8 @@ final class HomeMainView: UIView {
     
     private let examButtonTappedSubject = PassthroughSubject<Void, Never>()
     private let entryTappedSubject = PassthroughSubject<Void, Never>()
+    private let studyButtonTappedSubject = PassthroughSubject<Void, Never>()
+    private var cancellables = Set<AnyCancellable>()
     
     var examButtonTappedPublisher: AnyPublisher<Void, Never> {
         examButtonTappedSubject.eraseToAnyPublisher()
@@ -21,6 +23,10 @@ final class HomeMainView: UIView {
     
     var entryTappedPublisher: AnyPublisher<Void, Never> {
         entryTappedSubject.eraseToAnyPublisher()
+    }
+    
+    var studyButtonTappedPublisher: AnyPublisher<Void, Never> {
+        studyButtonTappedSubject.eraseToAnyPublisher()
     }
     
     // MARK: - UI
@@ -73,14 +79,24 @@ final class HomeMainView: UIView {
     }
     
     private lazy var summaryRegistration =
-        UICollectionView.CellRegistration<StudySummaryCell, HomeSectionItem> { cell, _, item in
-            guard case .studySummary(let summary) = item else { return }
-            cell.configure(number: summary.skills.count, concepts: summary.skills.map(StudyConcept.init))
-        }
+    UICollectionView.CellRegistration<StudySummaryCell, HomeSectionItem> { cell, _, item in
+        guard case .studySummary(let summary) = item else { return }
+        cell.configure(number: summary.skills.count, concepts: summary.skills.map(StudyConcept.init))
+    }
+    
+    private lazy var studyCTASupRegistration =
+    UICollectionView.SupplementaryRegistration<StudyCTAView>(
+        elementKind: String(describing: StudyCTAView.self)) { _,_,_ in }
     
     private let collectionView: UICollectionView = {
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: HomeLayoutFactory.makeLayout())
         collectionView.backgroundColor = .customBlue50
+        
+        collectionView.register(
+            StudyCTAView.self,
+            forSupplementaryViewOfKind: String(describing: StudyCTAView.self),
+            withReuseIdentifier: String(describing: StudyCTAView.self)
+        )
         return collectionView
     }()
     
@@ -126,16 +142,34 @@ final class HomeMainView: UIView {
             }
         
         ds.supplementaryViewProvider = { [weak self] collectionView, kind, indexPath in
-            guard let self,
-                  let section = HomeSection(rawValue: indexPath.section) else { return nil }
+            guard let self = self,
+                  let section = HomeSection(rawValue: indexPath.section) else {
+                return UICollectionReusableView()
+            }
             
             if section == .dailyHeader,
                kind == UICollectionView.elementKindSectionHeader {
                 return collectionView.dequeueConfiguredReusableSupplementary(
                     using: self.dailyHeaderSupRegistration,
-                    for: indexPath)
+                    for: indexPath
+                )
             }
-            return nil
+            
+            if section == .studySummary,
+               kind == String(describing: StudyCTAView.self) {
+                let view = collectionView.dequeueConfiguredReusableSupplementary(
+                    using: self.studyCTASupRegistration,
+                    for: indexPath
+                )
+                view.tapPublisher
+                    .sink { [weak self] in
+                        self?.studyButtonTappedSubject.send()
+                    }
+                    .store(in: &self.cancellables)
+                return view
+            }
+            
+            return UICollectionReusableView()
         }
         
         return ds
@@ -150,6 +184,7 @@ final class HomeMainView: UIView {
         _ = entryRegistration
         _ = dayRegistration
         _ = summaryRegistration
+        _ = studyCTASupRegistration
         addSubviews()
         setupConstraints()
         setupUI()
@@ -183,9 +218,9 @@ final class HomeMainView: UIView {
         snapshot.appendItems(dayItems, toSection: .daySelector)
         
         let summaryItems: [HomeSectionItem] = mockResponse.data.map { plan in
-            .studySummary(.init(skills: plan.plannedSkills))
-          }
-          snapshot.appendItems(summaryItems, toSection: .studySummary)
+                .studySummary(.init(skills: plan.plannedSkills))
+        }
+        snapshot.appendItems(summaryItems, toSection: .studySummary)
         
         dataSource.apply(snapshot, animatingDifferences: true)
     }

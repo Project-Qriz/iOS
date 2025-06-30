@@ -40,6 +40,7 @@ enum HomeLayoutFactory {
         
         static let studySummaryEstimated: CGFloat = 245.0
         static let studySummaryTopOffset: CGFloat = 16.0
+        static let studyCTAEstimated: CGFloat = 48.0
     }
     
     // MARK: - Functions
@@ -159,11 +160,21 @@ enum HomeLayoutFactory {
         section.contentInsets = .init(
             top: Metric.studySummaryTopOffset,
             leading: Metric.horizontalSpacing,
-            bottom: 0,
+            bottom: Metric.studySummaryTopOffset,
             trailing: Metric.horizontalSpacing
         )
         
         section.orthogonalScrollingBehavior = .groupPagingCentered
+        
+        let footer = NSCollectionLayoutBoundarySupplementaryItem(
+            layoutSize: .init(
+                widthDimension: .fractionalWidth(1),
+                heightDimension: .estimated(Metric.studyCTAEstimated)
+            ),
+            elementKind: String(describing: StudyCTAView.self),
+            alignment: .bottom
+        )
+        section.boundarySupplementaryItems = [footer]
         return section
     }
     
