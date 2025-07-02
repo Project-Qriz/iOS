@@ -59,7 +59,7 @@ final class HomeCoordinatorImpl: HomeCoordinator {
     }
     
     func start() -> UIViewController {
-        let viewModel = HomeViewModel(examScheduleService: examService)
+        let viewModel = HomeViewModel(examScheduleService: examService, dailyService: dailyService)
         homeVM = viewModel
         let homeVC = HomeViewController(homeVM: viewModel)
         homeVC.coordinator = self
