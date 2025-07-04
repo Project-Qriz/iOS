@@ -81,6 +81,10 @@ final class DailyPlanHeaderView: UICollectionViewCell {
     private func setupUI() {
         backgroundColor = .customBlue50
     }
+    
+    func configure(day: Int) {
+        dayButton.configuration?.title = "Day\(day)"
+    }
 }
 
 // MARK: - Layout Setup
