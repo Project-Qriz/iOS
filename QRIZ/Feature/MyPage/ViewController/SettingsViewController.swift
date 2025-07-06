@@ -78,7 +78,7 @@ final class SettingsViewController: UIViewController {
                 rootView.profileHeaderView.configure(name: userName, email: email)
                 
             case .navigateToResetPassword:
-                self.coordinator?.showChangePasswordView()
+                self.coordinator?.showFindPassword()
                 
             case .showLogoutAlert:
                 self.coordinator?.showLogoutAlert()
