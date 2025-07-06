@@ -70,9 +70,10 @@ final class DayCardCell: UICollectionViewCell {
         backgroundColor = .customBlue100
         layer.cornerRadius = 8
         layer.backgroundColor = UIColor.coolNeutral100.cgColor
+        layer.masksToBounds = true
     }
     
-    func configure(day: Int) {
+    func configure(day: Int, isSelected: Bool) {
         if day == 31 {
             titleLabel.text = "목표달성"
             numberCircle.isHidden = true
@@ -83,6 +84,10 @@ final class DayCardCell: UICollectionViewCell {
             flagImageView.isHidden = true
             numberCircle.text = "\(day)"
         }
+        
+        titleLabel.textColor = isSelected ? .coolNeutral800 : .coolNeutral400
+        numberCircle.backgroundColor = isSelected ? .coolNeutral800 : .coolNeutral400
+        contentView.backgroundColor = isSelected ? .white : .customBlue100
     }
 }
 
