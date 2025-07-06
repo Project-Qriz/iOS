@@ -36,9 +36,13 @@ struct PasswordResetRequest: Request {
     let path = "/api/pwd-reset"
     let method: HTTPMethod = .post
     let password: String
+    let resetToken: String
     
     var body: Encodable? {
-        ["password": password]
+        [
+            "newPassword": password,
+            "resetToken": resetToken
+        ]
     }
     
     var headers: HTTPHeader {

@@ -21,6 +21,9 @@ protocol AccountRecoveryService {
     
     /// 비밀번호 초기화
     func resetPassword(password: String) async throws -> PasswordResetResponse
+    
+    // 비밀번호 초기화에 필요한 resetToken 저장
+    func setResetToken(resetToken: String)
 }
 
 final class AccountRecoveryServiceImpl: AccountRecoveryService {
@@ -28,6 +31,7 @@ final class AccountRecoveryServiceImpl: AccountRecoveryService {
     // MARK: - Properties
     
     private let network: Network
+    private var resetToken: String = ""
     
     // MARK: - Initialize
     
@@ -53,7 +57,16 @@ final class AccountRecoveryServiceImpl: AccountRecoveryService {
     }
     
     func resetPassword(password: String) async throws -> PasswordResetResponse {
-        let request = PasswordResetRequest(password: password)
+        if resetToken.isEmpty {
+            print("잘못된 resetToken 입니다.")
+            throw NetworkError.unknownError
+        }
+        
+        let request = PasswordResetRequest(password: password, resetToken: resetToken)
         return try await network.send(request)
+    }
+    
+    func setResetToken(resetToken: String) {
+        self.resetToken = resetToken
     }
 }
