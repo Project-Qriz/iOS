@@ -28,7 +28,7 @@ struct DailyPlanResponse: Decodable {
     let data: [DailyPlan]
 }
 
-struct DailyPlan: Decodable {
+struct DailyPlan: Equatable, Hashable, Decodable {
     let id: Int
     let dayNumber: String
     let completed: Bool
