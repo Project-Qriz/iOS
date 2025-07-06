@@ -63,7 +63,8 @@ final class FindPasswordVerificationViewModel: EmailVerificationViewModel {
     override func verifyCode(email: String, authNumber: String) {
         Task {
             do {
-                _ = try await accountRecoveryService.verifyPasswordReset(email: email, authNumber: authNumber)
+                let response = try await accountRecoveryService.verifyPasswordReset(email: email, authNumber: authNumber)
+                accountRecoveryService.setResetToken(resetToken: response.data.resetToken)
                 outputSubject.send(.codeVerificationSuccess)
                 countdownTimer.stop()
             } catch {

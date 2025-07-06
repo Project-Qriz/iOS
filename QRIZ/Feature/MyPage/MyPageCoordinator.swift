@@ -11,7 +11,7 @@ import UIKit
 protocol MyPageCoordinator: Coordinator {
     var delegate: MyPageCoordinatorDelegate? { get set }
     func showSettingsView()
-    func showChangePasswordView()
+//    func showChangePasswordView()
     func showFindPassword()
     func showResetAlert(confirm: @escaping () -> Void)
     func showExamSelectionSheet()
@@ -72,12 +72,12 @@ final class MyPageCoordinatorImpl: MyPageCoordinator {
         navigationController?.pushViewController(vc, animated: true)
     }
     
-    func showChangePasswordView() {
-        let viewModel = ChangePasswordViewModel(myPageService: myPageService)
-        let vc = ChangePasswordViewController(viewModel: viewModel)
-        vc.coordinator = self
-        navigationController?.pushViewController(vc, animated: true)
-    }
+//    func showChangePasswordView() {
+//        let viewModel = ChangePasswordViewModel(myPageService: myPageService)
+//        let vc = ChangePasswordViewController(viewModel: viewModel)
+//        vc.coordinator = self
+//        navigationController?.pushViewController(vc, animated: true)
+//    }
     
     func showFindPassword() {
         guard let navi = navigationController else { return }
