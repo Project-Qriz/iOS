@@ -17,12 +17,14 @@ final class StudyCTAView: UICollectionReusableView {
     }
     
     private enum Attributes {
-        static let buttonText: String = "학습하러 가기"
+        static let learnText  = "학습하러 가기"
+        static let reviewText = "복습하러 가기"
     }
     
     // MARK: - Properties
     
     private let tapSubject = PassthroughSubject<Void, Never>()
+    var cancellables = Set<AnyCancellable>()
     
     var tapPublisher: AnyPublisher<Void, Never> {
         tapSubject.eraseToAnyPublisher()
@@ -32,7 +34,7 @@ final class StudyCTAView: UICollectionReusableView {
     
     private lazy var button: UIButton = {
         var config = UIButton.Configuration.filled()
-        config.title = Attributes.buttonText
+        config.title = Attributes.learnText
         config.baseBackgroundColor = .customBlue500
         config.baseForegroundColor = .white
         config.cornerStyle = .medium
@@ -61,6 +63,37 @@ final class StudyCTAView: UICollectionReusableView {
     
     private func setupUI() {
         backgroundColor = .customBlue50
+    }
+    
+    func configure(isReviewDay: Bool) {
+        var config = button.configuration
+        config?.title = isReviewDay ? Attributes.reviewText : Attributes.learnText
+        button.configuration = config
+    }
+    
+    func bind(pagePublisher: AnyPublisher<Int,Never>, reviewFlags: [Bool]) {
+        cancellables.removeAll()
+        let maxIdx = reviewFlags.count - 1
+
+        pagePublisher
+            .sink { [weak self] page in
+                guard let self, maxIdx >= 0 else { return }
+
+                let isReview = reviewFlags[min(max(page, 0), maxIdx)]
+                updateButtonTitle(isReview ? Attributes.reviewText : Attributes.learnText)
+            }
+            .store(in: &cancellables)
+    }
+    
+    private func updateButtonTitle(_ title: String) {
+        var config = button.configuration
+        config?.title = title
+        button.configuration = config
+    }
+
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        cancellables.removeAll()
     }
 }
 

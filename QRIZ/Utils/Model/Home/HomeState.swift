@@ -11,6 +11,8 @@ struct HomeState: Equatable {
     var userName: String
     var examStatus: ExamStatus
     var entryState: EntryCardState
+    var dailyPlans: [DailyPlan]
+    var selectedIndex: Int
 }
 
 enum ExamStatus: Equatable, Hashable {

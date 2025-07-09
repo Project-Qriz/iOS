@@ -6,9 +6,11 @@
 //
 
 import UIKit
+import Combine
 
 struct StudySummary: Equatable, Hashable {
-    let skills: [PlannedSkill]
+    let id: Int
+    let dailyPlans: [DailyPlan]
 }
 
 enum HomeSection: Int, CaseIterable {
@@ -29,18 +31,22 @@ enum HomeSectionItem: Hashable {
 enum HomeLayoutFactory {
     
     private enum Metric {
-        static let examScheduleEstimated: CGFloat = 364.0
+        static let examScheduleHeight: CGFloat = 364.0
         static let examScheduleTopOffset: CGFloat = 24.0
         static let horizontalSpacing: CGFloat = 18.0
         static let verticalSpacing: CGFloat = 40.0
         
-        static let examEntryEstimated: CGFloat = 106.0
+        static let examEntryHeight: CGFloat = 106.0
         
-        static let studyHeaderHeight: CGFloat = 24.0
+        static let dailyHeaderHeight: CGFloat = 24.0
         
-        static let studySummaryEstimated: CGFloat = 245.0
+        static let daySelectorSpacing: CGFloat = 8.0
+        static let daySelectorHeightRatio: CGFloat = 0.6
+        
+        static let studySummaryHeight: CGFloat = 245.0
         static let studySummaryTopOffset: CGFloat = 16.0
-        static let studyCTAEstimated: CGFloat = 48.0
+        static let interItemSpacing: CGFloat = 12.0
+        static let ctaFooterHeight: CGFloat = 48.0
     }
     
     // MARK: - Functions
@@ -48,9 +54,9 @@ enum HomeLayoutFactory {
     private static func examSchedule() -> NSCollectionLayoutSection {
         let itemSize = NSCollectionLayoutSize(
             widthDimension: .fractionalWidth(1.0),
-            heightDimension: .estimated(Metric.examScheduleEstimated)
+            heightDimension: .estimated(Metric.examScheduleHeight)
         )
-        let item  = NSCollectionLayoutItem(layoutSize: itemSize)
+        let item = NSCollectionLayoutItem(layoutSize: itemSize)
         let group = NSCollectionLayoutGroup.vertical(layoutSize: itemSize, subitems: [item])
         let section = NSCollectionLayoutSection(group: group)
         section.contentInsets = NSDirectionalEdgeInsets(
@@ -65,7 +71,7 @@ enum HomeLayoutFactory {
     private static func examEntry() -> NSCollectionLayoutSection {
         let size = NSCollectionLayoutSize(
             widthDimension: .fractionalWidth(1.0),
-            heightDimension: .estimated(Metric.examEntryEstimated)
+            heightDimension: .estimated(Metric.examEntryHeight)
         )
         let item = NSCollectionLayoutItem(layoutSize: size)
         let group = NSCollectionLayoutGroup.vertical(layoutSize: size, subitems: [item])
@@ -84,18 +90,16 @@ enum HomeLayoutFactory {
             widthDimension: .fractionalWidth(1),
             heightDimension: .absolute(1)
         )
-        let dummyItem  = NSCollectionLayoutItem(layoutSize: size)
-        let dummyGroup = NSCollectionLayoutGroup.horizontal(
-            layoutSize: size,
-            subitems: [dummyItem]
-        )
-        let section = NSCollectionLayoutSection(group: dummyGroup)
+        let item = NSCollectionLayoutItem(layoutSize: size)
+        let group = NSCollectionLayoutGroup.horizontal(layoutSize: size, subitems: [item])
+        let section = NSCollectionLayoutSection(group: group)
         
+        let headerSize = NSCollectionLayoutSize(
+            widthDimension: .fractionalWidth(1),
+            heightDimension: .estimated(Metric.dailyHeaderHeight)
+        )
         let header = NSCollectionLayoutBoundarySupplementaryItem(
-            layoutSize: .init(
-                widthDimension: .fractionalWidth(1),
-                heightDimension: .estimated(Metric.studyHeaderHeight)
-            ),
+            layoutSize: headerSize,
             elementKind: UICollectionView.elementKindSectionHeader,
             alignment: .top
         )
@@ -112,73 +116,87 @@ enum HomeLayoutFactory {
     }
     
     private static func daySelector(env: NSCollectionLayoutEnvironment) -> NSCollectionLayoutSection {
-        let inset: CGFloat = Metric.horizontalSpacing
-        let spacing: CGFloat = 8
-        let avail = env.container.effectiveContentSize.width - inset * 2
-        let itemWidth = (avail - spacing * 2) / 3
-        let itemHeight = itemWidth * 0.6
-        
-        let itemSize  = NSCollectionLayoutSize(
+        let inset = Metric.horizontalSpacing
+        let spacing = Metric.daySelectorSpacing
+        let totalWidth = env.container.effectiveContentSize.width - inset * 2
+        let itemWidth = (totalWidth - spacing * 2) / 3
+        let itemHeight = itemWidth * Metric.daySelectorHeightRatio
+        let itemSize = NSCollectionLayoutSize(
             widthDimension: .absolute(itemWidth),
             heightDimension: .absolute(itemHeight)
         )
-        let groupSize = NSCollectionLayoutSize(
-            widthDimension: .absolute(itemWidth),
-            heightDimension: .absolute(itemHeight)
-        )
-        let group = NSCollectionLayoutGroup.horizontal(
-            layoutSize: groupSize,
-            repeatingSubitem: .init(layoutSize: itemSize),
-            count: 1
-        )
+        let item = NSCollectionLayoutItem(layoutSize: itemSize)
+        let group = NSCollectionLayoutGroup.horizontal(layoutSize: itemSize, subitems: [item])
         
         let section = NSCollectionLayoutSection(group: group)
         section.interGroupSpacing = spacing
-        section.contentInsets = NSDirectionalEdgeInsets(
-            top: 19,
-            leading: inset,
-            bottom: 8,
-            trailing: inset
-        )
+        section.contentInsets = .init(top: 19, leading: inset, bottom: 8, trailing: inset)
         section.orthogonalScrollingBehavior = .groupPaging
         return section
     }
     
-    private static func studySummary(env: NSCollectionLayoutEnvironment) -> NSCollectionLayoutSection {
-        let inset: CGFloat = Metric.horizontalSpacing
-        let avail = env.container.effectiveContentSize.width - inset * 2
-        let itemSize = NSCollectionLayoutSize(
-            widthDimension: .absolute(avail),
-            heightDimension: .estimated(Metric.studySummaryEstimated)
+    private static func studySummary(
+        env: NSCollectionLayoutEnvironment,
+        cv: UICollectionView,
+        selected: CurrentValueSubject<Int,Never>,
+        programmaticScroll: CurrentValueSubject<Bool,Never>
+    ) -> NSCollectionLayoutSection {
+        let inset = Metric.horizontalSpacing
+        let totalWidth = env.container.effectiveContentSize.width - inset * 2
+        let size = NSCollectionLayoutSize(
+            widthDimension: .absolute(totalWidth),
+            heightDimension: .estimated(Metric.studySummaryHeight)
         )
-        let group = NSCollectionLayoutGroup.vertical(
-            layoutSize: itemSize,
-            subitems: [.init(layoutSize: itemSize)]
-        )
+        let item = NSCollectionLayoutItem(layoutSize: size)
+        let group = NSCollectionLayoutGroup.vertical(layoutSize: size, subitems: [item])
         let section = NSCollectionLayoutSection(group: group)
-        section.interGroupSpacing = 12
+        section.interGroupSpacing = Metric.interItemSpacing
         section.contentInsets = .init(
             top: Metric.studySummaryTopOffset,
-            leading: Metric.horizontalSpacing,
+            leading: inset,
             bottom: Metric.studySummaryTopOffset,
-            trailing: Metric.horizontalSpacing
+            trailing: inset
         )
-        
         section.orthogonalScrollingBehavior = .groupPagingCentered
         
+        section.visibleItemsInvalidationHandler = { [weak cv] visibleItems, contentOffset, _ in
+            guard let cv = cv, !programmaticScroll.value else { return }
+            let centerX = contentOffset.x + cv.bounds.width * 0.5
+            let summaryItems = visibleItems.filter { $0.indexPath.section == HomeSection.studySummary.rawValue }
+            guard let closest = summaryItems.min(by: { abs($0.frame.midX - centerX) < abs($1.frame.midX - centerX) }) else { return }
+
+            let newIndex = closest.indexPath.item
+            guard newIndex != selected.value else { return }
+            selected.send(newIndex)
+
+            programmaticScroll.send(true)
+            cv.scrollToItem(at: IndexPath(item: newIndex, section: HomeSection.daySelector.rawValue), at: .centeredHorizontally, animated: true)
+
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.4) {
+                programmaticScroll.send(false)
+            }
+        }
+        
+        // CTA Footer
+        let footerSize = NSCollectionLayoutSize(
+            widthDimension: .fractionalWidth(1),
+            heightDimension: .estimated(Metric.ctaFooterHeight)
+        )
         let footer = NSCollectionLayoutBoundarySupplementaryItem(
-            layoutSize: .init(
-                widthDimension: .fractionalWidth(1),
-                heightDimension: .estimated(Metric.studyCTAEstimated)
-            ),
+            layoutSize: footerSize,
             elementKind: String(describing: StudyCTAView.self),
             alignment: .bottom
         )
         section.boundarySupplementaryItems = [footer]
+        
         return section
     }
     
-    static func makeLayout() -> UICollectionViewLayout {
+    static func makeLayout(
+        for cv: UICollectionView,
+        selected: CurrentValueSubject<Int,Never>,
+        programmaticScroll: CurrentValueSubject<Bool,Never>
+    ) -> UICollectionViewLayout {
         UICollectionViewCompositionalLayout { index, env in
             guard let section = HomeSection(rawValue: index) else { return nil }
             switch section {
@@ -186,7 +204,13 @@ enum HomeLayoutFactory {
             case .examEntry: return examEntry()
             case .dailyHeader: return dailyHeader()
             case .daySelector: return daySelector(env: env)
-            case .studySummary: return studySummary(env: env)
+            case .studySummary:
+                return studySummary(
+                    env: env,
+                    cv: cv,
+                    selected: selected,
+                    programmaticScroll: programmaticScroll
+                )
             }
         }
     }
