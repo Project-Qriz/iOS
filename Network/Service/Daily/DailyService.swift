@@ -19,6 +19,8 @@ protocol DailyService {
     func getDailyWeeklyScore(dayNumber: Int) async throws -> DailyWeeklyScoreResponse
     
     func getDailyPlan() async throws -> DailyPlanResponse
+    
+    func resetPlan() async throws -> DailyResetResponse
 }
 
 final class DailyServiceImpl: DailyService {
@@ -61,6 +63,11 @@ final class DailyServiceImpl: DailyService {
     
     func getDailyPlan() async throws -> DailyPlanResponse {
         let request = DailyPlanRequest(accessToken: getAccessToken())
+        return try await network.send(request)
+    }
+    
+    func resetPlan() async throws -> DailyResetResponse {
+        let request = DailyResetRequest(accessToken: getAccessToken())
         return try await network.send(request)
     }
     
