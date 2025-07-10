@@ -72,8 +72,10 @@ final class HomeMainView: UIView {
         cell.contentView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(self?.didTapEntryCell)))
     }
     
-    private let dailyHeaderSupRegistration = UICollectionView.SupplementaryRegistration<DailyPlanHeaderView>(
-        elementKind: UICollectionView.elementKindSectionHeader) { view, _, _ in
+    private lazy var dailyHeaderSupRegistration = UICollectionView.SupplementaryRegistration<DailyPlanHeaderView>(
+        elementKind: UICollectionView.elementKindSectionHeader) { [weak self] view, _, _ in
+            guard let self else { return }
+            view.configure(day: self.selectedIndexSubject.value + 1)
         }
     
     private lazy var dayRegistration = UICollectionView.CellRegistration<DayCardCell, HomeSectionItem> { [weak self] cell, indexPath, item in
@@ -163,6 +165,7 @@ final class HomeMainView: UIView {
             scheduleRegistration,
             registeredRegistration,
             entryRegistration,
+            dailyHeaderSupRegistration,
             dayRegistration,
             summaryRegistration,
             studyCTASupRegistration
@@ -190,6 +193,7 @@ final class HomeMainView: UIView {
                 guard let self, newIndex != lastSelectedIndex else { return }
                 updateDaySelectorUI(from: lastSelectedIndex, to: newIndex)
                 lastSelectedIndex = newIndex
+                updateDailyHeaderView(day: newIndex + 1)
 
                 if !programmaticScrollSubject.value {
                     collectionView.scrollToItem(
@@ -223,6 +227,16 @@ final class HomeMainView: UIView {
             if state.selectedIndex != selectedIndexSubject.value {
                 selectedIndexSubject.send(state.selectedIndex)
             }
+        }
+    }
+    
+    private func updateDailyHeaderView(day: Int) {
+        let headerIndexPath = IndexPath(item: 0, section: HomeSection.dailyHeader.rawValue)
+        if let header = collectionView.supplementaryView(
+            forElementKind: UICollectionView.elementKindSectionHeader,
+            at: headerIndexPath
+        ) as? DailyPlanHeaderView {
+            header.configure(day: day)
         }
     }
     
