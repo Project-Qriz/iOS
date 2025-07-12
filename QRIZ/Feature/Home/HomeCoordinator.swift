@@ -15,6 +15,7 @@ protocol HomeCoordinator: Coordinator {
     func showOnboarding()
     func showExam()
     func showDaily(day: Int, type: DailyLearnType)
+    func showResetAlert(confirm: @escaping () -> Void)
 }
 
 @MainActor
@@ -116,6 +117,21 @@ final class HomeCoordinatorImpl: HomeCoordinator {
         daily.delegate = self
         childCoordinators.append(daily)
         _ = daily.start()
+    }
+    
+    func showResetAlert(confirm: @escaping () -> Void) {
+        let alert = TwoButtonCustomAlertViewController(
+            title: "플랜을 초기화 할까요?",
+            description: "지금까지의 플랜이 초기화되며,\nDay1부터 다시 시작됩니다.",
+            confirmAction: UIAction { [weak self] _ in
+                confirm()
+                self?.navigationController?.dismiss(animated: true)
+            },
+            cancelAction: UIAction { [weak self] _ in
+                self?.navigationController?.dismiss(animated: true)
+            }
+        )
+        navigationController?.present(alert, animated: true)
     }
 }
 

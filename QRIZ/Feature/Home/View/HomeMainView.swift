@@ -15,6 +15,7 @@ final class HomeMainView: UIView {
     private let examButtonTappedSubject = PassthroughSubject<Void, Never>()
     private let entryTappedSubject = PassthroughSubject<Void, Never>()
     private let studyButtonTappedSubject = PassthroughSubject<Void, Never>()
+    private let resetButtonTappedSubject = PassthroughSubject<Void, Never>()
     private let selectedIndexSubject = CurrentValueSubject<Int,Never>(0)
     private let programmaticScrollSubject = CurrentValueSubject<Bool, Never>(false)
     private let dayTapSubject = PassthroughSubject<Int, Never>()
@@ -32,6 +33,10 @@ final class HomeMainView: UIView {
     
     var studyButtonTappedPublisher: AnyPublisher<Void, Never> {
         studyButtonTappedSubject.eraseToAnyPublisher()
+    }
+    
+    var resetButtonTappedPublisher: AnyPublisher<Void, Never> {
+        resetButtonTappedSubject.eraseToAnyPublisher()
     }
     
     var selectedIndexPublisher: AnyPublisher<Int,Never> {
@@ -76,6 +81,12 @@ final class HomeMainView: UIView {
         elementKind: UICollectionView.elementKindSectionHeader) { [weak self] view, _, _ in
             guard let self else { return }
             view.configure(day: self.selectedIndexSubject.value + 1)
+            
+            view.resetButtonTapPublisher
+                .sink { [weak self] in
+                    self?.resetButtonTappedSubject.send()
+                }
+                .store(in: &view.cancellables)
         }
     
     private lazy var dayRegistration = UICollectionView.CellRegistration<DayCardCell, HomeSectionItem> { [weak self] cell, indexPath, item in

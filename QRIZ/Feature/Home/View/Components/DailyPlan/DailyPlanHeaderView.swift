@@ -21,6 +21,15 @@ final class DailyPlanHeaderView: UICollectionViewCell {
         static let titleText: String = "오늘의 공부"
     }
     
+    // MARK: - Properties
+    
+    private let resetButtonTapSubject = PassthroughSubject<Void, Never>()
+    var cancellables = Set<AnyCancellable>()
+    
+    var resetButtonTapPublisher: AnyPublisher<Void, Never> {
+        resetButtonTapSubject.eraseToAnyPublisher()
+    }
+    
     // MARK: - UI
     
     private let titleLabel: UILabel = {
@@ -31,14 +40,18 @@ final class DailyPlanHeaderView: UICollectionViewCell {
         return label
     }()
     
-    private let resetButton: UIButton = {
+    private lazy var resetButton: UIButton = {
         let button = UIButton()
         button.setImage(.homeReset, for: .normal)
         button.tintColor = .coolNeutral800
+        
+        button.addAction(UIAction { [weak self] _ in
+            self?.resetButtonTapSubject.send()
+        }, for: .touchUpInside)
         return button
     }()
     
-    private let dayButton: UIButton = {
+    private lazy var dayButton: UIButton = {
         var config = UIButton.Configuration.plain()
         config.contentInsets = .zero
         config.imagePadding  = 4

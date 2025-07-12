@@ -56,11 +56,14 @@ final class HomeViewController: UIViewController {
     
     private func bind() {
         let viewDidLoad = Just(HomeViewModel.Input.viewDidLoad)
-        
         let entryTapped = rootView.entryTappedPublisher.map { HomeViewModel.Input.entryTapped }
+        let pageChanged  = rootView.selectedIndexPublisher.map { HomeViewModel.Input.daySelected($0) }
+        let resetTapped = rootView.resetButtonTappedPublisher.map { HomeViewModel.Input.resetTapped }
         
         let input = viewDidLoad
             .merge(with: entryTapped)
+            .merge(with: pageChanged)
+            .merge(with: resetTapped)
             .eraseToAnyPublisher()
         
         let output = viewModel.transform(input: input)
@@ -82,6 +85,12 @@ final class HomeViewController: UIViewController {
                     
                 case .navigateToExamList:
                     self.coordinator?.showExam()
+                    
+                case .showResetAlert:
+                    self.coordinator?.showResetAlert { self.inputSubject.send(.didConfirmResetPlan) }
+                    
+                case .resetSucceeded(let message):
+                    self.showOneButtonAlert(with: message, storingIn: &cancellables)
                 }
             }
             .store(in: &cancellables)
