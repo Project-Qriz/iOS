@@ -20,7 +20,6 @@ final class DaySelectBottomSheetMainView: UIView {
         static let nextTrailing: CGFloat = -29.0
         static let prevTrailing: CGFloat = -23.0
         static let collectionTop: CGFloat = 25.0
-        static let collectionBottom: CGFloat = -30.0
     }
     
     private enum Attributes {
@@ -206,8 +205,7 @@ extension DaySelectBottomSheetMainView {
                 constant: -Metric.horizontalMargin
             ),
             collectionView.bottomAnchor.constraint(
-                equalTo: bottomAnchor,
-                constant: Metric.collectionBottom
+                equalTo: bottomAnchor
             )
         ])
     }

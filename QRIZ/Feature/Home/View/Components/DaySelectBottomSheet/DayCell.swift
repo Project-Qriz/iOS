@@ -12,7 +12,7 @@ final class DayCell: UICollectionViewCell {
     // MARK: - Enums
     
     private enum Metric {
-        static let horizontalPadding: CGFloat = 24.0
+        static let horizontalPadding: CGFloat = UIScreen.main.isSESize ? 22.0 : 24.0
         static let verticalPadding: CGFloat = 10.5
     }
     
