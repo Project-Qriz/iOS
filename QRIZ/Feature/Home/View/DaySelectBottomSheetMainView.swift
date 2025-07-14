@@ -29,6 +29,35 @@ final class DaySelectBottomSheetMainView: UIView {
         static let chevronRight: String = "chevron.right"
     }
     
+    // MARK: - Properties
+    
+    private var totalDays: Int = 0
+    private var selectedIndex: Int = 0
+    private var currentWeek: Int = 0
+    private let todayTapSubject = PassthroughSubject<Void, Never>()
+    private let prevTapSubject = PassthroughSubject<Void, Never>()
+    private let nextTapSubject = PassthroughSubject<Void, Never>()
+    private let dayTapSubject = PassthroughSubject<Int, Never>()
+    
+    var todayTapPublisher: AnyPublisher<Void, Never> {
+        todayTapSubject.eraseToAnyPublisher()
+    }
+    
+    var prevTapPublisher: AnyPublisher<Void, Never> {
+        prevTapSubject.eraseToAnyPublisher()
+    }
+    
+    var nextTapPublisher: AnyPublisher<Void, Never> {
+        nextTapSubject.eraseToAnyPublisher()
+    }
+    
+    var dayTapPublisher: AnyPublisher<Int, Never> {
+        dayTapSubject.eraseToAnyPublisher()
+    }
+    
+    
+    // MARK: - UI
+    
     private let titleLabel: UILabel = {
         let label = UILabel()
         label.text = Attributes.titleText
@@ -54,6 +83,7 @@ final class DaySelectBottomSheetMainView: UIView {
         let button = UIButton(configuration: config)
         
         button.addAction(UIAction { [weak self] _ in
+            self?.todayTapSubject.send()
         }, for: .touchUpInside)
         return button
     }()
@@ -74,7 +104,7 @@ final class DaySelectBottomSheetMainView: UIView {
         button.tintColor = .coolNeutral200
         
         button.addAction(UIAction { [weak self] _ in
-            print("prevButton")
+            self?.prevTapSubject.send()
         }, for: .touchUpInside)
         return button
     }()
@@ -87,7 +117,7 @@ final class DaySelectBottomSheetMainView: UIView {
         button.tintColor = .coolNeutral800
         
         button.addAction(UIAction { [weak self] _ in
-            print("nextButton")
+            self?.nextTapSubject.send()
         }, for: .touchUpInside)
         return button
     }()
@@ -123,6 +153,24 @@ final class DaySelectBottomSheetMainView: UIView {
     
     private func setupUI() {
         backgroundColor = .white
+    }
+    
+    func updateWeek(_ week: Int) {
+        currentWeek = week - 1
+        weekLabel.text = "\(week)주차"
+    }
+    
+    func updateArrows(prevEnabled: Bool, nextEnabled: Bool) {
+        prevButton.isEnabled = prevEnabled
+        nextButton.isEnabled = nextEnabled
+        prevButton.tintColor = prevEnabled ? .coolNeutral800 : .coolNeutral200
+        nextButton.tintColor = nextEnabled ? .coolNeutral800 : .coolNeutral200
+    }
+    
+    func reloadCollectionView(selected: Int, totalDays: Int) {
+        selectedIndex = selected
+        self.totalDays = totalDays
+        collectionView.reloadData()
     }
 }
 
@@ -213,18 +261,22 @@ extension DaySelectBottomSheetMainView {
 
 extension DaySelectBottomSheetMainView: UICollectionViewDataSource, UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        7
+        let start = currentWeek * 7
+        return min(7, 30 - start)
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(
             withReuseIdentifier: String(describing: DayCell.self),
             for: indexPath) as? DayCell else { return UICollectionViewCell() }
-        cell.configure(title: "Day\(indexPath.row + 1)", selected: false)
+        let globalDay = currentWeek * 7 + indexPath.item
+        let isSelected = globalDay == selectedIndex
+        cell.configure(title: "Day\(globalDay + 1)", selected: isSelected)
         return cell
     }
     
     func collectionView(_ cv: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        print(indexPath.row)
+        let globalDay = currentWeek * 7 + indexPath.item
+        dayTapSubject.send(globalDay)
     }
 }

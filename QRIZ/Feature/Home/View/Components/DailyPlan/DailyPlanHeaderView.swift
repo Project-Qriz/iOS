@@ -24,10 +24,15 @@ final class DailyPlanHeaderView: UICollectionViewCell {
     // MARK: - Properties
     
     private let resetButtonTapSubject = PassthroughSubject<Void, Never>()
+    private let dayButtonTapSubject = PassthroughSubject<Void, Never>()
     var cancellables = Set<AnyCancellable>()
     
     var resetButtonTapPublisher: AnyPublisher<Void, Never> {
         resetButtonTapSubject.eraseToAnyPublisher()
+    }
+    
+    var dayButtonTapPublisher: AnyPublisher<Void, Never> {
+        dayButtonTapSubject.eraseToAnyPublisher()
     }
     
     // MARK: - UI
@@ -71,6 +76,10 @@ final class DailyPlanHeaderView: UICollectionViewCell {
         button.setImage(chevron, for: .normal)
         button.tintColor = .coolNeutral600
         button.contentHorizontalAlignment = .leading
+        
+        button.addAction(UIAction { [weak self] _ in
+            self?.dayButtonTapSubject.send()
+        }, for: .touchUpInside)
         return button
     }()
     
