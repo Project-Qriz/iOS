@@ -12,8 +12,10 @@ final class DaySelectBottomSheetViewController: UIViewController {
     
     // MARK: - Properties
     
+    var onDaySelected: ((Int) -> Void)?
     private let rootView: DaySelectBottomSheetMainView
     private let viewModel: DaySelectBottomSheetViewModel
+    private let inputSubject = PassthroughSubject<DaySelectBottomSheetViewModel.Input, Never>()
     private var cancellables = Set<AnyCancellable>()
     
     // MARK: - Initialize
@@ -37,12 +39,12 @@ final class DaySelectBottomSheetViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         bind()
+        inputSubject.send(.viewDidLoad)
     }
     
     // MARK: - Functions
     
     private func bind() {
-        let viewDidLoad = Just(DaySelectBottomSheetViewModel.Input.viewDidLoad)
         let dayTap = rootView.dayTapPublisher
             .map { DaySelectBottomSheetViewModel.Input.dayTapped($0) }
         
@@ -54,14 +56,14 @@ final class DaySelectBottomSheetViewController: UIViewController {
         
         let todayTap = rootView.todayTapPublisher
             .map { DaySelectBottomSheetViewModel.Input.todayTapped }
-
-        let input = viewDidLoad
+        
+        let input = inputSubject
             .merge(with: dayTap)
             .merge(with: prevTap)
             .merge(with: nextTap)
             .merge(with: todayTap)
             .eraseToAnyPublisher()
-
+        
         let output = viewModel.transform(input: input)
         
         output
@@ -74,13 +76,12 @@ final class DaySelectBottomSheetViewController: UIViewController {
                     rootView.updateWeek(week)
                     rootView.updateArrows(prevEnabled: prevE, nextEnabled: nextE)
                     rootView.reloadCollectionView(selected: selected, totalDays: totalDays)
-
-                case .updateSelectedDay(let selected, let totalDays):
-                    rootView.reloadCollectionView(selected: selected, totalDays: totalDays)
+                    
+                case .dayConfirmed(let day):
+                    self.onDaySelected?(day)
                 }
             }
             .store(in: &cancellables)
     }
-    
 }
 

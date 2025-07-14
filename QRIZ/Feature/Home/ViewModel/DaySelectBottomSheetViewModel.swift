@@ -41,10 +41,8 @@ final class DaySelectBottomSheetViewModel {
                 case .viewDidLoad:
                     self.pushFullState()
                     
-                case .dayTapped(let globalIdx):
-                    self.selectedDay = globalIdx
-                    self.displayWeek = globalIdx / 7
-                    self.pushFullState()
+                case .dayTapped(let globalIndex):
+                    confirmDaySelection(globalIndex)
                     
                 case .prevWeekTapped:
                     self.moveWeek(by: -1)
@@ -54,9 +52,7 @@ final class DaySelectBottomSheetViewModel {
                     
                 case .todayTapped:
                     guard let today = todayIndex else { return }
-                    self.selectedDay = today
-                    self.displayWeek = today / 7
-                    self.pushFullState()
+                    confirmDaySelection(today)
                 }
             }
             .store(in: &cancellables)
@@ -82,6 +78,13 @@ final class DaySelectBottomSheetViewModel {
             )
         )
     }
+    
+    private func confirmDaySelection(_ day: Int) {
+        selectedDay = day
+        displayWeek = day / 7
+        pushFullState()
+        outputSubject.send(.dayConfirmed(day + 1))
+    }
 }
 
 extension DaySelectBottomSheetViewModel {
@@ -101,6 +104,6 @@ extension DaySelectBottomSheetViewModel {
             prevEnabled: Bool,
             nextEnabled: Bool
         )
-        case updateSelectedDay(selected:Int, totalDays: Int)
+        case dayConfirmed(Int)
     }
 }
