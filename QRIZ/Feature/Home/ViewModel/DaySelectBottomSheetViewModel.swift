@@ -83,7 +83,7 @@ final class DaySelectBottomSheetViewModel {
         selectedDay = day
         displayWeek = day / 7
         pushFullState()
-        outputSubject.send(.dayConfirmed(day + 1))
+        outputSubject.send(.dayConfirmed(day))
     }
 }
 

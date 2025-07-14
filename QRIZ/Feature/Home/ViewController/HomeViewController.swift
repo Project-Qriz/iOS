@@ -59,13 +59,12 @@ final class HomeViewController: UIViewController {
     // MARK: - Functions
     
     private func bind() {
-        let viewDidLoad = Just(HomeViewModel.Input.viewDidLoad)
         let entryTapped = rootView.entryTappedPublisher.map { HomeViewModel.Input.entryTapped }
         let pageChanged  = rootView.selectedIndexPublisher.map { HomeViewModel.Input.daySelected($0) }
         let resetTapped = rootView.resetButtonTappedPublisher.map { HomeViewModel.Input.resetTapped }
         let headerTapped = rootView.dayHeaderTappedPublisher.map { HomeViewModel.Input.dayHeaderTapped }
         
-        let input = viewDidLoad
+        let input = inputSubject
             .merge(with: entryTapped)
             .merge(with: pageChanged)
             .merge(with: resetTapped)
@@ -124,6 +123,10 @@ final class HomeViewController: UIViewController {
         
         let logoItem = UIBarButtonItem(customView: imageView)
         navigationItem.leftBarButtonItem = logoItem
+    }
+    
+    func handleDaySelected(_ day: Int) {
+        inputSubject.send(.daySelected(day))
     }
 }
 

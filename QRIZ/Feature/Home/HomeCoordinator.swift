@@ -142,6 +142,14 @@ final class HomeCoordinatorImpl: HomeCoordinator {
             todayIndex: todayIndex
         )
         let vc = DaySelectBottomSheetViewController(viewModel: viewModel)
+        
+        guard let homeVC = navigationController?.viewControllers.first as? HomeViewController else { return }
+        
+        vc.onDaySelected = { [weak homeVC] day in
+            homeVC?.handleDaySelected(day)
+            vc.dismiss(animated: true)
+        }
+        
         if let sheet = vc.sheetPresentationController {
             let small = UISheetPresentationController.Detent.custom(identifier: .init("small")) { _ in
                 return 275

@@ -160,11 +160,11 @@ final class HomeMainView: UIView {
         
         ds.supplementaryViewProvider = { [weak self] collectionView, kind, indexPath in
             guard let self, let section = HomeSection(rawValue: indexPath.section) else { return UICollectionReusableView() }
-
+            
             if section == .dailyHeader && kind == UICollectionView.elementKindSectionHeader {
                 return collectionView.dequeueConfiguredReusableSupplementary(using: self.dailyHeaderSupRegistration, for: indexPath)
             }
-
+            
             if section == .studySummary && kind == String(describing: StudyCTAView.self) {
                 let footer = collectionView.dequeueConfiguredReusableSupplementary(using: self.studyCTASupRegistration, for: indexPath)
                 let reviewFlags = self.currentDailyPlans.map { $0.reviewDay || $0.comprehensiveReviewDay }
@@ -213,16 +213,13 @@ final class HomeMainView: UIView {
             .removeDuplicates()
             .sink { [weak self] newIndex in
                 guard let self, newIndex != lastSelectedIndex else { return }
+                
                 updateDaySelectorUI(from: lastSelectedIndex, to: newIndex)
                 lastSelectedIndex = newIndex
                 updateDailyHeaderView(day: newIndex + 1)
-
+                
                 if !programmaticScrollSubject.value {
-                    collectionView.scrollToItem(
-                        at: IndexPath(item: newIndex, section: HomeSection.daySelector.rawValue),
-                        at: .centeredHorizontally,
-                        animated: true
-                    )
+                    scrollTo(index: newIndex, animated: true)
                 }
             }
             .store(in: &cancellables)
@@ -235,14 +232,14 @@ final class HomeMainView: UIView {
     
     func apply(_ state: HomeState) {
         currentDailyPlans = state.dailyPlans
-
+        
         var snapshot = NSDiffableDataSourceSnapshot<HomeSection, HomeSectionItem>()
         snapshot.appendSections(HomeSection.allCases)
         snapshot.appendItems([.schedule(userName: state.userName, status: state.examStatus)], toSection: .examSchedule)
         snapshot.appendItems([.entry(state.entryState)], toSection: .examEntry)
         snapshot.appendItems(state.dailyPlans.enumerated().map { .day($0.offset + 1) }, toSection: .daySelector)
         snapshot.appendItems(state.dailyPlans.map { .studySummary(.init(id: $0.id, dailyPlans: [$0])) }, toSection: .studySummary)
-
+        
         DispatchQueue.main.async { [weak self] in
             guard let self else { return }
             dataSource.apply(snapshot, animatingDifferences: true)
@@ -276,21 +273,20 @@ final class HomeMainView: UIView {
         dayTapSubject.send(indexPath.item)
     }
     
-    private func scrollToDay(_ index: Int) {
+    private func scrollTo(index: Int, animated: Bool) {
         programmaticScrollSubject.send(true)
-        selectedIndexSubject.send(index)
-
+        
         collectionView.scrollToItem(
             at: IndexPath(item: index, section: HomeSection.studySummary.rawValue),
             at: .centeredHorizontally,
-            animated: true
+            animated: animated
         )
         collectionView.scrollToItem(
             at: IndexPath(item: index, section: HomeSection.daySelector.rawValue),
             at: .centeredHorizontally,
-            animated: true
+            animated: animated
         )
-
+        
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.4) { [weak self] in
             self?.programmaticScrollSubject.send(false)
         }
@@ -301,6 +297,11 @@ final class HomeMainView: UIView {
         (collectionView.cellForItem(at: oldIdx) as? DayCardCell)?.configure(day: old + 1, isSelected: false)
         let newIdx = IndexPath(item: new, section: HomeSection.daySelector.rawValue)
         (collectionView.cellForItem(at: newIdx) as? DayCardCell)?.configure(day: new + 1, isSelected: true)
+    }
+    
+    private func scrollToDay(_ index: Int) {
+        selectedIndexSubject.send(index)
+        scrollTo(index: index, animated: true)
     }
 }
 
@@ -330,7 +331,7 @@ extension HomeMainView: UICollectionViewDelegate {
     func scrollViewDidEndScrollingAnimation(_ scrollView: UIScrollView) {
         programmaticScrollSubject.send(false)
     }
-
+    
     // 사용자가 드래그로 스크롤하고 감속이 끝났을 때
     func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
         programmaticScrollSubject.send(false)
