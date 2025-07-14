@@ -16,6 +16,7 @@ final class HomeMainView: UIView {
     private let entryTappedSubject = PassthroughSubject<Void, Never>()
     private let studyButtonTappedSubject = PassthroughSubject<Void, Never>()
     private let resetButtonTappedSubject = PassthroughSubject<Void, Never>()
+    private let dayHeaderTappedSubject = PassthroughSubject<Void, Never>()
     private let selectedIndexSubject = CurrentValueSubject<Int,Never>(0)
     private let programmaticScrollSubject = CurrentValueSubject<Bool, Never>(false)
     private let dayTapSubject = PassthroughSubject<Int, Never>()
@@ -37,6 +38,10 @@ final class HomeMainView: UIView {
     
     var resetButtonTappedPublisher: AnyPublisher<Void, Never> {
         resetButtonTappedSubject.eraseToAnyPublisher()
+    }
+    
+    var dayHeaderTappedPublisher: AnyPublisher<Void, Never> {
+        dayHeaderTappedSubject.eraseToAnyPublisher()
     }
     
     var selectedIndexPublisher: AnyPublisher<Int,Never> {
@@ -85,6 +90,12 @@ final class HomeMainView: UIView {
             view.resetButtonTapPublisher
                 .sink { [weak self] in
                     self?.resetButtonTappedSubject.send()
+                }
+                .store(in: &view.cancellables)
+            
+            view.dayButtonTapPublisher
+                .sink { [weak self] in
+                    self?.dayHeaderTappedSubject.send()
                 }
                 .store(in: &view.cancellables)
         }

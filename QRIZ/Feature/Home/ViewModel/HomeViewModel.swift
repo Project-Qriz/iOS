@@ -74,8 +74,21 @@ final class HomeViewModel {
                 case .daySelected(let index):
                     self.updateState { $0.selectedIndex = index }
                     
+                case .dayHeaderTapped:
+                    let state = stateSubject.value
+                    let totalDays = state.dailyPlans.count
+                    let selectedDay = state.selectedIndex
+                    let todayIdx = state.dailyPlans.firstIndex { $0.today }
+                    
+                    outputSubject.send(.showDaySelectAlert(
+                        totalDays: totalDays,
+                        selectedDay: selectedDay,
+                        todayIndex: todayIdx
+                    ))
+                    
                 case .didConfirmResetPlan:
                     Task { await self.performReset() }
+                    
                 }
             }
             .store(in: &cancellables)
@@ -87,14 +100,14 @@ final class HomeViewModel {
     private func loadAllData() async {
         async let examState = makeExamState()
         async let dailyPlans = loadDailyPlans()
-
+        
         do {
             var state = try await examState
             state.dailyPlans = try await dailyPlans
             state.selectedIndex = 0
-
+            
             updateState { $0 = state }
-
+            
         } catch {
             handle(error)
         }
@@ -119,18 +132,18 @@ final class HomeViewModel {
     private func makeExamState() async throws -> HomeState {
         let response = try await examScheduleService.fetchAppliedExams()
         let detail = ExamDetail(examDateText: response.data.examDate,
-                                  examName: response.data.examName,
-                                  applyPeriod: response.data.period)
+                                examName: response.data.examName,
+                                applyPeriod: response.data.period)
         let dDay = response.data.examDate.dDay
         let status: ExamStatus = dDay <= 0 ? .expired(detail: detail) : .registered(dDay: dDay, detail: detail)
-
+        
         let entry: EntryCardState = {
             switch userInfo.previewTestStatus {
             case .previewCompleted, .previewSkipped: return .mock
             default: return .preview
             }
         }()
-
+        
         return HomeState(userName: userInfo.name,
                          examStatus: status,
                          entryState: entry,
@@ -166,9 +179,9 @@ extension HomeViewModel {
         case viewDidLoad
         case entryTapped
         case daySelected(Int)
+        case dayHeaderTapped
         case resetTapped
         case didConfirmResetPlan
-        
     }
     
     enum Output {
@@ -176,6 +189,7 @@ extension HomeViewModel {
         case showErrorAlert(String)
         case navigateToOnboarding
         case navigateToExamList
+        case showDaySelectAlert(totalDays: Int, selectedDay: Int, todayIndex: Int?)
         case showResetAlert
         case resetSucceeded(message: String)
     }

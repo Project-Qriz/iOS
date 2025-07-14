@@ -41,6 +41,10 @@ final class HomeViewController: UIViewController {
         bind()
         setupNavigationBar()
         inputSubject.send(.viewDidLoad)
+//        Task {
+//            let a = try await DailyServiceImpl().getDailyPlan()
+//            print(a)
+//        }
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -59,11 +63,13 @@ final class HomeViewController: UIViewController {
         let entryTapped = rootView.entryTappedPublisher.map { HomeViewModel.Input.entryTapped }
         let pageChanged  = rootView.selectedIndexPublisher.map { HomeViewModel.Input.daySelected($0) }
         let resetTapped = rootView.resetButtonTappedPublisher.map { HomeViewModel.Input.resetTapped }
+        let headerTapped = rootView.dayHeaderTappedPublisher.map { HomeViewModel.Input.dayHeaderTapped }
         
         let input = viewDidLoad
             .merge(with: entryTapped)
             .merge(with: pageChanged)
             .merge(with: resetTapped)
+            .merge(with: headerTapped)
             .eraseToAnyPublisher()
         
         let output = viewModel.transform(input: input)
@@ -85,6 +91,13 @@ final class HomeViewController: UIViewController {
                     
                 case .navigateToExamList:
                     self.coordinator?.showExam()
+                    
+                case .showDaySelectAlert(let total, let selected, let today):
+                    coordinator?.showDaySelectAlert(
+                        totalDays: total,
+                        selectedDay: selected,
+                        todayIndex: today
+                    )
                     
                 case .showResetAlert:
                     self.coordinator?.showResetAlert { self.inputSubject.send(.didConfirmResetPlan) }

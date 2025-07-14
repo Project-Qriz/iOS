@@ -16,6 +16,7 @@ protocol HomeCoordinator: Coordinator {
     func showExam()
     func showDaily(day: Int, type: DailyLearnType)
     func showResetAlert(confirm: @escaping () -> Void)
+    func showDaySelectAlert(totalDays: Int, selectedDay: Int, todayIndex: Int?)
 }
 
 @MainActor
@@ -132,6 +133,26 @@ final class HomeCoordinatorImpl: HomeCoordinator {
             }
         )
         navigationController?.present(alert, animated: true)
+    }
+    
+    func showDaySelectAlert(totalDays: Int, selectedDay: Int, todayIndex: Int?) {
+        let viewModel = DaySelectBottomSheetViewModel(
+            totalDays: totalDays,
+            initialSelected: selectedDay,
+            todayIndex: todayIndex
+        )
+        let vc = DaySelectBottomSheetViewController(viewModel: viewModel)
+        if let sheet = vc.sheetPresentationController {
+            let small = UISheetPresentationController.Detent.custom(identifier: .init("small")) { _ in
+                return 275
+            }
+            sheet.detents = [small]
+            sheet.selectedDetentIdentifier = small.identifier
+            sheet.prefersGrabberVisible = true
+            sheet.preferredCornerRadius = 24
+        }
+        
+        navigationController?.present(vc, animated: true)
     }
 }
 
