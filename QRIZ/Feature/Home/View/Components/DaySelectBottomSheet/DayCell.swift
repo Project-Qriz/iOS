@@ -12,7 +12,7 @@ final class DayCell: UICollectionViewCell {
     // MARK: - Enums
     
     private enum Metric {
-        static let horizontalPadding: CGFloat = UIScreen.main.isSESize ? 22.0 : 24.0
+        static let horizontalPadding: CGFloat = 8.0
         static let verticalPadding: CGFloat = 10.5
     }
     
@@ -23,6 +23,8 @@ final class DayCell: UICollectionViewCell {
         label.font = .systemFont(ofSize: 14, weight: .medium)
         label.textColor = .coolNeutral800
         label.textAlignment = .center
+        label.adjustsFontSizeToFitWidth = true
+        label.minimumScaleFactor = 0.8
         return label
     }()
     

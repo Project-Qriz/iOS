@@ -124,8 +124,7 @@ final class DaySelectBottomSheetMainView: UIView {
     
     private lazy var collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
-        layout.estimatedItemSize = UICollectionViewFlowLayout.automaticSize
-        layout.itemSize = UICollectionViewFlowLayout.automaticSize
+        layout.estimatedItemSize = .zero
         layout.minimumLineSpacing = 12
         layout.minimumInteritemSpacing = 8
         let cv = UICollectionView(frame: .zero, collectionViewLayout: layout)
@@ -135,6 +134,18 @@ final class DaySelectBottomSheetMainView: UIView {
         cv.delegate = self
         return cv
     }()
+    
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        guard let flow = collectionView.collectionViewLayout as? UICollectionViewFlowLayout else { return }
+        let columns: CGFloat = 4
+        let spacing = flow.minimumInteritemSpacing
+        let sideInset = Metric.horizontalMargin
+        let totalSpacing = spacing * (columns - 1)
+        let availableWidth = collectionView.bounds.width - sideInset - totalSpacing
+        let cellWidth = floor(availableWidth / columns)
+        flow.itemSize = CGSize(width: cellWidth, height: 36)
+    }
     
     // MARK: - Initialize
     

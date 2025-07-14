@@ -15,17 +15,19 @@ final class DaySelectBottomSheetViewModel {
     private let totalDays: Int
     private let todayIndex: Int?
     private var selectedDay: Int
+    private var displayWeek: Int
     private let outputSubject = PassthroughSubject<Output, Never>()
     private var cancellables = Set<AnyCancellable>()
     
     private var currentWeek: Int {
-        selectedDay / 7
+        displayWeek
     }
     
     init(totalDays: Int, initialSelected: Int = 0, todayIndex: Int? = nil) {
         self.totalDays = totalDays
         self.selectedDay = initialSelected
         self.todayIndex = todayIndex
+        self.displayWeek = initialSelected / 7
     }
     
     // MARK: Functions
@@ -39,14 +41,10 @@ final class DaySelectBottomSheetViewModel {
                 case .viewDidLoad:
                     self.pushFullState()
                     
-                case .dayTapped(let index):
-                    let oldWeek = currentWeek
-                    selectedDay = index
-                    if currentWeek != oldWeek {
-                        pushFullState()
-                    } else {
-                        outputSubject.send(.updateSelectedDay(selected: selectedDay, totalDays: totalDays))
-                    }
+                case .dayTapped(let globalIdx):
+                    self.selectedDay = globalIdx
+                    self.displayWeek = globalIdx / 7
+                    self.pushFullState()
                     
                 case .prevWeekTapped:
                     self.moveWeek(by: -1)
@@ -57,6 +55,7 @@ final class DaySelectBottomSheetViewModel {
                 case .todayTapped:
                     guard let today = todayIndex else { return }
                     self.selectedDay = today
+                    self.displayWeek = today / 7
                     self.pushFullState()
                 }
             }
@@ -67,16 +66,15 @@ final class DaySelectBottomSheetViewModel {
     
     
     private func moveWeek(by offset: Int) {
-        let newWeek = max(0, min(currentWeek + offset, (totalDays - 1) / 7))
-        guard newWeek != currentWeek else { return }
-        selectedDay = newWeek * 7
+        let maxWeek = (totalDays - 1) / 7
+        displayWeek = max(0, min(displayWeek + offset, maxWeek))
         pushFullState()
     }
     
     private func pushFullState() {
         outputSubject.send(
             .updateUI(
-                week: currentWeek + 1,
+                week: displayWeek + 1,
                 selected: selectedDay,
                 totalDays: totalDays,
                 prevEnabled: currentWeek > 0,
