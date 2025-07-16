@@ -17,14 +17,14 @@ final class ConceptCardView: UIView {
     
     // MARK: - UI
     
-    private let keyConceptLabel: UILabel = {
+    private let typeLabel: UILabel = {
         let label = UILabel()
         label.font = .systemFont(ofSize: 14, weight: .regular)
         label.textColor = .coolNeutral500
         return label
     }()
     
-    private let descriptionLabel: UILabel = {
+    private let keyConceptLabel: UILabel = {
         let label = UILabel()
         label.font = .systemFont(ofSize: 18, weight: .bold)
         label.textColor = .coolNeutral800
@@ -33,10 +33,10 @@ final class ConceptCardView: UIView {
     
     // MARK: - Initialize
     
-    init(keyConcept: String, description: String) {
+    init(type: String, keyConcept: String) {
         super.init(frame: .zero)
+        typeLabel.text = type
         keyConceptLabel.text = keyConcept
-        descriptionLabel.text = description
         addSubviews()
         setupConstraints()
         setupUI()
@@ -61,22 +61,22 @@ final class ConceptCardView: UIView {
 extension ConceptCardView {
     private func addSubviews() {
         [
-            keyConceptLabel,
-            descriptionLabel
+            typeLabel,
+            keyConceptLabel
         ].forEach(addSubview(_:))
     }
     
     private func setupConstraints() {
+        typeLabel.translatesAutoresizingMaskIntoConstraints = false
         keyConceptLabel.translatesAutoresizingMaskIntoConstraints = false
-        descriptionLabel.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
-            keyConceptLabel.topAnchor.constraint(equalTo: topAnchor, constant: Metric.vInset),
-            keyConceptLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Metric.hInset),
+            typeLabel.topAnchor.constraint(equalTo: topAnchor, constant: Metric.vInset),
+            typeLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Metric.hInset),
             
-            descriptionLabel.topAnchor.constraint(equalTo: keyConceptLabel.bottomAnchor, constant: Metric.spacing),
-            descriptionLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Metric.hInset),
-            descriptionLabel.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -Metric.vInset)
+            keyConceptLabel.topAnchor.constraint(equalTo: typeLabel.bottomAnchor, constant: Metric.spacing),
+            keyConceptLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Metric.hInset),
+            keyConceptLabel.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -Metric.vInset)
         ])
     }
 }

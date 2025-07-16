@@ -111,9 +111,15 @@ final class HomeMainView: UIView {
     }
     
     private lazy var summaryRegistration = UICollectionView.CellRegistration<StudySummaryCell, HomeSectionItem> { cell, _, item in
-        guard case .studySummary(let summary) = item else { return }
-        let skills = summary.dailyPlans.flatMap { $0.plannedSkills }
-        cell.configure(number: skills.count, concepts: skills.map(StudyConcept.init))
+        guard case .studySummary(let summary) = item,
+              let plan = summary.dailyPlans.first
+        else { return }
+
+        cell.configure(
+            plannedSkills: plan.plannedSkills,
+            review: plan.reviewDay,
+            comprehensiveReview: plan.comprehensiveReviewDay
+        )
     }
     
     private lazy var studyCTASupRegistration = UICollectionView.SupplementaryRegistration<StudyCTAView>(

@@ -7,16 +7,6 @@
 
 import UIKit
 
-struct StudyConcept {
-    let type: String
-    let keyConcept: String
-    
-    init(from skill: PlannedSkill) {
-        self.type = skill.type
-        self.keyConcept = skill.keyConcept
-    }
-}
-
 final class StudySummaryCell: UICollectionViewCell {
     
     // MARK: - Enums
@@ -82,20 +72,27 @@ final class StudySummaryCell: UICollectionViewCell {
         applyQRIZShadow(radius: 8.0)
     }
     
-    func configure(number: Int, concepts: [StudyConcept]) {
-        titleLabel.attributedText = makeTitleAttributedText(number: number)
-        
+    func configure(
+        plannedSkills: [PlannedSkill],
+        review: Bool,
+        comprehensiveReview: Bool
+    ) {
+        titleLabel.attributedText = makeTitleAttributedText(number: plannedSkills.count)
+
         cardStack.arrangedSubviews.forEach {
             cardStack.removeArrangedSubview($0)
             $0.removeFromSuperview()
         }
-        
-        concepts.forEach { concept in
-            let card = ConceptCardView(keyConcept: concept.type, description: concept.keyConcept)
+
+        plannedSkills.forEach { skill in
+            let card = ConceptCardView(
+                type: skill.type,
+                keyConcept: skill.keyConcept
+            )
             cardStack.addArrangedSubview(card)
         }
-        
-        let showEllipsis = concepts.count >= 3
+
+        let showEllipsis = plannedSkills.count >= 3
         ellipsis.isHidden = !showEllipsis
         cardStackToEllipsisConstraint.isActive = showEllipsis
         cardStackToBottomConstraint.isActive = !showEllipsis
