@@ -25,10 +25,20 @@ final class StudySummaryCell: UICollectionViewCell {
         let label = UILabel()
         label.font = .systemFont(ofSize: 18, weight: .medium)
         label.textColor = .coolNeutral800
+        label.numberOfLines = 2
         return label
     }()
     
     private let dashedLineView = DashedLineView()
+    
+    private let descriptionLabel: UILabel = {
+        let label = UILabel()
+        label.font = .systemFont(ofSize: 14, weight: .regular)
+        label.textColor = .coolNeutral500
+        label.numberOfLines = 0
+        label.isHidden = true
+        return label
+    }()
     
     private let cardStack: UIStackView = {
         let stackView = UIStackView()
@@ -45,11 +55,9 @@ final class StudySummaryCell: UICollectionViewCell {
     }()
     
     private lazy var bodyVStackView: UIStackView = {
-        let stackView = UIStackView(arrangedSubviews: [cardStack, ellipsis])
+        let stackView = UIStackView(arrangedSubviews: [descriptionLabel, cardStack, ellipsis])
         stackView.axis = .vertical
         stackView.spacing = Metric.ellipsisTopOffset
-        stackView.alignment = .fill
-        stackView.setCustomSpacing(Metric.ellipsisTopOffset, after: cardStack)
         return stackView
     }()
     
@@ -105,7 +113,12 @@ final class StudySummaryCell: UICollectionViewCell {
     
     func configure(plan: DailyPlan) {
         resetView()
-        shouldLock(plan) ? applyLockedUI(plan: plan) : applyStudyUI(plan: plan)
+        
+        switch plan {
+        case _ where shouldLock(plan): applyLockedUI(plan: plan)
+        case _ where plan.comprehensiveReviewDay: applyComprehensiveUI(plan)
+        default: applyStudyUI(plan: plan)
+        }
     }
     
     private func resetView() {
@@ -133,7 +146,22 @@ final class StudySummaryCell: UICollectionViewCell {
         let prefix = (plan.reviewDay || plan.comprehensiveReviewDay) ? "복습해야 하는 개념" : "학습해야 하는 개념"
         titleLabel.attributedText = makeTitleAttributedText(prefix: prefix, number: plan.plannedSkills.count)
         addCards(plan.plannedSkills)
-        updateEllipsisVisibility(count: plan.plannedSkills.count)
+    }
+    
+    private func applyComprehensiveUI(_ plan: DailyPlan) {
+        let header = "종합복습 시간!"
+        let subtitle = "복습해야 하는 개념 \(plan.plannedSkills.count)가지"
+        let fullText = "\(header)\n\(subtitle)"
+        
+        let attr = NSMutableAttributedString(string: fullText)
+        attr.addAttributes([.font: UIFont.systemFont(ofSize: 18, weight: .bold)], range: (fullText as NSString).range(of: header))
+        attr.addAttributes([.font: UIFont.systemFont(ofSize: 18, weight: .medium)], range: (fullText as NSString).range(of: subtitle))
+        titleLabel.attributedText = attr
+        
+        descriptionLabel.text = "지금까지의 정답률을 토대로 부족한 부분의\n개념을 복습하는 날입니다."
+        descriptionLabel.isHidden = false
+        
+        addCards(plan.plannedSkills)
     }
     
     private func applyLockedUI(plan: DailyPlan) {
@@ -155,14 +183,11 @@ final class StudySummaryCell: UICollectionViewCell {
     }
     
     private func addCards(_ skills: [PlannedSkill]) {
-        for skill in skills {
+        for skill in skills.prefix(2) {
             let card = ConceptCardView(type: skill.type, keyConcept: skill.keyConcept)
             cardStack.addArrangedSubview(card)
         }
-    }
-    
-    private func updateEllipsisVisibility(count: Int) {
-        ellipsis.isHidden = count < 3
+        ellipsis.isHidden = skills.count <= 2
     }
     
     private func makeTitleAttributedText(prefix: String, number: Int) -> NSAttributedString {
