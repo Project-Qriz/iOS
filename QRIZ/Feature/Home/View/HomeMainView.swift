@@ -114,12 +114,7 @@ final class HomeMainView: UIView {
         guard case .studySummary(let summary) = item,
               let plan = summary.dailyPlans.first
         else { return }
-
-        cell.configure(
-            plannedSkills: plan.plannedSkills,
-            review: plan.reviewDay,
-            comprehensiveReview: plan.comprehensiveReviewDay
-        )
+        cell.configure(plan: plan)
     }
     
     private lazy var studyCTASupRegistration = UICollectionView.SupplementaryRegistration<StudyCTAView>(
