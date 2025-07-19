@@ -63,12 +63,14 @@ final class HomeViewController: UIViewController {
         let pageChanged  = rootView.selectedIndexPublisher.map { HomeViewModel.Input.daySelected($0) }
         let resetTapped = rootView.resetButtonTappedPublisher.map { HomeViewModel.Input.resetTapped }
         let headerTapped = rootView.dayHeaderTappedPublisher.map { HomeViewModel.Input.dayHeaderTapped }
+        let ctaTapped  = rootView.studyButtonTappedPublisher.map { HomeViewModel.Input.ctaTapped(day: $0) }
         
         let input = inputSubject
             .merge(with: entryTapped)
             .merge(with: pageChanged)
             .merge(with: resetTapped)
             .merge(with: headerTapped)
+            .merge(with: ctaTapped)
             .eraseToAnyPublisher()
         
         let output = viewModel.transform(input: input)
@@ -103,6 +105,9 @@ final class HomeViewController: UIViewController {
                     
                 case .resetSucceeded(let message):
                     self.showOneButtonAlert(with: message, storingIn: &cancellables)
+                    
+                case .showDaily(let day, let type):
+                    self.coordinator?.showDaily(day: day, type: type)
                 }
             }
             .store(in: &cancellables)

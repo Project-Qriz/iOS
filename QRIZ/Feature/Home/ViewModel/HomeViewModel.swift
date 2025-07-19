@@ -89,6 +89,11 @@ final class HomeViewModel {
                 case .didConfirmResetPlan:
                     Task { await self.performReset() }
                     
+                case .ctaTapped(let dayIndex):
+                    let plan = stateSubject.value.dailyPlans[dayIndex]
+                    let learnType: DailyLearnType = plan.comprehensiveReviewDay ? .monthly :
+                        plan.reviewDay ? .weekly : .daily
+                    self.outputSubject.send(.showDaily(day: dayIndex + 1, type: learnType))
                 }
             }
             .store(in: &cancellables)
@@ -182,6 +187,7 @@ extension HomeViewModel {
         case dayHeaderTapped
         case resetTapped
         case didConfirmResetPlan
+        case ctaTapped(day: Int)
     }
     
     enum Output {
@@ -192,6 +198,7 @@ extension HomeViewModel {
         case showDaySelectAlert(totalDays: Int, selectedDay: Int, todayIndex: Int?)
         case showResetAlert
         case resetSucceeded(message: String)
+        case showDaily(day: Int, type: DailyLearnType)
     }
 }
 

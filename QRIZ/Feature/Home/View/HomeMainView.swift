@@ -14,7 +14,7 @@ final class HomeMainView: UIView {
     
     private let examButtonTappedSubject = PassthroughSubject<Void, Never>()
     private let entryTappedSubject = PassthroughSubject<Void, Never>()
-    private let studyButtonTappedSubject = PassthroughSubject<Void, Never>()
+    private let studyButtonTappedSubject = PassthroughSubject<Int, Never>()
     private let resetButtonTappedSubject = PassthroughSubject<Void, Never>()
     private let dayHeaderTappedSubject = PassthroughSubject<Void, Never>()
     private let selectedIndexSubject = CurrentValueSubject<Int,Never>(0)
@@ -32,7 +32,7 @@ final class HomeMainView: UIView {
         entryTappedSubject.eraseToAnyPublisher()
     }
     
-    var studyButtonTappedPublisher: AnyPublisher<Void, Never> {
+    var studyButtonTappedPublisher: AnyPublisher<Int, Never> {
         studyButtonTappedSubject.eraseToAnyPublisher()
     }
     
@@ -171,7 +171,10 @@ final class HomeMainView: UIView {
                 
                 self.configureCTA(self.selectedIndexSubject.value)
                 footer.tapPublisher
-                    .sink { [weak self] in self?.studyButtonTappedSubject.send() }
+                    .sink { [weak self] in
+                        guard let self else { return }
+                        self.studyButtonTappedSubject.send(self.selectedIndexSubject.value)
+                    }
                     .store(in: &footer.cancellables)
                 return footer
             }
