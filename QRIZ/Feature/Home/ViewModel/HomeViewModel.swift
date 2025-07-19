@@ -92,7 +92,7 @@ final class HomeViewModel {
                 case .ctaTapped(let dayIndex):
                     let plan = stateSubject.value.dailyPlans[dayIndex]
                     let learnType: DailyLearnType = plan.comprehensiveReviewDay ? .monthly :
-                        plan.reviewDay ? .weekly : .daily
+                    plan.reviewDay ? .weekly : .daily
                     self.outputSubject.send(.showDaily(day: dayIndex + 1, type: learnType))
                 }
             }
@@ -110,6 +110,8 @@ final class HomeViewModel {
             var state = try await examState
             state.dailyPlans = try await dailyPlans
             state.selectedIndex = 0
+            let firstIncomplete = state.dailyPlans.firstIndex(where: { $0.completed == false }) ?? 0
+            state.selectedIndex = firstIncomplete
             
             updateState { $0 = state }
             
