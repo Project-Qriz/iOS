@@ -33,13 +33,15 @@ final class StudyCTAView: UICollectionReusableView {
     // MARK: - UI
     
     private lazy var button: UIButton = {
-        var config = UIButton.Configuration.filled()
-        config.title = Attributes.learnText
-        config.baseBackgroundColor = .customBlue500
-        config.baseForegroundColor = .white
-        config.cornerStyle = .medium
+        let button = UIButton(type: .system)
+        button.titleLabel?.font = .systemFont(ofSize: 16, weight: .semibold)
+        button.setTitle(Attributes.learnText, for: .normal)
+        button.setTitleColor(.white, for: .normal)
+        button.setTitleColor(.coolNeutral500, for: .disabled)
+        button.backgroundColor = .customBlue500
+        button.layer.cornerRadius = 8.0
+        button.clipsToBounds = true
         
-        let button = UIButton(configuration: config)
         button.addAction(UIAction { [weak self] _ in
             self?.tapSubject.send()
         }, for: .touchUpInside)
@@ -65,35 +67,12 @@ final class StudyCTAView: UICollectionReusableView {
         backgroundColor = .customBlue50
     }
     
-    func configure(isReviewDay: Bool) {
-        var config = button.configuration
-        config?.title = isReviewDay ? Attributes.reviewText : Attributes.learnText
-        button.configuration = config
-    }
-    
-    func bind(pagePublisher: AnyPublisher<Int,Never>, reviewFlags: [Bool]) {
-        cancellables.removeAll()
-        let maxIdx = reviewFlags.count - 1
-
-        pagePublisher
-            .sink { [weak self] page in
-                guard let self, maxIdx >= 0 else { return }
-
-                let isReview = reviewFlags[min(max(page, 0), maxIdx)]
-                updateButtonTitle(isReview ? Attributes.reviewText : Attributes.learnText)
-            }
-            .store(in: &cancellables)
-    }
-    
-    private func updateButtonTitle(_ title: String) {
-        var config = button.configuration
-        config?.title = title
-        button.configuration = config
-    }
-
-    override func prepareForReuse() {
-        super.prepareForReuse()
-        cancellables.removeAll()
+    func configure(enabled: Bool, isReview: Bool) {
+        let title = isReview ? Attributes.reviewText : Attributes.learnText
+        button.setTitle(title, for: .normal)
+        button.setTitle(title, for: .disabled)
+        button.backgroundColor = enabled ? .customBlue500 : .coolNeutral200
+        button.isEnabled = enabled
     }
 }
 

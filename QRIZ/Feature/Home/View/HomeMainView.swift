@@ -168,8 +168,8 @@ final class HomeMainView: UIView {
             
             if section == .studySummary && kind == String(describing: StudyCTAView.self) {
                 let footer = collectionView.dequeueConfiguredReusableSupplementary(using: self.studyCTASupRegistration, for: indexPath)
-                let reviewFlags = self.currentDailyPlans.map { $0.reviewDay || $0.comprehensiveReviewDay }
-                footer.bind(pagePublisher: self.selectedIndexPublisher, reviewFlags: reviewFlags)
+                
+                self.configureCTA(self.selectedIndexSubject.value)
                 footer.tapPublisher
                     .sink { [weak self] in self?.studyButtonTappedSubject.send() }
                     .store(in: &footer.cancellables)
@@ -218,6 +218,7 @@ final class HomeMainView: UIView {
                 updateDaySelectorUI(from: lastSelectedIndex, to: newIndex)
                 lastSelectedIndex = newIndex
                 updateDailyHeaderView(day: newIndex + 1)
+                configureCTA(newIndex)
                 
                 if !programmaticScrollSubject.value {
                     scrollTo(index: newIndex, animated: true)
@@ -258,6 +259,21 @@ final class HomeMainView: UIView {
         ) as? DailyPlanHeaderView {
             header.configure(day: day)
         }
+    }
+    
+    private func configureCTA(_ index: Int) {
+        guard
+            let footer = collectionView.supplementaryView(
+                forElementKind: String(describing: StudyCTAView.self),
+                at: IndexPath(item: 0, section: HomeSection.studySummary.rawValue)
+            ) as? StudyCTAView,
+            index < currentDailyPlans.count
+        else { return }
+        
+        let plan = currentDailyPlans[index]
+        let enabled = !plan.plannedSkills.isEmpty
+        let isReview = plan.reviewDay || plan.comprehensiveReviewDay
+        footer.configure(enabled: enabled, isReview: isReview)
     }
     
     // MARK: - Actions
