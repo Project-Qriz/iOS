@@ -9,11 +9,11 @@ import Foundation
 
 struct WeeklyRecommendRequest: Request {
     typealias Response = WeeklyRecommendResponse
-
+    
     let accessToken: String
     let path = "/api/v1/recommend/weekly"
     let method: HTTPMethod = .get
-
+    
     var headers: HTTPHeader {
         [
             HTTPHeaderField.contentType.rawValue: ContentType.json.rawValue,
@@ -39,5 +39,32 @@ struct RecommendData: Decodable {
         let importanceLevel: String
         let frequency: Int
         let incorrectRate: Double?
+    }
+}
+
+extension RecommendData.Item {
+    func toConcept(using subject: Subject) -> WeeklyConcept {
+        WeeklyConcept(
+            id: skillId,
+            title: keyConcepts,
+            subjectCount: subject == .one ? 1 : 2,
+            importance: Importance(rawValue: importanceLevel) ?? .medium
+        )
+    }
+}
+
+
+extension RecommendData {
+    func toKindAndConcepts() -> (RecommendationKind, [WeeklyConcept]) {
+        let kind = RecommendationKind(rawValue: recommendationType) ?? .unknown
+
+        let concepts = recommendations.compactMap { item -> WeeklyConcept? in
+            guard
+                let chapter = Chapter.from(concept: item.keyConcepts),
+                let subject = Subject.from(chapter: chapter)
+            else { return nil }
+            return item.toConcept(using: subject)
+        }
+        return (kind, concepts)
     }
 }

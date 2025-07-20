@@ -15,6 +15,7 @@ final class HomeViewModel {
     
     private let examScheduleService: ExamScheduleService
     private let dailyService: DailyService
+    private let weeklyService: WeeklyRecommendService
     private let userInfo = UserInfoManager.shared
     private let stateSubject: CurrentValueSubject<HomeState, Never>
     private let outputSubject: PassthroughSubject<Output, Never> = .init()
@@ -24,7 +25,8 @@ final class HomeViewModel {
     // MARK: - Initialize
     
     init(examScheduleService: ExamScheduleService,
-         dailyService: DailyService
+         dailyService: DailyService,
+         weeklyService: WeeklyRecommendService
     ) {
         let name = UserInfoManager.shared.name
         let previewStatus = UserInfoManager.shared.previewTestStatus
@@ -45,6 +47,7 @@ final class HomeViewModel {
         )
         self.examScheduleService = examScheduleService
         self.dailyService = dailyService
+        self.weeklyService = weeklyService
         self.stateSubject = .init(initState)
     }
     
@@ -105,11 +108,17 @@ final class HomeViewModel {
     private func loadAllData() async {
         async let examState = makeExamState()
         async let dailyPlans = loadDailyPlans()
+        async let weeklyBlock = loadWeeklyRecommend()
         
         do {
             var state = try await examState
             state.dailyPlans = try await dailyPlans
-            state.selectedIndex = 0
+            
+            if let weekly = try await weeklyBlock {
+                state.recommendationKind = weekly.kind
+                state.weeklyConcepts = weekly.concepts
+            }
+            
             let firstIncomplete = state.dailyPlans.firstIndex(where: { $0.completed == false }) ?? 0
             state.selectedIndex = firstIncomplete
             
@@ -161,6 +170,11 @@ final class HomeViewModel {
     private func loadDailyPlans() async throws -> [DailyPlan] {
         let response = try await dailyService.getDailyPlan()
         return response.data
+    }
+    
+    private func loadWeeklyRecommend() async throws -> (kind: RecommendationKind, concepts: [WeeklyConcept])? {
+        let response = try await weeklyService.fetchWeeklyRecommend()
+        return response.data.toKindAndConcepts()
     }
     
     private func handle(_ err: Error) {
