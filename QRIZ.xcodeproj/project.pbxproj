@@ -594,6 +594,8 @@
 		B13878A02DF745F1009D041F /* MyPage */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = MyPage; sourceTree = "<group>"; };
 		B159A1292DA27AE6001153B5 /* Service */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Service; sourceTree = "<group>"; };
 		B17D6ABB2D9146C90023FCA5 /* FindAccount */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = FindAccount; sourceTree = "<group>"; };
+		B1838BDC2E2C84D9006D306C /* Weekly */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Weekly; sourceTree = "<group>"; };
+		B1838BDF2E2C868C006D306C /* Weekly */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Weekly; sourceTree = "<group>"; };
 		B183DF772DE23C5D0026A5D7 /* ExamSchedule */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = ExamSchedule; sourceTree = "<group>"; };
 		B18729F32DB5E5FB0050811C /* PDF */ = {isa = PBXFileSystemSynchronizedRootGroup; exceptions = (B1872A172DB68F100050811C /* PBXFileSystemSynchronizedBuildFileExceptionSet */, ); explicitFileTypes = {}; explicitFolders = (); path = PDF; sourceTree = "<group>"; };
 		B190A2D92DBBC7C6008FDE86 /* View */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = View; sourceTree = "<group>"; };
@@ -663,6 +665,7 @@
 		5485664D2D12411F002BAEE3 /* DTOs */ = {
 			isa = PBXGroup;
 			children = (
+				B1838BDC2E2C84D9006D306C /* Weekly */,
 				E2A6C1482DC5CC980059F960 /* Exam */,
 				E25AB7A42DC0C35A00E7A7E3 /* Daily */,
 				E2A6C07A2DBA60550059F960 /* Onboarding */,
@@ -678,6 +681,7 @@
 		548566532D1241CB002BAEE3 /* Service */ = {
 			isa = PBXGroup;
 			children = (
+				B1838BDF2E2C868C006D306C /* Weekly */,
 				B183DF772DE23C5D0026A5D7 /* ExamSchedule */,
 				E2A6C7332DCA4C750059F960 /* Exam */,
 				E25855A42DC3ADF900AE174C /* Daily */,
@@ -1936,6 +1940,8 @@
 				B13048972DE1E6370036EBE2 /* Home */,
 				B138789D2DF71A0D009D041F /* MyPage */,
 				B13878A02DF745F1009D041F /* MyPage */,
+				B1838BDC2E2C84D9006D306C /* Weekly */,
+				B1838BDF2E2C868C006D306C /* Weekly */,
 				B183DF772DE23C5D0026A5D7 /* ExamSchedule */,
 				B190A2D92DBBC7C6008FDE86 /* View */,
 				B190A2E62DC2A2EB008FDE86 /* ExamSchedule */,
