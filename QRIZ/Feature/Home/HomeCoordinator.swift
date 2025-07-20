@@ -41,6 +41,7 @@ final class HomeCoordinatorImpl: HomeCoordinator {
     private let dailyService: DailyService
     private let onboardingService: OnboardingService
     private let userInfoService: UserInfoService
+    private let weeklyService: WeeklyRecommendService
     private(set) var homeVM: HomeViewModel?
     var needsRefresh: Bool = false
     var childCoordinators: [Coordinator] = []
@@ -51,17 +52,23 @@ final class HomeCoordinatorImpl: HomeCoordinator {
         examTestService: ExamService,
         dailyService: DailyService,
         onboardingService: OnboardingService,
-        userInfoService: UserInfoService
+        userInfoService: UserInfoService,
+        weeklyService: WeeklyRecommendService
     ) {
         self.examService = examService
         self.examTestService = examTestService
         self.dailyService = dailyService
         self.onboardingService = onboardingService
         self.userInfoService = userInfoService
+        self.weeklyService = weeklyService
     }
     
     func start() -> UIViewController {
-        let viewModel = HomeViewModel(examScheduleService: examService, dailyService: dailyService)
+        let viewModel = HomeViewModel(
+            examScheduleService: examService,
+            dailyService: dailyService,
+            weeklyService: weeklyService
+        )
         homeVM = viewModel
         let homeVC = HomeViewController(homeVM: viewModel)
         homeVC.coordinator = self
