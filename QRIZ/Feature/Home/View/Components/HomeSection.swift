@@ -19,6 +19,7 @@ enum HomeSection: Int, CaseIterable {
     case dailyHeader
     case daySelector
     case studySummary
+    case weeklyConcept
 }
 
 enum HomeSectionItem: Hashable {
@@ -26,6 +27,7 @@ enum HomeSectionItem: Hashable {
     case entry(EntryCardState)
     case day(Int)
     case studySummary(StudySummary)
+    case weeklyConcept(kind: RecommendationKind, list: [WeeklyConcept])
 }
 
 enum HomeLayoutFactory {
@@ -47,6 +49,8 @@ enum HomeLayoutFactory {
         static let studySummaryTopOffset: CGFloat = 16.0
         static let interItemSpacing: CGFloat = 12.0
         static let ctaFooterHeight: CGFloat = 48.0
+        
+        static let weeklyConceptHeight: CGFloat = 252.0
     }
     
     // MARK: - Functions
@@ -192,6 +196,23 @@ enum HomeLayoutFactory {
         return section
     }
     
+    private static func weeklyConcept() -> NSCollectionLayoutSection {
+        let size = NSCollectionLayoutSize(
+            widthDimension: .fractionalWidth(1.0),
+            heightDimension: .estimated(Metric.weeklyConceptHeight)
+        )
+        let item = NSCollectionLayoutItem(layoutSize: size)
+        let group = NSCollectionLayoutGroup.vertical(layoutSize: size, subitems: [item])
+        let section = NSCollectionLayoutSection(group: group)
+        section.contentInsets = NSDirectionalEdgeInsets(
+            top: Metric.verticalSpacing,
+            leading: Metric.horizontalSpacing,
+            bottom: Metric.verticalSpacing,
+            trailing: Metric.horizontalSpacing
+        )
+        return section
+    }
+    
     static func makeLayout(
         for cv: UICollectionView,
         selected: CurrentValueSubject<Int,Never>,
@@ -211,6 +232,7 @@ enum HomeLayoutFactory {
                     selected: selected,
                     programmaticScroll: programmaticScroll
                 )
+            case .weeklyConcept: return weeklyConcept()
             }
         }
     }

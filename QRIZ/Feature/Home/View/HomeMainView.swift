@@ -141,6 +141,12 @@ final class HomeMainView: UIView {
         return cv
     }()
     
+    private lazy var weeklyRegistration = UICollectionView.CellRegistration<WeeklyConceptCell, HomeSectionItem>
+    { [weak self] cell, _, item in
+        guard case let .weeklyConcept(kind, list) = item, let self else { return }
+        cell.configure(kind: kind, concepts: list)
+    }
+    
     private lazy var dataSource: UICollectionViewDiffableDataSource<HomeSection, HomeSectionItem> = {
         let ds = UICollectionViewDiffableDataSource<HomeSection, HomeSectionItem>(
             collectionView: collectionView) { [weak self] collectionView, indexPath, item in
@@ -156,6 +162,8 @@ final class HomeMainView: UIView {
                     return collectionView.dequeueConfiguredReusableCell(using: self.dayRegistration, for: indexPath, item: item)
                 case .studySummary:
                     return collectionView.dequeueConfiguredReusableCell(using: self.summaryRegistration, for: indexPath, item: item)
+                case .weeklyConcept:
+                    return collectionView.dequeueConfiguredReusableCell(using: self.weeklyRegistration, for: indexPath, item: item)
                 }
             }
         
@@ -194,7 +202,8 @@ final class HomeMainView: UIView {
             dailyHeaderSupRegistration,
             dayRegistration,
             summaryRegistration,
-            studyCTASupRegistration
+            studyCTASupRegistration,
+            weeklyRegistration
         ]
         addSubviews()
         setupConstraints()
@@ -244,7 +253,8 @@ final class HomeMainView: UIView {
         snapshot.appendItems([.entry(state.entryState)], toSection: .examEntry)
         snapshot.appendItems(state.dailyPlans.enumerated().map { .day($0.offset + 1) }, toSection: .daySelector)
         snapshot.appendItems(state.dailyPlans.map { .studySummary(.init(id: $0.id, dailyPlans: [$0])) }, toSection: .studySummary)
-        
+        snapshot.appendItems([.weeklyConcept(kind: state.recommendationKind,list: state.weeklyConcepts)],
+            toSection: .weeklyConcept)
         DispatchQueue.main.async { [weak self] in
             guard let self else { return }
             dataSource.apply(snapshot, animatingDifferences: true)
