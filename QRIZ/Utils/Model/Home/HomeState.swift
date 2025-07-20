@@ -56,6 +56,7 @@ enum Importance: String, Decodable {
 
 enum RecommendationKind: String, Decodable {
     case weeklyCustom = "주간 맞춤 개념"
+    case weeklyRecommendation = "주간 추천 개념"
     case previewIncomplete = "프리뷰 테스트 미완료"
     case unknown = ""
 }

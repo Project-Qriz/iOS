@@ -55,6 +55,16 @@ final class WeeklyConceptCell: UICollectionViewCell {
         return view
     }()
     
+    private let blurOverlay: UIVisualEffectView = {
+        let blur = UIBlurEffect(style: .light)
+        let ve = UIVisualEffectView(effect: blur)
+        ve.alpha = 0.7
+        ve.layer.cornerRadius = 12
+        ve.clipsToBounds = true
+        ve.isHidden = true
+        return ve
+    }()
+    
     // MARK: - Initialize
     
     override init(frame: CGRect) {
@@ -75,20 +85,27 @@ final class WeeklyConceptCell: UICollectionViewCell {
     }
     
     func configure(kind: RecommendationKind, concepts: [WeeklyConcept]) {
-        titleLabel.text = kind.rawValue
-        lockImageView.isHidden = (kind == .weeklyCustom)
+        if kind == .weeklyCustom { titleLabel.text = kind.rawValue }
+        let locked = (kind == .previewIncomplete || kind == .unknown)
+        lockImageView.isHidden = !locked
         
-        let isLocked = (kind == .previewIncomplete)
-        let buttons = [firstButton, secondButton]
-        
-        for (index, button) in buttons.enumerated() {
-            guard index < concepts.count else {
-                button.isHidden = true
-                continue
+        let dataToShow: [WeeklyConcept] = {
+            if locked {
+                return [
+                    .init(id: -1, title: "데이터 모델의 이해", subjectCount: 1, importance: .high),
+                    .init(id: -1, title: "SELECT 문", subjectCount: 1, importance: .low)
+                ]
+            } else {
+                return concepts
             }
-            button.isHidden = false
-            button.setWeeklyConceptUI(concept: concepts[index], locked: isLocked)
+        }()
+        
+        let buttons = [firstButton, secondButton]
+        for (index, button) in buttons.enumerated() {
+            button.setWeeklyConceptUI(concept: dataToShow[index], locked: locked)
         }
+        
+        blurOverlay.isHidden = !locked
     }
 }
 
@@ -100,11 +117,13 @@ extension WeeklyConceptCell {
             titleHStackView,
             buttonVStackView
         ].forEach(contentView.addSubview(_:))
+        buttonVStackView.addSubview(blurOverlay)
     }
     
     private func setupConstraints() {
         titleHStackView.translatesAutoresizingMaskIntoConstraints = false
         buttonVStackView.translatesAutoresizingMaskIntoConstraints = false
+        blurOverlay.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
             titleHStackView.topAnchor.constraint(
@@ -134,6 +153,19 @@ extension WeeklyConceptCell {
             buttonVStackView.bottomAnchor.constraint(
                 equalTo: contentView.bottomAnchor
             ),
+            
+            blurOverlay.topAnchor.constraint(
+                equalTo: buttonVStackView.topAnchor
+            ),
+            blurOverlay.leadingAnchor.constraint(
+                equalTo: buttonVStackView.leadingAnchor
+            ),
+            blurOverlay.trailingAnchor.constraint(
+                equalTo: buttonVStackView.trailingAnchor
+            ),
+            blurOverlay.bottomAnchor.constraint(
+                equalTo: buttonVStackView.bottomAnchor
+            )
         ])
     }
 }

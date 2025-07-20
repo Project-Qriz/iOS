@@ -112,8 +112,6 @@ final class TestNavigatorButton: UIView {
         retryBadge.backgroundColor = backgroundColor
 
         isUserInteractionEnabled = !locked
-        chevronImageView.isHidden = locked
-        alpha = locked ? 0.4 : 1.0
     }
     
     private func setLayer() {
