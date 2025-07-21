@@ -146,30 +146,36 @@ final class HomeViewModel {
     }
     
     private func makeExamState() async throws -> HomeState {
-        let response = try await examScheduleService.fetchAppliedExams()
-        let detail = ExamDetail(examDateText: response.data.examDate,
-                                examName: response.data.examName,
-                                applyPeriod: response.data.period)
-        let dDay = response.data.examDate.dDay
-        let status: ExamStatus = dDay <= 0 ? .expired(detail: detail) : .registered(dDay: dDay, detail: detail)
-        
-        let entry: EntryCardState = {
-            switch userInfo.previewTestStatus {
-            case .previewCompleted, .previewSkipped: return .mock
-            default: return .preview
-            }
-        }()
-        
-        return HomeState(userName: userInfo.name,
-                         examStatus: status,
-                         entryState: entry,
-                         dailyPlans: [],
-                         selectedIndex: 0)
+        do {
+            let response = try await examScheduleService.fetchAppliedExams()
+            let detail = ExamDetail(
+                examDateText: response.data.examDate,
+                examName: response.data.examName,
+                applyPeriod: response.data.period
+            )
+            let dDay = response.data.examDate.dDay
+            let status: ExamStatus = dDay <= 0
+            ? .expired(detail: detail)
+            : .registered(dDay: dDay, detail: detail)
+            
+            return HomeState(userName: userInfo.name,
+                             examStatus: status,
+                             entryState: currentEntryState(),
+                             dailyPlans: [],
+                             selectedIndex: 0)
+            
+        } catch let NetworkError.clientError(httpStatus, _, _) where httpStatus == 400 {
+            return HomeState(userName: userInfo.name,
+                             examStatus: .none,
+                             entryState: currentEntryState(),
+                             dailyPlans: [],
+                             selectedIndex: 0)
+        }
     }
     
     private func loadDailyPlans() async throws -> [DailyPlan] {
         let response = try await dailyService.getDailyPlan()
-        return response.data
+        return response.data ?? []
     }
     
     private func loadWeeklyRecommend() async throws -> (kind: RecommendationKind, concepts: [WeeklyConcept])? {
@@ -192,6 +198,13 @@ final class HomeViewModel {
         mutate(&newState)
         stateSubject.send(newState)
         outputSubject.send(.updateState(newState))
+    }
+    
+    private func currentEntryState() -> EntryCardState {
+        switch userInfo.previewTestStatus {
+        case .previewCompleted, .previewSkipped: .mock
+        default: .preview
+        }
     }
 }
 

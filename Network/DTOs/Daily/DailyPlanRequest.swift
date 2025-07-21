@@ -25,7 +25,7 @@ struct DailyPlanRequest: Request {
 struct DailyPlanResponse: Decodable {
     let code: Int
     let msg: String
-    let data: [DailyPlan]
+    let data: [DailyPlan]?
 }
 
 struct DailyPlan: Equatable, Hashable, Decodable {
