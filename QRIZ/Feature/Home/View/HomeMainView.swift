@@ -20,9 +20,11 @@ final class HomeMainView: UIView {
     private let selectedIndexSubject = CurrentValueSubject<Int,Never>(0)
     private let programmaticScrollSubject = CurrentValueSubject<Bool, Never>(false)
     private let dayTapSubject = PassthroughSubject<Int, Never>()
-    private var currentDailyPlans: [DailyPlan] = []
     private var cancellables = Set<AnyCancellable>()
     private var lastSelectedIndex = 0
+    private var currentDailyPlans: [DailyPlan] = []
+    private var currentEntryState: EntryCardState = .preview
+    private var showCTA = true
     
     var examButtonTappedPublisher: AnyPublisher<Void, Never> {
         examButtonTappedSubject.eraseToAnyPublisher()
@@ -111,10 +113,8 @@ final class HomeMainView: UIView {
     }
     
     private lazy var summaryRegistration = UICollectionView.CellRegistration<StudySummaryCell, HomeSectionItem> { cell, _, item in
-        guard case .studySummary(let summary) = item,
-              let plan = summary.dailyPlans.first
-        else { return }
-        cell.configure(plan: plan)
+        guard case .studySummary(let summary) = item else { return }
+        cell.configure(summary: summary)
     }
     
     private lazy var studyCTASupRegistration = UICollectionView.SupplementaryRegistration<StudyCTAView>(
@@ -127,7 +127,8 @@ final class HomeMainView: UIView {
             HomeLayoutFactory.makeLayout(
                 for: cv,
                 selected: selectedIndexSubject,
-                programmaticScroll: programmaticScrollSubject
+                programmaticScroll: programmaticScrollSubject,
+                showCTA: showCTA
             ),
             animated: false
         )
@@ -177,7 +178,7 @@ final class HomeMainView: UIView {
             if section == .studySummary && kind == String(describing: StudyCTAView.self) {
                 let footer = collectionView.dequeueConfiguredReusableSupplementary(using: self.studyCTASupRegistration, for: indexPath)
                 
-                self.configureCTA(self.selectedIndexSubject.value)
+                self.configureCTA(self.currentEntryState, selected: self.selectedIndexSubject.value)
                 footer.tapPublisher
                     .sink { [weak self] in
                         guard let self else { return }
@@ -188,6 +189,7 @@ final class HomeMainView: UIView {
             }
             return UICollectionReusableView()
         }
+        
         return ds
     }()
     
@@ -230,7 +232,7 @@ final class HomeMainView: UIView {
                 updateDaySelectorUI(from: lastSelectedIndex, to: newIndex)
                 lastSelectedIndex = newIndex
                 updateDailyHeaderView(day: newIndex + 1)
-                configureCTA(newIndex)
+                configureCTA(currentEntryState, selected: newIndex)
                 
                 if !programmaticScrollSubject.value {
                     scrollTo(index: newIndex, animated: true)
@@ -244,23 +246,50 @@ final class HomeMainView: UIView {
             .store(in: &cancellables)
     }
     
+    @MainActor
     func apply(_ state: HomeState) {
+        currentEntryState  = state.entryState
         currentDailyPlans = state.dailyPlans
+        let previewLocked = (state.entryState == .preview)
+        
+        rebuildLayoutIfNeeded(showCTA: !previewLocked)
         
         var snapshot = NSDiffableDataSourceSnapshot<HomeSection, HomeSectionItem>()
         snapshot.appendSections(HomeSection.allCases)
-        snapshot.appendItems([.schedule(userName: state.userName, status: state.examStatus)], toSection: .examSchedule)
-        snapshot.appendItems([.entry(state.entryState)], toSection: .examEntry)
-        snapshot.appendItems(state.dailyPlans.enumerated().map { .day($0.offset + 1) }, toSection: .daySelector)
-        snapshot.appendItems(state.dailyPlans.map { .studySummary(.init(id: $0.id, dailyPlans: [$0])) }, toSection: .studySummary)
-        snapshot.appendItems([.weeklyConcept(kind: state.recommendationKind,list: state.weeklyConcepts)],
-            toSection: .weeklyConcept)
-        DispatchQueue.main.async { [weak self] in
-            guard let self else { return }
-            dataSource.apply(snapshot, animatingDifferences: true)
-            if state.selectedIndex != selectedIndexSubject.value {
-                selectedIndexSubject.send(state.selectedIndex)
-            }
+        snapshot.appendItems(
+            [.schedule(userName: state.userName, status: state.examStatus)],
+            toSection: .examSchedule
+        )
+        snapshot.appendItems(
+            [.entry(state.entryState)],
+            toSection: .examEntry
+        )
+        
+        if previewLocked {
+            snapshot.appendItems(
+                [.studySummary(StudySummary(id: -1, dailyPlans: []))],
+                toSection: .studySummary
+            )
+        } else {
+            snapshot.appendItems(
+                state.dailyPlans.enumerated().map { .day($0.offset + 1) },
+                toSection: .daySelector
+            )
+            snapshot.appendItems(
+                state.dailyPlans.map { .studySummary(StudySummary(id: $0.id, dailyPlans: [$0])) },
+                toSection: .studySummary
+            )
+        }
+        
+        snapshot.appendItems(
+            [.weeklyConcept(kind: state.recommendationKind, list: state.weeklyConcepts)],
+            toSection: .weeklyConcept
+        )
+        
+        dataSource.apply(snapshot, animatingDifferences: true)
+        
+        if state.selectedIndex != selectedIndexSubject.value {
+            selectedIndexSubject.send(state.selectedIndex)
         }
     }
     
@@ -274,19 +303,33 @@ final class HomeMainView: UIView {
         }
     }
     
-    private func configureCTA(_ index: Int) {
-        guard
-            let footer = collectionView.supplementaryView(
-                forElementKind: String(describing: StudyCTAView.self),
-                at: IndexPath(item: 0, section: HomeSection.studySummary.rawValue)
-            ) as? StudyCTAView,
-            index < currentDailyPlans.count
-        else { return }
+    private func configureCTA(_ entryState: EntryCardState, selected index: Int) {
+        guard entryState != .preview else { ctaFooter()?.isHidden = true; return }
+        guard index < currentDailyPlans.count, let footer = ctaFooter() else { return }
         
         let plan = currentDailyPlans[index]
         let enabled = !plan.plannedSkills.isEmpty
         let isReview = plan.reviewDay || plan.comprehensiveReviewDay
         footer.configure(enabled: enabled, isReview: isReview)
+    }
+    
+    private func ctaFooter() -> StudyCTAView? {
+        collectionView.supplementaryView(
+            forElementKind: String(describing: StudyCTAView.self),
+            at: IndexPath(item: 0, section: HomeSection.studySummary.rawValue)
+        ) as? StudyCTAView
+    }
+    
+    private func rebuildLayoutIfNeeded(showCTA newValue: Bool) {
+        guard newValue != showCTA else { return }
+        showCTA = newValue
+        collectionView.setCollectionViewLayout(
+            HomeLayoutFactory.makeLayout(
+                for: collectionView,
+                selected: selectedIndexSubject,
+                programmaticScroll: programmaticScrollSubject,
+                showCTA: showCTA),
+            animated: false)
     }
     
     // MARK: - Actions

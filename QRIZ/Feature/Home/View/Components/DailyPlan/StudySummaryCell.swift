@@ -88,6 +88,16 @@ final class StudySummaryCell: UICollectionViewCell {
         return stackView
     }()
     
+    private let blurOverlay: UIVisualEffectView = {
+        let blur = UIBlurEffect(style: .light)
+        let ve = UIVisualEffectView(effect: blur)
+        ve.alpha = 0.7
+        ve.layer.cornerRadius = 8.0
+        ve.clipsToBounds = true
+        ve.isHidden = true
+        return ve
+    }()
+    
     // MARK: - Initialize
     
     override init(frame: CGRect) {
@@ -111,8 +121,14 @@ final class StudySummaryCell: UICollectionViewCell {
         applyQRIZShadow(radius: 8.0)
     }
     
-    func configure(plan: DailyPlan) {
+    func configure(summary: StudySummary) {
         resetView()
+        
+        guard let plan = summary.dailyPlans.first else {
+            configureMock()
+            blurOverlay.isHidden = false
+            return
+        }
         
         switch plan {
         case _ where shouldLock(plan): applyLockedUI(plan: plan)
@@ -127,6 +143,7 @@ final class StudySummaryCell: UICollectionViewCell {
             $0.removeFromSuperview()
         }
         
+        blurOverlay.isHidden = true
         ellipsis.isHidden = true
         lockContainer.isHidden = true
         lockVStackView.isHidden = true
@@ -203,6 +220,13 @@ final class StudySummaryCell: UICollectionViewCell {
         }
         return attr
     }
+    
+    private func configureMock() {
+        titleLabel.text = "학습해야 하는 개념 2가지"
+        let dummy = PlannedSkill(id: -1, type: "SQL 기본", keyConcept: "WHERE 절", description: "")
+        addCards([dummy, dummy])
+        blurOverlay.isHidden = false
+    }
 }
 
 // MARK: - Layout Setup
@@ -213,7 +237,8 @@ extension StudySummaryCell {
             titleLabel,
             dashedLineView,
             bodyVStackView,
-            lockContainer
+            lockContainer,
+            blurOverlay
         ].forEach(contentView.addSubview(_:))
         
         lockContainer.addSubview(lockVStackView)
@@ -225,6 +250,7 @@ extension StudySummaryCell {
         bodyVStackView.translatesAutoresizingMaskIntoConstraints = false
         lockContainer.translatesAutoresizingMaskIntoConstraints = false
         lockVStackView.translatesAutoresizingMaskIntoConstraints = false
+        blurOverlay.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
             titleLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: Metric.vInset),
@@ -248,6 +274,11 @@ extension StudySummaryCell {
             
             lockVStackView.centerXAnchor.constraint(equalTo: lockContainer.centerXAnchor),
             lockVStackView.centerYAnchor.constraint(equalTo: lockContainer.centerYAnchor),
+            
+            blurOverlay.topAnchor.constraint(equalTo: contentView.topAnchor),
+            blurOverlay.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+            blurOverlay.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
+            blurOverlay.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)
         ])
     }
 }

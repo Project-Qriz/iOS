@@ -143,7 +143,8 @@ enum HomeLayoutFactory {
         env: NSCollectionLayoutEnvironment,
         cv: UICollectionView,
         selected: CurrentValueSubject<Int,Never>,
-        programmaticScroll: CurrentValueSubject<Bool,Never>
+        programmaticScroll: CurrentValueSubject<Bool,Never>,
+        showCTA: Bool
     ) -> NSCollectionLayoutSection {
         let inset = Metric.horizontalSpacing
         let totalWidth = env.container.effectiveContentSize.width - inset * 2
@@ -181,17 +182,17 @@ enum HomeLayoutFactory {
             }
         }
         
-        // CTA Footer
-        let footerSize = NSCollectionLayoutSize(
-            widthDimension: .fractionalWidth(1),
-            heightDimension: .estimated(Metric.ctaFooterHeight)
-        )
-        let footer = NSCollectionLayoutBoundarySupplementaryItem(
-            layoutSize: footerSize,
-            elementKind: String(describing: StudyCTAView.self),
-            alignment: .bottom
-        )
-        section.boundarySupplementaryItems = [footer]
+        if showCTA {
+            let footerSize = NSCollectionLayoutSize(
+                widthDimension: .fractionalWidth(1),
+                heightDimension: .estimated(Metric.ctaFooterHeight)
+            )
+            let footer = NSCollectionLayoutBoundarySupplementaryItem(
+                layoutSize: footerSize,
+                elementKind: String(describing: StudyCTAView.self),
+                alignment: .bottom)
+            section.boundarySupplementaryItems = [footer]
+        }
         
         return section
     }
@@ -216,7 +217,8 @@ enum HomeLayoutFactory {
     static func makeLayout(
         for cv: UICollectionView,
         selected: CurrentValueSubject<Int,Never>,
-        programmaticScroll: CurrentValueSubject<Bool,Never>
+        programmaticScroll: CurrentValueSubject<Bool,Never>,
+        showCTA: Bool
     ) -> UICollectionViewLayout {
         UICollectionViewCompositionalLayout { index, env in
             guard let section = HomeSection(rawValue: index) else { return nil }
@@ -230,7 +232,8 @@ enum HomeLayoutFactory {
                     env: env,
                     cv: cv,
                     selected: selected,
-                    programmaticScroll: programmaticScroll
+                    programmaticScroll: programmaticScroll,
+                    showCTA: showCTA
                 )
             case .weeklyConcept: return weeklyConcept()
             }
