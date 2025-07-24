@@ -144,7 +144,7 @@ enum HomeLayoutFactory {
         cv: UICollectionView,
         selected: CurrentValueSubject<Int,Never>,
         programmaticScroll: CurrentValueSubject<Bool,Never>,
-        showCTA: Bool
+        isLocked: Bool
     ) -> NSCollectionLayoutSection {
         let inset = Metric.horizontalSpacing
         let totalWidth = env.container.effectiveContentSize.width - inset * 2
@@ -156,6 +156,9 @@ enum HomeLayoutFactory {
         let group = NSCollectionLayoutGroup.vertical(layoutSize: size, subitems: [item])
         let section = NSCollectionLayoutSection(group: group)
         section.interGroupSpacing = Metric.interItemSpacing
+        
+        let showFooter = !isLocked
+        
         section.contentInsets = .init(
             top: Metric.studySummaryTopOffset,
             leading: inset,
@@ -182,7 +185,7 @@ enum HomeLayoutFactory {
             }
         }
         
-        if showCTA {
+        if showFooter {
             let footerSize = NSCollectionLayoutSize(
                 widthDimension: .fractionalWidth(1),
                 heightDimension: .estimated(Metric.ctaFooterHeight)
@@ -218,7 +221,7 @@ enum HomeLayoutFactory {
         for cv: UICollectionView,
         selected: CurrentValueSubject<Int,Never>,
         programmaticScroll: CurrentValueSubject<Bool,Never>,
-        showCTA: Bool
+        isLocked: Bool
     ) -> UICollectionViewLayout {
         UICollectionViewCompositionalLayout { index, env in
             guard let section = HomeSection(rawValue: index) else { return nil }
@@ -233,7 +236,7 @@ enum HomeLayoutFactory {
                     cv: cv,
                     selected: selected,
                     programmaticScroll: programmaticScroll,
-                    showCTA: showCTA
+                    isLocked: isLocked
                 )
             case .weeklyConcept: return weeklyConcept()
             }

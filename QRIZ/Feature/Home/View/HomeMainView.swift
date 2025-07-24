@@ -24,7 +24,7 @@ final class HomeMainView: UIView {
     private var lastSelectedIndex = 0
     private var currentDailyPlans: [DailyPlan] = []
     private var currentEntryState: EntryCardState = .preview
-    private var showCTA = true
+    private var isPreviewLocked = true
     
     var examButtonTappedPublisher: AnyPublisher<Void, Never> {
         examButtonTappedSubject.eraseToAnyPublisher()
@@ -87,7 +87,7 @@ final class HomeMainView: UIView {
     private lazy var dailyHeaderSupRegistration = UICollectionView.SupplementaryRegistration<DailyPlanHeaderView>(
         elementKind: UICollectionView.elementKindSectionHeader) { [weak self] view, _, _ in
             guard let self else { return }
-            view.configure(day: self.selectedIndexSubject.value + 1)
+            view.configure(day: self.selectedIndexSubject.value + 1, locked: isPreviewLocked)
             
             view.resetButtonTapPublisher
                 .sink { [weak self] in
@@ -128,7 +128,7 @@ final class HomeMainView: UIView {
                 for: cv,
                 selected: selectedIndexSubject,
                 programmaticScroll: programmaticScrollSubject,
-                showCTA: showCTA
+                isLocked: isPreviewLocked
             ),
             animated: false
         )
@@ -252,7 +252,7 @@ final class HomeMainView: UIView {
         currentDailyPlans = state.dailyPlans
         let previewLocked = (state.entryState == .preview)
         
-        rebuildLayoutIfNeeded(showCTA: !previewLocked)
+        rebuildLayoutIfNeeded(isLocked: previewLocked)
         
         var snapshot = NSDiffableDataSourceSnapshot<HomeSection, HomeSectionItem>()
         snapshot.appendSections(HomeSection.allCases)
@@ -299,7 +299,7 @@ final class HomeMainView: UIView {
             forElementKind: UICollectionView.elementKindSectionHeader,
             at: headerIndexPath
         ) as? DailyPlanHeaderView {
-            header.configure(day: day)
+            header.configure(day: day, locked: isPreviewLocked)
         }
     }
     
@@ -320,15 +320,15 @@ final class HomeMainView: UIView {
         ) as? StudyCTAView
     }
     
-    private func rebuildLayoutIfNeeded(showCTA newValue: Bool) {
-        guard newValue != showCTA else { return }
-        showCTA = newValue
+    private func rebuildLayoutIfNeeded(isLocked newValue: Bool) {
+        guard newValue != isPreviewLocked else { return }
+        isPreviewLocked = newValue
         collectionView.setCollectionViewLayout(
             HomeLayoutFactory.makeLayout(
                 for: collectionView,
                 selected: selectedIndexSubject,
                 programmaticScroll: programmaticScrollSubject,
-                showCTA: showCTA),
+                isLocked: isPreviewLocked),
             animated: false)
     }
     

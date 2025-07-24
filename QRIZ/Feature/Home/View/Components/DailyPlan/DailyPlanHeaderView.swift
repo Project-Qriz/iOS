@@ -14,9 +14,12 @@ final class DailyPlanHeaderView: UICollectionViewCell {
     
     private enum Metric {
         static let buttonSize: CGFloat = 24.0
+        static let lockImageSize: CGFloat = 20.0
+        static let noticeLineHeight: CGFloat = 1.0
     }
     
     private enum Attributes {
+        static let notice = "프리뷰 시험을 보면 열려요!"
         static let chevron: String = "chevron.down"
         static let titleText: String = "오늘의 공부"
     }
@@ -37,12 +40,48 @@ final class DailyPlanHeaderView: UICollectionViewCell {
     
     // MARK: - UI
     
+    private let noticeLabel: UILabel = {
+        let label = UILabel()
+        label.text = Attributes.notice
+        label.font = .systemFont(ofSize: 14, weight: .regular)
+        label.textColor = .coolNeutral500
+        return label
+    }()
+    
+    private let noticeLine: UIView = {
+        let view = UIView()
+        view.backgroundColor = .coolNeutral200
+        return view
+    }()
+    
+    private lazy var noticeHStackView: UIStackView = {
+        let stackView = UIStackView(arrangedSubviews: [noticeLabel, noticeLine])
+        stackView.axis = .horizontal
+        stackView.spacing = 8
+        stackView.alignment = .center
+        return stackView
+    }()
+    
+    private let lockImageView: UIImageView = {
+        let imageView = UIImageView(image: .lock)
+        imageView.tintColor = .coolNeutral800
+        imageView.isHidden = true
+        return imageView
+    }()
+    
     private let titleLabel: UILabel = {
         let label = UILabel()
         label.text = Attributes.titleText
         label.font = .systemFont(ofSize: 18, weight: .bold)
         label.textColor = .coolNeutral800
         return label
+    }()
+    
+    private lazy var titleHStackView: UIStackView = {
+        let view = UIStackView(arrangedSubviews: [lockImageView, titleLabel])
+        view.axis = .horizontal
+        view.spacing = 4
+        return view
     }()
     
     private lazy var resetButton: UIButton = {
@@ -72,7 +111,7 @@ final class DailyPlanHeaderView: UICollectionViewCell {
         let symbolConfig = UIImage.SymbolConfiguration(pointSize: 10, weight: .regular)
         let chevron = UIImage(systemName: Attributes.chevron, withConfiguration: symbolConfig)?
             .withRenderingMode(.alwaysTemplate)
-
+        
         button.setImage(chevron, for: .normal)
         button.tintColor = .coolNeutral600
         button.contentHorizontalAlignment = .leading
@@ -81,6 +120,14 @@ final class DailyPlanHeaderView: UICollectionViewCell {
             self?.dayButtonTapSubject.send()
         }, for: .touchUpInside)
         return button
+    }()
+    
+    private lazy var rootVStackView: UIStackView = {
+        let stackView = UIStackView(arrangedSubviews: [noticeHStackView, titleHStackView, dayButton])
+        stackView.axis = .vertical
+        stackView.spacing = 12
+        stackView.setCustomSpacing(20, after: noticeHStackView)
+        return stackView
     }()
     
     // MARK: - Initialize
@@ -102,8 +149,13 @@ final class DailyPlanHeaderView: UICollectionViewCell {
         backgroundColor = .customBlue50
     }
     
-    func configure(day: Int) {
+    func configure(day: Int, locked: Bool) {
         dayButton.configuration?.title = "Day\(day)"
+        
+        lockImageView.isHidden = !locked
+        noticeHStackView.isHidden = !locked
+        resetButton.isHidden = locked
+        dayButton.isHidden = locked
     }
 }
 
@@ -112,29 +164,30 @@ final class DailyPlanHeaderView: UICollectionViewCell {
 extension DailyPlanHeaderView {
     private func addSubviews() {
         [
-            titleLabel,
+            rootVStackView,
             resetButton,
-            dayButton
         ].forEach(contentView.addSubview(_:))
     }
     
     private func setupConstraints() {
-        titleLabel.translatesAutoresizingMaskIntoConstraints = false
+        rootVStackView.translatesAutoresizingMaskIntoConstraints = false
         resetButton.translatesAutoresizingMaskIntoConstraints = false
-        dayButton.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
-            titleLabel.topAnchor.constraint(equalTo: contentView.topAnchor),
-            titleLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+            rootVStackView.topAnchor.constraint(equalTo: contentView.topAnchor),
+            rootVStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+            rootVStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
+            rootVStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
+            
+            noticeLine.heightAnchor.constraint(equalToConstant: Metric.noticeLineHeight),
+            
+            lockImageView.heightAnchor.constraint(equalToConstant: Metric.lockImageSize),
+            lockImageView.widthAnchor.constraint(equalToConstant: Metric.lockImageSize),
             
             resetButton.centerYAnchor.constraint(equalTo: titleLabel.centerYAnchor),
             resetButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
             resetButton.widthAnchor.constraint(equalToConstant: Metric.buttonSize),
             resetButton.heightAnchor.constraint(equalToConstant: Metric.buttonSize),
-            
-            dayButton.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 12),
-            dayButton.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
-            dayButton.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)
         ])
     }
 }
