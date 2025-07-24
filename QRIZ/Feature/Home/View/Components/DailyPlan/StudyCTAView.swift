@@ -61,6 +61,11 @@ final class StudyCTAView: UICollectionReusableView {
         fatalError("init(coder:) has not been implemented")
     }
     
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        cancellables.removeAll()
+    }
+    
     // MARK: - Functions
     
     private func setupUI() {
