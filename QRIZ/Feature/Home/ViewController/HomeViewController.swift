@@ -41,10 +41,6 @@ final class HomeViewController: UIViewController {
         bind()
         setupNavigationBar()
         inputSubject.send(.viewDidLoad)
-//        Task {
-//            let a = try await DailyServiceImpl().getDailyPlan()
-//            print(a)
-//        }
     }
     
     override func viewWillAppear(_ animated: Bool) {
