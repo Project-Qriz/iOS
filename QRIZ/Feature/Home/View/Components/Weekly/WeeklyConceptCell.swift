@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Combine
 
 final class WeeklyConceptCell: UICollectionViewCell {
     
@@ -18,6 +19,15 @@ final class WeeklyConceptCell: UICollectionViewCell {
     
     private enum Attributes {
         static let titleText = "주간 추천 개념"
+    }
+    
+    // MARK: - Properties
+    
+    private let conceptTappedSubject = PassthroughSubject<Int, Never>()
+    var cancellables = Set<AnyCancellable>()
+    
+    var conceptTappedPublisher: AnyPublisher<Int, Never> {
+        conceptTappedSubject.eraseToAnyPublisher()
     }
     
     // MARK: - UI
@@ -103,6 +113,11 @@ final class WeeklyConceptCell: UICollectionViewCell {
         let buttons = [firstButton, secondButton]
         for (index, button) in buttons.enumerated() {
             button.setWeeklyConceptUI(concept: dataToShow[index], locked: locked)
+            button.tapGestureEndedPublisher()
+                .sink { [weak self] _ in
+                    self?.conceptTappedSubject.send(index)
+                }
+                .store(in: &cancellables)
         }
         
         blurOverlay.isHidden = !locked

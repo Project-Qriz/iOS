@@ -97,6 +97,15 @@ final class HomeViewModel {
                     let learnType: DailyLearnType = plan.comprehensiveReviewDay ? .monthly :
                     plan.reviewDay ? .weekly : .daily
                     self.outputSubject.send(.showDaily(day: dayIndex + 1, type: learnType))
+                    
+                case .weeklyConceptTapped(let index):
+                    let concept = stateSubject.value.weeklyConcepts[index]
+                    guard let chapter = concept.chapter,
+                          let item = concept.conceptItem
+                    else { return }
+                    
+                    self.outputSubject.send(.showConceptPDF(chapter: chapter, item: item)
+                    )
                 }
             }
             .store(in: &cancellables)
@@ -217,6 +226,7 @@ extension HomeViewModel {
         case resetTapped
         case didConfirmResetPlan
         case ctaTapped(day: Int)
+        case weeklyConceptTapped(Int)
     }
     
     enum Output {
@@ -228,6 +238,7 @@ extension HomeViewModel {
         case showResetAlert
         case resetSucceeded(message: String)
         case showDaily(day: Int, type: DailyLearnType)
+        case showConceptPDF(chapter: Chapter, item: ConceptItem)
     }
 }
 

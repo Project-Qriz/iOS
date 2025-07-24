@@ -17,6 +17,7 @@ protocol HomeCoordinator: Coordinator {
     func showDaily(day: Int, type: DailyLearnType)
     func showResetAlert(confirm: @escaping () -> Void)
     func showDaySelectAlert(totalDays: Int, selectedDay: Int, todayIndex: Int?)
+    func showConceptPDF(chapter: Chapter, conceptItem: ConceptItem)
 }
 
 @MainActor
@@ -168,6 +169,12 @@ final class HomeCoordinatorImpl: HomeCoordinator {
         }
         
         navigationController?.present(vc, animated: true)
+    }
+    
+    func showConceptPDF(chapter: Chapter, conceptItem: ConceptItem) {
+        let conceptPDFVM = ConceptPDFViewModel(chapter: chapter, conceptItem: conceptItem)
+        let conceptPDFVC = ConceptPDFViewController(conceptPDFViewModel: conceptPDFVM)
+        navigationController?.pushViewController(conceptPDFVC, animated: true)
     }
 }
 

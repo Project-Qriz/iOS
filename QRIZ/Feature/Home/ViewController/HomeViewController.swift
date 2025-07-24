@@ -63,7 +63,8 @@ final class HomeViewController: UIViewController {
         let pageChanged  = rootView.selectedIndexPublisher.map { HomeViewModel.Input.daySelected($0) }
         let resetTapped = rootView.resetButtonTappedPublisher.map { HomeViewModel.Input.resetTapped }
         let headerTapped = rootView.dayHeaderTappedPublisher.map { HomeViewModel.Input.dayHeaderTapped }
-        let ctaTapped  = rootView.studyButtonTappedPublisher.map { HomeViewModel.Input.ctaTapped(day: $0) }
+        let ctaTapped = rootView.studyButtonTappedPublisher.map { HomeViewModel.Input.ctaTapped(day: $0) }
+        let weeklyConceptTapped = rootView.weeklyConceptTappedPublisher.map { HomeViewModel.Input.weeklyConceptTapped($0) }
         
         let input = inputSubject
             .merge(with: entryTapped)
@@ -71,6 +72,7 @@ final class HomeViewController: UIViewController {
             .merge(with: resetTapped)
             .merge(with: headerTapped)
             .merge(with: ctaTapped)
+            .merge(with: weeklyConceptTapped)
             .eraseToAnyPublisher()
         
         let output = viewModel.transform(input: input)
@@ -108,6 +110,9 @@ final class HomeViewController: UIViewController {
                     
                 case .showDaily(let day, let type):
                     self.coordinator?.showDaily(day: day, type: type)
+                    
+                case .showConceptPDF(let chapter, let item):
+                    self.coordinator?.showConceptPDF(chapter: chapter, conceptItem: item)
                 }
             }
             .store(in: &cancellables)

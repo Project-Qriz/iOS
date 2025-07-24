@@ -20,6 +20,7 @@ final class HomeMainView: UIView {
     private let selectedIndexSubject = CurrentValueSubject<Int,Never>(0)
     private let programmaticScrollSubject = CurrentValueSubject<Bool, Never>(false)
     private let dayTapSubject = PassthroughSubject<Int, Never>()
+    private let weeklyConceptTappedSubject = PassthroughSubject<Int, Never>()
     private var cancellables = Set<AnyCancellable>()
     private var lastSelectedIndex = 0
     private var currentDailyPlans: [DailyPlan] = []
@@ -48,6 +49,10 @@ final class HomeMainView: UIView {
     
     var selectedIndexPublisher: AnyPublisher<Int,Never> {
         selectedIndexSubject.eraseToAnyPublisher()
+    }
+    
+    var weeklyConceptTappedPublisher: AnyPublisher<Int, Never> {
+        weeklyConceptTappedSubject.eraseToAnyPublisher()
     }
     
     // MARK: - UI
@@ -146,6 +151,11 @@ final class HomeMainView: UIView {
     { [weak self] cell, _, item in
         guard case let .weeklyConcept(kind, list) = item, let self else { return }
         cell.configure(kind: kind, concepts: list)
+        cell.conceptTappedPublisher
+            .sink { [weak self] index in
+                self?.weeklyConceptTappedSubject.send(index)
+            }
+            .store(in: &cell.cancellables)
     }
     
     private lazy var dataSource: UICollectionViewDiffableDataSource<HomeSection, HomeSectionItem> = {
