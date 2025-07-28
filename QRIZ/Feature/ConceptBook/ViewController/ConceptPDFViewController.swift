@@ -12,6 +12,7 @@ import PDFKit
 final class ConceptPDFViewController: UIViewController {
     
     // MARK: - Enums
+    
     private enum Attributes {
         static let loadErrorMessage = "문서를 불러올 수 없습니다. 다시 시도해 주세요."
     }
@@ -29,6 +30,7 @@ final class ConceptPDFViewController: UIViewController {
         self.conceptPDFVM = conceptPDFViewModel
         self.rootView = ConceptPDFMainView()
         super.init(nibName: nil, bundle: nil)
+        self.hidesBottomBarWhenPushed = true
     }
     
     required init?(coder: NSCoder) {
@@ -37,14 +39,22 @@ final class ConceptPDFViewController: UIViewController {
     
     // MARK: - Lifecycle
     
+    override func loadView() {
+        view = rootView
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         bind()
         inputSubject.send(.viewDidLoad)
     }
     
-    override func loadView() {
-        view = rootView
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        let apearance = UINavigationBar.defaultBackButtonStyle()
+        navigationController?.navigationBar.standardAppearance = apearance
+        navigationController?.navigationBar.scrollEdgeAppearance = apearance
+        navigationController?.navigationBar.compactAppearance = apearance
     }
     
     // MARK: - Functions
