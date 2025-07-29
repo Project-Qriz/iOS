@@ -111,13 +111,23 @@ final class WeeklyConceptCell: UICollectionViewCell {
         }()
         
         let buttons = [firstButton, secondButton]
-        for (index, button) in buttons.enumerated() {
-            button.setWeeklyConceptUI(concept: dataToShow[index], locked: locked)
+        
+        for (index, concept) in dataToShow.enumerated() {
+            guard index < buttons.count else { break }
+            let button = buttons[index]
+
+            button.setWeeklyConceptUI(concept: concept, locked: locked)
             button.tapGestureEndedPublisher()
                 .sink { [weak self] _ in
                     self?.conceptTappedSubject.send(index)
                 }
                 .store(in: &cancellables)
+        }
+        
+        if dataToShow.count < buttons.count {
+            for index in dataToShow.count..<buttons.count {
+                buttons[index].isHidden = true
+            }
         }
         
         blurOverlay.isHidden = !locked
