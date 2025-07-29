@@ -51,7 +51,7 @@ final class ConceptPDFViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        let apearance = UINavigationBar.defaultBackButtonStyle()
+        let apearance = UINavigationBar.defaultBackButtonStyle(systemImageName: "xmark")
         navigationController?.navigationBar.standardAppearance = apearance
         navigationController?.navigationBar.scrollEdgeAppearance = apearance
         navigationController?.navigationBar.compactAppearance = apearance
