@@ -95,6 +95,8 @@ final class WeeklyConceptCell: UICollectionViewCell {
     }
     
     func configure(kind: RecommendationKind, concepts: [WeeklyConcept]) {
+        resetBinding()
+        
         if kind == .weeklyCustom { titleLabel.text = kind.rawValue }
         let locked = (kind == .previewIncomplete || kind == .unknown)
         lockImageView.isHidden = !locked
@@ -131,6 +133,18 @@ final class WeeklyConceptCell: UICollectionViewCell {
         }
         
         blurOverlay.isHidden = !locked
+    }
+    
+    private func resetBinding() {
+        cancellables.forEach { $0.cancel() }
+        cancellables.removeAll()
+        
+        let buttons = [firstButton, secondButton]
+        
+        buttons.forEach { button in
+            button.gestureRecognizers?.forEach { button.removeGestureRecognizer($0) }
+            button.isHidden = false
+        }
     }
 }
 
