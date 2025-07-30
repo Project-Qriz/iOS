@@ -192,7 +192,7 @@ extension HomeCoordinatorImpl: OnboardingCoordinatorDelegate {
     func didFinishOnboarding(_ coordinator: OnboardingCoordinator) {
         childCoordinators.removeAll { $0 === coordinator }
         navigationController?.popToRootViewController(animated: true)
-        homeVM?.reloadUserState()
+        homeVM?.reloadExamSchedule()
     }
 }
 
