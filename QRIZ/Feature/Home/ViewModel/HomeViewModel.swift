@@ -145,11 +145,11 @@ final class HomeViewModel {
             outputSubject.send(.resetSucceeded(message: response.msg))
             
         } catch let error as NetworkError  {
-            outputSubject.send(.showErrorAlert(error.errorMessage))
+            outputSubject.send(.showErrorAlert(title: "초기화할 수 없습니다.", description: error.errorMessage))
             logger.error("NetworkError(resetPlan): \(error.description, privacy: .public)")
             
         } catch {
-            outputSubject.send(.showErrorAlert("플랜 초기화에 실패했습니다."))
+            outputSubject.send(.showErrorAlert(title: "초기화할 수 없습니다."))
             logger.error("Unhandled error(resetPlan): \(error.localizedDescription, privacy: .public)")
         }
     }
@@ -194,10 +194,10 @@ final class HomeViewModel {
     
     private func handle(_ err: Error) {
         if let net = err as? NetworkError {
-            outputSubject.send(.showErrorAlert(net.errorMessage))
+            outputSubject.send(.showErrorAlert(title: net.errorMessage))
             logger.error("NetworkError: \(net.description, privacy: .public)")
         } else {
-            outputSubject.send(.showErrorAlert("잠시 후 다시 시도해 주세요."))
+            outputSubject.send(.showErrorAlert(title: "잠시 후 다시 시도해 주세요."))
             logger.error("Unhandled: \(err.localizedDescription, privacy: .public)")
         }
     }
@@ -231,7 +231,7 @@ extension HomeViewModel {
     
     enum Output {
         case updateState(HomeState)
-        case showErrorAlert(String)
+        case showErrorAlert(title: String, description: String? = nil)
         case navigateToOnboarding
         case navigateToExamList
         case showDaySelectAlert(totalDays: Int, selectedDay: Int, todayIndex: Int?)

@@ -82,8 +82,12 @@ final class HomeViewController: UIViewController {
                 case .updateState(let state):
                     self.rootView.apply(state)
                     
-                case .showErrorAlert(let message):
-                    self.showOneButtonAlert(with: message, storingIn: &cancellables)
+                case .showErrorAlert(let title, let description):
+                    self.showOneButtonAlert(
+                        with: title,
+                        for: description,
+                        storingIn: &cancellables
+                    )
                     
                 case .navigateToOnboarding:
                     self.coordinator?.showOnboarding()
