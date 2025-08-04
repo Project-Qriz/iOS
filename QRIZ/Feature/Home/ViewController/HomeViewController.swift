@@ -55,12 +55,20 @@ final class HomeViewController: UIViewController {
     // MARK: - Functions
     
     private func bind() {
-        let viewDidLoad = Just(HomeViewModel.Input.viewDidLoad)
-        
         let entryTapped = rootView.entryTappedPublisher.map { HomeViewModel.Input.entryTapped }
+        let pageChanged  = rootView.selectedIndexPublisher.map { HomeViewModel.Input.daySelected($0) }
+        let resetTapped = rootView.resetButtonTappedPublisher.map { HomeViewModel.Input.resetTapped }
+        let headerTapped = rootView.dayHeaderTappedPublisher.map { HomeViewModel.Input.dayHeaderTapped }
+        let ctaTapped = rootView.studyButtonTappedPublisher.map { HomeViewModel.Input.ctaTapped(day: $0) }
+        let weeklyConceptTapped = rootView.weeklyConceptTappedPublisher.map { HomeViewModel.Input.weeklyConceptTapped($0) }
         
-        let input = viewDidLoad
+        let input = inputSubject
             .merge(with: entryTapped)
+            .merge(with: pageChanged)
+            .merge(with: resetTapped)
+            .merge(with: headerTapped)
+            .merge(with: ctaTapped)
+            .merge(with: weeklyConceptTapped)
             .eraseToAnyPublisher()
         
         let output = viewModel.transform(input: input)
@@ -74,14 +82,37 @@ final class HomeViewController: UIViewController {
                 case .updateState(let state):
                     self.rootView.apply(state)
                     
-                case .showErrorAlert(let message):
-                    self.showOneButtonAlert(with: message, storingIn: &cancellables)
+                case .showErrorAlert(let title, let description):
+                    self.showOneButtonAlert(
+                        with: title,
+                        for: description,
+                        storingIn: &cancellables
+                    )
                     
                 case .navigateToOnboarding:
                     self.coordinator?.showOnboarding()
                     
                 case .navigateToExamList:
                     self.coordinator?.showExam()
+                    
+                case .showDaySelectAlert(let total, let selected, let today):
+                    coordinator?.showDaySelectAlert(
+                        totalDays: total,
+                        selectedDay: selected,
+                        todayIndex: today
+                    )
+                    
+                case .showResetAlert:
+                    self.coordinator?.showResetAlert { self.inputSubject.send(.didConfirmResetPlan) }
+                    
+                case .resetSucceeded(let message):
+                    self.showOneButtonAlert(with: message, storingIn: &cancellables)
+                    
+                case .showDaily(let day, let type):
+                    self.coordinator?.showDaily(day: day, type: type)
+                    
+                case .showConceptPDF(let chapter, let item):
+                    self.coordinator?.showConceptPDF(chapter: chapter, conceptItem: item)
                 }
             }
             .store(in: &cancellables)
@@ -102,6 +133,10 @@ final class HomeViewController: UIViewController {
         
         let logoItem = UIBarButtonItem(customView: imageView)
         navigationItem.leftBarButtonItem = logoItem
+    }
+    
+    func handleDaySelected(_ day: Int) {
+        inputSubject.send(.daySelected(day))
     }
 }
 

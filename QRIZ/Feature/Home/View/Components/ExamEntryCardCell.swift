@@ -12,11 +12,6 @@ final class ExamEntryCardCell: UICollectionViewCell {
     
     // MARK: - Enums
     
-    enum State {
-        case preview
-        case mock
-    }
-    
     private enum Metric {
         static let verticalMargin: CGFloat = 28.0
         static let titleLabelLeadingOffset: CGFloat = 16.0
@@ -68,7 +63,7 @@ final class ExamEntryCardCell: UICollectionViewCell {
         layer.borderColor = UIColor.coolNeutral100.cgColor
     }
     
-    func configure(state: ExamEntryCardCell.State) {
+    func configure(state: EntryCardState) {
         switch state {
         case .preview:
             titleLabel.text = "프리뷰 시험"

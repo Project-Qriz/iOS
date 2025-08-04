@@ -35,13 +35,15 @@ final class TabBarCoordinatorDependencyImpl: TabBarCoordinatorDependency {
     private let userInfoService: UserInfoService
     private let myPageService: MyPageService
     private let accountRecoveryService: AccountRecoveryService
+    private let weeklyService: WeeklyRecommendService
     
     private lazy var _homeCoordinator = HomeCoordinatorImpl(
         examService: examService,
         examTestService: examTestService,
         dailyService: dailyService,
         onboardingService: onboardingService,
-        userInfoService: userInfoService
+        userInfoService: userInfoService,
+        weeklyService: weeklyService
     )
     
     var homeCoordinator: HomeCoordinator {
@@ -77,7 +79,8 @@ final class TabBarCoordinatorDependencyImpl: TabBarCoordinatorDependency {
         onboardingService: OnboardingService,
         userInfoService: UserInfoService,
         myPageService: MyPageService,
-        accountRecoveryService: AccountRecoveryService
+        accountRecoveryService: AccountRecoveryService,
+        weeklyService: WeeklyRecommendService
     ) {
         self.examService = examService
         self.examTestService = examTestService
@@ -86,6 +89,7 @@ final class TabBarCoordinatorDependencyImpl: TabBarCoordinatorDependency {
         self.userInfoService = userInfoService
         self.myPageService = myPageService
         self.accountRecoveryService = accountRecoveryService
+        self.weeklyService = weeklyService
     }
 }
 
@@ -140,12 +144,15 @@ final class TabBarCoordinatorImpl: TabBarCoordinator {
     }
     
     private func configureTabBarController(_ tabBarController: UITabBarController) {
-        tabBarController.tabBar.backgroundColor = .white
+        let whiteAppearance = UITabBarAppearance()
+        whiteAppearance.configureWithOpaqueBackground()
+        whiteAppearance.backgroundColor = .white
+        whiteAppearance.shadowColor = UIColor.customBlue100
+        whiteAppearance.shadowImage = UIImage()
         tabBarController.tabBar.tintColor = .customBlue500
         tabBarController.tabBar.unselectedItemTintColor = .coolNeutral500
-        tabBarController.tabBar.layer.borderColor = UIColor.customBlue100.cgColor
-        tabBarController.tabBar.layer.borderWidth = 1.0
-        tabBarController.tabBar.layer.masksToBounds = true
+        tabBarController.tabBar.standardAppearance = whiteAppearance
+        tabBarController.tabBar.scrollEdgeAppearance = whiteAppearance
     }
     
     private func setupTabBarItems(for viewControllers: inout [UIViewController]) {

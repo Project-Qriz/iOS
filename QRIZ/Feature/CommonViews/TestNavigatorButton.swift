@@ -10,6 +10,17 @@ import UIKit
 final class TestNavigatorButton: UIView {
 
     // MARK: - Properties
+    private lazy var textVStackView: UIStackView = {
+        let stackView = UIStackView(arrangedSubviews: [
+            testStatusLabel, testTitleLabel, scoreLabel, retryBadge
+        ])
+        stackView.axis = .vertical
+        stackView.alignment = .leading
+        stackView.setCustomSpacing(10, after: testStatusLabel)
+        stackView.setCustomSpacing(12, after: testTitleLabel)
+        stackView.setCustomSpacing(10, after: scoreLabel)
+        return stackView
+    }()
     private let testStatusLabel: UILabel = {
         let label = UILabel()
         label.font = .systemFont(ofSize: 14, weight: .regular)
@@ -85,6 +96,24 @@ final class TestNavigatorButton: UIView {
         updateScoreLabel(score: score)
     }
     
+    func setWeeklyConceptUI(concept: WeeklyConcept, locked: Bool) {
+        retryBadge.isHidden = false
+        testStatusLabel.isHidden = true
+        backgroundColor = .white
+        layer.borderColor = UIColor.coolNeutral100.cgColor
+        
+        testTitleLabel.text  = concept.title
+        scoreLabel.text = "\(concept.subjectCount)과목"
+        scoreLabel.textColor = .coolNeutral500
+
+        let (textColor, backgroundColor) = colors(for: concept.importance)
+        retryBadge.text = concept.importance.text
+        retryBadge.textColor = textColor
+        retryBadge.backgroundColor = backgroundColor
+
+        isUserInteractionEnabled = !locked
+    }
+    
     private func setLayer() {
         layer.cornerRadius = 12
         layer.masksToBounds = true
@@ -157,35 +186,32 @@ final class TestNavigatorButton: UIView {
             break
         }
     }
+    
+    // MARK: - Weekly Concept UI Methods
+    private func colors(for importance: Importance) -> (text: UIColor, bg: UIColor) {
+        switch importance {
+        case .high: return (.customRed500, .customRed500.withAlphaComponent(0.14))
+        case .medium: return (.systemOrange, .systemOrange.withAlphaComponent(0.14))
+        case .low: return (.customMint700, .customMint50)
+        }
+    }
 }
 
 // MARK: - Auto Layout
 extension TestNavigatorButton {
     private func addViews() {
-        addSubview(testStatusLabel)
-        addSubview(testTitleLabel)
-        addSubview(scoreLabel)
+        addSubview(textVStackView)
         addSubview(chevronImageView)
-        addSubview(retryBadge)
         
-        testStatusLabel.translatesAutoresizingMaskIntoConstraints = false
-        testTitleLabel.translatesAutoresizingMaskIntoConstraints = false
-        scoreLabel.translatesAutoresizingMaskIntoConstraints = false
+        textVStackView.translatesAutoresizingMaskIntoConstraints = false
         chevronImageView.translatesAutoresizingMaskIntoConstraints = false
-        retryBadge.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
-            testStatusLabel.topAnchor.constraint(equalTo: self.topAnchor, constant: 16),
-            testStatusLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 16),
+            textVStackView.topAnchor.constraint(equalTo: topAnchor, constant: 16),
+            textVStackView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16),
+            textVStackView.trailingAnchor.constraint(lessThanOrEqualTo: chevronImageView.leadingAnchor, constant: -12),
+            textVStackView.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -16),
             
-            testTitleLabel.topAnchor.constraint(equalTo: testStatusLabel.bottomAnchor, constant: 10),
-            testTitleLabel.leadingAnchor.constraint(equalTo: testStatusLabel.leadingAnchor),
-            
-            scoreLabel.topAnchor.constraint(equalTo: testTitleLabel.bottomAnchor, constant: 12),
-            scoreLabel.leadingAnchor.constraint(equalTo: testStatusLabel.leadingAnchor),
-            
-            retryBadge.topAnchor.constraint(equalTo: scoreLabel.bottomAnchor, constant: 10),
-            retryBadge.leadingAnchor.constraint(equalTo: testStatusLabel.leadingAnchor),
             retryBadge.widthAnchor.constraint(equalToConstant: 61),
             retryBadge.heightAnchor.constraint(equalToConstant: 26),
             

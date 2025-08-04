@@ -15,6 +15,9 @@ protocol HomeCoordinator: Coordinator {
     func showOnboarding()
     func showExam()
     func showDaily(day: Int, type: DailyLearnType)
+    func showResetAlert(confirm: @escaping () -> Void)
+    func showDaySelectAlert(totalDays: Int, selectedDay: Int, todayIndex: Int?)
+    func showConceptPDF(chapter: Chapter, conceptItem: ConceptItem)
 }
 
 @MainActor
@@ -39,6 +42,7 @@ final class HomeCoordinatorImpl: HomeCoordinator {
     private let dailyService: DailyService
     private let onboardingService: OnboardingService
     private let userInfoService: UserInfoService
+    private let weeklyService: WeeklyRecommendService
     private(set) var homeVM: HomeViewModel?
     var needsRefresh: Bool = false
     var childCoordinators: [Coordinator] = []
@@ -49,17 +53,23 @@ final class HomeCoordinatorImpl: HomeCoordinator {
         examTestService: ExamService,
         dailyService: DailyService,
         onboardingService: OnboardingService,
-        userInfoService: UserInfoService
+        userInfoService: UserInfoService,
+        weeklyService: WeeklyRecommendService
     ) {
         self.examService = examService
         self.examTestService = examTestService
         self.dailyService = dailyService
         self.onboardingService = onboardingService
         self.userInfoService = userInfoService
+        self.weeklyService = weeklyService
     }
     
     func start() -> UIViewController {
-        let viewModel = HomeViewModel(examScheduleService: examService)
+        let viewModel = HomeViewModel(
+            examScheduleService: examService,
+            dailyService: dailyService,
+            weeklyService: weeklyService
+        )
         homeVM = viewModel
         let homeVC = HomeViewController(homeVM: viewModel)
         homeVC.coordinator = self
@@ -117,6 +127,55 @@ final class HomeCoordinatorImpl: HomeCoordinator {
         childCoordinators.append(daily)
         _ = daily.start()
     }
+    
+    func showResetAlert(confirm: @escaping () -> Void) {
+        let alert = TwoButtonCustomAlertViewController(
+            title: "플랜을 초기화 할까요?",
+            description: "지금까지의 플랜이 초기화되며,\nDay1부터 다시 시작됩니다.",
+            confirmAction: UIAction { [weak self] _ in
+                confirm()
+                self?.navigationController?.dismiss(animated: true)
+            },
+            cancelAction: UIAction { [weak self] _ in
+                self?.navigationController?.dismiss(animated: true)
+            }
+        )
+        navigationController?.present(alert, animated: true)
+    }
+    
+    func showDaySelectAlert(totalDays: Int, selectedDay: Int, todayIndex: Int?) {
+        let viewModel = DaySelectBottomSheetViewModel(
+            totalDays: totalDays,
+            initialSelected: selectedDay,
+            todayIndex: todayIndex
+        )
+        let vc = DaySelectBottomSheetViewController(viewModel: viewModel)
+        
+        guard let homeVC = navigationController?.viewControllers.first as? HomeViewController else { return }
+        
+        vc.onDaySelected = { [weak homeVC] day in
+            homeVC?.handleDaySelected(day)
+            vc.dismiss(animated: true)
+        }
+        
+        if let sheet = vc.sheetPresentationController {
+            let small = UISheetPresentationController.Detent.custom(identifier: .init("small")) { _ in
+                return 275
+            }
+            sheet.detents = [small]
+            sheet.selectedDetentIdentifier = small.identifier
+            sheet.prefersGrabberVisible = true
+            sheet.preferredCornerRadius = 24
+        }
+        
+        navigationController?.present(vc, animated: true)
+    }
+    
+    func showConceptPDF(chapter: Chapter, conceptItem: ConceptItem) {
+        let conceptPDFVM = ConceptPDFViewModel(chapter: chapter, conceptItem: conceptItem)
+        let conceptPDFVC = ConceptPDFViewController(conceptPDFViewModel: conceptPDFVM)
+        navigationController?.pushViewController(conceptPDFVC, animated: true)
+    }
 }
 
 // MARK: - ExamSelectionDelegate
@@ -133,7 +192,7 @@ extension HomeCoordinatorImpl: OnboardingCoordinatorDelegate {
     func didFinishOnboarding(_ coordinator: OnboardingCoordinator) {
         childCoordinators.removeAll { $0 === coordinator }
         navigationController?.popToRootViewController(animated: true)
-        homeVM?.reloadUserState()
+        homeVM?.reloadExamSchedule()
     }
 }
 
