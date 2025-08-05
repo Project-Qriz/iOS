@@ -90,13 +90,8 @@ final class LoginViewModel {
                 let description = "아이디와 비밀번호를 정확하게 입력해 주세요."
                 
                 if let networkError = error as? NetworkError {
-                    if case .clientError(let code, _, _) = networkError, code == 401 {
-                        outputSubject.send(.showErrorAlert(title: title, descrption: description))
-                        logger.error("Client error 401 in login: \(networkError.description, privacy: .public)")
-                    } else {
-                        outputSubject.send(.showErrorAlert(title: networkError.errorMessage))
-                        logger.error("Network error in login: \(networkError.description, privacy: .public)")
-                    }
+                    outputSubject.send(.showErrorAlert(title: title, descrption: description))
+                    logger.error("Network error in login: \(networkError.description, privacy: .public)")
                 } else {
                     outputSubject.send(.showErrorAlert(title: title, descrption: description))
                     logger.error("Unhandled error in login: \(String(describing: error), privacy: .public)")
