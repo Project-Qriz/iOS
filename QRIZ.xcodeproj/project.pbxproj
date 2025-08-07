@@ -22,6 +22,8 @@
 		54DB0DA52D099D6700ABD458 /* Colors.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 54DB0DA42D099D6700ABD458 /* Colors.xcassets */; };
 		54E91B762D18FACD00474D0A /* RoundButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54E91B752D18FACD00474D0A /* RoundButton.swift */; };
 		B1138AFB2DFD813D004258CA /* DailyResetRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1138AFA2DFD813D004258CA /* DailyResetRequest.swift */; };
+		B115FDC92E44F1AD00805522 /* KakaoSDK in Frameworks */ = {isa = PBXBuildFile; productRef = B115FDC82E44F1AD00805522 /* KakaoSDK */; };
+		B115FDCB2E44F1AD00805522 /* KakaoSDKAuth in Frameworks */ = {isa = PBXBuildFile; productRef = B115FDCA2E44F1AD00805522 /* KakaoSDKAuth */; };
 		B127B6E22DED89B00048401F /* SessionEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = B127B6E12DED89B00048401F /* SessionEvent.swift */; };
 		B13045242DD9F9350036EBE2 /* TermsDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B13045232DD9F9350036EBE2 /* TermsDetailViewController.swift */; };
 		B13045262DD9F9AD0036EBE2 /* TermsDetailMainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B13045252DD9F9AD0036EBE2 /* TermsDetailMainView.swift */; };
@@ -613,6 +615,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				E292211E2E05478C00B6DC0D /* FirebaseAnalyticsWithoutAdIdSupport in Frameworks */,
+				B115FDC92E44F1AD00805522 /* KakaoSDK in Frameworks */,
+				B115FDCB2E44F1AD00805522 /* KakaoSDKAuth in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2052,6 +2056,7 @@
 			mainGroup = E23962FC2D083B8F0092B39B;
 			packageReferences = (
 				E292211C2E05478C00B6DC0D /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
+				B115FDC72E44F1AD00805522 /* XCRemoteSwiftPackageReference "kakao-ios-sdk" */,
 			);
 			productRefGroup = E23963062D083B8F0092B39B /* Products */;
 			projectDirPath = "";
@@ -2749,6 +2754,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		B115FDC72E44F1AD00805522 /* XCRemoteSwiftPackageReference "kakao-ios-sdk" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/kakao/kakao-ios-sdk";
+			requirement = {
+				branch = master;
+				kind = branch;
+			};
+		};
 		E292211C2E05478C00B6DC0D /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/firebase/firebase-ios-sdk";
@@ -2760,6 +2773,16 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		B115FDC82E44F1AD00805522 /* KakaoSDK */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = B115FDC72E44F1AD00805522 /* XCRemoteSwiftPackageReference "kakao-ios-sdk" */;
+			productName = KakaoSDK;
+		};
+		B115FDCA2E44F1AD00805522 /* KakaoSDKAuth */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = B115FDC72E44F1AD00805522 /* XCRemoteSwiftPackageReference "kakao-ios-sdk" */;
+			productName = KakaoSDKAuth;
+		};
 		E292211D2E05478C00B6DC0D /* FirebaseAnalyticsWithoutAdIdSupport */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = E292211C2E05478C00B6DC0D /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
