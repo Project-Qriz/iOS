@@ -90,6 +90,8 @@
 		B17FE3082D27F87E002EC7D7 /* String+.swift in Sources */ = {isa = PBXBuildFile; fileRef = B17FE3072D27F87E002EC7D7 /* String+.swift */; };
 		B17FE30A2D27F8E9002EC7D7 /* UITextField+.swift in Sources */ = {isa = PBXBuildFile; fileRef = B17FE3092D27F8E9002EC7D7 /* UITextField+.swift */; };
 		B17FE30C2D27F931002EC7D7 /* CustomTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = B17FE30B2D27F931002EC7D7 /* CustomTextField.swift */; };
+		B181C4F42E5317D60086B037 /* SocialLoginService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B181C4F32E5317D60086B037 /* SocialLoginService.swift */; };
+		B181C4F62E5367250086B037 /* SocialLoginRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = B181C4F52E5367250086B037 /* SocialLoginRequest.swift */; };
 		B18CDBF92DCCF8C700DD361A /* Date+.swift in Sources */ = {isa = PBXBuildFile; fileRef = B18CDBF82DCCF8C700DD361A /* Date+.swift */; };
 		B18CDF6F2DD2FF9500DD361A /* TermsAgreementModalViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B18CDF6E2DD2FF9500DD361A /* TermsAgreementModalViewController.swift */; };
 		B18CDF712DD3001B00DD361A /* TermsAgreementModalMainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B18CDF702DD3001B00DD361A /* TermsAgreementModalMainView.swift */; };
@@ -370,6 +372,8 @@
 		B17FE3072D27F87E002EC7D7 /* String+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+.swift"; sourceTree = "<group>"; };
 		B17FE3092D27F8E9002EC7D7 /* UITextField+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITextField+.swift"; sourceTree = "<group>"; };
 		B17FE30B2D27F931002EC7D7 /* CustomTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTextField.swift; sourceTree = "<group>"; };
+		B181C4F32E5317D60086B037 /* SocialLoginService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SocialLoginService.swift; sourceTree = "<group>"; };
+		B181C4F52E5367250086B037 /* SocialLoginRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SocialLoginRequest.swift; sourceTree = "<group>"; };
 		B18CDBF82DCCF8C700DD361A /* Date+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+.swift"; sourceTree = "<group>"; };
 		B18CDF6E2DD2FF9500DD361A /* TermsAgreementModalViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TermsAgreementModalViewController.swift; sourceTree = "<group>"; };
 		B18CDF702DD3001B00DD361A /* TermsAgreementModalMainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TermsAgreementModalMainView.swift; sourceTree = "<group>"; };
@@ -1123,6 +1127,7 @@
 				B16774D92D89D49D001820F3 /* AccountRecovery */,
 				B16774D82D89D481001820F3 /* SignUp */,
 				B17D6AD62D940FD50023FCA5 /* LoginRequest.swift */,
+				B181C4F52E5367250086B037 /* SocialLoginRequest.swift */,
 			);
 			path = Auth;
 			sourceTree = "<group>";
@@ -1133,6 +1138,7 @@
 				B16774D62D89D2EE001820F3 /* AccountRecoveryService.swift */,
 				B16774D22D857FC6001820F3 /* SignUpService.swift */,
 				B17D6AD82D97FE450023FCA5 /* LoginService.swift */,
+				B181C4F32E5317D60086B037 /* SocialLoginService.swift */,
 			);
 			path = Auth;
 			sourceTree = "<group>";
@@ -2155,6 +2161,7 @@
 				E25855A62DC3AE0800AE174C /* DailyService.swift in Sources */,
 				E24991B52DE5BC430012BA13 /* ScoreGraphData.swift in Sources */,
 				B1386C6E2DF0C787009D041F /* CardBackgroundView.swift in Sources */,
+				B181C4F42E5317D60086B037 /* SocialLoginService.swift in Sources */,
 				541878572D0E22700089F478 /* NetworkError.swift in Sources */,
 				B15109832E04DFA400657506 /* ChangePasswordMainView.swift in Sources */,
 				E2A6C6762DCA45970059F960 /* ExamResultRequest.swift in Sources */,
@@ -2267,6 +2274,7 @@
 				B18F45152D3A40BE0030F7DB /* FindAccountType.swift in Sources */,
 				E24CB1542DB21F0400D88451 /* ResultGradeListData.swift in Sources */,
 				E24CB1582DB337FE00D88451 /* ResultDetailData.swift in Sources */,
+				B181C4F62E5367250086B037 /* SocialLoginRequest.swift in Sources */,
 				E211ADFC2DE467B700AB24FE /* ExamResultViewModel.swift in Sources */,
 				E239630B2D083B900092B39B /* SceneDelegate.swift in Sources */,
 				E2D70FEC2D0EBDDD005A3F51 /* CheckListCell.swift in Sources */,
