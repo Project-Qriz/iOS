@@ -62,8 +62,8 @@ final class SocialLoginView: UIView {
     private lazy var socialLoginHStackView: UIStackView = {
         let stackView = UIStackView(arrangedSubviews: [
             buildButton(socialLogin: .google),
-            buildButton(socialLogin: .naver),
-            buildButton(socialLogin: .facebook)
+            buildButton(socialLogin: .kakao),
+            buildButton(socialLogin: .apple)
         ])
         stackView.axis = .horizontal
         stackView.spacing = 20

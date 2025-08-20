@@ -15,6 +15,7 @@ final class LoginViewModel {
     
     private let loginService: LoginService
     private let userInfoService: UserInfoService
+    private let socialLoginService: SocialLoginService
     private let outputSubject: PassthroughSubject<Output, Never> = .init()
     private var cancellables = Set<AnyCancellable>()
     private let logger = Logger(subsystem: Bundle.main.bundleIdentifier ?? "kr.QRIZ", category: "LoginViewModel")
@@ -26,10 +27,12 @@ final class LoginViewModel {
     
     init(
         loginService: LoginService,
-        userInfoService: UserInfoService
+        userInfoService: UserInfoService,
+        socialLoginService: SocialLoginService = SocialLoginServiceImpl()
     ) {
         self.loginService = loginService
         self.userInfoService = userInfoService
+        self.socialLoginService = socialLoginService 
     }
     
     // MARK: - Functions
@@ -71,10 +74,10 @@ final class LoginViewModel {
         switch socialLogin {
         case .google:
             print("구글 로그인")
-        case .naver:
-            print("네이버 로그인")
-        case .facebook:
-            print("페이스북 로그인")
+        case .kakao:
+            kakaoLogin()
+        case .apple:
+            print("애플 로그인")
         }
     }
     
@@ -96,6 +99,20 @@ final class LoginViewModel {
                     outputSubject.send(.showErrorAlert(title: title, descrption: description))
                     logger.error("Unhandled error in login: \(String(describing: error), privacy: .public)")
                 }
+            }
+        }
+    }
+    
+    private func kakaoLogin() {
+        Task {
+            do {
+                let _ = try await socialLoginService.loginWithKakao()
+                let userInfo = try await userInfoService.getUserInfo()
+                UserInfoManager.shared.update(from: userInfo.data)
+                outputSubject.send(.loginSucceeded)
+            } catch {
+                outputSubject.send(.showErrorAlert(title: "카카오 로그인 실패", descrption: "잠시 후 다시 시도해 주세요."))
+                logger.error("Kakao social login failed: \(String(describing: error), privacy: .public)")
             }
         }
     }
@@ -125,8 +142,8 @@ extension LoginViewModel {
     }
     
     enum SocialLogin: String {
-        case google = "구글"
-        case naver = "네이버"
-        case facebook = "페북"
+        case google = "google"
+        case kakao = "kakao"
+        case apple = "apple"
     }
 }
