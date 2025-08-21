@@ -145,5 +145,13 @@ extension LoginViewModel {
         case google = "google"
         case kakao = "kakao"
         case apple = "apple"
+        
+        var logoName: String {
+            switch self {
+            case .google: return "googleLogo"
+            case .kakao:  return "kakaoLogo"
+            case .apple:  return "appleLogo"
+            }
+        }
     }
 }

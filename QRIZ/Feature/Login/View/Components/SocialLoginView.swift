@@ -97,10 +97,8 @@ final class SocialLoginView: UIView {
     
     private func buildButton(socialLogin: LoginViewModel.SocialLogin) -> UIButton {
         let button = RoundButton()
-        button.setTitle(socialLogin.rawValue, for: .normal)
-        button.titleLabel?.font = .systemFont(ofSize: 16.8, weight: .regular)
-        button.setTitleColor(.white, for: .normal)
-        button.backgroundColor = .coolNeutral500
+        let image = UIImage(named: socialLogin.logoName)
+        button.setImage(image, for: .normal)
         button.layer.masksToBounds = true
         button.translatesAutoresizingMaskIntoConstraints = false
         
