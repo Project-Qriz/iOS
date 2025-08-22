@@ -14,7 +14,7 @@ final class SocialLoginView: UIView {
     
     private enum Metric {
         static let separatorHeight: CGFloat = 1.0
-        static let roundButtonSize: CGFloat = 48.0
+        static let roundButtonSize: CGFloat = 44.0
         static let socialLoginHStackViewTopOffset: CGFloat = 12.0
     }
     
