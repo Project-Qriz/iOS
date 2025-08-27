@@ -100,6 +100,8 @@ final class SocialLoginView: UIView {
         let image = UIImage(named: socialLogin.logoName)
         button.setImage(image, for: .normal)
         button.layer.masksToBounds = true
+        button.layer.borderWidth = 0.1
+        button.layer.borderColor = UIColor.gray.cgColor
         button.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
