@@ -5,6 +5,20 @@
 //  Created by 김세훈 on 8/18/25.
 //
 
+/*
+{
+    "code": 1,
+    "msg": "소셜 로그인 성공",
+    "data": {
+        "provider": "KAKAO",
+        "email": "asdfasdf@naver.com",
+        "nickname": "김세훈",
+        "previewStatus": "SURVEY_COMPLETED"
+    }
+}
+*/
+
+
 import Foundation
 
 struct SocialLoginRequest: Request {
@@ -37,6 +51,6 @@ struct SocialLoginResponse: Decodable {
         let provider: String
         let email: String
         let nickname: String
-        let previewStatus: String
+        let previewStatus: PreviewTestStatus
     }
 }
