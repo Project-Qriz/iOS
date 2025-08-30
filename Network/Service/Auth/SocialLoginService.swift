@@ -10,7 +10,12 @@ import KakaoSDKAuth
 import KakaoSDKUser
 
 protocol SocialLoginService {
+    /// 카카오 로그인
     func loginWithKakao() async throws -> SocialLoginResponse
+    
+    /// 카카오 로그인 연결 해제
+    /// https://developers.kakao.com/docs/latest/ko/kakaologin/rest-api#unlink
+    func unlinkKakao() async throws
 }
 
 final class SocialLoginServiceImpl: SocialLoginService {
@@ -32,6 +37,18 @@ final class SocialLoginServiceImpl: SocialLoginService {
         let accessToken = try await kakaoAccessToken()
         let request = SocialLoginRequest(provider: .kakao, authCode: accessToken)
         return try await network.send(request)
+    }
+    
+    func unlinkKakao() async throws {
+        try await withCheckedThrowingContinuation { (cont: CheckedContinuation<Void, Error>) in
+            UserApi.shared.unlink { error in
+                if let error = error {
+                    cont.resume(throwing: error)
+                } else {
+                    cont.resume(returning: ())
+                }
+            }
+        }
     }
 }
 
