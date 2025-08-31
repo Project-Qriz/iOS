@@ -26,7 +26,7 @@ struct SocialLoginRequest: Request {
     
     let path = "/api/auth/social/login"
     let method: HTTPMethod = .post
-    let provider: LoginViewModel.SocialLogin
+    let provider: SocialLogin
     let authCode: String
     
     var body: Encodable? {

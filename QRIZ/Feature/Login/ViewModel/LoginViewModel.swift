@@ -140,18 +140,4 @@ extension LoginViewModel {
         case findPassword = "비밀번호 찾기"
         case signUp = "회원가입"
     }
-    
-    enum SocialLogin: String {
-        case google = "google"
-        case kakao = "kakao"
-        case apple = "apple"
-        
-        var logoName: String {
-            switch self {
-            case .google: return "googleLogo"
-            case .kakao:  return "kakaoLogo"
-            case .apple:  return "appleLogo"
-            }
-        }
-    }
 }
