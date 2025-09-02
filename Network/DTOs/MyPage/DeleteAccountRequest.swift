@@ -12,7 +12,7 @@ struct DeleteAccountRequest: Request {
     
     private let accessToken: String
     let path = "/api/v1/withdraw"
-    let method: HTTPMethod = .post
+    let method: HTTPMethod = .delete
     
     var headers: HTTPHeader {
         [
