@@ -16,6 +16,9 @@ protocol MyPageService {
     
     /// 계정 탈퇴
     func deleteAccount() async throws -> DeleteAccountResponse
+    
+    /// 카카오 계정 탈퇴
+    func deleteKakaoAccount() async throws -> KakaoDeleteAccountResponse
 }
 
 final class MyPageServiceImpl: MyPageService {
@@ -52,6 +55,12 @@ final class MyPageServiceImpl: MyPageService {
     func deleteAccount() async throws -> DeleteAccountResponse {
         let access = keychain.retrieveToken(forKey: HTTPHeaderField.accessToken.rawValue) ?? ""
         let request = DeleteAccountRequest(accessToken: access)
+        return try await network.send(request)
+    }
+    
+    func deleteKakaoAccount() async throws -> KakaoDeleteAccountResponse {
+        let access = keychain.retrieveToken(forKey: HTTPHeaderField.accessToken.rawValue) ?? ""
+        let request = KakaoDeleteAccountRequest(accessToken: access)
         return try await network.send(request)
     }
 }
