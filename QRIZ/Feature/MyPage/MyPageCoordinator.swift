@@ -36,16 +36,19 @@ final class MyPageCoordinatorImpl: MyPageCoordinator {
     private let examService: ExamScheduleService
     private let myPageService: MyPageService
     private let accountRecoveryService: AccountRecoveryService
+    private let socialLoginService: SocialLoginService
     var childCoordinators: [Coordinator] = []
     
     init(
         examService: ExamScheduleService,
         myPageService: MyPageService,
-        accountRecoveryService: AccountRecoveryService
+        accountRecoveryService: AccountRecoveryService,
+        socialLoginService: SocialLoginService
     ) {
         self.examService = examService
         self.myPageService = myPageService
         self.accountRecoveryService = accountRecoveryService
+        self.socialLoginService = socialLoginService
     }
     
     func start() -> UIViewController {

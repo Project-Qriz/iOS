@@ -24,9 +24,9 @@ final class SocialLoginView: UIView {
     
     // MARK: - Properties
     
-    private let socialLoginTapSubject = PassthroughSubject<LoginViewModel.SocialLogin, Never>()
+    private let socialLoginTapSubject = PassthroughSubject<SocialLogin, Never>()
     
-    var socialLoginPublisher: AnyPublisher<LoginViewModel.SocialLogin, Never> {
+    var socialLoginPublisher: AnyPublisher<SocialLogin, Never> {
         socialLoginTapSubject.eraseToAnyPublisher()
     }
     
@@ -95,7 +95,7 @@ final class SocialLoginView: UIView {
         return separator
     }
     
-    private func buildButton(socialLogin: LoginViewModel.SocialLogin) -> UIButton {
+    private func buildButton(socialLogin: SocialLogin) -> UIButton {
         let button = RoundButton()
         let image = UIImage(named: socialLogin.logoName)
         button.setImage(image, for: .normal)

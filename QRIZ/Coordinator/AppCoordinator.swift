@@ -35,6 +35,7 @@ protocol AppCoordinatorDependency {
     var userInfoService: UserInfoService { get }
     var onboardingService: OnboardingService { get }
     var weeklyRecommendService: WeeklyRecommendService { get }
+    var socialLoginService: SocialLoginService { get }
     
     // Utils
     var keychain: KeychainManager { get }
@@ -58,6 +59,7 @@ final class AppCoordinatorDependencyImpl: AppCoordinatorDependency {
     lazy var userInfoService: UserInfoService = UserInfoServiceImpl(network: network, keychainManager: keychain)
     lazy var onboardingService: OnboardingService = OnboardingServiceImpl(network: network, keychainManager: keychain)
     lazy var weeklyRecommendService: WeeklyRecommendService = WeeklyRecommendServiceImpl(network: network, keychain: keychain)
+    lazy var socialLoginService: SocialLoginService = SocialLoginServiceImpl()
     
     private lazy var _loginCoordinator: LoginCoordinator = {
         let navi = UINavigationController()
@@ -83,7 +85,8 @@ final class AppCoordinatorDependencyImpl: AppCoordinatorDependency {
             userInfoService: userInfoService,
             myPageService: myPageService,
             accountRecoveryService: accountRecoveryService,
-            weeklyService: weeklyRecommendService
+            weeklyService: weeklyRecommendService,
+            socialLoginService: socialLoginService
         )
         return TabBarCoordinatorImpl(dependency: tabBarDependency)
     }
