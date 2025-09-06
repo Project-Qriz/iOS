@@ -78,6 +78,8 @@ final class LoginViewModel {
             kakaoLogin()
         case .apple:
             print("애플 로그인")
+        case .email:
+            break
         }
     }
     
