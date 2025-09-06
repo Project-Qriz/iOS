@@ -154,7 +154,10 @@ final class MyPageCoordinatorImpl: MyPageCoordinator {
     }
     
     func showDeleteAccount() {
-        let viewModel = DeleteAccountViewModel(myPageService: myPageService)
+        let viewModel = DeleteAccountViewModel(
+            myPageService: myPageService,
+            socialLoginService: socialLoginService
+        )
         let vc = DeleteAccountViewController(viewModel: viewModel)
         vc.coordinator = self
         vc.hidesBottomBarWhenPushed = true

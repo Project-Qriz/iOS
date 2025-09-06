@@ -14,6 +14,7 @@ final class DeleteAccountViewModel {
     // MARK: - Properties
     
     private let myPageService: MyPageService
+    private let socialLoginService: SocialLoginService
     private let outputSubject = PassthroughSubject<Output, Never>()
     private var cancellables = Set<AnyCancellable>()
     private let logger = Logger(subsystem: Bundle.main.bundleIdentifier ?? "kr.QRIZ",
@@ -21,8 +22,12 @@ final class DeleteAccountViewModel {
     
     // MARK: - Initialize
     
-    init(myPageService: MyPageService) {
+    init(
+        myPageService: MyPageService,
+        socialLoginService: SocialLoginService
+    ) {
         self.myPageService = myPageService
+        self.socialLoginService = socialLoginService
     }
     
     // MARK: - Functions
@@ -49,7 +54,8 @@ final class DeleteAccountViewModel {
     @MainActor
     private func performDelete() async {
         do {
-            _ = try await myPageService.deleteAccount()
+            let provider = SocialLogin(from: UserInfoManager.shared.provider)
+            try await deleteByProvider(provider)
             outputSubject.send(.deletionSucceeded)
             
         } catch let error as NetworkError {
@@ -59,6 +65,18 @@ final class DeleteAccountViewModel {
         } catch {
             outputSubject.send(.showErrorAlert("잠시 후 다시 시도해 주세요."))
             logger.error("Unhandled error(deleteAccount): \(error.localizedDescription, privacy: .public)")
+        }
+    }
+    
+    @MainActor
+    private func deleteByProvider(_ provider: SocialLogin) async throws {
+        switch provider {
+        case .kakao:
+            try await socialLoginService.unlinkKakao()
+            _ = try await myPageService.deleteKakaoAccount()
+        case .google: break
+        case .apple: break
+        case .email: _ = try await myPageService.deleteAccount()
         }
     }
 }
