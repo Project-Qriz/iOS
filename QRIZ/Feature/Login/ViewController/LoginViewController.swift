@@ -34,6 +34,7 @@ final class LoginViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         bind()
+        observe()
     }
     
     override func loadView() {
@@ -92,6 +93,14 @@ final class LoginViewController: UIViewController {
                         loginCoordinator.delegate?.didLogin(loginCoordinator)
                     }
                 }
+            }
+            .store(in: &cancellables)
+    }
+    
+    private func observe() {
+        view.tapGestureEndedPublisher()
+            .sink { [weak self] _ in
+                self?.view.endEditing(true)
             }
             .store(in: &cancellables)
     }
