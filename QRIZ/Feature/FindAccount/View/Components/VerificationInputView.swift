@@ -45,7 +45,7 @@ final class VerificationInputView: UIView {
     private let sendButtonTappedSubject = PassthroughSubject<Void, Never>()
     private let confirmButtonTappedSubject = PassthroughSubject<Void, Never>()
     private var cancellables = Set<AnyCancellable>()
-
+    
     var sendButtonTappedPublisher: AnyPublisher<Void, Never> {
         sendButtonTappedSubject.eraseToAnyPublisher()
     }
@@ -157,7 +157,7 @@ final class VerificationInputView: UIView {
         return stackView
     }()
     
-    // MARK: - initialize
+    // MARK: - Initialize
     
     override init(frame: CGRect) {
         super.init(frame: .zero)
@@ -231,7 +231,7 @@ final class VerificationInputView: UIView {
             textField = codeTextField
             defaultText = Attributes.codeErrorText
         }
-
+        
         if isValid {
             hideMessage()
             textField.layer.borderColor = UIColor.customMint800.cgColor
@@ -240,6 +240,22 @@ final class VerificationInputView: UIView {
             showMessage(text, textColor: .customRed500)
             textField.layer.borderColor = UIColor.customRed500.cgColor
         }
+    }
+    
+    func focusInitialField() {
+        if emailTextField.isEnabled {
+            focusEmail()
+        } else if !codeHStackView.isHidden, codeTextField.isEnabled {
+            focusCode()
+        }
+    }
+    
+    func focusEmail() {
+        emailTextField.becomeFirstResponder()
+    }
+    
+    func focusCode() {
+        codeTextField.becomeFirstResponder()
     }
     
     func handleEmailVerificationSuccess() {
@@ -255,6 +271,10 @@ final class VerificationInputView: UIView {
             borderColor: UIColor.coolNeutral600.cgColor,
             backgroundColor: .white
         )
+        
+        DispatchQueue.main.async { [weak self] in
+            self?.focusCode()
+        }
     }
     
     func handleCodeVerificationSuccess() {
