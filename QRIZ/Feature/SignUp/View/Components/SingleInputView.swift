@@ -72,6 +72,12 @@ final class SingleInputView: UIView {
         inputErrorLabel.isHidden = isValid
         textField.layer.borderColor = isValid ? UIColor.customMint800.cgColor : UIColor.customRed500.cgColor
     }
+    
+    func focusInitialField() {
+        DispatchQueue.main.async { [weak self] in
+            self?.textField.becomeFirstResponder()
+        }
+    }
 }
 
 // MARK: - Layout Setup

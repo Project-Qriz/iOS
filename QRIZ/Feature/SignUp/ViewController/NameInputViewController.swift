@@ -21,6 +21,7 @@ final class NameInputViewController: UIViewController {
     weak var coordinator: SignUpCoordinator?
     private let rootView: NameInputMainView
     private let nameInputVM: NameInputViewModel
+    private var didFocusOnce = false
     private var cancellables = Set<AnyCancellable>()
     private var keyboardCancellable: AnyCancellable?
     
@@ -37,6 +38,10 @@ final class NameInputViewController: UIViewController {
     }
     
     // MARK: - Lifecycle
+        
+    override func loadView() {
+        self.view = rootView
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -45,8 +50,15 @@ final class NameInputViewController: UIViewController {
         observe()
     }
     
-    override func loadView() {
-        self.view = rootView
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+
+        guard !didFocusOnce else { return }
+        didFocusOnce = true
+
+        DispatchQueue.main.async { [weak self] in
+            self?.rootView.singleInputView.focusInitialField()
+        }
     }
     
     deinit {
