@@ -123,6 +123,12 @@ final class PasswordInputView: UIView {
         self.backgroundColor = .white
     }
     
+    func focusInitialField() {
+        DispatchQueue.main.async { [weak self] in
+            self?.passwordTextField.becomeFirstResponder()
+        }
+    }
+    
     func updateCharacterRequirementUI(_ isValid: Bool) {
         isCharacterValid = isValid
         

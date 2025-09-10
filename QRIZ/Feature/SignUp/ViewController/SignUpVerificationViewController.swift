@@ -22,6 +22,7 @@ final class SignUpVerificationViewController: UIViewController {
     weak var coordinator: SignUpCoordinator?
     private let rootView: SignUpVerificationMainView
     private let signUpVerificationVM: SignUpVerificationViewModel
+    private var didFocusOnce = false
     private var cancellables = Set<AnyCancellable>()
     private var keyboardCancellable: AnyCancellable?
     
@@ -39,6 +40,10 @@ final class SignUpVerificationViewController: UIViewController {
     
     // MARK: - Lifecycle
     
+    override func loadView() {
+        self.view = rootView
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setNavigationBarTitle(title: Attributes.navigationTitle)
@@ -46,8 +51,15 @@ final class SignUpVerificationViewController: UIViewController {
         observe()
     }
     
-    override func loadView() {
-        self.view = rootView
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+
+        guard !didFocusOnce else { return }
+        didFocusOnce = true
+
+        DispatchQueue.main.async { [weak self] in
+            self?.rootView.verificationInputView.focusInitialField()
+        }
     }
     
     // MARK: - Functions

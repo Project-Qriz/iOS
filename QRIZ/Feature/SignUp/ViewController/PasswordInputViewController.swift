@@ -21,6 +21,7 @@ final class PasswordInputViewController: UIViewController {
     weak var coordinator: SignUpCoordinator?
     private let rootView: PasswordInputMainView
     private let passwordInputVM: PasswordInputViewModel
+    private var didFocusOnce = false
     private var cancellables = Set<AnyCancellable>()
     private var keyboardCancellable: AnyCancellable?
     
@@ -38,15 +39,27 @@ final class PasswordInputViewController: UIViewController {
     
     // MARK: - Lifecycle
     
+    
+    override func loadView() {
+        self.view = rootView
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setNavigationBarTitle(title: Attributes.navigationTitle)
         bind()
         observe()
     }
-    
-    override func loadView() {
-        self.view = rootView
+
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+
+        guard !didFocusOnce else { return }
+        didFocusOnce = true
+
+        DispatchQueue.main.async { [weak self] in
+            self?.rootView.passwordInputView.focusInitialField()
+        }
     }
     
     deinit {

@@ -117,6 +117,12 @@ final class IDInputView: UIView {
         noticeLabel.textColor = isAvailable ? .customMint800 : .customRed500
         idTextField.layer.borderColor = isAvailable ? UIColor.customMint800.cgColor : UIColor.customRed500.cgColor
     }
+    
+    func focusInitialField() {
+        DispatchQueue.main.async { [weak self] in
+            self?.idTextField.becomeFirstResponder()
+        }
+    }
 }
 
 // MARK: - Layout Setup
