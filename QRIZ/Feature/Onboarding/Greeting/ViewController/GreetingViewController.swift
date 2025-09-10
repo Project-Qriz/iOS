@@ -11,7 +11,7 @@ import Combine
 final class GreetingViewController: UIViewController {
     
     // MARK: - Properties
-    private var nickname: String = "임시"
+    private var nickname: String = UserInfoManager.shared.name
     private var greetingTitleLabel: UILabel = OnboardingTitleLabel(labelText: "님\n환영합니다")
     private let greetingSubtitleLabel: UILabel = OnboardingSubtitleLabel("준비되어 있는 오늘의 공부와, 모의고사로\n시험을 같이 준비해봐요!")
     private let greetingImageView: UIImageView = UIImageView(image: UIImage(named: "onboarding3"))
