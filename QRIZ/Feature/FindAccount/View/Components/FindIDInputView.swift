@@ -76,6 +76,12 @@ final class FindIDInputView: UIView {
         ? UIColor.coolNeutral600.cgColor
         : UIColor.customRed500.cgColor
     }
+    
+    func focusInitialField() {
+        DispatchQueue.main.async { [weak self] in
+            self?.textField.becomeFirstResponder()
+        }
+    }
 }
 
 // MARK: - Layout Setup
