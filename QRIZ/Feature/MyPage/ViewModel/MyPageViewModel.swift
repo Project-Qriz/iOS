@@ -74,11 +74,13 @@ final class MyPageViewModel {
                 outputSubject.send(.setupView(userName: userName, version: "\(version.data.versionInfo)"))
                 
             } catch let error as NetworkError {
-                outputSubject.send(.showErrorAlert(error.errorMessage))
+                let version = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "0.0.0"
+                outputSubject.send(.setupView(userName: userName, version: version))
                 logger.error("NetworkError(fetchVersion): \(error.description, privacy: .public)")
                 
             } catch {
-                outputSubject.send(.showErrorAlert("버전 정보를 가져오는데 실패했습니다."))
+                let version = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "0.0.0"
+                outputSubject.send(.setupView(userName: userName, version: version))
                 logger.error("Unhandled error(fetchVersion): \(error.localizedDescription, privacy: .public)")
             }
         }
@@ -86,16 +88,18 @@ final class MyPageViewModel {
     
     @MainActor
     private func performReset() async {
+        let title = "초기화할 수 없습니다."
+        
         do {
             let response = try await myPageService.resetPlan()
             outputSubject.send(.resetSucceeded(message: response.msg))
             
         } catch let error as NetworkError  {
-            outputSubject.send(.showErrorAlert(error.errorMessage))
+            outputSubject.send(.showErrorAlert(title: title, description: error.errorMessage))
             logger.error("NetworkError(resetPlan): \(error.description, privacy: .public)")
             
         } catch {
-            outputSubject.send(.showErrorAlert("플랜 초기화에 실패했습니다."))
+            outputSubject.send(.showErrorAlert(title: title, description: "잠시 후 다시 시도해주세요."))
             logger.error("Unhandled error(resetPlan): \(error.localizedDescription, privacy: .public)")
         }
     }
@@ -117,7 +121,7 @@ extension MyPageViewModel {
         case navigateToSettingsView
         case showResetAlert
         case resetSucceeded(message: String)
-        case showErrorAlert(String)
+        case showErrorAlert(title: String, description: String? = nil)
         case showExamSchedule
         case showTermsDetail(termItem: TermItem)
     }

@@ -91,8 +91,8 @@ final class MyPageViewController: UIViewController {
                 case .resetSucceeded(let message):
                     self.showOneButtonAlert(with: message, storingIn: &cancellables)
                     
-                case .showErrorAlert(let message):
-                    self.showOneButtonAlert(with: message, storingIn: &cancellables)
+                case .showErrorAlert(let title, let description):
+                    self.showOneButtonAlert(with: title, for: description, storingIn: &cancellables)
                     
                 case .showExamSchedule:
                     self.coordinator?.showExamSelectionSheet()
