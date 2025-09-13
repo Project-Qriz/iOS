@@ -10,7 +10,10 @@ import Foundation
 final class ScoreGraphData: ObservableObject {
     @Published var filterType: ScoreGraphFilterType = .byTotalScore
     @Published var totalScores: [GraphData] = []
-    @Published var subjectScores: [GraphData] = []
+    var subject1Scores: [GraphData] = []
+    var subject2Scores: [GraphData] = []
+    @Published var indexedSubject1Scores: [IndexedGraphData] = []
+    @Published var indexedSubject2Scores: [IndexedGraphData] = []
     
     func convertGraphScoreData(_ historicalScores : [HistoricalScore]) {
         if historicalScores.isEmpty { return }
@@ -20,22 +23,37 @@ final class ScoreGraphData: ObservableObject {
                 score: $0.itemScores[0].score + $0.itemScores[1].score,
                 type: ""
             ))
-            subjectScores.append(GraphData(
+            subject1Scores.append(GraphData(
                 date: $0.displayDate.graphDate,
                 score: $0.itemScores[0].score,
                 type: "1과목"
             ))
-            subjectScores.append(GraphData(
+            subject2Scores.append(GraphData(
                 date: $0.displayDate.graphDate,
                 score: $0.itemScores[1].score,
                 type: "2과목"
             ))
         }
+        indexedSubject1Scores = subject1Scores.enumerated().map { idx, item in
+            IndexedGraphData(index: idx, date: item.date, score: item.score, type: "1과목")
+        }
+        indexedSubject2Scores = subject2Scores.enumerated().map { idx, item in
+            IndexedGraphData(index: idx, date: item.date, score: item.score, type: "2과목")
+        }
     }
     
+    init() { }
 }
 
 struct GraphData {
+    let date: Date
+    let score: Double
+    let type: String
+}
+
+struct IndexedGraphData: Identifiable {
+    let id = UUID()
+    let index: Int
     let date: Date
     let score: Double
     let type: String
