@@ -2022,7 +2022,7 @@
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
 				LastSwiftUpdateCheck = 1540;
-				LastUpgradeCheck = 1540;
+				LastUpgradeCheck = 1620;
 				TargetAttributes = {
 					E23963042D083B8F0092B39B = {
 						CreatedOnToolsVersion = 15.4;
@@ -2138,7 +2138,6 @@
 				B19C4FBF2D6B6E3400CD008A /* MistakeNoteViewController.swift in Sources */,
 				B16774DD2D89F6C6001820F3 /* VerifyPasswordResetRequest.swift in Sources */,
 				B18CDBF92DCCF8C700DD361A /* Date+.swift in Sources */,
-				E29CCD3C2D298656004AA30A /* PreviewResultBarGraphsView.swift in Sources */,
 				54DB0DA12D0951C000ABD458 /* Font+.swift in Sources */,
 				B127B6E22DED89B00048401F /* SessionEvent.swift in Sources */,
 				B16774C92D80A244001820F3 /* JoinRequest.swift in Sources */,
@@ -2214,7 +2213,6 @@
 				B1D813732D6E0CB200A9D447 /* ConceptBookCoordinator.swift in Sources */,
 				E211ADFA2DE467A000AB24FE /* ExamResultViewController.swift in Sources */,
 				E24CB1D92DBCAA3700D88451 /* OnboardingService.swift in Sources */,
-				B1D813732D6E0CB200A9D447 /* ConceptBookCoordinator.swift in Sources */,
 				54BC61592D1823F50094DC45 /* SocialLoginView.swift in Sources */,
 				E29FE40A2DBA3F2900DECB26 /* UserInfoManager.swift in Sources */,
 				B18F451A2D4139B00030F7DB /* UILabel+.swift in Sources */,
@@ -2310,7 +2308,6 @@
 				E2A6C14A2DC5E0B10059F960 /* ExamQuestionRequest.swift in Sources */,
 				E24907D82D61A289004D6E61 /* DailyLearnType.swift in Sources */,
 				E23ADF122DC07AE100FE1C0B /* ResultScoresData.swift in Sources */,
-				B168B76F2D2826010000F32E /* IDInputMainView.swift in Sources */,
 				B16774CD2D82A44C001820F3 /* SignUpFlowViewModel.swift in Sources */,
 				B151083E2DFFEB2700657506 /* MyPageSection.swift in Sources */,
 				B151083F2DFFEB2700657506 /* ProfileCell.swift in Sources */,
@@ -2588,7 +2585,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = E26AF7022D918F03006E3252 /* Debug.xcconfig */;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
@@ -2609,7 +2605,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = E26AF7012D918EFC006E3252 /* Release.xcconfig */;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
@@ -2630,7 +2625,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = E26AF7022D918F03006E3252 /* Debug.xcconfig */;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 876W82FDBV;
@@ -2649,7 +2643,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = E26AF7012D918EFC006E3252 /* Release.xcconfig */;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 876W82FDBV;
