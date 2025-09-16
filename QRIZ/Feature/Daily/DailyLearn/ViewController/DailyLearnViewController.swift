@@ -48,6 +48,7 @@ final class DailyLearnViewController: UIViewController {
     weak var coordinator: DailyCoordinator?
     
     private var conceptArr: [(Int, String)] = []
+    private var testNavigatorHeightConstraint: NSLayoutConstraint? = nil
     
     // MARK: - Initializer
     init(dailyLearnViewModel: DailyLearnViewModel) {
@@ -278,6 +279,11 @@ extension DailyLearnViewController {
     
     private func setNavigatorButtonHeight(state: DailyTestState) {
         let buttonHeight = (state == .retestRequired ? 153.0 : 116.0)
-        testNavigator.heightAnchor.constraint(equalToConstant: buttonHeight).isActive = true
+        
+        testNavigatorHeightConstraint?.isActive = false
+        
+        testNavigatorHeightConstraint = testNavigator.heightAnchor.constraint(equalToConstant: buttonHeight)
+        
+        testNavigatorHeightConstraint?.isActive = true
     }
 }
