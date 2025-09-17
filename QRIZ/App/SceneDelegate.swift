@@ -7,6 +7,7 @@
 
 import UIKit
 import KakaoSDKAuth
+import GoogleSignIn
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     
@@ -41,8 +42,12 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         
         if AuthApi.isKakaoTalkLoginUrl(url) {
             _ = AuthController.handleOpenUrl(url: url)
+            return
         }
-        // TODO: 추후 애플, 구글 로그인 분기 처리
+        
+        if GIDSignIn.sharedInstance.handle(url) {
+            return
+        }
     }
 }
 

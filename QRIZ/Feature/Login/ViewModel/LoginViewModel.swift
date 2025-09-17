@@ -5,7 +5,7 @@
 //  Created by 김세훈 on 12/28/24.
 //
 
-import Foundation
+import UIKit
 import Combine
 import os
 
@@ -56,8 +56,8 @@ final class LoginViewModel {
                 case .accountActionSelected(let action):
                     self.outputSubject.send(.navigateToAccountAction(action))
                     
-                case .socialLoginSelected(let socialLogin):
-                    self.handleSocialLogin(socialLogin)
+                case .socialLoginSelected(let socialLogin, let presenter):
+                    self.handleSocialLogin(socialLogin, presenter: presenter)
                 }
             }
             .store(in: &cancellables)
@@ -70,16 +70,17 @@ final class LoginViewModel {
         outputSubject.send(.isLoginButtonEnabled(isValid))
     }
     
-    private func handleSocialLogin(_ socialLogin: SocialLogin) {
+    private func handleSocialLogin(_ socialLogin: SocialLogin, presenter: UIViewController?) {
         switch socialLogin {
         case .google:
-            print("구글 로그인")
-        case .kakao:
-            kakaoLogin()
-        case .apple:
-            print("애플 로그인")
-        case .email:
-            break
+            guard let presenter = presenter else {
+                logger.error("Google login requires a presenter VC")
+                return
+            }
+            googleLogin(presenting: presenter)
+        case .kakao: kakaoLogin()
+        case .apple: print("애플 로그인")
+        case .email: break
         }
     }
     
@@ -118,6 +119,20 @@ final class LoginViewModel {
             }
         }
     }
+    
+    private func googleLogin(presenting: UIViewController) {
+        Task {
+            do {
+                _ = try await socialLoginService.loginWithGoogle(presenting: presenting)
+                let userInfo = try await userInfoService.getUserInfo()
+                UserInfoManager.shared.update(from: userInfo.data)
+                outputSubject.send(.loginSucceeded)
+            } catch {
+                outputSubject.send(.showErrorAlert(title: "구글 로그인 실패", descrption: "잠시 후 다시 시도해 주세요."))
+                logger.error("Google social login failed: \(String(describing: error), privacy: .public)")
+            }
+        }
+    }
 }
 
 
@@ -127,7 +142,7 @@ extension LoginViewModel {
         case passwordTextChanged(String)
         case loginButtonTapped
         case accountActionSelected(AccountAction)
-        case socialLoginSelected(SocialLogin)
+        case socialLoginSelected(SocialLogin, presenter: UIViewController?)
     }
     
     enum Output {

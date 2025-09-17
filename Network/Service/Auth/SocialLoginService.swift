@@ -5,9 +5,10 @@
 //  Created by 김세훈 on 8/18/25.
 //
 
-import Foundation
+import UIKit
 import KakaoSDKAuth
 import KakaoSDKUser
+import GoogleSignIn
 
 protocol SocialLoginService {
     /// 카카오 로그인
@@ -20,6 +21,9 @@ protocol SocialLoginService {
     /// 카카오 로그인 연결 해제
     /// https://developers.kakao.com/docs/latest/ko/kakaologin/rest-api#unlink
     func unlinkKakao() async throws
+    
+    /// 구글 로그인
+    func loginWithGoogle(presenting: UIViewController) async throws -> SocialLoginResponse
 }
 
 final class SocialLoginServiceImpl: SocialLoginService {
@@ -66,6 +70,14 @@ final class SocialLoginServiceImpl: SocialLoginService {
             }
         }
     }
+    
+    // MARK: - Google
+    
+    func loginWithGoogle(presenting: UIViewController) async throws -> SocialLoginResponse {
+        let idToken = try await googleIdToken(presenting: presenting)
+        let request = SocialLoginRequest(provider: .google, authCode: idToken)
+        return try await network.send(request)
+    }
 }
 
 private extension SocialLoginServiceImpl {
@@ -93,6 +105,27 @@ private extension SocialLoginServiceImpl {
                 } else {
                     UserApi.shared.loginWithKakaoAccount(completion: complete)
                 }
+            }
+        }
+    }
+    
+    @MainActor
+    func googleIdToken(presenting: UIViewController) async throws -> String {
+        try await withCheckedThrowingContinuation { (cont: CheckedContinuation<String, Error>) in
+            GIDSignIn.sharedInstance.signIn(withPresenting: presenting) { result, error in
+                if let error = error {
+                    cont.resume(throwing: error)
+                    return
+                }
+                guard let token = result?.user.idToken?.tokenString, !token.isEmpty else {
+                    cont.resume(throwing: NSError(
+                        domain: "google",
+                        code: -1,
+                        userInfo: [NSLocalizedDescriptionKey: "Empty Google ID Token"]
+                    ))
+                    return
+                }
+                cont.resume(returning: token)
             }
         }
     }
