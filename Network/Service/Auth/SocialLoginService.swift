@@ -24,6 +24,9 @@ protocol SocialLoginService {
     
     /// 구글 로그인
     func loginWithGoogle(presenting: UIViewController) async throws -> SocialLoginResponse
+    
+    /// 구글 로그아웃
+    func logoutGoogle() async throws
 }
 
 final class SocialLoginServiceImpl: SocialLoginService {
@@ -77,6 +80,10 @@ final class SocialLoginServiceImpl: SocialLoginService {
         let idToken = try await googleIdToken(presenting: presenting)
         let request = SocialLoginRequest(provider: .google, authCode: idToken)
         return try await network.send(request)
+    }
+    
+    func logoutGoogle() async throws {
+        GIDSignIn.sharedInstance.signOut()
     }
 }
 

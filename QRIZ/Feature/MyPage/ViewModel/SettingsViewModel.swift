@@ -77,7 +77,7 @@ final class SettingsViewModel {
             
             switch provider {
             case .kakao: try await socialLoginService.logoutKakao()
-            case .google: break
+            case .google: try await socialLoginService.logoutGoogle()
             case .apple: break
             case .email: break
             }
