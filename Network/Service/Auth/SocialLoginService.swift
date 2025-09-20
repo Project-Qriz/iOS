@@ -27,6 +27,9 @@ protocol SocialLoginService {
     
     /// 구글 로그아웃
     func logoutGoogle() async throws
+    
+    /// 구글 로그인 연결 해제
+    func unlinkGoogle() async throws
 }
 
 final class SocialLoginServiceImpl: SocialLoginService {
@@ -84,6 +87,10 @@ final class SocialLoginServiceImpl: SocialLoginService {
     
     func logoutGoogle() async throws {
         GIDSignIn.sharedInstance.signOut()
+    }
+    
+    func unlinkGoogle() async throws {
+        try await GIDSignIn.sharedInstance.disconnect()
     }
 }
 
