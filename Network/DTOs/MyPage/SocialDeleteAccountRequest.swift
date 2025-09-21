@@ -1,5 +1,5 @@
 //
-//  KakaoDeleteAccountRequest.swift
+//  SocialDeleteAccountRequest.swift
 //  QRIZ
 //
 //  Created by 김세훈 on 9/2/25.
@@ -7,11 +7,12 @@
 
 import Foundation
 
-struct KakaoDeleteAccountRequest: Request {
-    typealias Response = KakaoDeleteAccountResponse
+struct SocialDeleteAccountRequest: Request {
+    typealias Response = SocialDeleteAccountResponse
     
+    private let socialLoginType: SocialLogin
     private let accessToken: String
-    let path = "/api/auth/social/kakao/withdraw"
+    var path: String { "/api/auth/social/\(socialLoginType.rawValue)/withdraw" }
     let method: HTTPMethod = .delete
     
     var headers: HTTPHeader {
@@ -21,12 +22,13 @@ struct KakaoDeleteAccountRequest: Request {
         ]
     }
     
-    init(accessToken: String) {
+    init(socialLoginType: SocialLogin, accessToken: String) {
+        self.socialLoginType = socialLoginType
         self.accessToken = accessToken
     }
 }
 
-struct KakaoDeleteAccountResponse: Decodable {
+struct SocialDeleteAccountResponse: Decodable {
     let code: Int
     let msg: String
 }

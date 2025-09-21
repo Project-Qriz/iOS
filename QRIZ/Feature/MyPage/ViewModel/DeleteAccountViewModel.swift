@@ -73,8 +73,10 @@ final class DeleteAccountViewModel {
         switch provider {
         case .kakao:
             try await socialLoginService.unlinkKakao()
-            _ = try await myPageService.deleteKakaoAccount()
-        case .google: break
+            _ = try await myPageService.deleteSocialAccount(socialLoginType: .kakao)
+        case .google:
+            try await socialLoginService.unlinkGoogle()
+            _ = try await myPageService.deleteSocialAccount(socialLoginType: .google)
         case .apple: break
         case .email: _ = try await myPageService.deleteAccount()
         }
