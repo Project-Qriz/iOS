@@ -77,7 +77,7 @@ final class SocialLoginServiceImpl: SocialLoginService {
     // MARK: - Google
     
     func loginWithGoogle(presenting: UIViewController) async throws -> SocialLoginResponse {
-        let idToken = try await googleIdToken(presenting: presenting)
+        let (idToken, serverAuthCode) = try await googleTokens(presenting: presenting)
         let request = SocialLoginRequest(provider: .google, authCode: idToken)
         return try await network.send(request)
     }
@@ -117,23 +117,25 @@ private extension SocialLoginServiceImpl {
     }
     
     @MainActor
-    func googleIdToken(presenting: UIViewController) async throws -> String {
-        try await withCheckedThrowingContinuation { (cont: CheckedContinuation<String, Error>) in
-            GIDSignIn.sharedInstance.signIn(withPresenting: presenting) { result, error in
+    func googleTokens(presenting: UIViewController) async throws -> (idToken: String, serverAuthCode: String) {
+        try await withCheckedThrowingContinuation { (cont: CheckedContinuation<(String, String), Error>) in
+            GIDSignIn.sharedInstance.signIn(withPresenting: presenting, completion: { result, error in
                 if let error = error {
                     cont.resume(throwing: error)
                     return
                 }
-                guard let token = result?.user.idToken?.tokenString, !token.isEmpty else {
+                guard let result = result,
+                      let code = result.serverAuthCode, !code.isEmpty,
+                      let idToken = result.user.idToken?.tokenString, !idToken.isEmpty else {
                     cont.resume(throwing: NSError(
                         domain: "google",
-                        code: -1,
-                        userInfo: [NSLocalizedDescriptionKey: "Empty Google ID Token"]
+                        code: -2,
+                        userInfo: [NSLocalizedDescriptionKey: "Missing serverAuthCode or idToken (check serverClientID setting)"]
                     ))
                     return
                 }
-                cont.resume(returning: token)
-            }
+                cont.resume(returning: (idToken, code))
+            })
         }
     }
 }
