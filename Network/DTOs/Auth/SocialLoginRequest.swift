@@ -32,7 +32,7 @@ struct SocialLoginRequest: Request {
     var body: Encodable? {
         [
             "provider": provider.rawValue,
-            "authCode": authCode,
+            provider.codeKey: authCode,
             "platform": "ios"
         ]
     }

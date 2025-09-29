@@ -29,4 +29,11 @@ enum SocialLogin: String {
         }
         self = SocialLogin(rawValue: value) ?? .email
     }
+    
+    var codeKey: String {
+        switch self {
+        case .google: return "serverAuthCode"
+        default: return "authCode"
+        }
+    }
 }
