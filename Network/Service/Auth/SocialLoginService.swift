@@ -76,9 +76,24 @@ final class SocialLoginServiceImpl: SocialLoginService {
     
     // MARK: - Google
     
+    @MainActor
+    func ensureGoogleConfigured() async throws {
+        guard let iosClientID = Bundle.main.object(forInfoDictionaryKey: "GIDClientID") as? String,
+              let webClientID = Bundle.main.object(forInfoDictionaryKey: "GoogleWebClientID") as? String else {
+            throw NSError(
+                domain: "google",
+                code: -99,
+                userInfo: [NSLocalizedDescriptionKey: "Missing GIDClientID or GoogleWebClientID in Info.plist"]
+            )
+        }
+        let config = GIDConfiguration(clientID: iosClientID, serverClientID: webClientID)
+        GIDSignIn.sharedInstance.configuration = config
+    }
+    
     func loginWithGoogle(presenting: UIViewController) async throws -> SocialLoginResponse {
-        let (idToken, serverAuthCode) = try await googleTokens(presenting: presenting)
-        let request = SocialLoginRequest(provider: .google, authCode: idToken)
+        try await ensureGoogleConfigured()
+        let serverAuthCode = try await googleToken(presenting: presenting)
+        let request = SocialLoginRequest(provider: .google, authCode: serverAuthCode)
         return try await network.send(request)
     }
     
@@ -117,25 +132,23 @@ private extension SocialLoginServiceImpl {
     }
     
     @MainActor
-    func googleTokens(presenting: UIViewController) async throws -> (idToken: String, serverAuthCode: String) {
-        try await withCheckedThrowingContinuation { (cont: CheckedContinuation<(String, String), Error>) in
-            GIDSignIn.sharedInstance.signIn(withPresenting: presenting, completion: { result, error in
+    func googleToken(presenting: UIViewController) async throws -> String {
+        try await withCheckedThrowingContinuation { (cont: CheckedContinuation<String, Error>) in
+            GIDSignIn.sharedInstance.signIn(withPresenting: presenting) { result, error in
                 if let error = error {
                     cont.resume(throwing: error)
                     return
                 }
-                guard let result = result,
-                      let code = result.serverAuthCode, !code.isEmpty,
-                      let idToken = result.user.idToken?.tokenString, !idToken.isEmpty else {
+                guard let authCode = result?.serverAuthCode, !authCode.isEmpty else {
                     cont.resume(throwing: NSError(
                         domain: "google",
-                        code: -2,
-                        userInfo: [NSLocalizedDescriptionKey: "Missing serverAuthCode or idToken (check serverClientID setting)"]
+                        code: -1,
+                        userInfo: [NSLocalizedDescriptionKey: "Empty Google ID Token"]
                     ))
                     return
                 }
-                cont.resume(returning: (idToken, code))
-            })
+                cont.resume(returning: authCode)
+            }
         }
     }
 }
