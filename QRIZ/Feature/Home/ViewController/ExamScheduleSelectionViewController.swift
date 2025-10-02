@@ -30,13 +30,13 @@ final class ExamScheduleSelectionViewController: UIViewController {
     
     // MARK: - LifeCycle
     
+    override func loadView() {
+        self.view = rootView
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         bind()
-    }
-    
-    override func loadView() {
-        self.view = rootView
     }
     
     // MARK: - Functions
