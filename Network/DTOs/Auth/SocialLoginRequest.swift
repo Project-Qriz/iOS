@@ -45,9 +45,9 @@ struct SocialLoginRequest: Request {
 struct SocialLoginResponse: Decodable {
     let code: Int
     let msg: String
-    let data: dataInfo
+    let data: DataInfo
     
-    struct dataInfo: Decodable {
+    struct DataInfo: Decodable {
         let provider: String
         let email: String
         let nickname: String

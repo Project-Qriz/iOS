@@ -31,9 +31,9 @@ struct PreviewTestListRequest: Request {
 struct PreviewTestListResponse: Decodable {
     let code: Int
     let msg: String
-    let data: dataInfo
+    let data: DataInfo
     
-    struct dataInfo: Decodable {
+    struct DataInfo: Decodable {
         let questions: [PreviewTestListQuestion]
         let totalTimeLimit: Int
     }
