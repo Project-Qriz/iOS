@@ -48,7 +48,7 @@ struct SocialLoginResponse: Decodable {
     let data: DataInfo
     
     struct DataInfo: Decodable {
-        let provider: String
+        let provider: String?
         let email: String
         let nickname: String
         let previewStatus: PreviewTestStatus

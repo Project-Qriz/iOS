@@ -54,9 +54,14 @@ struct LoginRequest: Request {
 struct LoginResponse: Decodable {
     let code: Int
     let msg: String
+    let refreshToken: String
     let data: DataInfo
     
     struct DataInfo: Decodable {
         let name: String
+        let userId: String
+        let email: String
+        let previewTestStatus: PreviewTestStatus
+        let provider: String?
     }
 }
