@@ -25,6 +25,7 @@
 		B1151FD72E64A1DD00C1F720 /* SocialLoginType.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1151FD62E64A1DD00C1F720 /* SocialLoginType.swift */; };
 		B115FDC92E44F1AD00805522 /* KakaoSDK in Frameworks */ = {isa = PBXBuildFile; productRef = B115FDC82E44F1AD00805522 /* KakaoSDK */; };
 		B115FDCB2E44F1AD00805522 /* KakaoSDKAuth in Frameworks */ = {isa = PBXBuildFile; productRef = B115FDCA2E44F1AD00805522 /* KakaoSDKAuth */; };
+		B11EC5AB2EC1B11700DCE8C5 /* RefreshTokenRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = B11EC5AA2EC1B11700DCE8C5 /* RefreshTokenRequest.swift */; };
 		B127B6E22DED89B00048401F /* SessionEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = B127B6E12DED89B00048401F /* SessionEvent.swift */; };
 		B13045242DD9F9350036EBE2 /* TermsDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B13045232DD9F9350036EBE2 /* TermsDetailViewController.swift */; };
 		B13045262DD9F9AD0036EBE2 /* TermsDetailMainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B13045252DD9F9AD0036EBE2 /* TermsDetailMainView.swift */; };
@@ -310,6 +311,7 @@
 		54E91B752D18FACD00474D0A /* RoundButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoundButton.swift; sourceTree = "<group>"; };
 		B1138AFA2DFD813D004258CA /* DailyResetRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyResetRequest.swift; sourceTree = "<group>"; };
 		B1151FD62E64A1DD00C1F720 /* SocialLoginType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SocialLoginType.swift; sourceTree = "<group>"; };
+		B11EC5AA2EC1B11700DCE8C5 /* RefreshTokenRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RefreshTokenRequest.swift; sourceTree = "<group>"; };
 		B127B6E12DED89B00048401F /* SessionEvent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionEvent.swift; sourceTree = "<group>"; };
 		B13045232DD9F9350036EBE2 /* TermsDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TermsDetailViewController.swift; sourceTree = "<group>"; };
 		B13045252DD9F9AD0036EBE2 /* TermsDetailMainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TermsDetailMainView.swift; sourceTree = "<group>"; };
@@ -927,6 +929,7 @@
 				B1DC70392DA94EEE0007D943 /* EmailAuthenticationRequest.swift */,
 				B16774CE2D82D680001820F3 /* UsernameDuplicationRequest.swift */,
 				B16774C82D80A244001820F3 /* JoinRequest.swift */,
+				B11EC5AA2EC1B11700DCE8C5 /* RefreshTokenRequest.swift */,
 			);
 			path = SignUp;
 			sourceTree = "<group>";
@@ -2219,6 +2222,7 @@
 				E22341AF2DD4C5B000A67D04 /* ExamSummaryViewModel.swift in Sources */,
 				541878542D0E21620089F478 /* HTTPMethod.swift in Sources */,
 				E211AE032DE47D4D00AB24FE /* ExamResultScoreView.swift in Sources */,
+				B11EC5AB2EC1B11700DCE8C5 /* RefreshTokenRequest.swift in Sources */,
 				B18F45222D4645EC0030F7DB /* VerificationInputView.swift in Sources */,
 				E2908E622DAF5B8400B8E81B /* Int+.swift in Sources */,
 				B18CDF6F2DD2FF9500DD361A /* TermsAgreementModalViewController.swift in Sources */,
