@@ -45,6 +45,8 @@ struct SocialLoginRequest: Request {
 struct SocialLoginResponse: Decodable {
     let code: Int
     let msg: String
+    let refreshToken: String?
+    let refreshExpiry: String?
     let data: DataInfo
     
     struct DataInfo: Decodable {
