@@ -10,9 +10,9 @@ import Foundation
 enum HTTPHeaderField: String {
     case contentType = "Content-Type"
     case authorization = "Authorization"
-    case refreshToken = "Refresh-Token"
     case acceptType = "Accept"
     case accessToken = "accessToken"
+    case refreshToken = "refreshToken"
 }
 
 enum ContentType: String {
