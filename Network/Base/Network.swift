@@ -78,7 +78,13 @@ private extension NetworkImpl {
         }
     }
     
-    /// 응답 헤더에 토큰 존재 시 저장 메서드
+    /// 서버에서  AccessToken과 RefreshToken을 추출하여 Keychain에 저장하는 메서드
+    private func saveTokensIfPresent(data: Data, response: URLResponse) {
+        saveAccessTokenIfPresent(in: response)
+        saveRefreshTokenIfPresent(from: data)
+    }
+    
+    /// 응답 헤더에 AccessToken이 포함되어 있다면 Keychain에 저장
     private func saveAccessTokenIfPresent(in response: URLResponse) {
         guard
             let http = response as? HTTPURLResponse,
@@ -86,6 +92,17 @@ private extension NetworkImpl {
             bearer.isEmpty == false
         else { return }
         _ = keychain.save(token: bearer, forKey: HTTPHeaderField.accessToken.rawValue)
+    }
+    
+    /// 응답 body에서 RefreshToken을 추출하여 Keychain에 저장
+    private func saveRefreshTokenIfPresent(from data: Data) {
+        guard
+            let body = try? JSONSerialization.jsonObject(with: data) as? [String: Any],
+            let dataField = body["data"] as? [String: Any],
+            let refreshToken = dataField[HTTPHeaderField.refreshToken.rawValue] as? String
+        else { return }
+        
+        _ = keychain.save(token: refreshToken, forKey: HTTPHeaderField.refreshToken.rawValue)
     }
     
     /// HTTP 상태코드 검증 메서드
