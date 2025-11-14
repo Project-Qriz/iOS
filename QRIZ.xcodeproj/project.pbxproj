@@ -309,6 +309,7 @@
 		54DB0DA02D0951C000ABD458 /* Font+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Font+.swift"; sourceTree = "<group>"; };
 		54DB0DA42D099D6700ABD458 /* Colors.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Colors.xcassets; sourceTree = "<group>"; };
 		54E91B752D18FACD00474D0A /* RoundButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoundButton.swift; sourceTree = "<group>"; };
+		B1004A992EC77C66000E4DE2 /* QRIZ.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = QRIZ.entitlements; sourceTree = "<group>"; };
 		B1138AFA2DFD813D004258CA /* DailyResetRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyResetRequest.swift; sourceTree = "<group>"; };
 		B1151FD62E64A1DD00C1F720 /* SocialLoginType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SocialLoginType.swift; sourceTree = "<group>"; };
 		B11EC5AA2EC1B11700DCE8C5 /* RefreshTokenRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RefreshTokenRequest.swift; sourceTree = "<group>"; };
@@ -1338,6 +1339,7 @@
 		E23963072D083B8F0092B39B /* QRIZ */ = {
 			isa = PBXGroup;
 			children = (
+				B1004A992EC77C66000E4DE2 /* QRIZ.entitlements */,
 				54DB0D952D094FAA00ABD458 /* App */,
 				54DB0D962D09506C00ABD458 /* Feature */,
 				B1D813782D768D3D00A9D447 /* Coordinator */,
@@ -2554,6 +2556,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = QRIZ/QRIZ.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
@@ -2585,6 +2588,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = QRIZ/QRIZ.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
