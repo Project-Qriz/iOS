@@ -28,17 +28,42 @@ struct SocialLoginRequest: Request {
     let method: HTTPMethod = .post
     let provider: SocialLogin
     let authCode: String
+    let name: String?
+    let email: String?
     
     var body: Encodable? {
-        [
+        var body: [String: String] = [
             "provider": provider.rawValue,
             provider.codeKey: authCode,
             "platform": "ios"
         ]
+        if provider == .apple {
+            if let name = name { body["name"] = name }
+            if let email = email { body["email"] = email }
+        }
+        
+        return body
     }
     
     var headers: HTTPHeader {
         [HTTPHeaderField.contentType.rawValue: ContentType.json.rawValue]
+    }
+    
+    
+    /// Apple 로그인용 Init
+    init(provider: SocialLogin, authCode: String, name: String?, email: String?) {
+        self.provider = provider
+        self.authCode = authCode
+        self.name = name
+        self.email = email
+    }
+    
+    /// Google/Kakao 로그인용 Init
+    init(provider: SocialLogin, authCode: String) {
+        self.provider = provider
+        self.authCode = authCode
+        self.name = nil
+        self.email = nil
     }
 }
 
