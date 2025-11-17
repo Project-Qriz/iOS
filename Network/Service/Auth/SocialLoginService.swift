@@ -9,6 +9,14 @@ import UIKit
 import KakaoSDKAuth
 import KakaoSDKUser
 import GoogleSignIn
+import AuthenticationServices
+
+struct AppleLoginResult {
+    let serverAuthCode: String // authorizationCode
+    let identityToken: String? // id_token
+    let name: String?
+    let email: String?
+}
 
 protocol SocialLoginService {
     /// 카카오 로그인
@@ -27,13 +35,17 @@ protocol SocialLoginService {
     
     /// 구글 로그아웃
     func logoutGoogle() async throws
+    
+    /// 애플 로그인
+    func loginWithApple(presenting: UIViewController) async throws -> SocialLoginResponse
 }
 
-final class SocialLoginServiceImpl: SocialLoginService {
+final class SocialLoginServiceImpl: NSObject, SocialLoginService {
     
     // MARK: - Properties
     
     private let network: Network
+    private var continuation: CheckedContinuation<AppleLoginResult, Error>?
     
     // MARK: - Initialize
     
@@ -46,7 +58,7 @@ final class SocialLoginServiceImpl: SocialLoginService {
     
     func loginWithKakao() async throws -> SocialLoginResponse {
         let accessToken = try await kakaoAccessToken()
-        let request = SocialLoginRequest(provider: .kakao, authCode: accessToken)
+        let request = SocialLoginRequest(provider: .kakao, token: accessToken)
         return try await network.send(request)
     }
     
@@ -93,12 +105,26 @@ final class SocialLoginServiceImpl: SocialLoginService {
     func loginWithGoogle(presenting: UIViewController) async throws -> SocialLoginResponse {
         try await ensureGoogleConfigured()
         let serverAuthCode = try await googleToken(presenting: presenting)
-        let request = SocialLoginRequest(provider: .google, authCode: serverAuthCode)
+        let request = SocialLoginRequest(provider: .google, token: serverAuthCode)
         return try await network.send(request)
     }
     
     func logoutGoogle() async throws {
         GIDSignIn.sharedInstance.signOut()
+    }
+    
+    // MARK: - Apple
+    
+    func loginWithApple(presenting: UIViewController) async throws -> SocialLoginResponse {
+        let apple = try await performAppleLogin(presenting: presenting)
+        let request = SocialLoginRequest(
+            provider: .apple,
+            serverAuthCode: apple.serverAuthCode,
+            idToken: apple.identityToken,
+            name: apple.name,
+            email: apple.email
+        )
+        return try await network.send(request)
     }
 }
 
@@ -150,5 +176,82 @@ private extension SocialLoginServiceImpl {
                 cont.resume(returning: authCode)
             }
         }
+    }
+    
+    func performAppleLogin(presenting: UIViewController) async throws -> AppleLoginResult {
+        return try await withCheckedThrowingContinuation { continuation in
+            guard self.continuation == nil else {
+                continuation.resume(throwing: NSError(domain: "AlreadyRunning", code: -1))
+                return
+            }
+            
+            self.continuation = continuation
+            
+            let request = ASAuthorizationAppleIDProvider().createRequest()
+            request.requestedScopes = [.fullName, .email]
+            
+            let controller = ASAuthorizationController(authorizationRequests: [request])
+            controller.delegate = self
+            controller.presentationContextProvider = self
+            controller.performRequests()
+        }
+    }
+}
+
+// MARK: - ASAuthorizationControllerDelegate
+
+extension SocialLoginServiceImpl: ASAuthorizationControllerDelegate {
+    
+    func authorizationController(
+        controller: ASAuthorizationController,
+        didCompleteWithAuthorization authorization: ASAuthorization
+    ) {
+        
+        defer { continuation = nil }
+        
+        guard let credential = authorization.credential as? ASAuthorizationAppleIDCredential else {
+            continuation?.resume(throwing: NSError(domain: "InvalidCredential", code: -1))
+            return
+        }
+        
+        guard let authCodeData = credential.authorizationCode,
+              let authCode = String(data: authCodeData, encoding: .utf8)
+        else {
+            continuation?.resume(throwing: NSError(domain: "MissingAuthCode", code: -1))
+            return
+        }
+        
+        let token: String? = {
+            guard let tokenData = credential.identityToken else { return nil }
+            return String(data: tokenData, encoding: .utf8)
+        }()
+        
+        let result = AppleLoginResult(
+            serverAuthCode: authCode,
+            identityToken: token,
+            name: credential.fullName?.givenName,
+            email: credential.email
+        )
+        
+        continuation?.resume(returning: result)
+    }
+    
+    
+    func authorizationController(
+        controller: ASAuthorizationController,
+        didCompleteWithError error: Error
+    ) {
+        continuation?.resume(throwing: error)
+        continuation = nil
+    }
+}
+
+// MARK: - ASAuthorizationControllerPresentationContextProviding
+
+extension SocialLoginServiceImpl: ASAuthorizationControllerPresentationContextProviding {
+    func presentationAnchor(for controller: ASAuthorizationController) -> ASPresentationAnchor {
+        UIApplication.shared.connectedScenes
+            .compactMap { ($0 as? UIWindowScene)?.windows.first }
+            .first ?? ASPresentationAnchor()
     }
 }

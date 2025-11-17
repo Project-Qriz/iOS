@@ -79,7 +79,12 @@ final class LoginViewModel {
             }
             googleLogin(presenting: presenter)
         case .kakao: kakaoLogin()
-        case .apple: print("애플 로그인")
+        case .apple:
+            guard let presenter = presenter else {
+                logger.error("Apple login requires a presenter VC")
+                return
+            }
+            appleLogin(presenting: presenter)
         case .email: break
         }
     }
@@ -130,6 +135,20 @@ final class LoginViewModel {
             } catch {
                 outputSubject.send(.showErrorAlert(title: "구글 로그인 실패", descrption: "잠시 후 다시 시도해 주세요."))
                 logger.error("Google social login failed: \(String(describing: error), privacy: .public)")
+            }
+        }
+    }
+    
+    private func appleLogin(presenting: UIViewController) {
+        Task {
+            do {
+                _ = try await socialLoginService.loginWithApple(presenting: presenting)
+                let userInfo = try await userInfoService.getUserInfo()
+                UserInfoManager.shared.update(from: userInfo.data)
+                outputSubject.send(.loginSucceeded)
+            } catch {
+                outputSubject.send(.showErrorAlert(title: "애플 로그인 실패", descrption: "잠시 후 다시 시도해 주세요."))
+                logger.error("Apple social login failed: \(String(describing: error), privacy: .public)")
             }
         }
     }

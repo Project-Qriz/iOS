@@ -58,7 +58,8 @@ final class LoginViewController: UIViewController {
         
         let socialLoginInput = rootView.socialLoginView.socialLoginPublisher
             .map { [weak self] social -> LoginViewModel.Input in
-                let presenter = (social == .google) ? self : nil
+                let isPresentingProvider = (social == .google) || (social == .apple)
+                let presenter = isPresentingProvider ? self : nil
                 return .socialLoginSelected(social, presenter: presenter)
             }
         
