@@ -32,7 +32,7 @@ enum SocialLogin: String {
     
     var codeKey: String {
         switch self {
-        case .google: return "serverAuthCode"
+        case .google, .apple: return "serverAuthCode"
         default: return "authCode"
         }
     }

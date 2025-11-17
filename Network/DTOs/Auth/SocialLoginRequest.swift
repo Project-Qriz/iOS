@@ -28,8 +28,9 @@ struct SocialLoginRequest: Request {
     let method: HTTPMethod = .post
     let provider: SocialLogin
     let authCode: String
-    let name: String?
-    let email: String?
+    let idToken: String? // Apple
+    let name: String? // Apple
+    let email: String? // Apple
     
     var body: Encodable? {
         var body: [String: String] = [
@@ -38,6 +39,7 @@ struct SocialLoginRequest: Request {
             "platform": "ios"
         ]
         if provider == .apple {
+            if let idToken = idToken { body["authCode"] = idToken }
             if let name = name { body["name"] = name }
             if let email = email { body["email"] = email }
         }
@@ -51,17 +53,25 @@ struct SocialLoginRequest: Request {
     
     
     /// Apple 로그인용 Init
-    init(provider: SocialLogin, authCode: String, name: String?, email: String?) {
+    init(
+        provider: SocialLogin,
+        serverAuthCode: String,
+        idToken: String? = nil,
+        name: String? = nil,
+        email: String? = nil
+    ) {
         self.provider = provider
-        self.authCode = authCode
+        self.authCode = serverAuthCode
+        self.idToken = idToken
         self.name = name
         self.email = email
     }
     
     /// Google/Kakao 로그인용 Init
-    init(provider: SocialLogin, authCode: String) {
+    init(provider: SocialLogin, token: String) {
         self.provider = provider
-        self.authCode = authCode
+        self.authCode = token
+        self.idToken = nil
         self.name = nil
         self.email = nil
     }
@@ -70,14 +80,19 @@ struct SocialLoginRequest: Request {
 struct SocialLoginResponse: Decodable {
     let code: Int
     let msg: String
-    let refreshToken: String?
-    let refreshExpiry: String?
     let data: DataInfo
     
     struct DataInfo: Decodable {
-        let provider: String?
-        let email: String
-        let nickname: String
-        let previewStatus: PreviewTestStatus
+        let refreshToken: String?
+        let refreshExpiry: String?
+        let user: UserInfo
+        
+        struct UserInfo: Decodable {
+            let name: String
+            let userId: String
+            let email: String
+            let previewTestStatus: PreviewTestStatus
+            let provider: String?
+        }
     }
 }
