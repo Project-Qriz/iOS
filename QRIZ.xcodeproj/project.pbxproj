@@ -21,6 +21,7 @@
 		54DB0DA12D0951C000ABD458 /* Font+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54DB0DA02D0951C000ABD458 /* Font+.swift */; };
 		54DB0DA52D099D6700ABD458 /* Colors.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 54DB0DA42D099D6700ABD458 /* Colors.xcassets */; };
 		54E91B762D18FACD00474D0A /* RoundButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54E91B752D18FACD00474D0A /* RoundButton.swift */; };
+		B1004A9B2ECDE773000E4DE2 /* SocialLogoutRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1004A9A2ECDE773000E4DE2 /* SocialLogoutRequest.swift */; };
 		B1138AFB2DFD813D004258CA /* DailyResetRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1138AFA2DFD813D004258CA /* DailyResetRequest.swift */; };
 		B1151FD72E64A1DD00C1F720 /* SocialLoginType.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1151FD62E64A1DD00C1F720 /* SocialLoginType.swift */; };
 		B115FDC92E44F1AD00805522 /* KakaoSDK in Frameworks */ = {isa = PBXBuildFile; productRef = B115FDC82E44F1AD00805522 /* KakaoSDK */; };
@@ -310,6 +311,7 @@
 		54DB0DA42D099D6700ABD458 /* Colors.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Colors.xcassets; sourceTree = "<group>"; };
 		54E91B752D18FACD00474D0A /* RoundButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoundButton.swift; sourceTree = "<group>"; };
 		B1004A992EC77C66000E4DE2 /* QRIZ.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = QRIZ.entitlements; sourceTree = "<group>"; };
+		B1004A9A2ECDE773000E4DE2 /* SocialLogoutRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SocialLogoutRequest.swift; sourceTree = "<group>"; };
 		B1138AFA2DFD813D004258CA /* DailyResetRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyResetRequest.swift; sourceTree = "<group>"; };
 		B1151FD62E64A1DD00C1F720 /* SocialLoginType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SocialLoginType.swift; sourceTree = "<group>"; };
 		B11EC5AA2EC1B11700DCE8C5 /* RefreshTokenRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RefreshTokenRequest.swift; sourceTree = "<group>"; };
@@ -1139,6 +1141,7 @@
 				B16774D82D89D481001820F3 /* SignUp */,
 				B17D6AD62D940FD50023FCA5 /* LoginRequest.swift */,
 				B181C4F52E5367250086B037 /* SocialLoginRequest.swift */,
+				B1004A9A2ECDE773000E4DE2 /* SocialLogoutRequest.swift */,
 			);
 			path = Auth;
 			sourceTree = "<group>";
@@ -2262,6 +2265,7 @@
 				E25F94C82D0CAF1B00BA765F /* BeginPreviewTestViewController.swift in Sources */,
 				E25854E72DC3A4AF00AE174C /* DailyResultRequest.swift in Sources */,
 				E24674452D6C730B00697D34 /* CheckAllOrNoneButton.swift in Sources */,
+				B1004A9B2ECDE773000E4DE2 /* SocialLogoutRequest.swift in Sources */,
 				E24907D52D619FD4004D6E61 /* TestNavigatorButton.swift in Sources */,
 				E24CB1622DB3562C00D88451 /* TestResultDetailViewModel.swift in Sources */,
 				E25AB80A2DC0CC0D00E7A7E3 /* DailySubmitData.swift in Sources */,
