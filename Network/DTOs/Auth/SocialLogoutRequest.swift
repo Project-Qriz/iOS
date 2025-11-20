@@ -20,6 +20,10 @@ struct SocialLogoutRequest: Request {
             HTTPHeaderField.authorization.rawValue: accessToken
         ]
     }
+    
+    init(accessToken: String) {
+        self.accessToken = accessToken
+    }
 }
 
 struct SocialLogoutResponse: Decodable {

@@ -24,7 +24,7 @@ protocol SocialLoginService {
     
     /// 카카오 로그아웃
     /// https://developers.kakao.com/docs/latest/ko/kakaologin/common#logout
-    func logoutKakao() async throws
+    func logoutKakao() async throws -> SocialLogoutResponse
     
     /// 카카오 로그인 연결 해제
     /// https://developers.kakao.com/docs/latest/ko/kakaologin/rest-api#unlink
@@ -34,7 +34,7 @@ protocol SocialLoginService {
     func loginWithGoogle(presenting: UIViewController) async throws -> SocialLoginResponse
     
     /// 구글 로그아웃
-    func logoutGoogle() async throws
+    func logoutGoogle() async throws -> SocialLogoutResponse
     
     /// 애플 로그인
     func loginWithApple(presenting: UIViewController) async throws -> SocialLoginResponse
@@ -45,12 +45,17 @@ final class SocialLoginServiceImpl: NSObject, SocialLoginService {
     // MARK: - Properties
     
     private let network: Network
+    private let keychain: KeychainManager
     private var continuation: CheckedContinuation<AppleLoginResult, Error>?
     
-    // MARK: - Initialize
+    // MARK: Initialize
     
-    init(network: Network = NetworkImpl()) {
-        self.network = network
+    init(
+        network: Network  = NetworkImpl(session: .shared),
+        keychain: KeychainManager = KeychainManagerImpl()
+    ) {
+        self.network  = network
+        self.keychain = keychain
     }
     
     
@@ -62,7 +67,7 @@ final class SocialLoginServiceImpl: NSObject, SocialLoginService {
         return try await network.send(request)
     }
     
-    func logoutKakao() async throws {
+    func logoutKakao() async throws -> SocialLogoutResponse {
         try await withCheckedThrowingContinuation { (cont: CheckedContinuation<Void, Error>) in
             UserApi.shared.logout { error in
                 if let error = error {
@@ -72,6 +77,10 @@ final class SocialLoginServiceImpl: NSObject, SocialLoginService {
                 }
             }
         }
+        
+        let access = keychain.retrieveToken(forKey: HTTPHeaderField.accessToken.rawValue) ?? ""
+        let request = SocialLogoutRequest(accessToken: access)
+        return try await network.send(request) as SocialLogoutResponse
     }
     
     func unlinkKakao() async throws {
@@ -109,8 +118,12 @@ final class SocialLoginServiceImpl: NSObject, SocialLoginService {
         return try await network.send(request)
     }
     
-    func logoutGoogle() async throws {
+    func logoutGoogle() async throws -> SocialLogoutResponse {
         GIDSignIn.sharedInstance.signOut()
+        
+        let access = keychain.retrieveToken(forKey: HTTPHeaderField.accessToken.rawValue) ?? ""
+        let request = SocialLogoutRequest(accessToken: access)
+        return try await network.send(request)
     }
     
     // MARK: - Apple
