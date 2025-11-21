@@ -46,7 +46,10 @@ final class NetworkImpl: Network {
         do {
             try validate(response, data)
             return try decode(T.Response.self, from: data)
-        } catch NetworkError.unAuthorizedError where needsRetry {
+        } catch let NetworkError.unAuthorizedError(detailCode: detail) where needsRetry {
+            if detail == 3 {
+                try await refreshAccessToken()
+            }
             return try await retry(urlRequest, responseType: T.Response.self)
         } catch {
             throw mapToNetworkError(error)
@@ -59,7 +62,7 @@ private extension NetworkImpl {
     private func retry<T: Decodable>(_ request: URLRequest, responseType: T.Type) async throws -> T {
         guard let token = keychain.retrieveToken(forKey: HTTPHeaderField.accessToken.rawValue) else {
             notifier.notify(.expired)
-            throw NetworkError.unAuthorizedError
+            throw NetworkError.unAuthorizedError(detailCode: 5)
         }
         
         var retried = request
@@ -71,10 +74,25 @@ private extension NetworkImpl {
         do {
             try validate(response, data)
             return try decode(responseType, from: data)
-        } catch NetworkError.unAuthorizedError {
+        } catch NetworkError.unAuthorizedError(let detail) {
             keychain.deleteToken(forKey: HTTPHeaderField.accessToken.rawValue)
             notifier.notify(.expired)
-            throw NetworkError.unAuthorizedError
+            throw NetworkError.unAuthorizedError(detailCode: detail)
+        }
+    }
+    
+    private func refreshAccessToken() async throws {
+        guard let refresh = keychain.retrieveToken(forKey: HTTPHeaderField.refreshToken.rawValue) else {
+            notifier.notify(.expired)
+            throw NetworkError.unAuthorizedError(detailCode: 5)
+        }
+
+        let access = keychain.retrieveToken(forKey: HTTPHeaderField.accessToken.rawValue) ?? ""
+        let request = RefreshTokenRequest(accessToken: access, refreshToken: refresh)
+        let response: RefreshTokenResponse = try await self.send(request)
+        
+        if let newRefresh = response.data?.refreshToken {
+            _ = keychain.save(token: newRefresh, forKey: HTTPHeaderField.refreshToken.rawValue)
         }
     }
     
@@ -114,7 +132,9 @@ private extension NetworkImpl {
         switch http.statusCode {
         case 200..<300: return
         case 401:
-            throw NetworkError.unAuthorizedError
+            let errorResponse = try? decoder.decode(ErrorResponse.self, from: data)
+            let detail = errorResponse?.code
+            throw NetworkError.unAuthorizedError(detailCode: detail)
         case 400..<500:
             let errorResponse = try? decoder.decode(ErrorResponse.self, from: data)
             
@@ -144,5 +164,11 @@ private extension NetworkImpl {
         case is DecodingError: return .jsonDecodingError
         default: return .unknownError
         }
+    }
+    
+    /// detailCode 추출
+    private func extractDetailCode(from data: Data) -> Int? {
+        let errorBody = try? decoder.decode(ErrorResponse.self, from: data)
+        return errorBody?.code
     }
 }
