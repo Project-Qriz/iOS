@@ -78,10 +78,9 @@ final class SettingsViewModel {
             switch provider {
             case .kakao: try await socialLoginService.logoutKakao()
             case .google: try await socialLoginService.logoutGoogle()
-            case .apple: break
+            case .apple: try await socialLoginService.logoutApple()
             case .email: break
             }
-            print("카카오 로그아웃 연결 해제")
             outputSubject.send(.logoutSucceeded)
             
         } catch {
