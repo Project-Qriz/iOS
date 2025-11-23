@@ -23,14 +23,22 @@ import Foundation
 
 struct SocialLoginRequest: Request {
     typealias Response = SocialLoginResponse
-    
-    let path = "/api/auth/social/login"
+        
     let method: HTTPMethod = .post
     let provider: SocialLogin
     let authCode: String
     let idToken: String? // Apple
     let name: String? // Apple
     let email: String? // Apple
+    
+    var path: String {
+        switch provider {
+        case .apple:
+            return "/api/auth/social/login/apple"
+        default:
+            return "/api/auth/social/login"
+        }
+    }
     
     var body: Encodable? {
         var body: [String: String] = [
