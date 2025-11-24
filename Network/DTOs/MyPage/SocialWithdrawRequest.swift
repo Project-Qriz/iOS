@@ -1,5 +1,5 @@
 //
-//  SocialDeleteAccountRequest.swift
+//  SocialWithdrawRequest.swift
 //  QRIZ
 //
 //  Created by 김세훈 on 9/2/25.
@@ -7,8 +7,8 @@
 
 import Foundation
 
-struct SocialDeleteAccountRequest: Request {
-    typealias Response = SocialDeleteAccountResponse
+struct SocialWithdrawRequest: Request {
+    typealias Response = SocialWithdrawResponse
     
     private let socialLoginType: SocialLogin
     private let accessToken: String
@@ -28,7 +28,7 @@ struct SocialDeleteAccountRequest: Request {
     }
 }
 
-struct SocialDeleteAccountResponse: Decodable {
+struct SocialWithdrawResponse: Decodable {
     let code: Int
     let msg: String
 }
