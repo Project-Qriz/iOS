@@ -76,8 +76,10 @@ final class DeleteAccountViewModel {
             _ = try await myPageService.deleteSocialAccount(socialLoginType: .kakao)
         case .google:
             _ = try await myPageService.deleteSocialAccount(socialLoginType: .google)
-        case .apple: break
-        case .email: _ = try await myPageService.deleteAccount()
+        case .apple:
+            _ = try await myPageService.deleteSocialAccount(socialLoginType: .apple)
+        case .email:
+            _ = try await myPageService.deleteAccount()
         }
     }
 }
