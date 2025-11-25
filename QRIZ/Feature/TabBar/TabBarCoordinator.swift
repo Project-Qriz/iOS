@@ -36,6 +36,7 @@ final class TabBarCoordinatorDependencyImpl: TabBarCoordinatorDependency {
     private let myPageService: MyPageService
     private let accountRecoveryService: AccountRecoveryService
     private let weeklyService: WeeklyRecommendService
+    private let socialLoginService: SocialLoginService
     
     private lazy var _homeCoordinator = HomeCoordinatorImpl(
         examService: examService,
@@ -65,7 +66,8 @@ final class TabBarCoordinatorDependencyImpl: TabBarCoordinatorDependency {
     private lazy var _myPageCoordinator = MyPageCoordinatorImpl(
         examService: examService,
         myPageService: myPageService,
-        accountRecoveryService: accountRecoveryService
+        accountRecoveryService: accountRecoveryService,
+        socialLoginService: socialLoginService
     )
     
     var myPageCoordinator: MyPageCoordinator {
@@ -80,7 +82,8 @@ final class TabBarCoordinatorDependencyImpl: TabBarCoordinatorDependency {
         userInfoService: UserInfoService,
         myPageService: MyPageService,
         accountRecoveryService: AccountRecoveryService,
-        weeklyService: WeeklyRecommendService
+        weeklyService: WeeklyRecommendService,
+        socialLoginService: SocialLoginService
     ) {
         self.examService = examService
         self.examTestService = examTestService
@@ -90,6 +93,7 @@ final class TabBarCoordinatorDependencyImpl: TabBarCoordinatorDependency {
         self.myPageService = myPageService
         self.accountRecoveryService = accountRecoveryService
         self.weeklyService = weeklyService
+        self.socialLoginService = socialLoginService
     }
 }
 

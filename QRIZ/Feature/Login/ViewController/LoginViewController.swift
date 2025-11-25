@@ -7,6 +7,7 @@
 
 import UIKit
 import Combine
+import GoogleSignIn
 
 final class LoginViewController: UIViewController {
     
@@ -57,7 +58,11 @@ final class LoginViewController: UIViewController {
             .map { LoginViewModel.Input.accountActionSelected($0) }
         
         let socialLoginInput = rootView.socialLoginView.socialLoginPublisher
-            .map { LoginViewModel.Input.socialLoginSelected($0) }
+            .map { [weak self] social -> LoginViewModel.Input in
+                let isPresentingProvider = (social == .google) || (social == .apple)
+                let presenter = isPresentingProvider ? self : nil
+                return .socialLoginSelected(social, presenter: presenter)
+            }
         
         let input = Publishers.Merge5(
             idInput,

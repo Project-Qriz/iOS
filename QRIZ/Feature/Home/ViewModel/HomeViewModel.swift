@@ -20,7 +20,7 @@ final class HomeViewModel {
     private let stateSubject: CurrentValueSubject<HomeState, Never>
     private let outputSubject: PassthroughSubject<Output, Never> = .init()
     private var cancellables = Set<AnyCancellable>()
-    private let logger = Logger(subsystem: Bundle.main.bundleIdentifier ?? "kr.QRIZ", category: "HomeViewModel")
+    private let logger = Logger(subsystem: Bundle.main.bundleIdentifier ?? "com.ksh.qriz", category: "HomeViewModel")
     
     // MARK: - Initialize
     

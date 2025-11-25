@@ -14,7 +14,7 @@ final class SocialLoginView: UIView {
     
     private enum Metric {
         static let separatorHeight: CGFloat = 1.0
-        static let roundButtonSize: CGFloat = 48.0
+        static let roundButtonSize: CGFloat = 44.0
         static let socialLoginHStackViewTopOffset: CGFloat = 12.0
     }
     
@@ -24,9 +24,9 @@ final class SocialLoginView: UIView {
     
     // MARK: - Properties
     
-    private let socialLoginTapSubject = PassthroughSubject<LoginViewModel.SocialLogin, Never>()
+    private let socialLoginTapSubject = PassthroughSubject<SocialLogin, Never>()
     
-    var socialLoginPublisher: AnyPublisher<LoginViewModel.SocialLogin, Never> {
+    var socialLoginPublisher: AnyPublisher<SocialLogin, Never> {
         socialLoginTapSubject.eraseToAnyPublisher()
     }
     
@@ -62,8 +62,8 @@ final class SocialLoginView: UIView {
     private lazy var socialLoginHStackView: UIStackView = {
         let stackView = UIStackView(arrangedSubviews: [
             buildButton(socialLogin: .google),
-            buildButton(socialLogin: .naver),
-            buildButton(socialLogin: .facebook)
+            buildButton(socialLogin: .kakao),
+            buildButton(socialLogin: .apple)
         ])
         stackView.axis = .horizontal
         stackView.spacing = 20
@@ -95,13 +95,13 @@ final class SocialLoginView: UIView {
         return separator
     }
     
-    private func buildButton(socialLogin: LoginViewModel.SocialLogin) -> UIButton {
+    private func buildButton(socialLogin: SocialLogin) -> UIButton {
         let button = RoundButton()
-        button.setTitle(socialLogin.rawValue, for: .normal)
-        button.titleLabel?.font = .systemFont(ofSize: 16.8, weight: .regular)
-        button.setTitleColor(.white, for: .normal)
-        button.backgroundColor = .coolNeutral500
+        let image = UIImage(named: socialLogin.logoName)
+        button.setImage(image, for: .normal)
         button.layer.masksToBounds = true
+        button.layer.borderWidth = 1
+        button.layer.borderColor = socialLogin == .google ? UIColor.coolNeutral100.cgColor : UIColor.clear.cgColor
         button.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([

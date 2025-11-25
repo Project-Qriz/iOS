@@ -81,10 +81,21 @@ final class SettingsViewController: UIViewController {
                 self.coordinator?.showFindPassword()
                 
             case .showLogoutAlert:
-                self.coordinator?.showLogoutAlert()
+                guard let coord = self.coordinator else { return }
+                coord.showLogoutAlert(confirm: { [weak self] in
+                    self?.inputSubject.send(.didConfirmLogout)
+                })
                 
             case .navigateToDeleteAccount:
                 self.coordinator?.showDeleteAccount()
+                
+            case .logoutSucceeded:
+                if let coord = self.coordinator {
+                    coord.delegate?.myPageCoordinatorDidLogout(coord)
+                }
+                
+            case .showErrorAlert(let message):
+                self.showOneButtonAlert(with: message, storingIn: &self.cancellables)
             }
         }.store(in: &cancellables)
     }

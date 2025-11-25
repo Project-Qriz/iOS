@@ -17,7 +17,7 @@ final class ConceptPDFViewModel {
     private let conceptItem: ConceptItem
     private let outputSubject = PassthroughSubject<Output, Never>()
     private var cancellables = Set<AnyCancellable>()
-    private let logger = Logger(subsystem: Bundle.main.bundleIdentifier ?? "kr.QRIZ", category: "ConceptPDFViewModel")
+    private let logger = Logger(subsystem: Bundle.main.bundleIdentifier ?? "com.ksh.qriz", category: "ConceptPDFViewModel")
     
     // MARK: - Initialize
     

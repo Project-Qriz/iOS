@@ -16,7 +16,7 @@ protocol MyPageCoordinator: Coordinator {
     func showResetAlert(confirm: @escaping () -> Void)
     func showExamSelectionSheet()
     func showTermsDetail(for term: TermItem)
-    func showLogoutAlert()
+    func showLogoutAlert(confirm: @escaping () -> Void)
     func showDeleteAccount()
     func showConfirmDeleteAlert(confirm: @escaping () -> Void)
 }
@@ -36,16 +36,19 @@ final class MyPageCoordinatorImpl: MyPageCoordinator {
     private let examService: ExamScheduleService
     private let myPageService: MyPageService
     private let accountRecoveryService: AccountRecoveryService
+    private let socialLoginService: SocialLoginService
     var childCoordinators: [Coordinator] = []
     
     init(
         examService: ExamScheduleService,
         myPageService: MyPageService,
-        accountRecoveryService: AccountRecoveryService
+        accountRecoveryService: AccountRecoveryService,
+        socialLoginService: SocialLoginService
     ) {
         self.examService = examService
         self.myPageService = myPageService
         self.accountRecoveryService = accountRecoveryService
+        self.socialLoginService = socialLoginService
     }
     
     func start() -> UIViewController {
@@ -65,7 +68,8 @@ final class MyPageCoordinatorImpl: MyPageCoordinator {
         let viewModel = SettingsViewModel(
             userName: UserInfoManager.shared.name,
             email: UserInfoManager.shared.email,
-            myPageService: myPageService
+            myPageService: myPageService,
+            socialLoginService: socialLoginService
         )
         let vc = SettingsViewController(viewModel: viewModel)
         vc.coordinator = self
@@ -134,15 +138,13 @@ final class MyPageCoordinatorImpl: MyPageCoordinator {
         navigationController?.present(vc, animated: true)
     }
     
-    func showLogoutAlert() {
+    func showLogoutAlert(confirm: @escaping () -> Void) {
         let alert = TwoButtonCustomAlertViewController(
             title: "로그아웃",
             description: "로그아웃 하시겠습니까?",
             confirmAction: UIAction { [weak self] _ in
-                guard let self = self else { return }
-                self.navigationController?.dismiss(animated: true, completion: {
-                    self.delegate?.myPageCoordinatorDidLogout(self)
-                })
+                confirm()
+                self?.navigationController?.dismiss(animated: true)
             },
             cancelAction: UIAction { [weak self] _ in
                 self?.navigationController?.dismiss(animated: true)
@@ -152,7 +154,10 @@ final class MyPageCoordinatorImpl: MyPageCoordinator {
     }
     
     func showDeleteAccount() {
-        let viewModel = DeleteAccountViewModel(myPageService: myPageService)
+        let viewModel = DeleteAccountViewModel(
+            myPageService: myPageService,
+            socialLoginService: socialLoginService
+        )
         let vc = DeleteAccountViewController(viewModel: viewModel)
         vc.coordinator = self
         vc.hidesBottomBarWhenPushed = true

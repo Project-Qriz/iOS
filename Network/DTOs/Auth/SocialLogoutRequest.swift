@@ -1,18 +1,18 @@
 //
-//  DeleteAccountRequest.swift
+//  SocialLogoutRequest.swift
 //  QRIZ
 //
-//  Created by 김세훈 on 6/18/25.
+//  Created by 김세훈 on 11/19/25.
 //
 
 import Foundation
 
-struct DeleteAccountRequest: Request {
-    typealias Response = DeleteAccountResponse
+struct SocialLogoutRequest: Request {
+    typealias Response = SocialLogoutResponse
     
     private let accessToken: String
-    let path = "/api/v1/withdraw"
-    let method: HTTPMethod = .delete
+    let path = "/api/logout"
+    let method: HTTPMethod = .post
     
     var headers: HTTPHeader {
         [
@@ -26,8 +26,8 @@ struct DeleteAccountRequest: Request {
     }
 }
 
-struct DeleteAccountResponse: Decodable {
+struct SocialLogoutResponse: Decodable {
     let code: Int
     let msg: String
+    let data: String?
 }
-

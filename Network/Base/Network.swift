@@ -46,7 +46,10 @@ final class NetworkImpl: Network {
         do {
             try validate(response, data)
             return try decode(T.Response.self, from: data)
-        } catch NetworkError.unAuthorizedError where needsRetry {
+        } catch let NetworkError.unAuthorizedError(detailCode: detail) where needsRetry {
+            if detail == 3 {
+                try await refreshAccessToken()
+            }
             return try await retry(urlRequest, responseType: T.Response.self)
         } catch {
             throw mapToNetworkError(error)
@@ -59,7 +62,7 @@ private extension NetworkImpl {
     private func retry<T: Decodable>(_ request: URLRequest, responseType: T.Type) async throws -> T {
         guard let token = keychain.retrieveToken(forKey: HTTPHeaderField.accessToken.rawValue) else {
             notifier.notify(.expired)
-            throw NetworkError.unAuthorizedError
+            throw NetworkError.unAuthorizedError(detailCode: 5)
         }
         
         var retried = request
@@ -71,14 +74,35 @@ private extension NetworkImpl {
         do {
             try validate(response, data)
             return try decode(responseType, from: data)
-        } catch NetworkError.unAuthorizedError {
+        } catch NetworkError.unAuthorizedError(let detail) {
             keychain.deleteToken(forKey: HTTPHeaderField.accessToken.rawValue)
             notifier.notify(.expired)
-            throw NetworkError.unAuthorizedError
+            throw NetworkError.unAuthorizedError(detailCode: detail)
         }
     }
     
-    /// 응답 헤더에 토큰 존재 시 저장 메서드
+    private func refreshAccessToken() async throws {
+        guard let refresh = keychain.retrieveToken(forKey: HTTPHeaderField.refreshToken.rawValue) else {
+            notifier.notify(.expired)
+            throw NetworkError.unAuthorizedError(detailCode: 5)
+        }
+
+        let access = keychain.retrieveToken(forKey: HTTPHeaderField.accessToken.rawValue) ?? ""
+        let request = RefreshTokenRequest(accessToken: access, refreshToken: refresh)
+        let response: RefreshTokenResponse = try await self.send(request)
+        
+        if let newRefresh = response.data?.refreshToken {
+            _ = keychain.save(token: newRefresh, forKey: HTTPHeaderField.refreshToken.rawValue)
+        }
+    }
+    
+    /// 서버에서  AccessToken과 RefreshToken을 추출하여 Keychain에 저장하는 메서드
+    private func saveTokensIfPresent(data: Data, response: URLResponse) {
+        saveAccessTokenIfPresent(in: response)
+        saveRefreshTokenIfPresent(from: data)
+    }
+    
+    /// 응답 헤더에 AccessToken이 포함되어 있다면 Keychain에 저장
     private func saveAccessTokenIfPresent(in response: URLResponse) {
         guard
             let http = response as? HTTPURLResponse,
@@ -86,6 +110,17 @@ private extension NetworkImpl {
             bearer.isEmpty == false
         else { return }
         _ = keychain.save(token: bearer, forKey: HTTPHeaderField.accessToken.rawValue)
+    }
+    
+    /// 응답 body에서 RefreshToken을 추출하여 Keychain에 저장
+    private func saveRefreshTokenIfPresent(from data: Data) {
+        guard
+            let body = try? JSONSerialization.jsonObject(with: data) as? [String: Any],
+            let dataField = body["data"] as? [String: Any],
+            let refreshToken = dataField[HTTPHeaderField.refreshToken.rawValue] as? String
+        else { return }
+        
+        _ = keychain.save(token: refreshToken, forKey: HTTPHeaderField.refreshToken.rawValue)
     }
     
     /// HTTP 상태코드 검증 메서드
@@ -97,7 +132,9 @@ private extension NetworkImpl {
         switch http.statusCode {
         case 200..<300: return
         case 401:
-            throw NetworkError.unAuthorizedError
+            let errorResponse = try? decoder.decode(ErrorResponse.self, from: data)
+            let detail = errorResponse?.code
+            throw NetworkError.unAuthorizedError(detailCode: detail)
         case 400..<500:
             let errorResponse = try? decoder.decode(ErrorResponse.self, from: data)
             
@@ -127,5 +164,11 @@ private extension NetworkImpl {
         case is DecodingError: return .jsonDecodingError
         default: return .unknownError
         }
+    }
+    
+    /// detailCode 추출
+    private func extractDetailCode(from data: Data) -> Int? {
+        let errorBody = try? decoder.decode(ErrorResponse.self, from: data)
+        return errorBody?.code
     }
 }

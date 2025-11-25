@@ -36,9 +36,9 @@ struct DailyDetailAndStatusRequest: Request {
 struct DailyDetailAndStatusResponse: Decodable {
     let code: Int
     let msg: String
-    let data: dataInfo
+    let data: DataInfo
     
-    struct dataInfo: Decodable {
+    struct DataInfo: Decodable {
         let dayNumber: String
         let skills: [SkillInfo]
         let status: StatusInfo

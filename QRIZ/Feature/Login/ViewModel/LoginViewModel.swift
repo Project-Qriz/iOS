@@ -5,9 +5,11 @@
 //  Created by 김세훈 on 12/28/24.
 //
 
-import Foundation
+import UIKit
 import Combine
 import os
+import AuthenticationServices
+import KakaoSDKCommon
 
 final class LoginViewModel {
     
@@ -15,9 +17,10 @@ final class LoginViewModel {
     
     private let loginService: LoginService
     private let userInfoService: UserInfoService
+    private let socialLoginService: SocialLoginService
     private let outputSubject: PassthroughSubject<Output, Never> = .init()
     private var cancellables = Set<AnyCancellable>()
-    private let logger = Logger(subsystem: Bundle.main.bundleIdentifier ?? "kr.QRIZ", category: "LoginViewModel")
+    private let logger = Logger(subsystem: Bundle.main.bundleIdentifier ?? "com.ksh.qriz", category: "LoginViewModel")
     
     private var id: String = ""
     private var password: String = ""
@@ -26,10 +29,12 @@ final class LoginViewModel {
     
     init(
         loginService: LoginService,
-        userInfoService: UserInfoService
+        userInfoService: UserInfoService,
+        socialLoginService: SocialLoginService = SocialLoginServiceImpl()
     ) {
         self.loginService = loginService
         self.userInfoService = userInfoService
+        self.socialLoginService = socialLoginService
     }
     
     // MARK: - Functions
@@ -53,8 +58,8 @@ final class LoginViewModel {
                 case .accountActionSelected(let action):
                     self.outputSubject.send(.navigateToAccountAction(action))
                     
-                case .socialLoginSelected(let socialLogin):
-                    self.handleSocialLogin(socialLogin)
+                case .socialLoginSelected(let socialLogin, let presenter):
+                    self.handleSocialLogin(socialLogin, presenter: presenter)
                 }
             }
             .store(in: &cancellables)
@@ -67,14 +72,22 @@ final class LoginViewModel {
         outputSubject.send(.isLoginButtonEnabled(isValid))
     }
     
-    private func handleSocialLogin(_ socialLogin: SocialLogin) {
+    private func handleSocialLogin(_ socialLogin: SocialLogin, presenter: UIViewController?) {
         switch socialLogin {
         case .google:
-            print("구글 로그인")
-        case .naver:
-            print("네이버 로그인")
-        case .facebook:
-            print("페이스북 로그인")
+            guard let presenter = presenter else {
+                logger.error("Google login requires a presenter VC")
+                return
+            }
+            googleLogin(presenting: presenter)
+        case .kakao: kakaoLogin()
+        case .apple:
+            guard let presenter = presenter else {
+                logger.error("Apple login requires a presenter VC")
+                return
+            }
+            appleLogin(presenting: presenter)
+        case .email: break
         }
     }
     
@@ -92,11 +105,77 @@ final class LoginViewModel {
                 if let networkError = error as? NetworkError {
                     outputSubject.send(.showErrorAlert(title: title, descrption: description))
                     logger.error("Network error in login: \(networkError.description, privacy: .public)")
-
                 } else {
                     outputSubject.send(.showErrorAlert(title: title, descrption: description))
                     logger.error("Unhandled error in login: \(String(describing: error), privacy: .public)")
                 }
+            }
+        }
+    }
+    
+    private func kakaoLogin() {
+        Task {
+            do {
+                let _ = try await socialLoginService.loginWithKakao()
+                let userInfo = try await userInfoService.getUserInfo()
+                UserInfoManager.shared.update(from: userInfo.data)
+                outputSubject.send(.loginSucceeded)
+            } catch {
+                if let sdkError = error as? KakaoSDKCommon.SdkError {
+                    switch sdkError {
+                    case .ClientFailed(let reason, _):
+                        if reason == .Cancelled {
+                            logger.info("Kakao login canceled by user.")
+                            return
+                        }
+                    default:
+                        break
+                    }
+                }
+                
+                outputSubject.send(.showErrorAlert(title: "카카오 로그인 실패", descrption: "잠시 후 다시 시도해 주세요."))
+                logger.error("Kakao social login failed: \(String(describing: error), privacy: .public)")
+            }
+        }
+    }
+    
+    private func googleLogin(presenting: UIViewController) {
+        Task {
+            do {
+                _ = try await socialLoginService.loginWithGoogle(presenting: presenting)
+                let userInfo = try await userInfoService.getUserInfo()
+                UserInfoManager.shared.update(from: userInfo.data)
+                outputSubject.send(.loginSucceeded)
+            } catch {
+                if let nsError = error as NSError?,
+                   nsError.domain == "com.google.GIDSignIn",
+                   nsError.code == -5 {
+                    logger.info("Google login canceled by user.")
+                    return
+                }
+                
+                outputSubject.send(.showErrorAlert(title: "구글 로그인 실패", descrption: "잠시 후 다시 시도해 주세요."))
+                logger.error("Google social login failed: \(String(describing: error), privacy: .public)")
+            }
+        }
+    }
+    
+    private func appleLogin(presenting: UIViewController) {
+        Task {
+            do {
+                _ = try await socialLoginService.loginWithApple(presenting: presenting)
+                let userInfo = try await userInfoService.getUserInfo()
+                UserInfoManager.shared.update(from: userInfo.data)
+                outputSubject.send(.loginSucceeded)
+            } catch {
+                if let appleError = error as? ASAuthorizationError,
+                   appleError.code == .canceled {
+                    logger.info("Apple login canceled by user.")
+                    return
+                }
+                
+                outputSubject.send(.showErrorAlert(title: "애플 로그인 실패", descrption: "잠시 후 다시 시도해 주세요."))
+                logger.error("Apple social login failed: \(String(describing: error), privacy: .public)")
             }
         }
     }
@@ -109,7 +188,7 @@ extension LoginViewModel {
         case passwordTextChanged(String)
         case loginButtonTapped
         case accountActionSelected(AccountAction)
-        case socialLoginSelected(SocialLogin)
+        case socialLoginSelected(SocialLogin, presenter: UIViewController?)
     }
     
     enum Output {
@@ -123,11 +202,5 @@ extension LoginViewModel {
         case findId = "아이디 찾기"
         case findPassword = "비밀번호 찾기"
         case signUp = "회원가입"
-    }
-    
-    enum SocialLogin: String {
-        case google = "구글"
-        case naver = "네이버"
-        case facebook = "페북"
     }
 }
