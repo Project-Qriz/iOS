@@ -16,7 +16,7 @@ final class TermsDetailViewModel {
     private let term: TermItem
     private let outputSubject: PassthroughSubject<Output, Never> = .init()
     private var cancellables = Set<AnyCancellable>()
-    private let logger = Logger(subsystem: Bundle.main.bundleIdentifier ?? "kr.QRIZ", category: "TermsDetailVM")
+    private let logger = Logger(subsystem: Bundle.main.bundleIdentifier ?? "com.ksh.qriz", category: "TermsDetailVM")
     
     // MARK: - Initialize
     

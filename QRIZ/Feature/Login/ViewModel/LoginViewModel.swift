@@ -20,7 +20,7 @@ final class LoginViewModel {
     private let socialLoginService: SocialLoginService
     private let outputSubject: PassthroughSubject<Output, Never> = .init()
     private var cancellables = Set<AnyCancellable>()
-    private let logger = Logger(subsystem: Bundle.main.bundleIdentifier ?? "kr.QRIZ", category: "LoginViewModel")
+    private let logger = Logger(subsystem: Bundle.main.bundleIdentifier ?? "com.ksh.qriz", category: "LoginViewModel")
     
     private var id: String = ""
     private var password: String = ""

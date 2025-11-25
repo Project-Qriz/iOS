@@ -14,7 +14,7 @@ final class FindPasswordVerificationViewModel: EmailVerificationViewModel {
     // MARK: - Properties
     
     let accountRecoveryService: AccountRecoveryService
-    private let logger = Logger(subsystem: Bundle.main.bundleIdentifier ?? "kr.QRIZ", category: "FindPasswordVerificationViewModel")
+    private let logger = Logger(subsystem: Bundle.main.bundleIdentifier ?? "com.ksh.qriz", category: "FindPasswordVerificationViewModel")
     
     // MARK: - Initialize
     

@@ -22,7 +22,7 @@ final class TermsAgreementModalViewModel {
     private let signUpFlowViewModel: SignUpFlowViewModel
     private let outputSubject: PassthroughSubject<Output, Never> = .init()
     private var cancellables = Set<AnyCancellable>()
-    private let logger = Logger(subsystem: Bundle.main.bundleIdentifier ?? "kr.QRIZ",
+    private let logger = Logger(subsystem: Bundle.main.bundleIdentifier ?? "com.ksh.qriz",
                                 category: "TermsAgreementModalVM")
     
     private var terms: [TermItem] = [

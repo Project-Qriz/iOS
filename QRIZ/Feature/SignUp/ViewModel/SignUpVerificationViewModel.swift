@@ -15,7 +15,7 @@ final class SignUpVerificationViewModel: EmailVerificationViewModel {
     
     private let signUpFlowViewModel: SignUpFlowViewModel
     private let signUpService: SignUpService
-    private let logger = Logger(subsystem: Bundle.main.bundleIdentifier ?? "kr.QRIZ", category: "SignUpVerificationViewModel")
+    private let logger = Logger(subsystem: Bundle.main.bundleIdentifier ?? "com.ksh.qriz", category: "SignUpVerificationViewModel")
     
     // MARK: - Initialize
     

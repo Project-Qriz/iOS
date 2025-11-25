@@ -17,7 +17,7 @@ final class DeleteAccountViewModel {
     private let socialLoginService: SocialLoginService
     private let outputSubject = PassthroughSubject<Output, Never>()
     private var cancellables = Set<AnyCancellable>()
-    private let logger = Logger(subsystem: Bundle.main.bundleIdentifier ?? "kr.QRIZ",
+    private let logger = Logger(subsystem: Bundle.main.bundleIdentifier ?? "com.ksh.qriz",
                                 category: "DeleteAccountViewModel")
     
     // MARK: - Initialize
