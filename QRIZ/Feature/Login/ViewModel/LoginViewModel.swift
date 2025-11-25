@@ -8,6 +8,8 @@
 import UIKit
 import Combine
 import os
+import AuthenticationServices
+import KakaoSDKCommon
 
 final class LoginViewModel {
     
@@ -32,7 +34,7 @@ final class LoginViewModel {
     ) {
         self.loginService = loginService
         self.userInfoService = userInfoService
-        self.socialLoginService = socialLoginService 
+        self.socialLoginService = socialLoginService
     }
     
     // MARK: - Functions
@@ -119,6 +121,18 @@ final class LoginViewModel {
                 UserInfoManager.shared.update(from: userInfo.data)
                 outputSubject.send(.loginSucceeded)
             } catch {
+                if let sdkError = error as? KakaoSDKCommon.SdkError {
+                    switch sdkError {
+                    case .ClientFailed(let reason, _):
+                        if reason == .Cancelled {
+                            logger.info("Kakao login canceled by user.")
+                            return
+                        }
+                    default:
+                        break
+                    }
+                }
+                
                 outputSubject.send(.showErrorAlert(title: "카카오 로그인 실패", descrption: "잠시 후 다시 시도해 주세요."))
                 logger.error("Kakao social login failed: \(String(describing: error), privacy: .public)")
             }
@@ -133,6 +147,13 @@ final class LoginViewModel {
                 UserInfoManager.shared.update(from: userInfo.data)
                 outputSubject.send(.loginSucceeded)
             } catch {
+                if let nsError = error as NSError?,
+                   nsError.domain == "com.google.GIDSignIn",
+                   nsError.code == -5 {
+                    logger.info("Google login canceled by user.")
+                    return
+                }
+                
                 outputSubject.send(.showErrorAlert(title: "구글 로그인 실패", descrption: "잠시 후 다시 시도해 주세요."))
                 logger.error("Google social login failed: \(String(describing: error), privacy: .public)")
             }
@@ -147,6 +168,12 @@ final class LoginViewModel {
                 UserInfoManager.shared.update(from: userInfo.data)
                 outputSubject.send(.loginSucceeded)
             } catch {
+                if let appleError = error as? ASAuthorizationError,
+                   appleError.code == .canceled {
+                    logger.info("Apple login canceled by user.")
+                    return
+                }
+                
                 outputSubject.send(.showErrorAlert(title: "애플 로그인 실패", descrption: "잠시 후 다시 시도해 주세요."))
                 logger.error("Apple social login failed: \(String(describing: error), privacy: .public)")
             }
