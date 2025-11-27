@@ -12,7 +12,6 @@ final class SplashMainView: UIView {
     // MARK: - UI
     
     private let logo = UIImageView(image: .splashLogo)
-    private let bottomImage = UIImageView(image: .splashBottom)
     
     // MARK: - Initialize
     
@@ -39,22 +38,16 @@ final class SplashMainView: UIView {
 extension SplashMainView {
     private func addSubviews() {
         [
-            logo,
-            bottomImage
+            logo
         ].forEach(addSubview(_:))
     }
     
     private func setupConstraints() {
         logo.translatesAutoresizingMaskIntoConstraints = false
-        bottomImage.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
             logo.centerXAnchor.constraint(equalTo: centerXAnchor),
             logo.centerYAnchor.constraint(equalTo: centerYAnchor),
-            
-            bottomImage.leadingAnchor.constraint(equalTo: leadingAnchor),
-            bottomImage.trailingAnchor.constraint(equalTo: trailingAnchor),
-            bottomImage.bottomAnchor.constraint(equalTo: bottomAnchor),
         ])
     }
 }
