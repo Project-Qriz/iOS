@@ -94,13 +94,5 @@ struct SocialLoginResponse: Decodable {
         let refreshToken: String?
         let refreshExpiry: String?
         let user: UserInfo
-        
-        struct UserInfo: Decodable {
-            let name: String
-            let userId: String
-            let email: String
-            let previewTestStatus: PreviewTestStatus
-            let provider: String?
-        }
     }
 }
