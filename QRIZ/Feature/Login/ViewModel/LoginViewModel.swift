@@ -116,9 +116,8 @@ final class LoginViewModel {
     private func kakaoLogin() {
         Task {
             do {
-                let _ = try await socialLoginService.loginWithKakao()
-                let userInfo = try await userInfoService.getUserInfo()
-                UserInfoManager.shared.update(from: userInfo.data)
+                let response = try await socialLoginService.loginWithKakao()
+                UserInfoManager.shared.update(from: response.data.user)
                 outputSubject.send(.loginSucceeded)
             } catch {
                 if let sdkError = error as? KakaoSDKCommon.SdkError {
@@ -142,9 +141,8 @@ final class LoginViewModel {
     private func googleLogin(presenting: UIViewController) {
         Task {
             do {
-                _ = try await socialLoginService.loginWithGoogle(presenting: presenting)
-                let userInfo = try await userInfoService.getUserInfo()
-                UserInfoManager.shared.update(from: userInfo.data)
+                let response = try await socialLoginService.loginWithGoogle(presenting: presenting)
+                UserInfoManager.shared.update(from: response.data.user)
                 outputSubject.send(.loginSucceeded)
             } catch {
                 if let nsError = error as NSError?,
@@ -163,9 +161,8 @@ final class LoginViewModel {
     private func appleLogin(presenting: UIViewController) {
         Task {
             do {
-                _ = try await socialLoginService.loginWithApple(presenting: presenting)
-                let userInfo = try await userInfoService.getUserInfo()
-                UserInfoManager.shared.update(from: userInfo.data)
+                let response = try await socialLoginService.loginWithApple(presenting: presenting)
+                UserInfoManager.shared.update(from: response.data.user)
                 outputSubject.send(.loginSucceeded)
             } catch {
                 if let appleError = error as? ASAuthorizationError,
