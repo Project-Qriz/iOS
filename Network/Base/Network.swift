@@ -104,12 +104,23 @@ private extension NetworkImpl {
     
     /// 응답 헤더에 AccessToken이 포함되어 있다면 Keychain에 저장
     private func saveAccessTokenIfPresent(in response: URLResponse) {
+        let bearerPrefix = "Bearer "
+        
         guard
             let http = response as? HTTPURLResponse,
-            let bearer = http.value(forHTTPHeaderField: authKey),
-            bearer.isEmpty == false
+            let bearerToken = http.value(forHTTPHeaderField: authKey),
+            bearerToken.isEmpty == false
         else { return }
-        _ = keychain.save(token: bearer, forKey: HTTPHeaderField.accessToken.rawValue)
+        
+        var tokenToSave = bearerToken
+        
+        if tokenToSave.hasPrefix(bearerPrefix) {
+            let startIndex = tokenToSave.index(tokenToSave.startIndex, offsetBy: bearerPrefix.count)
+            tokenToSave = String(tokenToSave[startIndex...])
+            print(tokenToSave)
+        }
+        
+        _ = keychain.save(token: tokenToSave, forKey: HTTPHeaderField.accessToken.rawValue)
     }
     
     /// 응답 body에서 RefreshToken을 추출하여 Keychain에 저장
