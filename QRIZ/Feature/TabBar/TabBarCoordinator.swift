@@ -123,6 +123,7 @@ final class TabBarCoordinatorImpl: TabBarCoordinator {
     
     func start() -> UIViewController {
         homeCoordinator.examDelegate = self
+        homeCoordinator.delegate = self
         myPageCoordinator.examDelegate = self
         myPageCoordinator.delegate = self
         
@@ -137,6 +138,7 @@ final class TabBarCoordinatorImpl: TabBarCoordinator {
         let tabBar = UITabBarController()
         configureTabBarController(tabBar)
         tabBar.viewControllers = viewControllers
+        self.tabBarController = tabBar
         
         childCoordinators = [
             homeCoordinator,
