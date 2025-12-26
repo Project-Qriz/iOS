@@ -48,3 +48,7 @@ xcuserdata/
 ### XCConfig ###
 XCConfig/*
 *.xcconfig
+
+### Claude Code ###
+.claude/
+CLAUDE.md
