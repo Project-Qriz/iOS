@@ -14,10 +14,13 @@ protocol ConceptBookCoordinator: Coordinator {
 }
 
 @MainActor
-final class ConceptBookCoordinatorImpl: ConceptBookCoordinator {
-    
+final class ConceptBookCoordinatorImpl: ConceptBookCoordinator, NavigationGuard {
+
     var childCoordinators: [Coordinator] = []
     private var navigationController: UINavigationController?
+
+    // NavigationGuard
+    var isNavigating: Bool = false
     
     func start() -> UIViewController {
         let conceptBookVM = ConceptBookViewModel()
@@ -29,16 +32,20 @@ final class ConceptBookCoordinatorImpl: ConceptBookCoordinator {
     }
     
     func showChapterDetailView(chapter: Chapter) {
-        let chapterDetailVM = ChapterDetailViewModel(chapter: chapter)
-        let chapterDetailVC = ChapterDetailViewController(chapterDetailVM: chapterDetailVM)
-        chapterDetailVC.hidesBottomBarWhenPushed = true
-        chapterDetailVC.coordinator = self
-        navigationController?.pushViewController(chapterDetailVC, animated: true)
+        guardNavigation {
+            let chapterDetailVM = ChapterDetailViewModel(chapter: chapter)
+            let chapterDetailVC = ChapterDetailViewController(chapterDetailVM: chapterDetailVM)
+            chapterDetailVC.hidesBottomBarWhenPushed = true
+            chapterDetailVC.coordinator = self
+            navigationController?.pushViewController(chapterDetailVC, animated: true)
+        }
     }
-    
+
     func showConceptPDFView(chapter: Chapter,conceptItem: ConceptItem) {
-        let conceptPDFVM = ConceptPDFViewModel(chapter: chapter, conceptItem: conceptItem)
-        let conceptPDFVC = ConceptPDFViewController(conceptPDFViewModel: conceptPDFVM)
-        navigationController?.pushViewController(conceptPDFVC, animated: true)
+        guardNavigation {
+            let conceptPDFVM = ConceptPDFViewModel(chapter: chapter, conceptItem: conceptItem)
+            let conceptPDFVC = ConceptPDFViewController(conceptPDFViewModel: conceptPDFVM)
+            navigationController?.pushViewController(conceptPDFVC, animated: true)
+        }
     }
 }

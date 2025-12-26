@@ -28,8 +28,8 @@ protocol MyPageCoordinatorDelegate: AnyObject {
 }
 
 @MainActor
-final class MyPageCoordinatorImpl: MyPageCoordinator {
-    
+final class MyPageCoordinatorImpl: MyPageCoordinator, NavigationGuard {
+
     private weak var navigationController: UINavigationController?
     weak var delegate: MyPageCoordinatorDelegate?
     weak var examDelegate: ExamSelectionDelegate?
@@ -38,6 +38,9 @@ final class MyPageCoordinatorImpl: MyPageCoordinator {
     private let accountRecoveryService: AccountRecoveryService
     private let socialLoginService: SocialLoginService
     var childCoordinators: [Coordinator] = []
+
+    // NavigationGuard
+    var isNavigating: Bool = false
     
     init(
         examService: ExamScheduleService,
@@ -65,33 +68,37 @@ final class MyPageCoordinatorImpl: MyPageCoordinator {
     }
     
     func showSettingsView() {
-        let viewModel = SettingsViewModel(
-            userName: UserInfoManager.shared.name,
-            email: UserInfoManager.shared.email,
-            myPageService: myPageService,
-            socialLoginService: socialLoginService
-        )
-        let vc = SettingsViewController(viewModel: viewModel)
-        vc.coordinator = self
-        navigationController?.pushViewController(vc, animated: true)
+        guardNavigation {
+            let viewModel = SettingsViewModel(
+                userName: UserInfoManager.shared.name,
+                email: UserInfoManager.shared.email,
+                myPageService: myPageService,
+                socialLoginService: socialLoginService
+            )
+            let vc = SettingsViewController(viewModel: viewModel)
+            vc.coordinator = self
+            navigationController?.pushViewController(vc, animated: true)
+        }
     }
-    
+
 //    func showChangePasswordView() {
 //        let viewModel = ChangePasswordViewModel(myPageService: myPageService)
 //        let vc = ChangePasswordViewController(viewModel: viewModel)
 //        vc.coordinator = self
 //        navigationController?.pushViewController(vc, animated: true)
 //    }
-    
+
     func showFindPassword() {
         guard let navi = navigationController else { return }
-        let recoveryCoordinator = AccountRecoveryCoordinatorImpl(
-            navigationController: navi,
-            accountRecoveryService: accountRecoveryService
-        )
-        recoveryCoordinator.delegate = self
-        childCoordinators.append(recoveryCoordinator)
-        _ = recoveryCoordinator.start()
+        guardNavigation {
+            let recoveryCoordinator = AccountRecoveryCoordinatorImpl(
+                navigationController: navi,
+                accountRecoveryService: accountRecoveryService
+            )
+            recoveryCoordinator.delegate = self
+            childCoordinators.append(recoveryCoordinator)
+            _ = recoveryCoordinator.start()
+        }
     }
     
     func showResetAlert(confirm: @escaping () -> Void) {
@@ -110,32 +117,36 @@ final class MyPageCoordinatorImpl: MyPageCoordinator {
     }
     
     func showExamSelectionSheet() {
-        let viewModel = ExamScheduleSelectionViewModel(examScheduleService: examService)
-        viewModel.delegate = examDelegate
-        let vc = ExamScheduleSelectionViewController(examScheduleSelectionVM: viewModel)
-        vc.modalPresentationStyle = .pageSheet
-        
-        if let sheet = vc.sheetPresentationController {
-            sheet.prefersGrabberVisible = true
-            sheet.preferredCornerRadius = 20
-            
-            let fit = UISheetPresentationController.Detent.custom(
-                identifier: .init("fit")
-            ) { context in min(540, context.maximumDetentValue) }
-            
-            sheet.detents = [fit]
-            sheet.selectedDetentIdentifier = .init("fit")
+        guardNavigation {
+            let viewModel = ExamScheduleSelectionViewModel(examScheduleService: examService)
+            viewModel.delegate = examDelegate
+            let vc = ExamScheduleSelectionViewController(examScheduleSelectionVM: viewModel)
+            vc.modalPresentationStyle = .pageSheet
+
+            if let sheet = vc.sheetPresentationController {
+                sheet.prefersGrabberVisible = true
+                sheet.preferredCornerRadius = 20
+
+                let fit = UISheetPresentationController.Detent.custom(
+                    identifier: .init("fit")
+                ) { context in min(540, context.maximumDetentValue) }
+
+                sheet.detents = [fit]
+                sheet.selectedDetentIdentifier = .init("fit")
+            }
+
+            navigationController?.present(vc, animated: true)
         }
-        
-        navigationController?.present(vc, animated: true)
     }
-    
+
     func showTermsDetail(for term: TermItem) {
-        let viewModel = TermsDetailViewModel(termItem: term)
-        let vc = TermsDetailViewController(viewModel: viewModel)
-        vc.modalPresentationStyle = .fullScreen
-        vc.dismissDelegate = self
-        navigationController?.present(vc, animated: true)
+        guardNavigation {
+            let viewModel = TermsDetailViewModel(termItem: term)
+            let vc = TermsDetailViewController(viewModel: viewModel)
+            vc.modalPresentationStyle = .fullScreen
+            vc.dismissDelegate = self
+            navigationController?.present(vc, animated: true)
+        }
     }
     
     func showLogoutAlert(confirm: @escaping () -> Void) {
@@ -154,14 +165,16 @@ final class MyPageCoordinatorImpl: MyPageCoordinator {
     }
     
     func showDeleteAccount() {
-        let viewModel = DeleteAccountViewModel(
-            myPageService: myPageService,
-            socialLoginService: socialLoginService
-        )
-        let vc = DeleteAccountViewController(viewModel: viewModel)
-        vc.coordinator = self
-        vc.hidesBottomBarWhenPushed = true
-        navigationController?.pushViewController(vc, animated: true)
+        guardNavigation {
+            let viewModel = DeleteAccountViewModel(
+                myPageService: myPageService,
+                socialLoginService: socialLoginService
+            )
+            let vc = DeleteAccountViewController(viewModel: viewModel)
+            vc.coordinator = self
+            vc.hidesBottomBarWhenPushed = true
+            navigationController?.pushViewController(vc, animated: true)
+        }
     }
     
     func showConfirmDeleteAlert(confirm: @escaping () -> Void) {

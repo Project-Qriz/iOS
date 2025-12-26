@@ -32,8 +32,8 @@ protocol HomeCoordinatorDelegate: AnyObject {
 }
 
 @MainActor
-final class HomeCoordinatorImpl: HomeCoordinator {
-    
+final class HomeCoordinatorImpl: HomeCoordinator, NavigationGuard {
+
     weak var delegate: HomeCoordinatorDelegate?
     weak var examDelegate: ExamSelectionDelegate?
     private(set) weak var navigationController: UINavigationController?
@@ -47,6 +47,9 @@ final class HomeCoordinatorImpl: HomeCoordinator {
     var needsRefresh: Bool = false
     var childCoordinators: [Coordinator] = []
     private var onboardingCoordinator: OnboardingCoordinator?
+
+    // NavigationGuard
+    var isNavigating: Bool = false
     
     init(
         examService: ExamScheduleService,
@@ -80,52 +83,60 @@ final class HomeCoordinatorImpl: HomeCoordinator {
     }
     
     func showExamSelectionSheet() {
-        let viewModel = ExamScheduleSelectionViewModel(examScheduleService: examService)
-        let vc = ExamScheduleSelectionViewController(examScheduleSelectionVM: viewModel)
-        viewModel.delegate = examDelegate ?? self
-        vc.modalPresentationStyle = .pageSheet
-        
-        if let sheet = vc.sheetPresentationController {
-            sheet.prefersGrabberVisible = true
-            sheet.preferredCornerRadius = 20
-            
-            let fit = UISheetPresentationController.Detent.custom(
-                identifier: .init("fit")
-            ) { context in min(540, context.maximumDetentValue) }
-            
-            sheet.detents = [fit]
-            sheet.selectedDetentIdentifier = .init("fit")
+        guardNavigation {
+            let viewModel = ExamScheduleSelectionViewModel(examScheduleService: examService)
+            let vc = ExamScheduleSelectionViewController(examScheduleSelectionVM: viewModel)
+            viewModel.delegate = examDelegate ?? self
+            vc.modalPresentationStyle = .pageSheet
+
+            if let sheet = vc.sheetPresentationController {
+                sheet.prefersGrabberVisible = true
+                sheet.preferredCornerRadius = 20
+
+                let fit = UISheetPresentationController.Detent.custom(
+                    identifier: .init("fit")
+                ) { context in min(540, context.maximumDetentValue) }
+
+                sheet.detents = [fit]
+                sheet.selectedDetentIdentifier = .init("fit")
+            }
+
+            navigationController?.present(vc, animated: true)
         }
-        
-        navigationController?.present(vc, animated: true)
     }
     
     func showOnboarding() {
         guard let navi = navigationController else { return }
-        let onboarding = OnboardingCoordinatorImpl(
-            navigationController: navi,
-            onboardingService: onboardingService,
-            userInfoService: userInfoService
-        )
-        onboarding.delegate = self
-        childCoordinators.append(onboarding)
-        _ = onboarding.start()
+        guardNavigation {
+            let onboarding = OnboardingCoordinatorImpl(
+                navigationController: navi,
+                onboardingService: onboardingService,
+                userInfoService: userInfoService
+            )
+            onboarding.delegate = self
+            childCoordinators.append(onboarding)
+            _ = onboarding.start()
+        }
     }
     
     func showExam() {
         guard let navi = navigationController else { return }
-        let exam = ExamCoordinatorImpl(navigationController: navi, examService: examTestService)
-        exam.delegate = self
-        childCoordinators.append(exam)
-        _ = exam.start()
+        guardNavigation {
+            let exam = ExamCoordinatorImpl(navigationController: navi, examService: examTestService)
+            exam.delegate = self
+            childCoordinators.append(exam)
+            _ = exam.start()
+        }
     }
     
     func showDaily(day: Int, type: DailyLearnType) {
         guard let navi = navigationController else { return }
-        let daily = DailyCoordinatorImpl(navigationController: navi, dailyService: dailyService, day: day, type: type)
-        daily.delegate = self
-        childCoordinators.append(daily)
-        _ = daily.start()
+        guardNavigation {
+            let daily = DailyCoordinatorImpl(navigationController: navi, dailyService: dailyService, day: day, type: type)
+            daily.delegate = self
+            childCoordinators.append(daily)
+            _ = daily.start()
+        }
     }
     
     func showResetAlert(confirm: @escaping () -> Void) {
@@ -172,9 +183,11 @@ final class HomeCoordinatorImpl: HomeCoordinator {
     }
     
     func showConceptPDF(chapter: Chapter, conceptItem: ConceptItem) {
-        let conceptPDFVM = ConceptPDFViewModel(chapter: chapter, conceptItem: conceptItem)
-        let conceptPDFVC = ConceptPDFViewController(conceptPDFViewModel: conceptPDFVM)
-        navigationController?.pushViewController(conceptPDFVC, animated: true)
+        guardNavigation {
+            let conceptPDFVM = ConceptPDFViewModel(chapter: chapter, conceptItem: conceptItem)
+            let conceptPDFVC = ConceptPDFViewController(conceptPDFViewModel: conceptPDFVM)
+            navigationController?.pushViewController(conceptPDFVC, animated: true)
+        }
     }
 }
 

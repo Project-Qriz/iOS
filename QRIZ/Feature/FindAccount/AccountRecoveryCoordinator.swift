@@ -21,14 +21,17 @@ protocol AccountRecoveryCoordinatorDelegate: AnyObject {
 }
 
 @MainActor
-final class AccountRecoveryCoordinatorImpl: AccountRecoveryCoordinator {
+final class AccountRecoveryCoordinatorImpl: AccountRecoveryCoordinator, NavigationGuard {
 
     // MARK: Properties
-    
+
     weak var delegate: AccountRecoveryCoordinatorDelegate?
     private let navigationController: UINavigationController
     private let accountRecoveryService: AccountRecoveryService
     private var childCoordinators: [Coordinator] = []
+
+    // NavigationGuard
+    var isNavigating: Bool = false
 
     // MARK: Initialize
     
@@ -49,10 +52,12 @@ final class AccountRecoveryCoordinatorImpl: AccountRecoveryCoordinator {
     }
 
     func showResetPassword() {
-        let vm = ResetPasswordViewModel(accountRecoveryService: accountRecoveryService)
-        let vc = ResetPasswordViewController(resetPasswordVM: vm)
-        vc.coordinator = self
-        navigationController.pushViewController(vc, animated: true)
+        guardNavigation {
+            let vm = ResetPasswordViewModel(accountRecoveryService: accountRecoveryService)
+            let vc = ResetPasswordViewController(resetPasswordVM: vm)
+            vc.coordinator = self
+            navigationController.pushViewController(vc, animated: true)
+        }
     }
     
     func popToRootViewController() {
