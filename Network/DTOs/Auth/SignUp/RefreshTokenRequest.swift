@@ -14,8 +14,8 @@ struct RefreshTokenRequest: Request {
     let method: HTTPMethod = .post
     let accessToken: String
     let refreshToken: String
-    
-    var query: QueryItems {
+
+    var body: Encodable? {
         ["refreshToken": refreshToken]
     }
     
@@ -35,7 +35,7 @@ struct RefreshTokenResponse: Decodable {
     let data: DataInfo?
     
     struct DataInfo: Decodable {
-        let rataed: Bool? // 3일 이하 true
+        let rotated: Bool? // 3일 이하 true
         let refreshExpiry: String? // rotated == true 일 때만 존재
         let refreshToken: String?
     }
