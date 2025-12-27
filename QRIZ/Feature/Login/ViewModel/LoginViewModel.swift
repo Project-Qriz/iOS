@@ -94,9 +94,8 @@ final class LoginViewModel {
     private func login() {
         Task {
             do {
-                _ = try await loginService.login(id: id, password: password)
-                let userInfo = try await userInfoService.getUserInfo()
-                UserInfoManager.shared.update(from: userInfo.data)
+                let response = try await loginService.login(id: id, password: password)
+                UserInfoManager.shared.update(from: response.data.user)
                 outputSubject.send(.loginSucceeded)
             } catch {
                 let title = "아이디 또는 비밀번호 확인"
