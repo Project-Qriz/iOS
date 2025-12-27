@@ -10,4 +10,6 @@ import Foundation
 struct ErrorResponse: Decodable {
     let code: Int
     let msg: String
+    let reason: String?
+    let detailCode: Int?
 }
