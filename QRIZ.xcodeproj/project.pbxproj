@@ -129,6 +129,7 @@
 		B19C4FC52D6C226500CD008A /* TabBarCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = B19C4FC42D6C226500CD008A /* TabBarCoordinator.swift */; };
 		B1B0BBBC2E769F510024F230 /* GoogleSignIn in Frameworks */ = {isa = PBXBuildFile; productRef = B1B0BBBB2E769F510024F230 /* GoogleSignIn */; };
 		B1B0BBBE2E769F510024F230 /* GoogleSignInSwift in Frameworks */ = {isa = PBXBuildFile; productRef = B1B0BBBD2E769F510024F230 /* GoogleSignInSwift */; };
+		B1C8B90C2EFF2A6500C3E709 /* NavigationGuard.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1C8B90B2EFF2A6500C3E709 /* NavigationGuard.swift */; };
 		B1D813712D6E0C1F00A9D447 /* HomeCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1D813702D6E0C1F00A9D447 /* HomeCoordinator.swift */; };
 		B1D813732D6E0CB200A9D447 /* ConceptBookCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1D813722D6E0CB200A9D447 /* ConceptBookCoordinator.swift */; };
 		B1D813752D6E0CC900A9D447 /* MistakeNoteCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1D813742D6E0CC900A9D447 /* MistakeNoteCoordinator.swift */; };
@@ -412,6 +413,7 @@
 		B19C4FAE2D67E58D00CD008A /* LoginCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginCoordinator.swift; sourceTree = "<group>"; };
 		B19C4FBE2D6B6E3400CD008A /* MistakeNoteViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MistakeNoteViewController.swift; sourceTree = "<group>"; };
 		B19C4FC42D6C226500CD008A /* TabBarCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarCoordinator.swift; sourceTree = "<group>"; };
+		B1C8B90B2EFF2A6500C3E709 /* NavigationGuard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationGuard.swift; sourceTree = "<group>"; };
 		B1D813702D6E0C1F00A9D447 /* HomeCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeCoordinator.swift; sourceTree = "<group>"; };
 		B1D813722D6E0CB200A9D447 /* ConceptBookCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConceptBookCoordinator.swift; sourceTree = "<group>"; };
 		B1D813742D6E0CC900A9D447 /* MistakeNoteCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MistakeNoteCoordinator.swift; sourceTree = "<group>"; };
@@ -1059,6 +1061,7 @@
 		B18F45132D3A406C0030F7DB /* Types */ = {
 			isa = PBXGroup;
 			children = (
+				B1C8B90B2EFF2A6500C3E709 /* NavigationGuard.swift */,
 				B18F45142D3A40BE0030F7DB /* FindAccountType.swift */,
 				B1151FD62E64A1DD00C1F720 /* SocialLoginType.swift */,
 			);
@@ -2135,6 +2138,7 @@
 				E25F94CB2D0CB1DB00BA765F /* OnboardingTitleLabel.swift in Sources */,
 				B16288242D2E8914008057D0 /* IDInputViewModel.swift in Sources */,
 				E258578D2DD0C7C300AE174C /* ExamListCell.swift in Sources */,
+				B1C8B90C2EFF2A6500C3E709 /* NavigationGuard.swift in Sources */,
 				B1151FD72E64A1DD00C1F720 /* SocialLoginType.swift in Sources */,
 				E25F94D12D0CB74700BA765F /* OnboardingButton.swift in Sources */,
 				E25AB8082DC0CB2C00E7A7E3 /* DailySubmitRequest.swift in Sources */,
@@ -2560,8 +2564,8 @@
 				INFOPLIST_FILE = QRIZ/SupportingFiles/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -2596,8 +2600,8 @@
 				INFOPLIST_FILE = QRIZ/SupportingFiles/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",

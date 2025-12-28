@@ -26,14 +26,17 @@ protocol ExamCoordinatorDelegate: AnyObject {
 }
 
 @MainActor
-final class ExamCoordinatorImpl: ExamCoordinator {
-    
+final class ExamCoordinatorImpl: ExamCoordinator, NavigationGuard {
+
     // MARK: - Properties
     weak var delegate: ExamCoordinatorDelegate?
     private let navigationController: UINavigationController
     private var examListViewController: UIViewController?
     private var examListViewModel: ExamListViewModel?
     private let service: ExamService
+
+    // NavigationGuard
+    var isNavigating: Bool = false
     
     // MARK: - Initializers
     init(navigationController: UINavigationController, examService: ExamService) {
@@ -48,39 +51,49 @@ final class ExamCoordinatorImpl: ExamCoordinator {
     }
     
     func showExamList() {
-        let vm = ExamListViewModel(examService: service)
-        let vc = ExamListViewController(viewModel: vm)
-        vc.coordinator = self
-        examListViewController = vc
-        examListViewModel = vm
-        self.navigationController.pushViewController(vc, animated: true)
+        guardNavigation {
+            let vm = ExamListViewModel(examService: service)
+            let vc = ExamListViewController(viewModel: vm)
+            vc.coordinator = self
+            examListViewController = vc
+            examListViewModel = vm
+            self.navigationController.pushViewController(vc, animated: true)
+        }
     }
     
     func showExamSummary(examId: Int) {
-        let vm = ExamSummaryViewModel(examId: examId)
-        let vc = ExamSummaryViewController(viewModel: vm)
-        vc.coordinator = self
-        self.navigationController.pushViewController(vc, animated: true)
+        guardNavigation {
+            let vm = ExamSummaryViewModel(examId: examId)
+            let vc = ExamSummaryViewController(viewModel: vm)
+            vc.coordinator = self
+            self.navigationController.pushViewController(vc, animated: true)
+        }
     }
     
     func showExamTest(examId: Int) {
-        let vm = ExamTestViewModel(examId: examId, examService: service)
-        let vc = ExamTestViewController(viewModel: vm)
-        vc.coordinator = self
-        self.navigationController.pushViewController(vc, animated: true)
+        guardNavigation {
+            let vm = ExamTestViewModel(examId: examId, examService: service)
+            let vc = ExamTestViewController(viewModel: vm)
+            vc.coordinator = self
+            self.navigationController.pushViewController(vc, animated: true)
+        }
     }
     
     func showExamResult(examId: Int) {
-        let vm = ExamResultViewModel(examId: examId, examService: service)
-        let vc = ExamResultViewController(viewModel: vm)
-        vc.coordinator = self
-        self.navigationController.pushViewController(vc, animated: true)
+        guardNavigation {
+            let vm = ExamResultViewModel(examId: examId, examService: service)
+            let vc = ExamResultViewController(viewModel: vm)
+            vc.coordinator = self
+            self.navigationController.pushViewController(vc, animated: true)
+        }
     }
     
     func showResultDetail(resultDetailData: ResultDetailData) {
-        let vm = TestResultDetailViewModel(resultDetailData: resultDetailData)
-        let vc = TestResultDetailViewController(viewModel: vm)
-        self.navigationController.pushViewController(vc, animated: true)
+        guardNavigation {
+            let vm = TestResultDetailViewModel(resultDetailData: resultDetailData)
+            let vc = TestResultDetailViewController(viewModel: vm)
+            self.navigationController.pushViewController(vc, animated: true)
+        }
     }
     
     /// Exam 내부 테스트나 결과에서 ExamList로 이동하는 메서드

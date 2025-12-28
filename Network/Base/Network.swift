@@ -21,6 +21,7 @@ final class NetworkImpl: Network {
     private let decoder = JSONDecoder()
     private let notifier: SessionEventNotifier
     private let authKey = HTTPHeaderField.authorization.rawValue
+    private var isRefreshing = false
     
     // MARK: - Initialize
     
@@ -38,19 +39,16 @@ final class NetworkImpl: Network {
     
     func send<T: Request>(_ request: T) async throws -> T.Response {
         let urlRequest = try RequestFactory(request: request).urlRequestRepresentation()
-        let needsRetry = urlRequest.value(forHTTPHeaderField: authKey) != nil
-        
+        let needsAuth = urlRequest.value(forHTTPHeaderField: authKey) != nil
         let (data, response) = try await session.data(for: urlRequest)
-        saveAccessTokenIfPresent(in: response)
         
         do {
             try validate(response, data)
+            saveTokens(from: data, response: response)
             return try decode(T.Response.self, from: data)
-        } catch let NetworkError.unAuthorizedError(detailCode: detail) where needsRetry {
-            if detail == 3 {
-                try await refreshAccessToken()
-            }
-            return try await retry(urlRequest, responseType: T.Response.self)
+        } catch let NetworkError.unAuthorizedError(detailCode: code)
+                    where needsAuth && !isRefreshing && code == 3 {
+            return try await refreshAndRetry(urlRequest, responseType: T.Response.self)
         } catch {
             throw mapToNetworkError(error)
         }
@@ -58,91 +56,108 @@ final class NetworkImpl: Network {
 }
 
 private extension NetworkImpl {
-    /// 401 응답 시 재요청 메서드
-    private func retry<T: Decodable>(_ request: URLRequest, responseType: T.Type) async throws -> T {
-        guard let token = keychain.retrieveToken(forKey: HTTPHeaderField.accessToken.rawValue) else {
-            notifier.notify(.expired)
-            throw NetworkError.unAuthorizedError(detailCode: 5)
-        }
-        
-        var retried = request
-        retried.setValue(token, forHTTPHeaderField: authKey)
-        
-        let (data, response) = try await session.data(for: retried)
-        saveAccessTokenIfPresent(in: response)
-        
+    
+    /// Access Token 갱신 후 재요청
+    func refreshAndRetry<T: Decodable>(_ request: URLRequest, responseType: T.Type) async throws -> T {
         do {
-            try validate(response, data)
-            return try decode(responseType, from: data)
-        } catch NetworkError.unAuthorizedError(let detail) {
-            keychain.deleteToken(forKey: HTTPHeaderField.accessToken.rawValue)
-            notifier.notify(.expired)
-            throw NetworkError.unAuthorizedError(detailCode: detail)
+            try await refreshAccessToken()
+            return try await retryRequest(request, responseType: responseType)
+        } catch {
+            handleRefreshFailure()
+            throw error
         }
     }
     
-    private func refreshAccessToken() async throws {
-        guard let refresh = keychain.retrieveToken(forKey: HTTPHeaderField.refreshToken.rawValue) else {
-            notifier.notify(.expired)
-            throw NetworkError.unAuthorizedError(detailCode: 5)
+    /// Access Token 갱신
+    func refreshAccessToken() async throws {
+        let accessToken = keychain.retrieveToken(forKey: HTTPHeaderField.accessToken.rawValue)
+        let refreshToken = keychain.retrieveToken(forKey: HTTPHeaderField.refreshToken.rawValue)
+        
+        guard let refreshToken = refreshToken else {
+            throw NetworkError.unAuthorizedError(detailCode: nil)
         }
         
-        let access = keychain.retrieveToken(forKey: HTTPHeaderField.accessToken.rawValue) ?? ""
-        let request = RefreshTokenRequest(accessToken: access, refreshToken: refresh)
+        isRefreshing = true
+        defer { isRefreshing = false }
+        
+        let request = RefreshTokenRequest(accessToken: accessToken ?? "", refreshToken: refreshToken)
         let response: RefreshTokenResponse = try await self.send(request)
         
-        if let newRefresh = response.data?.refreshToken {
-            _ = keychain.save(token: newRefresh, forKey: HTTPHeaderField.refreshToken.rawValue)
+        // 새로운 Refresh Token이 있으면 저장
+        if let newRefreshToken = response.data?.refreshToken {
+            _ = keychain.save(token: newRefreshToken, forKey: HTTPHeaderField.refreshToken.rawValue)
         }
     }
     
-    /// 서버에서  AccessToken과 RefreshToken을 추출하여 Keychain에 저장하는 메서드
-    private func saveTokensIfPresent(data: Data, response: URLResponse) {
+    /// 갱신된 Access Token으로 재요청
+    func retryRequest<T: Decodable>(_ request: URLRequest, responseType: T.Type) async throws -> T {
+        guard let accessToken = keychain.retrieveToken(forKey: HTTPHeaderField.accessToken.rawValue) else {
+            throw NetworkError.unAuthorizedError(detailCode: nil)
+        }
+        
+        var retryRequest = request
+        retryRequest.setValue(accessToken, forHTTPHeaderField: authKey)
+        
+        let (data, response) = try await session.data(for: retryRequest)
+        
+        try validate(response, data)
+        saveTokens(from: data, response: response)
+        return try decode(responseType, from: data)
+    }
+    
+    /// Refresh 실패 시 토큰 삭제 및 세션 만료 알림
+    func handleRefreshFailure() {
+        keychain.deleteToken(forKey: HTTPHeaderField.accessToken.rawValue)
+        keychain.deleteToken(forKey: HTTPHeaderField.refreshToken.rawValue)
+        notifier.notify(.expired)
+    }
+    
+    /// 응답에서 토큰 추출 및 저장
+    func saveTokens(from data: Data, response: URLResponse) {
         saveAccessTokenIfPresent(in: response)
         saveRefreshTokenIfPresent(from: data)
     }
     
-    /// 응답 헤더에 AccessToken이 포함되어 있다면 Keychain에 저장
-    private func saveAccessTokenIfPresent(in response: URLResponse) {
+    /// Access Token 저장 (응답 헤더)
+    func saveAccessTokenIfPresent(in response: URLResponse) {
         guard
-            let http = response as? HTTPURLResponse,
-            let token = http.value(forHTTPHeaderField: authKey),
+            let httpResponse = response as? HTTPURLResponse,
+            let token = httpResponse.value(forHTTPHeaderField: authKey),
             !token.isEmpty
-        else {
-            return
-        }
+        else { return }
         
         _ = keychain.save(token: token, forKey: HTTPHeaderField.accessToken.rawValue)
     }
     
-    /// 응답 body에서 RefreshToken을 추출하여 Keychain에 저장
-    private func saveRefreshTokenIfPresent(from data: Data) {
-        guard
-            let body = try? JSONSerialization.jsonObject(with: data) as? [String: Any],
-            let dataField = body["data"] as? [String: Any],
-            let refreshToken = dataField[HTTPHeaderField.refreshToken.rawValue] as? String
-        else { return }
+    /// Refresh Token 저장 (응답 Body)
+    func saveRefreshTokenIfPresent(from data: Data) {
+        guard let json = try? JSONSerialization.jsonObject(with: data) as? [String: Any] else {
+            return
+        }
+
+        guard let dataField = json["data"] as? [String: Any],
+              let refreshToken = dataField[HTTPHeaderField.refreshToken.rawValue] as? String else {
+            return
+        }
         
-        _ = keychain.save(token: refreshToken, forKey: HTTPHeaderField.refreshToken.rawValue)
+        let saved = keychain.save(token: refreshToken, forKey: HTTPHeaderField.refreshToken.rawValue)
     }
     
-    /// HTTP 상태코드 검증 메서드
-    private func validate(_ response: URLResponse, _ data: Data) throws {
-        guard let http = response as? HTTPURLResponse else {
+    /// HTTP 상태 코드 검증
+    func validate(_ response: URLResponse, _ data: Data) throws {
+        guard let httpResponse = response as? HTTPURLResponse else {
             throw NetworkError.unknownError
         }
         
-        switch http.statusCode {
+        switch httpResponse.statusCode {
         case 200..<300: return
         case 401:
             let errorResponse = try? decoder.decode(ErrorResponse.self, from: data)
-            let detail = errorResponse?.code
-            throw NetworkError.unAuthorizedError(detailCode: detail)
+            throw NetworkError.unAuthorizedError(detailCode: errorResponse?.detailCode)
         case 400..<500:
             let errorResponse = try? decoder.decode(ErrorResponse.self, from: data)
-            
             throw NetworkError.clientError(
-                httpStatus: http.statusCode,
+                httpStatus: httpResponse.statusCode,
                 serverCode: errorResponse?.code,
                 message: errorResponse?.msg ?? "클라이언트 에러입니다."
             )
@@ -167,11 +182,5 @@ private extension NetworkImpl {
         case is DecodingError: return .jsonDecodingError
         default: return .unknownError
         }
-    }
-    
-    /// detailCode 추출
-    private func extractDetailCode(from data: Data) -> Int? {
-        let errorBody = try? decoder.decode(ErrorResponse.self, from: data)
-        return errorBody?.code
     }
 }

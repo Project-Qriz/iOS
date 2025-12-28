@@ -22,16 +22,19 @@ protocol LoginCoordinatorDelegate: AnyObject {
 }
 
 @MainActor
-final class LoginCoordinatorImpl: LoginCoordinator {
-    
+final class LoginCoordinatorImpl: LoginCoordinator, NavigationGuard {
+
     weak var delegate: LoginCoordinatorDelegate?
     private let navigationController: UINavigationController
     private var childCoordinators: [Coordinator] = []
-    
+
     private let loginService: LoginService
     private let userInfoService: UserInfoService
     private let signUpService: SignUpService
     private let accountRecoveryService: AccountRecoveryService
+
+    // NavigationGuard
+    var isNavigating: Bool = false
     
     init(
         navigationController: UINavigationController,
@@ -56,30 +59,36 @@ final class LoginCoordinatorImpl: LoginCoordinator {
     }
     
     func showSignUp() {
-        let signUpCoordinator = SignUpCoordinatorImpl(
-            navigationController: navigationController,
-            signUpService: signUpService
-        )
-        signUpCoordinator.delegate = self
-        childCoordinators.append(signUpCoordinator)
-        _ = signUpCoordinator.start()
+        guardNavigation {
+            let signUpCoordinator = SignUpCoordinatorImpl(
+                navigationController: navigationController,
+                signUpService: signUpService
+            )
+            signUpCoordinator.delegate = self
+            childCoordinators.append(signUpCoordinator)
+            _ = signUpCoordinator.start()
+        }
     }
-    
+
     func showFindId() {
-        let findIDVM = FindIDViewModel(accountRecoveryService: accountRecoveryService)
-        let findIDVC = FindIDViewController(findIDInputVM: findIDVM)
-        findIDVC.coordinator = self
-        navigationController.pushViewController(findIDVC, animated: true)
+        guardNavigation {
+            let findIDVM = FindIDViewModel(accountRecoveryService: accountRecoveryService)
+            let findIDVC = FindIDViewController(findIDInputVM: findIDVM)
+            findIDVC.coordinator = self
+            navigationController.pushViewController(findIDVC, animated: true)
+        }
     }
-    
+
     func showFindPassword() {
-        let recoveryCoordinator = AccountRecoveryCoordinatorImpl(
-            navigationController: navigationController,
-            accountRecoveryService: accountRecoveryService
-        )
-        recoveryCoordinator.delegate = self
-        childCoordinators.append(recoveryCoordinator)
-        _ = recoveryCoordinator.start()
+        guardNavigation {
+            let recoveryCoordinator = AccountRecoveryCoordinatorImpl(
+                navigationController: navigationController,
+                accountRecoveryService: accountRecoveryService
+            )
+            recoveryCoordinator.delegate = self
+            childCoordinators.append(recoveryCoordinator)
+            _ = recoveryCoordinator.start()
+        }
     }
     
     func popToRootViewController() {
