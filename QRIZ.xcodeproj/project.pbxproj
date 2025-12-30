@@ -130,6 +130,10 @@
 		B1B0BBBC2E769F510024F230 /* GoogleSignIn in Frameworks */ = {isa = PBXBuildFile; productRef = B1B0BBBB2E769F510024F230 /* GoogleSignIn */; };
 		B1B0BBBE2E769F510024F230 /* GoogleSignInSwift in Frameworks */ = {isa = PBXBuildFile; productRef = B1B0BBBD2E769F510024F230 /* GoogleSignInSwift */; };
 		B1C8B90C2EFF2A6500C3E709 /* NavigationGuard.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1C8B90B2EFF2A6500C3E709 /* NavigationGuard.swift */; };
+		B1C8BCC12F03093800C3E709 /* ProblemHeaderData.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1C8BCBF2F03093800C3E709 /* ProblemHeaderData.swift */; };
+		B1C8BCC92F03096C00C3E709 /* ProblemHeaderCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1C8BCC32F03096C00C3E709 /* ProblemHeaderCardView.swift */; };
+		B1C8BCCA2F03096C00C3E709 /* ProblemExplanationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1C8BCC52F03096C00C3E709 /* ProblemExplanationViewController.swift */; };
+		B1C8BCCB2F03096C00C3E709 /* ProblemExplanationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1C8BCC22F03096C00C3E709 /* ProblemExplanationView.swift */; };
 		B1D813712D6E0C1F00A9D447 /* HomeCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1D813702D6E0C1F00A9D447 /* HomeCoordinator.swift */; };
 		B1D813732D6E0CB200A9D447 /* ConceptBookCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1D813722D6E0CB200A9D447 /* ConceptBookCoordinator.swift */; };
 		B1D813752D6E0CC900A9D447 /* MistakeNoteCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1D813742D6E0CC900A9D447 /* MistakeNoteCoordinator.swift */; };
@@ -414,6 +418,10 @@
 		B19C4FBE2D6B6E3400CD008A /* MistakeNoteViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MistakeNoteViewController.swift; sourceTree = "<group>"; };
 		B19C4FC42D6C226500CD008A /* TabBarCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarCoordinator.swift; sourceTree = "<group>"; };
 		B1C8B90B2EFF2A6500C3E709 /* NavigationGuard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationGuard.swift; sourceTree = "<group>"; };
+		B1C8BCBF2F03093800C3E709 /* ProblemHeaderData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProblemHeaderData.swift; sourceTree = "<group>"; };
+		B1C8BCC22F03096C00C3E709 /* ProblemExplanationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProblemExplanationView.swift; sourceTree = "<group>"; };
+		B1C8BCC32F03096C00C3E709 /* ProblemHeaderCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProblemHeaderCardView.swift; sourceTree = "<group>"; };
+		B1C8BCC52F03096C00C3E709 /* ProblemExplanationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProblemExplanationViewController.swift; sourceTree = "<group>"; };
 		B1D813702D6E0C1F00A9D447 /* HomeCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeCoordinator.swift; sourceTree = "<group>"; };
 		B1D813722D6E0CB200A9D447 /* ConceptBookCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConceptBookCoordinator.swift; sourceTree = "<group>"; };
 		B1D813742D6E0CC900A9D447 /* MistakeNoteCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MistakeNoteCoordinator.swift; sourceTree = "<group>"; };
@@ -1114,6 +1122,7 @@
 			children = (
 				B19C4FBE2D6B6E3400CD008A /* MistakeNoteViewController.swift */,
 				B1D813742D6E0CC900A9D447 /* MistakeNoteCoordinator.swift */,
+				B1C8BCC82F03096C00C3E709 /* ProblemExplanation */,
 			);
 			path = MistakeNote;
 			sourceTree = "<group>";
@@ -1124,6 +1133,48 @@
 				B19C4FC42D6C226500CD008A /* TabBarCoordinator.swift */,
 			);
 			path = TabBar;
+			sourceTree = "<group>";
+		};
+		B1C8BCC02F03093800C3E709 /* ProblemExplanation */ = {
+			isa = PBXGroup;
+			children = (
+				B1C8BCBF2F03093800C3E709 /* ProblemHeaderData.swift */,
+			);
+			path = ProblemExplanation;
+			sourceTree = "<group>";
+		};
+		B1C8BCC42F03096C00C3E709 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				B1C8BCC22F03096C00C3E709 /* ProblemExplanationView.swift */,
+				B1C8BCC32F03096C00C3E709 /* ProblemHeaderCardView.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		B1C8BCC62F03096C00C3E709 /* ViewController */ = {
+			isa = PBXGroup;
+			children = (
+				B1C8BCC52F03096C00C3E709 /* ProblemExplanationViewController.swift */,
+			);
+			path = ViewController;
+			sourceTree = "<group>";
+		};
+		B1C8BCC72F03096C00C3E709 /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		B1C8BCC82F03096C00C3E709 /* ProblemExplanation */ = {
+			isa = PBXGroup;
+			children = (
+				B1C8BCC42F03096C00C3E709 /* View */,
+				B1C8BCC62F03096C00C3E709 /* ViewController */,
+				B1C8BCC72F03096C00C3E709 /* ViewModel */,
+			);
+			path = ProblemExplanation;
 			sourceTree = "<group>";
 		};
 		B1D813782D768D3D00A9D447 /* Coordinator */ = {
@@ -1692,6 +1743,7 @@
 		E29BF8532D117CD5006DC6D0 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				B1C8BCC02F03093800C3E709 /* ProblemExplanation */,
 				B13048972DE1E6370036EBE2 /* Home */,
 				E24907D62D61A26D004D6E61 /* DailyLearnModel */,
 				E29BF86B2D16894C006DC6D0 /* TestModel */,
@@ -2309,10 +2361,14 @@
 				B18CDF712DD3001B00DD361A /* TermsAgreementModalMainView.swift in Sources */,
 				E29CCD2D2D29855B004AA30A /* TestPageIndicatorLabel.swift in Sources */,
 				E2939CA32D9D605C00F7E704 /* TestContentsView.swift in Sources */,
+				B1C8BCC92F03096C00C3E709 /* ProblemHeaderCardView.swift in Sources */,
+				B1C8BCCA2F03096C00C3E709 /* ProblemExplanationViewController.swift in Sources */,
+				B1C8BCCB2F03096C00C3E709 /* ProblemExplanationView.swift in Sources */,
 				E24CB16A2DB5373900D88451 /* ResultDetailScoreView.swift in Sources */,
 				E25856DE2D0DADD300355667 /* BeginOnboardingViewModel.swift in Sources */,
 				E27843212DDE13B600E9AD07 /* ExamTestViewController.swift in Sources */,
 				B1D9A0E72D3686BA00E84934 /* CountdownTimer.swift in Sources */,
+				B1C8BCC12F03093800C3E709 /* ProblemHeaderData.swift in Sources */,
 				E2C1016B2DF2E10200C3512E /* OnboardingCoordinator.swift in Sources */,
 				B18F45102D3997280030F7DB /* FindAccountHeaderView.swift in Sources */,
 				E29BF8552D117CF1006DC6D0 /* SurveyCheckList.swift in Sources */,
