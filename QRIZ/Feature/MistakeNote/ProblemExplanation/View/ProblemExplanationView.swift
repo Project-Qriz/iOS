@@ -13,7 +13,7 @@ struct ProblemExplanationView: View {
 
     var body: some View {
         ScrollView {
-            VStack(spacing: 20) {
+            VStack(spacing: 32) {
                 ProblemHeaderCardView(data: data.headerData) // 헤더 카드
 
                 VStack(spacing: 8) {
@@ -23,6 +23,11 @@ struct ProblemExplanationView: View {
                         userAnswer: data.checked ?? 0
                     ) // 정답 정보
                 }
+
+                ProblemSolutionView(
+                    keyConcepts: data.keyConcepts,
+                    solutionText: data.solution
+                ) // 풀이 섹션
             }
             .padding(.horizontal, 18)
             .padding(.top, 16)
