@@ -1,5 +1,5 @@
 //
-//  ProblemExplanationView.swift
+//  ProblemDetailView.swift
 //  QRIZ
 //
 //  Created by Claude on 12/30/25.
@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct ProblemExplanationView: View {
+struct ProblemDetailView: View {
 
     let data: DailyResultDetail
 
@@ -50,7 +50,7 @@ struct ProblemExplanationView: View {
 
 // MARK: - Subviews
 
-private extension ProblemExplanationView {
+private extension ProblemDetailView {
 
     /// 학습하러가기 버튼
     var learnButton: some View {
@@ -72,7 +72,7 @@ private extension ProblemExplanationView {
 
 #Preview {
     NavigationView {
-        ProblemExplanationView(
+        ProblemDetailView(
             data: MockDailyResultData.incorrectSample
         )
     }

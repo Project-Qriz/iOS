@@ -1,0 +1,29 @@
+//
+//  ProblemDetailViewController.swift
+//  QRIZ
+//
+//  Created by Claude on 12/30/25.
+//
+
+import UIKit
+import SwiftUI
+
+@MainActor
+final class ProblemDetailViewController: UIHostingController<ProblemDetailView> {
+
+    weak var coordinator: MistakeNoteCoordinator?
+
+    init(data: DailyResultDetail) {
+        let swiftUIView = ProblemDetailView(data: data)
+        super.init(rootView: swiftUIView)
+        self.hidesBottomBarWhenPushed = true
+    }
+
+    @MainActor required dynamic init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+
+    override func viewDidLoad() {
+        super.viewDidLoad()
+    }
+}
