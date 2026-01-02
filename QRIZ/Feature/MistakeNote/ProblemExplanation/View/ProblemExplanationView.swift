@@ -28,6 +28,11 @@ struct ProblemExplanationView: View {
                     keyConcepts: data.keyConcepts,
                     solutionText: data.solution
                 ) // 풀이 섹션
+                
+                ProblemKeyConceptsView(
+                    keyConcepts: data.keyConcepts,
+                    subject: data.title
+                ) // 활용된 개념 섹션
             }
             .padding(.horizontal, 18)
             .padding(.top, 16)
