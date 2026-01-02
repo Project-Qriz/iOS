@@ -14,7 +14,8 @@ struct ProblemExplanationView: View {
     var body: some View {
         ScrollView {
             VStack(spacing: 32) {
-                ProblemHeaderCardView(data: data.headerData) // 헤더 카드
+                ProblemHeaderCardView(data: data.headerData)
+                    .padding(.bottom, 16)
 
                 VStack(spacing: 8) {
                     ProblemQuestionSectionView(data: data.questionData) // 문제 섹션
