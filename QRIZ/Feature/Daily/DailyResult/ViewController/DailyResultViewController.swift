@@ -46,8 +46,11 @@ final class DailyResultViewController: UIViewController {
         let conceptTapped = dailyResultViewHostingController.rootView.conceptTappedPublisher.map {
             DailyResultViewModel.Input.moveToConceptButtonClicked
         }
-        
-        let mergedInput = input.merge(with: resultDetailTapped, conceptTapped)
+        let problemTapped = dailyResultViewHostingController.rootView.problemTappedPublisher.map {
+            DailyResultViewModel.Input.problemTapped(questionId: $0)
+        }
+
+        let mergedInput = input.merge(with: resultDetailTapped, conceptTapped, problemTapped)
         let output = viewModel.transform(input: mergedInput.eraseToAnyPublisher())
         output
             .receive(on: DispatchQueue.main)
@@ -65,11 +68,12 @@ final class DailyResultViewController: UIViewController {
                     if let coordinator = coordinator {
                         coordinator.delegate?.moveFromDailyToConcept(coordinator)
                     }
-                    
                 case .moveToDailyLearn:
                     coordinator?.quitDaily()
                 case .moveToResultDetail:
                     coordinator?.showResultDetail(resultDetailData: self.viewModel.resultDetailData)
+                case .showProblemDetail(let questionId):
+                    coordinator?.showProblemExplanation(questionId: questionId)
                 }
             }
             .store(in: &subscriptions)

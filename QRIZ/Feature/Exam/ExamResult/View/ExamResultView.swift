@@ -9,20 +9,24 @@ import SwiftUI
 import Combine
 
 struct ExamResultView: View {
-    
+
     @ObservedObject var resultScoresData: ResultScoresData
     @ObservedObject var resultGradeListData: ResultGradeListData
     @ObservedObject var resultDetailData: ResultDetailData
     @ObservedObject var scoreGraphData: ScoreGraphData
-    
+
     private let contentsInput: PassthroughSubject<Void, Never> = .init()
     private let footerInput: PassthroughSubject<Void, Never> = .init()
-    
+    private let problemTapInput: PassthroughSubject<Int, Never> = .init()
+
     var resultDetailTappedPublisher: AnyPublisher<Void, Never> {
         contentsInput.eraseToAnyPublisher()
     }
     var conceptTappedPublisher: AnyPublisher<Void, Never> {
         footerInput.eraseToAnyPublisher()
+    }
+    var problemTappedPublisher: AnyPublisher<Int, Never> {
+        problemTapInput.eraseToAnyPublisher()
     }
     
     var body: some View {
@@ -39,8 +43,11 @@ struct ExamResultView: View {
                     Spacer(minLength: 16)
                 }
 
-                TestResultGradesListView(resultGradeListData: resultGradeListData)
-                
+                TestResultGradesListView(
+                    resultGradeListData: resultGradeListData,
+                    onProblemTap: problemTapInput
+                )
+
                 TestResultFooterView(resultScoresData: resultScoresData, input: footerInput)
             }
             .background(.customBlue50)

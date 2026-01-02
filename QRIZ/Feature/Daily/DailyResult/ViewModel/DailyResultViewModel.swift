@@ -16,13 +16,15 @@ final class DailyResultViewModel {
         case cancelButtonClicked
         case moveToConceptButtonClicked
         case resultDetailButtonClicked
+        case problemTapped(questionId: Int)
     }
-    
+
     enum Output {
         case fetchFailed(isServerError: Bool)
         case moveToDailyLearn
         case moveToConcept
         case moveToResultDetail
+        case showProblemDetail(questionId: Int)
     }
     
     // MARK: - Properties
@@ -71,6 +73,8 @@ final class DailyResultViewModel {
                 if dailyTestType == .weekly {
                     output.send(.moveToResultDetail)
                 }
+            case .problemTapped(let questionId):
+                output.send(.showProblemDetail(questionId: questionId))
             }
         }
         .store(in: &subscriptions)

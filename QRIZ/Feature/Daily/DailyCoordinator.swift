@@ -15,6 +15,7 @@ protocol DailyCoordinator: Coordinator {
     func showDailyTest()
     func showDailyResult()
     func showResultDetail(resultDetailData: ResultDetailData)
+    func showProblemExplanation(questionId: Int)
     func quitDaily()
 }
 
@@ -108,7 +109,19 @@ final class DailyCoordinatorImpl: DailyCoordinator, NavigationGuard {
             navigationController.pushViewController(vc, animated: true)
         }
     }
-    
+
+    func showProblemExplanation(questionId: Int) {
+        guardNavigation {
+            let viewModel = ProblemDetailViewModel(
+                service: service,
+                questionId: questionId,
+                dayNumber: day
+            )
+            let vc = ProblemDetailViewController(viewModel: viewModel)
+            navigationController.pushViewController(vc, animated: true)
+        }
+    }
+
     /// Daily 내부 테스트나 결과에서 DailyLearn으로 이동하는 메서드
     func quitDaily() {
         if let dailyLearnVC = dailyLearnViewController, let dailyLearnVM = dailyLearnViewModel {
