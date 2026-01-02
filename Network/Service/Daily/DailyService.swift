@@ -21,6 +21,8 @@ protocol DailyService {
     func getDailyPlan() async throws -> DailyPlanResponse
     
     func resetPlan() async throws -> DailyResetResponse
+
+    func getDailyResultDetail(dayNumber: Int, questionId: Int) async throws -> DailyResultDetailResponse
 }
 
 final class DailyServiceImpl: DailyService {
@@ -70,7 +72,16 @@ final class DailyServiceImpl: DailyService {
         let request = DailyResetRequest(accessToken: getAccessToken())
         return try await network.send(request)
     }
-    
+
+    func getDailyResultDetail(dayNumber: Int, questionId: Int) async throws -> DailyResultDetailResponse {
+        let request = DailyResultDetailRequest(
+            accessToken: getAccessToken(),
+            dayNumber: dayNumber,
+            questionId: questionId
+        )
+        return try await network.send(request)
+    }
+
     private func getAccessToken() -> String {
         let accessToken = keychainManager.retrieveToken(forKey: HTTPHeaderField.accessToken.rawValue) ?? ""
         return accessToken
