@@ -12,9 +12,11 @@ import SwiftUI
 final class ProblemDetailViewController: UIHostingController<ProblemDetailView> {
 
     weak var coordinator: MistakeNoteCoordinator?
+    private let viewModel: ProblemDetailViewModel
 
-    init(data: DailyResultDetail) {
-        let swiftUIView = ProblemDetailView(data: data)
+    init(viewModel: ProblemDetailViewModel) {
+        self.viewModel = viewModel
+        let swiftUIView = ProblemDetailView(viewModel: viewModel)
         super.init(rootView: swiftUIView)
         self.hidesBottomBarWhenPushed = true
     }
