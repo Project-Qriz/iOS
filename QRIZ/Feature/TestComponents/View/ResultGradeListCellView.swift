@@ -64,6 +64,7 @@ struct ResultGradeListCellView: View {
     ResultGradeListCellView(
         gradeResult: GradeResult(
             id: 1,
+            questionId: 168,
             skillName: "엔터티",
             question: """
                 아래 테이블 T<S<R이 각각 다음과 같이 선언되었다.

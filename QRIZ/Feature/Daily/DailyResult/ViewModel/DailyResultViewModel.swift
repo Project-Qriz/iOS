@@ -181,7 +181,13 @@ final class DailyResultViewModel {
     private func updateSubjectList(subjectResultList: [SubjectResult]) {
         subjectResultList.enumerated().forEach { [weak self] in
             guard let self = self else { return }
-            self.gradeResultList.append(GradeResult(id: $0 + 1, skillName: $1.detailType, question: $1.question, correction: $1.correction))
+            self.gradeResultList.append(GradeResult(
+                id: $0 + 1,
+                questionId: $1.questionId,
+                skillName: $1.detailType,
+                question: $1.question,
+                correction: $1.correction
+            ))
         }
     }
 }

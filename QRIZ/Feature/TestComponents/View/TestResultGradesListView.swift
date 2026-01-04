@@ -24,7 +24,7 @@ struct TestResultGradesListView: View {
             
             ForEach(resultGradeListData.gradeResultList) { gradeResult in
                 ResultGradeListCellView(gradeResult: gradeResult) {
-                    onProblemTap.send(gradeResult.id)
+                    onProblemTap.send(gradeResult.questionId)
                 }
             }
         }

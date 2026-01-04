@@ -96,6 +96,7 @@ final class ExamResultViewModel {
             guard let self = self else { return }
             self.gradeResultList.append(
                 GradeResult(id: $0 + 1,
+                            questionId: $1.questionId,
                             skillName: $1.skillName,
                             question: $1.question,
                             correction: $1.correction))

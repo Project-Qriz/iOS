@@ -12,7 +12,8 @@ final class ResultGradeListData: ObservableObject {
 }
 
 struct GradeResult: Identifiable {
-    var id: Int
+    var id: Int  // UI 표시용 순번
+    var questionId: Int  // 실제 API questionId
     var skillName: String
     var question: String
     var correction: Bool
