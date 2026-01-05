@@ -11,6 +11,16 @@ import Combine
 @MainActor
 final class ProblemDetailViewModel: ObservableObject {
 
+    // MARK: - Input & Output
+    enum Input {
+        case viewDidLoad
+        case learnButtonTapped
+    }
+
+    enum Output {
+        case navigateToConcept
+    }
+
     // MARK: - Published Properties
     @Published var problemDetail: DailyResultDetail?
     @Published var isLoading = false
@@ -21,19 +31,31 @@ final class ProblemDetailViewModel: ObservableObject {
     private let questionId: Int
     private let dayNumber: Int
     private var cancellables = Set<AnyCancellable>()
+    private let output: PassthroughSubject<Output, Never> = .init()
 
     // MARK: - Initializers
     init(service: DailyService, questionId: Int, dayNumber: Int) {
         self.service = service
         self.questionId = questionId
         self.dayNumber = dayNumber
-
-        Task {
-            await fetchProblemDetail()
-        }
     }
 
     // MARK: - Methods
+    func transform(input: AnyPublisher<Input, Never>) -> AnyPublisher<Output, Never> {
+        input.sink { [weak self] event in
+            guard let self = self else { return }
+            switch event {
+            case .viewDidLoad:
+                Task { await self.fetchProblemDetail() }
+            case .learnButtonTapped:
+                output.send(.navigateToConcept)
+            }
+        }
+        .store(in: &cancellables)
+        
+        return output.eraseToAnyPublisher()
+    }
+
     func fetchProblemDetail() async {
         isLoading = true
         errorMessage = nil

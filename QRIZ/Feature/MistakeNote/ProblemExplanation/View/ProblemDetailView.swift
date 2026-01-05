@@ -6,10 +6,12 @@
 //
 
 import SwiftUI
+import Combine
 
 struct ProblemDetailView: View {
 
     @ObservedObject var viewModel: ProblemDetailViewModel
+    let learnButtonTapInput: PassthroughSubject<Void, Never>
 
     var body: some View {
             ZStack {
@@ -18,9 +20,6 @@ struct ProblemDetailView: View {
             }
             .navigationTitle("오답노트")
             .navigationBarTitleDisplayMode(.inline)
-            .onAppear {
-                Task { await viewModel.fetchProblemDetail() }
-            }
         }
     }
 
@@ -108,7 +107,7 @@ private extension ProblemDetailView {
     }
 
     var learnButton: some View {
-        Button(action: { /* 학습 동작 */ }) {
+        Button(action: { learnButtonTapInput.send(()) }) {
             Text("학습하러 가기")
                 .font(.system(size: 16, weight: .semibold))
                 .foregroundColor(.white)
@@ -129,7 +128,8 @@ private extension ProblemDetailView {
                 service: DailyServiceImpl(),
                 questionId: 1,
                 dayNumber: 1
-            )
+            ),
+            learnButtonTapInput: PassthroughSubject<Void, Never>()
         )
     }
 }
