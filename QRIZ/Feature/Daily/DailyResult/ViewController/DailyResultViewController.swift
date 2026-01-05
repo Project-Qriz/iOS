@@ -23,8 +23,9 @@ final class DailyResultViewController: UIViewController {
     init(viewModel: DailyResultViewModel) {
         self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
+        self.hidesBottomBarWhenPushed = true
     }
-    
+
     required init?(coder: NSCoder) {
         fatalError("no initializer for coder: DailyResultViewController")
     }
