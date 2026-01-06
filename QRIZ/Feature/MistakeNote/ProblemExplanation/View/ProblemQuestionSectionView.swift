@@ -62,6 +62,7 @@ extension ProblemQuestionSectionView {
                 .lineSpacing(4)
         }
         .frame(maxWidth: .infinity, alignment: .leading)
+        .padding(.leading, 16)
     }
     
     /// 추가 설명 (SQL 코드)
@@ -69,9 +70,8 @@ extension ProblemQuestionSectionView {
         Text(description)
             .font(.system(.subheadline, design: .monospaced))
             .foregroundColor(Color(.coolNeutral800))
-            .padding(16)
+            .padding(.leading, 16)
             .frame(maxWidth: .infinity, alignment: .leading)
-            .cornerRadius(8)
             .fixedSize(horizontal: false, vertical: true)
     }
     
