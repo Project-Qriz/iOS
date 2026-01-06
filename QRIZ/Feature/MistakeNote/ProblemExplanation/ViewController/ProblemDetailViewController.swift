@@ -42,8 +42,25 @@ final class ProblemDetailViewController: UIHostingController<ProblemDetailView> 
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        configureNavigationTitle()
         bind()
         input.send(.viewDidLoad)
+    }
+
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        configureNavigationBar()
+    }
+
+    private func configureNavigationTitle() {
+        navigationItem.title = "오답노트"
+    }
+
+    private func configureNavigationBar() {
+        let appearance = UINavigationBar.defaultBackButtonStyle()
+        navigationController?.navigationBar.standardAppearance = appearance
+        navigationController?.navigationBar.compactAppearance = appearance
+        navigationController?.navigationBar.scrollEdgeAppearance = appearance
     }
 
     private func bind() {

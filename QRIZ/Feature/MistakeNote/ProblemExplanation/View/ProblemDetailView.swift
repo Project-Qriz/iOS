@@ -9,20 +9,18 @@ import SwiftUI
 import Combine
 
 struct ProblemDetailView: View {
-
+    
     @ObservedObject var viewModel: ProblemDetailViewModel
     let learnButtonTapInput: PassthroughSubject<Void, Never>
     let conceptTapInput: PassthroughSubject<String, Never>
-
+    
     var body: some View {
-            ZStack {
-                Color.customBlue50.ignoresSafeArea()
-                contentGroup
-            }
-            .navigationTitle("오답노트")
-            .navigationBarTitleDisplayMode(.inline)
+        ZStack {
+            Color.customBlue50.ignoresSafeArea()
+            contentGroup
         }
     }
+}
 
 // MARK: - View Sections
 private extension ProblemDetailView {
@@ -37,14 +35,14 @@ private extension ProblemDetailView {
             mainScrollView(data: data)
         }
     }
-
+    
     func mainScrollView(data: DailyResultDetail) -> some View {
         ScrollView {
             VStack(spacing: 32) {
                 // 헤더 카드 (과목, 시험 정보 등)
                 ProblemHeaderCardView(data: data.headerData)
                     .padding(.bottom, 16)
-
+                
                 // 문제 섹션
                 VStack(spacing: 8) {
                     ProblemQuestionSectionView(data: data.questionData)
@@ -54,7 +52,7 @@ private extension ProblemDetailView {
                         userAnswer: data.checked ?? 0
                     )
                 }
-
+                
                 // 풀이 및 개념 섹션
                 VStack(spacing: 12) {
                     ProblemSolutionView(
@@ -68,7 +66,7 @@ private extension ProblemDetailView {
                         onConceptTap: conceptTapInput
                     )
                 }
-
+                
                 // 하단 액션 버튼
                 learnButton
             }
@@ -81,13 +79,13 @@ private extension ProblemDetailView {
 
 // MARK: - Subviews
 private extension ProblemDetailView {
-
+    
     var loadingView: some View {
         ProgressView()
             .scaleEffect(1.5)
             .frame(maxWidth: .infinity, maxHeight: .infinity)
     }
-
+    
     func errorView(message: String) -> some View {
         VStack(spacing: 20) {
             Text(message)
@@ -107,7 +105,7 @@ private extension ProblemDetailView {
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
     }
-
+    
     var learnButton: some View {
         Button(action: { learnButtonTapInput.send(()) }) {
             Text("학습하러 가기")

@@ -74,12 +74,6 @@ final class DailyCoordinatorImpl: DailyCoordinator, NavigationGuard {
         guardNavigation {
             let vm = ConceptPDFViewModel(chapter: chapter, conceptItem: conceptItem)
             let vc = ConceptPDFViewController(conceptPDFViewModel: vm)
-            let appearance = UINavigationBar.defaultBackButtonStyle()
-
-            navigationController.navigationBar.standardAppearance = appearance
-            navigationController.navigationBar.compactAppearance = appearance
-            navigationController.navigationBar.scrollEdgeAppearance = appearance
-
             navigationController.pushViewController(vc, animated: true)
         }
     }
