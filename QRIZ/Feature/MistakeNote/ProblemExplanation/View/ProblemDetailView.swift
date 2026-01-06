@@ -12,6 +12,7 @@ struct ProblemDetailView: View {
 
     @ObservedObject var viewModel: ProblemDetailViewModel
     let learnButtonTapInput: PassthroughSubject<Void, Never>
+    let conceptTapInput: PassthroughSubject<String, Never>
 
     var body: some View {
             ZStack {
@@ -63,7 +64,8 @@ private extension ProblemDetailView {
                     
                     ProblemKeyConceptsView(
                         keyConcepts: data.keyConcepts,
-                        subject: data.title
+                        subject: data.title,
+                        onConceptTap: conceptTapInput
                     )
                 }
 
@@ -129,7 +131,8 @@ private extension ProblemDetailView {
                 questionId: 1,
                 dayNumber: 1
             ),
-            learnButtonTapInput: PassthroughSubject<Void, Never>()
+            learnButtonTapInput: PassthroughSubject<Void, Never>(),
+            conceptTapInput: PassthroughSubject<String, Never>()
         )
     }
 }

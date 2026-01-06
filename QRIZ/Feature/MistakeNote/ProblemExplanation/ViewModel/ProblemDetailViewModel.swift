@@ -15,10 +15,12 @@ final class ProblemDetailViewModel: ObservableObject {
     enum Input {
         case viewDidLoad
         case learnButtonTapped
+        case conceptTapped(concept: String)
     }
 
     enum Output {
-        case navigateToConcept
+        case navigateToConceptTab
+        case navigateToConceptDetail(chapter: Chapter, conceptItem: ConceptItem)
     }
 
     // MARK: - Published Properties
@@ -48,12 +50,44 @@ final class ProblemDetailViewModel: ObservableObject {
             case .viewDidLoad:
                 Task { await self.fetchProblemDetail() }
             case .learnButtonTapped:
-                output.send(.navigateToConcept)
+                output.send(.navigateToConceptTab)
+            case .conceptTapped(let concept):
+                if let (chapter, conceptItem) = self.findConceptItem(for: concept) {
+                    output.send(.navigateToConceptDetail(chapter: chapter, conceptItem: conceptItem))
+                }
             }
         }
         .store(in: &cancellables)
-        
+
         return output.eraseToAnyPublisher()
+    }
+
+    /// 개념 이름으로 Chapter와 ConceptItem을 찾는 메서드
+    private func findConceptItem(for conceptName: String) -> (Chapter, ConceptItem)? {
+        let normalizedInput = conceptName.trimmingCharacters(in: .whitespacesAndNewlines)
+
+        for chapter in Chapter.allCases {
+            for conceptItem in chapter.conceptItems {
+                // 정확히 일치하는 경우
+                if conceptItem.title == normalizedInput {
+                    return (chapter, conceptItem)
+                }
+
+                // 대소문자 무시하고 비교
+                if conceptItem.title.lowercased() == normalizedInput.lowercased() {
+                    return (chapter, conceptItem)
+                }
+
+                // 공백 제거하고 비교 (예: "SELECT문" vs "SELECT 문")
+                let normalizedTitle = conceptItem.title.replacingOccurrences(of: " ", with: "")
+                let normalizedSearch = normalizedInput.replacingOccurrences(of: " ", with: "")
+                if normalizedTitle.lowercased() == normalizedSearch.lowercased() {
+                    return (chapter, conceptItem)
+                }
+            }
+        }
+
+        return nil
     }
 
     func fetchProblemDetail() async {

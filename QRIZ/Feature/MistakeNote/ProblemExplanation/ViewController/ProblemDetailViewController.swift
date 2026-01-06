@@ -10,21 +10,27 @@ import SwiftUI
 import Combine
 
 @MainActor
+protocol ProblemDetailCoordinating: AnyObject {
+    func navigateToConceptTab()
+    func navigateToConcept(chapter: Chapter, conceptItem: ConceptItem)
+}
+
+@MainActor
 final class ProblemDetailViewController: UIHostingController<ProblemDetailView> {
 
-    weak var coordinator: MistakeNoteCoordinator?
+    weak var coordinator: ProblemDetailCoordinating?
     private let viewModel: ProblemDetailViewModel
     private let input: PassthroughSubject<ProblemDetailViewModel.Input, Never> = .init()
     private let learnButtonTapInput: PassthroughSubject<Void, Never> = .init()
+    private let conceptTapInput: PassthroughSubject<String, Never> = .init()
     private var cancellables = Set<AnyCancellable>()
-    private let onNavigateToConcept: () -> Void
 
-    init(viewModel: ProblemDetailViewModel, onNavigateToConcept: @escaping () -> Void) {
+    init(viewModel: ProblemDetailViewModel) {
         self.viewModel = viewModel
-        self.onNavigateToConcept = onNavigateToConcept
         let swiftUIView = ProblemDetailView(
             viewModel: viewModel,
-            learnButtonTapInput: learnButtonTapInput
+            learnButtonTapInput: learnButtonTapInput,
+            conceptTapInput: conceptTapInput
         )
         super.init(rootView: swiftUIView)
         self.hidesBottomBarWhenPushed = true
@@ -42,7 +48,8 @@ final class ProblemDetailViewController: UIHostingController<ProblemDetailView> 
 
     private func bind() {
         let learnButtonTapped = learnButtonTapInput.map { ProblemDetailViewModel.Input.learnButtonTapped }
-        let mergedInput = input.merge(with: learnButtonTapped)
+        let conceptTapped = conceptTapInput.map { ProblemDetailViewModel.Input.conceptTapped(concept: $0) }
+        let mergedInput = input.merge(with: learnButtonTapped, conceptTapped)
         let output = viewModel.transform(input: mergedInput.eraseToAnyPublisher())
 
         output
@@ -50,8 +57,10 @@ final class ProblemDetailViewController: UIHostingController<ProblemDetailView> 
             .sink { [weak self] event in
                 guard let self = self else { return }
                 switch event {
-                case .navigateToConcept:
-                    self.onNavigateToConcept()
+                case .navigateToConceptTab:
+                    self.coordinator?.navigateToConceptTab()
+                case .navigateToConceptDetail(let chapter, let conceptItem):
+                    self.coordinator?.navigateToConcept(chapter: chapter, conceptItem: conceptItem)
                 }
             }
             .store(in: &cancellables)

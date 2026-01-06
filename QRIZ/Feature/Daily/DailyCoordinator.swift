@@ -117,13 +117,8 @@ final class DailyCoordinatorImpl: DailyCoordinator, NavigationGuard {
                 questionId: questionId,
                 dayNumber: day
             )
-            let vc = ProblemDetailViewController(
-                viewModel: viewModel,
-                onNavigateToConcept: { [weak self] in
-                    guard let self = self else { return }
-                    self.delegate?.moveFromDailyToConcept(self)
-                }
-            )
+            let vc = ProblemDetailViewController(viewModel: viewModel)
+            vc.coordinator = self
             navigationController.pushViewController(vc, animated: true)
         }
     }
@@ -134,5 +129,17 @@ final class DailyCoordinatorImpl: DailyCoordinator, NavigationGuard {
             _ = self.navigationController.popToViewController(dailyLearnVC, animated: true)
             dailyLearnVM.reloadData()
         }
+    }
+}
+
+// MARK: - ProblemDetailCoordinating
+
+extension DailyCoordinatorImpl: ProblemDetailCoordinating {
+    func navigateToConceptTab() {
+        delegate?.moveFromDailyToConcept(self)
+    }
+
+    func navigateToConcept(chapter: Chapter, conceptItem: ConceptItem) {
+        showConcept(chapter: chapter, conceptItem: conceptItem)
     }
 }

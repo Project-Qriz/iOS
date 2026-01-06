@@ -6,11 +6,13 @@
 //
 
 import SwiftUI
+import Combine
 
 struct ProblemKeyConceptsView: View {
 
     let keyConcepts: String
     let subject: String
+    let onConceptTap: PassthroughSubject<String, Never>
 
     var body: some View {
         VStack(alignment: .leading, spacing: 12) {
@@ -36,7 +38,9 @@ private extension ProblemKeyConceptsView {
     var conceptsContent: some View {
         VStack(spacing: 8) {
             ForEach(conceptTags, id: \.self) { concept in
-                ConceptCard(concept: concept, subject: subject)
+                ConceptCard(concept: concept, subject: subject) {
+                    onConceptTap.send(concept)
+                }
             }
         }
     }
@@ -52,6 +56,7 @@ private extension ProblemKeyConceptsView {
 private struct ConceptCard: View {
     let concept: String
     let subject: String
+    let onTap: () -> Void
 
     var body: some View {
         HStack {
@@ -80,13 +85,20 @@ private struct ConceptCard: View {
             RoundedRectangle(cornerRadius: 12)
                 .stroke(Color(.coolNeutral200), lineWidth: 1)
         )
+        .onTapGesture {
+            onTap()
+        }
     }
 }
 
 // MARK: - Preview
 
 #Preview {
-    ProblemKeyConceptsView(keyConcepts: "엔터티, 식별자", subject: "1과목")
-        .padding()
-        .background(Color(.systemGroupedBackground))
+    ProblemKeyConceptsView(
+        keyConcepts: "엔터티, 식별자",
+        subject: "1과목",
+        onConceptTap: PassthroughSubject<String, Never>()
+    )
+    .padding()
+    .background(Color(.systemGroupedBackground))
 }
