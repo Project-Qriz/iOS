@@ -6,10 +6,12 @@
 //
 
 import SwiftUI
+import Combine
 
 struct TestResultGradesListView: View {
     
     @ObservedObject var resultGradeListData: ResultGradeListData
+    let onProblemTap: PassthroughSubject<Int, Never>
     
     var body: some View {
         LazyVStack(spacing: 16) {
@@ -21,7 +23,9 @@ struct TestResultGradesListView: View {
             }
             
             ForEach(resultGradeListData.gradeResultList) { gradeResult in
-                ResultGradeListCellView(gradeResult: gradeResult)
+                ResultGradeListCellView(gradeResult: gradeResult) {
+                    onProblemTap.send(gradeResult.questionId)
+                }
             }
         }
         .padding(EdgeInsets(top: 24, leading: 18, bottom: 16, trailing: 18))
@@ -30,5 +34,8 @@ struct TestResultGradesListView: View {
 }
 
 #Preview {
-    TestResultGradesListView(resultGradeListData: ResultGradeListData())
+    TestResultGradesListView(
+        resultGradeListData: ResultGradeListData(),
+        onProblemTap: PassthroughSubject<Int, Never>()
+    )
 }

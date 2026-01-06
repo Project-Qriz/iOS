@@ -8,8 +8,9 @@
 import SwiftUI
 
 struct ResultGradeListCellView: View {
-
+    
     let gradeResult: GradeResult
+    let onTap: () -> Void
     
     var body: some View {
         VStack(alignment: .leading, spacing: 8) {
@@ -22,9 +23,9 @@ struct ResultGradeListCellView: View {
             }
             
             Text("\(gradeResult.question)")
-            .font(.system(size: 14, weight: .regular))
-            .foregroundStyle(.coolNeutral600)
-            .lineLimit(2)
+                .font(.system(size: 14, weight: .regular))
+                .foregroundStyle(.coolNeutral600)
+                .lineLimit(2)
             
             HStack {
                 Text("\(gradeResult.skillName)")
@@ -38,6 +39,9 @@ struct ResultGradeListCellView: View {
         .padding(EdgeInsets(top: 20, leading: 16, bottom: 20, trailing: 16))
         .background(.white)
         .overlay(RoundedRectangle(cornerRadius: 8).stroke(Color.customBlue100, lineWidth: 1))
+        .onTapGesture {
+            onTap()
+        }
     }
     
     @ViewBuilder
@@ -57,12 +61,16 @@ struct ResultGradeListCellView: View {
 }
 
 #Preview {
-    ResultGradeListCellView(gradeResult: GradeResult(
-                            id: 1,
-                            skillName: "엔터티",
-                            question: """
-                                아래 테이블 T<S<R이 각각 다음과 같이 선언되었다. 
-                                다음 중 DELETE FROM T;를 수행한 후에 테이블 R에 남아있는 데이터로 가장 적절한 것은?
-                            """,
-                            correction: false))
+    ResultGradeListCellView(
+        gradeResult: GradeResult(
+            id: 1,
+            questionId: 168,
+            skillName: "엔터티",
+            question: """
+                아래 테이블 T<S<R이 각각 다음과 같이 선언되었다.
+                다음 중 DELETE FROM T;를 수행한 후에 테이블 R에 남아있는 데이터로 가장 적절한 것은?
+            """,
+            correction: false),
+        onTap: {}
+    )
 }

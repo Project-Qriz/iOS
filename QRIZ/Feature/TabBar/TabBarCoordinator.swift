@@ -195,7 +195,15 @@ final class TabBarCoordinatorImpl: TabBarCoordinator {
 extension TabBarCoordinatorImpl: HomeCoordinatorDelegate {
     func moveToConcept() {
         if let tabBarController = self.tabBarController {
-            tabBarController.selectedIndex = 1
+            UIView.transition(
+                with: tabBarController.view,
+                duration: 0.3,
+                options: .transitionCrossDissolve,
+                animations: {
+                    tabBarController.selectedIndex = 1
+                },
+                completion: nil
+            )
         }
     }
 }

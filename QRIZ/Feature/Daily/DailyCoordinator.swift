@@ -15,6 +15,7 @@ protocol DailyCoordinator: Coordinator {
     func showDailyTest()
     func showDailyResult()
     func showResultDetail(resultDetailData: ResultDetailData)
+    func showProblemExplanation(questionId: Int)
     func quitDaily()
 }
 
@@ -73,12 +74,6 @@ final class DailyCoordinatorImpl: DailyCoordinator, NavigationGuard {
         guardNavigation {
             let vm = ConceptPDFViewModel(chapter: chapter, conceptItem: conceptItem)
             let vc = ConceptPDFViewController(conceptPDFViewModel: vm)
-            let appearance = UINavigationBar.defaultBackButtonStyle()
-
-            navigationController.navigationBar.standardAppearance = appearance
-            navigationController.navigationBar.compactAppearance = appearance
-            navigationController.navigationBar.scrollEdgeAppearance = appearance
-
             navigationController.pushViewController(vc, animated: true)
         }
     }
@@ -108,12 +103,37 @@ final class DailyCoordinatorImpl: DailyCoordinator, NavigationGuard {
             navigationController.pushViewController(vc, animated: true)
         }
     }
-    
+
+    func showProblemExplanation(questionId: Int) {
+        guardNavigation {
+            let viewModel = ProblemDetailViewModel(
+                service: service,
+                questionId: questionId,
+                dayNumber: day
+            )
+            let vc = ProblemDetailViewController(viewModel: viewModel)
+            vc.coordinator = self
+            navigationController.pushViewController(vc, animated: true)
+        }
+    }
+
     /// Daily 내부 테스트나 결과에서 DailyLearn으로 이동하는 메서드
     func quitDaily() {
         if let dailyLearnVC = dailyLearnViewController, let dailyLearnVM = dailyLearnViewModel {
             _ = self.navigationController.popToViewController(dailyLearnVC, animated: true)
             dailyLearnVM.reloadData()
         }
+    }
+}
+
+// MARK: - ProblemDetailCoordinating
+
+extension DailyCoordinatorImpl: ProblemDetailCoordinating {
+    func navigateToConceptTab() {
+        delegate?.moveFromDailyToConcept(self)
+    }
+
+    func navigateToConcept(chapter: Chapter, conceptItem: ConceptItem) {
+        showConcept(chapter: chapter, conceptItem: conceptItem)
     }
 }
