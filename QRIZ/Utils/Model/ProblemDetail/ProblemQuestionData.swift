@@ -72,7 +72,7 @@ extension DailyResultDetail {
         return ProblemQuestionData(
             questionNumber: questionNum,
             questionText: questionText,
-            description: description.isEmpty ? nil : description,
+            description: description,
             options: options
         )
     }

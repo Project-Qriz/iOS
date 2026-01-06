@@ -43,7 +43,7 @@ struct DailyResultDetail: Decodable {
     let skillName: String
     let questionText: String
     let questionNum: Int
-    let description: String
+    let description: String?
     let option1: String
     let option2: String
     let option3: String
