@@ -34,6 +34,7 @@
 		B130452F2DDC77030036EBE2 /* UIScreen+.swift in Sources */ = {isa = PBXBuildFile; fileRef = B130452E2DDC77030036EBE2 /* UIScreen+.swift */; };
 		B13774AD2ED9D7AF001A614D /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = B13774AC2ED9D7AF001A614D /* GoogleService-Info.plist */; };
 		B1386C6E2DF0C787009D041F /* CardBackgroundView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1386C6D2DF0C787009D041F /* CardBackgroundView.swift */; };
+		B143793D2F153E7800DAE842 /* CompletedDaysRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = B143793C2F153E7800DAE842 /* CompletedDaysRequest.swift */; };
 		B151082A2DFFEA8C00657506 /* DeleteAccountViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B15108262DFFEA8C00657506 /* DeleteAccountViewController.swift */; };
 		B151082B2DFFEA8C00657506 /* MyPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B15108272DFFEA8C00657506 /* MyPageViewController.swift */; };
 		B151082C2DFFEA8C00657506 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B15108282DFFEA8C00657506 /* SettingsViewController.swift */; };
@@ -333,6 +334,7 @@
 		B130452E2DDC77030036EBE2 /* UIScreen+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIScreen+.swift"; sourceTree = "<group>"; };
 		B13774AC2ED9D7AF001A614D /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		B1386C6D2DF0C787009D041F /* CardBackgroundView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardBackgroundView.swift; sourceTree = "<group>"; };
+		B143793C2F153E7800DAE842 /* CompletedDaysRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompletedDaysRequest.swift; sourceTree = "<group>"; };
 		B15108262DFFEA8C00657506 /* DeleteAccountViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeleteAccountViewController.swift; sourceTree = "<group>"; };
 		B15108272DFFEA8C00657506 /* MyPageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageViewController.swift; sourceTree = "<group>"; };
 		B15108282DFFEA8C00657506 /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
@@ -716,6 +718,7 @@
 				E29FE4042DBA39CE00DECB26 /* UserInfo */,
 				B190A2E62DC2A2EB008FDE86 /* ExamSchedule */,
 				B1D8137B2D76A18900A9D447 /* Auth */,
+				B143793B2F153E6600DAE842 /* MistakeNote */,
 				B138789D2DF71A0D009D041F /* MyPage */,
 				B17D6AB92D9141D80023FCA5 /* ErrorResponse.swift */,
 			);
@@ -870,6 +873,14 @@
 				B1510DBA2E11B2E800657506 /* DashedLineView.swift */,
 			);
 			path = CommonViews;
+			sourceTree = "<group>";
+		};
+		B143793B2F153E6600DAE842 /* MistakeNote */ = {
+			isa = PBXGroup;
+			children = (
+				B143793C2F153E7800DAE842 /* CompletedDaysRequest.swift */,
+			);
+			path = MistakeNote;
 			sourceTree = "<group>";
 		};
 		B15108292DFFEA8C00657506 /* ViewController */ = {
@@ -2341,6 +2352,7 @@
 				E25F33612DAFC30B002347D4 /* TestResultGradesListView.swift in Sources */,
 				E211AE072DE48FE700AB24FE /* ExamScoresGraphView.swift in Sources */,
 				B151097F2E04DF0900657506 /* ChangePasswordViewController.swift in Sources */,
+				B143793D2F153E7800DAE842 /* CompletedDaysRequest.swift in Sources */,
 				E25856D42D0D766900355667 /* CheckConceptViewController.swift in Sources */,
 				B18F451C2D441E150030F7DB /* FindPasswordVerificationViewController.swift in Sources */,
 				E25F94C82D0CAF1B00BA765F /* BeginPreviewTestViewController.swift in Sources */,
