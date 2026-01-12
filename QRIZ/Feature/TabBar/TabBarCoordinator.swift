@@ -130,7 +130,7 @@ final class TabBarCoordinatorImpl: TabBarCoordinator {
         var viewControllers: [UIViewController] = [
             homeCoordinator.start(),
             dependency.conceptBookCoordinator.start(),
-//            dependency.mistakeNoteCoordinator.start(),
+            dependency.mistakeNoteCoordinator.start(),
             myPageCoordinator.start()
         ]
         setupTabBarItems(for: &viewControllers)
@@ -143,7 +143,7 @@ final class TabBarCoordinatorImpl: TabBarCoordinator {
         childCoordinators = [
             homeCoordinator,
             dependency.conceptBookCoordinator,
-//            dependency.mistakeNoteCoordinator,
+            dependency.mistakeNoteCoordinator,
             myPageCoordinator
         ]
         return tabBar
@@ -162,8 +162,8 @@ final class TabBarCoordinatorImpl: TabBarCoordinator {
     }
     
     private func setupTabBarItems(for viewControllers: inout [UIViewController]) {
-        guard viewControllers.count >= 3 else { return }
-        
+        guard viewControllers.count >= 4 else { return }
+
         viewControllers[0].tabBarItem = UITabBarItem(
             title: "홈",
             image: .home,
@@ -174,12 +174,12 @@ final class TabBarCoordinatorImpl: TabBarCoordinator {
             image: .conceptBook,
             selectedImage: .selectedConceptBook
         )
-//        viewControllers[2].tabBarItem = UITabBarItem(
-//            title: "오답노트",
-//            image: .mistakeNote,
-//            selectedImage: .selectedMistakeNote
-//        )
         viewControllers[2].tabBarItem = UITabBarItem(
+            title: "오답노트",
+            image: .mistakeNote,
+            selectedImage: .selectedMistakeNote
+        )
+        viewControllers[3].tabBarItem = UITabBarItem(
             title: "마이",
             image: .myPage,
             selectedImage: nil
