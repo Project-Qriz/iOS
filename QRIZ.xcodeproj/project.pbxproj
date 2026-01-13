@@ -36,6 +36,8 @@
 		B1386C6E2DF0C787009D041F /* CardBackgroundView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1386C6D2DF0C787009D041F /* CardBackgroundView.swift */; };
 		B1437B6B2F15940A00DAE842 /* CompletedDaysRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1437B682F15940A00DAE842 /* CompletedDaysRequest.swift */; };
 		B1437B6C2F15940A00DAE842 /* CompletedExamSessionsRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1437B692F15940A00DAE842 /* CompletedExamSessionsRequest.swift */; };
+		B1437CE02F15A4CE00DAE842 /* MistakeNoteTabSelector.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1437CDD2F15A4CE00DAE842 /* MistakeNoteTabSelector.swift */; };
+		B1437CE22F15A54900DAE842 /* MistakeNoteMainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1437CE12F15A54900DAE842 /* MistakeNoteMainView.swift */; };
 		B151082A2DFFEA8C00657506 /* DeleteAccountViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B15108262DFFEA8C00657506 /* DeleteAccountViewController.swift */; };
 		B151082B2DFFEA8C00657506 /* MyPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B15108272DFFEA8C00657506 /* MyPageViewController.swift */; };
 		B151082C2DFFEA8C00657506 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B15108282DFFEA8C00657506 /* SettingsViewController.swift */; };
@@ -337,6 +339,8 @@
 		B1386C6D2DF0C787009D041F /* CardBackgroundView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardBackgroundView.swift; sourceTree = "<group>"; };
 		B1437B682F15940A00DAE842 /* CompletedDaysRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompletedDaysRequest.swift; sourceTree = "<group>"; };
 		B1437B692F15940A00DAE842 /* CompletedExamSessionsRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompletedExamSessionsRequest.swift; sourceTree = "<group>"; };
+		B1437CDD2F15A4CE00DAE842 /* MistakeNoteTabSelector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MistakeNoteTabSelector.swift; sourceTree = "<group>"; };
+		B1437CE12F15A54900DAE842 /* MistakeNoteMainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MistakeNoteMainView.swift; sourceTree = "<group>"; };
 		B15108262DFFEA8C00657506 /* DeleteAccountViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeleteAccountViewController.swift; sourceTree = "<group>"; };
 		B15108272DFFEA8C00657506 /* MyPageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageViewController.swift; sourceTree = "<group>"; };
 		B15108282DFFEA8C00657506 /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
@@ -886,6 +890,23 @@
 			path = MistakeNote;
 			sourceTree = "<group>";
 		};
+		B1437CDE2F15A4CE00DAE842 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				B1437CE12F15A54900DAE842 /* MistakeNoteMainView.swift */,
+				B1437CDD2F15A4CE00DAE842 /* MistakeNoteTabSelector.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		B1437CDF2F15A4CE00DAE842 /* MistakeNoteList */ = {
+			isa = PBXGroup;
+			children = (
+				B1437CDE2F15A4CE00DAE842 /* View */,
+			);
+			path = MistakeNoteList;
+			sourceTree = "<group>";
+		};
 		B15108292DFFEA8C00657506 /* ViewController */ = {
 			isa = PBXGroup;
 			children = (
@@ -1154,6 +1175,7 @@
 			children = (
 				B19C4FBE2D6B6E3400CD008A /* MistakeNoteViewController.swift */,
 				B1D813742D6E0CC900A9D447 /* MistakeNoteCoordinator.swift */,
+				B1437CDF2F15A4CE00DAE842 /* MistakeNoteList */,
 				B1C8BCC82F03096C00C3E709 /* ProblemExplanation */,
 			);
 			path = MistakeNote;
@@ -2334,6 +2356,7 @@
 				548566492D123C94002BAEE3 /* NetworkRequest.swift in Sources */,
 				B15188622D76D29B000EFE41 /* EmailSendRequest.swift in Sources */,
 				B17D6ADB2D9AB59A0023FCA5 /* KeychainManager.swift in Sources */,
+				B1437CE22F15A54900DAE842 /* MistakeNoteMainView.swift in Sources */,
 				B168B7772D28481D0000F32E /* PasswordInputView.swift in Sources */,
 				B17FE30C2D27F931002EC7D7 /* CustomTextField.swift in Sources */,
 				E29CCD412D298656004AA30A /* PreviewResultViewController.swift in Sources */,
@@ -2463,6 +2486,7 @@
 				54BC61552D14AFB70094DC45 /* LoginInputView.swift in Sources */,
 				E24907DA2D63698C004D6E61 /* DailyLearnSectionTitleLabel.swift in Sources */,
 				E217C3662D9BEAC50095A3D8 /* DailyTestViewModel.swift in Sources */,
+				B1437CE02F15A4CE00DAE842 /* MistakeNoteTabSelector.swift in Sources */,
 				E2804CF32DFAABD800F5F05D /* DailyCoordinator.swift in Sources */,
 				E2A6C7352DCA4C850059F960 /* ExamService.swift in Sources */,
 				E2908E6B2DB3B55700B8E81B /* ResultDetailHostingController.swift in Sources */,
