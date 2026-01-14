@@ -38,6 +38,7 @@
 		B1437B6C2F15940A00DAE842 /* CompletedExamSessionsRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1437B692F15940A00DAE842 /* CompletedExamSessionsRequest.swift */; };
 		B1437CE02F15A4CE00DAE842 /* MistakeNoteTabSelector.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1437CDD2F15A4CE00DAE842 /* MistakeNoteTabSelector.swift */; };
 		B1437CE22F15A54900DAE842 /* MistakeNoteMainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1437CE12F15A54900DAE842 /* MistakeNoteMainView.swift */; };
+		B1437CE42F16946100DAE842 /* DaySelectDropdownButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1437CE32F16946100DAE842 /* DaySelectDropdownButton.swift */; };
 		B151082A2DFFEA8C00657506 /* DeleteAccountViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B15108262DFFEA8C00657506 /* DeleteAccountViewController.swift */; };
 		B151082B2DFFEA8C00657506 /* MyPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B15108272DFFEA8C00657506 /* MyPageViewController.swift */; };
 		B151082C2DFFEA8C00657506 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B15108282DFFEA8C00657506 /* SettingsViewController.swift */; };
@@ -341,6 +342,7 @@
 		B1437B692F15940A00DAE842 /* CompletedExamSessionsRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompletedExamSessionsRequest.swift; sourceTree = "<group>"; };
 		B1437CDD2F15A4CE00DAE842 /* MistakeNoteTabSelector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MistakeNoteTabSelector.swift; sourceTree = "<group>"; };
 		B1437CE12F15A54900DAE842 /* MistakeNoteMainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MistakeNoteMainView.swift; sourceTree = "<group>"; };
+		B1437CE32F16946100DAE842 /* DaySelectDropdownButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DaySelectDropdownButton.swift; sourceTree = "<group>"; };
 		B15108262DFFEA8C00657506 /* DeleteAccountViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeleteAccountViewController.swift; sourceTree = "<group>"; };
 		B15108272DFFEA8C00657506 /* MyPageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageViewController.swift; sourceTree = "<group>"; };
 		B15108282DFFEA8C00657506 /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
@@ -893,6 +895,7 @@
 		B1437CDE2F15A4CE00DAE842 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				B1437CE32F16946100DAE842 /* DaySelectDropdownButton.swift */,
 				B1437CE12F15A54900DAE842 /* MistakeNoteMainView.swift */,
 				B1437CDD2F15A4CE00DAE842 /* MistakeNoteTabSelector.swift */,
 			);
@@ -2376,6 +2379,7 @@
 				E25AB7A82DC0C89100E7A7E3 /* DailyTestListRequest.swift in Sources */,
 				E29BF86D2D16895B006DC6D0 /* QuestionData.swift in Sources */,
 				E2A6C3242DC610420059F960 /* ExamScoreRequest.swift in Sources */,
+				B1437CE42F16946100DAE842 /* DaySelectDropdownButton.swift in Sources */,
 				E29CCD2A2D29855B004AA30A /* QuestionOptionLabel.swift in Sources */,
 				E25F33612DAFC30B002347D4 /* TestResultGradesListView.swift in Sources */,
 				E211AE072DE48FE700AB24FE /* ExamScoresGraphView.swift in Sources */,
