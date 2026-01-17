@@ -56,6 +56,14 @@ struct MistakeNoteMainView: View {
             }
             
             if isDayDropdownExpanded {
+                Color.black.opacity(0.01)
+                    .ignoresSafeArea()
+                    .onTapGesture {
+                        withAnimation(.easeInOut(duration: 0.1)) {
+                            isDayDropdownExpanded = false
+                        }
+                    }
+
                 DaySelectDropdownList(
                     days: availableDays,
                     selectedDay: $selectedDay,
