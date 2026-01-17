@@ -8,19 +8,19 @@
 import SwiftUI
 
 struct MistakeNoteMainView: View {
-
+    
     // MARK: - Properties
-
+    
     @State private var selectedTab: MistakeNoteTab = .daily
     @State private var selectedDay: String = "Day6 (주간 복습)"
     @State private var isDayDropdownExpanded: Bool = false
-
+    
     // Filter states
     @State private var filterAll: String = "모두"
     @State private var filterSubject1: String = "1과목"
     @State private var filterSubject2: String = "2과목"
     @State private var expandedFilter: FilterType? = nil
-
+    
     // TODO: API에서 받아올 데이터
     private let availableDays: [String] = [
         "Day6 (주간 복습)",
@@ -30,37 +30,50 @@ struct MistakeNoteMainView: View {
         "Day2",
         "Day1"
     ]
-
+    
     // MARK: - Body
-
+    
     var body: some View {
-        VStack(spacing: 0) {
-            MistakeNoteTabSelector(selectedTab: $selectedTab)
+        ZStack(alignment: .top) {
+            VStack(spacing: 0) {
+                MistakeNoteTabSelector(selectedTab: $selectedTab)
+                    .padding(.horizontal, 18)
+                    .padding(.top, 16)
+                
+                DaySelectDropdownButton(
+                    days: availableDays,
+                    selectedDay: $selectedDay,
+                    isExpanded: $isDayDropdownExpanded
+                )
                 .padding(.horizontal, 18)
-                .padding(.top, 16)
-
-            DaySelectDropdownButton(
-                days: availableDays,
-                selectedDay: $selectedDay,
-                isExpanded: $isDayDropdownExpanded
-            )
-            .padding(.horizontal, 18)
-            .padding(.top, 20)
-
-            filterChipsRow
+                .padding(.top, 20)
+                
+                filterChipsRow
+                    .padding(.horizontal, 18)
+                    .padding(.top, 16)
+                
+                Spacer()
+            }
+            
+            if isDayDropdownExpanded {
+                DaySelectDropdownList(
+                    days: availableDays,
+                    selectedDay: $selectedDay,
+                    isExpanded: $isDayDropdownExpanded
+                )
                 .padding(.horizontal, 18)
-                .padding(.top, 16)
-
-            Spacer()
+                .padding(.top, 120)
+            }
         }
         .background(Color.white)
+        .animation(.easeInOut(duration: 0.1), value: isDayDropdownExpanded)
     }
 }
 
 // MARK: - Subviews
 
 private extension MistakeNoteMainView {
-
+    
     var filterChipsRow: some View {
         HStack(spacing: 8) {
             FilterChipButton(
@@ -72,11 +85,11 @@ private extension MistakeNoteMainView {
                     set: { expandedFilter = $0 ? .all : nil }
                 )
             )
-
+            
             Divider()
                 .frame(height: 32)
                 .background(Color(uiColor: .coolNeutral200))
-
+            
             FilterChipButton(
                 title: "1과목",
                 options: ["1과목", "오답만"],
@@ -86,7 +99,7 @@ private extension MistakeNoteMainView {
                     set: { expandedFilter = $0 ? .subject1 : nil }
                 )
             )
-
+            
             FilterChipButton(
                 title: "2과목",
                 options: ["2과목", "오답만"],
@@ -96,7 +109,7 @@ private extension MistakeNoteMainView {
                     set: { expandedFilter = $0 ? .subject2 : nil }
                 )
             )
-
+            
             Spacer()
         }
     }
