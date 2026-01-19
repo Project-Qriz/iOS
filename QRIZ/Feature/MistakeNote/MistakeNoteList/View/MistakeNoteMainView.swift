@@ -17,9 +17,8 @@ struct MistakeNoteMainView: View {
     
     // Filter states
     @State private var filterAll: String = "모두"
-    @State private var filterSubject1: String = "1과목"
-    @State private var filterSubject2: String = "2과목"
     @State private var expandedFilter: FilterType? = nil
+    @State private var showSubjectFilterSheet: Bool = false
     
     // TODO: API에서 받아올 데이터
     private let availableDays: [String] = [
@@ -75,6 +74,11 @@ struct MistakeNoteMainView: View {
         }
         .background(Color.white)
         .animation(.easeInOut(duration: 0.1), value: isDayDropdownExpanded)
+        .sheet(isPresented: $showSubjectFilterSheet) {
+            SubjectFilterSheet(isPresented: $showSubjectFilterSheet)
+                .presentationDetents([.fraction(0.6)])
+                .presentationDragIndicator(.visible)
+        }
     }
 }
 
@@ -93,32 +97,38 @@ private extension MistakeNoteMainView {
                     set: { expandedFilter = $0 ? .all : nil }
                 )
             )
-            
+
             Divider()
                 .frame(height: 32)
                 .background(Color(uiColor: .coolNeutral200))
-            
-            FilterChipButton(
-                title: "1과목",
-                options: ["1과목", "오답만"],
-                selectedOption: $filterSubject1,
-                isExpanded: Binding(
-                    get: { expandedFilter == .subject1 },
-                    set: { expandedFilter = $0 ? .subject1 : nil }
-                )
-            )
-            
-            FilterChipButton(
-                title: "2과목",
-                options: ["2과목", "오답만"],
-                selectedOption: $filterSubject2,
-                isExpanded: Binding(
-                    get: { expandedFilter == .subject2 },
-                    set: { expandedFilter = $0 ? .subject2 : nil }
-                )
-            )
-            
+
+            subjectFilterButton(title: "1과목")
+            subjectFilterButton(title: "2과목")
+
             Spacer()
+        }
+    }
+
+    func subjectFilterButton(title: String) -> some View {
+        Button {
+            showSubjectFilterSheet = true
+        } label: {
+            HStack(spacing: 4) {
+                Text(title)
+                    .font(.system(size: 14, weight: .medium))
+
+                Image(systemName: "chevron.down")
+                    .font(.system(size: 10, weight: .semibold))
+            }
+            .foregroundColor(Color(uiColor: .coolNeutral500))
+            .padding(.horizontal, 12)
+            .padding(.vertical, 8)
+            .background(Color.white)
+            .cornerRadius(16)
+            .overlay(
+                RoundedRectangle(cornerRadius: 16)
+                    .stroke(Color(uiColor: .coolNeutral200), lineWidth: 1)
+            )
         }
     }
 }
@@ -127,8 +137,6 @@ private extension MistakeNoteMainView {
 
 private enum FilterType {
     case all
-    case subject1
-    case subject2
 }
 
 // MARK: - Preview
