@@ -69,22 +69,25 @@ struct MistakeNoteMainView: View {
                 }
                 .background(Color.white)
 
-                DaySelectDropdownButton(
-                    days: availableDays,
-                    selectedDay: $selectedDay,
-                    isExpanded: $isDayDropdownExpanded
-                )
-                .padding(.horizontal, 18)
-                .padding(.top, 24)
-                
-                filterChipsRow
-                    .padding(.horizontal, 18)
-                    .padding(.top, 16)
-
                 ScrollView {
-                    MistakeNoteQuestionListView(questions: sampleQuestions)
+                    VStack(spacing: 0) {
+                        DaySelectDropdownButton(
+                            days: availableDays,
+                            selectedDay: $selectedDay,
+                            isExpanded: $isDayDropdownExpanded
+                        )
                         .padding(.horizontal, 18)
-                        .padding(.top, 16)
+                        .padding(.top, 24)
+
+                        filterChipsRow
+                            .padding(.horizontal, 18)
+                            .padding(.top, 16)
+
+                        MistakeNoteQuestionListView(questions: sampleQuestions)
+                            .padding(.horizontal, 18)
+                            .padding(.top, 16)
+                            .padding(.bottom, 24)
+                    }
                 }
             }
             
