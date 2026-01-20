@@ -26,6 +26,8 @@
 		B1151FD72E64A1DD00C1F720 /* SocialLoginType.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1151FD62E64A1DD00C1F720 /* SocialLoginType.swift */; };
 		B115FDC92E44F1AD00805522 /* KakaoSDK in Frameworks */ = {isa = PBXBuildFile; productRef = B115FDC82E44F1AD00805522 /* KakaoSDK */; };
 		B115FDCB2E44F1AD00805522 /* KakaoSDKAuth in Frameworks */ = {isa = PBXBuildFile; productRef = B115FDCA2E44F1AD00805522 /* KakaoSDKAuth */; };
+		B11C107E2F1F9E3200AB004B /* MistakeNoteQuestionCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = B11C107D2F1F9E3200AB004B /* MistakeNoteQuestionCard.swift */; };
+		B11C10802F1F9E3900AB004B /* MistakeNoteQuestionListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B11C107F2F1F9E3900AB004B /* MistakeNoteQuestionListView.swift */; };
 		B11EC5AB2EC1B11700DCE8C5 /* RefreshTokenRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = B11EC5AA2EC1B11700DCE8C5 /* RefreshTokenRequest.swift */; };
 		B127B6E22DED89B00048401F /* SessionEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = B127B6E12DED89B00048401F /* SessionEvent.swift */; };
 		B13045242DD9F9350036EBE2 /* TermsDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B13045232DD9F9350036EBE2 /* TermsDetailViewController.swift */; };
@@ -332,6 +334,8 @@
 		B1004A9A2ECDE773000E4DE2 /* SocialLogoutRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SocialLogoutRequest.swift; sourceTree = "<group>"; };
 		B1138AFA2DFD813D004258CA /* DailyResetRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyResetRequest.swift; sourceTree = "<group>"; };
 		B1151FD62E64A1DD00C1F720 /* SocialLoginType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SocialLoginType.swift; sourceTree = "<group>"; };
+		B11C107D2F1F9E3200AB004B /* MistakeNoteQuestionCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MistakeNoteQuestionCard.swift; sourceTree = "<group>"; };
+		B11C107F2F1F9E3900AB004B /* MistakeNoteQuestionListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MistakeNoteQuestionListView.swift; sourceTree = "<group>"; };
 		B11EC5AA2EC1B11700DCE8C5 /* RefreshTokenRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RefreshTokenRequest.swift; sourceTree = "<group>"; };
 		B127B6E12DED89B00048401F /* SessionEvent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionEvent.swift; sourceTree = "<group>"; };
 		B13045232DD9F9350036EBE2 /* TermsDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TermsDetailViewController.swift; sourceTree = "<group>"; };
@@ -904,6 +908,8 @@
 				B1437CE72F19168900DAE842 /* FilterChipButton.swift */,
 				B1437CE32F16946100DAE842 /* DaySelectDropdownButton.swift */,
 				B1437CE12F15A54900DAE842 /* MistakeNoteMainView.swift */,
+				B11C107D2F1F9E3200AB004B /* MistakeNoteQuestionCard.swift */,
+				B11C107F2F1F9E3900AB004B /* MistakeNoteQuestionListView.swift */,
 				B1437CDD2F15A4CE00DAE842 /* MistakeNoteTabSelector.swift */,
 			);
 			path = View;
@@ -2408,6 +2414,7 @@
 				B151097F2E04DF0900657506 /* ChangePasswordViewController.swift in Sources */,
 				E25856D42D0D766900355667 /* CheckConceptViewController.swift in Sources */,
 				B18F451C2D441E150030F7DB /* FindPasswordVerificationViewController.swift in Sources */,
+				B11C107E2F1F9E3200AB004B /* MistakeNoteQuestionCard.swift in Sources */,
 				E25F94C82D0CAF1B00BA765F /* BeginPreviewTestViewController.swift in Sources */,
 				E25854E72DC3A4AF00AE174C /* DailyResultRequest.swift in Sources */,
 				E24674452D6C730B00697D34 /* CheckAllOrNoneButton.swift in Sources */,
@@ -2429,6 +2436,7 @@
 				541878612D0EC2970089F478 /* HTTPHeaderField.swift in Sources */,
 				E29FE4062DBA39EA00DECB26 /* UserInfoRequest.swift in Sources */,
 				E24907DE2D6648A7004D6E61 /* DailyTestState.swift in Sources */,
+				B11C10802F1F9E3900AB004B /* MistakeNoteQuestionListView.swift in Sources */,
 				B168B76A2D2807470000F32E /* NameInputViewController.swift in Sources */,
 				B19C4FAB2D6120D100CD008A /* OneButtonCustomAlertViewController.swift in Sources */,
 				B18F451E2D44D4080030F7DB /* FindPasswordVerificationViewModel.swift in Sources */,
