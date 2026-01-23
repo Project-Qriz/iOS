@@ -30,6 +30,7 @@
 		B11C10802F1F9E3900AB004B /* MistakeNoteQuestionListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B11C107F2F1F9E3900AB004B /* MistakeNoteQuestionListView.swift */; };
 		B11C10822F1FE5CF00AB004B /* ClipsRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = B11C10812F1FE5CF00AB004B /* ClipsRequest.swift */; };
 		B11C10852F1FE9DD00AB004B /* MistakeNoteService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B11C10832F1FE9DD00AB004B /* MistakeNoteService.swift */; };
+		B11C10882F2023AC00AB004B /* MistakeNoteListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B11C10862F2023AC00AB004B /* MistakeNoteListViewModel.swift */; };
 		B11EC5AB2EC1B11700DCE8C5 /* RefreshTokenRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = B11EC5AA2EC1B11700DCE8C5 /* RefreshTokenRequest.swift */; };
 		B127B6E22DED89B00048401F /* SessionEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = B127B6E12DED89B00048401F /* SessionEvent.swift */; };
 		B13045242DD9F9350036EBE2 /* TermsDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B13045232DD9F9350036EBE2 /* TermsDetailViewController.swift */; };
@@ -340,6 +341,7 @@
 		B11C107F2F1F9E3900AB004B /* MistakeNoteQuestionListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MistakeNoteQuestionListView.swift; sourceTree = "<group>"; };
 		B11C10812F1FE5CF00AB004B /* ClipsRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClipsRequest.swift; sourceTree = "<group>"; };
 		B11C10832F1FE9DD00AB004B /* MistakeNoteService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MistakeNoteService.swift; sourceTree = "<group>"; };
+		B11C10862F2023AC00AB004B /* MistakeNoteListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MistakeNoteListViewModel.swift; sourceTree = "<group>"; };
 		B11EC5AA2EC1B11700DCE8C5 /* RefreshTokenRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RefreshTokenRequest.swift; sourceTree = "<group>"; };
 		B127B6E12DED89B00048401F /* SessionEvent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionEvent.swift; sourceTree = "<group>"; };
 		B13045232DD9F9350036EBE2 /* TermsDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TermsDetailViewController.swift; sourceTree = "<group>"; };
@@ -904,6 +906,14 @@
 			path = MistakeNote;
 			sourceTree = "<group>";
 		};
+		B11C10872F2023AC00AB004B /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				B11C10862F2023AC00AB004B /* MistakeNoteListViewModel.swift */,
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
 		B1437B6A2F15940A00DAE842 /* MistakeNote */ = {
 			isa = PBXGroup;
 			children = (
@@ -1221,6 +1231,7 @@
 				B19C4FBE2D6B6E3400CD008A /* MistakeNoteViewController.swift */,
 				B1D813742D6E0CC900A9D447 /* MistakeNoteCoordinator.swift */,
 				B1437CDF2F15A4CE00DAE842 /* MistakeNoteList */,
+				B11C10872F2023AC00AB004B /* ViewModel */,
 				B1C8BCC82F03096C00C3E709 /* ProblemExplanation */,
 			);
 			path = MistakeNote;
@@ -2387,6 +2398,7 @@
 				B168B75F2D28073C0000F32E /* SignUpFooterView.swift in Sources */,
 				B162881C2D2CFC63008057D0 /* UIView+.swift in Sources */,
 				E27E54A92D6D74C500BF3B55 /* CheckListFoldButton.swift in Sources */,
+				B11C10882F2023AC00AB004B /* MistakeNoteListViewModel.swift in Sources */,
 				B18F45122D3A26520030F7DB /* FindIDInputView.swift in Sources */,
 				E22341AF2DD4C5B000A67D04 /* ExamSummaryViewModel.swift in Sources */,
 				541878542D0E21620089F478 /* HTTPMethod.swift in Sources */,
