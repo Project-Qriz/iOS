@@ -29,7 +29,7 @@ final class MistakeNoteListViewModel: ObservableObject {
 
     // MARK: - Private Properties
 
-    private let service: MistakeNoteService
+    private nonisolated(unsafe) let service: MistakeNoteService
     private var cancellables = Set<AnyCancellable>()
 
     // MARK: - Initializers
