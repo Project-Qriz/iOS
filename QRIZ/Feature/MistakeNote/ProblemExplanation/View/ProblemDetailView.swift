@@ -9,8 +9,9 @@ import SwiftUI
 import Combine
 
 struct ProblemDetailView: View {
-    
+
     @ObservedObject var viewModel: ProblemDetailViewModel
+    let retryInput: PassthroughSubject<Void, Never>
     let learnButtonTapInput: PassthroughSubject<Void, Never>
     let conceptTapInput: PassthroughSubject<String, Never>
     
@@ -94,7 +95,7 @@ private extension ProblemDetailView {
                 .multilineTextAlignment(.center)
             
             Button("다시 시도") {
-                Task { await viewModel.fetchProblemDetail() }
+                retryInput.send(())
             }
             .font(.system(size: 16, weight: .semibold))
             .foregroundColor(.white)
@@ -129,6 +130,7 @@ private extension ProblemDetailView {
                 questionId: 1,
                 dayNumber: 1
             ),
+            retryInput: PassthroughSubject<Void, Never>(),
             learnButtonTapInput: PassthroughSubject<Void, Never>(),
             conceptTapInput: PassthroughSubject<String, Never>()
         )

@@ -14,6 +14,7 @@ final class ProblemDetailViewModel: ObservableObject {
     // MARK: - Input & Output
     enum Input {
         case viewDidLoad
+        case retry
         case learnButtonTapped
         case conceptTapped(concept: String)
     }
@@ -47,7 +48,7 @@ final class ProblemDetailViewModel: ObservableObject {
         input.sink { [weak self] event in
             guard let self = self else { return }
             switch event {
-            case .viewDidLoad:
+            case .viewDidLoad, .retry:
                 Task { await self.fetchProblemDetail() }
             case .learnButtonTapped:
                 output.send(.navigateToConceptTab)
@@ -90,7 +91,7 @@ final class ProblemDetailViewModel: ObservableObject {
         return nil
     }
 
-    func fetchProblemDetail() async {
+    private func fetchProblemDetail() async {
         isLoading = true
         errorMessage = nil
 

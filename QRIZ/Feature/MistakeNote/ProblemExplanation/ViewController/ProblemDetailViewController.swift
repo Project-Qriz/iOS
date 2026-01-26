@@ -21,6 +21,7 @@ final class ProblemDetailViewController: UIHostingController<ProblemDetailView> 
     weak var coordinator: ProblemDetailCoordinating?
     private let viewModel: ProblemDetailViewModel
     private let input: PassthroughSubject<ProblemDetailViewModel.Input, Never> = .init()
+    private let retryInput: PassthroughSubject<Void, Never> = .init()
     private let learnButtonTapInput: PassthroughSubject<Void, Never> = .init()
     private let conceptTapInput: PassthroughSubject<String, Never> = .init()
     private var cancellables = Set<AnyCancellable>()
@@ -29,6 +30,7 @@ final class ProblemDetailViewController: UIHostingController<ProblemDetailView> 
         self.viewModel = viewModel
         let swiftUIView = ProblemDetailView(
             viewModel: viewModel,
+            retryInput: retryInput,
             learnButtonTapInput: learnButtonTapInput,
             conceptTapInput: conceptTapInput
         )
@@ -64,9 +66,10 @@ final class ProblemDetailViewController: UIHostingController<ProblemDetailView> 
     }
 
     private func bind() {
+        let retry = retryInput.map { ProblemDetailViewModel.Input.retry }
         let learnButtonTapped = learnButtonTapInput.map { ProblemDetailViewModel.Input.learnButtonTapped }
         let conceptTapped = conceptTapInput.map { ProblemDetailViewModel.Input.conceptTapped(concept: $0) }
-        let mergedInput = input.merge(with: learnButtonTapped, conceptTapped)
+        let mergedInput = input.merge(with: retry, learnButtonTapped, conceptTapped)
         let output = viewModel.transform(input: mergedInput.eraseToAnyPublisher())
 
         output
