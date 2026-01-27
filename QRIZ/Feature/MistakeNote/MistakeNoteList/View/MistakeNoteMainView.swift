@@ -53,6 +53,7 @@ struct MistakeNoteMainView: View {
                         filterChipsRow
                             .padding(.horizontal, 18)
                             .padding(.top, 16)
+                            .zIndex(1)
 
                         MistakeNoteQuestionListView(questions: viewModel.filteredQuestions)
                             .padding(.horizontal, 18)
