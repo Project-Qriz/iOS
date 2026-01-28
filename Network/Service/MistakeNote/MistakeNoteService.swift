@@ -16,6 +16,10 @@ protocol MistakeNoteService {
 
     /// 완료한 데일리 목록 조회
     func getCompletedDays() async throws -> CompletedDailyDaysResponse
+
+    /// 오답노트 문제 상세 조회
+    /// - Parameter clipId: 문제 ID (MistakeNoteQuestion.id)
+    func getClipDetail(clipId: Int) async throws -> ClipDetailResponse
 }
 
 final class MistakeNoteServiceImpl: MistakeNoteService {
@@ -48,6 +52,14 @@ final class MistakeNoteServiceImpl: MistakeNoteService {
 
     func getCompletedDays() async throws -> CompletedDailyDaysResponse {
         let request = CompletedDailyDaysRequest(accessToken: getAccessToken())
+        return try await network.send(request)
+    }
+
+    func getClipDetail(clipId: Int) async throws -> ClipDetailResponse {
+        let request = ClipDetailRequest(
+            accessToken: getAccessToken(),
+            clipId: clipId
+        )
         return try await network.send(request)
     }
 
