@@ -11,11 +11,16 @@ import Combine
 @MainActor
 final class MistakeNoteListViewModel: ObservableObject {
 
-    // MARK: - Input
+    // MARK: - Input & Output
 
     enum Input {
         case viewDidLoad
         case daySelected(String)
+        case questionTapped(MistakeNoteQuestion)
+    }
+
+    enum Output {
+        case navigateToClipDetail(clipId: Int)
     }
 
     // MARK: - Published Properties
@@ -31,6 +36,7 @@ final class MistakeNoteListViewModel: ObservableObject {
 
     private nonisolated(unsafe) let service: MistakeNoteService
     private var cancellables = Set<AnyCancellable>()
+    private let output = PassthroughSubject<Output, Never>()
 
     // MARK: - Initializers
 
@@ -40,7 +46,7 @@ final class MistakeNoteListViewModel: ObservableObject {
 
     // MARK: - Methods
 
-    func transform(input: AnyPublisher<Input, Never>) {
+    func transform(input: AnyPublisher<Input, Never>) -> AnyPublisher<Output, Never> {
         input.sink { [weak self] event in
             guard let self = self else { return }
             switch event {
@@ -50,9 +56,14 @@ final class MistakeNoteListViewModel: ObservableObject {
             case .daySelected(let day):
                 self.selectedDay = day
                 Task { await self.loadQuestions(for: day) }
+
+            case .questionTapped(let question):
+                self.output.send(.navigateToClipDetail(clipId: question.id))
             }
         }
         .store(in: &cancellables)
+
+        return output.eraseToAnyPublisher()
     }
 
     // MARK: - Private Methods

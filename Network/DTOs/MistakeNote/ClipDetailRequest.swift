@@ -30,24 +30,5 @@ struct ClipDetailRequest: Request {
 struct ClipDetailResponse: Decodable {
     let code: Int
     let msg: String
-    let data: ClipDetailData
-}
-
-struct ClipDetailData: Decodable {
-    let skillName: String
-    let questionText: String
-    let questionNum: Int
-    let description: String
-    let option1: String
-    let option2: String
-    let option3: String
-    let option4: String
-    let answer: Int
-    let solution: String
-    let checked: Int
-    let correction: Bool
-    let testInfo: String
-    let skillId: Int
-    let title: String
-    let keyConcepts: String
+    let data: DailyResultDetail
 }

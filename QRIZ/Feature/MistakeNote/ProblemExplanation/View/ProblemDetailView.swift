@@ -125,11 +125,11 @@ private extension ProblemDetailView {
 #Preview {
     NavigationView {
         ProblemDetailView(
-            viewModel: ProblemDetailViewModel(
-                service: DailyServiceImpl(),
-                questionId: 1,
-                dayNumber: 1
-            ),
+            viewModel: ProblemDetailViewModel {
+                let service = DailyServiceImpl()
+                let response = try await service.getDailyResultDetail(dayNumber: 1, questionId: 1)
+                return response.data
+            },
             retryInput: PassthroughSubject<Void, Never>(),
             learnButtonTapInput: PassthroughSubject<Void, Never>(),
             conceptTapInput: PassthroughSubject<String, Never>()

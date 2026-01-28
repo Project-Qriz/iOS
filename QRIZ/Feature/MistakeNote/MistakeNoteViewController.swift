@@ -7,14 +7,28 @@
 
 import UIKit
 import SwiftUI
+import Combine
+
+@MainActor
+protocol MistakeNoteViewControllerDelegate: AnyObject {
+    func mistakeNoteViewController(_ viewController: MistakeNoteViewController, didSelectClipWithId clipId: Int)
+}
 
 @MainActor
 final class MistakeNoteViewController: UIHostingController<MistakeNoteMainView> {
 
+    // MARK: - Properties
+
+    weak var delegate: MistakeNoteViewControllerDelegate?
+    private let viewModel: MistakeNoteListViewModel
+    private let input = PassthroughSubject<MistakeNoteListViewModel.Input, Never>()
+    private var cancellables = Set<AnyCancellable>()
+
     // MARK: - Initialize
 
-    init() {
-        let mistakeNoteView = MistakeNoteMainView()
+    init(viewModel: MistakeNoteListViewModel = MistakeNoteListViewModel()) {
+        self.viewModel = viewModel
+        let mistakeNoteView = MistakeNoteMainView(viewModel: viewModel)
         super.init(rootView: mistakeNoteView)
     }
 
@@ -27,6 +41,7 @@ final class MistakeNoteViewController: UIHostingController<MistakeNoteMainView> 
     override func viewDidLoad() {
         super.viewDidLoad()
         configureNavigationTitle()
+        bind()
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -34,7 +49,7 @@ final class MistakeNoteViewController: UIHostingController<MistakeNoteMainView> 
         configureNavigationBar()
     }
 
-    // MARK: - Function
+    // MARK: - Private Methods
 
     private func configureNavigationTitle() {
         setNavigationBarTitle(title: "오답노트")
@@ -45,5 +60,20 @@ final class MistakeNoteViewController: UIHostingController<MistakeNoteMainView> 
         navigationController?.navigationBar.standardAppearance = appearance
         navigationController?.navigationBar.compactAppearance = appearance
         navigationController?.navigationBar.scrollEdgeAppearance = appearance
+    }
+
+    private func bind() {
+        let output = viewModel.transform(input: input.eraseToAnyPublisher())
+
+        output
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] event in
+                guard let self = self else { return }
+                switch event {
+                case .navigateToClipDetail(let clipId):
+                    self.delegate?.mistakeNoteViewController(self, didSelectClipWithId: clipId)
+                }
+            }
+            .store(in: &cancellables)
     }
 }

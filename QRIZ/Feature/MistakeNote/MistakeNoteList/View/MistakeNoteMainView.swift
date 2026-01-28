@@ -55,10 +55,15 @@ struct MistakeNoteMainView: View {
                             .padding(.top, 16)
                             .zIndex(1)
 
-                        MistakeNoteQuestionListView(questions: viewModel.filteredQuestions)
-                            .padding(.horizontal, 18)
-                            .padding(.top, 16)
-                            .padding(.bottom, 24)
+                        MistakeNoteQuestionListView(
+                            questions: viewModel.filteredQuestions,
+                            onQuestionTap: { question in
+                                input.send(.questionTapped(question))
+                            }
+                        )
+                        .padding(.horizontal, 18)
+                        .padding(.top, 16)
+                        .padding(.bottom, 24)
                     }
                 }
             }
@@ -97,7 +102,7 @@ struct MistakeNoteMainView: View {
     // MARK: - Private Methods
 
     private func bindViewModel() {
-        viewModel.transform(input: input.eraseToAnyPublisher())
+        _ = viewModel.transform(input: input.eraseToAnyPublisher())
     }
 }
 

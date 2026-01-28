@@ -12,6 +12,7 @@ struct MistakeNoteQuestionListView: View {
     // MARK: - Properties
 
     let questions: [MistakeNoteQuestion]
+    var onQuestionTap: ((MistakeNoteQuestion) -> Void)?
 
     // MARK: - Body
 
@@ -36,12 +37,17 @@ private extension MistakeNoteQuestionListView {
     var questionCards: some View {
         VStack(spacing: 12) {
             ForEach(questions) { question in
-                MistakeNoteQuestionCard(
-                    questionNumber: question.questionNum,
-                    questionText: question.question,
-                    keyConcepts: question.keyConcepts,
-                    isCorrect: question.correction
-                )
+                Button {
+                    onQuestionTap?(question)
+                } label: {
+                    MistakeNoteQuestionCard(
+                        questionNumber: question.questionNum,
+                        questionText: question.question,
+                        keyConcepts: question.keyConcepts,
+                        isCorrect: question.correction
+                    )
+                }
+                .buttonStyle(.plain)
             }
         }
     }
