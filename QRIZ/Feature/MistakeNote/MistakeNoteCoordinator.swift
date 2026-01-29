@@ -19,12 +19,13 @@ protocol MistakeNoteCoordinatorDelegate: AnyObject {
 }
 
 @MainActor
-final class MistakeNoteCoordinatorImpl: MistakeNoteCoordinator {
+final class MistakeNoteCoordinatorImpl: MistakeNoteCoordinator, NavigationGuard {
 
     // MARK: - Properties
 
     weak var delegate: MistakeNoteCoordinatorDelegate?
     var childCoordinators: [Coordinator] = []
+    var isNavigating: Bool = false
     private var navigationController: UINavigationController?
     private let service: MistakeNoteService
 
@@ -45,19 +46,23 @@ final class MistakeNoteCoordinatorImpl: MistakeNoteCoordinator {
     }
 
     func showClipDetail(clipId: Int) {
-        let viewModel = ProblemDetailViewModel { [service] in
-            let response = try await service.getClipDetail(clipId: clipId)
-            return response.data
+        guardNavigation { [service] in
+            let viewModel = ProblemDetailViewModel {
+                let response = try await service.getClipDetail(clipId: clipId)
+                return response.data
+            }
+            let vc = ProblemDetailViewController(viewModel: viewModel)
+            vc.coordinator = self
+            navigationController?.pushViewController(vc, animated: true)
         }
-        let vc = ProblemDetailViewController(viewModel: viewModel)
-        vc.coordinator = self
-        navigationController?.pushViewController(vc, animated: true)
     }
 
     func showConcept(chapter: Chapter, conceptItem: ConceptItem) {
-        let vm = ConceptPDFViewModel(chapter: chapter, conceptItem: conceptItem)
-        let vc = ConceptPDFViewController(conceptPDFViewModel: vm)
-        navigationController?.pushViewController(vc, animated: true)
+        guardNavigation {
+            let vm = ConceptPDFViewModel(chapter: chapter, conceptItem: conceptItem)
+            let vc = ConceptPDFViewController(conceptPDFViewModel: vm)
+            navigationController?.pushViewController(vc, animated: true)
+        }
     }
 }
 
