@@ -80,7 +80,10 @@ struct MistakeNoteMainView: View {
                 DaySelectDropdownList(
                     days: viewModel.availableDays,
                     selectedDay: $viewModel.selectedDay,
-                    isExpanded: $isDayDropdownExpanded
+                    isExpanded: $isDayDropdownExpanded,
+                    onDaySelected: { day in
+                        input.send(.daySelected(day))
+                    }
                 )
                 .padding(.horizontal, 18)
                 .padding(.top, 120)

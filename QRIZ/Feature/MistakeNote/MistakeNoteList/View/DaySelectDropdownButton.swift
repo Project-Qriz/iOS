@@ -51,11 +51,12 @@ struct DaySelectDropdownButton: View {
 // MARK: - Dropdown List
 
 struct DaySelectDropdownList: View {
-    
+
     let days: [String]
     @Binding var selectedDay: String
     @Binding var isExpanded: Bool
-    
+    var onDaySelected: ((String) -> Void)?
+
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
             Text("회차 선택")
@@ -91,9 +92,10 @@ struct DaySelectDropdownList: View {
     
     private func dayRow(for day: String) -> some View {
         let isSelected = selectedDay == day
-        
+
         return Button {
             selectedDay = day
+            onDaySelected?(day)
             withAnimation(.easeInOut(duration: 0.2)) {
                 isExpanded = false
             }
