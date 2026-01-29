@@ -105,25 +105,29 @@ final class TabBarCoordinatorImpl: TabBarCoordinator {
     private let dependency: TabBarCoordinatorDependency
     private var tabBarController: UITabBarController?
     private let homeCoordinator: HomeCoordinatorImpl
+    private let mistakeNoteCoordinator: MistakeNoteCoordinatorImpl
     private let myPageCoordinator: MyPageCoordinatorImpl
-    
+
     init(dependency: TabBarCoordinatorDependency) {
         self.dependency = dependency
-        
+
         guard
             let home = dependency.homeCoordinator as? HomeCoordinatorImpl,
+            let mistakeNote = dependency.mistakeNoteCoordinator as? MistakeNoteCoordinatorImpl,
             let my = dependency.myPageCoordinator as? MyPageCoordinatorImpl
         else {
             fatalError("TabBar 의존성 주입 오류: 예상한 Coordinator 타입이 아닙니다‼️")
         }
-        
+
         self.homeCoordinator = home
+        self.mistakeNoteCoordinator = mistakeNote
         self.myPageCoordinator = my
     }
     
     func start() -> UIViewController {
         homeCoordinator.examDelegate = self
         homeCoordinator.delegate = self
+        mistakeNoteCoordinator.delegate = self
         myPageCoordinator.examDelegate = self
         myPageCoordinator.delegate = self
         
@@ -217,6 +221,24 @@ extension TabBarCoordinatorImpl: ExamSelectionDelegate {
             homeCoordinator.homeVM?.reloadExamSchedule()
         } else {
             homeCoordinator.needsRefresh = true
+        }
+    }
+}
+
+// MARK: - MistakeNoteCoordinatorDelegate
+
+extension TabBarCoordinatorImpl: MistakeNoteCoordinatorDelegate {
+    func moveFromMistakeNoteToConcept(_ coordinator: any MistakeNoteCoordinator) {
+        if let tabBarController = self.tabBarController {
+            UIView.transition(
+                with: tabBarController.view,
+                duration: 0.3,
+                options: .transitionCrossDissolve,
+                animations: {
+                    tabBarController.selectedIndex = 1
+                },
+                completion: nil
+            )
         }
     }
 }

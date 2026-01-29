@@ -9,7 +9,13 @@ import UIKit
 
 @MainActor
 protocol MistakeNoteCoordinator: Coordinator {
+    var delegate: MistakeNoteCoordinatorDelegate? { get set }
     func showClipDetail(clipId: Int)
+}
+
+@MainActor
+protocol MistakeNoteCoordinatorDelegate: AnyObject {
+    func moveFromMistakeNoteToConcept(_ coordinator: MistakeNoteCoordinator)
 }
 
 @MainActor
@@ -17,6 +23,7 @@ final class MistakeNoteCoordinatorImpl: MistakeNoteCoordinator {
 
     // MARK: - Properties
 
+    weak var delegate: MistakeNoteCoordinatorDelegate?
     var childCoordinators: [Coordinator] = []
     private var navigationController: UINavigationController?
     private let service: MistakeNoteService
@@ -43,6 +50,13 @@ final class MistakeNoteCoordinatorImpl: MistakeNoteCoordinator {
             return response.data
         }
         let vc = ProblemDetailViewController(viewModel: viewModel)
+        vc.coordinator = self
+        navigationController?.pushViewController(vc, animated: true)
+    }
+
+    func showConcept(chapter: Chapter, conceptItem: ConceptItem) {
+        let vm = ConceptPDFViewModel(chapter: chapter, conceptItem: conceptItem)
+        let vc = ConceptPDFViewController(conceptPDFViewModel: vm)
         navigationController?.pushViewController(vc, animated: true)
     }
 }
@@ -55,5 +69,17 @@ extension MistakeNoteCoordinatorImpl: MistakeNoteViewControllerDelegate {
         didSelectClipWithId clipId: Int
     ) {
         showClipDetail(clipId: clipId)
+    }
+}
+
+// MARK: - ProblemDetailCoordinating
+
+extension MistakeNoteCoordinatorImpl: ProblemDetailCoordinating {
+    func navigateToConceptTab() {
+        delegate?.moveFromMistakeNoteToConcept(self)
+    }
+
+    func navigateToConcept(chapter: Chapter, conceptItem: ConceptItem) {
+        showConcept(chapter: chapter, conceptItem: conceptItem)
     }
 }
