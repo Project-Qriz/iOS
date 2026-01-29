@@ -56,7 +56,7 @@ struct MistakeNoteMainView: View {
                             .zIndex(1)
 
                         MistakeNoteQuestionListView(
-                            questions: viewModel.filteredQuestions,
+                            questions: displayedQuestions,
                             onQuestionTap: { question in
                                 input.send(.questionTapped(question))
                             }
@@ -106,6 +106,16 @@ struct MistakeNoteMainView: View {
 
     private func bindViewModel() {
         _ = viewModel.transform(input: input.eraseToAnyPublisher())
+    }
+
+    /// 필터링된 문제 목록
+    private var displayedQuestions: [MistakeNoteQuestion] {
+        switch filterAll {
+        case "오답만":
+            return viewModel.filteredQuestions.filter { !$0.correction }
+        default:
+            return viewModel.filteredQuestions
+        }
     }
 }
 
