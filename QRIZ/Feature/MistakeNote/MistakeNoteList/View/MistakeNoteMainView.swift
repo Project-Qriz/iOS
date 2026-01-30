@@ -15,7 +15,8 @@ struct MistakeNoteMainView: View {
     @StateObject private var viewModel: MistakeNoteListViewModel
     private let input = PassthroughSubject<MistakeNoteListViewModel.Input, Never>()
 
-    @State private var isDayDropdownExpanded: Bool = false
+    @State private var isDropdownExpanded: Bool = false
+    @State private var hasAppeared: Bool = false
 
     // Filter states
     @State private var filterAll: String = "모두"
@@ -43,9 +44,9 @@ struct MistakeNoteMainView: View {
                 ScrollView {
                     VStack(spacing: 0) {
                         DaySelectDropdownButton(
-                            days: viewModel.availableDays,
-                            selectedDay: $viewModel.selectedDay,
-                            isExpanded: $isDayDropdownExpanded
+                            days: dropdownItems,
+                            selectedDay: selectedItemBinding,
+                            isExpanded: $isDropdownExpanded
                         )
                         .padding(.horizontal, 18)
                         .padding(.top, 24)
@@ -68,21 +69,21 @@ struct MistakeNoteMainView: View {
                 }
             }
 
-            if isDayDropdownExpanded {
+            if isDropdownExpanded {
                 Color.black.opacity(0.01)
                     .ignoresSafeArea()
                     .onTapGesture {
                         withAnimation(.easeInOut(duration: 0.1)) {
-                            isDayDropdownExpanded = false
+                            isDropdownExpanded = false
                         }
                     }
 
                 DaySelectDropdownList(
-                    days: viewModel.availableDays,
-                    selectedDay: $viewModel.selectedDay,
-                    isExpanded: $isDayDropdownExpanded,
-                    onDaySelected: { day in
-                        input.send(.daySelected(day))
+                    days: dropdownItems,
+                    selectedDay: selectedItemBinding,
+                    isExpanded: $isDropdownExpanded,
+                    onDaySelected: { item in
+                        handleDropdownSelection(item)
                     }
                 )
                 .padding(.horizontal, 18)
@@ -90,13 +91,18 @@ struct MistakeNoteMainView: View {
             }
         }
         .background(Color(uiColor: .customBlue50))
-        .animation(.easeInOut(duration: 0.1), value: isDayDropdownExpanded)
+        .animation(.easeInOut(duration: 0.1), value: isDropdownExpanded)
+        .onChange(of: viewModel.selectedTab) { newTab in
+            input.send(.tabSelected(newTab))
+        }
         .sheet(isPresented: $showSubjectFilterSheet) {
             SubjectFilterSheet(isPresented: $showSubjectFilterSheet)
                 .presentationDetents([.fraction(0.6)])
                 .presentationDragIndicator(.visible)
         }
         .onAppear {
+            guard !hasAppeared else { return }
+            hasAppeared = true
             bindViewModel()
             input.send(.viewDidLoad)
         }
@@ -115,6 +121,36 @@ struct MistakeNoteMainView: View {
             return viewModel.filteredQuestions.filter { !$0.correction }
         default:
             return viewModel.filteredQuestions
+        }
+    }
+
+    /// 현재 탭에 따른 드롭다운 아이템
+    private var dropdownItems: [String] {
+        switch viewModel.selectedTab {
+        case .daily:
+            return viewModel.availableDays
+        case .mockExam:
+            return viewModel.availableSessions
+        }
+    }
+
+    /// 현재 탭에 따른 선택 항목 바인딩
+    private var selectedItemBinding: Binding<String> {
+        switch viewModel.selectedTab {
+        case .daily:
+            return $viewModel.selectedDay
+        case .mockExam:
+            return $viewModel.selectedSession
+        }
+    }
+
+    /// 드롭다운 선택 처리
+    private func handleDropdownSelection(_ item: String) {
+        switch viewModel.selectedTab {
+        case .daily:
+            input.send(.daySelected(item))
+        case .mockExam:
+            input.send(.sessionSelected(item))
         }
     }
 }
