@@ -151,6 +151,11 @@ final class MistakeNoteListViewModel: ObservableObject {
         day.components(separatedBy: " ").first ?? day
     }
 
+    /// "3회차 (제일 최신 회차)" -> "3회차"
+    private func extractSessionInfo(from session: String) -> String {
+        session.components(separatedBy: " ").first ?? session
+    }
+
     // MARK: - Mock Exam Methods
 
     private func loadMockExamInitialData() async {
@@ -180,8 +185,10 @@ final class MistakeNoteListViewModel: ObservableObject {
         isLoading = true
         errorMessage = nil
 
+        let testInfo = extractSessionInfo(from: session)
+
         do {
-            let response = try await service.getClips(category: 3, testInfo: session)
+            let response = try await service.getClips(category: 3, testInfo: testInfo)
             filteredQuestions = response.data.map { clipData in
                 MistakeNoteQuestion(
                     id: clipData.id,
