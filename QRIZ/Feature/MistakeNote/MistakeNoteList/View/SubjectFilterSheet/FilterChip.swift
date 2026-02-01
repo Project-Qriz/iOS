@@ -21,13 +21,13 @@ struct FilterChip: View {
     var body: some View {
         Button(action: action) {
             HStack(spacing: 4) {
-                if isAllChip && isSelected {
+                if isSelected {
                     Image(systemName: "checkmark")
                         .font(.system(size: 12, weight: .semibold))
                 }
 
                 Text(title)
-                    .font(.system(size: 12, weight: .medium))
+                    .font(.system(size: 12, weight: isSelected ? .bold : .medium))
             }
             .foregroundColor(Color(uiColor: .coolNeutral800))
             .padding(.horizontal, 12)
