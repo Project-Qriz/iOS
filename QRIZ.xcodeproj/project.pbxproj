@@ -49,7 +49,6 @@
 		B1437CF52F1D502000DAE842 /* SubjectFilterSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1437CF32F1D502000DAE842 /* SubjectFilterSheet.swift */; };
 		B1437CF62F1D502100DAE842 /* FilterChip.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1437CF72F1D502100DAE842 /* FilterChip.swift */; };
 		B1437CF82F1D502200DAE842 /* FilterSectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1437CF92F1D502200DAE842 /* FilterSectionView.swift */; };
-		B1437CFA2F1D502300DAE842 /* SubjectFilterData.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1437CFB2F1D502300DAE842 /* SubjectFilterData.swift */; };
 		B151082A2DFFEA8C00657506 /* DeleteAccountViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B15108262DFFEA8C00657506 /* DeleteAccountViewController.swift */; };
 		B151082B2DFFEA8C00657506 /* MyPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B15108272DFFEA8C00657506 /* MyPageViewController.swift */; };
 		B151082C2DFFEA8C00657506 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B15108282DFFEA8C00657506 /* SettingsViewController.swift */; };
@@ -364,7 +363,6 @@
 		B1437CF32F1D502000DAE842 /* SubjectFilterSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubjectFilterSheet.swift; sourceTree = "<group>"; };
 		B1437CF72F1D502100DAE842 /* FilterChip.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterChip.swift; sourceTree = "<group>"; };
 		B1437CF92F1D502200DAE842 /* FilterSectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterSectionView.swift; sourceTree = "<group>"; };
-		B1437CFB2F1D502300DAE842 /* SubjectFilterData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubjectFilterData.swift; sourceTree = "<group>"; };
 		B15108262DFFEA8C00657506 /* DeleteAccountViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeleteAccountViewController.swift; sourceTree = "<group>"; };
 		B15108272DFFEA8C00657506 /* MyPageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageViewController.swift; sourceTree = "<group>"; };
 		B15108282DFFEA8C00657506 /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
@@ -969,7 +967,6 @@
 				B1437CF32F1D502000DAE842 /* SubjectFilterSheet.swift */,
 				B1437CF72F1D502100DAE842 /* FilterChip.swift */,
 				B1437CF92F1D502200DAE842 /* FilterSectionView.swift */,
-				B1437CFB2F1D502300DAE842 /* SubjectFilterData.swift */,
 			);
 			path = SubjectFilterSheet;
 			sourceTree = "<group>";
@@ -2574,7 +2571,6 @@
 				B1437CF52F1D502000DAE842 /* SubjectFilterSheet.swift in Sources */,
 				B1437CF62F1D502100DAE842 /* FilterChip.swift in Sources */,
 				B1437CF82F1D502200DAE842 /* FilterSectionView.swift in Sources */,
-				B1437CFA2F1D502300DAE842 /* SubjectFilterData.swift in Sources */,
 				B17FE3082D27F87E002EC7D7 /* String+.swift in Sources */,
 				B1561C492F0541E300DEFC00 /* ProblemResultView.swift in Sources */,
 				B19C4FA92D5D182600CD008A /* EmailVerificationViewModel.swift in Sources */,
