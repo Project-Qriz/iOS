@@ -91,10 +91,14 @@ final class MistakeNoteListViewModel: ObservableObject {
         case .daily:
             if availableDays.isEmpty {
                 await loadDailyInitialData()
+            } else {
+                await loadDailyQuestions(for: selectedDay)
             }
         case .mockExam:
             if availableSessions.isEmpty {
                 await loadMockExamInitialData()
+            } else {
+                await loadMockExamQuestions(for: selectedSession)
             }
         }
     }
