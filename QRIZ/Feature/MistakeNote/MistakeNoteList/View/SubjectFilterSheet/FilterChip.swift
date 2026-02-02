@@ -13,31 +13,23 @@ struct FilterChip: View {
 
     let title: String
     let isSelected: Bool
-    let isAllChip: Bool
     let action: () -> Void
 
     // MARK: - Body
 
     var body: some View {
         Button(action: action) {
-            HStack(spacing: 4) {
-                if isSelected {
-                    Image(systemName: "checkmark")
-                        .font(.system(size: 12, weight: .semibold))
-                }
-
-                Text(title)
-                    .font(.system(size: 12, weight: isSelected ? .bold : .medium))
-            }
-            .foregroundColor(Color(uiColor: .coolNeutral800))
+            Text(title)
+                .font(.system(size: 12, weight: .medium))
+            .foregroundColor(isSelected ? Color(uiColor: .customBlue500) : Color(uiColor: .coolNeutral800))
             .padding(.horizontal, 12)
             .padding(.vertical, 8)
             .background(Color.white)
-            .cornerRadius(9)
+            .cornerRadius(8)
             .overlay(
-                RoundedRectangle(cornerRadius: 9)
+                RoundedRectangle(cornerRadius: 8)
                     .stroke(
-                        isSelected ? Color(uiColor: .coolNeutral800) : Color(uiColor: .coolNeutral200),
+                        isSelected ? Color(uiColor: .customBlue500) : Color(uiColor: .coolNeutral200),
                         lineWidth: 1
                     )
             )
@@ -50,13 +42,13 @@ struct FilterChip: View {
 #Preview {
     VStack(spacing: 16) {
         HStack(spacing: 8) {
-            FilterChip(title: "전체", isSelected: true, isAllChip: true) {}
-            FilterChip(title: "전체", isSelected: false, isAllChip: true) {}
+            FilterChip(title: "SELECT 문", isSelected: true) {}
+            FilterChip(title: "SELECT 문", isSelected: false) {}
         }
 
         HStack(spacing: 8) {
-            FilterChip(title: "SELECT 문", isSelected: true, isAllChip: false) {}
-            FilterChip(title: "SELECT 문", isSelected: false, isAllChip: false) {}
+            FilterChip(title: "관계형 데이터베이스 개요", isSelected: true) {}
+            FilterChip(title: "관계형 데이터베이스 개요", isSelected: false) {}
         }
     }
     .padding()
