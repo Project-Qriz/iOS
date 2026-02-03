@@ -934,7 +934,6 @@
 		B1437CDE2F15A4CE00DAE842 /* View */ = {
 			isa = PBXGroup;
 			children = (
-				B1437CF22F1D502000DAE842 /* SubjectFilter */,
 				B1437CF42F1D502000DAE842 /* SubjectFilterSheet */,
 				B1437CE72F19168900DAE842 /* FilterChipButton.swift */,
 				B1437CE32F16946100DAE842 /* DaySelectDropdownButton.swift */,
@@ -952,13 +951,6 @@
 				B1437CDE2F15A4CE00DAE842 /* View */,
 			);
 			path = MistakeNoteList;
-			sourceTree = "<group>";
-		};
-		B1437CF22F1D502000DAE842 /* SubjectFilter */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = SubjectFilter;
 			sourceTree = "<group>";
 		};
 		B1437CF42F1D502000DAE842 /* SubjectFilterSheet */ = {

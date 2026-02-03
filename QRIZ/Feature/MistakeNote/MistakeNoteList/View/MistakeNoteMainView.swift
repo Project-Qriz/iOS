@@ -22,6 +22,7 @@ struct MistakeNoteMainView: View {
     @State private var filterAll: String = "모두"
     @State private var expandedFilter: FilterType? = nil
     @State private var showSubjectFilterSheet: Bool = false
+    @State private var selectedConceptsFilter: Set<String> = []
 
     // MARK: - Initializer
 
@@ -98,7 +99,11 @@ struct MistakeNoteMainView: View {
         .sheet(isPresented: $showSubjectFilterSheet) {
             SubjectFilterSheet(
                 isPresented: $showSubjectFilterSheet,
-                availableConcepts: availableConcepts
+                availableConcepts: availableConcepts,
+                initialSelectedConcepts: selectedConceptsFilter,
+                onApply: { selectedConcepts in
+                    selectedConceptsFilter = selectedConcepts
+                }
             )
             .presentationDetents([.fraction(0.6)])
             .presentationDragIndicator(.visible)
@@ -120,12 +125,30 @@ struct MistakeNoteMainView: View {
 
     /// 필터링된 문제 목록
     private var displayedQuestions: [MistakeNoteQuestion] {
-        switch filterAll {
-        case "오답만":
-            return viewModel.filteredQuestions.filter { !$0.correction }
-        default:
-            return viewModel.filteredQuestions
+        var questions = viewModel.filteredQuestions
+
+        // 오답만 필터
+        if filterAll == "오답만" {
+            questions = questions.filter { !$0.correction }
         }
+
+        // 개념 필터
+        if !selectedConceptsFilter.isEmpty {
+            let normalizedSelectedConcepts = Set(selectedConceptsFilter.map { normalizeConceptName($0) })
+            questions = questions.filter { question in
+                let questionConcepts = question.keyConcepts
+                    .components(separatedBy: ",")
+                    .map { normalizeConceptName($0.trimmingCharacters(in: .whitespaces)) }
+                return questionConcepts.contains { normalizedSelectedConcepts.contains($0) }
+            }
+        }
+
+        return questions
+    }
+
+    /// 개념 이름 정규화 (공백 제거)
+    private func normalizeConceptName(_ name: String) -> String {
+        name.replacingOccurrences(of: " ", with: "")
     }
 
     /// 현재 문제 목록에서 추출한 가용 개념 Set

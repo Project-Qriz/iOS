@@ -13,14 +13,35 @@ struct SubjectFilterSheet: View {
 
     @Binding var isPresented: Bool
     let availableConcepts: Set<String>
+    var onApply: ((Set<String>) -> Void)?
 
     @State private var selectedSubject: Subject = .one
-    @State private var selectedConcepts: Set<String> = []
+    @State private var selectedConcepts: Set<String>
 
-    var onApply: ((Set<String>) -> Void)?
+    private let initialSelectedConcepts: Set<String>
+
+    // MARK: - Initializer
+
+    init(
+        isPresented: Binding<Bool>,
+        availableConcepts: Set<String>,
+        initialSelectedConcepts: Set<String> = [],
+        onApply: ((Set<String>) -> Void)? = nil
+    ) {
+        _isPresented = isPresented
+        self.availableConcepts = availableConcepts
+        self.initialSelectedConcepts = initialSelectedConcepts
+        _selectedConcepts = State(initialValue: initialSelectedConcepts)
+        self.onApply = onApply
+    }
 
     private var hasSelections: Bool {
         !selectedConcepts.isEmpty
+    }
+
+    /// 초기 상태와 현재 상태가 다른지 확인
+    private var hasChanges: Bool {
+        selectedConcepts != initialSelectedConcepts
     }
 
     /// 가용 개념이 있는 챕터만 필터링 (공백 제거하여 비교)
@@ -107,13 +128,13 @@ private extension SubjectFilterSheet {
         Button(action: applySelections) {
             Text("적용하기")
                 .font(.system(size: 16, weight: .semibold))
-                .foregroundColor(hasSelections ? .white : Color(uiColor: .coolNeutral500))
+                .foregroundColor(hasChanges ? .white : Color(uiColor: .coolNeutral500))
                 .frame(maxWidth: .infinity)
                 .frame(height: 48)
-                .background(hasSelections ? Color(uiColor: .customBlue500) : Color(uiColor: .coolNeutral200))
+                .background(hasChanges ? Color(uiColor: .customBlue500) : Color(uiColor: .coolNeutral200))
                 .cornerRadius(8)
         }
-        .disabled(!hasSelections)
+        .disabled(!hasChanges)
     }
 }
 
@@ -181,6 +202,7 @@ struct SubjectTabSelector: View {
 #Preview {
     SubjectFilterSheet(
         isPresented: .constant(true),
-        availableConcepts: ["SELECT문", "함수", "WHERE절", "조인", "서브 쿼리", "DML"]
+        availableConcepts: ["SELECT문", "함수", "WHERE절", "조인", "서브 쿼리", "DML"],
+        initialSelectedConcepts: ["SELECT문", "함수"]
     )
 }
