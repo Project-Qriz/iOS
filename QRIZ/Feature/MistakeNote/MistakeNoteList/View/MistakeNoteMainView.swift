@@ -102,6 +102,7 @@ struct MistakeNoteMainView: View {
             )
             .presentationDetents([.fraction(0.6)])
             .presentationDragIndicator(.visible)
+            .presentationCornerRadius(24)
         }
         .onAppear {
             guard !hasAppeared else { return }

@@ -41,7 +41,7 @@ struct SubjectFilterSheet: View {
     var body: some View {
         VStack(spacing: 0) {
             SubjectTabSelector(selectedSubject: $selectedSubject)
-                .padding(.top, 29)
+                .padding(.top, 40)
 
             filterContent
 
@@ -98,11 +98,6 @@ private extension SubjectFilterSheet {
                 .frame(maxWidth: .infinity)
                 .frame(height: 48)
                 .background(Color.white)
-                .cornerRadius(8)
-                .overlay(
-                    RoundedRectangle(cornerRadius: 8)
-                        .stroke(Color(uiColor: .coolNeutral700), lineWidth: 1)
-                )
         }
         .frame(width: 80)
         .disabled(!hasSelections)
