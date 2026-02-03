@@ -12,6 +12,8 @@ struct SubjectFilterSheet: View {
     // MARK: - Properties
 
     @Binding var isPresented: Bool
+    let availableConcepts: Set<String>
+
     @State private var selectedSubject: Subject = .one
     @State private var selectedConcepts: Set<String> = []
 
@@ -19,6 +21,19 @@ struct SubjectFilterSheet: View {
 
     private var hasSelections: Bool {
         !selectedConcepts.isEmpty
+    }
+
+    /// 가용 개념이 있는 챕터만 필터링 (공백 제거하여 비교)
+    private var availableChapters: [Chapter] {
+        let normalizedAvailableConcepts = Set(availableConcepts.map { normalizeConceptName($0) })
+        return selectedSubject.chapters.filter { chapter in
+            chapter.concepts.contains { normalizedAvailableConcepts.contains(normalizeConceptName($0)) }
+        }
+    }
+
+    /// 개념 이름 정규화 (공백 제거)
+    private func normalizeConceptName(_ name: String) -> String {
+        name.replacingOccurrences(of: " ", with: "")
     }
 
     // MARK: - Body
@@ -45,9 +60,10 @@ private extension SubjectFilterSheet {
     var filterContent: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: 25) {
-                ForEach(selectedSubject.chapters, id: \.self) { chapter in
+                ForEach(availableChapters, id: \.self) { chapter in
                     FilterSectionView(
                         chapter: chapter,
+                        availableConcepts: availableConcepts,
                         selectedItems: $selectedConcepts
                     )
                 }
@@ -168,5 +184,8 @@ struct SubjectTabSelector: View {
 // MARK: - Preview
 
 #Preview {
-    SubjectFilterSheet(isPresented: .constant(true))
+    SubjectFilterSheet(
+        isPresented: .constant(true),
+        availableConcepts: ["SELECT문", "함수", "WHERE절", "조인", "서브 쿼리", "DML"]
+    )
 }

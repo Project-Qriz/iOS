@@ -96,9 +96,12 @@ struct MistakeNoteMainView: View {
             input.send(.tabSelected(newTab))
         }
         .sheet(isPresented: $showSubjectFilterSheet) {
-            SubjectFilterSheet(isPresented: $showSubjectFilterSheet)
-                .presentationDetents([.fraction(0.6)])
-                .presentationDragIndicator(.visible)
+            SubjectFilterSheet(
+                isPresented: $showSubjectFilterSheet,
+                availableConcepts: availableConcepts
+            )
+            .presentationDetents([.fraction(0.6)])
+            .presentationDragIndicator(.visible)
         }
         .onAppear {
             guard !hasAppeared else { return }
@@ -122,6 +125,18 @@ struct MistakeNoteMainView: View {
         default:
             return viewModel.filteredQuestions
         }
+    }
+
+    /// 현재 문제 목록에서 추출한 가용 개념 Set
+    private var availableConcepts: Set<String> {
+        var concepts = Set<String>()
+        for question in viewModel.filteredQuestions {
+            let questionConcepts = question.keyConcepts
+                .components(separatedBy: ",")
+                .map { $0.trimmingCharacters(in: .whitespaces) }
+            concepts.formUnion(questionConcepts)
+        }
+        return concepts
     }
 
     /// 현재 탭에 따른 드롭다운 아이템
