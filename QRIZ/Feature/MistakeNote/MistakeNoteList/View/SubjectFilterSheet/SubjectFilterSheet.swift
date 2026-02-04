@@ -15,7 +15,7 @@ struct SubjectFilterSheet: View {
     let availableConcepts: Set<String>
     var onApply: ((Set<String>) -> Void)?
 
-    @State private var selectedSubject: Subject = .one
+    @State private var selectedSubject: Subject
     @State private var selectedConcepts: Set<String>
 
     private let initialSelectedConcepts: Set<String>
@@ -25,11 +25,13 @@ struct SubjectFilterSheet: View {
     init(
         isPresented: Binding<Bool>,
         availableConcepts: Set<String>,
+        initialSubject: Subject = .one,
         initialSelectedConcepts: Set<String> = [],
         onApply: ((Set<String>) -> Void)? = nil
     ) {
         _isPresented = isPresented
         self.availableConcepts = availableConcepts
+        _selectedSubject = State(initialValue: initialSubject)
         self.initialSelectedConcepts = initialSelectedConcepts
         _selectedConcepts = State(initialValue: initialSelectedConcepts)
         self.onApply = onApply

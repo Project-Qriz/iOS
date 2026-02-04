@@ -23,6 +23,7 @@ struct MistakeNoteMainView: View {
     @State private var expandedFilter: FilterType? = nil
     @State private var showSubjectFilterSheet: Bool = false
     @State private var selectedConceptsFilter: Set<String> = []
+    @State private var selectedFilterSubject: Subject?
 
     // MARK: - Initializer
 
@@ -95,6 +96,7 @@ struct MistakeNoteMainView: View {
         .animation(.easeInOut(duration: 0.1), value: isDropdownExpanded)
         .onChange(of: viewModel.selectedTab) { newTab in
             selectedConceptsFilter = []
+            selectedFilterSubject = nil
             filterAll = "모두"
             input.send(.tabSelected(newTab))
         }
@@ -102,6 +104,7 @@ struct MistakeNoteMainView: View {
             SubjectFilterSheet(
                 isPresented: $showSubjectFilterSheet,
                 availableConcepts: availableConcepts,
+                initialSubject: selectedFilterSubject ?? .one,
                 initialSelectedConcepts: selectedConceptsFilter,
                 onApply: { selectedConcepts in
                     selectedConceptsFilter = selectedConcepts
@@ -153,6 +156,24 @@ struct MistakeNoteMainView: View {
         name.replacingOccurrences(of: " ", with: "")
     }
 
+    /// 특정 과목에 필터가 적용되어 있는지 확인
+    private func hasFilterForSubject(_ subject: Subject) -> Bool {
+        guard !selectedConceptsFilter.isEmpty else { return false }
+
+        let normalizedSelectedConcepts = Set(selectedConceptsFilter.map { normalizeConceptName($0) })
+        let subjectConcepts = subject.chapters.flatMap { $0.concepts }.map { normalizeConceptName($0) }
+
+        return normalizedSelectedConcepts.contains { selectedConcept in
+            subjectConcepts.contains(selectedConcept)
+        }
+    }
+
+    /// 필터 초기화
+    private func resetFilters() {
+        selectedConceptsFilter = []
+        selectedFilterSubject = nil
+    }
+
     /// 현재 문제 목록에서 추출한 가용 개념 Set
     private var availableConcepts: Set<String> {
         var concepts = Set<String>()
@@ -188,6 +209,7 @@ struct MistakeNoteMainView: View {
     /// 드롭다운 선택 처리
     private func handleDropdownSelection(_ item: String) {
         selectedConceptsFilter = []
+        selectedFilterSubject = nil
         filterAll = "모두"
 
         switch viewModel.selectedTab {
@@ -218,24 +240,28 @@ private extension MistakeNoteMainView {
             Divider()
                 .frame(height: 32)
                 .background(Color(uiColor: .coolNeutral200))
+            
+            if !selectedConceptsFilter.isEmpty {
+                resetFilterButton
+            }
 
-            subjectFilterButton(title: "1과목")
-            subjectFilterButton(title: "2과목")
+            subjectFilterButton(subject: .one, title: "1과목")
+            subjectFilterButton(subject: .two, title: "2과목")
 
             Spacer()
         }
     }
 
-    func subjectFilterButton(title: String) -> some View {
+    var resetFilterButton: some View {
         Button {
-            showSubjectFilterSheet = true
+            resetFilters()
         } label: {
             HStack(spacing: 4) {
-                Text(title)
+                Text("초기화")
                     .font(.system(size: 14, weight: .medium))
 
-                Image(systemName: "chevron.down")
-                    .font(.system(size: 10, weight: .semibold))
+                Image(systemName: "arrow.trianglehead.2.counterclockwise.rotate.90")
+                    .font(.system(size: 12, weight: .regular))
             }
             .foregroundColor(Color(uiColor: .coolNeutral500))
             .padding(.horizontal, 12)
@@ -245,6 +271,32 @@ private extension MistakeNoteMainView {
             .overlay(
                 RoundedRectangle(cornerRadius: 16)
                     .stroke(Color(uiColor: .coolNeutral200), lineWidth: 1)
+            )
+        }
+    }
+
+    func subjectFilterButton(subject: Subject, title: String) -> some View {
+        let isActive = hasFilterForSubject(subject)
+
+        return Button {
+            selectedFilterSubject = subject
+            showSubjectFilterSheet = true
+        } label: {
+            HStack(spacing: 4) {
+                Text(title)
+                    .font(.system(size: 14, weight: .medium))
+
+                Image(systemName: "chevron.down")
+                    .font(.system(size: 10, weight: .semibold))
+            }
+            .foregroundColor(isActive ? .white : Color(uiColor: .coolNeutral500))
+            .padding(.horizontal, 12)
+            .padding(.vertical, 8)
+            .background(isActive ? Color(uiColor: .coolNeutral700) : Color.white)
+            .cornerRadius(16)
+            .overlay(
+                RoundedRectangle(cornerRadius: 16)
+                    .stroke(isActive ? Color.clear : Color(uiColor: .coolNeutral200), lineWidth: 1)
             )
         }
     }
