@@ -94,6 +94,8 @@ struct MistakeNoteMainView: View {
         .background(Color(uiColor: .customBlue50))
         .animation(.easeInOut(duration: 0.1), value: isDropdownExpanded)
         .onChange(of: viewModel.selectedTab) { newTab in
+            selectedConceptsFilter = []
+            filterAll = "모두"
             input.send(.tabSelected(newTab))
         }
         .sheet(isPresented: $showSubjectFilterSheet) {
@@ -185,6 +187,9 @@ struct MistakeNoteMainView: View {
 
     /// 드롭다운 선택 처리
     private func handleDropdownSelection(_ item: String) {
+        selectedConceptsFilter = []
+        filterAll = "모두"
+
         switch viewModel.selectedTab {
         case .daily:
             input.send(.daySelected(item))
