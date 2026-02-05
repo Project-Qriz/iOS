@@ -58,15 +58,23 @@ struct MistakeNoteMainView: View {
                             .padding(.top, 16)
                             .zIndex(1)
 
-                        MistakeNoteQuestionListView(
-                            questions: displayedQuestions,
-                            onQuestionTap: { question in
-                                input.send(.questionTapped(question))
-                            }
-                        )
-                        .padding(.horizontal, 18)
-                        .padding(.top, 16)
-                        .padding(.bottom, 24)
+                        questionCountLabel
+                            .padding(.horizontal, 18)
+                            .padding(.top, 16)
+
+                        if displayedQuestions.isEmpty {
+                            MistakeNoteEmptyView()
+                        } else {
+                            MistakeNoteQuestionListView(
+                                questions: displayedQuestions,
+                                onQuestionTap: { question in
+                                    input.send(.questionTapped(question))
+                                }
+                            )
+                            .padding(.horizontal, 18)
+                            .padding(.top, 12)
+                            .padding(.bottom, 24)
+                        }
                     }
                 }
             }
@@ -224,6 +232,15 @@ struct MistakeNoteMainView: View {
 // MARK: - Subviews
 
 private extension MistakeNoteMainView {
+
+    var questionCountLabel: some View {
+        HStack {
+            Text("\(displayedQuestions.count)개")
+                .font(.system(size: 14, weight: .regular))
+                .foregroundColor(Color(uiColor: .coolNeutral500))
+            Spacer()
+        }
+    }
 
     var filterChipsRow: some View {
         HStack(spacing: 8) {

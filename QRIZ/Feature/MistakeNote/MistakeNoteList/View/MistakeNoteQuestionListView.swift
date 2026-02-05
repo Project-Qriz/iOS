@@ -17,22 +17,13 @@ struct MistakeNoteQuestionListView: View {
     // MARK: - Body
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 12) {
-            countLabel
-            questionCards
-        }
+        questionCards
     }
 }
 
 // MARK: - Subviews
 
 private extension MistakeNoteQuestionListView {
-
-    var countLabel: some View {
-        Text("\(questions.count)개")
-            .font(.system(size: 14, weight: .regular))
-            .foregroundColor(Color(uiColor: .coolNeutral500))
-    }
 
     var questionCards: some View {
         VStack(spacing: 12) {
