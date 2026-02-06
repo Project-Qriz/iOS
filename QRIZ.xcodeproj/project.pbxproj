@@ -53,6 +53,7 @@
 		B1296F3B2F33355400252AD9 /* ProblemQuestionSectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1296F1D2F33355400252AD9 /* ProblemQuestionSectionView.swift */; };
 		B1296F3C2F33355400252AD9 /* ProblemDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1296F192F33355400252AD9 /* ProblemDetailView.swift */; };
 		B1296F402F34654B00252AD9 /* MistakeNoteEmptyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1296F3F2F34654B00252AD9 /* MistakeNoteEmptyView.swift */; };
+		B1296F422F34882100252AD9 /* MistakeNoteNoRecordView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1296F412F34882100252AD9 /* MistakeNoteNoRecordView.swift */; };
 		B13045242DD9F9350036EBE2 /* TermsDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B13045232DD9F9350036EBE2 /* TermsDetailViewController.swift */; };
 		B13045262DD9F9AD0036EBE2 /* TermsDetailMainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B13045252DD9F9AD0036EBE2 /* TermsDetailMainView.swift */; };
 		B13045282DD9FA580036EBE2 /* TermsDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B13045272DD9FA580036EBE2 /* TermsDetailViewModel.swift */; };
@@ -368,6 +369,7 @@
 		B1296F232F33355400252AD9 /* ProblemDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProblemDetailViewModel.swift; sourceTree = "<group>"; };
 		B1296F262F33355400252AD9 /* MistakeNoteCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MistakeNoteCoordinator.swift; sourceTree = "<group>"; };
 		B1296F3F2F34654B00252AD9 /* MistakeNoteEmptyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MistakeNoteEmptyView.swift; sourceTree = "<group>"; };
+		B1296F412F34882100252AD9 /* MistakeNoteNoRecordView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MistakeNoteNoRecordView.swift; sourceTree = "<group>"; };
 		B13045232DD9F9350036EBE2 /* TermsDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TermsDetailViewController.swift; sourceTree = "<group>"; };
 		B13045252DD9F9AD0036EBE2 /* TermsDetailMainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TermsDetailMainView.swift; sourceTree = "<group>"; };
 		B13045272DD9FA580036EBE2 /* TermsDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TermsDetailViewModel.swift; sourceTree = "<group>"; };
@@ -928,6 +930,7 @@
 			isa = PBXGroup;
 			children = (
 				B1296F0C2F33355400252AD9 /* SubjectFilterSheet */,
+				B1296F412F34882100252AD9 /* MistakeNoteNoRecordView.swift */,
 				B1296F3F2F34654B00252AD9 /* MistakeNoteEmptyView.swift */,
 				B1296F0D2F33355400252AD9 /* DaySelectDropdownButton.swift */,
 				B1296F0E2F33355400252AD9 /* FilterChipButton.swift */,
@@ -2425,6 +2428,7 @@
 				B1296F3B2F33355400252AD9 /* ProblemQuestionSectionView.swift in Sources */,
 				B1296F3C2F33355400252AD9 /* ProblemDetailView.swift in Sources */,
 				B168B75F2D28073C0000F32E /* SignUpFooterView.swift in Sources */,
+				B1296F422F34882100252AD9 /* MistakeNoteNoRecordView.swift in Sources */,
 				B162881C2D2CFC63008057D0 /* UIView+.swift in Sources */,
 				E27E54A92D6D74C500BF3B55 /* CheckListFoldButton.swift in Sources */,
 				B18F45122D3A26520030F7DB /* FindIDInputView.swift in Sources */,
