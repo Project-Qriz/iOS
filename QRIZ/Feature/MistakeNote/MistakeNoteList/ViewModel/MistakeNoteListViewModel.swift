@@ -27,7 +27,7 @@ final class MistakeNoteListViewModel: ObservableObject {
 
     enum Output {
         case navigateToClipDetail(clipId: Int)
-        case navigateToExam
+        case navigateToExam(tab: MistakeNoteTab)
     }
 
     // MARK: - Published Properties
@@ -134,7 +134,7 @@ final class MistakeNoteListViewModel: ObservableObject {
                 self.output.send(.navigateToClipDetail(clipId: question.id))
 
             case .goToExamTapped:
-                self.output.send(.navigateToExam)
+                self.output.send(.navigateToExam(tab: self.selectedTab))
 
             case .filterAllChanged(let filter):
                 self.filterAll = filter

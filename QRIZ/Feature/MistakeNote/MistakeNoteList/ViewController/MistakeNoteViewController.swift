@@ -12,6 +12,7 @@ import Combine
 @MainActor
 protocol MistakeNoteViewControllerDelegate: AnyObject {
     func mistakeNoteViewController(_ viewController: MistakeNoteViewController, didSelectClipWithId clipId: Int)
+    func mistakeNoteViewController(_ viewController: MistakeNoteViewController, didRequestExamForTab tab: MistakeNoteTab)
 }
 
 @MainActor
@@ -72,8 +73,8 @@ final class MistakeNoteViewController: UIHostingController<MistakeNoteMainView> 
                 switch event {
                 case .navigateToClipDetail(let clipId):
                     self.delegate?.mistakeNoteViewController(self, didSelectClipWithId: clipId)
-                case .navigateToExam:
-                    print("네비바 슈슝")
+                case .navigateToExam(let tab):
+                    self.delegate?.mistakeNoteViewController(self, didRequestExamForTab: tab)
                 }
             }
             .store(in: &cancellables)

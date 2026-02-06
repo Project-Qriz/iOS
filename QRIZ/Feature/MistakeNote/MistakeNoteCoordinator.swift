@@ -16,6 +16,7 @@ protocol MistakeNoteCoordinator: Coordinator {
 @MainActor
 protocol MistakeNoteCoordinatorDelegate: AnyObject {
     func moveFromMistakeNoteToConcept(_ coordinator: MistakeNoteCoordinator)
+    func moveFromMistakeNoteToExam(_ coordinator: MistakeNoteCoordinator, tab: MistakeNoteTab)
 }
 
 @MainActor
@@ -74,6 +75,13 @@ extension MistakeNoteCoordinatorImpl: MistakeNoteViewControllerDelegate {
         didSelectClipWithId clipId: Int
     ) {
         showClipDetail(clipId: clipId)
+    }
+
+    func mistakeNoteViewController(
+        _ viewController: MistakeNoteViewController,
+        didRequestExamForTab tab: MistakeNoteTab
+    ) {
+        delegate?.moveFromMistakeNoteToExam(self, tab: tab)
     }
 }
 

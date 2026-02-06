@@ -241,6 +241,28 @@ extension TabBarCoordinatorImpl: MistakeNoteCoordinatorDelegate {
             )
         }
     }
+
+    func moveFromMistakeNoteToExam(_ coordinator: any MistakeNoteCoordinator, tab: MistakeNoteTab) {
+        guard let tabBarController = self.tabBarController else { return }
+
+        UIView.transition(
+            with: tabBarController.view,
+            duration: 0.3,
+            options: .transitionCrossDissolve,
+            animations: {
+                tabBarController.selectedIndex = 0
+            },
+            completion: { [weak self] _ in
+                guard let self = self else { return }
+                switch tab {
+                case .daily:
+                    self.homeCoordinator.showDaily(day: 1, type: .daily)
+                case .mockExam:
+                    self.homeCoordinator.showExam()
+                }
+            }
+        )
+    }
 }
 
 // MARK: - MyPageCoordinatorDelegate
