@@ -15,30 +15,40 @@ struct DaySelectDropdownButton: View {
     @Binding var selectedDay: String
     @Binding var isExpanded: Bool
     
+    private var hasRecords: Bool {
+        !days.isEmpty
+    }
+
+    private var displayText: String {
+        hasRecords ? selectedDay : "기록된 시험 없음"
+    }
+
     // MARK: - Body
-    
+
     var body: some View {
         Button {
+            guard hasRecords else { return }
             withAnimation(.easeInOut(duration: 0.2)) {
                 isExpanded.toggle()
             }
         } label: {
             HStack {
-                Text(selectedDay)
+                Text(displayText)
                     .font(.system(size: 14, weight: .medium))
-                    .foregroundColor(Color(uiColor: .coolNeutral600))
-                
+                    .foregroundColor(Color(uiColor: hasRecords ? .coolNeutral600 : .coolNeutral300))
+
                 Spacer()
-                
-                Image(systemName: "chevron.up")
-                    .font(.system(size: 16, weight: .bold))
-                    .foregroundColor(Color(uiColor: .coolNeutral500))
+
+                Image(systemName: "chevron.down")
+                    .font(.system(size: 16, weight: .semibold))
+                    .foregroundColor(Color(uiColor: hasRecords ? .coolNeutral500 : .coolNeutral300))
                     .rotationEffect(.degrees(isExpanded ? 180 : 0))
                     .animation(.easeInOut(duration: 0.2), value: isExpanded)
             }
-            .padding(.horizontal, 8)
+            .padding(.horizontal, 12)
             .padding(.vertical, 14)
         }
+        .disabled(!hasRecords)
         .background(Color.white)
         .cornerRadius(8)
         .overlay(
