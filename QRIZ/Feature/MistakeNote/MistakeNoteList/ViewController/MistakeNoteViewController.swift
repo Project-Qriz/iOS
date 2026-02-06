@@ -72,6 +72,8 @@ final class MistakeNoteViewController: UIHostingController<MistakeNoteMainView> 
                 switch event {
                 case .navigateToClipDetail(let clipId):
                     self.delegate?.mistakeNoteViewController(self, didSelectClipWithId: clipId)
+                case .navigateToExam:
+                    print("네비바 슈슝")
                 }
             }
             .store(in: &cancellables)

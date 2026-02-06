@@ -19,10 +19,15 @@ final class MistakeNoteListViewModel: ObservableObject {
         case daySelected(String)
         case sessionSelected(String)
         case questionTapped(MistakeNoteQuestion)
+        case goToExamTapped
+        case filterAllChanged(String)
+        case conceptFilterApplied(Set<String>, Subject?)
+        case resetConceptFilters
     }
 
     enum Output {
         case navigateToClipDetail(clipId: Int)
+        case navigateToExam
     }
 
     // MARK: - Published Properties
@@ -37,10 +42,57 @@ final class MistakeNoteListViewModel: ObservableObject {
     @Published var availableSessions: [String] = []
     @Published var selectedSession: String = ""
 
-    // Common
+    // Questions
     @Published var filteredQuestions: [MistakeNoteQuestion] = []
     @Published var isLoading = false
     @Published var errorMessage: String?
+
+    // Filter
+    @Published var filterAll: String = "모두"
+    @Published var selectedConceptsFilter: Set<String> = []
+    @Published var selectedFilterSubject: Subject?
+
+    // MARK: - Computed Properties
+
+    var dropdownItems: [String] {
+        switch selectedTab {
+        case .daily:
+            return availableDays
+        case .mockExam:
+            return availableSessions
+        }
+    }
+
+    var displayedQuestions: [MistakeNoteQuestion] {
+        var questions = filteredQuestions
+
+        if filterAll == "오답만" {
+            questions = questions.filter { !$0.correction }
+        }
+
+        if !selectedConceptsFilter.isEmpty {
+            let normalizedSelectedConcepts = Set(selectedConceptsFilter.map { normalizeConceptName($0) })
+            questions = questions.filter { question in
+                let questionConcepts = question.keyConcepts
+                    .components(separatedBy: ",")
+                    .map { normalizeConceptName($0.trimmingCharacters(in: .whitespaces)) }
+                return questionConcepts.contains { normalizedSelectedConcepts.contains($0) }
+            }
+        }
+
+        return questions
+    }
+
+    var availableConcepts: Set<String> {
+        var concepts = Set<String>()
+        for question in filteredQuestions {
+            let questionConcepts = question.keyConcepts
+                .components(separatedBy: ",")
+                .map { $0.trimmingCharacters(in: .whitespaces) }
+            concepts.formUnion(questionConcepts)
+        }
+        return concepts
+    }
 
     // MARK: - Private Properties
 
@@ -65,18 +117,34 @@ final class MistakeNoteListViewModel: ObservableObject {
 
             case .tabSelected(let tab):
                 self.selectedTab = tab
+                self.resetAllFilters()
                 Task { await self.handleTabChange(tab) }
 
             case .daySelected(let day):
                 self.selectedDay = day
+                self.resetAllFilters()
                 Task { await self.loadDailyQuestions(for: day) }
 
             case .sessionSelected(let session):
                 self.selectedSession = session
+                self.resetAllFilters()
                 Task { await self.loadMockExamQuestions(for: session) }
 
             case .questionTapped(let question):
                 self.output.send(.navigateToClipDetail(clipId: question.id))
+
+            case .goToExamTapped:
+                self.output.send(.navigateToExam)
+
+            case .filterAllChanged(let filter):
+                self.filterAll = filter
+
+            case .conceptFilterApplied(let concepts, let subject):
+                self.selectedConceptsFilter = concepts
+                self.selectedFilterSubject = subject
+
+            case .resetConceptFilters:
+                self.resetConceptFilters()
             }
         }
         .store(in: &cancellables)
@@ -84,7 +152,33 @@ final class MistakeNoteListViewModel: ObservableObject {
         return output.eraseToAnyPublisher()
     }
 
+    func hasFilterForSubject(_ subject: Subject) -> Bool {
+        guard !selectedConceptsFilter.isEmpty else { return false }
+
+        let normalizedSelectedConcepts = Set(selectedConceptsFilter.map { normalizeConceptName($0) })
+        let subjectConcepts = subject.chapters.flatMap { $0.concepts }.map { normalizeConceptName($0) }
+
+        return normalizedSelectedConcepts.contains { selectedConcept in
+            subjectConcepts.contains(selectedConcept)
+        }
+    }
+
     // MARK: - Private Methods
+
+    private func normalizeConceptName(_ name: String) -> String {
+        name.replacingOccurrences(of: " ", with: "")
+    }
+
+    private func resetConceptFilters() {
+        selectedConceptsFilter = []
+        selectedFilterSubject = nil
+    }
+
+    private func resetAllFilters() {
+        selectedConceptsFilter = []
+        selectedFilterSubject = nil
+        filterAll = "모두"
+    }
 
     private func handleTabChange(_ tab: MistakeNoteTab) async {
         switch tab {

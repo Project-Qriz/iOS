@@ -17,13 +17,8 @@ struct MistakeNoteMainView: View {
 
     @State private var isDropdownExpanded: Bool = false
     @State private var hasAppeared: Bool = false
-
-    // Filter states
-    @State private var filterAll: String = "모두"
     @State private var expandedFilter: FilterType? = nil
     @State private var showSubjectFilterSheet: Bool = false
-    @State private var selectedConceptsFilter: Set<String> = []
-    @State private var selectedFilterSubject: Subject?
 
     // MARK: - Initializer
 
@@ -35,92 +30,16 @@ struct MistakeNoteMainView: View {
 
     var body: some View {
         ZStack(alignment: .top) {
-            VStack(spacing: 0) {
-                VStack(spacing: 0) {
-                    MistakeNoteTabSelector(selectedTab: $viewModel.selectedTab)
-                        .padding(.horizontal, 18)
-                        .padding(.top, 16)
-                }
-                .background(Color.white)
-
-                ScrollView {
-                    VStack(spacing: 0) {
-                        DaySelectDropdownButton(
-                            days: dropdownItems,
-                            selectedDay: selectedItemBinding,
-                            isExpanded: $isDropdownExpanded
-                        )
-                        .padding(.horizontal, 18)
-                        .padding(.top, 24)
-
-                        filterChipsRow
-                            .padding(.horizontal, 18)
-                            .padding(.top, 16)
-                            .zIndex(1)
-
-                        questionCountLabel
-                            .padding(.horizontal, 18)
-                            .padding(.top, 16)
-
-                        if displayedQuestions.isEmpty {
-                            MistakeNoteEmptyView()
-                        } else {
-                            MistakeNoteQuestionListView(
-                                questions: displayedQuestions,
-                                onQuestionTap: { question in
-                                    input.send(.questionTapped(question))
-                                }
-                            )
-                            .padding(.horizontal, 18)
-                            .padding(.top, 12)
-                            .padding(.bottom, 24)
-                        }
-                    }
-                }
-            }
-
-            if isDropdownExpanded {
-                Color.black.opacity(0.01)
-                    .ignoresSafeArea()
-                    .onTapGesture {
-                        withAnimation(.easeInOut(duration: 0.1)) {
-                            isDropdownExpanded = false
-                        }
-                    }
-
-                DaySelectDropdownList(
-                    days: dropdownItems,
-                    selectedDay: selectedItemBinding,
-                    isExpanded: $isDropdownExpanded,
-                    onDaySelected: { item in
-                        handleDropdownSelection(item)
-                    }
-                )
-                .padding(.horizontal, 18)
-                .padding(.top, 120)
-            }
+            mainContent
+            dropdownOverlay
         }
         .background(Color(uiColor: .customBlue50))
         .animation(.easeInOut(duration: 0.1), value: isDropdownExpanded)
         .onChange(of: viewModel.selectedTab) { newTab in
-            selectedConceptsFilter = []
-            selectedFilterSubject = nil
-            filterAll = "모두"
             input.send(.tabSelected(newTab))
         }
         .sheet(isPresented: $showSubjectFilterSheet) {
-            SubjectFilterSheet(
-                isPresented: $showSubjectFilterSheet,
-                availableConcepts: availableConcepts,
-                initialSubject: selectedFilterSubject ?? .one,
-                initialSelectedConcepts: selectedConceptsFilter,
-                onApply: { selectedConcepts in
-                    selectedConceptsFilter = selectedConcepts
-                }
-            )
-            .presentationDetents([.fraction(0.6)])
-            .presentationDragIndicator(.visible)
-            .presentationCornerRadius(24)
+            subjectFilterSheet
         }
         .onAppear {
             guard !hasAppeared else { return }
@@ -129,125 +48,135 @@ struct MistakeNoteMainView: View {
             input.send(.viewDidLoad)
         }
     }
+}
 
-    // MARK: - Private Methods
+// MARK: - Main Content
 
-    private func bindViewModel() {
-        _ = viewModel.transform(input: input.eraseToAnyPublisher())
+private extension MistakeNoteMainView {
+
+    var mainContent: some View {
+        VStack(spacing: 0) {
+            tabSelector
+            scrollContent
+        }
     }
 
-    /// 필터링된 문제 목록
-    private var displayedQuestions: [MistakeNoteQuestion] {
-        var questions = viewModel.filteredQuestions
-
-        // 오답만 필터
-        if filterAll == "오답만" {
-            questions = questions.filter { !$0.correction }
+    var tabSelector: some View {
+        VStack(spacing: 0) {
+            MistakeNoteTabSelector(selectedTab: $viewModel.selectedTab)
+                .padding(.horizontal, 18)
+                .padding(.top, 16)
         }
+        .background(Color.white)
+    }
 
-        // 개념 필터
-        if !selectedConceptsFilter.isEmpty {
-            let normalizedSelectedConcepts = Set(selectedConceptsFilter.map { normalizeConceptName($0) })
-            questions = questions.filter { question in
-                let questionConcepts = question.keyConcepts
-                    .components(separatedBy: ",")
-                    .map { normalizeConceptName($0.trimmingCharacters(in: .whitespaces)) }
-                return questionConcepts.contains { normalizedSelectedConcepts.contains($0) }
+    var scrollContent: some View {
+        ScrollView {
+            VStack(spacing: 0) {
+                dropdownButton
+                contentSection
             }
         }
-
-        return questions
     }
 
-    /// 개념 이름 정규화 (공백 제거)
-    private func normalizeConceptName(_ name: String) -> String {
-        name.replacingOccurrences(of: " ", with: "")
+    var dropdownButton: some View {
+        DaySelectDropdownButton(
+            days: viewModel.dropdownItems,
+            selectedDay: selectedItemBinding,
+            isExpanded: $isDropdownExpanded
+        )
+        .padding(.horizontal, 18)
+        .padding(.top, 24)
     }
 
-    /// 특정 과목에 필터가 적용되어 있는지 확인
-    private func hasFilterForSubject(_ subject: Subject) -> Bool {
-        guard !selectedConceptsFilter.isEmpty else { return false }
-
-        let normalizedSelectedConcepts = Set(selectedConceptsFilter.map { normalizeConceptName($0) })
-        let subjectConcepts = subject.chapters.flatMap { $0.concepts }.map { normalizeConceptName($0) }
-
-        return normalizedSelectedConcepts.contains { selectedConcept in
-            subjectConcepts.contains(selectedConcept)
+    @ViewBuilder
+    var contentSection: some View {
+        if viewModel.dropdownItems.isEmpty {
+            MistakeNoteNoRecordView(
+                onGoToExam: {
+                    input.send(.goToExamTapped)
+                }
+            )
+        } else {
+            questionSection
         }
     }
 
-    /// 필터 초기화
-    private func resetFilters() {
-        selectedConceptsFilter = []
-        selectedFilterSubject = nil
-    }
+    var questionSection: some View {
+        VStack(spacing: 0) {
+            filterChipsRow
+                .padding(.horizontal, 18)
+                .padding(.top, 16)
+                .zIndex(1)
 
-    /// 현재 문제 목록에서 추출한 가용 개념 Set
-    private var availableConcepts: Set<String> {
-        var concepts = Set<String>()
-        for question in viewModel.filteredQuestions {
-            let questionConcepts = question.keyConcepts
-                .components(separatedBy: ",")
-                .map { $0.trimmingCharacters(in: .whitespaces) }
-            concepts.formUnion(questionConcepts)
-        }
-        return concepts
-    }
+            questionCountLabel
+                .padding(.horizontal, 18)
+                .padding(.top, 16)
 
-    /// 현재 탭에 따른 드롭다운 아이템
-    private var dropdownItems: [String] {
-        switch viewModel.selectedTab {
-        case .daily:
-            return viewModel.availableDays
-        case .mockExam:
-            return viewModel.availableSessions
+            questionListOrEmptyView
         }
     }
 
-    /// 현재 탭에 따른 선택 항목 바인딩
-    private var selectedItemBinding: Binding<String> {
-        switch viewModel.selectedTab {
-        case .daily:
-            return $viewModel.selectedDay
-        case .mockExam:
-            return $viewModel.selectedSession
-        }
-    }
-
-    /// 드롭다운 선택 처리
-    private func handleDropdownSelection(_ item: String) {
-        selectedConceptsFilter = []
-        selectedFilterSubject = nil
-        filterAll = "모두"
-
-        switch viewModel.selectedTab {
-        case .daily:
-            input.send(.daySelected(item))
-        case .mockExam:
-            input.send(.sessionSelected(item))
+    @ViewBuilder
+    var questionListOrEmptyView: some View {
+        if viewModel.displayedQuestions.isEmpty {
+            MistakeNoteEmptyView()
+        } else {
+            MistakeNoteQuestionListView(
+                questions: viewModel.displayedQuestions,
+                onQuestionTap: { question in
+                    input.send(.questionTapped(question))
+                }
+            )
+            .padding(.horizontal, 18)
+            .padding(.top, 12)
+            .padding(.bottom, 24)
         }
     }
 }
 
-// MARK: - Subviews
+// MARK: - Dropdown Overlay
 
 private extension MistakeNoteMainView {
 
-    var questionCountLabel: some View {
-        HStack {
-            Text("\(displayedQuestions.count)개")
-                .font(.system(size: 14, weight: .regular))
-                .foregroundColor(Color(uiColor: .coolNeutral500))
-            Spacer()
+    @ViewBuilder
+    var dropdownOverlay: some View {
+        if isDropdownExpanded {
+            Color.black.opacity(0.01)
+                .ignoresSafeArea()
+                .onTapGesture {
+                    withAnimation(.easeInOut(duration: 0.1)) {
+                        isDropdownExpanded = false
+                    }
+                }
+
+            DaySelectDropdownList(
+                days: viewModel.dropdownItems,
+                selectedDay: selectedItemBinding,
+                isExpanded: $isDropdownExpanded,
+                onDaySelected: { item in
+                    handleDropdownSelection(item)
+                }
+            )
+            .padding(.horizontal, 18)
+            .padding(.top, 120)
         }
     }
+}
+
+// MARK: - Filter Components
+
+private extension MistakeNoteMainView {
 
     var filterChipsRow: some View {
         HStack(spacing: 8) {
             FilterChipButton(
                 title: "모두",
                 options: ["모두", "오답만"],
-                selectedOption: $filterAll,
+                selectedOption: Binding(
+                    get: { viewModel.filterAll },
+                    set: { input.send(.filterAllChanged($0)) }
+                ),
                 isExpanded: Binding(
                     get: { expandedFilter == .all },
                     set: { expandedFilter = $0 ? .all : nil }
@@ -257,8 +186,8 @@ private extension MistakeNoteMainView {
             Divider()
                 .frame(height: 32)
                 .background(Color(uiColor: .coolNeutral200))
-            
-            if !selectedConceptsFilter.isEmpty {
+
+            if !viewModel.selectedConceptsFilter.isEmpty {
                 resetFilterButton
             }
 
@@ -271,7 +200,7 @@ private extension MistakeNoteMainView {
 
     var resetFilterButton: some View {
         Button {
-            resetFilters()
+            input.send(.resetConceptFilters)
         } label: {
             HStack(spacing: 4) {
                 Text("초기화")
@@ -293,10 +222,9 @@ private extension MistakeNoteMainView {
     }
 
     func subjectFilterButton(subject: Subject, title: String) -> some View {
-        let isActive = hasFilterForSubject(subject)
+        let isActive = viewModel.hasFilterForSubject(subject)
 
         return Button {
-            selectedFilterSubject = subject
             showSubjectFilterSheet = true
         } label: {
             HStack(spacing: 4) {
@@ -315,6 +243,62 @@ private extension MistakeNoteMainView {
                 RoundedRectangle(cornerRadius: 16)
                     .stroke(isActive ? Color.clear : Color(uiColor: .coolNeutral200), lineWidth: 1)
             )
+        }
+    }
+
+    var questionCountLabel: some View {
+        HStack {
+            Text("\(viewModel.displayedQuestions.count)개")
+                .font(.system(size: 14, weight: .regular))
+                .foregroundColor(Color(uiColor: .coolNeutral500))
+            Spacer()
+        }
+    }
+}
+
+// MARK: - Sheet
+
+private extension MistakeNoteMainView {
+
+    var subjectFilterSheet: some View {
+        SubjectFilterSheet(
+            isPresented: $showSubjectFilterSheet,
+            availableConcepts: viewModel.availableConcepts,
+            initialSubject: viewModel.selectedFilterSubject ?? .one,
+            initialSelectedConcepts: viewModel.selectedConceptsFilter,
+            onApply: { selectedConcepts in
+                input.send(.conceptFilterApplied(selectedConcepts, viewModel.selectedFilterSubject))
+            }
+        )
+        .presentationDetents([.fraction(0.6)])
+        .presentationDragIndicator(.visible)
+        .presentationCornerRadius(24)
+    }
+}
+
+// MARK: - Private Methods
+
+private extension MistakeNoteMainView {
+
+    var selectedItemBinding: Binding<String> {
+        switch viewModel.selectedTab {
+        case .daily:
+            return $viewModel.selectedDay
+        case .mockExam:
+            return $viewModel.selectedSession
+        }
+    }
+
+    func bindViewModel() {
+        _ = viewModel.transform(input: input.eraseToAnyPublisher())
+    }
+
+    func handleDropdownSelection(_ item: String) {
+        switch viewModel.selectedTab {
+        case .daily:
+            input.send(.daySelected(item))
+        case .mockExam:
+            input.send(.sessionSelected(item))
         }
     }
 }
