@@ -12,13 +12,8 @@ struct SubjectFilterSheet: View {
     // MARK: - Properties
 
     @Binding var isPresented: Bool
-    let availableConcepts: Set<String>
+    @StateObject private var viewModel: SubjectFilterSheetViewModel
     var onApply: ((Set<String>) -> Void)?
-
-    @State private var selectedSubject: Subject
-    @State private var selectedConcepts: Set<String>
-
-    private let initialSelectedConcepts: Set<String>
 
     // MARK: - Initializer
 
@@ -30,40 +25,19 @@ struct SubjectFilterSheet: View {
         onApply: ((Set<String>) -> Void)? = nil
     ) {
         _isPresented = isPresented
-        self.availableConcepts = availableConcepts
-        _selectedSubject = State(initialValue: initialSubject)
-        self.initialSelectedConcepts = initialSelectedConcepts
-        _selectedConcepts = State(initialValue: initialSelectedConcepts)
+        _viewModel = StateObject(wrappedValue: SubjectFilterSheetViewModel(
+            availableConcepts: availableConcepts,
+            initialSubject: initialSubject,
+            initialSelectedConcepts: initialSelectedConcepts
+        ))
         self.onApply = onApply
-    }
-
-    private var hasSelections: Bool {
-        !selectedConcepts.isEmpty
-    }
-
-    /// 초기 상태와 현재 상태가 다른지 확인
-    private var hasChanges: Bool {
-        selectedConcepts != initialSelectedConcepts
-    }
-
-    /// 가용 개념이 있는 챕터만 필터링 (공백 제거하여 비교)
-    private var availableChapters: [Chapter] {
-        let normalizedAvailableConcepts = Set(availableConcepts.map { normalizeConceptName($0) })
-        return selectedSubject.chapters.filter { chapter in
-            chapter.concepts.contains { normalizedAvailableConcepts.contains(normalizeConceptName($0)) }
-        }
-    }
-
-    /// 개념 이름 정규화 (공백 제거)
-    private func normalizeConceptName(_ name: String) -> String {
-        name.replacingOccurrences(of: " ", with: "")
     }
 
     // MARK: - Body
 
     var body: some View {
         VStack(spacing: 0) {
-            SubjectTabSelector(selectedSubject: $selectedSubject)
+            SubjectTabSelector(selectedSubject: $viewModel.selectedSubject)
                 .padding(.top, 40)
 
             filterContent
@@ -83,11 +57,11 @@ private extension SubjectFilterSheet {
     var filterContent: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: 25) {
-                ForEach(availableChapters, id: \.self) { chapter in
+                ForEach(viewModel.availableChapters, id: \.self) { chapter in
                     FilterSectionView(
                         chapter: chapter,
-                        availableConcepts: availableConcepts,
-                        selectedItems: $selectedConcepts
+                        availableConcepts: viewModel.availableConcepts,
+                        selectedItems: $viewModel.selectedConcepts
                     )
                 }
             }
@@ -114,43 +88,34 @@ private extension SubjectFilterSheet {
     }
 
     var resetButton: some View {
-        Button(action: resetSelections) {
+        Button {
+            viewModel.send(.resetTapped)
+        } label: {
             Text("초기화")
                 .font(.system(size: 14, weight: .semibold))
-                .foregroundColor(hasSelections ? Color(uiColor: .coolNeutral700) : Color(uiColor: .coolNeutral400))
+                .foregroundColor(viewModel.hasSelections ? Color(uiColor: .coolNeutral700) : Color(uiColor: .coolNeutral400))
                 .frame(maxWidth: .infinity)
                 .frame(height: 48)
                 .background(Color.white)
         }
         .frame(width: 80)
-        .disabled(!hasSelections)
+        .disabled(!viewModel.hasSelections)
     }
 
     var applyButton: some View {
-        Button(action: applySelections) {
+        Button {
+            onApply?(viewModel.selectedConcepts)
+            isPresented = false
+        } label: {
             Text("적용하기")
                 .font(.system(size: 16, weight: .semibold))
-                .foregroundColor(hasChanges ? .white : Color(uiColor: .coolNeutral500))
+                .foregroundColor(viewModel.hasChanges ? .white : Color(uiColor: .coolNeutral500))
                 .frame(maxWidth: .infinity)
                 .frame(height: 48)
-                .background(hasChanges ? Color(uiColor: .customBlue500) : Color(uiColor: .coolNeutral200))
+                .background(viewModel.hasChanges ? Color(uiColor: .customBlue500) : Color(uiColor: .coolNeutral200))
                 .cornerRadius(8)
         }
-        .disabled(!hasChanges)
-    }
-}
-
-// MARK: - Private Methods
-
-private extension SubjectFilterSheet {
-
-    func resetSelections() {
-        selectedConcepts.removeAll()
-    }
-
-    func applySelections() {
-        onApply?(selectedConcepts)
-        isPresented = false
+        .disabled(!viewModel.hasChanges)
     }
 }
 
