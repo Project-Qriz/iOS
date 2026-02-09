@@ -58,6 +58,7 @@ final class MistakeNoteViewController: UIHostingController<MistakeNoteMainView> 
 
     private func configureNavigationBar() {
         let appearance = UINavigationBar.defaultBackButtonStyle()
+        appearance.shadowColor = .clear
         navigationController?.navigationBar.standardAppearance = appearance
         navigationController?.navigationBar.compactAppearance = appearance
         navigationController?.navigationBar.scrollEdgeAppearance = appearance
