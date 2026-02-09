@@ -9,16 +9,90 @@ import UIKit
 
 @MainActor
 protocol MistakeNoteCoordinator: Coordinator {
+    var delegate: MistakeNoteCoordinatorDelegate? { get set }
+    func showClipDetail(clipId: Int)
 }
 
 @MainActor
-final class MistakeNoteCoordinatorImpl: MistakeNoteCoordinator {
-    
+protocol MistakeNoteCoordinatorDelegate: AnyObject {
+    func moveFromMistakeNoteToConcept(_ coordinator: MistakeNoteCoordinator)
+    func moveFromMistakeNoteToExam(_ coordinator: MistakeNoteCoordinator, tab: MistakeNoteTab)
+}
+
+@MainActor
+final class MistakeNoteCoordinatorImpl: MistakeNoteCoordinator, NavigationGuard {
+
+    // MARK: - Properties
+
+    weak var delegate: MistakeNoteCoordinatorDelegate?
     var childCoordinators: [Coordinator] = []
-    
+    var isNavigating: Bool = false
+    private var navigationController: UINavigationController?
+    private let service: MistakeNoteService
+
+    // MARK: - Initializers
+
+    init(service: MistakeNoteService = MistakeNoteServiceImpl()) {
+        self.service = service
+    }
+
+    // MARK: - Methods
+
     func start() -> UIViewController {
         let mistakeNoteVC = MistakeNoteViewController()
+        mistakeNoteVC.delegate = self
         let nav = UINavigationController(rootViewController: mistakeNoteVC)
+        navigationController = nav
         return nav
+    }
+
+    func showClipDetail(clipId: Int) {
+        guardNavigation { [service] in
+            let viewModel = ProblemDetailViewModel {
+                let response = try await service.getClipDetail(clipId: clipId)
+                return response.data
+            }
+            let vc = ProblemDetailViewController(viewModel: viewModel)
+            vc.coordinator = self
+            navigationController?.pushViewController(vc, animated: true)
+        }
+    }
+
+    func showConcept(chapter: Chapter, conceptItem: ConceptItem) {
+        guardNavigation {
+            let vm = ConceptPDFViewModel(chapter: chapter, conceptItem: conceptItem)
+            let vc = ConceptPDFViewController(conceptPDFViewModel: vm)
+            navigationController?.pushViewController(vc, animated: true)
+        }
+    }
+}
+
+// MARK: - MistakeNoteViewControllerDelegate
+
+extension MistakeNoteCoordinatorImpl: MistakeNoteViewControllerDelegate {
+    func mistakeNoteViewController(
+        _ viewController: MistakeNoteViewController,
+        didSelectClipWithId clipId: Int
+    ) {
+        showClipDetail(clipId: clipId)
+    }
+
+    func mistakeNoteViewController(
+        _ viewController: MistakeNoteViewController,
+        didRequestExamForTab tab: MistakeNoteTab
+    ) {
+        delegate?.moveFromMistakeNoteToExam(self, tab: tab)
+    }
+}
+
+// MARK: - ProblemDetailCoordinating
+
+extension MistakeNoteCoordinatorImpl: ProblemDetailCoordinating {
+    func navigateToConceptTab() {
+        delegate?.moveFromMistakeNoteToConcept(self)
+    }
+
+    func navigateToConcept(chapter: Chapter, conceptItem: ConceptItem) {
+        showConcept(chapter: chapter, conceptItem: conceptItem)
     }
 }

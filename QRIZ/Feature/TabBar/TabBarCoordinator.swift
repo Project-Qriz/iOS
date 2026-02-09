@@ -105,32 +105,36 @@ final class TabBarCoordinatorImpl: TabBarCoordinator {
     private let dependency: TabBarCoordinatorDependency
     private var tabBarController: UITabBarController?
     private let homeCoordinator: HomeCoordinatorImpl
+    private let mistakeNoteCoordinator: MistakeNoteCoordinatorImpl
     private let myPageCoordinator: MyPageCoordinatorImpl
-    
+
     init(dependency: TabBarCoordinatorDependency) {
         self.dependency = dependency
-        
+
         guard
             let home = dependency.homeCoordinator as? HomeCoordinatorImpl,
+            let mistakeNote = dependency.mistakeNoteCoordinator as? MistakeNoteCoordinatorImpl,
             let my = dependency.myPageCoordinator as? MyPageCoordinatorImpl
         else {
             fatalError("TabBar 의존성 주입 오류: 예상한 Coordinator 타입이 아닙니다‼️")
         }
-        
+
         self.homeCoordinator = home
+        self.mistakeNoteCoordinator = mistakeNote
         self.myPageCoordinator = my
     }
     
     func start() -> UIViewController {
         homeCoordinator.examDelegate = self
         homeCoordinator.delegate = self
+        mistakeNoteCoordinator.delegate = self
         myPageCoordinator.examDelegate = self
         myPageCoordinator.delegate = self
         
         var viewControllers: [UIViewController] = [
             homeCoordinator.start(),
             dependency.conceptBookCoordinator.start(),
-//            dependency.mistakeNoteCoordinator.start(),
+            dependency.mistakeNoteCoordinator.start(),
             myPageCoordinator.start()
         ]
         setupTabBarItems(for: &viewControllers)
@@ -143,7 +147,7 @@ final class TabBarCoordinatorImpl: TabBarCoordinator {
         childCoordinators = [
             homeCoordinator,
             dependency.conceptBookCoordinator,
-//            dependency.mistakeNoteCoordinator,
+            dependency.mistakeNoteCoordinator,
             myPageCoordinator
         ]
         return tabBar
@@ -162,8 +166,8 @@ final class TabBarCoordinatorImpl: TabBarCoordinator {
     }
     
     private func setupTabBarItems(for viewControllers: inout [UIViewController]) {
-        guard viewControllers.count >= 3 else { return }
-        
+        guard viewControllers.count >= 4 else { return }
+
         viewControllers[0].tabBarItem = UITabBarItem(
             title: "홈",
             image: .home,
@@ -174,12 +178,12 @@ final class TabBarCoordinatorImpl: TabBarCoordinator {
             image: .conceptBook,
             selectedImage: .selectedConceptBook
         )
-//        viewControllers[2].tabBarItem = UITabBarItem(
-//            title: "오답노트",
-//            image: .mistakeNote,
-//            selectedImage: .selectedMistakeNote
-//        )
         viewControllers[2].tabBarItem = UITabBarItem(
+            title: "오답노트",
+            image: .mistakeNote,
+            selectedImage: .selectedMistakeNote
+        )
+        viewControllers[3].tabBarItem = UITabBarItem(
             title: "마이",
             image: .myPage,
             selectedImage: nil
@@ -218,6 +222,46 @@ extension TabBarCoordinatorImpl: ExamSelectionDelegate {
         } else {
             homeCoordinator.needsRefresh = true
         }
+    }
+}
+
+// MARK: - MistakeNoteCoordinatorDelegate
+
+extension TabBarCoordinatorImpl: MistakeNoteCoordinatorDelegate {
+    func moveFromMistakeNoteToConcept(_ coordinator: any MistakeNoteCoordinator) {
+        if let tabBarController = self.tabBarController {
+            UIView.transition(
+                with: tabBarController.view,
+                duration: 0.3,
+                options: .transitionCrossDissolve,
+                animations: {
+                    tabBarController.selectedIndex = 1
+                },
+                completion: nil
+            )
+        }
+    }
+
+    func moveFromMistakeNoteToExam(_ coordinator: any MistakeNoteCoordinator, tab: MistakeNoteTab) {
+        guard let tabBarController = self.tabBarController else { return }
+
+        UIView.transition(
+            with: tabBarController.view,
+            duration: 0.3,
+            options: .transitionCrossDissolve,
+            animations: {
+                tabBarController.selectedIndex = 0
+            },
+            completion: { [weak self] _ in
+                guard let self = self else { return }
+                switch tab {
+                case .daily:
+                    self.homeCoordinator.showDaily(day: 1, type: .daily)
+                case .mockExam:
+                    self.homeCoordinator.showExam()
+                }
+            }
+        )
     }
 }
 
