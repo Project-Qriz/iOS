@@ -36,7 +36,7 @@ struct MistakeNoteMainView: View {
         }
         .background(Color(uiColor: .customBlue50))
         .animation(.easeInOut(duration: 0.1), value: isDropdownExpanded)
-        .onChange(of: viewModel.selectedTab) { newTab in
+        .onChange(of: viewModel.selectedTab) { _, newTab in
             input.send(.tabSelected(newTab))
         }
         .sheet(isPresented: $showSubjectFilterSheet) {
