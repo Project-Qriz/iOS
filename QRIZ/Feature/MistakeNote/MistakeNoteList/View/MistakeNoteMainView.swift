@@ -19,6 +19,7 @@ struct MistakeNoteMainView: View {
     @State private var hasAppeared: Bool = false
     @State private var expandedFilter: FilterType? = nil
     @State private var showSubjectFilterSheet: Bool = false
+    @State private var sheetSubject: Subject = .one
 
     // MARK: - Initializer
 
@@ -225,6 +226,7 @@ private extension MistakeNoteMainView {
         let isActive = viewModel.hasFilterForSubject(subject)
 
         return Button {
+            sheetSubject = subject
             showSubjectFilterSheet = true
         } label: {
             HStack(spacing: 4) {
@@ -264,7 +266,7 @@ private extension MistakeNoteMainView {
         SubjectFilterSheet(
             isPresented: $showSubjectFilterSheet,
             availableConcepts: viewModel.availableConcepts,
-            initialSubject: viewModel.selectedFilterSubject ?? .one,
+            initialSubject: sheetSubject,
             initialSelectedConcepts: viewModel.selectedConceptsFilter,
             onApply: { selectedConcepts in
                 input.send(.conceptFilterApplied(selectedConcepts, viewModel.selectedFilterSubject))
