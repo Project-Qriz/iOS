@@ -17,6 +17,8 @@ protocol ExamService {
     func getExamScore(examId: Int) async throws -> ExamScoreResponse
     
     func getExamResult(examId: Int) async throws -> ExamResultResponse
+
+    func getExamResultDetail(examId: Int, questionId: Int) async throws -> ExamResultDetailResponse
 }
 
 final class ExamServiceImpl: ExamService {
@@ -56,7 +58,12 @@ final class ExamServiceImpl: ExamService {
         let request = ExamResultRequest(accessToken: getAccessToken(), examId: examId)
         return try await network.send(request)
     }
-    
+
+    func getExamResultDetail(examId: Int, questionId: Int) async throws -> ExamResultDetailResponse {
+        let request = ExamResultDetailRequest(accessToken: getAccessToken(), examId: examId, questionId: questionId)
+        return try await network.send(request)
+    }
+
     private func getAccessToken() -> String {
         let accessToken = keychainManager.retrieveToken(forKey: HTTPHeaderField.accessToken.rawValue) ?? ""
         return accessToken
