@@ -46,8 +46,11 @@ final class ExamResultViewController: UIViewController {
         let conceptTapped = examResultHostingController.rootView.conceptTappedPublisher.map {
             ExamResultViewModel.Input.moveToConceptButtonClicked
         }
-        
-        let mergedInput = input.merge(with: resultDetailTapped, conceptTapped)
+        let problemTapped = examResultHostingController.rootView.problemTappedPublisher.map {
+            ExamResultViewModel.Input.problemTapped(questionId: $0)
+        }
+
+        let mergedInput = input.merge(with: resultDetailTapped, conceptTapped, problemTapped)
         let output = viewModel.transform(input: mergedInput.eraseToAnyPublisher())
         output
             .receive(on: DispatchQueue.main)
@@ -69,6 +72,8 @@ final class ExamResultViewController: UIViewController {
                     coordinator?.quitExam()
                 case .moveToResultDetail:
                     coordinator?.showResultDetail(resultDetailData: self.viewModel.resultDetailData)
+                case .showProblemDetail(let questionId):
+                    coordinator?.showProblemExplanation(questionId: questionId)
                 }
             }
             .store(in: &subscriptions)

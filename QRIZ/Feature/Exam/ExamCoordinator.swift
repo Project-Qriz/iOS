@@ -15,6 +15,7 @@ protocol ExamCoordinator: Coordinator {
     func showExamTest(examId: Int)
     func showExamResult(examId: Int)
     func showResultDetail(resultDetailData: ResultDetailData)
+    func showProblemExplanation(questionId: Int)
     func quitExam()
 }
 
@@ -34,6 +35,7 @@ final class ExamCoordinatorImpl: ExamCoordinator, NavigationGuard {
     private var examListViewController: UIViewController?
     private var examListViewModel: ExamListViewModel?
     private let service: ExamService
+    private var currentExamId: Int = 0
 
     // NavigationGuard
     var isNavigating: Bool = false
@@ -80,6 +82,7 @@ final class ExamCoordinatorImpl: ExamCoordinator, NavigationGuard {
     }
     
     func showExamResult(examId: Int) {
+        self.currentExamId = examId
         guardNavigation {
             let vm = ExamResultViewModel(examId: examId, examService: service)
             let vc = ExamResultViewController(viewModel: vm)
@@ -96,11 +99,46 @@ final class ExamCoordinatorImpl: ExamCoordinator, NavigationGuard {
         }
     }
     
+    func showProblemExplanation(questionId: Int) {
+        guardNavigation { [service, currentExamId] in
+            let viewModel = ProblemDetailViewModel {
+                let response = try await service.getExamResultDetail(
+                    examId: currentExamId,
+                    questionId: questionId
+                )
+                return response.data
+            }
+            let vc = ProblemDetailViewController(viewModel: viewModel)
+            vc.coordinator = self
+            self.navigationController.pushViewController(vc, animated: true)
+        }
+    }
+
+    func showConcept(chapter: Chapter, conceptItem: ConceptItem) {
+        guardNavigation {
+            let vm = ConceptPDFViewModel(chapter: chapter, conceptItem: conceptItem)
+            let vc = ConceptPDFViewController(conceptPDFViewModel: vm)
+            self.navigationController.pushViewController(vc, animated: true)
+        }
+    }
+
     /// Exam 내부 테스트나 결과에서 ExamList로 이동하는 메서드
     func quitExam() {
         if let examListVC = examListViewController, let examListVM = examListViewModel {
             _ = self.navigationController.popToViewController(examListVC, animated: true)
             examListVM.reloadList()
         }
+    }
+}
+
+// MARK: - ProblemDetailCoordinating
+
+extension ExamCoordinatorImpl: ProblemDetailCoordinating {
+    func navigateToConceptTab() {
+        delegate?.moveFromExamToConcept(self)
+    }
+
+    func navigateToConcept(chapter: Chapter, conceptItem: ConceptItem) {
+        showConcept(chapter: chapter, conceptItem: conceptItem)
     }
 }
