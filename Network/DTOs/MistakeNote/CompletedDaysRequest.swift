@@ -7,8 +7,9 @@
 
 import Foundation
 
-struct CompletedDaysRequest: Request {
-    typealias Response = CompletedDaysResponse
+/// 완료한 데일리 리스트 조회
+struct CompletedDailyDaysRequest: Request {
+    typealias Response = CompletedDailyDaysResponse
 
     let accessToken: String
     let path = "/api/v1/clips/days"
@@ -21,12 +22,12 @@ struct CompletedDaysRequest: Request {
     }
 }
 
-struct CompletedDaysResponse: Decodable {
+struct CompletedDailyDaysResponse: Decodable {
     let code: Int
     let msg: String
-    let data: CompletedDaysData
+    let data: CompletedDailyDaysData
 }
 
-struct CompletedDaysData: Decodable {
+struct CompletedDailyDaysData: Decodable {
     let days: [String]
 }

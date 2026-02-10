@@ -26,15 +26,43 @@
 		B1151FD72E64A1DD00C1F720 /* SocialLoginType.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1151FD62E64A1DD00C1F720 /* SocialLoginType.swift */; };
 		B115FDC92E44F1AD00805522 /* KakaoSDK in Frameworks */ = {isa = PBXBuildFile; productRef = B115FDC82E44F1AD00805522 /* KakaoSDK */; };
 		B115FDCB2E44F1AD00805522 /* KakaoSDKAuth in Frameworks */ = {isa = PBXBuildFile; productRef = B115FDCA2E44F1AD00805522 /* KakaoSDKAuth */; };
+		B11C10822F1FE5CF00AB004B /* ClipsRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = B11C10812F1FE5CF00AB004B /* ClipsRequest.swift */; };
+		B11C10852F1FE9DD00AB004B /* MistakeNoteService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B11C10832F1FE9DD00AB004B /* MistakeNoteService.swift */; };
+		B11C108D2F29B2C400AB004B /* ClipDetailRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = B11C108C2F29B2C400AB004B /* ClipDetailRequest.swift */; };
 		B11EC5AB2EC1B11700DCE8C5 /* RefreshTokenRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = B11EC5AA2EC1B11700DCE8C5 /* RefreshTokenRequest.swift */; };
 		B127B6E22DED89B00048401F /* SessionEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = B127B6E12DED89B00048401F /* SessionEvent.swift */; };
+		B1296F282F33355400252AD9 /* ProblemHeaderCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1296F1A2F33355400252AD9 /* ProblemHeaderCardView.swift */; };
+		B1296F292F33355400252AD9 /* MistakeNoteMainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1296F0F2F33355400252AD9 /* MistakeNoteMainView.swift */; };
+		B1296F2A2F33355400252AD9 /* FilterChip.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1296F092F33355400252AD9 /* FilterChip.swift */; };
+		B1296F2B2F33355400252AD9 /* MistakeNoteCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1296F262F33355400252AD9 /* MistakeNoteCoordinator.swift */; };
+		B1296F2C2F33355400252AD9 /* SubjectFilterSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1296F0B2F33355400252AD9 /* SubjectFilterSheet.swift */; };
+		B1296F2D2F33355400252AD9 /* ProblemKeyConceptsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1296F1B2F33355400252AD9 /* ProblemKeyConceptsView.swift */; };
+		B1296F2E2F33355400252AD9 /* MistakeNoteTabSelector.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1296F122F33355400252AD9 /* MistakeNoteTabSelector.swift */; };
+		B1296F2F2F33355400252AD9 /* DaySelectDropdownButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1296F0D2F33355400252AD9 /* DaySelectDropdownButton.swift */; };
+		B1296F302F33355400252AD9 /* MistakeNoteListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1296F162F33355400252AD9 /* MistakeNoteListViewModel.swift */; };
+		B1296F312F33355400252AD9 /* ProblemDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1296F232F33355400252AD9 /* ProblemDetailViewModel.swift */; };
+		B1296F322F33355400252AD9 /* FilterSectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1296F0A2F33355400252AD9 /* FilterSectionView.swift */; };
+		B1296F332F33355400252AD9 /* ProblemResultView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1296F1E2F33355400252AD9 /* ProblemResultView.swift */; };
+		B1296F342F33355400252AD9 /* FilterChipButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1296F0E2F33355400252AD9 /* FilterChipButton.swift */; };
+		B1296F352F33355400252AD9 /* MistakeNoteQuestionCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1296F102F33355400252AD9 /* MistakeNoteQuestionCard.swift */; };
+		B1296F362F33355400252AD9 /* MistakeNoteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1296F142F33355400252AD9 /* MistakeNoteViewController.swift */; };
+		B1296F372F33355400252AD9 /* ProblemSolutionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1296F1F2F33355400252AD9 /* ProblemSolutionView.swift */; };
+		B1296F382F33355400252AD9 /* MistakeNoteQuestionListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1296F112F33355400252AD9 /* MistakeNoteQuestionListView.swift */; };
+		B1296F392F33355400252AD9 /* ProblemDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1296F212F33355400252AD9 /* ProblemDetailViewController.swift */; };
+		B1296F3A2F33355400252AD9 /* ProblemOptionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1296F1C2F33355400252AD9 /* ProblemOptionView.swift */; };
+		B1296F3B2F33355400252AD9 /* ProblemQuestionSectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1296F1D2F33355400252AD9 /* ProblemQuestionSectionView.swift */; };
+		B1296F3C2F33355400252AD9 /* ProblemDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1296F192F33355400252AD9 /* ProblemDetailView.swift */; };
+		B1296F402F34654B00252AD9 /* MistakeNoteEmptyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1296F3F2F34654B00252AD9 /* MistakeNoteEmptyView.swift */; };
+		B1296F422F34882100252AD9 /* MistakeNoteNoRecordView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1296F412F34882100252AD9 /* MistakeNoteNoRecordView.swift */; };
+		B1296F442F3735F600252AD9 /* SubjectFilterSheetViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1296F432F3735F600252AD9 /* SubjectFilterSheetViewModel.swift */; };
 		B13045242DD9F9350036EBE2 /* TermsDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B13045232DD9F9350036EBE2 /* TermsDetailViewController.swift */; };
 		B13045262DD9F9AD0036EBE2 /* TermsDetailMainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B13045252DD9F9AD0036EBE2 /* TermsDetailMainView.swift */; };
 		B13045282DD9FA580036EBE2 /* TermsDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B13045272DD9FA580036EBE2 /* TermsDetailViewModel.swift */; };
 		B130452F2DDC77030036EBE2 /* UIScreen+.swift in Sources */ = {isa = PBXBuildFile; fileRef = B130452E2DDC77030036EBE2 /* UIScreen+.swift */; };
 		B13774AD2ED9D7AF001A614D /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = B13774AC2ED9D7AF001A614D /* GoogleService-Info.plist */; };
 		B1386C6E2DF0C787009D041F /* CardBackgroundView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1386C6D2DF0C787009D041F /* CardBackgroundView.swift */; };
-		B143793D2F153E7800DAE842 /* CompletedDaysRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = B143793C2F153E7800DAE842 /* CompletedDaysRequest.swift */; };
+		B1437B6B2F15940A00DAE842 /* CompletedDaysRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1437B682F15940A00DAE842 /* CompletedDaysRequest.swift */; };
+		B1437B6C2F15940A00DAE842 /* CompletedExamSessionsRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1437B692F15940A00DAE842 /* CompletedExamSessionsRequest.swift */; };
 		B151082A2DFFEA8C00657506 /* DeleteAccountViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B15108262DFFEA8C00657506 /* DeleteAccountViewController.swift */; };
 		B151082B2DFFEA8C00657506 /* MyPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B15108272DFFEA8C00657506 /* MyPageViewController.swift */; };
 		B151082C2DFFEA8C00657506 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B15108282DFFEA8C00657506 /* SettingsViewController.swift */; };
@@ -59,11 +87,7 @@
 		B1510DBB2E11B2E800657506 /* DashedLineView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1510DBA2E11B2E800657506 /* DashedLineView.swift */; };
 		B15188622D76D29B000EFE41 /* EmailSendRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = B15188612D76D29B000EFE41 /* EmailSendRequest.swift */; };
 		B15188662D782CCE000EFE41 /* SignUpCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = B15188652D782CCE000EFE41 /* SignUpCoordinator.swift */; };
-		B1561C492F0541E300DEFC00 /* ProblemResultView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1561C482F0541E300DEFC00 /* ProblemResultView.swift */; };
-		B1561C4B2F06584800DEFC00 /* ProblemSolutionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1561C4A2F06584800DEFC00 /* ProblemSolutionView.swift */; };
-		B1561C4F2F06D37800DEFC00 /* ProblemKeyConceptsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1561C4E2F06D37800DEFC00 /* ProblemKeyConceptsView.swift */; };
 		B1561C512F07E09400DEFC00 /* DailyResultDetailRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1561C502F07E09400DEFC00 /* DailyResultDetailRequest.swift */; };
-		B1561C532F0816DE00DEFC00 /* ProblemDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1561C522F0816DE00DEFC00 /* ProblemDetailViewModel.swift */; };
 		B16288182D2CDB85008057D0 /* NameInputViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B16288172D2CDB85008057D0 /* NameInputViewModel.swift */; };
 		B162881C2D2CFC63008057D0 /* UIView+.swift in Sources */ = {isa = PBXBuildFile; fileRef = B162881B2D2CFC63008057D0 /* UIView+.swift */; };
 		B162881E2D2D6624008057D0 /* UIViewController+.swift in Sources */ = {isa = PBXBuildFile; fileRef = B162881D2D2D6624008057D0 /* UIViewController+.swift */; };
@@ -131,22 +155,15 @@
 		B19C4FAB2D6120D100CD008A /* OneButtonCustomAlertViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B19C4FAA2D6120D100CD008A /* OneButtonCustomAlertViewController.swift */; };
 		B19C4FAD2D61304400CD008A /* OneButtonCustomAlertMainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B19C4FAC2D61304400CD008A /* OneButtonCustomAlertMainView.swift */; };
 		B19C4FAF2D67E58D00CD008A /* LoginCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = B19C4FAE2D67E58D00CD008A /* LoginCoordinator.swift */; };
-		B19C4FBF2D6B6E3400CD008A /* MistakeNoteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B19C4FBE2D6B6E3400CD008A /* MistakeNoteViewController.swift */; };
 		B19C4FC52D6C226500CD008A /* TabBarCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = B19C4FC42D6C226500CD008A /* TabBarCoordinator.swift */; };
 		B1B0BBBC2E769F510024F230 /* GoogleSignIn in Frameworks */ = {isa = PBXBuildFile; productRef = B1B0BBBB2E769F510024F230 /* GoogleSignIn */; };
 		B1B0BBBE2E769F510024F230 /* GoogleSignInSwift in Frameworks */ = {isa = PBXBuildFile; productRef = B1B0BBBD2E769F510024F230 /* GoogleSignInSwift */; };
 		B1C8B90C2EFF2A6500C3E709 /* NavigationGuard.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1C8B90B2EFF2A6500C3E709 /* NavigationGuard.swift */; };
 		B1C8BCC12F03093800C3E709 /* ProblemHeaderData.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1C8BCBF2F03093800C3E709 /* ProblemHeaderData.swift */; };
-		B1C8BCC92F03096C00C3E709 /* ProblemHeaderCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1C8BCC32F03096C00C3E709 /* ProblemHeaderCardView.swift */; };
-		B1C8BCCA2F03096C00C3E709 /* ProblemDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1C8BCC52F03096C00C3E709 /* ProblemDetailViewController.swift */; };
-		B1C8BCCB2F03096C00C3E709 /* ProblemDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1C8BCC22F03096C00C3E709 /* ProblemDetailView.swift */; };
 		B1C8BCCF2F04274600C3E709 /* MockDailyResultData.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1C8BCCD2F04274600C3E709 /* MockDailyResultData.swift */; };
 		B1C8BCD12F04316600C3E709 /* ProblemQuestionData.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1C8BCD02F04316600C3E709 /* ProblemQuestionData.swift */; };
-		B1C8BCD42F0431E900C3E709 /* ProblemOptionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1C8BCD22F0431E900C3E709 /* ProblemOptionView.swift */; };
-		B1C8BCD52F0431E900C3E709 /* ProblemQuestionSectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1C8BCD32F0431E900C3E709 /* ProblemQuestionSectionView.swift */; };
 		B1D813712D6E0C1F00A9D447 /* HomeCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1D813702D6E0C1F00A9D447 /* HomeCoordinator.swift */; };
 		B1D813732D6E0CB200A9D447 /* ConceptBookCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1D813722D6E0CB200A9D447 /* ConceptBookCoordinator.swift */; };
-		B1D813752D6E0CC900A9D447 /* MistakeNoteCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1D813742D6E0CC900A9D447 /* MistakeNoteCoordinator.swift */; };
 		B1D813772D6E0CD700A9D447 /* MyPageCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1D813762D6E0CD700A9D447 /* MyPageCoordinator.swift */; };
 		B1D8137A2D768D9B00A9D447 /* AppCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1D813792D768D9B00A9D447 /* AppCoordinator.swift */; };
 		B1D9A0E72D3686BA00E84934 /* CountdownTimer.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1D9A0E62D3686BA00E84934 /* CountdownTimer.swift */; };
@@ -326,15 +343,43 @@
 		B1004A9A2ECDE773000E4DE2 /* SocialLogoutRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SocialLogoutRequest.swift; sourceTree = "<group>"; };
 		B1138AFA2DFD813D004258CA /* DailyResetRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyResetRequest.swift; sourceTree = "<group>"; };
 		B1151FD62E64A1DD00C1F720 /* SocialLoginType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SocialLoginType.swift; sourceTree = "<group>"; };
+		B11C10812F1FE5CF00AB004B /* ClipsRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClipsRequest.swift; sourceTree = "<group>"; };
+		B11C10832F1FE9DD00AB004B /* MistakeNoteService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MistakeNoteService.swift; sourceTree = "<group>"; };
+		B11C108C2F29B2C400AB004B /* ClipDetailRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClipDetailRequest.swift; sourceTree = "<group>"; };
 		B11EC5AA2EC1B11700DCE8C5 /* RefreshTokenRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RefreshTokenRequest.swift; sourceTree = "<group>"; };
 		B127B6E12DED89B00048401F /* SessionEvent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionEvent.swift; sourceTree = "<group>"; };
+		B1296F092F33355400252AD9 /* FilterChip.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterChip.swift; sourceTree = "<group>"; };
+		B1296F0A2F33355400252AD9 /* FilterSectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterSectionView.swift; sourceTree = "<group>"; };
+		B1296F0B2F33355400252AD9 /* SubjectFilterSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubjectFilterSheet.swift; sourceTree = "<group>"; };
+		B1296F0D2F33355400252AD9 /* DaySelectDropdownButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DaySelectDropdownButton.swift; sourceTree = "<group>"; };
+		B1296F0E2F33355400252AD9 /* FilterChipButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterChipButton.swift; sourceTree = "<group>"; };
+		B1296F0F2F33355400252AD9 /* MistakeNoteMainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MistakeNoteMainView.swift; sourceTree = "<group>"; };
+		B1296F102F33355400252AD9 /* MistakeNoteQuestionCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MistakeNoteQuestionCard.swift; sourceTree = "<group>"; };
+		B1296F112F33355400252AD9 /* MistakeNoteQuestionListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MistakeNoteQuestionListView.swift; sourceTree = "<group>"; };
+		B1296F122F33355400252AD9 /* MistakeNoteTabSelector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MistakeNoteTabSelector.swift; sourceTree = "<group>"; };
+		B1296F142F33355400252AD9 /* MistakeNoteViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MistakeNoteViewController.swift; sourceTree = "<group>"; };
+		B1296F162F33355400252AD9 /* MistakeNoteListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MistakeNoteListViewModel.swift; sourceTree = "<group>"; };
+		B1296F192F33355400252AD9 /* ProblemDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProblemDetailView.swift; sourceTree = "<group>"; };
+		B1296F1A2F33355400252AD9 /* ProblemHeaderCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProblemHeaderCardView.swift; sourceTree = "<group>"; };
+		B1296F1B2F33355400252AD9 /* ProblemKeyConceptsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProblemKeyConceptsView.swift; sourceTree = "<group>"; };
+		B1296F1C2F33355400252AD9 /* ProblemOptionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProblemOptionView.swift; sourceTree = "<group>"; };
+		B1296F1D2F33355400252AD9 /* ProblemQuestionSectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProblemQuestionSectionView.swift; sourceTree = "<group>"; };
+		B1296F1E2F33355400252AD9 /* ProblemResultView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProblemResultView.swift; sourceTree = "<group>"; };
+		B1296F1F2F33355400252AD9 /* ProblemSolutionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProblemSolutionView.swift; sourceTree = "<group>"; };
+		B1296F212F33355400252AD9 /* ProblemDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProblemDetailViewController.swift; sourceTree = "<group>"; };
+		B1296F232F33355400252AD9 /* ProblemDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProblemDetailViewModel.swift; sourceTree = "<group>"; };
+		B1296F262F33355400252AD9 /* MistakeNoteCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MistakeNoteCoordinator.swift; sourceTree = "<group>"; };
+		B1296F3F2F34654B00252AD9 /* MistakeNoteEmptyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MistakeNoteEmptyView.swift; sourceTree = "<group>"; };
+		B1296F412F34882100252AD9 /* MistakeNoteNoRecordView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MistakeNoteNoRecordView.swift; sourceTree = "<group>"; };
+		B1296F432F3735F600252AD9 /* SubjectFilterSheetViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubjectFilterSheetViewModel.swift; sourceTree = "<group>"; };
 		B13045232DD9F9350036EBE2 /* TermsDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TermsDetailViewController.swift; sourceTree = "<group>"; };
 		B13045252DD9F9AD0036EBE2 /* TermsDetailMainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TermsDetailMainView.swift; sourceTree = "<group>"; };
 		B13045272DD9FA580036EBE2 /* TermsDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TermsDetailViewModel.swift; sourceTree = "<group>"; };
 		B130452E2DDC77030036EBE2 /* UIScreen+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIScreen+.swift"; sourceTree = "<group>"; };
 		B13774AC2ED9D7AF001A614D /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		B1386C6D2DF0C787009D041F /* CardBackgroundView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardBackgroundView.swift; sourceTree = "<group>"; };
-		B143793C2F153E7800DAE842 /* CompletedDaysRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompletedDaysRequest.swift; sourceTree = "<group>"; };
+		B1437B682F15940A00DAE842 /* CompletedDaysRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompletedDaysRequest.swift; sourceTree = "<group>"; };
+		B1437B692F15940A00DAE842 /* CompletedExamSessionsRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompletedExamSessionsRequest.swift; sourceTree = "<group>"; };
 		B15108262DFFEA8C00657506 /* DeleteAccountViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeleteAccountViewController.swift; sourceTree = "<group>"; };
 		B15108272DFFEA8C00657506 /* MyPageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageViewController.swift; sourceTree = "<group>"; };
 		B15108282DFFEA8C00657506 /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
@@ -359,11 +404,7 @@
 		B1510DBA2E11B2E800657506 /* DashedLineView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashedLineView.swift; sourceTree = "<group>"; };
 		B15188612D76D29B000EFE41 /* EmailSendRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmailSendRequest.swift; sourceTree = "<group>"; };
 		B15188652D782CCE000EFE41 /* SignUpCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpCoordinator.swift; sourceTree = "<group>"; };
-		B1561C482F0541E300DEFC00 /* ProblemResultView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProblemResultView.swift; sourceTree = "<group>"; };
-		B1561C4A2F06584800DEFC00 /* ProblemSolutionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProblemSolutionView.swift; sourceTree = "<group>"; };
-		B1561C4E2F06D37800DEFC00 /* ProblemKeyConceptsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProblemKeyConceptsView.swift; sourceTree = "<group>"; };
 		B1561C502F07E09400DEFC00 /* DailyResultDetailRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyResultDetailRequest.swift; sourceTree = "<group>"; };
-		B1561C522F0816DE00DEFC00 /* ProblemDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProblemDetailViewModel.swift; sourceTree = "<group>"; };
 		B16288172D2CDB85008057D0 /* NameInputViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NameInputViewModel.swift; sourceTree = "<group>"; };
 		B162881B2D2CFC63008057D0 /* UIView+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+.swift"; sourceTree = "<group>"; };
 		B162881D2D2D6624008057D0 /* UIViewController+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+.swift"; sourceTree = "<group>"; };
@@ -431,20 +472,13 @@
 		B19C4FAA2D6120D100CD008A /* OneButtonCustomAlertViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OneButtonCustomAlertViewController.swift; sourceTree = "<group>"; };
 		B19C4FAC2D61304400CD008A /* OneButtonCustomAlertMainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OneButtonCustomAlertMainView.swift; sourceTree = "<group>"; };
 		B19C4FAE2D67E58D00CD008A /* LoginCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginCoordinator.swift; sourceTree = "<group>"; };
-		B19C4FBE2D6B6E3400CD008A /* MistakeNoteViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MistakeNoteViewController.swift; sourceTree = "<group>"; };
 		B19C4FC42D6C226500CD008A /* TabBarCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarCoordinator.swift; sourceTree = "<group>"; };
 		B1C8B90B2EFF2A6500C3E709 /* NavigationGuard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationGuard.swift; sourceTree = "<group>"; };
 		B1C8BCBF2F03093800C3E709 /* ProblemHeaderData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProblemHeaderData.swift; sourceTree = "<group>"; };
-		B1C8BCC22F03096C00C3E709 /* ProblemDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProblemDetailView.swift; sourceTree = "<group>"; };
-		B1C8BCC32F03096C00C3E709 /* ProblemHeaderCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProblemHeaderCardView.swift; sourceTree = "<group>"; };
-		B1C8BCC52F03096C00C3E709 /* ProblemDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProblemDetailViewController.swift; sourceTree = "<group>"; };
 		B1C8BCCD2F04274600C3E709 /* MockDailyResultData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockDailyResultData.swift; sourceTree = "<group>"; };
 		B1C8BCD02F04316600C3E709 /* ProblemQuestionData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProblemQuestionData.swift; sourceTree = "<group>"; };
-		B1C8BCD22F0431E900C3E709 /* ProblemOptionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProblemOptionView.swift; sourceTree = "<group>"; };
-		B1C8BCD32F0431E900C3E709 /* ProblemQuestionSectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProblemQuestionSectionView.swift; sourceTree = "<group>"; };
 		B1D813702D6E0C1F00A9D447 /* HomeCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeCoordinator.swift; sourceTree = "<group>"; };
 		B1D813722D6E0CB200A9D447 /* ConceptBookCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConceptBookCoordinator.swift; sourceTree = "<group>"; };
-		B1D813742D6E0CC900A9D447 /* MistakeNoteCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MistakeNoteCoordinator.swift; sourceTree = "<group>"; };
 		B1D813762D6E0CD700A9D447 /* MyPageCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageCoordinator.swift; sourceTree = "<group>"; };
 		B1D813792D768D9B00A9D447 /* AppCoordinator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppCoordinator.swift; sourceTree = "<group>"; };
 		B1D9A0E62D3686BA00E84934 /* CountdownTimer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountdownTimer.swift; sourceTree = "<group>"; };
@@ -718,7 +752,7 @@
 				E29FE4042DBA39CE00DECB26 /* UserInfo */,
 				B190A2E62DC2A2EB008FDE86 /* ExamSchedule */,
 				B1D8137B2D76A18900A9D447 /* Auth */,
-				B143793B2F153E6600DAE842 /* MistakeNote */,
+				B1437B6A2F15940A00DAE842 /* MistakeNote */,
 				B138789D2DF71A0D009D041F /* MyPage */,
 				B17D6AB92D9141D80023FCA5 /* ErrorResponse.swift */,
 			);
@@ -735,6 +769,7 @@
 				E24CB1D72DBCA9E400D88451 /* Onboarding */,
 				E29FE40B2DBA3FA800DECB26 /* UserInfo */,
 				B1D8137C2D76A19500A9D447 /* Auth */,
+				B11C10842F1FE9DD00AB004B /* MistakeNote */,
 				B13878A02DF745F1009D041F /* MyPage */,
 			);
 			path = Service;
@@ -795,7 +830,7 @@
 				B18F45072D398D3C0030F7DB /* FindAccount */,
 				54DB0D972D0950A500ABD458 /* Home */,
 				B19C4FBA2D6B6C6B00CD008A /* ConceptBook */,
-				B19C4FBD2D6B6E2400CD008A /* MistakeNote */,
+				B1296F272F33355400252AD9 /* MistakeNote */,
 				B19C4FB72D6A927C00CD008A /* MyPage */,
 			);
 			path = Feature;
@@ -875,10 +910,124 @@
 			path = CommonViews;
 			sourceTree = "<group>";
 		};
-		B143793B2F153E6600DAE842 /* MistakeNote */ = {
+		B11C10842F1FE9DD00AB004B /* MistakeNote */ = {
 			isa = PBXGroup;
 			children = (
-				B143793C2F153E7800DAE842 /* CompletedDaysRequest.swift */,
+				B11C10832F1FE9DD00AB004B /* MistakeNoteService.swift */,
+			);
+			path = MistakeNote;
+			sourceTree = "<group>";
+		};
+		B1296F0C2F33355400252AD9 /* SubjectFilterSheet */ = {
+			isa = PBXGroup;
+			children = (
+				B1296F092F33355400252AD9 /* FilterChip.swift */,
+				B1296F0A2F33355400252AD9 /* FilterSectionView.swift */,
+				B1296F0B2F33355400252AD9 /* SubjectFilterSheet.swift */,
+			);
+			path = SubjectFilterSheet;
+			sourceTree = "<group>";
+		};
+		B1296F132F33355400252AD9 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				B1296F0C2F33355400252AD9 /* SubjectFilterSheet */,
+				B1296F412F34882100252AD9 /* MistakeNoteNoRecordView.swift */,
+				B1296F3F2F34654B00252AD9 /* MistakeNoteEmptyView.swift */,
+				B1296F0D2F33355400252AD9 /* DaySelectDropdownButton.swift */,
+				B1296F0E2F33355400252AD9 /* FilterChipButton.swift */,
+				B1296F0F2F33355400252AD9 /* MistakeNoteMainView.swift */,
+				B1296F102F33355400252AD9 /* MistakeNoteQuestionCard.swift */,
+				B1296F112F33355400252AD9 /* MistakeNoteQuestionListView.swift */,
+				B1296F122F33355400252AD9 /* MistakeNoteTabSelector.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		B1296F152F33355400252AD9 /* ViewController */ = {
+			isa = PBXGroup;
+			children = (
+				B1296F142F33355400252AD9 /* MistakeNoteViewController.swift */,
+			);
+			path = ViewController;
+			sourceTree = "<group>";
+		};
+		B1296F172F33355400252AD9 /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				B1296F162F33355400252AD9 /* MistakeNoteListViewModel.swift */,
+				B1296F432F3735F600252AD9 /* SubjectFilterSheetViewModel.swift */,
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		B1296F182F33355400252AD9 /* MistakeNoteList */ = {
+			isa = PBXGroup;
+			children = (
+				B1296F132F33355400252AD9 /* View */,
+				B1296F152F33355400252AD9 /* ViewController */,
+				B1296F172F33355400252AD9 /* ViewModel */,
+			);
+			path = MistakeNoteList;
+			sourceTree = "<group>";
+		};
+		B1296F202F33355400252AD9 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				B1296F192F33355400252AD9 /* ProblemDetailView.swift */,
+				B1296F1A2F33355400252AD9 /* ProblemHeaderCardView.swift */,
+				B1296F1B2F33355400252AD9 /* ProblemKeyConceptsView.swift */,
+				B1296F1C2F33355400252AD9 /* ProblemOptionView.swift */,
+				B1296F1D2F33355400252AD9 /* ProblemQuestionSectionView.swift */,
+				B1296F1E2F33355400252AD9 /* ProblemResultView.swift */,
+				B1296F1F2F33355400252AD9 /* ProblemSolutionView.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		B1296F222F33355400252AD9 /* ViewController */ = {
+			isa = PBXGroup;
+			children = (
+				B1296F212F33355400252AD9 /* ProblemDetailViewController.swift */,
+			);
+			path = ViewController;
+			sourceTree = "<group>";
+		};
+		B1296F242F33355400252AD9 /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				B1296F232F33355400252AD9 /* ProblemDetailViewModel.swift */,
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		B1296F252F33355400252AD9 /* ProblemExplanation */ = {
+			isa = PBXGroup;
+			children = (
+				B1296F202F33355400252AD9 /* View */,
+				B1296F222F33355400252AD9 /* ViewController */,
+				B1296F242F33355400252AD9 /* ViewModel */,
+			);
+			path = ProblemExplanation;
+			sourceTree = "<group>";
+		};
+		B1296F272F33355400252AD9 /* MistakeNote */ = {
+			isa = PBXGroup;
+			children = (
+				B1296F182F33355400252AD9 /* MistakeNoteList */,
+				B1296F252F33355400252AD9 /* ProblemExplanation */,
+				B1296F262F33355400252AD9 /* MistakeNoteCoordinator.swift */,
+			);
+			path = MistakeNote;
+			sourceTree = "<group>";
+		};
+		B1437B6A2F15940A00DAE842 /* MistakeNote */ = {
+			isa = PBXGroup;
+			children = (
+				B1437B682F15940A00DAE842 /* CompletedDaysRequest.swift */,
+				B1437B692F15940A00DAE842 /* CompletedExamSessionsRequest.swift */,
+				B11C10812F1FE5CF00AB004B /* ClipsRequest.swift */,
+				B11C108C2F29B2C400AB004B /* ClipDetailRequest.swift */,
 			);
 			path = MistakeNote;
 			sourceTree = "<group>";
@@ -1146,16 +1295,6 @@
 			path = ConceptBook;
 			sourceTree = "<group>";
 		};
-		B19C4FBD2D6B6E2400CD008A /* MistakeNote */ = {
-			isa = PBXGroup;
-			children = (
-				B19C4FBE2D6B6E3400CD008A /* MistakeNoteViewController.swift */,
-				B1D813742D6E0CC900A9D447 /* MistakeNoteCoordinator.swift */,
-				B1C8BCC82F03096C00C3E709 /* ProblemExplanation */,
-			);
-			path = MistakeNote;
-			sourceTree = "<group>";
-		};
 		B19C4FC32D6C223E00CD008A /* TabBar */ = {
 			isa = PBXGroup;
 			children = (
@@ -1172,46 +1311,6 @@
 				B1C8BCCD2F04274600C3E709 /* MockDailyResultData.swift */,
 			);
 			path = ProblemDetail;
-			sourceTree = "<group>";
-		};
-		B1C8BCC42F03096C00C3E709 /* View */ = {
-			isa = PBXGroup;
-			children = (
-				B1C8BCC32F03096C00C3E709 /* ProblemHeaderCardView.swift */,
-				B1C8BCD22F0431E900C3E709 /* ProblemOptionView.swift */,
-				B1C8BCD32F0431E900C3E709 /* ProblemQuestionSectionView.swift */,
-				B1561C482F0541E300DEFC00 /* ProblemResultView.swift */,
-				B1561C4A2F06584800DEFC00 /* ProblemSolutionView.swift */,
-				B1561C4E2F06D37800DEFC00 /* ProblemKeyConceptsView.swift */,
-				B1C8BCC22F03096C00C3E709 /* ProblemDetailView.swift */,
-			);
-			path = View;
-			sourceTree = "<group>";
-		};
-		B1C8BCC62F03096C00C3E709 /* ViewController */ = {
-			isa = PBXGroup;
-			children = (
-				B1C8BCC52F03096C00C3E709 /* ProblemDetailViewController.swift */,
-			);
-			path = ViewController;
-			sourceTree = "<group>";
-		};
-		B1C8BCC72F03096C00C3E709 /* ViewModel */ = {
-			isa = PBXGroup;
-			children = (
-				B1561C522F0816DE00DEFC00 /* ProblemDetailViewModel.swift */,
-			);
-			path = ViewModel;
-			sourceTree = "<group>";
-		};
-		B1C8BCC82F03096C00C3E709 /* ProblemExplanation */ = {
-			isa = PBXGroup;
-			children = (
-				B1C8BCC42F03096C00C3E709 /* View */,
-				B1C8BCC62F03096C00C3E709 /* ViewController */,
-				B1C8BCC72F03096C00C3E709 /* ViewModel */,
-			);
-			path = ProblemExplanation;
 			sourceTree = "<group>";
 		};
 		B1D813782D768D3D00A9D447 /* Coordinator */ = {
@@ -2224,6 +2323,8 @@
 				E2A6C1452DC4CE110059F960 /* ExamListRequest.swift in Sources */,
 				B15109872E06CDBD00657506 /* AccountRecoveryCoordinator.swift in Sources */,
 				E2A6C14C2DC5E33F0059F960 /* TestSubmitRequest.swift in Sources */,
+				B1437B6B2F15940A00DAE842 /* CompletedDaysRequest.swift in Sources */,
+				B1437B6C2F15940A00DAE842 /* CompletedExamSessionsRequest.swift in Sources */,
 				B18CDF732DD3066E00DD361A /* TermsAgreementHeaderView.swift in Sources */,
 				E25F94CB2D0CB1DB00BA765F /* OnboardingTitleLabel.swift in Sources */,
 				B16288242D2E8914008057D0 /* IDInputViewModel.swift in Sources */,
@@ -2231,8 +2332,6 @@
 				B1C8B90C2EFF2A6500C3E709 /* NavigationGuard.swift in Sources */,
 				B1151FD72E64A1DD00C1F720 /* SocialLoginType.swift in Sources */,
 				E25F94D12D0CB74700BA765F /* OnboardingButton.swift in Sources */,
-				B1C8BCD42F0431E900C3E709 /* ProblemOptionView.swift in Sources */,
-				B1C8BCD52F0431E900C3E709 /* ProblemQuestionSectionView.swift in Sources */,
 				E25AB8082DC0CB2C00E7A7E3 /* DailySubmitRequest.swift in Sources */,
 				E25907CC2D8328FC0093121C /* PreviewResultView.swift in Sources */,
 				B16288222D2E3CAB008057D0 /* UINavigationBar+.swift in Sources */,
@@ -2244,18 +2343,15 @@
 				B168B7602D28073C0000F32E /* SignUpHeaderView.swift in Sources */,
 				B16774D52D8959B3001820F3 /* FindIDRequest.swift in Sources */,
 				B168B7712D28276F0000F32E /* IDInputView.swift in Sources */,
-				B1561C532F0816DE00DEFC00 /* ProblemDetailViewModel.swift in Sources */,
 				E25F335F2DAFC222002347D4 /* DailyResultScoreView.swift in Sources */,
 				B1510DBB2E11B2E800657506 /* DashedLineView.swift in Sources */,
 				B19C4F6D2D5262D900CD008A /* Combine+.swift in Sources */,
 				B18F452C2D4D5CF00030F7DB /* ResetPasswordViewModel.swift in Sources */,
-				B1561C4B2F06584800DEFC00 /* ProblemSolutionView.swift in Sources */,
 				E22341AD2DD4C35D00A67D04 /* ExamSummaryViewController.swift in Sources */,
 				B17D6AD92D97FE450023FCA5 /* LoginService.swift in Sources */,
 				B1510DB22E0A92C400657506 /* DailyPlanRequest.swift in Sources */,
 				54C7A3102D146190001175D9 /* LoginViewController.swift in Sources */,
 				E29CCD3C2D298656004AA30A /* PreviewResultBarGraphsView.swift in Sources */,
-				B19C4FBF2D6B6E3400CD008A /* MistakeNoteViewController.swift in Sources */,
 				B16774DD2D89F6C6001820F3 /* VerifyPasswordResetRequest.swift in Sources */,
 				B18CDBF92DCCF8C700DD361A /* Date+.swift in Sources */,
 				54DB0DA12D0951C000ABD458 /* Font+.swift in Sources */,
@@ -2271,6 +2367,7 @@
 				B1386C6E2DF0C787009D041F /* CardBackgroundView.swift in Sources */,
 				B181C4F42E5317D60086B037 /* SocialLoginService.swift in Sources */,
 				541878572D0E22700089F478 /* NetworkError.swift in Sources */,
+				B1296F402F34654B00252AD9 /* MistakeNoteEmptyView.swift in Sources */,
 				B15109832E04DFA400657506 /* ChangePasswordMainView.swift in Sources */,
 				E2A6C6762DCA45970059F960 /* ExamResultRequest.swift in Sources */,
 				E29CCD522D299AD5004AA30A /* PreviewResultIncorrectConceptsRankView.swift in Sources */,
@@ -2312,12 +2409,35 @@
 				E2A6C0802DBB61890059F960 /* PreviewSubmitRequest.swift in Sources */,
 				E217C3692D9BF0B20095A3D8 /* DailyResultViewModel.swift in Sources */,
 				B18CDF792DD5DF9800DD361A /* TermsAgreementModalViewModel.swift in Sources */,
+				B1296F282F33355400252AD9 /* ProblemHeaderCardView.swift in Sources */,
+				B1296F292F33355400252AD9 /* MistakeNoteMainView.swift in Sources */,
+				B1296F2A2F33355400252AD9 /* FilterChip.swift in Sources */,
+				B1296F2B2F33355400252AD9 /* MistakeNoteCoordinator.swift in Sources */,
+				B1296F2C2F33355400252AD9 /* SubjectFilterSheet.swift in Sources */,
+				B1296F2D2F33355400252AD9 /* ProblemKeyConceptsView.swift in Sources */,
+				B1296F2E2F33355400252AD9 /* MistakeNoteTabSelector.swift in Sources */,
+				B1296F2F2F33355400252AD9 /* DaySelectDropdownButton.swift in Sources */,
+				B1296F302F33355400252AD9 /* MistakeNoteListViewModel.swift in Sources */,
+				B1296F312F33355400252AD9 /* ProblemDetailViewModel.swift in Sources */,
+				B1296F322F33355400252AD9 /* FilterSectionView.swift in Sources */,
+				B1296F332F33355400252AD9 /* ProblemResultView.swift in Sources */,
+				B1296F342F33355400252AD9 /* FilterChipButton.swift in Sources */,
+				B1296F352F33355400252AD9 /* MistakeNoteQuestionCard.swift in Sources */,
+				B1296F362F33355400252AD9 /* MistakeNoteViewController.swift in Sources */,
+				B1296F372F33355400252AD9 /* ProblemSolutionView.swift in Sources */,
+				B1296F382F33355400252AD9 /* MistakeNoteQuestionListView.swift in Sources */,
+				B1296F392F33355400252AD9 /* ProblemDetailViewController.swift in Sources */,
+				B1296F3A2F33355400252AD9 /* ProblemOptionView.swift in Sources */,
+				B1296F3B2F33355400252AD9 /* ProblemQuestionSectionView.swift in Sources */,
+				B1296F3C2F33355400252AD9 /* ProblemDetailView.swift in Sources */,
 				B168B75F2D28073C0000F32E /* SignUpFooterView.swift in Sources */,
+				B1296F422F34882100252AD9 /* MistakeNoteNoRecordView.swift in Sources */,
 				B162881C2D2CFC63008057D0 /* UIView+.swift in Sources */,
 				E27E54A92D6D74C500BF3B55 /* CheckListFoldButton.swift in Sources */,
 				B18F45122D3A26520030F7DB /* FindIDInputView.swift in Sources */,
 				E22341AF2DD4C5B000A67D04 /* ExamSummaryViewModel.swift in Sources */,
 				541878542D0E21620089F478 /* HTTPMethod.swift in Sources */,
+				B1296F442F3735F600252AD9 /* SubjectFilterSheetViewModel.swift in Sources */,
 				E211AE032DE47D4D00AB24FE /* ExamResultScoreView.swift in Sources */,
 				B11EC5AB2EC1B11700DCE8C5 /* RefreshTokenRequest.swift in Sources */,
 				B1C8BCCF2F04274600C3E709 /* MockDailyResultData.swift in Sources */,
@@ -2338,6 +2458,7 @@
 				E211ADFA2DE467A000AB24FE /* ExamResultViewController.swift in Sources */,
 				E24CB1D92DBCAA3700D88451 /* OnboardingService.swift in Sources */,
 				54BC61592D1823F50094DC45 /* SocialLoginView.swift in Sources */,
+				B11C10852F1FE9DD00AB004B /* MistakeNoteService.swift in Sources */,
 				E29FE40A2DBA3F2900DECB26 /* UserInfoManager.swift in Sources */,
 				B18F451A2D4139B00030F7DB /* UILabel+.swift in Sources */,
 				E278431F2DDE0E4000E9AD07 /* ExamTestViewModel.swift in Sources */,
@@ -2352,7 +2473,6 @@
 				E25F33612DAFC30B002347D4 /* TestResultGradesListView.swift in Sources */,
 				E211AE072DE48FE700AB24FE /* ExamScoresGraphView.swift in Sources */,
 				B151097F2E04DF0900657506 /* ChangePasswordViewController.swift in Sources */,
-				B143793D2F153E7800DAE842 /* CompletedDaysRequest.swift in Sources */,
 				E25856D42D0D766900355667 /* CheckConceptViewController.swift in Sources */,
 				B18F451C2D441E150030F7DB /* FindPasswordVerificationViewController.swift in Sources */,
 				E25F94C82D0CAF1B00BA765F /* BeginPreviewTestViewController.swift in Sources */,
@@ -2406,9 +2526,6 @@
 				B18CDF712DD3001B00DD361A /* TermsAgreementModalMainView.swift in Sources */,
 				E29CCD2D2D29855B004AA30A /* TestPageIndicatorLabel.swift in Sources */,
 				E2939CA32D9D605C00F7E704 /* TestContentsView.swift in Sources */,
-				B1C8BCC92F03096C00C3E709 /* ProblemHeaderCardView.swift in Sources */,
-				B1C8BCCA2F03096C00C3E709 /* ProblemDetailViewController.swift in Sources */,
-				B1C8BCCB2F03096C00C3E709 /* ProblemDetailView.swift in Sources */,
 				E24CB16A2DB5373900D88451 /* ResultDetailScoreView.swift in Sources */,
 				E25856DE2D0DADD300355667 /* BeginOnboardingViewModel.swift in Sources */,
 				E27843212DDE13B600E9AD07 /* ExamTestViewController.swift in Sources */,
@@ -2422,7 +2539,6 @@
 				B151082B2DFFEA8C00657506 /* MyPageViewController.swift in Sources */,
 				B151082C2DFFEA8C00657506 /* SettingsViewController.swift in Sources */,
 				E217C36B2D9BF0C30095A3D8 /* DailyResultViewController.swift in Sources */,
-				B1561C4F2F06D37800DEFC00 /* ProblemKeyConceptsView.swift in Sources */,
 				B190A2E42DC0E023008FDE86 /* RoundBoxLabel.swift in Sources */,
 				E24907D32D619F39004D6E61 /* DailyLearnViewModel.swift in Sources */,
 				E211AE012DE47B2900AB24FE /* ExamResultView.swift in Sources */,
@@ -2444,6 +2560,7 @@
 				B151083E2DFFEB2700657506 /* MyPageSection.swift in Sources */,
 				B151083F2DFFEB2700657506 /* ProfileCell.swift in Sources */,
 				B15108402DFFEB2700657506 /* QuickActionsCell.swift in Sources */,
+				B11C10822F1FE5CF00AB004B /* ClipsRequest.swift in Sources */,
 				B15108412DFFEB2700657506 /* SupportMenuCell.swift in Sources */,
 				B15108422DFFEB2700657506 /* ProfileHeaderView.swift in Sources */,
 				B15108432DFFEB2700657506 /* SettingsOptionView.swift in Sources */,
@@ -2453,6 +2570,7 @@
 				B15108462DFFEB2700657506 /* SettingsMainView.swift in Sources */,
 				B16288182D2CDB85008057D0 /* NameInputViewModel.swift in Sources */,
 				E28A93852D945F95006A15DB /* StudyContentCell.swift in Sources */,
+				B11C108D2F29B2C400AB004B /* ClipDetailRequest.swift in Sources */,
 				B168B7632D28073C0000F32E /* NameInputMainView.swift in Sources */,
 				E24CB1DB2DBCB40200D88451 /* TestSubmitData.swift in Sources */,
 				E217C3702D9BF2860095A3D8 /* DailyTestFooterView.swift in Sources */,
@@ -2464,11 +2582,9 @@
 				E2908E6B2DB3B55700B8E81B /* ResultDetailHostingController.swift in Sources */,
 				B19C4F6B2D5260DD00CD008A /* UIControl+.swift in Sources */,
 				B13045262DD9F9AD0036EBE2 /* TermsDetailMainView.swift in Sources */,
-				B1D813752D6E0CC900A9D447 /* MistakeNoteCoordinator.swift in Sources */,
 				B168B7752D2846DD0000F32E /* PasswordInputMainView.swift in Sources */,
 				B16288202D2E2595008057D0 /* SignUpVerificationViewModel.swift in Sources */,
 				B17FE3082D27F87E002EC7D7 /* String+.swift in Sources */,
-				B1561C492F0541E300DEFC00 /* ProblemResultView.swift in Sources */,
 				B19C4FA92D5D182600CD008A /* EmailVerificationViewModel.swift in Sources */,
 				B168B7612D28073C0000F32E /* SingleInputView.swift in Sources */,
 				54C7A3162D14A5A6001175D9 /* LoginLogoView.swift in Sources */,
@@ -2670,12 +2786,12 @@
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
-				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0.2;
+				MARKETING_VERSION = 1.1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.ksh.qriz;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -2706,12 +2822,12 @@
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
-				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0.2;
+				MARKETING_VERSION = 1.1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.ksh.qriz;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";

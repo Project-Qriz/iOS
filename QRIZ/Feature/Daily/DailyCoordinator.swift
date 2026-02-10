@@ -105,12 +105,14 @@ final class DailyCoordinatorImpl: DailyCoordinator, NavigationGuard {
     }
 
     func showProblemExplanation(questionId: Int) {
-        guardNavigation {
-            let viewModel = ProblemDetailViewModel(
-                service: service,
-                questionId: questionId,
-                dayNumber: day
-            )
+        guardNavigation { [service, day] in
+            let viewModel = ProblemDetailViewModel {
+                let response = try await service.getDailyResultDetail(
+                    dayNumber: day,
+                    questionId: questionId
+                )
+                return response.data
+            }
             let vc = ProblemDetailViewController(viewModel: viewModel)
             vc.coordinator = self
             navigationController.pushViewController(vc, animated: true)

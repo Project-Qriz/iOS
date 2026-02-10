@@ -14,6 +14,7 @@ final class ProblemDetailViewModel: ObservableObject {
     // MARK: - Input & Output
     enum Input {
         case viewDidLoad
+        case retry
         case learnButtonTapped
         case conceptTapped(concept: String)
     }
@@ -29,17 +30,13 @@ final class ProblemDetailViewModel: ObservableObject {
     @Published var errorMessage: String?
 
     // MARK: - Private Properties
-    private let service: DailyService
-    private let questionId: Int
-    private let dayNumber: Int
+    private let fetchDetail: () async throws -> DailyResultDetail
     private var cancellables = Set<AnyCancellable>()
     private let output: PassthroughSubject<Output, Never> = .init()
 
     // MARK: - Initializers
-    init(service: DailyService, questionId: Int, dayNumber: Int) {
-        self.service = service
-        self.questionId = questionId
-        self.dayNumber = dayNumber
+    init(fetchDetail: @escaping () async throws -> DailyResultDetail) {
+        self.fetchDetail = fetchDetail
     }
 
     // MARK: - Methods
@@ -47,7 +44,7 @@ final class ProblemDetailViewModel: ObservableObject {
         input.sink { [weak self] event in
             guard let self = self else { return }
             switch event {
-            case .viewDidLoad:
+            case .viewDidLoad, .retry:
                 Task { await self.fetchProblemDetail() }
             case .learnButtonTapped:
                 output.send(.navigateToConceptTab)
@@ -90,16 +87,12 @@ final class ProblemDetailViewModel: ObservableObject {
         return nil
     }
 
-    func fetchProblemDetail() async {
+    private func fetchProblemDetail() async {
         isLoading = true
         errorMessage = nil
 
         do {
-            let response = try await service.getDailyResultDetail(
-                dayNumber: dayNumber,
-                questionId: questionId
-            )
-            problemDetail = response.data
+            problemDetail = try await fetchDetail()
         } catch {
             errorMessage = "문제 정보를 불러오는데 실패했습니다."
             print("Failed to load problem detail: \(error)")
