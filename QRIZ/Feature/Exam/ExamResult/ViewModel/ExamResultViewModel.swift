@@ -16,6 +16,7 @@ final class ExamResultViewModel {
         case cancelButtonClicked
         case moveToConceptButtonClicked
         case resultDetailButtonClicked
+        case problemTapped(questionId: Int)
     }
     
     enum Output {
@@ -23,6 +24,7 @@ final class ExamResultViewModel {
         case moveToExamList
         case moveToConcept
         case moveToResultDetail
+        case showProblemDetail(questionId: Int)
     }
     
     // MARK: - Properties
@@ -67,6 +69,8 @@ final class ExamResultViewModel {
                 output.send(.moveToConcept)
             case .resultDetailButtonClicked:
                 output.send(.moveToResultDetail)
+            case .problemTapped(let questionId):
+                output.send(.showProblemDetail(questionId: questionId))
             }
         }
         .store(in: &subscriptions)

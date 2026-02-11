@@ -288,6 +288,7 @@
 		E2A6C14C2DC5E33F0059F960 /* TestSubmitRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2A6C14B2DC5E33F0059F960 /* TestSubmitRequest.swift */; };
 		E2A6C3242DC610420059F960 /* ExamScoreRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2A6C3232DC610420059F960 /* ExamScoreRequest.swift */; };
 		E2A6C6762DCA45970059F960 /* ExamResultRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2A6C6752DCA45970059F960 /* ExamResultRequest.swift */; };
+		E2A6C6792DCA46A10059F960 /* ExamResultDetailRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2A6C6782DCA46A10059F960 /* ExamResultDetailRequest.swift */; };
 		E2A6C7352DCA4C850059F960 /* ExamService.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2A6C7342DCA4C850059F960 /* ExamService.swift */; };
 		E2C084BE2D89AF2C0096CE20 /* PreviewResultInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2C084BD2D89AF2C0096CE20 /* PreviewResultInfoView.swift */; };
 		E2C1016B2DF2E10200C3512E /* OnboardingCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2C1016A2DF2E10200C3512E /* OnboardingCoordinator.swift */; };
@@ -610,6 +611,7 @@
 		E2A6C14B2DC5E33F0059F960 /* TestSubmitRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestSubmitRequest.swift; sourceTree = "<group>"; };
 		E2A6C3232DC610420059F960 /* ExamScoreRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExamScoreRequest.swift; sourceTree = "<group>"; };
 		E2A6C6752DCA45970059F960 /* ExamResultRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExamResultRequest.swift; sourceTree = "<group>"; };
+		E2A6C6782DCA46A10059F960 /* ExamResultDetailRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExamResultDetailRequest.swift; sourceTree = "<group>"; };
 		E2A6C7342DCA4C850059F960 /* ExamService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExamService.swift; sourceTree = "<group>"; };
 		E2C084BD2D89AF2C0096CE20 /* PreviewResultInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreviewResultInfoView.swift; sourceTree = "<group>"; };
 		E2C1016A2DF2E10200C3512E /* OnboardingCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingCoordinator.swift; sourceTree = "<group>"; };
@@ -2104,6 +2106,7 @@
 				E2A6C14B2DC5E33F0059F960 /* TestSubmitRequest.swift */,
 				E2A6C3232DC610420059F960 /* ExamScoreRequest.swift */,
 				E2A6C6752DCA45970059F960 /* ExamResultRequest.swift */,
+				E2A6C6782DCA46A10059F960 /* ExamResultDetailRequest.swift */,
 			);
 			path = Exam;
 			sourceTree = "<group>";
@@ -2370,6 +2373,7 @@
 				B1296F402F34654B00252AD9 /* MistakeNoteEmptyView.swift in Sources */,
 				B15109832E04DFA400657506 /* ChangePasswordMainView.swift in Sources */,
 				E2A6C6762DCA45970059F960 /* ExamResultRequest.swift in Sources */,
+				E2A6C6792DCA46A10059F960 /* ExamResultDetailRequest.swift in Sources */,
 				E29CCD522D299AD5004AA30A /* PreviewResultIncorrectConceptsRankView.swift in Sources */,
 				E29CCD492D29867F004AA30A /* GreetingViewController.swift in Sources */,
 				B18CDF752DD425D100DD361A /* TermsAgreementAllView.swift in Sources */,
