@@ -16,30 +16,19 @@ final class ScoreGraphData: ObservableObject {
     @Published var indexedSubject1Scores: [IndexedGraphData] = []
     @Published var indexedSubject2Scores: [IndexedGraphData] = []
     
-    func convertGraphScoreData(_ historicalScores : [HistoricalScore]) {
-        if historicalScores.isEmpty { return }
-        historicalScores.forEach {
-            totalScores.append(GraphData(
-                date: $0.displayDate.graphDate,
-                score: $0.itemScores[0].score + $0.itemScores[1].score,
-                type: ""
-            ))
-            subject1Scores.append(GraphData(
-                date: $0.displayDate.graphDate,
-                score: $0.itemScores[0].score,
-                type: "1과목"
-            ))
-            subject2Scores.append(GraphData(
-                date: $0.displayDate.graphDate,
-                score: $0.itemScores[1].score,
-                type: "2과목"
-            ))
-        }
-        indexedSubject1Scores = subject1Scores.enumerated().map { idx, item in
-            IndexedGraphData(index: idx, date: item.date, score: item.score, type: "1과목")
-        }
-        indexedSubject2Scores = subject2Scores.enumerated().map { idx, item in
-            IndexedGraphData(index: idx, date: item.date, score: item.score, type: "2과목")
+    func convertGraphScoreData(_ historicalScores: [HistoricalScore]) {
+        guard !historicalScores.isEmpty else { return }
+
+        for (idx, score) in historicalScores.enumerated() {
+            let date = score.displayDate.graphDate
+            let score1 = score.itemScores[0].score
+            let score2 = score.itemScores[1].score
+
+            totalScores.append(GraphData(date: date, score: score1 + score2, type: ""))
+            subject1Scores.append(GraphData(date: date, score: score1, type: "1과목"))
+            subject2Scores.append(GraphData(date: date, score: score2, type: "2과목"))
+            indexedSubject1Scores.append(IndexedGraphData(index: idx, date: date, score: score1, type: "1과목"))
+            indexedSubject2Scores.append(IndexedGraphData(index: idx, date: date, score: score2, type: "2과목"))
         }
     }
     
