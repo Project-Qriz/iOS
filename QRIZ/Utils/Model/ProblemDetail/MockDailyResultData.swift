@@ -7,6 +7,7 @@
 
 import Foundation
 
+#if DEBUG
 enum MockDailyResultData {
 
     /// 정답 샘플
@@ -75,3 +76,4 @@ enum MockDailyResultData {
         keyConcepts: "조인"
     )
 }
+#endif
