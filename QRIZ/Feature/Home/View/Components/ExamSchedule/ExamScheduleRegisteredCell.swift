@@ -7,6 +7,7 @@
 
 import UIKit
 import Combine
+import QRIZUtils
 
 final class ExamScheduleRegisteredCell: UICollectionViewCell {
     

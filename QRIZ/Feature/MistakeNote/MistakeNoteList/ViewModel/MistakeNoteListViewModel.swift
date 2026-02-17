@@ -7,6 +7,7 @@
 
 import Foundation
 import Combine
+import QRIZUtils
 
 @MainActor
 final class MistakeNoteListViewModel: ObservableObject {
@@ -21,7 +22,7 @@ final class MistakeNoteListViewModel: ObservableObject {
         case questionTapped(MistakeNoteQuestion)
         case goToExamTapped
         case filterAllChanged(String)
-        case conceptFilterApplied(Set<String>, Subject?)
+        case conceptFilterApplied(Set<String>, QRIZUtils.Subject?)
         case resetConceptFilters
     }
 
@@ -50,7 +51,7 @@ final class MistakeNoteListViewModel: ObservableObject {
     // Filter
     @Published var filterAll: String = "모두"
     @Published var selectedConceptsFilter: Set<String> = []
-    @Published var selectedFilterSubject: Subject?
+    @Published var selectedFilterSubject: QRIZUtils.Subject?
 
     // MARK: - Computed Properties
 
@@ -152,7 +153,7 @@ final class MistakeNoteListViewModel: ObservableObject {
         return output.eraseToAnyPublisher()
     }
 
-    func hasFilterForSubject(_ subject: Subject) -> Bool {
+    func hasFilterForSubject(_ subject: QRIZUtils.Subject) -> Bool {
         guard !selectedConceptsFilter.isEmpty else { return false }
 
         let normalizedSelectedConcepts = Set(selectedConceptsFilter.map { normalizeConceptName($0) })

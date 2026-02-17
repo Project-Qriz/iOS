@@ -8,6 +8,7 @@
 import Foundation
 import Combine
 import OSLog
+import QRIZUtils
 
 final class ConceptPDFViewModel {
     
@@ -34,7 +35,7 @@ final class ConceptPDFViewModel {
                 guard let self = self else { return }
                 switch event {
                 case .viewDidLoad:
-                    let subjectName = Subject.from(chapter: chapter) == .one ? "1과목" : "2과목"
+                    let subjectName = QRIZUtils.Subject.from(chapter: chapter) == .one ? "1과목" : "2과목"
                     self.outputSubject.send(
                         .configureHeader(
                             subject: subjectName,

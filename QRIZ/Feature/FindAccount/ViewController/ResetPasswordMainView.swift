@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import QRIZUtils
 
 final class ResetPasswordMainView: UIView {
     

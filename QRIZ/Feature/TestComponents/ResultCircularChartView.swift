@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import QRIZUtils
 
 struct ResultCircularChartView: View {
     

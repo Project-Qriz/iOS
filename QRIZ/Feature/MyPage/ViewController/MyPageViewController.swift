@@ -41,7 +41,7 @@ final class MyPageViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         bind()
-        setNavigationBarTitle(title: Attributes.navigationTitle)
+        setNavigationBarTitle(title: Attributes.navigationTitle, textColor: .coolNeutral800)
         inputSubject.send(.viewDidLoad)
     }
     

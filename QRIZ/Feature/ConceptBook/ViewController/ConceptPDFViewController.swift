@@ -8,6 +8,7 @@
 import UIKit
 import Combine
 import PDFKit
+import QRIZUtils
 
 final class ConceptPDFViewController: UIViewController {
     
@@ -68,7 +69,7 @@ final class ConceptPDFViewController: UIViewController {
                 guard let self = self else { return }
                 switch output {
                 case .configureHeader(let subject, let chapterTitle, let conceptName):
-                    self.setNavigationBarTitle(title: conceptName)
+                    self.setNavigationBarTitle(title: conceptName, textColor: .coolNeutral800)
                     self.rootView.configHeader(subject: subject, chapter: chapterTitle)
                     
                 case .pdfLoaded(let data):

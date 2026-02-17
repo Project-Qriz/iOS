@@ -48,7 +48,7 @@ final class ChangePasswordViewController: UIViewController {
         super.viewDidLoad()
         bind()
         observe()
-        setNavigationBarTitle(title: Attributes.navigationTitle)
+        setNavigationBarTitle(title: Attributes.navigationTitle, textColor: .coolNeutral800)
     }
     
     deinit {

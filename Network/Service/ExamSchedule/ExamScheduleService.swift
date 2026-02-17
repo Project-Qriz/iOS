@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import QRIZUtils
 
 protocol ExamScheduleService {
     /// 등록된 시험 조회

@@ -7,6 +7,7 @@
 
 import UIKit
 import Combine
+import QRIZUtils
 
 final class ConceptBookMainView: UIView {
     
@@ -87,7 +88,7 @@ final class ConceptBookMainView: UIView {
         self.backgroundColor = .white
     }
     
-    func configure(with subjects: [Subject]) {
+    func configure(with subjects: [QRIZUtils.Subject]) {
         guard subjects.count >= 2 else { return }
         configureSection(stackView: firstSubjectCardsHStackView, with: subjects[0].chapters)
         configureSection(stackView: secondSubjectCardsHStackView, with: subjects[1].chapters)

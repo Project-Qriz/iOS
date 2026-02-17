@@ -7,6 +7,7 @@
 
 import SwiftUI
 import Charts
+import QRIZUtils
 
 struct ExamScoresGraphView: View {
     

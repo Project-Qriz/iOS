@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import QRIZUtils
 
 protocol ExamService {
     func getExamList(filterType: ExamListFilterType) async throws -> ExamListResponse

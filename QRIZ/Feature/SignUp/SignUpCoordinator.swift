@@ -7,6 +7,7 @@
 
 import UIKit
 import Combine
+import QRIZUtils
 
 @MainActor
 protocol SignUpCoordinator: Coordinator {

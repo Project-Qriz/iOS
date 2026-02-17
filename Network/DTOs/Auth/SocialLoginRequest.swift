@@ -20,6 +20,7 @@
 
 
 import Foundation
+import QRIZUtils
 
 struct SocialLoginRequest: Request {
     typealias Response = SocialLoginResponse

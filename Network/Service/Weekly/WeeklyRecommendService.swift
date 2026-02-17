@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import QRIZUtils
 
 protocol WeeklyRecommendService {
     /// 주간 추천 개념 조회

@@ -6,6 +6,7 @@
 //
 
 import Combine
+import QRIZUtils
 
 @MainActor
 final class SplashViewModel {
@@ -50,7 +51,8 @@ final class SplashViewModel {
     private func validateSession() async -> Bool {
         do {
             let response = try await userInfoService.getUserInfo()
-            UserInfoManager.shared.update(from: response.data)
+            let user = response.data
+            UserInfoManager.shared.update(name: user.name, userId: user.userId, email: user.email, previewTestStatus: user.previewTestStatus, provider: user.provider)
             return true
         } catch {
             keychain.deleteToken(forKey: HTTPHeaderField.accessToken.rawValue)

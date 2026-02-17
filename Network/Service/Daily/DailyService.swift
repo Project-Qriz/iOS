@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import QRIZUtils
 
 protocol DailyService {
     func getDailyDetailAndStatus(dayNumber: Int) async throws -> DailyDetailAndStatusResponse

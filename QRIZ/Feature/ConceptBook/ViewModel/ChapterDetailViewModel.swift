@@ -7,8 +7,7 @@
 
 import Foundation
 import Combine
-
-typealias ConceptItem = (title: String, fileName: String)
+import QRIZUtils
 
 final class ChapterDetailViewModel {
     

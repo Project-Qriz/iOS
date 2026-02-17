@@ -7,6 +7,7 @@
 
 import Foundation
 import Combine
+import QRIZUtils
 
 @MainActor
 final class ProblemDetailViewModel: ObservableObject {

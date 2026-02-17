@@ -7,6 +7,7 @@
 
 import Foundation
 import Combine
+import QRIZUtils
 
 final class GreetingViewModel {
     
@@ -65,7 +66,8 @@ final class GreetingViewModel {
             guard let self = self else { return }
             do {
                 let response = try await userInfoService.getUserInfo()
-                UserInfoManager.shared.update(from: response.data)
+                let user = response.data
+                UserInfoManager.shared.update(name: user.name, userId: user.userId, email: user.email, previewTestStatus: user.previewTestStatus, provider: user.provider)
             } catch {
                 output.send(.fetchFailed)
             }

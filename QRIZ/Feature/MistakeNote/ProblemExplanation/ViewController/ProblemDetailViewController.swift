@@ -8,6 +8,7 @@
 import UIKit
 import SwiftUI
 import Combine
+import QRIZUtils
 
 @MainActor
 protocol ProblemDetailCoordinating: AnyObject {

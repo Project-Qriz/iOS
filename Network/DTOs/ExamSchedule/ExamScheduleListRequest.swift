@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import QRIZUtils
 
 struct ExamScheduleListRequest: Request {
     typealias Response = ExamScheduleListResponse

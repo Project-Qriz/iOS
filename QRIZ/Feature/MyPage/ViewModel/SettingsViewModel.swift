@@ -7,6 +7,7 @@
 
 import Foundation
 import Combine
+import QRIZUtils
 
 enum SettingsOption: String, CaseIterable {
     case resetPassword = "비밀번호 재설정"
