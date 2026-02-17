@@ -48,7 +48,7 @@ final class ResetPasswordMainView: UIView {
         self.backgroundColor = .white
         findAccountHeaderView.configure(
             title: FindAccountType.resetPassword.headerTitle,
-            description: UILabel.setLineSpacing(8, text: FindAccountType.resetPassword.headerDescription)
+            description: NSAttributedString(text: FindAccountType.resetPassword.headerDescription, lineSpacing: 8)
         )
         signUpFooterView.configure(buttonTitle: Attributes.buttonTitle)
         signUpFooterView.updateButtonState(isValid: false)

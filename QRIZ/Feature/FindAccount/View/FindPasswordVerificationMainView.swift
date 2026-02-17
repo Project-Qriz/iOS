@@ -48,7 +48,7 @@ final class FindPasswordVerificationMainView: UIView {
         self.backgroundColor = .white
         findAccountHeaderView.configure(
             title: FindAccountType.findPassword.headerTitle,
-            description: UILabel.setLineSpacing(8, text: FindAccountType.findPassword.headerDescription)
+            description: NSAttributedString(text: FindAccountType.findPassword.headerDescription, lineSpacing: 8)
         )
         signUpFooterView.configure(buttonTitle: Attributes.buttonTitle)
         signUpFooterView.updateButtonState(isValid: false)

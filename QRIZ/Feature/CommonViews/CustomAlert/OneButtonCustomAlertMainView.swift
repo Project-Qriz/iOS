@@ -87,7 +87,7 @@ final class OneButtonCustomAlertMainView: UIView {
     
     func config(title: String, description: String? = nil) {
         titleLabel.text = title
-        descriptionLabel.attributedText = UILabel.setLineSpacing(4, text: description ?? "")
+        descriptionLabel.attributedText = NSAttributedString(text: description ?? "", lineSpacing: 4)
     }
 }
 
