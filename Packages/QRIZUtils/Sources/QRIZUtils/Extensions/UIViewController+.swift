@@ -41,7 +41,7 @@ public extension UIViewController {
     }
 
     // 키보드가 나타날 때 호출되는 메서드
-    internal func keyboardWillShow(notification: Notification, for viewToMove: UIView) {
+    private func keyboardWillShow(notification: Notification, for viewToMove: UIView) {
         guard let userInfo = notification.userInfo,
               let keyboardFrame = userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? CGRect,
               let animationDuration = userInfo[UIResponder.keyboardAnimationDurationUserInfoKey] as? Double else {
@@ -55,7 +55,7 @@ public extension UIViewController {
     }
 
     // 키보드가 사라질 때 호출되는 메서드
-    internal func keyboardWillHide(notification: Notification, for viewToMove: UIView) {
+    private func keyboardWillHide(notification: Notification, for viewToMove: UIView) {
         guard let userInfo = notification.userInfo,
               let animationDuration = userInfo[UIResponder.keyboardAnimationDurationUserInfoKey] as? Double else {
             return
