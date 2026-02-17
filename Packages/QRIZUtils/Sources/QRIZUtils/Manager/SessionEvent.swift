@@ -33,6 +33,6 @@ public final class SessionEventNotifierImpl: SessionEventNotifier {
     // MARK: - Functions
 
     public func notify(_ event: SessionEvent) {
-        return subject.send(event)
+        subject.send(event)
     }
 }
