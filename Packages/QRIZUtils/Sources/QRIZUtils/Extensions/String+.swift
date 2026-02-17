@@ -62,27 +62,36 @@ public extension String {
 }
 
 public extension String {
+
+    private static let graphDateFormatter: DateFormatter = {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "MM-dd"
+        return formatter
+    }()
+
+    private static let dDayDateFormatter: DateFormatter = {
+        let formatter = DateFormatter()
+        formatter.locale = Locale(identifier: "ko_KR")
+        formatter.timeZone = TimeZone(identifier: "Asia/Seoul")
+        formatter.dateFormat = "M월 d일"
+        return formatter
+    }()
+
     /// 모의고사 점수변동 그래프 Date
     var graphDate: Date {
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "MM-dd"
-        guard let date = dateFormatter.date(from: self) else {
+        guard let date = Self.graphDateFormatter.date(from: self) else {
             print("Failed to convert from String to GraphDate")
             return Date()
         }
         return date
     }
 
-    /// 월·일 형식의 문자열을 받아 오늘을 기준으로 해당 남짜와의 일수 차이를 계산해주는 프로퍼티입니다.
+    /// 월·일 형식의 문자열을 받아 오늘을 기준으로 해당 날짜와의 일수 차이를 계산해주는 프로퍼티입니다.
     /// - Format: `"M월 d일(요일)"` (예: `"3월 8일(토)"`)
     var dDay: Int {
         let trimmed = split(separator: "(").first.map(String.init) ?? self
-        let formatter = DateFormatter()
-        formatter.locale = Locale(identifier: "ko_KR")
-        formatter.timeZone = TimeZone(identifier: "Asia/Seoul")
-        formatter.dateFormat = "M월 d일"
 
-        guard let mdDate = formatter.date(from: trimmed) else { return 0 }
+        guard let mdDate = Self.dDayDateFormatter.date(from: trimmed) else { return 0 }
 
         var comps = Calendar.current.dateComponents([.year], from: Date())
         let mdComps = Calendar.current.dateComponents([.month, .day], from: mdDate)
