@@ -8,6 +8,13 @@
 import Foundation
 
 public extension Date {
+
+    private static let graphTextFormatter: DateFormatter = {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "MM.dd"
+        return formatter
+    }()
+
     /// `오늘의 날짜를 MM * 100 + dd 정수로 (5월 8일 → 508) 변환해주는 연산 프로퍼티입니다.`
     static var todayMonthDay: Int {
         let cal = Calendar.current
@@ -16,21 +23,6 @@ public extension Date {
 
     /// `점수 변동 그래프를 위한 날짜 변환기입니다.`
     var graphText: String {
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "MM.dd"
-        return dateFormatter.string(from: self)
+        Self.graphTextFormatter.string(from: self)
     }
-}
-
-/// `3월 8일(토) 형식의 날짜를 MM * 100 + dd 형태의 정수로 (예: 3월 8일 → 308) 변환해주는 연산 프로퍼티입니다.`
-public func monthDay(from str: String) -> Int? {
-    guard
-        let md = str.split(separator: "(").first,
-        let m = md.split(separator: "월").first,
-        let dS = md.split(separator: "월").last?
-            .replacingOccurrences(of: "일", with: "")
-            .trimmingCharacters(in: .whitespaces),
-        let month = Int(m), let day = Int(dS)
-    else { return nil }
-    return month * 100 + day
 }

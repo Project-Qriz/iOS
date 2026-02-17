@@ -105,4 +105,17 @@ public extension String {
         let today = Calendar.current.startOfDay(for: Date())
         return Calendar.current.dateComponents([.day], from: today, to: target).day ?? 0
     }
+
+    /// `3월 8일(토) 형식의 날짜를 MM * 100 + dd 형태의 정수로 (예: 3월 8일 → 308) 변환해주는 프로퍼티입니다.`
+    var monthDay: Int? {
+        guard
+            let md = split(separator: "(").first,
+            let m = md.split(separator: "월").first,
+            let dS = md.split(separator: "월").last?
+                .replacingOccurrences(of: "일", with: "")
+                .trimmingCharacters(in: .whitespaces),
+            let month = Int(m), let day = Int(dS)
+        else { return nil }
+        return month * 100 + day
+    }
 }
