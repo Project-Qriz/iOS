@@ -18,6 +18,10 @@ public final class CountdownTimer {
     private var timer: Timer?
     private let initialTime: Int
 
+    public var remainingTimePublisher: AnyPublisher<Int, Never> {
+        remainingTime.eraseToAnyPublisher()
+    }
+    
     // MARK: - Initialize
 
     public init(totalTime: Int) {
@@ -49,9 +53,5 @@ public final class CountdownTimer {
     public func reset() {
         stop()
         remainingTime.send(initialTime)
-    }
-
-    public func remainingTimePublisher() -> AnyPublisher<Int, Never> {
-        return remainingTime.eraseToAnyPublisher()
     }
 }
