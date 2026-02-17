@@ -43,10 +43,12 @@ extension Combine.Publishers.ControlEvent {
     private final class Subscription<S: Subscriber, Target: UIControl>: Combine.Subscription where S.Input == Void {
         private var subscriber: S?
         weak private var control: Target?
+        private let event: Target.Event
 
         init(subscriber: S, control: Target, event: Target.Event) {
             self.subscriber = subscriber
             self.control = control
+            self.event = event
             control.addTarget(self, action: #selector(processControlEvent), for: event)
         }
 
@@ -54,6 +56,7 @@ extension Combine.Publishers.ControlEvent {
         }
 
         func cancel() {
+            control?.removeTarget(self, action: #selector(processControlEvent), for: event)
             subscriber = nil
         }
 
