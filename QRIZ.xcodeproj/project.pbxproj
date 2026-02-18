@@ -116,6 +116,7 @@
 		B17FE30C2D27F931002EC7D7 /* CustomTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = B17FE30B2D27F931002EC7D7 /* CustomTextField.swift */; };
 		B181C4F42E5317D60086B037 /* SocialLoginService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B181C4F32E5317D60086B037 /* SocialLoginService.swift */; };
 		B181C4F62E5367250086B037 /* SocialLoginRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = B181C4F52E5367250086B037 /* SocialLoginRequest.swift */; };
+		B18CDE662F45AD2A00CB3AB4 /* QRIZUtils in Frameworks */ = {isa = PBXBuildFile; productRef = B18CDE652F45AD2A00CB3AB4 /* QRIZUtils */; };
 		B18CDF6F2DD2FF9500DD361A /* TermsAgreementModalViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B18CDF6E2DD2FF9500DD361A /* TermsAgreementModalViewController.swift */; };
 		B18CDF712DD3001B00DD361A /* TermsAgreementModalMainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B18CDF702DD3001B00DD361A /* TermsAgreementModalMainView.swift */; };
 		B18CDF732DD3066E00DD361A /* TermsAgreementHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B18CDF722DD3066E00DD361A /* TermsAgreementHeaderView.swift */; };
@@ -151,7 +152,6 @@
 		B1D813772D6E0CD700A9D447 /* MyPageCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1D813762D6E0CD700A9D447 /* MyPageCoordinator.swift */; };
 		B1D8137A2D768D9B00A9D447 /* AppCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1D813792D768D9B00A9D447 /* AppCoordinator.swift */; };
 		B1DC703A2DA94EEE0007D943 /* EmailAuthenticationRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1DC70392DA94EEE0007D943 /* EmailAuthenticationRequest.swift */; };
-		B1UTILS032F40000000000003 /* QRIZUtils in Frameworks */ = {isa = PBXBuildFile; productRef = B1UTILS022F40000000000002 /* QRIZUtils */; };
 		E211ADFA2DE467A000AB24FE /* ExamResultViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E211ADF92DE467A000AB24FE /* ExamResultViewController.swift */; };
 		E211ADFC2DE467B700AB24FE /* ExamResultViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E211ADFB2DE467B700AB24FE /* ExamResultViewModel.swift */; };
 		E211ADFE2DE47AED00AB24FE /* ExamResultHostingController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E211ADFD2DE47AED00AB24FE /* ExamResultHostingController.swift */; };
@@ -624,8 +624,8 @@
 				E292211E2E05478C00B6DC0D /* FirebaseAnalyticsWithoutAdIdSupport in Frameworks */,
 				B1B0BBBC2E769F510024F230 /* GoogleSignIn in Frameworks */,
 				B115FDC92E44F1AD00805522 /* KakaoSDK in Frameworks */,
+				B18CDE662F45AD2A00CB3AB4 /* QRIZUtils in Frameworks */,
 				B115FDCB2E44F1AD00805522 /* KakaoSDKAuth in Frameworks */,
-				B1UTILS032F40000000000003 /* QRIZUtils in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2031,7 +2031,7 @@
 				B1B0BBBB2E769F510024F230 /* GoogleSignIn */,
 				B1B0BBBD2E769F510024F230 /* GoogleSignInSwift */,
 				E292211D2E05478C00B6DC0D /* FirebaseAnalyticsWithoutAdIdSupport */,
-				B1UTILS022F40000000000002 /* QRIZUtils */,
+				B18CDE652F45AD2A00CB3AB4 /* QRIZUtils */,
 			);
 			productName = QRIZ;
 			productReference = E23963052D083B8F0092B39B /* QRIZ.app */;
@@ -2875,6 +2875,10 @@
 			package = B115FDC72E44F1AD00805522 /* XCRemoteSwiftPackageReference "kakao-ios-sdk" */;
 			productName = KakaoSDKAuth;
 		};
+		B18CDE652F45AD2A00CB3AB4 /* QRIZUtils */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = QRIZUtils;
+		};
 		B1B0BBBB2E769F510024F230 /* GoogleSignIn */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = B1B0BBBA2E769F510024F230 /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */;
@@ -2884,10 +2888,6 @@
 			isa = XCSwiftPackageProductDependency;
 			package = B1B0BBBA2E769F510024F230 /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */;
 			productName = GoogleSignInSwift;
-		};
-		B1UTILS022F40000000000002 /* QRIZUtils */ = {
-			isa = XCSwiftPackageProductDependency;
-			productName = QRIZUtils;
 		};
 		E292211D2E05478C00B6DC0D /* FirebaseAnalyticsWithoutAdIdSupport */ = {
 			isa = XCSwiftPackageProductDependency;
