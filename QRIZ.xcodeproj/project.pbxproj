@@ -432,6 +432,7 @@
 		B1D813762D6E0CD700A9D447 /* MyPageCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageCoordinator.swift; sourceTree = "<group>"; };
 		B1D813792D768D9B00A9D447 /* AppCoordinator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppCoordinator.swift; sourceTree = "<group>"; };
 		B1DC70392DA94EEE0007D943 /* EmailAuthenticationRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmailAuthenticationRequest.swift; sourceTree = "<group>"; };
+		B1DD53A52F45A85A00B60C85 /* QRIZUtils */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = QRIZUtils; sourceTree = "<group>"; };
 		E211ADF92DE467A000AB24FE /* ExamResultViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExamResultViewController.swift; sourceTree = "<group>"; };
 		E211ADFB2DE467B700AB24FE /* ExamResultViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExamResultViewModel.swift; sourceTree = "<group>"; };
 		E211ADFD2DE47AED00AB24FE /* ExamResultHostingController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExamResultHostingController.swift; sourceTree = "<group>"; };
@@ -1407,6 +1408,7 @@
 				E23963072D083B8F0092B39B /* QRIZ */,
 				E239631E2D083B910092B39B /* QRIZTests */,
 				E23963282D083B910092B39B /* QRIZUITests */,
+				B1DD53A52F45A85A00B60C85 /* QRIZUtils */,
 				E23963062D083B8F0092B39B /* Products */,
 			);
 			sourceTree = "<group>";
@@ -2133,7 +2135,6 @@
 				E292211C2E05478C00B6DC0D /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
 				B115FDC72E44F1AD00805522 /* XCRemoteSwiftPackageReference "kakao-ios-sdk" */,
 				B1B0BBBA2E769F510024F230 /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */,
-				B1UTILS012F40000000000001 /* XCLocalSwiftPackageReference "Packages/QRIZUtils" */,
 			);
 			productRefGroup = E23963062D083B8F0092B39B /* Products */;
 			projectDirPath = "";
@@ -2835,13 +2836,6 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
-
-/* Begin XCLocalSwiftPackageReference section */
-		B1UTILS012F40000000000001 /* XCLocalSwiftPackageReference "Packages/QRIZUtils" */ = {
-			isa = XCLocalSwiftPackageReference;
-			relativePath = Packages/QRIZUtils;
-		};
-/* End XCLocalSwiftPackageReference section */
 
 /* Begin XCRemoteSwiftPackageReference section */
 		B115FDC72E44F1AD00805522 /* XCRemoteSwiftPackageReference "kakao-ios-sdk" */ = {
