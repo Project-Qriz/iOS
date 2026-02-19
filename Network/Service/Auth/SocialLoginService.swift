@@ -10,6 +10,7 @@ import KakaoSDKAuth
 import KakaoSDKUser
 import GoogleSignIn
 import AuthenticationServices
+import QRIZUtils
 
 struct AppleLoginResult {
     let serverAuthCode: String // authorizationCode

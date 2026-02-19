@@ -37,7 +37,7 @@ final class ChangePasswordMainView: UIView {
     
     private let titleLabel: UILabel = {
         let label = UILabel()
-        label.attributedText = UILabel.setLineSpacing(8, text: Attributes.titleText)
+        label.attributedText = NSAttributedString(text: Attributes.titleText, lineSpacing: 8)
         label.font = .systemFont(ofSize: 20, weight: .bold)
         label.textColor = .coolNeutral800
         label.numberOfLines = 2

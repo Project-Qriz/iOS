@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import QRIZUtils
 
 protocol UserInfoService {
     func getUserInfo() async throws -> UserInfoResponse

@@ -49,6 +49,10 @@ xcuserdata/
 XCConfig/*
 *.xcconfig
 
+### Swift Package Manager ###
+.build/
+Packages/*/.build/
+
 ### Claude Code ###
 .claude/
 CLAUDE.md

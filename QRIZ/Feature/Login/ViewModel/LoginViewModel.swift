@@ -10,6 +10,7 @@ import Combine
 import os
 import AuthenticationServices
 import KakaoSDKCommon
+import QRIZUtils
 
 final class LoginViewModel {
     
@@ -95,7 +96,8 @@ final class LoginViewModel {
         Task {
             do {
                 let response = try await loginService.login(id: id, password: password)
-                UserInfoManager.shared.update(from: response.data.user)
+                let user = response.data.user
+                UserInfoManager.shared.update(name: user.name, userId: user.userId, email: user.email, previewTestStatus: user.previewTestStatus, provider: user.provider)
                 outputSubject.send(.loginSucceeded)
             } catch {
                 let title = "아이디 또는 비밀번호 확인"
@@ -116,7 +118,8 @@ final class LoginViewModel {
         Task {
             do {
                 let response = try await socialLoginService.loginWithKakao()
-                UserInfoManager.shared.update(from: response.data.user)
+                let user = response.data.user
+                UserInfoManager.shared.update(name: user.name, userId: user.userId, email: user.email, previewTestStatus: user.previewTestStatus, provider: user.provider)
                 outputSubject.send(.loginSucceeded)
             } catch {
                 if let sdkError = error as? KakaoSDKCommon.SdkError {
@@ -141,7 +144,8 @@ final class LoginViewModel {
         Task {
             do {
                 let response = try await socialLoginService.loginWithGoogle(presenting: presenting)
-                UserInfoManager.shared.update(from: response.data.user)
+                let user = response.data.user
+                UserInfoManager.shared.update(name: user.name, userId: user.userId, email: user.email, previewTestStatus: user.previewTestStatus, provider: user.provider)
                 outputSubject.send(.loginSucceeded)
             } catch {
                 if let nsError = error as NSError?,
@@ -161,7 +165,8 @@ final class LoginViewModel {
         Task {
             do {
                 let response = try await socialLoginService.loginWithApple(presenting: presenting)
-                UserInfoManager.shared.update(from: response.data.user)
+                let user = response.data.user
+                UserInfoManager.shared.update(name: user.name, userId: user.userId, email: user.email, previewTestStatus: user.previewTestStatus, provider: user.provider)
                 outputSubject.send(.loginSucceeded)
             } catch {
                 if let appleError = error as? ASAuthorizationError,

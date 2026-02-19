@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import QRIZUtils
 
 protocol OnboardingService {
     func sendSurvey(keyConcepts: [String]) async throws

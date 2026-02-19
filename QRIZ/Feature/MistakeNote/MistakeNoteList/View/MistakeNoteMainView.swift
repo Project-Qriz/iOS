@@ -7,6 +7,7 @@
 
 import SwiftUI
 import Combine
+import QRIZUtils
 
 struct MistakeNoteMainView: View {
 
@@ -19,7 +20,7 @@ struct MistakeNoteMainView: View {
     @State private var hasAppeared: Bool = false
     @State private var expandedFilter: FilterType? = nil
     @State private var showSubjectFilterSheet: Bool = false
-    @State private var sheetSubject: Subject = .one
+    @State private var sheetSubject: QRIZUtils.Subject = .one
 
     // MARK: - Initializer
 
@@ -222,7 +223,7 @@ private extension MistakeNoteMainView {
         }
     }
 
-    func subjectFilterButton(subject: Subject, title: String) -> some View {
+    func subjectFilterButton(subject: QRIZUtils.Subject, title: String) -> some View {
         let isActive = viewModel.hasFilterForSubject(subject)
 
         return Button {

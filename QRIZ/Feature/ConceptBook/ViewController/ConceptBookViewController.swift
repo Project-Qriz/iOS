@@ -7,6 +7,7 @@
 
 import UIKit
 import Combine
+import QRIZUtils
 
 final class ConceptBookViewController: UIViewController {
     
@@ -40,7 +41,7 @@ final class ConceptBookViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        setNavigationBarTitle(title: Attributes.navigationTitle)
+        setNavigationBarTitle(title: Attributes.navigationTitle, textColor: .coolNeutral800)
         bind()
         inputSubject.send(.viewDidLoad)
     }

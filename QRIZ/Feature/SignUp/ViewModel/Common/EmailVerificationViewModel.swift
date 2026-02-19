@@ -7,6 +7,7 @@
 
 import Foundation
 import Combine
+import QRIZUtils
 
 class EmailVerificationViewModel {
     
@@ -23,7 +24,7 @@ class EmailVerificationViewModel {
     init(totalTime: Int = 180) {
         self.countdownTimer = CountdownTimer(totalTime: totalTime)
         
-        countdownTimer.remainingTimePublisher()
+        countdownTimer.remainingTimePublisher
             .sink { [weak self] remainingTime in
                 guard let self else { return }
                 self.outputSubject.send(.updateRemainingTime(remainingTime))

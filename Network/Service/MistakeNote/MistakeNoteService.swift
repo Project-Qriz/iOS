@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import QRIZUtils
 
 protocol MistakeNoteService {
     /// 오답노트 문제 목록 조회

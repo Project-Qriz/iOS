@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import QRIZUtils
 
 /// 문제 섹션 데이터
 struct ProblemQuestionData {

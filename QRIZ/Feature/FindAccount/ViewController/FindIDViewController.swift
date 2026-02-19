@@ -7,6 +7,7 @@
 
 import UIKit
 import Combine
+import QRIZUtils
 
 final class FindIDViewController: UIViewController {
     
@@ -47,7 +48,7 @@ final class FindIDViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        setNavigationBarTitle(title: Attributes.navigationTitle)
+        setNavigationBarTitle(title: Attributes.navigationTitle, textColor: .coolNeutral800)
         bind()
         observe()
     }

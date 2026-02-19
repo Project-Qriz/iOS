@@ -7,12 +7,13 @@
 
 import Foundation
 import Combine
+import QRIZUtils
 
 final class ConceptBookViewModel {
     
     // MARK: - Properties
     
-    private let subjects: [Subject] = Subject.allCases
+    private let subjects: [QRIZUtils.Subject] = QRIZUtils.Subject.allCases
     private let outputSubject: PassthroughSubject<Output, Never> = .init()
     private var cancellables = Set<AnyCancellable>()
     
@@ -43,7 +44,7 @@ extension ConceptBookViewModel {
     }
     
     enum Output {
-        case subjectsLoaded([Subject])
+        case subjectsLoaded([QRIZUtils.Subject])
         case navigateToChapterDetailView(Chapter)
     }
 }

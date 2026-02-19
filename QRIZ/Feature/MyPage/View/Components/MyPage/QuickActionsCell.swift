@@ -41,7 +41,7 @@ final class QuickActionsCell: UICollectionViewCell {
     private lazy var resetPlanButton: UIButton = {
         let button = buildButton(title: Attributes.resetPlanText, image: .reset)
         button.layer.cornerRadius = 16.0
-        button.applyQRIZShadow(radius: 16.0)
+        button.applyQRIZShadow(radius: 16.0, color: .coolNeutral300)
         button.addAction(UIAction { [weak self] _ in
             self?.resetPlanTappedSubject.send()
         }, for: .touchUpInside)
@@ -51,7 +51,7 @@ final class QuickActionsCell: UICollectionViewCell {
     private lazy var registerExamButton: UIButton = {
         let button = buildButton(title: Attributes.registerExamText, image: .examRegister)
         button.layer.cornerRadius = 16.0
-        button.applyQRIZShadow(radius: 16.0)
+        button.applyQRIZShadow(radius: 16.0, color: .coolNeutral300)
         button.addAction(UIAction { [weak self] _ in
             self?.registerExamTappedSubject.send()
         }, for: .touchUpInside)
@@ -94,7 +94,7 @@ final class QuickActionsCell: UICollectionViewCell {
         let button = UIButton(configuration: config)
         button.backgroundColor = .white
         button.layer.cornerRadius = 16
-        button.applyQRIZShadow(radius: 16)
+        button.applyQRIZShadow(radius: 16, color: .coolNeutral300)
         return button
     }
 }

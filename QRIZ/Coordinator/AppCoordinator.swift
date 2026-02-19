@@ -7,6 +7,7 @@
 
 import UIKit
 import Combine
+import QRIZUtils
 
 @MainActor
 protocol Coordinator: AnyObject {
@@ -119,7 +120,10 @@ final class AppCoordinatorImpl: AppCoordinator {
     }
     
     func start() -> UIViewController {
-        _ = UINavigationBar.defaultBackButtonStyle()
+        let appearance = UINavigationBar.defaultBackButtonStyle()
+        UINavigationBar.appearance().standardAppearance = appearance
+        UINavigationBar.appearance().compactAppearance = appearance
+        UINavigationBar.appearance().scrollEdgeAppearance = appearance
         return showSplash()
     }
     

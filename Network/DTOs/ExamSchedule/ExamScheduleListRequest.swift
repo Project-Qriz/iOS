@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import QRIZUtils
 
 struct ExamScheduleListRequest: Request {
     typealias Response = ExamScheduleListResponse
@@ -48,7 +49,7 @@ extension ExamScheduleListResponse {
         let todayMD = Date.todayMonthDay
         
         return data.applications.map { info in
-            let examMD = monthDay(from: info.examDate) ?? .max
+            let examMD = info.examDate.monthDay ?? .max
             return ExamRowState(
                 id:         info.applicationId,
                 examName:   info.examName,

@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import QRIZUtils
 
 struct PreviewSubmitRequest: Request {
     

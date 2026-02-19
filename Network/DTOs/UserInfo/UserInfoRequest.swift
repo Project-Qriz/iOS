@@ -63,6 +63,7 @@
  */
 
 import Foundation
+import QRIZUtils
 
 struct UserInfoRequest: Request {
     

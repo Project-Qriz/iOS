@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import QRIZUtils
 
 final class FindIDMainView: UIView {
     
@@ -47,7 +48,7 @@ final class FindIDMainView: UIView {
         self.backgroundColor = .white
         findAccountHeaderView.configure(
             title: FindAccountType.findId.headerTitle,
-            description: UILabel.setLineSpacing(8, text: FindAccountType.findId.headerDescription)
+            description: NSAttributedString(text: FindAccountType.findId.headerDescription, lineSpacing: 8)
         )
         signUpFooterView.configure(buttonTitle: Attributes.buttonTitle)
         signUpFooterView.updateButtonState(isValid: false)

@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import QRIZUtils
 
 class ResultDetailViewModel {
     enum Input {

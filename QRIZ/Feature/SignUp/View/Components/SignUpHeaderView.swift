@@ -54,7 +54,7 @@ final class SignUpHeaderView: UIView {
     }
     
     func configure(title: String, progress: Float) {
-        titleLabel.attributedText = UILabel.setLineSpacing(8, text: title)
+        titleLabel.attributedText = NSAttributedString(text: title, lineSpacing: 8)
         progressView.setProgress(max(0.0, min(progress, 1.0)), animated: false)
     }
 }

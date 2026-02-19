@@ -60,7 +60,7 @@ final class DeleteAccountMainView: UIView {
         view.layer.borderWidth = 1.0
         view.layer.borderColor = UIColor.coolNeutral100.cgColor
         view.layer.cornerRadius = 8.0
-        view.applyQRIZShadow(radius: 8.0)
+        view.applyQRIZShadow(radius: 8.0, color: .coolNeutral300)
         return view
     }()
     
