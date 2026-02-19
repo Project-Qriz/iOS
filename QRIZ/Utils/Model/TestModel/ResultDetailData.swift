@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import Network
 
 // 데일리 테스트에서 데일리 테스트 및 종합 복습 테스트 => subject1DetailResult에 majorItem으로 개념 채우고,
 // score에 해당 개념의 점수를, minorItems를 빈 Array로 관리함.

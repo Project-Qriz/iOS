@@ -8,6 +8,7 @@
 import UIKit
 import Combine
 import QRIZUtils
+import Network
 
 struct StudySummary: Equatable, Hashable {
     let id: Int

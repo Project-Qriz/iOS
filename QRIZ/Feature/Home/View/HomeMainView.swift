@@ -8,6 +8,7 @@
 import UIKit
 import Combine
 import QRIZUtils
+import Network
 
 final class HomeMainView: UIView {
     

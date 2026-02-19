@@ -9,6 +9,7 @@ import Foundation
 import Combine
 import os
 import QRIZUtils
+import Network
 
 final class FindIDViewModel {
     

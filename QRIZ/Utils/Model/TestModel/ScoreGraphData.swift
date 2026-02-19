@@ -7,6 +7,7 @@
 
 import Foundation
 import QRIZUtils
+import Network
 
 final class ScoreGraphData: ObservableObject {
     @Published var filterType: ScoreGraphFilterType = .byTotalScore

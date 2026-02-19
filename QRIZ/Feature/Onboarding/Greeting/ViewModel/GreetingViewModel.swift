@@ -8,6 +8,7 @@
 import Foundation
 import Combine
 import QRIZUtils
+import Network
 
 final class GreetingViewModel {
     

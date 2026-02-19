@@ -8,6 +8,7 @@
 import Foundation
 import Combine
 import os.log
+import Network
 
 struct TermItem {
     let title: String

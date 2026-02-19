@@ -8,6 +8,7 @@
 import Foundation
 import Combine
 import os
+import Network
 
 final class SignUpVerificationViewModel: EmailVerificationViewModel {
     

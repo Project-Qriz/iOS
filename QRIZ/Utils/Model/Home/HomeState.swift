@@ -7,6 +7,7 @@
 
 import Foundation
 import QRIZUtils
+import Network
 
 struct HomeState: Equatable {
     var userName: String
