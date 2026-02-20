@@ -6,8 +6,6 @@
 //
 
 public struct DailyTestListRequest: Request, Sendable {
-    
-    // MARK: - Properties
     public typealias Response = DailyTestListResponse
     
     public let method: HTTPMethod = .get
@@ -24,7 +22,6 @@ public struct DailyTestListRequest: Request, Sendable {
         ]
     }
     
-    // MARK: - Initializers
     public init(accessToken: String, dayNumber: Int) {
         self.accessToken = accessToken
         self.dayNumber = dayNumber

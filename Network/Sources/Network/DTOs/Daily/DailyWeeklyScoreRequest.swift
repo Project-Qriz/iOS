@@ -8,8 +8,6 @@
 import Foundation
 
 public struct DailyWeeklyScoreRequest: Request, Sendable {
-    
-    // MARK: - Properties
     public typealias Response = DailyWeeklyScoreResponse
     
     public let method: HTTPMethod = .get
@@ -26,7 +24,6 @@ public struct DailyWeeklyScoreRequest: Request, Sendable {
         ]
     }
     
-    // MARK: - Initializers
     public init(accessToken: String, day: Int) {
         self.accessToken = accessToken
         self.day = day

@@ -8,9 +8,9 @@
 public struct DeleteAccountRequest: Request, Sendable {
     public typealias Response = DeleteAccountResponse
     
-    private let accessToken: String
     public let path = "/api/v1/withdraw"
     public let method: HTTPMethod = .delete
+    private let accessToken: String
     
     public var headers: HTTPHeader {
         [
@@ -28,4 +28,3 @@ public struct DeleteAccountResponse: Decodable, Sendable {
     public let code: Int
     public let msg: String
 }
-

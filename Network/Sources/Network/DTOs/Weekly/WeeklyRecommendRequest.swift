@@ -54,8 +54,6 @@ extension RecommendData.Item {
         )
     }
 }
-
-
 extension RecommendData {
     public func toKindAndConcepts() -> (RecommendationKind, [WeeklyConcept]) {
         let kind = RecommendationKind(rawValue: recommendationType) ?? .unknown

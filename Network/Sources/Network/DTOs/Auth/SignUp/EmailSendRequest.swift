@@ -6,8 +6,6 @@
 //
 
 import Foundation
-
-
 // 성공
 //{
 //    "code": 1,

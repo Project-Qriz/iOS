@@ -8,8 +8,6 @@
 import Foundation
 
 public struct ExamScoreRequest: Request, Sendable {
-    
-    // MARK: - Properties
     public typealias Response = ExamScoreResponse
     
     public let method: HTTPMethod = .get
@@ -26,7 +24,6 @@ public struct ExamScoreRequest: Request, Sendable {
         ]
     }
     
-    // MARK: - Initializers
     public init(accessToken: String, examId: Int) {
         self.accessToken = accessToken
         self.examId = examId

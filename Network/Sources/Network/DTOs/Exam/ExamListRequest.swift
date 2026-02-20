@@ -8,8 +8,6 @@
 import QRIZUtils
 
 public struct ExamListRequest: Request, Sendable {
-    
-    // MARK: - Properties
     public typealias Response = ExamListResponse
 
     public let path = "/api/v1/exam/session-list"
@@ -27,7 +25,6 @@ public struct ExamListRequest: Request, Sendable {
         ]
     }
     
-    // MARK: - Initializers
     public init(accessToken: String, filterType: ExamListFilterType) {
         self.accessToken = accessToken
         self.filterType = filterType

@@ -8,8 +8,6 @@
 import QRIZUtils
 
 public struct DailySubmitRequest: Request, Sendable {
-    
-    // MARK: - Properties
     public typealias Response = DailySubmitResponse
     
     public let method: HTTPMethod = .post
@@ -34,7 +32,6 @@ public struct DailySubmitRequest: Request, Sendable {
         ]
     }
     
-    // MARK: - Initializers
     public init(accessToken: String, dayNumber: Int, dailySubmitData: [DailySubmitData]) {
         self.accessToken = accessToken
         self.dayNumber = dayNumber

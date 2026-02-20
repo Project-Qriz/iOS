@@ -6,8 +6,6 @@
 //
 
 import Foundation
-
-
 public struct EmailAuthenticationRequest: Request, Sendable {
     public typealias Response = EmailAuthenticationResponse
     

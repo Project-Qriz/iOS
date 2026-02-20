@@ -8,9 +8,9 @@
 public struct DailyResetRequest: Request, Sendable {
     public typealias Response = DailyResetResponse
     
-    private let accessToken: String
     public let path = "/api/v1/daily/regenerate"
     public let method: HTTPMethod = .post
+    private let accessToken: String
     
     public var headers: HTTPHeader {
         [

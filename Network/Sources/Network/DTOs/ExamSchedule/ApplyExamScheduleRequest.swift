@@ -8,10 +8,10 @@
 public struct ApplyExamScheduleRequest: Request, Sendable {
     public typealias Response = ApplyExamScheduleResponse
     
-    private let accessToken: String
-    private let applyId: Int
     public let path = "/api/v1/applications"
     public let method: HTTPMethod = .post
+    private let accessToken: String
+    private let applyId: Int
     
     public var headers: HTTPHeader {
         [

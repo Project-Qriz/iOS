@@ -8,8 +8,6 @@
 import Foundation
 
 public struct AnalyzePreviewRequest: Request, Sendable {
-    
-    // MARK: - Properties
     public typealias Response = AnalyzePreviewResponse
 
     public let path = "/api/v1/preview/analyze"
@@ -22,7 +20,6 @@ public struct AnalyzePreviewRequest: Request, Sendable {
         ]
     }
     
-    // MARK: - Initializers
     public init(accessToken: String) {
         self.accessToken = accessToken
     }

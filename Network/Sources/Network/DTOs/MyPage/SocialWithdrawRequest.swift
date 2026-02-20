@@ -1,3 +1,4 @@
+
 //
 //  SocialWithdrawRequest.swift
 //  QRIZ
@@ -10,10 +11,11 @@ import QRIZUtils
 public struct SocialWithdrawRequest: Request, Sendable {
     public typealias Response = SocialWithdrawResponse
     
+    public let method: HTTPMethod = .delete
     private let socialLoginType: SocialLogin
     private let accessToken: String
+
     public var path: String { "/api/auth/social/\(socialLoginType.rawValue)/withdraw" }
-    public let method: HTTPMethod = .delete
     
     public var headers: HTTPHeader {
         [

@@ -28,8 +28,6 @@
      }
  }
  */
-
-
 public struct LoginRequest: Request, Sendable {
     public typealias Response = LoginResponse
     

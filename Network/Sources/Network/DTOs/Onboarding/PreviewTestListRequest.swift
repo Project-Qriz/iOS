@@ -6,8 +6,6 @@
 //
 
 public struct PreviewTestListRequest: Request, Sendable {
-    
-    // MARK: - Properties
     public typealias Response = PreviewTestListResponse
 
     public let path = "/api/v1/preview/get"
@@ -20,7 +18,6 @@ public struct PreviewTestListRequest: Request, Sendable {
         ]
     }
     
-    // MARK: - Initializers
     public init(accessToken: String) {
         self.accessToken = accessToken
     }

@@ -8,8 +8,6 @@
 import Foundation
 
 public struct DailyResultRequest: Request, Sendable {
-    
-    // MARK: - Properties
     public typealias Response = DailyResultResponse
     
     public let method: HTTPMethod = .get
@@ -26,7 +24,6 @@ public struct DailyResultRequest: Request, Sendable {
         ]
     }
     
-    // MARK: - Initializers
     public init(accessToken: String, dayNumber: Int) {
         self.accessToken = accessToken
         self.dayNumber = dayNumber
@@ -51,7 +48,6 @@ public struct DailyResultResponse: Decodable, Sendable {
             public let skillId: Int
             public let score: CGFloat
         }
-        
     }
 }
 

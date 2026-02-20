@@ -10,20 +10,23 @@
 public struct ClipDetailRequest: Request, Sendable {
     public typealias Response = ClipDetailResponse
 
-    public let accessToken: String
-    public let clipId: Int
+    public let method: HTTPMethod = .get
+    private let accessToken: String
+    private let clipId: Int
 
     public var path: String { "/api/v1/clips/\(clipId)/detail" }
-    public let method: HTTPMethod = .get
 
     public var headers: HTTPHeader {
         [
             HTTPHeaderField.authorization.rawValue: accessToken
         ]
     }
-}
 
-// MARK: - Response
+    public init(accessToken: String, clipId: Int) {
+        self.accessToken = accessToken
+        self.clipId = clipId
+    }
+}
 
 public struct ClipDetailResponse: Decodable, Sendable {
     public let code: Int

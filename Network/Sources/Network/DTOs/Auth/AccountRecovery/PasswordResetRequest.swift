@@ -58,4 +58,3 @@ public struct PasswordResetResponse: Decodable, Sendable {
         public let password: String
     }
 }
-

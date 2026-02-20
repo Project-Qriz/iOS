@@ -8,15 +8,19 @@
 public struct DailyPlanRequest: Request, Sendable {
     public typealias Response = DailyPlanResponse
 
-    public let accessToken: String
     public let path = "/api/v1/daily/plan"
     public let method: HTTPMethod = .get
+    private let accessToken: String
 
     public var headers: HTTPHeader {
         [
             HTTPHeaderField.contentType.rawValue: ContentType.json.rawValue,
             HTTPHeaderField.authorization.rawValue: accessToken
         ]
+    }
+
+    public init(accessToken: String) {
+        self.accessToken = accessToken
     }
 }
 

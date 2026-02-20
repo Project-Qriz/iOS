@@ -8,9 +8,9 @@
 public struct SocialLogoutRequest: Request, Sendable {
     public typealias Response = SocialLogoutResponse
     
-    private let accessToken: String
     public let path = "/api/logout"
     public let method: HTTPMethod = .post
+    private let accessToken: String
     
     public var headers: HTTPHeader {
         [

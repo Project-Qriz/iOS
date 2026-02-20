@@ -6,8 +6,6 @@
 //
 
 public struct ExamResultRequest: Request, Sendable {
-    
-    // MARK: - Properties
     public typealias Response = ExamResultResponse
     
     public let method: HTTPMethod = .get
@@ -24,7 +22,6 @@ public struct ExamResultRequest: Request, Sendable {
         ]
     }
     
-    // MARK: - Initializers
     public init(accessToken: String, examId: Int) {
         self.accessToken = accessToken
         self.examId = examId

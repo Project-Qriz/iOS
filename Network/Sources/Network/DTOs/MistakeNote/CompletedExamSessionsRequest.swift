@@ -9,14 +9,18 @@
 public struct CompletedExamSessionsRequest: Request, Sendable {
     public typealias Response = CompletedExamSessionsResponse
 
-    public let accessToken: String
     public let path = "/api/v1/clips/sessions"
     public let method: HTTPMethod = .get
+    private let accessToken: String
 
     public var headers: HTTPHeader {
         [
             HTTPHeaderField.authorization.rawValue: accessToken
         ]
+    }
+
+    public init(accessToken: String) {
+        self.accessToken = accessToken
     }
 }
 

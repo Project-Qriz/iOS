@@ -8,9 +8,9 @@
 public struct VersionRequest: Request, Sendable {
     public typealias Response = VersionResponse
     
-    private let accessToken: String
     public let path = "/api/v1/version"
     public let method: HTTPMethod = .get
+    private let accessToken: String
     
     public var headers: HTTPHeader {
         [

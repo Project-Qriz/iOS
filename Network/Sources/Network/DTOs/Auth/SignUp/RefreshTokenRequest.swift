@@ -6,8 +6,6 @@
 //
 
 import Foundation
-
-
 public struct RefreshTokenRequest: Request, Sendable {
     public typealias Response = RefreshTokenResponse
     

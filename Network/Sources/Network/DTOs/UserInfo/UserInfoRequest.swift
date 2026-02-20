@@ -65,8 +65,6 @@
 import QRIZUtils
 
 public struct UserInfoRequest: Request, Sendable {
-    
-    // MARK: - Properties
     public typealias Response = UserInfoResponse
 
     public let path = "/api/v1/user/info"
@@ -77,7 +75,6 @@ public struct UserInfoRequest: Request, Sendable {
         return [HTTPHeaderField.authorization.rawValue: accessToken]
     }
     
-    // MARK: - Initializers
     public init(accessToken: String) {
         self.accessToken = accessToken
     }

@@ -8,8 +8,6 @@
 import QRIZUtils
 
 public struct TestSubmitRequest: Request, Sendable {
-    
-    // MARK: - Properties
     public typealias Response = TestSubmitResponse
 
     public let method: HTTPMethod = .post
@@ -34,7 +32,6 @@ public struct TestSubmitRequest: Request, Sendable {
         ]
     }
     
-    // MARK: - Initializers
     public init(accessToken: String, examId: Int, testSubmitData: [TestSubmitData]) {
         self.accessToken = accessToken
         self.examId = examId

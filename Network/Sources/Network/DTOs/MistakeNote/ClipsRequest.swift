@@ -12,12 +12,12 @@
 public struct ClipsRequest: Request, Sendable {
     public typealias Response = ClipsResponse
 
-    public let accessToken: String
-    public let category: Int?
-    public let testInfo: String?
+    public let method: HTTPMethod = .get
+    private let accessToken: String
+    private let category: Int?
+    private let testInfo: String?
 
     public var path: String { "/api/v1/clips" }
-    public let method: HTTPMethod = .get
 
     public var query: QueryItems {
         var items: QueryItems = [:]
@@ -49,8 +49,6 @@ public struct ClipsRequest: Request, Sendable {
         self.testInfo = testInfo
     }
 }
-
-// MARK: - Response
 
 public struct ClipsResponse: Decodable, Sendable {
     public let code: Int

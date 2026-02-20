@@ -11,15 +11,19 @@ import QRIZUtils
 public struct ExamScheduleListRequest: Request, Sendable {
     public typealias Response = ExamScheduleListResponse
 
-    public let accessToken: String
     public let path = "/api/v1/applications"
     public let method: HTTPMethod = .get
+    private let accessToken: String
 
     public var headers: HTTPHeader {
         [
             HTTPHeaderField.contentType.rawValue: ContentType.json.rawValue,
             HTTPHeaderField.authorization.rawValue: accessToken
         ]
+    }
+
+    public init(accessToken: String) {
+        self.accessToken = accessToken
     }
 }
 

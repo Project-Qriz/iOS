@@ -6,8 +6,6 @@
 //
 
 public struct DailyDetailAndStatusRequest: Request, Sendable {
-    
-    // MARK: - Properties
     public typealias Response = DailyDetailAndStatusResponse
     
     public let method: HTTPMethod = .get
@@ -24,7 +22,6 @@ public struct DailyDetailAndStatusRequest: Request, Sendable {
         ]
     }
     
-    // MARK: - Initializers
     public init(accessToken: String, dayNumber: Int) {
         self.accessToken = accessToken
         self.dayNumber = dayNumber
@@ -55,5 +52,4 @@ public struct DailyDetailAndStatusResponse: Decodable, Sendable {
             public let available: Bool
         }
     }
-    
 }

@@ -6,8 +6,6 @@
 //
 
 public struct SurveyRequest: Request, Sendable {
-    
-    // MARK: - Properties
     public typealias Response = SurveyResponse
 
     public let path = "/api/v1/survey"
@@ -28,7 +26,6 @@ public struct SurveyRequest: Request, Sendable {
         ]
     }
     
-    // MARK: - Initializers
     public init(accessToken: String, keyConcepts: [String]) {
         self.accessToken = accessToken
         self.keyConcepts = keyConcepts

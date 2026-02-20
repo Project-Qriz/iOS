@@ -6,8 +6,6 @@
 //
 
 import Foundation
-
-
 public struct UsernameDuplicationRequest: Request, Sendable {
     public typealias Response = UsernameDuplicationResponse
     

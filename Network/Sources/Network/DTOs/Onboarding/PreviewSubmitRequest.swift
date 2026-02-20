@@ -8,8 +8,6 @@
 import QRIZUtils
 
 public struct PreviewSubmitRequest: Request, Sendable {
-    
-    // MARK: - Properties
     public typealias Response = PreviewSubmitResponse
     
     public let path = "/api/v1/preview/submit"
@@ -30,7 +28,6 @@ public struct PreviewSubmitRequest: Request, Sendable {
         ]
     }
     
-    // MARK: - Initializers
     public init(accessToken: String, testSubmitDataList: [TestSubmitData]) {
         self.accessToken = accessToken
         self.testSubmitDataList = testSubmitDataList

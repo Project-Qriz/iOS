@@ -8,12 +8,12 @@
 public struct UpdateExamScheduleRequest: Request, Sendable {
     public typealias Response = UpdateExamScheduleResponse
     
+    public let method: HTTPMethod = .patch
     private let accessToken: String
     private let userApplyId: Int
     private let newApplyId: Int
-    
+
     public var path: String { "/api/v1/applications/\(userApplyId)" }
-    public let method: HTTPMethod = .patch
     
     public var headers: HTTPHeader {
         [
