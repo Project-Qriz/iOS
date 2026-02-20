@@ -42,11 +42,11 @@ public struct DailyResultResponse: Decodable, Sendable {
         public let comprehensiveReviewDay: Bool
         public let items: [ItemInfo]
         public let subjectResultsList: [SubjectResult]
-        public let totalScore: CGFloat
+        public let totalScore: Double
 
         public struct ItemInfo: Decodable, Sendable {
             public let skillId: Int
-            public let score: CGFloat
+            public let score: Double
         }
     }
 }

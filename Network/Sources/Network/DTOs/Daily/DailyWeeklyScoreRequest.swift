@@ -37,16 +37,16 @@ public struct DailyWeeklyScoreResponse: Decodable, Sendable {
     
     public struct DataInfo: Decodable, Sendable {
         public let subjects: [SubjectInfo]
-        public let totalScore: CGFloat
+        public let totalScore: Double
         
         public struct SubjectInfo: Decodable, Sendable {
             public let title: String
-            public let totalScore: CGFloat
+            public let totalScore: Double
             public let majorItems: [MajorItemInfo]
             
             public struct MajorItemInfo: Decodable, Sendable {
                 public let majorItem: String
-                public let score: CGFloat
+                public let score: Double
                 public let subItemScores: [SubItemInfo]
                 
             }
@@ -56,5 +56,5 @@ public struct DailyWeeklyScoreResponse: Decodable, Sendable {
 
 public struct SubItemInfo: Decodable, Sendable {
     public let subItem: String
-    public let score: CGFloat
+    public let score: Double
 }

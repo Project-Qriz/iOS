@@ -31,7 +31,7 @@ public struct AnalyzePreviewResponse: Decodable, Sendable {
     public let data: DataInfo
     
     public struct DataInfo: Decodable, Sendable {
-        public let estimatedScore: CGFloat
+        public let estimatedScore: Double
         public let scoreBreakdown: ScoreBreakdown
         public let weakAreaAnalysis: WeakAreaAnalysis
         public let topConceptsToImprove: [String]
