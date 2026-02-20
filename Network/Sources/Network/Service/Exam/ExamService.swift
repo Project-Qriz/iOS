@@ -66,7 +66,7 @@ public final class ExamServiceImpl: ExamService {
     }
 
     private func getAccessToken() -> String {
-        let accessToken = keychainManager.retrieveToken(forKey: HTTPHeaderField.accessToken.rawValue) ?? ""
+        let accessToken = keychainManager.retrieveToken(forKey: TokenKey.accessToken.rawValue) ?? ""
         return accessToken
     }
 }

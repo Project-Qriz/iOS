@@ -33,7 +33,7 @@ public final class WeeklyRecommendServiceImpl: WeeklyRecommendService {
     // MARK: Functions
     
     public func fetchWeeklyRecommend() async throws -> WeeklyRecommendResponse {
-        let access = keychain.retrieveToken(forKey: HTTPHeaderField.accessToken.rawValue) ?? ""
+        let access = keychain.retrieveToken(forKey: TokenKey.accessToken.rawValue) ?? ""
         let request = WeeklyRecommendRequest(accessToken: access)
         return try await network.send(request)
     }

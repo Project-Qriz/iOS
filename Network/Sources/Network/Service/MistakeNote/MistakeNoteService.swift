@@ -73,6 +73,6 @@ public final class MistakeNoteServiceImpl: MistakeNoteService {
     }
 
     private func getAccessToken() -> String {
-        keychainManager.retrieveToken(forKey: HTTPHeaderField.accessToken.rawValue) ?? ""
+        keychainManager.retrieveToken(forKey: TokenKey.accessToken.rawValue) ?? ""
     }
 }

@@ -83,7 +83,7 @@ final class SocialLoginServiceImpl: NSObject, SocialLoginService {
             }
         }
         
-        let access = keychain.retrieveToken(forKey: HTTPHeaderField.accessToken.rawValue) ?? ""
+        let access = keychain.retrieveToken(forKey: TokenKey.accessToken.rawValue) ?? ""
         let request = SocialLogoutRequest(accessToken: access)
         _ = try await network.send(request)
     }
@@ -126,7 +126,7 @@ final class SocialLoginServiceImpl: NSObject, SocialLoginService {
     func logoutGoogle() async throws {
         GIDSignIn.sharedInstance.signOut()
         
-        let access = keychain.retrieveToken(forKey: HTTPHeaderField.accessToken.rawValue) ?? ""
+        let access = keychain.retrieveToken(forKey: TokenKey.accessToken.rawValue) ?? ""
         let request = SocialLogoutRequest(accessToken: access)
         _ = try await network.send(request)
     }
@@ -146,7 +146,7 @@ final class SocialLoginServiceImpl: NSObject, SocialLoginService {
     }
     
     func logoutApple() async throws {
-        let access = keychain.retrieveToken(forKey: HTTPHeaderField.accessToken.rawValue) ?? ""
+        let access = keychain.retrieveToken(forKey: TokenKey.accessToken.rawValue) ?? ""
         let request = SocialLogoutRequest(accessToken: access)
         _ = try await network.send(request)
     }

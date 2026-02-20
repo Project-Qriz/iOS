@@ -56,7 +56,7 @@ final class SplashViewModel {
             UserInfoManager.shared.update(name: user.name, userId: user.userId, email: user.email, previewTestStatus: user.previewTestStatus, provider: user.provider)
             return true
         } catch {
-            keychain.deleteToken(forKey: HTTPHeaderField.accessToken.rawValue)
+            keychain.deleteToken(forKey: TokenKey.accessToken.rawValue)
             return false
         }
     }

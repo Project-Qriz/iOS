@@ -70,8 +70,8 @@ private extension NetworkImpl {
     
     /// Access Token 갱신
     func refreshAccessToken() async throws {
-        let accessToken = keychain.retrieveToken(forKey: HTTPHeaderField.accessToken.rawValue)
-        let refreshToken = keychain.retrieveToken(forKey: HTTPHeaderField.refreshToken.rawValue)
+        let accessToken = keychain.retrieveToken(forKey: TokenKey.accessToken.rawValue)
+        let refreshToken = keychain.retrieveToken(forKey: TokenKey.refreshToken.rawValue)
         
         guard let unwrappedRefreshToken = refreshToken else {
             throw NetworkError.unAuthorizedError(detailCode: nil)
@@ -85,13 +85,13 @@ private extension NetworkImpl {
         
         // 새로운 Refresh Token이 있으면 저장
         if let newRefreshToken = response.data?.refreshToken {
-            _ = keychain.save(token: newRefreshToken, forKey: HTTPHeaderField.refreshToken.rawValue)
+            _ = keychain.save(token: newRefreshToken, forKey: TokenKey.refreshToken.rawValue)
         }
     }
     
     /// 갱신된 Access Token으로 재요청
     func retryRequest<T: Decodable>(_ request: URLRequest, responseType: T.Type) async throws -> T {
-        guard let accessToken = keychain.retrieveToken(forKey: HTTPHeaderField.accessToken.rawValue) else {
+        guard let accessToken = keychain.retrieveToken(forKey: TokenKey.accessToken.rawValue) else {
             throw NetworkError.unAuthorizedError(detailCode: nil)
         }
         
@@ -107,8 +107,8 @@ private extension NetworkImpl {
     
     /// Refresh 실패 시 토큰 삭제 및 세션 만료 알림
     func handleRefreshFailure() {
-        keychain.deleteToken(forKey: HTTPHeaderField.accessToken.rawValue)
-        keychain.deleteToken(forKey: HTTPHeaderField.refreshToken.rawValue)
+        keychain.deleteToken(forKey: TokenKey.accessToken.rawValue)
+        keychain.deleteToken(forKey: TokenKey.refreshToken.rawValue)
         notifier.notify(.expired)
     }
     
@@ -126,14 +126,14 @@ private extension NetworkImpl {
             !token.isEmpty
         else { return }
         
-        _ = keychain.save(token: token, forKey: HTTPHeaderField.accessToken.rawValue)
+        _ = keychain.save(token: token, forKey: TokenKey.accessToken.rawValue)
     }
     
     /// Refresh Token 저장 (응답 Body)
     func saveRefreshTokenIfPresent(from data: Data) {
         guard let body = try? decoder.decode(RefreshTokenBody.self, from: data),
               let refreshToken = body.data?.refreshToken else { return }
-        _ = keychain.save(token: refreshToken, forKey: HTTPHeaderField.refreshToken.rawValue)
+        _ = keychain.save(token: refreshToken, forKey: TokenKey.refreshToken.rawValue)
     }
     
     /// HTTP 상태 코드 검증

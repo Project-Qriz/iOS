@@ -42,25 +42,25 @@ public final class ExamScheduleServiceImpl: ExamScheduleService {
     // MARK: - Functions
     
     public func fetchAppliedExams() async throws -> AppliedExamsResponse {
-        let access = keychain.retrieveToken(forKey: HTTPHeaderField.accessToken.rawValue) ?? ""
+        let access = keychain.retrieveToken(forKey: TokenKey.accessToken.rawValue) ?? ""
         let request = AppliedExamsRequest(accessToken: access)
         return try await network.send(request)
     }
     
     public func fetchExamList() async throws -> ExamScheduleListResponse {
-        let access = keychain.retrieveToken(forKey: HTTPHeaderField.accessToken.rawValue) ?? ""
+        let access = keychain.retrieveToken(forKey: TokenKey.accessToken.rawValue) ?? ""
         let request = ExamScheduleListRequest(accessToken: access)
         return try await network.send(request)
     }
     
     public func applyExamSchedule(applyId: Int) async throws -> ApplyExamScheduleResponse {
-        let access = keychain.retrieveToken(forKey: HTTPHeaderField.accessToken.rawValue) ?? ""
+        let access = keychain.retrieveToken(forKey: TokenKey.accessToken.rawValue) ?? ""
         let request = ApplyExamScheduleRequest(accessToken: access, applyId: applyId)
         return try await network.send(request)
     }
     
     public func updateExamSchedule(userApplyId: Int, newApplyId: Int) async throws -> UpdateExamScheduleResponse {
-        let access = keychain.retrieveToken(forKey: HTTPHeaderField.accessToken.rawValue) ?? ""
+        let access = keychain.retrieveToken(forKey: TokenKey.accessToken.rawValue) ?? ""
         let request = UpdateExamScheduleRequest(
             accessToken: access,
             userApplyId: userApplyId,

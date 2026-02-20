@@ -42,25 +42,25 @@ public final class MyPageServiceImpl: MyPageService {
     // MARK: - Functions
     
     public func fetchVersion() async throws -> VersionResponse {
-        let access = keychain.retrieveToken(forKey: HTTPHeaderField.accessToken.rawValue) ?? ""
+        let access = keychain.retrieveToken(forKey: TokenKey.accessToken.rawValue) ?? ""
         let request = VersionRequest(accessToken: access)
         return try await network.send(request)
     }
     
     public func resetPlan() async throws -> DailyResetResponse {
-        let access = keychain.retrieveToken(forKey: HTTPHeaderField.accessToken.rawValue) ?? ""
+        let access = keychain.retrieveToken(forKey: TokenKey.accessToken.rawValue) ?? ""
         let request = DailyResetRequest(accessToken: access)
         return try await network.send(request)
     }
     
     public func deleteAccount() async throws -> DeleteAccountResponse {
-        let access = keychain.retrieveToken(forKey: HTTPHeaderField.accessToken.rawValue) ?? ""
+        let access = keychain.retrieveToken(forKey: TokenKey.accessToken.rawValue) ?? ""
         let request = DeleteAccountRequest(accessToken: access)
         return try await network.send(request)
     }
     
     public func deleteSocialAccount(socialLoginType: SocialLogin) async throws -> SocialWithdrawResponse {
-        let access = keychain.retrieveToken(forKey: HTTPHeaderField.accessToken.rawValue) ?? ""
+        let access = keychain.retrieveToken(forKey: TokenKey.accessToken.rawValue) ?? ""
         let request = SocialWithdrawRequest(socialLoginType: socialLoginType, accessToken: access)
         return try await network.send(request)
     }
