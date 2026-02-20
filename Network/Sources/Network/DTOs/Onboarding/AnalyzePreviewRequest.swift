@@ -7,7 +7,7 @@
 
 import Foundation
 
-public struct AnalyzePreviewRequest: Request , Sendable {
+public struct AnalyzePreviewRequest: Request, Sendable {
     
     // MARK: - Properties
     public typealias Response = AnalyzePreviewResponse
@@ -28,30 +28,30 @@ public struct AnalyzePreviewRequest: Request , Sendable {
     }
 }
 
-public struct AnalyzePreviewResponse: Decodable , Sendable {
+public struct AnalyzePreviewResponse: Decodable, Sendable {
     public let code: Int
     public let msg: String
     public let data: DataInfo
     
-    public struct DataInfo: Decodable , Sendable {
+    public struct DataInfo: Decodable, Sendable {
         public let estimatedScore: CGFloat
         public let scoreBreakdown: ScoreBreakdown
         public let weakAreaAnalysis: WeakAreaAnalysis
         public let topConceptsToImprove: [String]
     }
     
-    public struct ScoreBreakdown: Decodable , Sendable {
+    public struct ScoreBreakdown: Decodable, Sendable {
         public let totalScore: Int
         public let part1Score: Int
         public let part2Score: Int
     }
     
-    public struct WeakAreaAnalysis: Decodable , Sendable {
+    public struct WeakAreaAnalysis: Decodable, Sendable {
         public let totalQuestions: Int
         public let weakAreas: [WeakArea]
     }
     
-    public struct WeakArea: Decodable , Sendable {
+    public struct WeakArea: Decodable, Sendable {
         public let topic: String
         public let incorrectCount: Int
     }

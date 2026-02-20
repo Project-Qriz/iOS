@@ -5,9 +5,7 @@
 //  Created by 김세훈 on 3/19/25.
 //
 
-import Foundation
-
-public struct VerifyPasswordResetRequest: Request , Sendable {
+public struct VerifyPasswordResetRequest: Request, Sendable {
     public typealias Response = VerifyPasswordResetResponse
     
     public let path = "/api/verify-pwd-reset"
@@ -27,12 +25,12 @@ public struct VerifyPasswordResetRequest: Request , Sendable {
     }
 }
 
-public struct VerifyPasswordResetResponse: Decodable , Sendable {
+public struct VerifyPasswordResetResponse: Decodable, Sendable {
     public let code: Int
     public let msg: String
     public let data: DataInfo
     
-    public struct DataInfo: Decodable , Sendable {
+    public struct DataInfo: Decodable, Sendable {
         public let resetToken: String
     }
 }

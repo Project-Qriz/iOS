@@ -62,10 +62,9 @@
  }
  */
 
-import Foundation
 import QRIZUtils
 
-public struct UserInfoRequest: Request , Sendable {
+public struct UserInfoRequest: Request, Sendable {
     
     // MARK: - Properties
     public typealias Response = UserInfoResponse
@@ -84,13 +83,13 @@ public struct UserInfoRequest: Request , Sendable {
     }
 }
 
-public struct UserInfoResponse: Decodable , Sendable {
+public struct UserInfoResponse: Decodable, Sendable {
     public let code: Int
     public let msg: String
     public let data: UserInfo
 }
 
-public struct UserInfo: Decodable , Sendable {
+public struct UserInfo: Decodable, Sendable {
     public let name: String
     public let userId: String
     public let email: String

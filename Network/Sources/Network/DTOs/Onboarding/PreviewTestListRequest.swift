@@ -5,9 +5,7 @@
 //  Created by ch on 4/25/25.
 //
 
-import Foundation
-
-public struct PreviewTestListRequest: Request , Sendable {
+public struct PreviewTestListRequest: Request, Sendable {
     
     // MARK: - Properties
     public typealias Response = PreviewTestListResponse
@@ -28,18 +26,18 @@ public struct PreviewTestListRequest: Request , Sendable {
     }
 }
 
-public struct PreviewTestListResponse: Decodable , Sendable {
+public struct PreviewTestListResponse: Decodable, Sendable {
     public let code: Int
     public let msg: String
     public let data: DataInfo
     
-    public struct DataInfo: Decodable , Sendable {
+    public struct DataInfo: Decodable, Sendable {
         public let questions: [PreviewTestListQuestion]
         public let totalTimeLimit: Int
     }
 }
 
-public struct PreviewTestListQuestion: Decodable , Sendable {
+public struct PreviewTestListQuestion: Decodable, Sendable {
     public let questionId: Int
     public let skillId: Int
     public let category: Int
@@ -50,7 +48,7 @@ public struct PreviewTestListQuestion: Decodable , Sendable {
     public let difficulty: Int
 }
 
-public struct PreviewTestListOption: Decodable , Sendable {
+public struct PreviewTestListOption: Decodable, Sendable {
     public let id: Int
     public let content: String
 }

@@ -7,7 +7,7 @@
 
 import Foundation
 
-public struct DailyWeeklyScoreRequest: Request , Sendable {
+public struct DailyWeeklyScoreRequest: Request, Sendable {
     
     // MARK: - Properties
     public typealias Response = DailyWeeklyScoreResponse
@@ -33,21 +33,21 @@ public struct DailyWeeklyScoreRequest: Request , Sendable {
     }
 }
 
-public struct DailyWeeklyScoreResponse: Decodable , Sendable {
+public struct DailyWeeklyScoreResponse: Decodable, Sendable {
     public let code: Int
     public let msg: String
     public let data: DataInfo
     
-    public struct DataInfo: Decodable , Sendable {
+    public struct DataInfo: Decodable, Sendable {
         public let subjects: [SubjectInfo]
         public let totalScore: CGFloat
         
-        public struct SubjectInfo: Decodable , Sendable {
+        public struct SubjectInfo: Decodable, Sendable {
             public let title: String
             public let totalScore: CGFloat
             public let majorItems: [MajorItemInfo]
             
-            public struct MajorItemInfo: Decodable , Sendable {
+            public struct MajorItemInfo: Decodable, Sendable {
                 public let majorItem: String
                 public let score: CGFloat
                 public let subItemScores: [SubItemInfo]
@@ -57,7 +57,7 @@ public struct DailyWeeklyScoreResponse: Decodable , Sendable {
     }
 }
 
-public struct SubItemInfo: Decodable , Sendable {
+public struct SubItemInfo: Decodable, Sendable {
     public let subItem: String
     public let score: CGFloat
 }

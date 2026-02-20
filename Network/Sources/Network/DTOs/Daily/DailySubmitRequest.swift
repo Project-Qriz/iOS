@@ -5,10 +5,9 @@
 //  Created by 이창현 on 4/29/25.
 //
 
-import Foundation
 import QRIZUtils
 
-public struct DailySubmitRequest: Request , Sendable {
+public struct DailySubmitRequest: Request, Sendable {
     
     // MARK: - Properties
     public typealias Response = DailySubmitResponse
@@ -17,11 +16,11 @@ public struct DailySubmitRequest: Request , Sendable {
     private let accessToken: String
     private let dayNumber: Int
     private let dailySubmitData: [DailySubmitData]
-
+    
     public var path: String {
         "/api/v1/daily/submit/\(dayNumber)"
     }
-
+    
     public var body: Encodable? {
         [
             "activities": dailySubmitData
@@ -43,7 +42,7 @@ public struct DailySubmitRequest: Request , Sendable {
     }
 }
 
-public struct DailySubmitResponse: Decodable , Sendable {
+public struct DailySubmitResponse: Decodable, Sendable {
     public let code: Int
     public let msg: String
     public let data: String?

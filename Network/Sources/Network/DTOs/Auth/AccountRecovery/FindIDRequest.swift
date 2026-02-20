@@ -23,9 +23,7 @@
  }
  */
 
-import Foundation
-
-public struct FindIDRequest: Request , Sendable {
+public struct FindIDRequest: Request, Sendable {
     public typealias Response = FindIDResponse
     
     public let path = "/api/find-username"
@@ -41,7 +39,7 @@ public struct FindIDRequest: Request , Sendable {
     }
 }
 
-public struct FindIDResponse: Decodable , Sendable {
+public struct FindIDResponse: Decodable, Sendable {
     public let code: Int
     public let msg: String
 }

@@ -5,9 +5,7 @@
 //  Created by Claude on 1/2/26.
 //
 
-import Foundation
-
-public struct DailyResultDetailRequest: Request , Sendable {
+public struct DailyResultDetailRequest: Request, Sendable {
     public typealias Response = DailyResultDetailResponse
 
     public let method: HTTPMethod = .get
@@ -32,14 +30,13 @@ public struct DailyResultDetailRequest: Request , Sendable {
     }
 }
 
-
-public struct DailyResultDetailResponse: Decodable , Sendable {
+public struct DailyResultDetailResponse: Decodable, Sendable {
     public let code: Int
     public let msg: String
     public let data: DailyResultDetail
 }
 
-public struct DailyResultDetail: Decodable , Sendable {
+public struct DailyResultDetail: Decodable, Sendable {
     public let skillName: String
     public let questionText: String
     public let questionNum: Int
@@ -57,7 +54,24 @@ public struct DailyResultDetail: Decodable , Sendable {
     public let title: String
     public let keyConcepts: String
 
-    public init(skillName: String, questionText: String, questionNum: Int, description: String?, option1: String, option2: String, option3: String, option4: String, answer: Int, solution: String, checked: Int?, correction: Bool, testInfo: String, skillId: Int, title: String, keyConcepts: String) {
+    public init(
+        skillName: String,
+        questionText: String,
+        questionNum: Int,
+        description: String?,
+        option1: String,
+        option2: String,
+        option3: String,
+        option4: String,
+        answer: Int,
+        solution: String,
+        checked: Int?,
+        correction: Bool,
+        testInfo: String,
+        skillId: Int,
+        title: String,
+        keyConcepts: String
+    ) {
         self.skillName = skillName
         self.questionText = questionText
         self.questionNum = questionNum

@@ -7,7 +7,7 @@
 
 import Foundation
 
-public struct ExamScoreRequest: Request , Sendable {
+public struct ExamScoreRequest: Request, Sendable {
     
     // MARK: - Properties
     public typealias Response = ExamScoreResponse
@@ -33,17 +33,17 @@ public struct ExamScoreRequest: Request , Sendable {
     }
 }
 
-public struct ExamScoreResponse: Decodable , Sendable {
+public struct ExamScoreResponse: Decodable, Sendable {
     public let code: Int
     public let msg: String
     public let data: [SubjectInfo]
     
-    public struct SubjectInfo: Decodable , Sendable {
+    public struct SubjectInfo: Decodable, Sendable {
         public let title: String
         public let totalScore: CGFloat
         public let majorItems: [MajorItemInfo]
         
-        public struct MajorItemInfo: Decodable , Sendable {
+        public struct MajorItemInfo: Decodable, Sendable {
             public let majorItem: String
             public let score: CGFloat
             public let subItemScores: [SubItemInfo]

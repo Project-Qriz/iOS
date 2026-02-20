@@ -5,11 +5,9 @@
 //  Created by Claude on 1/28/26.
 //
 
-import Foundation
-
 /// 오답노트 문제 상세 조회
 /// GET /api/v1/clips/{clipId}/detail
-public struct ClipDetailRequest: Request , Sendable {
+public struct ClipDetailRequest: Request, Sendable {
     public typealias Response = ClipDetailResponse
 
     public let accessToken: String
@@ -27,7 +25,7 @@ public struct ClipDetailRequest: Request , Sendable {
 
 // MARK: - Response
 
-public struct ClipDetailResponse: Decodable , Sendable {
+public struct ClipDetailResponse: Decodable, Sendable {
     public let code: Int
     public let msg: String
     public let data: DailyResultDetail

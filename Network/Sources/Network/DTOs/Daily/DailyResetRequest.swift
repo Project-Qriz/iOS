@@ -5,9 +5,7 @@
 //  Created by 김세훈 on 6/14/25.
 //
 
-import Foundation
-
-public struct DailyResetRequest: Request , Sendable {
+public struct DailyResetRequest: Request, Sendable {
     public typealias Response = DailyResetResponse
     
     private let accessToken: String
@@ -26,7 +24,7 @@ public struct DailyResetRequest: Request , Sendable {
     }
 }
 
-public struct DailyResetResponse: Decodable , Sendable {
+public struct DailyResetResponse: Decodable, Sendable {
     public let code: Int
     public let msg: String
 }

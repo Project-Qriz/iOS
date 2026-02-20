@@ -28,9 +28,7 @@
  }
  */
 
-import Foundation
-
-public struct PasswordResetRequest: Request , Sendable {
+public struct PasswordResetRequest: Request, Sendable {
     public typealias Response = PasswordResetResponse
     
     public let path = "/api/pwd-reset"
@@ -50,12 +48,12 @@ public struct PasswordResetRequest: Request , Sendable {
     }
 }
 
-public struct PasswordResetResponse: Decodable , Sendable {
+public struct PasswordResetResponse: Decodable, Sendable {
     public let code: Int
     public let msg: String
     public let data: DataInfo?
     
-    public struct DataInfo: Decodable , Sendable {
+    public struct DataInfo: Decodable, Sendable {
         public let username: String
         public let password: String
     }

@@ -5,9 +5,7 @@
 //  Created by 김세훈 on 6/18/25.
 //
 
-import Foundation
-
-public struct DeleteAccountRequest: Request , Sendable {
+public struct DeleteAccountRequest: Request, Sendable {
     public typealias Response = DeleteAccountResponse
     
     private let accessToken: String
@@ -26,7 +24,7 @@ public struct DeleteAccountRequest: Request , Sendable {
     }
 }
 
-public struct DeleteAccountResponse: Decodable , Sendable {
+public struct DeleteAccountResponse: Decodable, Sendable {
     public let code: Int
     public let msg: String
 }

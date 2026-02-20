@@ -29,9 +29,8 @@
  }
  */
 
-import Foundation
 
-public struct LoginRequest: Request , Sendable {
+public struct LoginRequest: Request, Sendable {
     public typealias Response = LoginResponse
     
     public let path = "/api/login"
@@ -51,12 +50,12 @@ public struct LoginRequest: Request , Sendable {
     }
 }
 
-public struct LoginResponse: Decodable , Sendable {
+public struct LoginResponse: Decodable, Sendable {
     public let code: Int
     public let msg: String
     public let data: DataInfo
     
-    public struct DataInfo: Decodable , Sendable {
+    public struct DataInfo: Decodable, Sendable {
         public let refreshToken: String?
         public let refreshExpiry: String?
         public let user: UserInfo

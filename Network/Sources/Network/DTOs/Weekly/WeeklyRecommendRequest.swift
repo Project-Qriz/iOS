@@ -6,9 +6,10 @@
 //
 
 import Foundation
+
 import QRIZUtils
 
-public struct WeeklyRecommendRequest: Request , Sendable {
+public struct WeeklyRecommendRequest: Request, Sendable {
     public typealias Response = WeeklyRecommendResponse
     
     public let accessToken: String
@@ -23,17 +24,17 @@ public struct WeeklyRecommendRequest: Request , Sendable {
     }
 }
 
-public struct WeeklyRecommendResponse: Decodable , Sendable {
+public struct WeeklyRecommendResponse: Decodable, Sendable {
     public let code: Int
     public let msg: String
     public let data: RecommendData
 }
 
-public struct RecommendData: Decodable , Sendable {
+public struct RecommendData: Decodable, Sendable {
     public let recommendationType: String
     public let recommendations: [Item]
     
-    public struct Item: Decodable , Sendable {
+    public struct Item: Decodable, Sendable {
         public let skillId: Int
         public let keyConcepts: String
         public let description: String

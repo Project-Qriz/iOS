@@ -23,9 +23,7 @@
  }
  */
 
-import Foundation
-
-public struct FindPasswordRequest: Request , Sendable {
+public struct FindPasswordRequest: Request, Sendable {
     public typealias Response = FindPasswordResponse
     
     public let path = "/api/find-pwd"
@@ -41,7 +39,7 @@ public struct FindPasswordRequest: Request , Sendable {
     }
 }
 
-public struct FindPasswordResponse: Decodable , Sendable {
+public struct FindPasswordResponse: Decodable, Sendable {
     public let code: Int
     public let msg: String
 }

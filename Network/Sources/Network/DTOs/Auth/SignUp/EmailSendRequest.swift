@@ -7,6 +7,7 @@
 
 import Foundation
 
+
 // 성공
 //{
 //    "code": 1,
@@ -21,7 +22,7 @@ import Foundation
 //    "path": "/api/email-send"
 //}
 
-public struct EmailSendRequest: Request , Sendable {
+public struct EmailSendRequest: Request, Sendable {
     public typealias Response = EmailSendResponse
     
     public let path = "/api/email-send"
@@ -37,7 +38,7 @@ public struct EmailSendRequest: Request , Sendable {
     }
 }
 
-public struct EmailSendResponse: Decodable , Sendable {
+public struct EmailSendResponse: Decodable, Sendable {
     public let code: Int
     public let msg: String
     public let data: String

@@ -5,9 +5,7 @@
 //  Created by ch on 5/3/25.
 //
 
-import Foundation
-
-public struct ExamQuestionRequest: Request , Sendable {
+public struct ExamQuestionRequest: Request, Sendable {
     
     // MARK: - Properties
     public typealias Response = ExamQuestionResponse
@@ -33,18 +31,18 @@ public struct ExamQuestionRequest: Request , Sendable {
     }
 }
 
-public struct ExamQuestionResponse: Decodable , Sendable {
+public struct ExamQuestionResponse: Decodable, Sendable {
     public let code: Int
     public let msg: String
     public let data: ExamTestInfo
 
-    public struct ExamTestInfo: Decodable , Sendable {
+    public struct ExamTestInfo: Decodable, Sendable {
         public let questions: [ExamQuestionInfo]
         public let totalTimeLimit: Int
     }
 }
 
-public struct ExamQuestionInfo: Decodable , Sendable {
+public struct ExamQuestionInfo: Decodable, Sendable {
     public let questionId: Int
     public let skillId: Int
     public let category: Int
@@ -54,7 +52,7 @@ public struct ExamQuestionInfo: Decodable , Sendable {
     public let timeLimit: Int
     public let difficulty: Int
     
-    public struct OptionInfo: Decodable , Sendable {
+    public struct OptionInfo: Decodable, Sendable {
         public let id: Int
         public let content: String
     }

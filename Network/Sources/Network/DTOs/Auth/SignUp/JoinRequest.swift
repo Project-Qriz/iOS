@@ -7,6 +7,7 @@
 
 import Foundation
 
+
 /*
  2025년 03월 12일 이메일 중복 (가입된 이메일인지 확인하는 api 분기 처리 전 로직)
  
@@ -55,7 +56,7 @@ import Foundation
  
  */
 
-public struct JoinRequest: Request , Sendable {
+public struct JoinRequest: Request, Sendable {
     public typealias Response = JoinResponse
     
     public let path = "/api/join"
@@ -85,7 +86,7 @@ public enum JoinResponse: Sendable {
 }
 
 extension JoinResponse: Decodable {
-    public enum CodingKeys: String, CodingKey , Sendable {
+    public enum CodingKeys: String, CodingKey, Sendable {
         case code
     }
     
@@ -103,27 +104,25 @@ extension JoinResponse: Decodable {
     }
 }
 
-public struct JoinResponseSuccess: Decodable , Sendable {
+public struct JoinResponseSuccess: Decodable, Sendable {
     public let code: Int
     public let msg: String
     public let data: SuccessData
     
-    public struct SuccessData: Decodable , Sendable {
+    public struct SuccessData: Decodable, Sendable {
         public let id: Int
         public let username: String
         public let nickname: String
     }
-    
-    
 }
 
-public struct JoinResponseFailure: Decodable , Sendable {
+public struct JoinResponseFailure: Decodable, Sendable {
     public let code: Int
     public let msg: String
     public let data: FailureData?
     
     /// 실패 상황에 따라 data가 null이거나, 유효성 에러 정보를 담을 수 있으므로 옵셔널
-    public struct FailureData: Decodable , Sendable {
+    public struct FailureData: Decodable, Sendable {
         // 유효성 에러일 경우 아래 필드에 구체적인 에러 메시지
         public let password: String?
         public let nickname: String?

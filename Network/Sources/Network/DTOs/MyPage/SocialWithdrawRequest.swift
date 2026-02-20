@@ -5,10 +5,9 @@
 //  Created by 김세훈 on 9/2/25.
 //
 
-import Foundation
 import QRIZUtils
 
-public struct SocialWithdrawRequest: Request , Sendable {
+public struct SocialWithdrawRequest: Request, Sendable {
     public typealias Response = SocialWithdrawResponse
     
     private let socialLoginType: SocialLogin
@@ -29,7 +28,7 @@ public struct SocialWithdrawRequest: Request , Sendable {
     }
 }
 
-public struct SocialWithdrawResponse: Decodable , Sendable {
+public struct SocialWithdrawResponse: Decodable, Sendable {
     public let code: Int
     public let msg: String
 }

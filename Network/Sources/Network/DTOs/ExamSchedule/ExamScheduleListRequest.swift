@@ -8,7 +8,7 @@
 import Foundation
 import QRIZUtils
 
-public struct ExamScheduleListRequest: Request , Sendable {
+public struct ExamScheduleListRequest: Request, Sendable {
     public typealias Response = ExamScheduleListResponse
 
     public let accessToken: String
@@ -23,19 +23,19 @@ public struct ExamScheduleListRequest: Request , Sendable {
     }
 }
 
-public struct ExamScheduleListResponse: Decodable , Sendable {
+public struct ExamScheduleListResponse: Decodable, Sendable {
     public let code: Int
     public let msg: String
     public let data: ExamListData
 }
 
-public struct ExamListData: Decodable , Sendable {
+public struct ExamListData: Decodable, Sendable {
     public let registeredApplicationId: Int?
     public let registeredUserApplyId: Int?
     public let applications: [ExamInfo]
 }
 
-public struct ExamInfo: Decodable , Sendable {
+public struct ExamInfo: Decodable, Sendable {
     public let applicationId: Int
     public let userApplyId: Int?
     public let examName: String

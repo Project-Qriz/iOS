@@ -5,10 +5,9 @@
 //  Created by ch on 4/25/25.
 //
 
-import Foundation
 import QRIZUtils
 
-public struct PreviewSubmitRequest: Request , Sendable {
+public struct PreviewSubmitRequest: Request, Sendable {
     
     // MARK: - Properties
     public typealias Response = PreviewSubmitResponse
@@ -38,7 +37,7 @@ public struct PreviewSubmitRequest: Request , Sendable {
     }
 }
 
-public struct PreviewSubmitResponse: Decodable , Sendable {
+public struct PreviewSubmitResponse: Decodable, Sendable {
     public let code: Int
     public let msg: String
     public let data: String?

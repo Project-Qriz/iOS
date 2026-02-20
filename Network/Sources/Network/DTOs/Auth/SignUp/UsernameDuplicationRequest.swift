@@ -7,7 +7,8 @@
 
 import Foundation
 
-public struct UsernameDuplicationRequest: Request , Sendable {
+
+public struct UsernameDuplicationRequest: Request, Sendable {
     public typealias Response = UsernameDuplicationResponse
     
     public let path = "/api/username-duplicate"
@@ -23,12 +24,12 @@ public struct UsernameDuplicationRequest: Request , Sendable {
     }
 }
 
-public struct UsernameDuplicationResponse: Decodable , Sendable {
+public struct UsernameDuplicationResponse: Decodable, Sendable {
     public let code: Int
     public let msg: String
     public let data: DataInfo
 
-    public struct DataInfo: Decodable , Sendable {
+    public struct DataInfo: Decodable, Sendable {
         public let available: Bool
     }
 }

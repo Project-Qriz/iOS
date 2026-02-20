@@ -5,9 +5,7 @@
 //  Created by 이창현 on 4/29/25.
 //
 
-import Foundation
-
-public struct DailyDetailAndStatusRequest: Request , Sendable {
+public struct DailyDetailAndStatusRequest: Request, Sendable {
     
     // MARK: - Properties
     public typealias Response = DailyDetailAndStatusResponse
@@ -33,23 +31,23 @@ public struct DailyDetailAndStatusRequest: Request , Sendable {
     }
 }
 
-public struct DailyDetailAndStatusResponse: Decodable , Sendable {
+public struct DailyDetailAndStatusResponse: Decodable, Sendable {
     public let code: Int
     public let msg: String
     public let data: DataInfo
     
-    public struct DataInfo: Decodable , Sendable {
+    public struct DataInfo: Decodable, Sendable {
         public let dayNumber: String
         public let skills: [SkillInfo]
         public let status: StatusInfo
         
-        public struct SkillInfo: Decodable , Sendable {
+        public struct SkillInfo: Decodable, Sendable {
             public let id: Int
             public let keyConcepts: String
             public let description: String
         }
         
-        public struct StatusInfo: Decodable , Sendable {
+        public struct StatusInfo: Decodable, Sendable {
             public let attemptCount: Int
             public let passed: Bool
             public let retestEligible: Bool

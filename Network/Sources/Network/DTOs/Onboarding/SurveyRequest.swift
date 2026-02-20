@@ -5,9 +5,7 @@
 //  Created by ch on 4/24/25.
 //
 
-import Foundation
-
-public struct SurveyRequest: Request , Sendable {
+public struct SurveyRequest: Request, Sendable {
     
     // MARK: - Properties
     public typealias Response = SurveyResponse
@@ -37,12 +35,12 @@ public struct SurveyRequest: Request , Sendable {
     }
 }
 
-public struct SurveyResponse: Decodable , Sendable {
+public struct SurveyResponse: Decodable, Sendable {
     public let code: Int
     public let msg: String
     public let data: [SurveyResponseData]
     
-    public struct SurveyResponseData: Decodable , Sendable {
+    public struct SurveyResponseData: Decodable, Sendable {
         public let userId: Int
         public let skillId: Int?
         public let checked: Bool

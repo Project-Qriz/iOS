@@ -5,13 +5,11 @@
 //  Created by Claude on 1/21/26.
 //
 
-import Foundation
-
 /// 오답노트 문제 목록 조회
 /// - 최신 데일리: /api/v1/clips?category=2
 /// - 특정 데일리: /api/v1/clips?testInfo=Day6
 /// - 개념/오답 필터링은 프론트에서 처리
-public struct ClipsRequest: Request , Sendable {
+public struct ClipsRequest: Request, Sendable {
     public typealias Response = ClipsResponse
 
     public let accessToken: String
@@ -54,13 +52,13 @@ public struct ClipsRequest: Request , Sendable {
 
 // MARK: - Response
 
-public struct ClipsResponse: Decodable , Sendable {
+public struct ClipsResponse: Decodable, Sendable {
     public let code: Int
     public let msg: String
     public let data: [ClipsQuestionData]
 }
 
-public struct ClipsQuestionData: Decodable , Sendable {
+public struct ClipsQuestionData: Decodable, Sendable {
     public let id: Int
     public let questionNum: Int
     public let question: String

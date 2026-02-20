@@ -5,9 +5,7 @@
 //  Created by 김세훈 on 6/24/25.
 //
 
-import Foundation
-
-public struct DailyPlanRequest: Request , Sendable {
+public struct DailyPlanRequest: Request, Sendable {
     public typealias Response = DailyPlanResponse
 
     public let accessToken: String
@@ -22,13 +20,13 @@ public struct DailyPlanRequest: Request , Sendable {
     }
 }
 
-public struct DailyPlanResponse: Decodable , Sendable {
+public struct DailyPlanResponse: Decodable, Sendable {
     public let code: Int
     public let msg: String
     public let data: [DailyPlan]?
 }
 
-public struct DailyPlan: Equatable, Hashable, Decodable , Sendable {
+public struct DailyPlan: Equatable, Hashable, Decodable, Sendable {
     public let id: Int
     public let dayNumber: String
     public let completed: Bool
@@ -41,7 +39,7 @@ public struct DailyPlan: Equatable, Hashable, Decodable , Sendable {
     public let lastDay: Bool
 }
 
-public struct PlannedSkill: Equatable, Hashable, Decodable , Sendable {
+public struct PlannedSkill: Equatable, Hashable, Decodable, Sendable {
     public let id: Int
     public let type: String
     public let keyConcept: String

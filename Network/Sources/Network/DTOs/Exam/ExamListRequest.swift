@@ -5,10 +5,9 @@
 //  Created by ch on 5/2/25.
 //
 
-import Foundation
 import QRIZUtils
 
-public struct ExamListRequest: Request , Sendable {
+public struct ExamListRequest: Request, Sendable {
     
     // MARK: - Properties
     public typealias Response = ExamListResponse
@@ -35,13 +34,13 @@ public struct ExamListRequest: Request , Sendable {
     }
 }
 
-public struct ExamListResponse: Decodable , Sendable {
+public struct ExamListResponse: Decodable, Sendable {
     public let code: Int
     public let msg: String
     public let data: [ExamListDataInfo]
 }
 
-public struct ExamListDataInfo: Decodable , Sendable {
+public struct ExamListDataInfo: Decodable, Sendable {
     public let completed: Bool
     public let session: String
     public let totalScore: Double?

@@ -6,25 +6,23 @@
 //
 
 /*
-{
-    "code": 1,
-    "msg": "소셜 로그인 성공",
-    "data": {
-        "provider": "KAKAO",
-        "email": "asdfasdf@naver.com",
-        "nickname": "김세훈",
-        "previewStatus": "SURVEY_COMPLETED"
-    }
-}
-*/
+ {
+ "code": 1,
+ "msg": "소셜 로그인 성공",
+ "data": {
+ "provider": "KAKAO",
+ "email": "asdfasdf@naver.com",
+ "nickname": "김세훈",
+ "previewStatus": "SURVEY_COMPLETED"
+ }
+ }
+ */
 
-
-import Foundation
 import QRIZUtils
 
-public struct SocialLoginRequest: Request , Sendable {
+public struct SocialLoginRequest: Request, Sendable {
     public typealias Response = SocialLoginResponse
-        
+    
     public let method: HTTPMethod = .post
     public let provider: SocialLogin
     public let authCode: String
@@ -42,24 +40,23 @@ public struct SocialLoginRequest: Request , Sendable {
     }
     
     public var body: Encodable? {
-        var body: [String: String] = [
+        var params: [String: String] = [
             "provider": provider.rawValue,
             provider.codeKey: authCode,
             "platform": "ios"
         ]
         if provider == .apple {
-            if let idToken = idToken { body["authCode"] = idToken }
-            if let name = name { body["name"] = name }
-            if let email = email { body["email"] = email }
+            if let idToken = idToken { params["authCode"] = idToken }
+            if let name = name { params["name"] = name }
+            if let email = email { params["email"] = email }
         }
         
-        return body
+        return params
     }
     
     public var headers: HTTPHeader {
         [HTTPHeaderField.contentType.rawValue: ContentType.json.rawValue]
     }
-    
     
     /// Apple 로그인용 Init
     public init(
@@ -86,12 +83,12 @@ public struct SocialLoginRequest: Request , Sendable {
     }
 }
 
-public struct SocialLoginResponse: Decodable , Sendable {
+public struct SocialLoginResponse: Decodable, Sendable {
     public let code: Int
     public let msg: String
     public let data: DataInfo
     
-    public struct DataInfo: Decodable , Sendable {
+    public struct DataInfo: Decodable, Sendable {
         public let refreshToken: String?
         public let refreshExpiry: String?
         public let user: UserInfo

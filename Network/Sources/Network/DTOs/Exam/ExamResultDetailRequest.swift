@@ -5,11 +5,9 @@
 //  Created by Claude on 2/10/26.
 //
 
-import Foundation
-
 /// 모의고사 문제 상세 조회
 /// GET /api/v1/exam/result/{examId}/{questionId}
-public struct ExamResultDetailRequest: Request , Sendable {
+public struct ExamResultDetailRequest: Request, Sendable {
     public typealias Response = ExamResultDetailResponse
 
     public let method: HTTPMethod = .get
@@ -34,7 +32,7 @@ public struct ExamResultDetailRequest: Request , Sendable {
     }
 }
 
-public struct ExamResultDetailResponse: Decodable , Sendable {
+public struct ExamResultDetailResponse: Decodable, Sendable {
     public let code: Int
     public let msg: String
     public let data: DailyResultDetail

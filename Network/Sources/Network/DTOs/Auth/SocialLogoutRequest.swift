@@ -5,9 +5,7 @@
 //  Created by 김세훈 on 11/19/25.
 //
 
-import Foundation
-
-public struct SocialLogoutRequest: Request , Sendable {
+public struct SocialLogoutRequest: Request, Sendable {
     public typealias Response = SocialLogoutResponse
     
     private let accessToken: String
@@ -26,7 +24,7 @@ public struct SocialLogoutRequest: Request , Sendable {
     }
 }
 
-public struct SocialLogoutResponse: Decodable , Sendable {
+public struct SocialLogoutResponse: Decodable, Sendable {
     public let code: Int
     public let msg: String
     public let data: String?

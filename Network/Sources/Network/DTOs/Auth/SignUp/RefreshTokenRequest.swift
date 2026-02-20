@@ -7,7 +7,8 @@
 
 import Foundation
 
-public struct RefreshTokenRequest: Request , Sendable {
+
+public struct RefreshTokenRequest: Request, Sendable {
     public typealias Response = RefreshTokenResponse
     
     public let path = "/api/v1/auth/token/refresh"
@@ -27,14 +28,14 @@ public struct RefreshTokenRequest: Request , Sendable {
     }
 }
 
-public struct RefreshTokenResponse: Decodable , Sendable {
+public struct RefreshTokenResponse: Decodable, Sendable {
     public let code: Int
     public let msg: String
     public let reason: String?
     public let detailCode: Int?
     public let data: DataInfo?
     
-    public struct DataInfo: Decodable , Sendable {
+    public struct DataInfo: Decodable, Sendable {
         public let rotated: Bool? // 3일 이하 true
         public let refreshExpiry: String? // rotated == true 일 때만 존재
         public let refreshToken: String?

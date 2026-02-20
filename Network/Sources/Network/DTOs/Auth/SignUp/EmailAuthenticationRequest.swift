@@ -7,7 +7,8 @@
 
 import Foundation
 
-public struct EmailAuthenticationRequest: Request , Sendable {
+
+public struct EmailAuthenticationRequest: Request, Sendable {
     public typealias Response = EmailAuthenticationResponse
     
     public let path = "/api/email-authentication"
@@ -27,7 +28,7 @@ public struct EmailAuthenticationRequest: Request , Sendable {
     }
 }
 
-public struct EmailAuthenticationResponse: Decodable , Sendable {
+public struct EmailAuthenticationResponse: Decodable, Sendable {
     public let code: Int
     public let msg: String
 }

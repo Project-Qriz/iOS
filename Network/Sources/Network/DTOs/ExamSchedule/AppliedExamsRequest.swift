@@ -5,9 +5,7 @@
 //  Created by 김세훈 on 5/1/25.
 //
 
-import Foundation
-
-public struct AppliedExamsRequest: Request , Sendable {
+public struct AppliedExamsRequest: Request, Sendable {
     public typealias Response = AppliedExamsResponse
 
     public let accessToken: String
@@ -22,12 +20,12 @@ public struct AppliedExamsRequest: Request , Sendable {
     }
 }
 
-public struct AppliedExamsResponse: Decodable , Sendable {
+public struct AppliedExamsResponse: Decodable, Sendable {
     public let code: Int
     public let msg: String
     public let data: ExamInfo
 
-    public struct ExamInfo: Decodable , Sendable {
+    public struct ExamInfo: Decodable, Sendable {
         public let examName: String
         public let period: String
         public let examDate: String
