@@ -26,8 +26,7 @@ extension Request {
         guard let baseURLString = Bundle.main.object(forInfoDictionaryKey: "BaseURL") as? String,
               let baseURL = URL(string: baseURLString)
         else {
-            print("BaseURL is not valid")
-            return URL(string: "")!
+            fatalError("Info.plist에 유효한 BaseURL이 설정되어 있지 않습니다.")
         }
         return baseURL
     }
@@ -41,46 +40,37 @@ extension Request {
 }
 
 
-public final class RequestFactory<T: Request> {
-    
+public struct RequestFactory<T: Request> {
+
     private let request: T
-    private var urlComponents: URLComponents?
-    
+    private let encoder = JSONEncoder()
+
     public init(request: T) {
         self.request = request
-        self.urlComponents = URLComponents(url: request.endpoint, resolvingAgainstBaseURL: true)
     }
-    
+
     public func urlRequestRepresentation() throws -> URLRequest {
+        var urlComponents = URLComponents(url: request.endpoint, resolvingAgainstBaseURL: true)
+
         switch request.method {
         case .get, .delete:
-            return try makeGetRequest()
+            if !request.query.isEmpty {
+                urlComponents?.queryItems = request.query.map {
+                    URLQueryItem(name: $0.key, value: $0.value)
+                }
+            }
+            return try makeURLRequest(from: urlComponents)
         case .post, .patch:
-            return try makePostRequest()
+            let bodyData = try request.body.map { try encoder.encode($0) }
+            return try makeURLRequest(from: urlComponents, httpBody: bodyData)
         }
     }
-    
-    private func makeGetRequest() throws -> URLRequest {
-        if request.query.isEmpty == false {
-            urlComponents?.queryItems = request.query.map {
-                URLQueryItem(name: $0.key, value: "\($0.value)") }
-        }
-        return try makeURLRequest()
-    }
-    
-    private func makePostRequest() throws -> URLRequest {
-        let bodyData: Data? = {
-            guard let encodableBody = request.body else { return nil }
-            return try? JSONEncoder().encode(encodableBody)
-        }()
-        return try makeURLRequest(httpBody: bodyData)
-    }
-    
-    private func makeURLRequest(httpBody: Data? = nil) throws -> URLRequest {
+
+    private func makeURLRequest(from urlComponents: URLComponents?, httpBody: Data? = nil) throws -> URLRequest {
         guard let url = urlComponents?.url else {
-            throw NetworkError.invalidURL(message: "URL 생성에 실패했습니다. endpoint: \(request.endpoint), query: \(request.query)")
+            throw NetworkError.invalidURL(message: "URL 생성에 실패했습니다. endpoint: \(request.endpoint)")
         }
-        
+
         var urlRequest = URLRequest(url: url)
         urlRequest.httpMethod = request.method.rawValue
         request.headers.forEach { urlRequest.setValue($0.value, forHTTPHeaderField: $0.key) }
@@ -88,5 +78,3 @@ public final class RequestFactory<T: Request> {
         return urlRequest
     }
 }
-
-
