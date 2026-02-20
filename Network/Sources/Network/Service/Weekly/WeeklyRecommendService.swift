@@ -17,16 +17,16 @@ public final class WeeklyRecommendServiceImpl: WeeklyRecommendService {
     
     // MARK: Properties
     
-    private let network : Network
+    private let network: Network
     private let keychain: KeychainManager
-    
+
     // MARK: Initialize
-    
+
     public init(
-        network: Network  = NetworkImpl(session: .shared),
+        network: Network = NetworkImpl(session: .shared),
         keychain: KeychainManager = KeychainManagerImpl()
     ) {
-        self.network  = network
+        self.network = network
         self.keychain = keychain
     }
     

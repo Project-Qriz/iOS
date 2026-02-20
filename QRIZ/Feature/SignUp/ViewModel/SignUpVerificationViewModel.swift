@@ -70,7 +70,7 @@ final class SignUpVerificationViewModel: EmailVerificationViewModel {
     override func verifyCode(email: String, authNumber: String) {
         Task {
             do {
-                _ = try await signUpService.EmailAuthentication(email: email, authNumber: authNumber)
+                _ = try await signUpService.emailAuthentication(email: email, authNumber: authNumber)
                 outputSubject.send(.codeVerificationSuccess)
                 countdownTimer.stop()
             } catch {

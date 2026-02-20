@@ -6,11 +6,10 @@
 //
 
 import Foundation
-import os.log
 
 public protocol LoginService {
     /// 로그인
-    func login(id: String, password: String) async throws  -> LoginResponse
+    func login(id: String, password: String) async throws -> LoginResponse
 }
 
 public final class LoginServiceImpl: LoginService {

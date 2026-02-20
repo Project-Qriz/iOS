@@ -7,7 +7,6 @@
 
 import Foundation
 
-
 public protocol AccountRecoveryService {
     
     /// 아이디 찾기
@@ -17,7 +16,7 @@ public protocol AccountRecoveryService {
     func findPassword(email: String) async throws -> FindPasswordResponse
     
     /// 비밀번호 초기화 인증번호 검증
-    func verifyPasswordReset(email:String, authNumber: String) async throws -> VerifyPasswordResetResponse
+    func verifyPasswordReset(email: String, authNumber: String) async throws -> VerifyPasswordResetResponse
     
     /// 비밀번호 초기화
     func resetPassword(password: String) async throws -> PasswordResetResponse
@@ -51,14 +50,13 @@ public final class AccountRecoveryServiceImpl: AccountRecoveryService {
         return try await network.send(request)
     }
     
-    public func verifyPasswordReset(email:String, authNumber: String) async throws -> VerifyPasswordResetResponse {
+    public func verifyPasswordReset(email: String, authNumber: String) async throws -> VerifyPasswordResetResponse {
         let request = VerifyPasswordResetRequest(email: email, authNumber: authNumber)
         return try await network.send(request)
     }
     
     public func resetPassword(password: String) async throws -> PasswordResetResponse {
         if resetToken.isEmpty {
-            print("잘못된 resetToken 입니다.")
             throw NetworkError.unknownError
         }
         

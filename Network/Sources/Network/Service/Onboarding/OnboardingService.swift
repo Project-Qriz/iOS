@@ -34,7 +34,7 @@ public final class OnboardingServiceImpl: OnboardingService {
     public func sendSurvey(keyConcepts: [String]) async throws {
         let request = SurveyRequest(accessToken: getAccessToken(), keyConcepts: keyConcepts)
         // SurveyResponse 는 서비스에서 필요 없기 때문에 디버깅용
-        let _ = try await network.send(request)
+        _ = try await network.send(request)
     }
     
     public func getPreviewTestList() async throws -> PreviewTestListResponse {
@@ -52,9 +52,7 @@ public final class OnboardingServiceImpl: OnboardingService {
         return try await network.send(request)
     }
     
-    // reissue로 인한 키체인의 accessToken이 변경되는 경우를 대비해서 매번 가져옴
     private func getAccessToken() -> String {
-        let accessToken = keychainManager.retrieveToken(forKey: TokenKey.accessToken.rawValue) ?? ""
-        return accessToken
+        keychainManager.retrieveToken(forKey: TokenKey.accessToken.rawValue) ?? ""
     }
 }
