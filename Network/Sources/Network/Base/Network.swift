@@ -6,14 +6,13 @@
 //
 
 import Foundation
-import Combine
 import QRIZUtils
 
 public protocol Network {
     func send<T: Request>(_ request: T) async throws -> T.Response
 }
 
-public final class NetworkImpl: Network {
+public actor NetworkImpl: Network {
     
     // MARK: - Properties
     
@@ -44,7 +43,7 @@ public final class NetworkImpl: Network {
         let (data, response) = try await session.data(for: urlRequest)
         
         do {
-            try validate(response, data)
+            try validate(response: response, data: data)
             saveTokens(from: data, response: response)
             return try decode(T.Response.self, from: data)
         } catch let NetworkError.unAuthorizedError(detailCode: code)
@@ -74,14 +73,14 @@ private extension NetworkImpl {
         let accessToken = keychain.retrieveToken(forKey: HTTPHeaderField.accessToken.rawValue)
         let refreshToken = keychain.retrieveToken(forKey: HTTPHeaderField.refreshToken.rawValue)
         
-        guard let refreshToken = refreshToken else {
+        guard let unwrappedRefreshToken = refreshToken else {
             throw NetworkError.unAuthorizedError(detailCode: nil)
         }
         
         isRefreshing = true
         defer { isRefreshing = false }
         
-        let request = RefreshTokenRequest(accessToken: accessToken ?? "", refreshToken: refreshToken)
+        let request = RefreshTokenRequest(accessToken: accessToken ?? "", refreshToken: unwrappedRefreshToken)
         let response: RefreshTokenResponse = try await self.send(request)
         
         // 새로운 Refresh Token이 있으면 저장
@@ -101,7 +100,7 @@ private extension NetworkImpl {
         
         let (data, response) = try await session.data(for: retryRequest)
         
-        try validate(response, data)
+        try validate(response: response, data: data)
         saveTokens(from: data, response: response)
         return try decode(responseType, from: data)
     }
@@ -132,20 +131,13 @@ private extension NetworkImpl {
     
     /// Refresh Token 저장 (응답 Body)
     func saveRefreshTokenIfPresent(from data: Data) {
-        guard let json = try? JSONSerialization.jsonObject(with: data) as? [String: Any] else {
-            return
-        }
-
-        guard let dataField = json["data"] as? [String: Any],
-              let refreshToken = dataField[HTTPHeaderField.refreshToken.rawValue] as? String else {
-            return
-        }
-        
-        let _ = keychain.save(token: refreshToken, forKey: HTTPHeaderField.refreshToken.rawValue)
+        guard let body = try? decoder.decode(RefreshTokenBody.self, from: data),
+              let refreshToken = body.data?.refreshToken else { return }
+        _ = keychain.save(token: refreshToken, forKey: HTTPHeaderField.refreshToken.rawValue)
     }
     
     /// HTTP 상태 코드 검증
-    func validate(_ response: URLResponse, _ data: Data) throws {
+    func validate(response: URLResponse, data: Data) throws {
         guard let httpResponse = response as? HTTPURLResponse else {
             throw NetworkError.unknownError
         }
@@ -183,5 +175,14 @@ private extension NetworkImpl {
         case is DecodingError: return .jsonDecodingError
         default: return .unknownError
         }
+    }
+}
+
+/// Refresh Token을 추출용 디코딩 모델입니다.
+private struct RefreshTokenBody: Decodable {
+    let data: DataField?
+    
+    struct DataField: Decodable {
+        let refreshToken: String?
     }
 }
