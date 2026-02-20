@@ -62,7 +62,7 @@ final class ExamScheduleSelectionViewModel {
             
         } catch let error as NetworkError {
             outputSubject.send(.showErrorAlert(error.errorMessage))
-            logger.error("NetworkError(fetchExamList): \(error.description, privacy: .public)")
+            logger.error("NetworkError(fetchExamList): \(error.debugDescription, privacy: .public)")
             
         } catch {
             outputSubject.send(.showErrorAlert("목록을 불러오지 못했습니다."))
@@ -89,7 +89,7 @@ final class ExamScheduleSelectionViewModel {
             
         } catch let error as NetworkError {
             outputSubject.send(.showErrorAlert(error.errorMessage))
-            logger.error("NetworkError(fetchExamDetail): \(error.description, privacy: .public)")
+            logger.error("NetworkError(fetchExamDetail): \(error.debugDescription, privacy: .public)")
             
         } catch {
             outputSubject.send(.showErrorAlert("시험 정보를 불러오지 못했습니다."))

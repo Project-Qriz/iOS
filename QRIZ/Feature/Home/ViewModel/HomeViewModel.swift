@@ -148,7 +148,7 @@ final class HomeViewModel {
             
         } catch let error as NetworkError  {
             outputSubject.send(.showErrorAlert(title: "초기화할 수 없습니다.", description: error.errorMessage))
-            logger.error("NetworkError(resetPlan): \(error.description, privacy: .public)")
+            logger.error("NetworkError(resetPlan): \(error.debugDescription, privacy: .public)")
             
         } catch {
             outputSubject.send(.showErrorAlert(title: "초기화할 수 없습니다."))
@@ -197,7 +197,7 @@ final class HomeViewModel {
     private func handle(_ err: Error) {
         if let net = err as? NetworkError {
             outputSubject.send(.showErrorAlert(title: net.errorMessage))
-            logger.error("NetworkError: \(net.description, privacy: .public)")
+            logger.error("NetworkError: \(net.debugDescription, privacy: .public)")
         } else {
             outputSubject.send(.showErrorAlert(title: "잠시 후 다시 시도해 주세요."))
             logger.error("Unhandled: \(err.localizedDescription, privacy: .public)")

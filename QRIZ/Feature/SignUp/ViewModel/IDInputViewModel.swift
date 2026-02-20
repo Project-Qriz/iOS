@@ -77,7 +77,7 @@ final class IDInputViewModel {
                             outputSubject.send(.updateNextButtonState(false))
                         } else {
                             outputSubject.send(.showErrorAlert(title: networkError.errorMessage))
-                            logger.error("Client error in checkUsernameDuplicateAPI: \(networkError.description, privacy: .public)")
+                            logger.error("Client error in checkUsernameDuplicateAPI: \(networkError.debugDescription, privacy: .public)")
                         }
                     default:
                         outputSubject.send(.showErrorAlert(title: networkError.errorMessage))

@@ -106,7 +106,7 @@ final class LoginViewModel {
                 
                 if let networkError = error as? NetworkError {
                     outputSubject.send(.showErrorAlert(title: title, descrption: description))
-                    logger.error("Network error in login: \(networkError.description, privacy: .public)")
+                    logger.error("Network error in login: \(networkError.debugDescription, privacy: .public)")
                 } else {
                     outputSubject.send(.showErrorAlert(title: title, descrption: description))
                     logger.error("Unhandled error in login: \(String(describing: error), privacy: .public)")

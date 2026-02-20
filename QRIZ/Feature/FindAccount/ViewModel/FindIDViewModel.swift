@@ -61,7 +61,7 @@ final class FindIDViewModel {
             } catch {
                 if let networkError = error as? NetworkError {
                     outputSubject.send(.showErrorAlert(networkError.errorMessage))
-                    logger.error("Network error in sendFindIDEmail: \(networkError.description, privacy: .public)")
+                    logger.error("Network error in sendFindIDEmail: \(networkError.debugDescription, privacy: .public)")
                 } else {
                     outputSubject.send(.showErrorAlert("이메일 발송에 실패했습니다."))
                     logger.error("Unhandled error in sendFindIDEmail: \(String(describing: error), privacy: .public)")
