@@ -6,23 +6,29 @@
 //
 
 import Foundation
+
 public struct RefreshTokenRequest: Request, Sendable {
     public typealias Response = RefreshTokenResponse
-    
+
     public let path = "/api/v1/auth/token/refresh"
     public let method: HTTPMethod = .post
-    public let accessToken: String
-    public let refreshToken: String
+    private let accessToken: String
+    private let refreshToken: String
 
     public var body: Encodable? {
         ["refreshToken": refreshToken]
     }
-    
+
     public var headers: HTTPHeader {
         [
             HTTPHeaderField.contentType.rawValue: ContentType.json.rawValue,
             HTTPHeaderField.authorization.rawValue: accessToken
         ]
+    }
+
+    public init(accessToken: String, refreshToken: String) {
+        self.accessToken = accessToken
+        self.refreshToken = refreshToken
     }
 }
 

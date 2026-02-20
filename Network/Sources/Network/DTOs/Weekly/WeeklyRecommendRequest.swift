@@ -6,21 +6,24 @@
 //
 
 import Foundation
-
 import QRIZUtils
 
 public struct WeeklyRecommendRequest: Request, Sendable {
     public typealias Response = WeeklyRecommendResponse
-    
-    public let accessToken: String
+
     public let path = "/api/v1/recommend/weekly"
     public let method: HTTPMethod = .get
-    
+    private let accessToken: String
+
     public var headers: HTTPHeader {
         [
             HTTPHeaderField.contentType.rawValue: ContentType.json.rawValue,
             HTTPHeaderField.authorization.rawValue: accessToken
         ]
+    }
+
+    public init(accessToken: String) {
+        self.accessToken = accessToken
     }
 }
 
@@ -54,6 +57,7 @@ extension RecommendData.Item {
         )
     }
 }
+
 extension RecommendData {
     public func toKindAndConcepts() -> (RecommendationKind, [WeeklyConcept]) {
         let kind = RecommendationKind(rawValue: recommendationType) ?? .unknown
