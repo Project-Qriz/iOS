@@ -52,7 +52,7 @@ final class MistakeNoteCoordinatorImpl: MistakeNoteCoordinator, NavigationGuard 
         guardNavigation { [service] in
             let viewModel = ProblemDetailViewModel {
                 let response = try await service.getClipDetail(clipId: clipId)
-                return response.data
+                return response.data.toEntity()
             }
             let vc = ProblemDetailViewController(viewModel: viewModel)
             vc.coordinator = self

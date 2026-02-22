@@ -184,9 +184,9 @@ final class HomeViewModel {
         }
     }
     
-    private func loadDailyPlans() async throws -> [DailyPlan] {
+    private func loadDailyPlans() async throws -> [DailyPlanEntity] {
         let response = try await dailyService.getDailyPlan()
-        return response.data ?? []
+        return response.data?.map { $0.toEntity() } ?? []
     }
     
     private func loadWeeklyRecommend() async throws -> (kind: RecommendationKind, concepts: [WeeklyConcept])? {

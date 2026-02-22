@@ -108,7 +108,7 @@ final class ExamCoordinatorImpl: ExamCoordinator, NavigationGuard {
                     examId: currentExamId,
                     questionId: questionId
                 )
-                return response.data
+                return response.data.toEntity()
             }
             let vc = ProblemDetailViewController(viewModel: viewModel)
             vc.coordinator = self

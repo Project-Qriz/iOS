@@ -30,12 +30,12 @@ final class ExamResultViewModel {
     }
     
     // MARK: - Properties
-    private var subjectScores: [CGFloat] = []
+    private var subjectScores: [Double] = []
     private var subjectCount: Int = 0
     private var gradeResultList: [GradeResult] = []
     private var subject1DetailResult: [SubjectDetailData] = []
     private var subject2DetailResult: [SubjectDetailData] = []
-    private var historicalScores: [HistoricalScore] = []
+    private var historicalScores: [HistoricalScoreEntity] = []
     private var numOfDataToPresent: Int = 0
     private var nickname: String {
         UserInfoManager.shared.name
@@ -97,7 +97,7 @@ final class ExamResultViewModel {
     private func fetchResultResponse() async throws {
         let resultResponse = try await examService.getExamResult(examId: examId)
         let data = resultResponse.data
-        historicalScores = data.historicalScores
+        historicalScores = data.historicalScores.map { $0.toEntity() }
         data.problemResults.enumerated().forEach { [weak self] in
             guard let self = self else { return }
             self.gradeResultList.append(
@@ -122,13 +122,13 @@ final class ExamResultViewModel {
             case "1과목":
                 $0.majorItems.forEach { [weak self] item in
                     guard let self = self else { return }
-                    self.subject1DetailResult.append(SubjectDetailData(majorItem: item.majorItem, score: item.score, minorItems: item.subItemScores))
+                    self.subject1DetailResult.append(SubjectDetailData(majorItem: item.majorItem, score: item.score, minorItems: item.subItemScores.map { $0.toEntity() }))
                     self.subjectScores.append(item.score)
                 }
             case "2과목":
                 $0.majorItems.forEach { [weak self] item in
                     guard let self = self else { return }
-                    self.subject2DetailResult.append(SubjectDetailData(majorItem: item.majorItem, score: item.score, minorItems: item.subItemScores))
+                    self.subject2DetailResult.append(SubjectDetailData(majorItem: item.majorItem, score: item.score, minorItems: item.subItemScores.map { $0.toEntity() }))
                     self.subjectScores.append(item.score)
                 }
             default:

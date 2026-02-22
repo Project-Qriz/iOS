@@ -8,6 +8,7 @@
 import SwiftUI
 import Combine
 import Network
+import QRIZUtils
 
 struct ProblemDetailView: View {
 
@@ -38,7 +39,7 @@ private extension ProblemDetailView {
         }
     }
     
-    func mainScrollView(data: DailyResultDetail) -> some View {
+    func mainScrollView(data: DailyResultDetailEntity) -> some View {
         ScrollView {
             VStack(spacing: 32) {
                 // 헤더 카드 (과목, 시험 정보 등)
@@ -129,7 +130,7 @@ private extension ProblemDetailView {
             viewModel: ProblemDetailViewModel {
                 let service = DailyServiceImpl()
                 let response = try await service.getDailyResultDetail(dayNumber: 1, questionId: 1)
-                return response.data
+                return response.data.toEntity()
             },
             retryInput: PassthroughSubject<Void, Never>(),
             learnButtonTapInput: PassthroughSubject<Void, Never>(),

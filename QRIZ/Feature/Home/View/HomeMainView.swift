@@ -25,7 +25,7 @@ final class HomeMainView: UIView {
     private let weeklyConceptTappedSubject = PassthroughSubject<Int, Never>()
     private var cancellables = Set<AnyCancellable>()
     private var lastSelectedIndex = 0
-    private var currentDailyPlans: [DailyPlan] = []
+    private var currentDailyPlans: [DailyPlanEntity] = []
     private var currentEntryState: EntryCardState = .preview
     private var isPreviewLocked = true
     
