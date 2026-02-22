@@ -1,42 +1,51 @@
 //
 //  ProblemQuestionData.swift
-//  QRIZ
+//  QRIZUtils
 //
 //  Created by Claude on 12/30/25.
 //
 
 import Foundation
-import QRIZUtils
-import Network
 
 /// 문제 섹션 데이터
-struct ProblemQuestionData {
-    let questionNumber: Int         // 2
-    let questionText: String        // "다음 요구사항을 만족하는 가장 적절한 SQL문은?"
-    let description: String?        // 추가 설명 (마크다운)
-    let options: [OptionData]       // 4개 옵션
+public struct ProblemQuestionData {
+    public let questionNumber: Int
+    public let questionText: String
+    public let description: String?
+    public let options: [OptionData]
+
+    public init(questionNumber: Int, questionText: String, description: String?, options: [OptionData]) {
+        self.questionNumber = questionNumber
+        self.questionText = questionText
+        self.description = description
+        self.options = options
+    }
 }
 
 /// 옵션 데이터
-struct OptionData {
-    let number: Int                 // 1-4
-    let text: String                // 옵션 텍스트
-    let state: OptionState          // 상태 (정답/오답/일반)
+public struct OptionData {
+    public let number: Int
+    public let text: String
+    public let state: OptionState
+
+    public init(number: Int, text: String, state: OptionState) {
+        self.number = number
+        self.text = text
+        self.state = state
+    }
 }
 
 /// 옵션 상태
-enum OptionState {
-    case normal                     // 일반 (회색)
-    case correct                    // 정답 (파란색)
-    case incorrect                  // 오답 (빨간색)
+public enum OptionState {
+    case normal
+    case correct
+    case incorrect
 }
 
-// MARK: - Helper Extensions
-
-extension DailyResultDetail {
+extension DailyResultDetailEntity {
 
     /// 헤더 카드 데이터로 변환
-    var headerData: ProblemHeaderData {
+    public var headerData: ProblemHeaderData {
         ProblemHeaderData(
             isCorrect: correction,
             examTitle: testInfo,
@@ -47,7 +56,7 @@ extension DailyResultDetail {
     }
 
     /// 문제 섹션 데이터로 변환
-    var questionData: ProblemQuestionData {
+    public var questionData: ProblemQuestionData {
         let optionTexts = [option1, option2, option3, option4]
         let optionStates = optionTexts.enumerated().map { index, _ -> OptionState in
             let optionNumber = index + 1

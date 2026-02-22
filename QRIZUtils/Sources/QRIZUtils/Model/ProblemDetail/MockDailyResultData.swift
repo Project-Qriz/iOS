@@ -1,18 +1,14 @@
 //
 //  MockDailyResultData.swift
-//  QRIZ
+//  QRIZUtils
 //
 //  Created by Claude on 12/30/25.
 //
 
-import Foundation
-import Network
-
 #if DEBUG
-enum MockDailyResultData {
-
+public enum MockDailyResultData {
     /// 정답 샘플
-    static let correctSample = DailyResultDetail(
+    public static let correctSample = DailyResultDetailEntity(
         skillName: "조인",
         questionText: "다음 요구사항을 만족하는 가장 적절한 SQL문은?",
         questionNum: 2,
@@ -47,7 +43,7 @@ enum MockDailyResultData {
     )
 
     /// 오답 샘플
-    static let incorrectSample = DailyResultDetail(
+    public static let incorrectSample = DailyResultDetailEntity(
         skillName: "조인",
         questionText: "다음 요구사항을 만족하는 가장 적절한 SQL문은?",
         questionNum: 1,
