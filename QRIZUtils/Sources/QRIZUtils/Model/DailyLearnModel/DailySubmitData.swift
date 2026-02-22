@@ -5,7 +5,7 @@
 //  Created by 이창현 on 4/29/25.
 //
 
-public struct DailySubmitData: Codable {
+public struct DailySubmitData: Codable, Sendable {
     public var question: SubmitQuestionData
     public var questionNum: Int
     public var optionId: Int?

@@ -7,7 +7,7 @@
 
 import Foundation
 
-public enum SocialLogin: String {
+public enum SocialLogin: String, Sendable {
     case google = "google"
     case kakao = "kakao"
     case apple = "apple"
