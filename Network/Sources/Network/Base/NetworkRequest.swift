@@ -26,7 +26,11 @@ extension Request {
         guard let baseURLString = Bundle.main.object(forInfoDictionaryKey: "BaseURL") as? String,
               let baseURL = URL(string: baseURLString)
         else {
+            #if DEBUG
+            return URL(string: "https://test.example.com")!
+            #else
             fatalError("Info.plist에 유효한 BaseURL이 설정되어 있지 않습니다.")
+            #endif
         }
         return baseURL
     }

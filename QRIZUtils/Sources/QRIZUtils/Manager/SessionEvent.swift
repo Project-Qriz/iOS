@@ -7,7 +7,7 @@
 
 import Combine
 
-public enum SessionEvent {
+public enum SessionEvent: Equatable {
     case expired
 }
 

@@ -8,6 +8,9 @@ let package = Package(
     platforms: [.iOS(.v15)],
     products: [.library(name: "Network", targets: ["Network"]),],
     dependencies: [.package(path: "../QRIZUtils")],
-    targets: [.target(name: "Network", dependencies: ["QRIZUtils"])]
+    targets: [
+        .target(name: "Network", dependencies: ["QRIZUtils"]),
+        .testTarget(name: "NetworkTests", dependencies: ["Network"])
+    ]
     
 )
