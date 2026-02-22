@@ -1,6 +1,6 @@
 //
 //  ResultGradeListData.swift
-//  QRIZ
+//  QRIZUtils
 //
 //  Created by 이창현 on 4/18/25.
 //

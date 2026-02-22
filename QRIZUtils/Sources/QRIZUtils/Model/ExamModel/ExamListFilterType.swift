@@ -1,6 +1,6 @@
 //
 //  ExamListFilterType.swift
-//  QRIZ
+//  QRIZUtils
 //
 //  Created by 이창현 on 5/11/25.
 //

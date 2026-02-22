@@ -1,6 +1,6 @@
 //
 //  UIControl+.swift
-//  QRIZ
+//  QRIZUtils
 //
 //  Created by 김세훈 on 2/4/25.
 //

@@ -1,6 +1,6 @@
 //
 //  UINavigationBar+.swift
-//  QRIZ
+//  QRIZUtils
 //
 //  Created by 김세훈 on 1/8/25.
 //

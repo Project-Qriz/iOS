@@ -1,6 +1,6 @@
 //
 //  ProblemHeaderData.swift
-//  QRIZ
+//  QRIZUtils
 //
 //  Created by Claude on 12/30/25.
 //

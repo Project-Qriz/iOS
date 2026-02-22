@@ -1,6 +1,6 @@
 //
 //  SocialLoginType.swift
-//  QRIZ
+//  QRIZUtils
 //
 //  Created by 김세훈 on 9/1/25.
 //

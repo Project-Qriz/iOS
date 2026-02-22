@@ -1,6 +1,6 @@
 //
 //  Views+Extensions.swift
-//  QRIZ
+//  QRIZUtils
 //
 //  Created by ch on 1/1/25.
 //

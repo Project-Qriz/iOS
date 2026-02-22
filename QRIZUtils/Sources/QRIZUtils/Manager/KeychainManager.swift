@@ -1,6 +1,6 @@
 //
 //  KeychainManager.swift
-//  QRIZ
+//  QRIZUtils
 //
 //  Created by 김세훈 on 3/31/25.
 //

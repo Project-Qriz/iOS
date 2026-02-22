@@ -1,6 +1,6 @@
 //
 //  DailyTestState.swift
-//  QRIZ
+//  QRIZUtils
 //
 //  Created by ch on 2/20/25.
 //

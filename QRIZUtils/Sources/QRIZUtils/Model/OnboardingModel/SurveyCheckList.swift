@@ -1,6 +1,6 @@
 //
 //  SurveyCheckList.swift
-//  QRIZ
+//  QRIZUtils
 //
 //  Created by ch on 12/17/24.
 //

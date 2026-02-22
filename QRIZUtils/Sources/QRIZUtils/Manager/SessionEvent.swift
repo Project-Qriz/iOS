@@ -1,6 +1,6 @@
 //
 //  SessionEvent.swift
-//  QRIZ
+//  QRIZUtils
 //
 //  Created by 김세훈 on 6/2/25.
 //

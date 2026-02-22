@@ -1,6 +1,6 @@
 //
 //  DailyTestSubmitData.swift
-//  QRIZ
+//  QRIZUtils
 //
 //  Created by 이창현 on 4/29/25.
 //

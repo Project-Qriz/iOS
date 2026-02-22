@@ -1,6 +1,6 @@
 //
 //  NavigationGuard.swift
-//  QRIZ
+//  QRIZUtils
 //
 //  Created on 2025/12/27.
 //

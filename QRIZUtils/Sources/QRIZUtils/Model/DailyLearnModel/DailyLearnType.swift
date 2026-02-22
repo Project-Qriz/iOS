@@ -1,6 +1,6 @@
 //
 //  DailyLearnType.swift
-//  QRIZ
+//  QRIZUtils
 //
 //  Created by ch on 2/16/25.
 //
