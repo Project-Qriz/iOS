@@ -5,6 +5,8 @@
 //  Created by Claude on 1/2/26.
 //
 
+import QRIZUtils
+
 public struct DailyResultDetailRequest: Request, Sendable {
     public typealias Response = DailyResultDetailResponse
 
@@ -88,5 +90,26 @@ public struct DailyResultDetail: Decodable, Sendable {
         self.skillId = skillId
         self.title = title
         self.keyConcepts = keyConcepts
+    }
+
+    public func toEntity() -> DailyResultDetailEntity {
+        DailyResultDetailEntity(
+            skillName: skillName,
+            questionText: questionText,
+            questionNum: questionNum,
+            description: description,
+            option1: option1,
+            option2: option2,
+            option3: option3,
+            option4: option4,
+            answer: answer,
+            solution: solution,
+            checked: checked,
+            correction: correction,
+            testInfo: testInfo,
+            skillId: skillId,
+            title: title,
+            keyConcepts: keyConcepts
+        )
     }
 }

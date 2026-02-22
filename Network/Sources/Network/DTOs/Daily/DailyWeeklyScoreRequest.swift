@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import QRIZUtils
 
 public struct DailyWeeklyScoreRequest: Request, Sendable {
     public typealias Response = DailyWeeklyScoreResponse
@@ -57,4 +58,8 @@ public struct DailyWeeklyScoreResponse: Decodable, Sendable {
 public struct SubItemInfo: Decodable, Sendable {
     public let subItem: String
     public let score: Double
+
+    public func toEntity() -> SubItemInfoEntity {
+        SubItemInfoEntity(subItem: subItem, score: score)
+    }
 }

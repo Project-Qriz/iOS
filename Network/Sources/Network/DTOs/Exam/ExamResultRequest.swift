@@ -5,6 +5,8 @@
 //  Created by ch on 5/6/25.
 //
 
+import QRIZUtils
+
 public struct ExamResultRequest: Request, Sendable {
     public typealias Response = ExamResultResponse
     
@@ -64,5 +66,14 @@ public struct HistoricalScore: Decodable, Comparable, Sendable {
     
     public static func == (lhs: HistoricalScore, rhs: HistoricalScore) -> Bool {
         lhs.displayDate == rhs.displayDate
+    }
+
+    public func toEntity() -> HistoricalScoreEntity {
+        HistoricalScoreEntity(
+            completionDateTime: completionDateTime,
+            itemScores: itemScores.map { ItemScoreEntity(type: $0.type, score: $0.score) },
+            attemptCount: attemptCount,
+            displayDate: displayDate
+        )
     }
 }

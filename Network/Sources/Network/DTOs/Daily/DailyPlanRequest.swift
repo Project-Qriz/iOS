@@ -5,6 +5,8 @@
 //  Created by 김세훈 on 6/24/25.
 //
 
+import QRIZUtils
+
 public struct DailyPlanRequest: Request, Sendable {
     public typealias Response = DailyPlanResponse
 
@@ -41,6 +43,21 @@ public struct DailyPlan: Equatable, Hashable, Decodable, Sendable {
     public let comprehensiveReviewDay: Bool
     public let today: Bool
     public let lastDay: Bool
+
+    public func toEntity() -> DailyPlanEntity {
+        DailyPlanEntity(
+            id: id,
+            dayNumber: dayNumber,
+            completed: completed,
+            planDate: planDate,
+            completionDate: completionDate,
+            plannedSkills: plannedSkills.map { $0.toEntity() },
+            reviewDay: reviewDay,
+            comprehensiveReviewDay: comprehensiveReviewDay,
+            today: today,
+            lastDay: lastDay
+        )
+    }
 }
 
 public struct PlannedSkill: Equatable, Hashable, Decodable, Sendable {
@@ -54,5 +71,14 @@ public struct PlannedSkill: Equatable, Hashable, Decodable, Sendable {
         self.type = type
         self.keyConcept = keyConcept
         self.description = description
+    }
+
+    public func toEntity() -> PlannedSkillEntity {
+        PlannedSkillEntity(
+            id: id,
+            type: type,
+            keyConcept: keyConcept,
+            description: description
+        )
     }
 }
