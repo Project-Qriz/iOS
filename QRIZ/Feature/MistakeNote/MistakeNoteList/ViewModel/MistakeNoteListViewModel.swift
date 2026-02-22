@@ -104,7 +104,7 @@ final class MistakeNoteListViewModel: ObservableObject {
 
     // MARK: - Initializers
 
-    nonisolated init(service: MistakeNoteService = MistakeNoteServiceImpl()) {
+    init(service: MistakeNoteService = MistakeNoteServiceImpl()) {
         self.service = service
     }
 

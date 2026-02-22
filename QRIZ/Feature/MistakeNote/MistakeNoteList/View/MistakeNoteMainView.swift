@@ -24,7 +24,7 @@ struct MistakeNoteMainView: View {
 
     // MARK: - Initializer
 
-    init(viewModel: MistakeNoteListViewModel = MistakeNoteListViewModel()) {
+    init(viewModel: MistakeNoteListViewModel) {
         _viewModel = StateObject(wrappedValue: viewModel)
     }
 
@@ -315,5 +315,5 @@ private enum FilterType {
 // MARK: - Preview
 
 #Preview {
-    MistakeNoteMainView()
+    MistakeNoteMainView(viewModel: MistakeNoteListViewModel())
 }

@@ -41,7 +41,8 @@ final class MistakeNoteCoordinatorImpl: MistakeNoteCoordinator, NavigationGuard 
     // MARK: - Methods
 
     func start() -> UIViewController {
-        let mistakeNoteVC = MistakeNoteViewController()
+        let viewModel = MistakeNoteListViewModel()
+        let mistakeNoteVC = MistakeNoteViewController(viewModel: viewModel)
         mistakeNoteVC.delegate = self
         let nav = UINavigationController(rootViewController: mistakeNoteVC)
         navigationController = nav
