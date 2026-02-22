@@ -5,8 +5,6 @@
 //  Created by 이창현 on 5/11/25.
 //
 
-import Foundation
-
 public enum ExamListFilterType: String, CaseIterable, Comparable {
     case total = "전체"
     case incomplete = "학습 전"

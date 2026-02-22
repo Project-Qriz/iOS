@@ -5,8 +5,8 @@
 //  Created by 이창현 on 5/27/25.
 //
 
-import Foundation
 import Combine
+import Foundation
 
 public final class ScoreGraphData: ObservableObject {
     @Published public var filterType: ScoreGraphFilterType = .byTotalScore

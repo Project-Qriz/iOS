@@ -5,7 +5,7 @@
 //  Created by 이창현 on 4/18/25.
 //
 
-import Foundation
+import Combine
 
 public final class ResultGradeListData: ObservableObject {
     @Published public var gradeResultList: [GradeResult] = []

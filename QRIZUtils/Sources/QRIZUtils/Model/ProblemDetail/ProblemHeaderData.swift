@@ -5,8 +5,6 @@
 //  Created by Claude on 12/30/25.
 //
 
-import Foundation
-
 public struct ProblemHeaderData {
     public let isCorrect: Bool             // 정답 여부
     public let examTitle: String           // "2023년도 모의고사"

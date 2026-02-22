@@ -5,8 +5,6 @@
 //  Created by 이창현 on 4/29/25.
 //
 
-import Foundation
-
 public struct DailySubmitData: Codable {
     public var question: SubmitQuestionData
     public var questionNum: Int

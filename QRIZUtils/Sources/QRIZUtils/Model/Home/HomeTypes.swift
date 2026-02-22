@@ -5,8 +5,6 @@
 //  Created by Claude on 2/16/26.
 //
 
-import Foundation
-
 public enum ExamStatus: Equatable, Hashable {
     case none
     case expired(detail: ExamDetail)

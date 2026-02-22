@@ -5,8 +5,6 @@
 //  Created by ch on 12/21/24.
 //
 
-import Foundation
-
 public struct QuestionData {
     public var question: String
     public var option1: String

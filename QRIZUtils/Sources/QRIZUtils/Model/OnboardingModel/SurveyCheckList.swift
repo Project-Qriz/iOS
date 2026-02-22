@@ -5,8 +5,6 @@
 //  Created by ch on 12/17/24.
 //
 
-import Foundation
-
 public struct SurveyCheckList {
     public static let list: [String] = [
         "데이터 모델의 이해",
