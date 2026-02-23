@@ -1,13 +1,13 @@
 //
 //  SocialLoginType.swift
-//  QRIZ
+//  QRIZUtils
 //
 //  Created by 김세훈 on 9/1/25.
 //
 
 import Foundation
 
-public enum SocialLogin: String {
+public enum SocialLogin: String, Sendable {
     case google = "google"
     case kakao = "kakao"
     case apple = "apple"

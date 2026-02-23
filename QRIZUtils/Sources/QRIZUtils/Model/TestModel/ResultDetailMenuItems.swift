@@ -1,11 +1,9 @@
 //
 //  ResultDetailMenuItems.swift
-//  QRIZ
+//  QRIZUtils
 //
 //  Created by 이창현 on 4/19/25.
 //
-
-import Foundation
 
 public enum ResultDetailMenuItems: String, CaseIterable {
     case total = "전체"

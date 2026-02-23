@@ -1,11 +1,9 @@
 //
 //  ExamRowState.swift
-//  QRIZ
+//  QRIZUtils
 //
 //  Created by 김세훈 on 5/8/25.
 //
-
-import Foundation
 
 public struct ExamRowState: Hashable {
     public let id: Int

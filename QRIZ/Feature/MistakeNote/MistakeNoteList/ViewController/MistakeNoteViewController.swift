@@ -27,7 +27,7 @@ final class MistakeNoteViewController: UIHostingController<MistakeNoteMainView> 
 
     // MARK: - Initialize
 
-    init(viewModel: MistakeNoteListViewModel = MistakeNoteListViewModel()) {
+    init(viewModel: MistakeNoteListViewModel) {
         self.viewModel = viewModel
         let mistakeNoteView = MistakeNoteMainView(viewModel: viewModel)
         super.init(rootView: mistakeNoteView)

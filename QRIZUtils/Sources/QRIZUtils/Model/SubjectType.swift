@@ -1,13 +1,10 @@
 //
 //  SubjectType.swift
-//  QRIZ
+//  QRIZUtils
 //
 //  Created by 김세훈 on 4/15/25.
 //
 
-import Foundation
-
-// MARK: - Subject
 /// 과목 타입을 정의한 열거형입니다.
 /// - 하위 개념으로 `Chapter(SQL 기본, SQL활용 등)`를 가지고 있습니다.
 public enum Subject: String, CaseIterable {
@@ -29,7 +26,6 @@ public extension Subject {
     }
 }
 
-// MARK: - Chapter
 /// 챕터 타입을 정의한 열거형입니다.
 /// - 하위 개념으로 `concept(엔터티, 속성 등)`를 가지고 있습니다.
 public enum Chapter: String, CaseIterable {
@@ -102,7 +98,6 @@ public extension Chapter {
     }
 }
 
-// MARK: - ConceptCategory
 /// 개념들을 카테고리별로 그룹화한 열거형입니다.
 public enum ConceptCategory: CaseIterable {
     public enum DataModeling: String, CaseIterable {

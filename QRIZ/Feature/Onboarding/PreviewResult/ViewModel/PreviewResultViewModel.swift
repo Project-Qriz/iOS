@@ -8,6 +8,7 @@
 import Foundation
 import Combine
 import QRIZUtils
+import Network
 
 final class PreviewResultViewModel {
     
@@ -85,8 +86,8 @@ final class PreviewResultViewModel {
     private func updateScoreData(_ data: AnalyzePreviewResponse.DataInfo) {
         DispatchQueue.main.async { [weak self] in
             guard let self = self else { return }
-            previewScoresData.subjectScores[0] = CGFloat(data.scoreBreakdown.part1Score)
-            previewScoresData.subjectScores[1] = CGFloat(data.scoreBreakdown.part2Score)
+            previewScoresData.subjectScores[0] = Double(data.scoreBreakdown.part1Score)
+            previewScoresData.subjectScores[1] = Double(data.scoreBreakdown.part2Score)
             previewScoresData.subjectCount = 2
         }
     }

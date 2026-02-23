@@ -8,6 +8,7 @@
 import Foundation
 import Combine
 import QRIZUtils
+import Network
 
 @MainActor
 final class MistakeNoteListViewModel: ObservableObject {
@@ -103,7 +104,7 @@ final class MistakeNoteListViewModel: ObservableObject {
 
     // MARK: - Initializers
 
-    nonisolated init(service: MistakeNoteService = MistakeNoteServiceImpl()) {
+    init(service: MistakeNoteService = MistakeNoteServiceImpl()) {
         self.service = service
     }
 

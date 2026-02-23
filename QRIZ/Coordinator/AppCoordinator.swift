@@ -8,6 +8,7 @@
 import UIKit
 import Combine
 import QRIZUtils
+import Network
 
 @MainActor
 protocol Coordinator: AnyObject {
@@ -241,7 +242,7 @@ extension AppCoordinatorImpl: OnboardingCoordinatorDelegate {
 extension AppCoordinatorImpl: TabBarCoordinatorDelegate {
     func didLogout(_ coordinator: TabBarCoordinator) {
         childCoordinators.removeAll()
-        dependency.keychain.deleteToken(forKey: HTTPHeaderField.accessToken.rawValue)
+        dependency.keychain.deleteToken(forKey: TokenKey.accessToken.rawValue)
         _ = showLogin()
     }
 }

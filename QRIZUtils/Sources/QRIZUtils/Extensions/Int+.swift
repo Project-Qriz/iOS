@@ -1,6 +1,6 @@
 //
 //  Int+.swift
-//  QRIZ
+//  QRIZUtils
 //
 //  Created by ch on 4/16/25.
 //

@@ -1,6 +1,6 @@
 //
 //  UIScreen+.swift
-//  QRIZ
+//  QRIZUtils
 //
 //  Created by 김세훈 on 5/20/25.
 //

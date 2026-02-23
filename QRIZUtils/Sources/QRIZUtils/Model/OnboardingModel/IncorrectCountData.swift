@@ -1,11 +1,9 @@
 //
 //  IncorrectCountData.swift
-//  QRIZ
+//  QRIZUtils
 //
 //  Created by ch on 12/29/24.
 //
-
-import Foundation
 
 public struct IncorrectCountData: Identifiable {
     public var id: Int = 0

@@ -8,10 +8,11 @@
 import UIKit
 import Combine
 import QRIZUtils
+import Network
 
 struct StudySummary: Equatable, Hashable {
     let id: Int
-    let dailyPlans: [DailyPlan]
+    let dailyPlans: [DailyPlanEntity]
 }
 
 enum HomeSection: Int, CaseIterable {

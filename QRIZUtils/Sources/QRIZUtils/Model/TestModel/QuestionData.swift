@@ -1,11 +1,9 @@
 //
 //  QuestionList.swift
-//  QRIZ
+//  QRIZUtils
 //
 //  Created by ch on 12/21/24.
 //
-
-import Foundation
 
 public struct QuestionData {
     public var question: String

@@ -8,6 +8,7 @@
 import Foundation
 import Combine
 import os.log
+import Network
 
 struct TermItem {
     let title: String
@@ -103,7 +104,7 @@ final class TermsAgreementModalViewModel {
                     case .clientError(let statusCode, _, _)
                         where statusCode == 400:
                         outputSubject.send(.showErrorAlert(title: "가입 실패", description: "처음부터 다시 진행해 주세요."))
-                        logger.error("Client error 400 in performJoin: \(networkError.description, privacy: .public)")
+                        logger.error("Client error 400 in performJoin: \(networkError.debugDescription, privacy: .public)")
                     default:
                         outputSubject.send(.showErrorAlert(title: networkError.errorMessage))
                     }

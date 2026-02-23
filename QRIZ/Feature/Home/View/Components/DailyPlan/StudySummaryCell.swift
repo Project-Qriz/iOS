@@ -6,6 +6,8 @@
 //
 
 import UIKit
+import Network
+import QRIZUtils
 
 final class StudySummaryCell: UICollectionViewCell {
     
@@ -155,17 +157,17 @@ final class StudySummaryCell: UICollectionViewCell {
         titleLabel.alpha = 1.0
     }
     
-    private func shouldLock(_ plan: DailyPlan) -> Bool {
+    private func shouldLock(_ plan: DailyPlanEntity) -> Bool {
         (plan.reviewDay || plan.comprehensiveReviewDay) && plan.plannedSkills.isEmpty
     }
     
-    private func applyStudyUI(plan: DailyPlan) {
+    private func applyStudyUI(plan: DailyPlanEntity) {
         let prefix = (plan.reviewDay || plan.comprehensiveReviewDay) ? "복습해야 하는 개념" : "학습해야 하는 개념"
         titleLabel.attributedText = makeTitleAttributedText(prefix: prefix, number: plan.plannedSkills.count)
         addCards(plan.plannedSkills)
     }
     
-    private func applyComprehensiveUI(_ plan: DailyPlan) {
+    private func applyComprehensiveUI(_ plan: DailyPlanEntity) {
         let header = "종합복습 시간!"
         let subtitle = "복습해야 하는 개념 \(plan.plannedSkills.count)가지"
         let fullText = "\(header)\n\(subtitle)"
@@ -181,12 +183,12 @@ final class StudySummaryCell: UICollectionViewCell {
         addCards(plan.plannedSkills)
     }
     
-    private func applyLockedUI(plan: DailyPlan) {
+    private func applyLockedUI(plan: DailyPlanEntity) {
         titleLabel.text = "복습해야 하는 개념 준비중"
         titleLabel.textColor = .coolNeutral300
         titleLabel.alpha = 0.6
         
-        let skill = PlannedSkill(id: -1, type: "주요항목", keyConcept: "세부 항목", description: "")
+        let skill = PlannedSkillEntity(id: -1, type: "주요항목", keyConcept: "세부 항목", description: "")
         addCards([skill, skill])
         
         lockContainer.isHidden = false
@@ -194,12 +196,12 @@ final class StudySummaryCell: UICollectionViewCell {
         lockMessageLabel.text = lockedMessage(from: plan)
     }
     
-    private func lockedMessage(from plan: DailyPlan) -> String {
+    private func lockedMessage(from plan: DailyPlanEntity) -> String {
         let day = Int(plan.dayNumber.filter { $0.isNumber }) ?? 0
         return day > 1 ? "Day \(day - 1)까지\n모두 완료해 주세요!" : "이전 학습을 완료해 주세요!"
     }
     
-    private func addCards(_ skills: [PlannedSkill]) {
+    private func addCards(_ skills: [PlannedSkillEntity]) {
         for skill in skills.prefix(2) {
             let card = ConceptCardView(type: skill.type, keyConcept: skill.keyConcept)
             cardStack.addArrangedSubview(card)
@@ -223,7 +225,7 @@ final class StudySummaryCell: UICollectionViewCell {
     
     private func configureMock() {
         titleLabel.text = "학습해야 하는 개념 2가지"
-        let dummy = PlannedSkill(id: -1, type: "SQL 기본", keyConcept: "WHERE 절", description: "")
+        let dummy = PlannedSkillEntity(id: -1, type: "SQL 기본", keyConcept: "WHERE 절", description: "")
         addCards([dummy, dummy])
         blurOverlay.isHidden = false
     }

@@ -1,11 +1,9 @@
 //
 //  ProblemHeaderData.swift
-//  QRIZ
+//  QRIZUtils
 //
 //  Created by Claude on 12/30/25.
 //
-
-import Foundation
 
 public struct ProblemHeaderData {
     public let isCorrect: Bool             // 정답 여부

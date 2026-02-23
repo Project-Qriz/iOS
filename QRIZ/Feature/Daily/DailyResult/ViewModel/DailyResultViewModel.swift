@@ -8,6 +8,7 @@
 import Foundation
 import Combine
 import QRIZUtils
+import Network
 
 final class DailyResultViewModel {
     
@@ -29,7 +30,7 @@ final class DailyResultViewModel {
     }
     
     // MARK: - Properties
-    private var subjectScores: [CGFloat] = []
+    private var subjectScores: [Double] = []
     private var subjectCount: Int = 0
     private var gradeResultList: [GradeResult] = []
     private var subject1DetailResult: [SubjectDetailData] = []
@@ -150,13 +151,13 @@ final class DailyResultViewModel {
             case "1과목":
                 $0.majorItems.forEach { [weak self] item in
                     guard let self = self else { return }
-                    self.subject1DetailResult.append(SubjectDetailData(majorItem: item.majorItem, score: item.score, minorItems: item.subItemScores))
+                    self.subject1DetailResult.append(SubjectDetailData(majorItem: item.majorItem, score: item.score, minorItems: item.subItemScores.map { $0.toEntity() }))
                     self.subjectScores.append(item.score)
                 }
             case "2과목":
                 $0.majorItems.forEach { [weak self] item in
                     guard let self = self else { return }
-                    self.subject2DetailResult.append(SubjectDetailData(majorItem: item.majorItem, score: item.score, minorItems: item.subItemScores))
+                    self.subject2DetailResult.append(SubjectDetailData(majorItem: item.majorItem, score: item.score, minorItems: item.subItemScores.map { $0.toEntity() }))
                     self.subjectScores.append(item.score)
                 }
             default:

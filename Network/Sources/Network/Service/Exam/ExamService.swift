@@ -1,0 +1,71 @@
+//
+//  ExamService.swift
+//  QRIZ
+//
+//  Created by ch on 5/6/25.
+//
+
+import Foundation
+import QRIZUtils
+
+public protocol ExamService {
+    func getExamList(filterType: ExamListFilterType) async throws -> ExamListResponse
+    
+    func getExamQuestion(examId: Int) async throws -> ExamQuestionResponse
+    
+    func submitTest(examId: Int, testSubmitData: [TestSubmitData]) async throws
+    
+    func getExamScore(examId: Int) async throws -> ExamScoreResponse
+    
+    func getExamResult(examId: Int) async throws -> ExamResultResponse
+
+    func getExamResultDetail(examId: Int, questionId: Int) async throws -> ExamResultDetailResponse
+}
+
+public final class ExamServiceImpl: ExamService {
+    
+    // MARK: - Properties
+    private let network: Network
+    private let keychainManager: KeychainManager
+    
+    // MARK: - Initializers
+    public init(network: Network = NetworkImpl(session: URLSession.shared), keychainManager: KeychainManager = KeychainManagerImpl()) {
+        self.network = network
+        self.keychainManager = keychainManager
+    }
+    
+    // MARK: - Methods
+    public func getExamList(filterType: ExamListFilterType) async throws -> ExamListResponse {
+        let request = ExamListRequest(accessToken: getAccessToken(), filterType: filterType)
+        return try await network.send(request)
+    }
+    
+    public func getExamQuestion(examId: Int) async throws -> ExamQuestionResponse {
+        let request = ExamQuestionRequest(accessToken: getAccessToken(), examId: examId)
+        return try await network.send(request)
+    }
+    
+    public func submitTest(examId: Int, testSubmitData: [TestSubmitData]) async throws {
+        let request = TestSubmitRequest(accessToken: getAccessToken(), examId: examId, testSubmitData: testSubmitData)
+        _ = try await network.send(request)
+    }
+    
+    public func getExamScore(examId: Int) async throws -> ExamScoreResponse {
+        let request = ExamScoreRequest(accessToken: getAccessToken(), examId: examId)
+        return try await network.send(request)
+    }
+    
+    public func getExamResult(examId: Int) async throws -> ExamResultResponse {
+        let request = ExamResultRequest(accessToken: getAccessToken(), examId: examId)
+        return try await network.send(request)
+    }
+
+    public func getExamResultDetail(examId: Int, questionId: Int) async throws -> ExamResultDetailResponse {
+        let request = ExamResultDetailRequest(accessToken: getAccessToken(), examId: examId, questionId: questionId)
+        return try await network.send(request)
+    }
+
+    private func getAccessToken() -> String {
+        keychainManager.retrieveToken(forKey: TokenKey.accessToken.rawValue) ?? ""
+    }
+}

@@ -1,11 +1,11 @@
 //
 //  PreviewConceptsData.swift
-//  QRIZ
+//  QRIZUtils
 //
 //  Created by ch on 12/29/24.
 //
 
-import SwiftUI
+import Combine
 
 public final class PreviewConceptsData: ObservableObject {
     @Published public var totalQuestions: Int = 0

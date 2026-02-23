@@ -1,6 +1,6 @@
 //
 //  UserInfoManager.swift
-//  QRIZ
+//  QRIZUtils
 //
 //  Created by ch on 4/24/25.
 //

@@ -9,6 +9,7 @@ import Foundation
 import Combine
 import os
 import QRIZUtils
+import Network
 
 final class DeleteAccountViewModel {
     
@@ -61,7 +62,7 @@ final class DeleteAccountViewModel {
             
         } catch let error as NetworkError {
             outputSubject.send(.showErrorAlert(error.errorMessage))
-            logger.error("NetworkError(deleteAccount): \(error.description, privacy: .public)")
+            logger.error("NetworkError(deleteAccount): \(error.debugDescription, privacy: .public)")
             
         } catch {
             outputSubject.send(.showErrorAlert("잠시 후 다시 시도해 주세요."))

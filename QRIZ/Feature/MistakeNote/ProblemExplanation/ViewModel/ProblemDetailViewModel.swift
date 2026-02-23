@@ -8,6 +8,7 @@
 import Foundation
 import Combine
 import QRIZUtils
+import Network
 
 @MainActor
 final class ProblemDetailViewModel: ObservableObject {
@@ -26,17 +27,17 @@ final class ProblemDetailViewModel: ObservableObject {
     }
 
     // MARK: - Published Properties
-    @Published var problemDetail: DailyResultDetail?
+    @Published var problemDetail: DailyResultDetailEntity?
     @Published var isLoading = false
     @Published var errorMessage: String?
 
     // MARK: - Private Properties
-    private let fetchDetail: () async throws -> DailyResultDetail
+    private let fetchDetail: () async throws -> DailyResultDetailEntity
     private var cancellables = Set<AnyCancellable>()
     private let output: PassthroughSubject<Output, Never> = .init()
 
     // MARK: - Initializers
-    init(fetchDetail: @escaping () async throws -> DailyResultDetail) {
+    init(fetchDetail: @escaping () async throws -> DailyResultDetailEntity) {
         self.fetchDetail = fetchDetail
     }
 

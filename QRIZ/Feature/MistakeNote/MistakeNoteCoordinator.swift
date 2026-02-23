@@ -7,6 +7,7 @@
 
 import UIKit
 import QRIZUtils
+import Network
 
 @MainActor
 protocol MistakeNoteCoordinator: Coordinator {
@@ -40,7 +41,8 @@ final class MistakeNoteCoordinatorImpl: MistakeNoteCoordinator, NavigationGuard 
     // MARK: - Methods
 
     func start() -> UIViewController {
-        let mistakeNoteVC = MistakeNoteViewController()
+        let viewModel = MistakeNoteListViewModel()
+        let mistakeNoteVC = MistakeNoteViewController(viewModel: viewModel)
         mistakeNoteVC.delegate = self
         let nav = UINavigationController(rootViewController: mistakeNoteVC)
         navigationController = nav
@@ -51,7 +53,7 @@ final class MistakeNoteCoordinatorImpl: MistakeNoteCoordinator, NavigationGuard 
         guardNavigation { [service] in
             let viewModel = ProblemDetailViewModel {
                 let response = try await service.getClipDetail(clipId: clipId)
-                return response.data
+                return response.data.toEntity()
             }
             let vc = ProblemDetailViewController(viewModel: viewModel)
             vc.coordinator = self

@@ -8,6 +8,7 @@
 import Foundation
 import Combine
 import os
+import Network
 
 final class FindPasswordVerificationViewModel: EmailVerificationViewModel {
     
@@ -45,11 +46,11 @@ final class FindPasswordVerificationViewModel: EmailVerificationViewModel {
                         } else {
                             let errorMessage = "이메일을 올바르게 입력해주세요."
                             outputSubject.send(.showErrorAlert(title: errorMessage))
-                            logger.error("Network error alert in sendVerificationCode: \(networkError.description, privacy: .public)")
+                            logger.error("Network error alert in sendVerificationCode: \(networkError.debugDescription, privacy: .public)")
                         }
                     default:
                         outputSubject.send(.showErrorAlert(title: networkError.errorMessage))
-                        logger.error("Unhandled network error in sendVerificationCode: \(networkError.description, privacy: .public)")
+                        logger.error("Unhandled network error in sendVerificationCode: \(networkError.debugDescription, privacy: .public)")
                     }
                 } else {
                     let genericErrorMessage = "이메일 인증에 실패했습니다."
@@ -75,7 +76,7 @@ final class FindPasswordVerificationViewModel: EmailVerificationViewModel {
                     default:
                         outputSubject.send(.showErrorAlert(title: networkError.errorMessage))
                     }
-                    logger.error("NetworkError in verifyCode: \(networkError.description, privacy: .public)")
+                    logger.error("NetworkError in verifyCode: \(networkError.debugDescription, privacy: .public)")
                 } else {
                     let errorMessage = "인증번호 검증에 실패했습니다."
                     outputSubject.send(.showErrorAlert(title: errorMessage))

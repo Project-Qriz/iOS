@@ -1,13 +1,11 @@
 //
 //  TestSubmitData.swift
-//  QRIZ
+//  QRIZUtils
 //
 //  Created by 이창현 on 4/26/25.
 //
 
-import Foundation
-
-public struct TestSubmitData: Codable {
+public struct TestSubmitData: Codable, Sendable {
     public var question: SubmitQuestionData
     public var questionNum: Int
     public var optionId: Int?
@@ -19,7 +17,7 @@ public struct TestSubmitData: Codable {
     }
 }
 
-public struct SubmitQuestionData: Codable {
+public struct SubmitQuestionData: Codable, Sendable {
     public var questionId: Int
     public var category: Int
 

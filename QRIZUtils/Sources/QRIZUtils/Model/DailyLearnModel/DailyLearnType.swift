@@ -1,11 +1,9 @@
 //
 //  DailyLearnType.swift
-//  QRIZ
+//  QRIZUtils
 //
 //  Created by ch on 2/16/25.
 //
-
-import Foundation
 
 public enum DailyLearnType: String {
     case daily = "데일리 테스트"

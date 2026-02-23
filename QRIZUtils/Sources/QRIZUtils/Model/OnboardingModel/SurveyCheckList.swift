@@ -1,11 +1,9 @@
 //
 //  SurveyCheckList.swift
-//  QRIZ
+//  QRIZUtils
 //
 //  Created by ch on 12/17/24.
 //
-
-import Foundation
 
 public struct SurveyCheckList {
     public static let list: [String] = [

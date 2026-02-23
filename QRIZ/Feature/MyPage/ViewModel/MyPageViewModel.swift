@@ -8,6 +8,7 @@
 import Foundation
 import Combine
 import os
+import Network
 
 final class MyPageViewModel {
     
@@ -76,7 +77,7 @@ final class MyPageViewModel {
             } catch let error as NetworkError {
                 let version = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "0.0.0"
                 outputSubject.send(.setupView(userName: userName, version: version))
-                logger.error("NetworkError(fetchVersion): \(error.description, privacy: .public)")
+                logger.error("NetworkError(fetchVersion): \(error.debugDescription, privacy: .public)")
                 
             } catch {
                 let version = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "0.0.0"
@@ -96,7 +97,7 @@ final class MyPageViewModel {
             
         } catch let error as NetworkError  {
             outputSubject.send(.showErrorAlert(title: title, description: error.errorMessage))
-            logger.error("NetworkError(resetPlan): \(error.description, privacy: .public)")
+            logger.error("NetworkError(resetPlan): \(error.debugDescription, privacy: .public)")
             
         } catch {
             outputSubject.send(.showErrorAlert(title: title, description: "잠시 후 다시 시도해주세요."))
