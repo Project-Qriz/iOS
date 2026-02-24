@@ -48,7 +48,7 @@ public final class TwoButtonCustomAlertViewController: UIViewController {
 
     override public func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .black.withAlphaComponent(0.8)
+        view.backgroundColor = UIColor.coolNeutral800.withAlphaComponent(0.7)
         addSubviews()
         setupConstraints()
     }
