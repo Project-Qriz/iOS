@@ -107,7 +107,6 @@
 		B19C4FA92D5D182600CD008A /* EmailVerificationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B19C4FA82D5D182600CD008A /* EmailVerificationViewModel.swift */; };
 		B19C4FAF2D67E58D00CD008A /* LoginCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = B19C4FAE2D67E58D00CD008A /* LoginCoordinator.swift */; };
 		B19C4FC52D6C226500CD008A /* TabBarCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = B19C4FC42D6C226500CD008A /* TabBarCoordinator.swift */; };
-		B1ALERT022F40000000000011 /* UIViewController+Alert.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1ALERT012F40000000000010 /* UIViewController+Alert.swift */; };
 		B1B0BBBC2E769F510024F230 /* GoogleSignIn in Frameworks */ = {isa = PBXBuildFile; productRef = B1B0BBBB2E769F510024F230 /* GoogleSignIn */; };
 		B1B0BBBE2E769F510024F230 /* GoogleSignInSwift in Frameworks */ = {isa = PBXBuildFile; productRef = B1B0BBBD2E769F510024F230 /* GoogleSignInSwift */; };
 		B1BDD0C72F4D26CD00834D57 /* DesignSystem in Frameworks */ = {isa = PBXBuildFile; productRef = B1BDD0C62F4D26CD00834D57 /* DesignSystem */; };
@@ -327,7 +326,6 @@
 		B19C4FA82D5D182600CD008A /* EmailVerificationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmailVerificationViewModel.swift; sourceTree = "<group>"; };
 		B19C4FAE2D67E58D00CD008A /* LoginCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginCoordinator.swift; sourceTree = "<group>"; };
 		B19C4FC42D6C226500CD008A /* TabBarCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarCoordinator.swift; sourceTree = "<group>"; };
-		B1ALERT012F40000000000010 /* UIViewController+Alert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+Alert.swift"; sourceTree = "<group>"; };
 		B1BDD0C42F4CCC5300834D57 /* DesignSystem */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = DesignSystem; sourceTree = "<group>"; };
 		B1BDD0C82F4D2A5200834D57 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		B1D813702D6E0C1F00A9D447 /* HomeCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeCoordinator.swift; sourceTree = "<group>"; };
@@ -593,22 +591,6 @@
 				B1D813702D6E0C1F00A9D447 /* HomeCoordinator.swift */,
 			);
 			path = Home;
-			sourceTree = "<group>";
-		};
-		54DB0D9E2D09514000ABD458 /* Utils */ = {
-			isa = PBXGroup;
-			children = (
-				54DB0D9F2D09519D00ABD458 /* Extensions */,
-			);
-			path = Utils;
-			sourceTree = "<group>";
-		};
-		54DB0D9F2D09519D00ABD458 /* Extensions */ = {
-			isa = PBXGroup;
-			children = (
-				B1ALERT012F40000000000010 /* UIViewController+Alert.swift */,
-			);
-			path = Extensions;
 			sourceTree = "<group>";
 		};
 		54DB0DA32D09524E00ABD458 /* SupportingFiles */ = {
@@ -1182,7 +1164,6 @@
 				B12FEEF12F470BEC00280847 /* Network */,
 				54DB0D962D09506C00ABD458 /* Feature */,
 				B1D813782D768D3D00A9D447 /* Coordinator */,
-				54DB0D9E2D09514000ABD458 /* Utils */,
 				B1BDD0C92F4D2A5200834D57 /* Resources */,
 				54DB0DA32D09524E00ABD458 /* SupportingFiles */,
 			);
@@ -1823,7 +1804,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B1ALERT022F40000000000011 /* UIViewController+Alert.swift in Sources */,
 				B15109872E06CDBD00657506 /* AccountRecoveryCoordinator.swift in Sources */,
 				B18CDF732DD3066E00DD361A /* TermsAgreementHeaderView.swift in Sources */,
 				E25F94CB2D0CB1DB00BA765F /* OnboardingTitleLabel.swift in Sources */,

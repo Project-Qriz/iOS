@@ -1,15 +1,14 @@
 //
 //  UIViewController+Alert.swift
-//  QRIZ
+//  DesignSystem
 //
 //  Created by Claude on 2/15/26.
 //
 
 import UIKit
-import DesignSystem
 import Combine
 
-extension UIViewController {
+public extension UIViewController {
     /// `에러 메시지를 표시용 원버튼 얼럿을 보여주는 함수입니다.`
     /// - Parameters:
     ///   - title: 얼럿에 표시할 에러 제목
