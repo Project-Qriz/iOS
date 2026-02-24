@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import DesignSystem
 
 struct MistakeNoteNoRecordView: View {
 
@@ -17,7 +18,7 @@ struct MistakeNoteNoRecordView: View {
 
     var body: some View {
         VStack(spacing: 12) {
-            Image("splashLogo")
+            Image(uiImage: .splashLogo)
                 .resizable()
                 .scaledToFit()
                 .frame(width: 32, height: 32)
@@ -25,11 +26,11 @@ struct MistakeNoteNoRecordView: View {
             VStack(spacing: 4) {
                 Text("시험을 본 기록이 없습니다.")
                     .font(.system(size: 16, weight: .bold))
-                    .foregroundColor(Color(uiColor: .coolNeutral800))
+                    .foregroundColor(Color.coolNeutral800)
 
                 Text("오답노트를 만들고 싶다면 테스트를 해봐요!")
                     .font(.system(size: 14, weight: .regular))
-                    .foregroundColor(Color(uiColor: .coolNeutral500))
+                    .foregroundColor(Color.coolNeutral500)
                     .multilineTextAlignment(.center)
             }
 
@@ -51,7 +52,7 @@ struct MistakeNoteNoRecordView: View {
                 .foregroundColor(.white)
                 .frame(maxWidth: .infinity)
                 .frame(height: 48)
-                .background(Color(uiColor: .customBlue500))
+                .background(Color.customBlue500)
                 .cornerRadius(8)
         }
         .padding(.horizontal, 69)

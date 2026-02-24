@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import DesignSystem
 
 struct ProblemResultView: View {
     
@@ -33,18 +34,18 @@ private extension ProblemResultView {
     var correctAnswerText: some View {
         Text("정답: \(correctAnswer)번")
             .font(.system(size: 16, weight: .bold))
-            .foregroundColor(Color(.coolNeutral800))
+            .foregroundColor(Color(Color.coolNeutral800))
     }
     
     var userAnswerText: some View {
         Text("내가 고른 답: \(userAnswer)번")
             .font(.system(size: 14))
-            .foregroundColor(Color(.coolNeutral500))
+            .foregroundColor(Color(Color.coolNeutral500))
     }
     
     var border: some View {
         RoundedRectangle(cornerRadius: 12)
-            .stroke(Color(.coolNeutral200), lineWidth: 1.5)
+            .stroke(Color(Color.coolNeutral200), lineWidth: 1.5)
     }
 }
 

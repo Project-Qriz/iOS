@@ -1,6 +1,6 @@
 //
 //  TwoButtonCustomAlertView.swift
-//  QRIZ
+//  DesignSystem
 //
 //  Created by ch on 1/6/25.
 //
@@ -8,10 +8,20 @@
 import UIKit
 
 final class TwoButtonCustomAlertView: UIView {
-    
+
+    // MARK: - Enums
+
+    private enum Metric {
+        static let contentInsets: CGFloat = 20
+    }
+
+    // MARK: - Properties
+
     private let confirmTitle: String
     private let cancelTitle: String
-    
+
+    // MARK: - UI
+
     private let titleLabel: UILabel = {
         let label = UILabel()
         label.font = .boldSystemFont(ofSize: 18)
@@ -20,7 +30,7 @@ final class TwoButtonCustomAlertView: UIView {
         label.numberOfLines = 1
         return label
     }()
-    
+
     private let descriptionLabel: UILabel = {
         let label = UILabel()
         label.font = .systemFont(ofSize: 14)
@@ -29,7 +39,7 @@ final class TwoButtonCustomAlertView: UIView {
         label.numberOfLines = 2
         return label
     }()
-    
+
     private lazy var confirmButton: UIButton = {
         return createButton(
             title: confirmTitle,
@@ -38,7 +48,7 @@ final class TwoButtonCustomAlertView: UIView {
             backgroundColor: .customBlue500
         )
     }()
-    
+
     private lazy var cancelButton: UIButton = {
         return createButton(
             title: cancelTitle,
@@ -48,7 +58,7 @@ final class TwoButtonCustomAlertView: UIView {
             borderColor: .coolNeutral200
         )
     }()
-    
+
     private lazy var buttonHStackView: UIStackView = {
         let stackView = UIStackView(arrangedSubviews: [cancelButton, confirmButton])
         stackView.axis = .horizontal
@@ -56,7 +66,9 @@ final class TwoButtonCustomAlertView: UIView {
         stackView.spacing = 8
         return stackView
     }()
-    
+
+    // MARK: - Initializer
+
     init(
         title: String,
         titleLine: Int = 1,
@@ -68,18 +80,19 @@ final class TwoButtonCustomAlertView: UIView {
         self.confirmTitle = confirmTitle
         self.cancelTitle = cancelTitle
         super.init(frame: .zero)
-        backgroundColor = .coolNeutral100
-        layer.cornerRadius = 8
+        setupUI()
         setLabelText(isTitleLabel: true, text: title, numberOfLines: titleLine)
         setLabelText(isTitleLabel: false, text: description, numberOfLines: descriptionLine)
-        addLabels()
-        addButtons()
+        addSubviews()
+        setupConstraints()
     }
-    
+
     required init?(coder: NSCoder) {
-        fatalError("no initializer for coder: CustomAlertView")
+        fatalError("init(coder:) has not been implemented")
     }
-    
+
+    // MARK: - Functions
+
     func setButtonAction(_ isConfirmButton: Bool, action: UIAction) {
         if isConfirmButton {
             confirmButton.addAction(action, for: .touchUpInside)
@@ -87,7 +100,12 @@ final class TwoButtonCustomAlertView: UIView {
             cancelButton.addAction(action, for: .touchUpInside)
         }
     }
-    
+
+    private func setupUI() {
+        backgroundColor = .white
+        layer.cornerRadius = 8
+    }
+
     private func setLabelText(isTitleLabel: Bool, text: String, numberOfLines: Int) {
         if isTitleLabel {
             titleLabel.text = text
@@ -97,7 +115,7 @@ final class TwoButtonCustomAlertView: UIView {
             descriptionLabel.numberOfLines = numberOfLines
         }
     }
-    
+
     private func createButton(
         title: String,
         font: UIFont,
@@ -120,35 +138,36 @@ final class TwoButtonCustomAlertView: UIView {
         button.layer.borderColor = borderColor.cgColor
         return button
     }
-    
-    private func addLabels() {
+}
+
+// MARK: - Layout Setup
+
+extension TwoButtonCustomAlertView {
+    private func addSubviews() {
         addSubview(titleLabel)
         addSubview(descriptionLabel)
-        
+        addSubview(buttonHStackView)
+    }
+
+    private func setupConstraints() {
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
         descriptionLabel.translatesAutoresizingMaskIntoConstraints = false
-        
+        buttonHStackView.translatesAutoresizingMaskIntoConstraints = false
+
         NSLayoutConstraint.activate([
-            titleLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 20),
-            titleLabel.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -20),
-            titleLabel.topAnchor.constraint(equalTo: self.topAnchor, constant: 20),
+            titleLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Metric.contentInsets),
+            titleLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -Metric.contentInsets),
+            titleLabel.topAnchor.constraint(equalTo: topAnchor, constant: Metric.contentInsets),
+
             descriptionLabel.leadingAnchor.constraint(equalTo: titleLabel.leadingAnchor),
             descriptionLabel.trailingAnchor.constraint(equalTo: titleLabel.trailingAnchor),
-        ])
-    }
-    
-    private func addButtons() {
-        addSubview(buttonHStackView)
-        buttonHStackView.translatesAutoresizingMaskIntoConstraints = false
-        
-        NSLayoutConstraint.activate([
             descriptionLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 8),
-            
+
             buttonHStackView.heightAnchor.constraint(equalToConstant: 40),
-            buttonHStackView.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 20),
-            buttonHStackView.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -20),
-            buttonHStackView.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -20),
-            buttonHStackView.topAnchor.constraint(equalTo: descriptionLabel.bottomAnchor, constant: 20),
+            buttonHStackView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Metric.contentInsets),
+            buttonHStackView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -Metric.contentInsets),
+            buttonHStackView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -Metric.contentInsets),
+            buttonHStackView.topAnchor.constraint(equalTo: descriptionLabel.bottomAnchor, constant: Metric.contentInsets),
         ])
     }
 }

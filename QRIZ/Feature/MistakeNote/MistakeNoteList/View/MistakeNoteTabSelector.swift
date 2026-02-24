@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import DesignSystem
 
 enum MistakeNoteTab: String, CaseIterable {
     case daily = "데일리"
@@ -40,10 +41,10 @@ private extension MistakeNoteTabSelector {
             VStack(spacing: 10) {
                 Text(tab.rawValue)
                     .font(.system(size: 16, weight: .bold))
-                    .foregroundColor(Color(uiColor: isSelected ? .coolNeutral800 : .coolNeutral400))
+                    .foregroundColor(isSelected ? Color.coolNeutral800 : Color.coolNeutral400)
 
                 Rectangle()
-                    .fill(isSelected ? Color(uiColor: .coolNeutral800) : Color.clear)
+                    .fill(isSelected ? Color.coolNeutral800 : Color.clear)
                     .frame(height: 3)
             }
         }

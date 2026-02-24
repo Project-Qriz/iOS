@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import DesignSystem
 import Combine
 
 final class ExamSummaryViewController: UIViewController {
@@ -26,7 +27,7 @@ final class ExamSummaryViewController: UIViewController {
         return label
     }()
     private let summaryImageView: UIImageView = {
-        let image = UIImage(named: "examSummary")
+        let image = UIImage.examSummary
         let imageView = UIImageView(image: image)
         imageView.layer.shadowColor = UIColor.coolNeutral100.cgColor
         imageView.layer.shadowOpacity = 1

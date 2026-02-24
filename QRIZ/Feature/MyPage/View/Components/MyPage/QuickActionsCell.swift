@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import DesignSystem
 import Combine
 
 final class QuickActionsCell: UICollectionViewCell {
@@ -39,7 +40,7 @@ final class QuickActionsCell: UICollectionViewCell {
     // MARK: - UI
     
     private lazy var resetPlanButton: UIButton = {
-        let button = buildButton(title: Attributes.resetPlanText, image: .reset)
+        let button = buildButton(title: Attributes.resetPlanText, image: .resetIcon)
         button.layer.cornerRadius = 16.0
         button.applyQRIZShadow(radius: 16.0, color: .coolNeutral300)
         button.addAction(UIAction { [weak self] _ in

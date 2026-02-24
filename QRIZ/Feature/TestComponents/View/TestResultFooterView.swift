@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import DesignSystem
 import Combine
 import QRIZUtils
 
@@ -24,7 +25,7 @@ struct TestResultFooterView: View {
                 Spacer()
             }
             .font(.system(size: 18, weight: .regular))
-            .foregroundStyle(.coolNeutral800)
+            .foregroundStyle(Color.coolNeutral800)
 
             Button {
                 input.send()
@@ -34,7 +35,7 @@ struct TestResultFooterView: View {
                     .foregroundStyle(.white)
                     .frame(height: 48)
                     .frame(maxWidth: .infinity)
-                    .background(.customBlue500)
+                    .background(Color.customBlue500)
                     .cornerRadius(8, corners: .allCorners)
             }
         }

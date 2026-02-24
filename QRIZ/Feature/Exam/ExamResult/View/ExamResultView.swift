@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import DesignSystem
 import Combine
 import QRIZUtils
 
@@ -51,7 +52,7 @@ struct ExamResultView: View {
 
                 TestResultFooterView(resultScoresData: resultScoresData, input: footerInput)
             }
-            .background(.customBlue50)
+            .background(Color.customBlue50)
         }
         .background(.white)
     }

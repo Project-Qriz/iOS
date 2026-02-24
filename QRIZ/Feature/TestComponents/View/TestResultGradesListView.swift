@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import DesignSystem
 import Combine
 import QRIZUtils
 
@@ -19,7 +20,7 @@ struct TestResultGradesListView: View {
             HStack {
                 Text("문제 풀이 결과")
                     .font(.system(size: 20, weight: .bold))
-                    .foregroundStyle(.coolNeutral800)
+                    .foregroundStyle(Color.coolNeutral800)
                 Spacer()
             }
             

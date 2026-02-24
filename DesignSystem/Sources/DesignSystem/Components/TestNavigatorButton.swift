@@ -1,6 +1,6 @@
 //
 //  TestNavigatorButton.swift
-//  QRIZ
+//  DesignSystem
 //
 //  Created by ch on 2/16/25.
 //
@@ -8,9 +8,20 @@
 import UIKit
 import QRIZUtils
 
-final class TestNavigatorButton: UIView {
+public final class TestNavigatorButton: UIView {
+
+    // MARK: - Enums
+
+    private enum Metric {
+        static let contentPadding: CGFloat = 16
+    }
 
     // MARK: - Properties
+
+    private var currentBackgroundColor: UIColor = .white
+
+    // MARK: - UI
+
     private lazy var textVStackView: UIStackView = {
         let stackView = UIStackView(arrangedSubviews: [
             testStatusLabel, testTitleLabel, scoreLabel, retryBadge
@@ -22,6 +33,7 @@ final class TestNavigatorButton: UIView {
         stackView.setCustomSpacing(10, after: scoreLabel)
         return stackView
     }()
+
     private let testStatusLabel: UILabel = {
         let label = UILabel()
         label.font = .systemFont(ofSize: 14, weight: .regular)
@@ -29,6 +41,7 @@ final class TestNavigatorButton: UIView {
         label.numberOfLines = 1
         return label
     }()
+
     private let testTitleLabel: UILabel = {
         let label = UILabel()
         label.font = .systemFont(ofSize: 17, weight: .bold)
@@ -37,6 +50,7 @@ final class TestNavigatorButton: UIView {
         label.numberOfLines = 1
         return label
     }()
+
     private let scoreLabel: UILabel = {
         let label = UILabel()
         label.font = .systemFont(ofSize: 14, weight: .regular)
@@ -45,6 +59,7 @@ final class TestNavigatorButton: UIView {
         label.numberOfLines = 1
         return label
     }()
+
     private let chevronImageView: UIImageView = {
         let image = UIImage(systemName: "chevron.right")?.withRenderingMode(.alwaysTemplate)
         let imageView = UIImageView(image: image)
@@ -52,6 +67,7 @@ final class TestNavigatorButton: UIView {
         imageView.backgroundColor = .clear
         return imageView
     }()
+
     private let retryBadge: UILabel = {
         let label = UILabel()
         label.backgroundColor = .customRed500.withAlphaComponent(0.14)
@@ -64,31 +80,38 @@ final class TestNavigatorButton: UIView {
         label.layer.masksToBounds = true
         return label
     }()
-    
-    // MARK: - Intializer
-    init() {
+
+    // MARK: - Initializer
+
+    public init() {
         super.init(frame: .zero)
         backgroundColor = .white
-        setLayer()
-        addViews()
-        addLongPress()
+        setupLayer()
+        addSubviews()
+        setupConstraints()
+        setupLongPress()
     }
-    
+
     required init?(coder: NSCoder) {
-        fatalError("no initializer for coder: TestNavigatorButton")
+        fatalError("init(coder:) has not been implemented")
     }
-    
-    // MARK: - Methods
-    func setDailyUI(state: DailyTestState, type: DailyLearnType, score: Double?) {
-        updateBgColor(state: state)
+
+    // MARK: - Public Methods
+
+    public func setDailyUI(state: DailyTestState, type: DailyLearnType, score: Double?) {
+        let bgColor: UIColor = (state == .unavailable ? .coolNeutral100 : .white)
+        currentBackgroundColor = bgColor
+        backgroundColor = bgColor
+
         updateTestStatusLabel(state: state)
         updateTestTitleLabel(type: type)
         updateScoreLabel(score: score)
         updateRetryBadge(state: state)
     }
-    
-    func setMockExamUI(isTestDone: Bool, examRound: Int, score: Double?) {
+
+    public func setMockExamUI(isTestDone: Bool, examRound: Int, score: Double?) {
         retryBadge.isHidden = true
+        currentBackgroundColor = .white
         backgroundColor = .white
         testStatusLabel.textColor = .coolNeutral600
 
@@ -96,36 +119,35 @@ final class TestNavigatorButton: UIView {
         updateTestTitleLabel(examRound: examRound)
         updateScoreLabel(score: score)
     }
-    
-    func setWeeklyConceptUI(concept: WeeklyConcept, locked: Bool) {
+
+    public func setWeeklyConceptUI(concept: WeeklyConcept, locked: Bool) {
         retryBadge.isHidden = false
         testStatusLabel.isHidden = true
+        currentBackgroundColor = .white
         backgroundColor = .white
         layer.borderColor = UIColor.coolNeutral100.cgColor
-        
-        testTitleLabel.text  = concept.title
+
+        testTitleLabel.text = concept.title
         scoreLabel.text = "\(concept.subjectCount)과목"
         scoreLabel.textColor = .coolNeutral500
 
-        let (textColor, backgroundColor) = colors(for: concept.importance)
+        let (badgeTextColor, badgeBgColor) = colors(for: concept.importance)
         retryBadge.text = concept.importance.text
-        retryBadge.textColor = textColor
-        retryBadge.backgroundColor = backgroundColor
+        retryBadge.textColor = badgeTextColor
+        retryBadge.backgroundColor = badgeBgColor
 
         isUserInteractionEnabled = !locked
     }
-    
-    private func setLayer() {
+
+    // MARK: - Private Methods
+
+    private func setupLayer() {
         layer.cornerRadius = 12
         layer.masksToBounds = true
         layer.borderColor = UIColor.coolNeutral100.cgColor
         layer.borderWidth = 1
     }
-    // MARK: - Daily UI Methods
-    private func updateBgColor(state: DailyTestState) {
-        backgroundColor = (state == .unavailable ? .coolNeutral100 : .white)
-    }
-    
+
     private func updateTestStatusLabel(state: DailyTestState) {
         switch state {
         case .unavailable:
@@ -139,25 +161,20 @@ final class TestNavigatorButton: UIView {
             testStatusLabel.textColor = .customBlue400
         }
     }
-    
+
     private func updateTestTitleLabel(type: DailyLearnType) {
         testTitleLabel.text = type.rawValue
     }
-    
+
     private func updateScoreLabel(score: Double?) {
         let scoreText = score.map { String(format: "%.1f", $0) } ?? ""
         scoreLabel.text = "총 점수: \(scoreText)점"
     }
-    
+
     private func updateRetryBadge(state: DailyTestState) {
-        if state == .retestRequired {
-            retryBadge.isHidden = false
-        } else {
-            retryBadge.isHidden = true
-        }
+        retryBadge.isHidden = (state != .retestRequired)
     }
-    
-    // MARK: - Mock Exam UI Methods
+
     private func updateMockExamStatusLabel(isTestDone: Bool) {
         if isTestDone {
             testStatusLabel.text = "학습 후"
@@ -167,28 +184,27 @@ final class TestNavigatorButton: UIView {
             testStatusLabel.textColor = .coolNeutral600
         }
     }
-    
+
     private func updateTestTitleLabel(examRound: Int) {
         testTitleLabel.text = "\(examRound)회차"
     }
-    
-    private func addLongPress() {
+
+    private func setupLongPress() {
         isUserInteractionEnabled = true
         addGestureRecognizer(UILongPressGestureRecognizer(target: self, action: #selector(handleLongPress)))
     }
-    
+
     @objc private func handleLongPress(_ sender: UIGestureRecognizer) {
         switch sender.state {
         case .began:
-            self.backgroundColor = .coolNeutral800.withAlphaComponent(0.1)
+            backgroundColor = .coolNeutral800.withAlphaComponent(0.1)
         case .cancelled, .failed, .ended:
-            self.backgroundColor = .white
+            backgroundColor = currentBackgroundColor
         default:
             break
         }
     }
-    
-    // MARK: - Weekly Concept UI Methods
+
     private func colors(for importance: Importance) -> (text: UIColor, bg: UIColor) {
         switch importance {
         case .high: return (.customRed500, .customRed500.withAlphaComponent(0.14))
@@ -198,26 +214,29 @@ final class TestNavigatorButton: UIView {
     }
 }
 
-// MARK: - Auto Layout
+// MARK: - Layout Setup
+
 extension TestNavigatorButton {
-    private func addViews() {
+    private func addSubviews() {
         addSubview(textVStackView)
         addSubview(chevronImageView)
-        
+    }
+
+    private func setupConstraints() {
         textVStackView.translatesAutoresizingMaskIntoConstraints = false
         chevronImageView.translatesAutoresizingMaskIntoConstraints = false
-        
+
         NSLayoutConstraint.activate([
-            textVStackView.topAnchor.constraint(equalTo: topAnchor, constant: 16),
-            textVStackView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16),
+            textVStackView.topAnchor.constraint(equalTo: topAnchor, constant: Metric.contentPadding),
+            textVStackView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Metric.contentPadding),
             textVStackView.trailingAnchor.constraint(lessThanOrEqualTo: chevronImageView.leadingAnchor, constant: -12),
-            textVStackView.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -16),
-            
+            textVStackView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -Metric.contentPadding),
+
             retryBadge.widthAnchor.constraint(equalToConstant: 61),
             retryBadge.heightAnchor.constraint(equalToConstant: 26),
-            
-            chevronImageView.centerYAnchor.constraint(equalTo: self.centerYAnchor),
-            chevronImageView.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -16),
+
+            chevronImageView.centerYAnchor.constraint(equalTo: centerYAnchor),
+            chevronImageView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -Metric.contentPadding),
             chevronImageView.widthAnchor.constraint(equalToConstant: 18),
             chevronImageView.heightAnchor.constraint(equalToConstant: 28)
         ])

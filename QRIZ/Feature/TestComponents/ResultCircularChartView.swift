@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import DesignSystem
 import QRIZUtils
 
 struct ResultCircularChartView: View {
@@ -17,7 +18,7 @@ struct ResultCircularChartView: View {
         ZStack {
             Circle()
                 .stroke(style: StrokeStyle(lineWidth: lineWidth))
-                .foregroundStyle(.customBlue900)
+                .foregroundStyle(Color.customBlue900)
 //            createTrimmedCircle(subject1Score: previewScoresData.subject1Score)
 //            createTrimmedCircle(subject1Score: previewScoresData.subject1Score, subject2Score: previewScoresData.subject2Score)
             trimmedCircle(subjectIdx: 0)
@@ -29,7 +30,7 @@ struct ResultCircularChartView: View {
                 Text("\(resultScoresData.totalScore)점")
                     .font(.system(size: 16, weight: .bold))
             }
-            .foregroundStyle(.coolNeutral800)
+            .foregroundStyle(Color.coolNeutral800)
         }
         .padding(lineWidth / 2)
         .onAppear() {
@@ -47,13 +48,13 @@ struct ResultCircularChartView: View {
         Circle()
             .trim(from: 0.0, to: 1.0 - subject1Score / 100)
             .stroke(style: StrokeStyle(lineWidth: lineWidth, lineCap: .butt, lineJoin: .round))
-            .foregroundStyle(.customBlue500)
+            .foregroundStyle(Color.customBlue500)
             .rotationEffect(.degrees(-90))
             .animation(.easeInOut(duration: 1), value: subject1Score)
         : Circle()
             .trim(from: 0.0, to: 1.0 - subject1Score / 100 - subject2Score / 100)
             .stroke(style: StrokeStyle(lineWidth: lineWidth, lineCap: .butt, lineJoin: .round))
-            .foregroundStyle(.coolNeutral400)
+            .foregroundStyle(Color.coolNeutral400)
             .rotationEffect(.degrees(-90))
             .animation(.easeInOut(duration: 1), value: subject2Score)
     }
@@ -71,18 +72,18 @@ struct ResultCircularChartView: View {
     private func rankColor(subjectIdx: Int) -> Color {
         switch subjectIdx {
         case 0:
-            return .customBlue900
+            return Color.customBlue900
         case 1:
-            return .customBlue500
+            return Color.customBlue500
         case 2:
-            return .customBlue300
+            return Color.customBlue300
         case 3:
-            return .customBlue200
+            return Color.customBlue200
         case 4:
-            return .customBlue100
+            return Color.customBlue100
         default:
             print("Method trimmed Circle received wrong argv")
-            return .coolNeutral300
+            return Color.coolNeutral300
         }
     }
 }

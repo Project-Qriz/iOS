@@ -1,6 +1,6 @@
 //
 //  DashedLineView.swift
-//  QRIZ
+//  DesignSystem
 //
 //  Created by 김세훈 on 6/30/25.
 //
@@ -8,7 +8,7 @@
 import UIKit
 
 /// 가로 점선을 그려 주는 뷰
-final class DashedLineView: UIView {
+public final class DashedLineView: UIView {
 
     private enum Metric {
         static let lineWidth: CGFloat = 1
@@ -17,7 +17,7 @@ final class DashedLineView: UIView {
 
     private let shapeLayer = CAShapeLayer()
 
-    override init(frame: CGRect) {
+    override public init(frame: CGRect) {
         super.init(frame: frame)
         setupLayer()
     }
@@ -35,7 +35,7 @@ final class DashedLineView: UIView {
         layer.addSublayer(shapeLayer)
     }
 
-    override func layoutSubviews() {
+    override public func layoutSubviews() {
         super.layoutSubviews()
         shapeLayer.frame = bounds
         let path = UIBezierPath()

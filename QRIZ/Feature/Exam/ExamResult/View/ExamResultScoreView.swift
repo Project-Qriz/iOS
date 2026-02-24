@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import DesignSystem
 import Combine
 import QRIZUtils
 
@@ -26,7 +27,7 @@ struct ExamResultScoreView: View {
                 Spacer()
                 
             }
-            .foregroundStyle(.coolNeutral800)
+            .foregroundStyle(Color.coolNeutral800)
 
             ResultScoreCircularChartView(resultScoresData: resultScoresData)
                 .frame(width: 164, height: 164)
@@ -38,11 +39,11 @@ struct ExamResultScoreView: View {
             } label: {
                 Text("상세보기")
                     .font(.system(size: 14, weight: .medium))
-                    .foregroundStyle(.coolNeutral800)
+                    .foregroundStyle(Color.coolNeutral800)
                     .background(.white)
                     .frame(maxWidth: .infinity)
                     .frame(height: 48)
-                    .overlay(RoundedRectangle(cornerRadius: 8).stroke(.customBlue200, lineWidth: 1))
+                    .overlay(RoundedRectangle(cornerRadius: 8).stroke(Color.customBlue200, lineWidth: 1))
             }
         }
         .padding(EdgeInsets(top: 24, leading: 18, bottom: 24, trailing: 18))

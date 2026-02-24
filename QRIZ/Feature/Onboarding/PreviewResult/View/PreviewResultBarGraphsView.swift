@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import DesignSystem
 import QRIZUtils
 
 struct PreviewResultBarGraphsView: View {
@@ -42,11 +43,11 @@ struct PreviewResultBarGraphsView: View {
     private func setBarColor(rank: Int) -> Color {
         switch rank {
         case 1:
-            return .customBlue500
+            return Color.customBlue500
         case 2:
-            return .coolNeutral600
+            return Color.coolNeutral600
         case 3:
-            return .coolNeutral400
+            return Color.coolNeutral400
         default:
             return .clear
         }

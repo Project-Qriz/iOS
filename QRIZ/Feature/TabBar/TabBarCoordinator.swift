@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import DesignSystem
 import Network
 
 @MainActor
@@ -171,22 +172,22 @@ final class TabBarCoordinatorImpl: TabBarCoordinator {
 
         viewControllers[0].tabBarItem = UITabBarItem(
             title: "홈",
-            image: .home,
+            image: .homeTab,
             selectedImage: nil
         )
         viewControllers[1].tabBarItem = UITabBarItem(
             title: "개념서",
-            image: .conceptBook,
+            image: .conceptBookTab,
             selectedImage: .selectedConceptBook
         )
         viewControllers[2].tabBarItem = UITabBarItem(
             title: "오답노트",
-            image: .mistakeNote,
+            image: .mistakeNoteTab,
             selectedImage: .selectedMistakeNote
         )
         viewControllers[3].tabBarItem = UITabBarItem(
             title: "마이",
-            image: .myPage,
+            image: .myPageTab,
             selectedImage: nil
         )
     }

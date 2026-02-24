@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import DesignSystem
 import PDFKit
 
 final class ConceptPDFMainView: UIView {

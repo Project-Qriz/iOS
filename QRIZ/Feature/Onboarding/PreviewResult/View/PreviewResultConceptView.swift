@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import DesignSystem
 import QRIZUtils
 
 struct PreviewResultConceptView: View {
@@ -22,7 +23,7 @@ struct PreviewResultConceptView: View {
                     
                     Spacer()
                 }
-                .foregroundStyle(.coolNeutral800)
+                .foregroundStyle(Color.coolNeutral800)
                 
                 Spacer(minLength: 16)
                 
@@ -32,7 +33,7 @@ struct PreviewResultConceptView: View {
                     
                     Spacer()
                 }
-                .foregroundStyle(.coolNeutral400)
+                .foregroundStyle(Color.coolNeutral400)
                 
                 Spacer(minLength: 20)
                 
@@ -50,7 +51,7 @@ struct PreviewResultConceptView: View {
             HStack {
                 Text("보충하면 좋은 개념 top2")
                     .font(.system(size: 16, weight: .regular))
-                    .foregroundStyle(.coolNeutral700)
+                    .foregroundStyle(Color.coolNeutral700)
                 Spacer()
             }
             
@@ -59,12 +60,12 @@ struct PreviewResultConceptView: View {
                     Rectangle()
                         .cornerRadius(12, corners: .allCorners)
                         .frame(height: 70)
-                        .foregroundStyle(.customBlue50)
+                        .foregroundStyle(Color.customBlue50)
                         .overlay(alignment: .leading) {
                             Text(idx == 0 ? "\(previewConceptsData.firstConcept)" : "\(previewConceptsData.secondConcept)")
                                 .font(.system(size: 20, weight: .bold))
                                 .padding([.leading, .trailing], 24)
-                                .foregroundStyle(.coolNeutral700)
+                                .foregroundStyle(Color.coolNeutral700)
                         }
                 }
             }

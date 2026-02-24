@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import DesignSystem
 
 enum MyPageSection: Int, CaseIterable {
     case profile

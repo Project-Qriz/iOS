@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import DesignSystem
 import Combine
 import QRIZUtils
 
@@ -21,7 +22,7 @@ final class CheckAllOrNoneButton : UIView {
     private var isAllButton: Bool = false
     private var state: CheckState = .off
     
-    private let checkbox: UIImageView = UIImageView(image: UIImage(named: "checkboxOffIcon"))
+    private let checkbox: UIImageView = UIImageView(image: UIImage.checkboxOffIcon)
     private let label: UILabel = {
         let label = UILabel()
         label.font = .systemFont(ofSize: 16, weight: .medium)
@@ -58,17 +59,17 @@ final class CheckAllOrNoneButton : UIView {
         switch numOfSelectedConcept {
         case 0:
             if state != .off {
-                checkbox.image = UIImage(named: CheckState.off.rawValue)
+                checkbox.image = UIImage.checkboxOffIcon
                 state = .off
             }
         case SurveyCheckList.list.count:
             if state != .on {
-                checkbox.image = UIImage(named: CheckState.on.rawValue)
+                checkbox.image = UIImage.checkboxOnIcon
                 state = .on
             }
         default:
             if state != .some {
-                checkbox.image = UIImage(named: CheckState.some.rawValue)
+                checkbox.image = UIImage.checkboxSomeIcon
                 state = .some
             }
         }
@@ -77,7 +78,7 @@ final class CheckAllOrNoneButton : UIView {
     private func checkNoneBoxHandler(_ isSenderCheckNone: Bool) {
         if isSenderCheckNone || state == .on {
             let nextState = (state == .on ? CheckState.off : CheckState.on)
-            checkbox.image = UIImage(named: nextState.rawValue)
+            checkbox.image = UIImage.designSystemImage(named: nextState.rawValue)
             state = nextState
         }
     }

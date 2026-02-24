@@ -6,12 +6,13 @@
 //
 
 import SwiftUI
+import DesignSystem
 import QRIZUtils
 
 struct ResultSubjectListView: View {
     
     @ObservedObject var resultDetailData: ResultDetailData
-    private let rankColors: [Color] = [.customBlue900, .customBlue500, .customBlue300, .customBlue200, .customBlue100]
+    private let rankColors: [Color] = [.customBlue900, Color.customBlue500, Color.customBlue300, Color.customBlue200, .customBlue100]
     
     var body: some View {
         VStack(spacing: 8) {

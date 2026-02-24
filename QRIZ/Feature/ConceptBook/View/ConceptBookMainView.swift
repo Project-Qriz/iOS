@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import DesignSystem
 import Combine
 import QRIZUtils
 
@@ -103,7 +104,7 @@ final class ConceptBookMainView: UIView {
         
         chapters.forEach { chapter in
             let card = SubjectCardView(
-                image: UIImage(named: chapter.assetName),
+                image: UIImage.designSystemImage(named: chapter.assetName),
                 title: chapter.cardTitle,
                 itemCount: chapter.cardItemCount
             )

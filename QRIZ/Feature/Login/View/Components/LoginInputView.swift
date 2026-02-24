@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import DesignSystem
 import Combine
 import QRIZUtils
 
@@ -115,7 +116,7 @@ final class LoginInputView: UIView {
     
     private func showPwButtonTapped(button: UIButton) {
         passwordTextField.isSecureTextEntry.toggle()
-        let imageName = passwordTextField.isSecureTextEntry ? UIImage.eye : UIImage.eyeSlash
+        let imageName = passwordTextField.isSecureTextEntry ? UIImage.eyeIcon : UIImage.eyeSlashIcon
         button.setImage(imageName, for: .normal)
     }
 }

@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import DesignSystem
 import QRIZUtils
 
 struct SubjectFilterSheet: View {
@@ -74,7 +75,7 @@ private extension SubjectFilterSheet {
 
     var divider: some View {
         Rectangle()
-            .fill(Color(uiColor: .coolNeutral100))
+            .fill(Color.coolNeutral100)
             .frame(height: 1)
     }
 
@@ -94,7 +95,7 @@ private extension SubjectFilterSheet {
         } label: {
             Text("초기화")
                 .font(.system(size: 14, weight: .semibold))
-                .foregroundColor(viewModel.hasSelections ? Color(uiColor: .coolNeutral700) : Color(uiColor: .coolNeutral400))
+                .foregroundColor(viewModel.hasSelections ? Color.coolNeutral700 : Color.coolNeutral400)
                 .frame(maxWidth: .infinity)
                 .frame(height: 48)
                 .background(Color.white)
@@ -110,10 +111,10 @@ private extension SubjectFilterSheet {
         } label: {
             Text("적용하기")
                 .font(.system(size: 16, weight: .semibold))
-                .foregroundColor(viewModel.hasChanges ? .white : Color(uiColor: .coolNeutral500))
+                .foregroundColor(viewModel.hasChanges ? .white : Color.coolNeutral500)
                 .frame(maxWidth: .infinity)
                 .frame(height: 48)
-                .background(viewModel.hasChanges ? Color(uiColor: .customBlue500) : Color(uiColor: .coolNeutral200))
+                .background(viewModel.hasChanges ? Color.customBlue500 : Color.coolNeutral200)
                 .cornerRadius(8)
         }
         .disabled(!viewModel.hasChanges)
@@ -137,7 +138,7 @@ struct SubjectTabSelector: View {
             .padding(.horizontal, 18)
 
             Rectangle()
-                .fill(Color(uiColor: .coolNeutral100))
+                .fill(Color.coolNeutral100)
                 .frame(height: 1)
                 .padding(.horizontal, 18)
         }
@@ -154,10 +155,10 @@ struct SubjectTabSelector: View {
             VStack(spacing: 10) {
                 Text("\(index)과목")
                     .font(.system(size: 16, weight: isSelected ? .bold : .medium))
-                    .foregroundColor(isSelected ? Color(uiColor: .coolNeutral800) : Color(uiColor: .coolNeutral400))
+                    .foregroundColor(isSelected ? Color.coolNeutral800 : Color.coolNeutral400)
 
                 Rectangle()
-                    .fill(isSelected ? Color(uiColor: .coolNeutral800) : Color.clear)
+                    .fill(isSelected ? Color.coolNeutral800 : Color.clear)
                     .frame(height: 3)
             }
             .frame(width: 60)

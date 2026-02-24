@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import DesignSystem
 import QRIZUtils
 
 struct PreviewResultScoreView: View {
@@ -22,7 +23,7 @@ struct PreviewResultScoreView: View {
                 
                 Spacer()
             }
-            .foregroundStyle(.coolNeutral800)
+            .foregroundStyle(Color.coolNeutral800)
             
             Spacer(minLength: 24)
             
@@ -39,25 +40,25 @@ struct PreviewResultScoreView: View {
             HStack(spacing: 4) {
                 Text("예측 점수: \(formatScore(previewScoresData.expectScore))점")
                     .font(.system(size: 16, weight: .medium))
-                    .foregroundStyle(.coolNeutral700)
+                    .foregroundStyle(Color.coolNeutral700)
                 Button(action: {
                     isShowingPopover.toggle()
                 }) {
                     Image(systemName: "info.circle")
                         .resizable()
                         .frame(width: 13, height: 13)
-                        .foregroundStyle(.coolNeutral300)
+                        .foregroundStyle(Color.coolNeutral300)
                 }
             }
             
             Spacer(minLength: 35)
             
-            SingleSubjectView(circleColor: .customBlue800, subjectText: "데이터 모델링의 이해", score: previewScoresData.subjectScores[0])
+            SingleSubjectView(circleColor: Color.customBlue800, subjectText: "데이터 모델링의 이해", score: previewScoresData.subjectScores[0])
             
             Divider()
                 .overlay(Color.coolNeutral200)
             
-            SingleSubjectView(circleColor: .customBlue500, subjectText: "SQL 기본 및 활용", score: previewScoresData.subjectScores[1])
+            SingleSubjectView(circleColor: Color.customBlue500, subjectText: "SQL 기본 및 활용", score: previewScoresData.subjectScores[1])
         }
         .padding(EdgeInsets(top: 24, leading: 18, bottom: 24, trailing: 18))
     }

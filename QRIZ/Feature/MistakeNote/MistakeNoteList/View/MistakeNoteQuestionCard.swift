@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import DesignSystem
 
 struct MistakeNoteQuestionCard: View {
 
@@ -29,7 +30,7 @@ struct MistakeNoteQuestionCard: View {
         .background(Color.white)
         .cornerRadius(12)
         .shadow(
-            color: Color(uiColor: .coolNeutral300).opacity(0.12),
+            color: Color.coolNeutral300.opacity(0.12),
             radius: 4,
             x: 0,
             y: 1
@@ -47,20 +48,20 @@ private extension MistakeNoteQuestionCard {
 
             Text("문제 \(questionNumber)")
                 .font(.system(size: 16, weight: .bold))
-                .foregroundColor(Color(uiColor: .coolNeutral800))
+                .foregroundColor(Color.coolNeutral800)
         }
     }
 
     var resultIcon: some View {
         Text(isCorrect ? "✓" : "✕")
             .font(.system(size: 18, weight: .semibold))
-            .foregroundColor(isCorrect ? Color(uiColor: .customMint600) : Color(uiColor: .customRed500))
+            .foregroundColor(isCorrect ? Color.customMint600 : Color.customRed500)
     }
 
     var questionDescription: some View {
         Text(questionText)
             .font(.system(size: 14, weight: .regular))
-            .foregroundColor(Color(uiColor: .coolNeutral500))
+            .foregroundColor(Color.coolNeutral500)
             .lineLimit(2)
             .lineSpacing(4)
     }
@@ -80,10 +81,10 @@ private struct QuestionTagChip: View {
     var body: some View {
         Text(text)
             .font(.system(size: 12, weight: .semibold))
-            .foregroundColor(Color(uiColor: .customBlue400))
+            .foregroundColor(Color.customBlue400)
             .padding(.horizontal, 10)
             .padding(.vertical, 6)
-            .background(Color(uiColor: .customBlue100))
+            .background(Color.customBlue100)
             .cornerRadius(6)
     }
 }

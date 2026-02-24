@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import DesignSystem
 import QRIZUtils
 
 struct ResultDetailScoreView: View {
@@ -62,7 +63,7 @@ struct ResultDetailScoreView: View {
                         
                         Text("\(Int(subjectData.minorItems[idx].score))점")
                             .font(.system(size: 14, weight: .bold))
-                            .foregroundStyle(.coolNeutral800)
+                            .foregroundStyle(Color.coolNeutral800)
                     }
 
                     if idx != subjectData.minorItems.count - 1 {
@@ -77,15 +78,15 @@ struct ResultDetailScoreView: View {
     private func rankColor(_ rank: Int) -> Color {
         switch rank {
         case 0:
-            return .customBlue900
+            return Color.customBlue900
         case 1:
-            return .customBlue500
+            return Color.customBlue500
         case 2:
-            return .customBlue300
+            return Color.customBlue300
         case 3:
-            return .customBlue200
+            return Color.customBlue200
         case 4:
-            return .customBlue100
+            return Color.customBlue100
         default:
             print("Method rankColor received wrong argv")
             return .white
