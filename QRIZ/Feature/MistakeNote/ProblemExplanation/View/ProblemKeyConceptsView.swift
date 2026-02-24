@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import DesignSystem
 import Combine
 
 struct ProblemKeyConceptsView: View {
@@ -31,7 +32,7 @@ private extension ProblemKeyConceptsView {
     var title: some View {
         Text("활용된 개념")
             .font(.system(size: 20, weight: .bold))
-            .foregroundColor(Color(.coolNeutral800))
+            .foregroundColor(Color(Color.coolNeutral800))
     }
 
     /// 활용된 개념 카드 목록
@@ -63,18 +64,18 @@ private struct ConceptCard: View {
             VStack(alignment: .leading, spacing: 4) {
                 Text(concept)
                     .font(.system(size: 16, weight: .bold))
-                    .foregroundColor(Color(.coolNeutral700))
+                    .foregroundColor(Color(Color.coolNeutral700))
 
                 Text(subject)
                     .font(.system(size: 12, weight: .semibold))
-                    .foregroundColor(Color(.coolNeutral500))
+                    .foregroundColor(Color(Color.coolNeutral500))
             }
 
             Spacer()
 
             Image(systemName: "chevron.right")
                 .font(.system(size: 16, weight: .semibold))
-                .foregroundColor(Color(.coolNeutral800))
+                .foregroundColor(Color(Color.coolNeutral800))
         }
         .padding(.vertical, 12)
         .padding(.horizontal, 18)
@@ -83,7 +84,7 @@ private struct ConceptCard: View {
         .cornerRadius(12)
         .overlay(
             RoundedRectangle(cornerRadius: 12)
-                .stroke(Color(.coolNeutral200), lineWidth: 1)
+                .stroke(Color(Color.coolNeutral200), lineWidth: 1)
         )
         .onTapGesture {
             onTap()

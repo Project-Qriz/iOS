@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import DesignSystem
 
 final class LoginLogoView: UIView {
     
@@ -19,7 +20,7 @@ final class LoginLogoView: UIView {
     
     private let appLogoImageView: UIImageView = {
         let imageView = UIImageView()
-        imageView.image = UIImage(named: Attributes.loginLogo)
+        imageView.image = UIImage.loginLogo
         return imageView
     }()
     

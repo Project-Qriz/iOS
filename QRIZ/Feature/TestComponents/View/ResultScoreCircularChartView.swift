@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import DesignSystem
 import QRIZUtils
 
 struct ResultScoreCircularChartView: View {
@@ -17,7 +18,7 @@ struct ResultScoreCircularChartView: View {
         ZStack {
             Circle()
                 .stroke(style: StrokeStyle(lineWidth: lineWidth))
-                .foregroundStyle(.customBlue800)
+                .foregroundStyle(Color.customBlue800)
             ForEach(0..<5) {
                 trimmedCircle(subjectIdx: ($0))
             }
@@ -27,7 +28,7 @@ struct ResultScoreCircularChartView: View {
                 Text("\(resultScoresData.totalScore)점")
                     .font(.system(size: 16, weight: .bold))
             }
-            .foregroundStyle(.coolNeutral800)
+            .foregroundStyle(Color.coolNeutral800)
         }
         .padding(lineWidth / 2)
     }
@@ -43,21 +44,21 @@ struct ResultScoreCircularChartView: View {
     }
     
     private func rankColor(subjectIdx: Int) -> Color {
-        if subjectIdx == resultScoresData.subjectCount { return .coolNeutral300 }
+        if subjectIdx == resultScoresData.subjectCount { return Color.coolNeutral300 }
 
         switch subjectIdx {
         case 0:
-            return .customBlue900
+            return Color.customBlue900
         case 1:
-            return .customBlue500
+            return Color.customBlue500
         case 2:
-            return .customBlue300
+            return Color.customBlue300
         case 3:
-            return .customBlue200
+            return Color.customBlue200
         case 4:
-            return .customBlue100
+            return Color.customBlue100
         default:
-            return .coolNeutral300
+            return Color.coolNeutral300
         }
     }
 }

@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import DesignSystem
 import QRIZUtils
 
 final class ChapterDetailMainView: UIView {
@@ -65,7 +66,7 @@ final class ChapterDetailMainView: UIView {
     }
     
     func configure(with chapter: Chapter, items: [ConceptItem]) {
-        imageView.image = UIImage(named: chapter.assetName)
+        imageView.image = UIImage.designSystemImage(named: chapter.assetName)
         chapterInfoView.configure(subjectTitle: chapter.cardTitle, itemCount: chapter.cardItemCount)
         menuListView.configure(with: items)
     }

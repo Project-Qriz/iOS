@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import DesignSystem
 import Combine
 
 final class DailyPlanHeaderView: UICollectionViewCell {
@@ -63,7 +64,7 @@ final class DailyPlanHeaderView: UICollectionViewCell {
     }()
     
     private let lockImageView: UIImageView = {
-        let imageView = UIImageView(image: .lock)
+        let imageView = UIImageView(image: .lockIcon)
         imageView.tintColor = .coolNeutral800
         imageView.isHidden = true
         return imageView

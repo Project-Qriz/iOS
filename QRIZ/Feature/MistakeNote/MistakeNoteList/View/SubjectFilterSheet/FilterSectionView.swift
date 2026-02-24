@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import DesignSystem
 import QRIZUtils
 
 struct FilterSectionView: View {
@@ -52,7 +53,7 @@ struct FilterSectionView: View {
         HStack {
             Text(chapter.rawValue)
                 .font(.system(size: 14, weight: .regular))
-                .foregroundColor(Color(uiColor: .coolNeutral800))
+                .foregroundColor(Color.coolNeutral800)
 
             Spacer()
 
@@ -61,7 +62,7 @@ struct FilterSectionView: View {
             } label: {
                 Text(isAllSelected ? "전체 해제" : "전체 선택")
                     .font(.system(size: 14, weight: .regular))
-                    .foregroundColor(Color(uiColor: .coolNeutral600))
+                    .foregroundColor(Color.coolNeutral600)
             }
         }
     }

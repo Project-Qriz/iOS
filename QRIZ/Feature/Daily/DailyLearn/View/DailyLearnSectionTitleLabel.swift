@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import DesignSystem
 import QRIZUtils
 
 final class DailyLearnSectionTitleLabel: UILabel {

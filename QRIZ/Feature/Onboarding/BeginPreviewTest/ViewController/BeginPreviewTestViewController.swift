@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import DesignSystem
 import Combine
 
 final class BeginPreviewTestViewController: UIViewController {
@@ -13,7 +14,7 @@ final class BeginPreviewTestViewController: UIViewController {
     // MARK: - Properties
     let beginTestTitleLabel: UILabel = OnboardingTitleLabel(labelText: "테스트를\n진행해볼까요?")
     let beginTestSubtitleLabel: UILabel = OnboardingSubtitleLabel("간단한 프리뷰 테스트로 실력을 점검하고\n이후 맞춤형 개념과 데일리 테스트를 경험해 보세요!")
-    let beginImageView: UIImageView = UIImageView(image: UIImage(named: "onboarding2"))
+    let beginImageView: UIImageView = UIImageView(image: UIImage.onboarding2)
     let beginTestButton: UIButton = OnboardingButton("간단한 테스트 시작")
     
     private var viewModel: BeginPreviewTestViewModel

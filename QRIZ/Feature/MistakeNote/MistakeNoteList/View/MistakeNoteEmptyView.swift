@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import DesignSystem
 
 struct MistakeNoteEmptyView: View {
 
@@ -13,18 +14,18 @@ struct MistakeNoteEmptyView: View {
 
     var body: some View {
         VStack(spacing: 12) {
-            Image("splashLogo")
+            Image(uiImage: .splashLogo)
                 .resizable()
                 .scaledToFit()
                 .frame(width: 32, height: 32)
 
             Text("앗, 훌륭한 실력 탓에 오답이 없네요!")
                 .font(.system(size: 16, weight: .bold))
-                .foregroundColor(Color(uiColor: .coolNeutral800))
+                .foregroundColor(Color.coolNeutral800)
 
             Text("다른 회차를 선택하거나\n필터 안 '모두'를 선택하여 전환해보세요.")
                 .font(.system(size: 14, weight: .regular))
-                .foregroundColor(Color(uiColor: .coolNeutral500))
+                .foregroundColor(Color.coolNeutral500)
                 .multilineTextAlignment(.center)
                 .lineSpacing(4)
         }

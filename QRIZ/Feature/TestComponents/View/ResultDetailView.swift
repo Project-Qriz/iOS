@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import DesignSystem
 import Combine
 import QRIZUtils
 
@@ -21,7 +22,7 @@ struct ResultDetailView: View {
                 HStack {
                     Text("개념별 점수 분석")
                         .font(.system(size: 20, weight: .bold))
-                        .foregroundStyle(.coolNeutral800)
+                        .foregroundStyle(Color.coolNeutral800)
                     Spacer()
                 }
                 
@@ -40,12 +41,12 @@ struct ResultDetailView: View {
                     } label: {
                         HStack(spacing: 4) {
                             Text(resultScoreData.selectedMenuItem.rawValue)
-                                .foregroundColor(.coolNeutral600)
+                                .foregroundColor(Color.coolNeutral600)
                                 .font(.system(size: 16, weight: .medium))
                             Image(systemName: "chevron.down")
                                 .resizable()
                                 .frame(width: 9, height: 4)
-                                .foregroundColor(.coolNeutral600)
+                                .foregroundColor(Color.coolNeutral600)
                         }
                         .frame(maxWidth: .infinity, alignment: .leading)
                     }

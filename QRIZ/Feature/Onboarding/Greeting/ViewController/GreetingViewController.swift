@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import DesignSystem
 import Combine
 import QRIZUtils
 
@@ -15,7 +16,7 @@ final class GreetingViewController: UIViewController {
     private var nickname: String = UserInfoManager.shared.name
     private var greetingTitleLabel: UILabel = OnboardingTitleLabel(labelText: "님\n환영합니다")
     private let greetingSubtitleLabel: UILabel = OnboardingSubtitleLabel("준비되어 있는 오늘의 공부와, 모의고사로\n시험을 같이 준비해봐요!")
-    private let greetingImageView: UIImageView = UIImageView(image: UIImage(named: "onboarding3"))
+    private let greetingImageView: UIImageView = UIImageView(image: UIImage.onboarding3)
     
     private var viewModel: GreetingViewModel
     private var subscriptions = Set<AnyCancellable>()

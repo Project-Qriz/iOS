@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import DesignSystem
 import Combine
 import QRIZUtils
 
@@ -35,7 +36,7 @@ struct MistakeNoteMainView: View {
             mainContent
             dropdownOverlay
         }
-        .background(Color(uiColor: .customBlue50))
+        .background(Color.customBlue50)
         .animation(.easeInOut(duration: 0.1), value: isDropdownExpanded)
         .onChange(of: viewModel.selectedTab) { _, newTab in
             input.send(.tabSelected(newTab))
@@ -187,7 +188,7 @@ private extension MistakeNoteMainView {
 
             Divider()
                 .frame(height: 32)
-                .background(Color(uiColor: .coolNeutral200))
+                .background(Color.coolNeutral200)
 
             if !viewModel.selectedConceptsFilter.isEmpty {
                 resetFilterButton
@@ -211,14 +212,14 @@ private extension MistakeNoteMainView {
                 Image(systemName: "arrow.trianglehead.2.counterclockwise.rotate.90")
                     .font(.system(size: 12, weight: .regular))
             }
-            .foregroundColor(Color(uiColor: .coolNeutral500))
+            .foregroundColor(Color.coolNeutral500)
             .padding(.horizontal, 12)
             .padding(.vertical, 8)
             .background(Color.white)
             .cornerRadius(16)
             .overlay(
                 RoundedRectangle(cornerRadius: 16)
-                    .stroke(Color(uiColor: .coolNeutral200), lineWidth: 1)
+                    .stroke(Color.coolNeutral200, lineWidth: 1)
             )
         }
     }
@@ -237,14 +238,14 @@ private extension MistakeNoteMainView {
                 Image(systemName: "chevron.down")
                     .font(.system(size: 10, weight: .semibold))
             }
-            .foregroundColor(isActive ? .white : Color(uiColor: .coolNeutral500))
+            .foregroundColor(isActive ? .white : Color.coolNeutral500)
             .padding(.horizontal, 12)
             .padding(.vertical, 8)
-            .background(isActive ? Color(uiColor: .coolNeutral700) : Color.white)
+            .background(isActive ? Color.coolNeutral700 : Color.white)
             .cornerRadius(16)
             .overlay(
                 RoundedRectangle(cornerRadius: 16)
-                    .stroke(isActive ? Color.clear : Color(uiColor: .coolNeutral200), lineWidth: 1)
+                    .stroke(isActive ? Color.clear : Color.coolNeutral200, lineWidth: 1)
             )
         }
     }
@@ -253,7 +254,7 @@ private extension MistakeNoteMainView {
         HStack {
             Text("\(viewModel.displayedQuestions.count)개")
                 .font(.system(size: 14, weight: .regular))
-                .foregroundColor(Color(uiColor: .coolNeutral500))
+                .foregroundColor(Color.coolNeutral500)
             Spacer()
         }
     }

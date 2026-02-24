@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import DesignSystem
 
 struct ProblemSolutionView: View {
 
@@ -29,7 +30,7 @@ private extension ProblemSolutionView {
     var title: some View {
         Text("풀이")
             .font(.system(size: 20, weight: .bold))
-            .foregroundColor(Color(.coolNeutral800))
+            .foregroundColor(Color(Color.coolNeutral800))
     }
 
     /// 풀이 내용 박스
@@ -38,16 +39,16 @@ private extension ProblemSolutionView {
             // 주제
             Text(keyConcepts)
                 .font(.system(size: 16, weight: .bold))
-                .foregroundColor(Color(.coolNeutral800))
+                .foregroundColor(Color(Color.coolNeutral800))
 
             // 구분선
             Divider()
-                .background(Color(.coolNeutral200))
+                .background(Color(Color.coolNeutral200))
 
             // 풀이 내용
             Text(solutionText)
                 .font(.system(size: 14, weight: .regular))
-                .foregroundColor(Color(.coolNeutral500))
+                .foregroundColor(Color(Color.coolNeutral500))
                 .lineSpacing(8)
                 .fixedSize(horizontal: false, vertical: true)
                 .frame(maxWidth: .infinity, alignment: .leading)
@@ -58,7 +59,7 @@ private extension ProblemSolutionView {
         .cornerRadius(12)
         .overlay(
             RoundedRectangle(cornerRadius: 12)
-                .stroke(Color(.coolNeutral200), lineWidth: 1.5)
+                .stroke(Color(Color.coolNeutral200), lineWidth: 1.5)
         )
     }
 }

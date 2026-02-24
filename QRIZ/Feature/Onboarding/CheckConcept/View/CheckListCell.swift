@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import DesignSystem
 
 final class CheckListCell: UICollectionViewCell {
 
@@ -17,7 +18,7 @@ final class CheckListCell: UICollectionViewCell {
 
     // MARK: - Initializers
     override init(frame: CGRect) {
-        checkbox = UIImageView(image: UIImage(named: "checkboxOffIcon"))
+        checkbox = UIImageView(image: UIImage.checkboxOffIcon)
         super.init(frame: frame)
         self.backgroundColor = .white
         self.layer.cornerRadius = 8
@@ -31,7 +32,7 @@ final class CheckListCell: UICollectionViewCell {
     
     // MARK: - Methods
     func toggleCheckbox(_ isNextStateOn: Bool) {
-        self.checkbox.image = isNextStateOn == true ? UIImage(named: "checkboxOnIcon") : UIImage(named: "checkboxOffIcon")
+        self.checkbox.image = isNextStateOn == true ? UIImage.checkboxOnIcon : UIImage.checkboxOffIcon
     }
     
     func configure(_ itemContent: String) {

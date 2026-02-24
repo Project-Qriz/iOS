@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import DesignSystem
 import Combine
 
 private typealias ProfileRegistration = UICollectionView.CellRegistration<ProfileCell, String>

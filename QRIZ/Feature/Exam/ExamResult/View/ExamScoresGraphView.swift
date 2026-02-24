@@ -6,25 +6,26 @@
 //
 
 import SwiftUI
+import DesignSystem
 import Charts
 import QRIZUtils
 
 struct ExamScoresGraphView: View {
     
     @ObservedObject var scoreGraphData: ScoreGraphData
-    private let totalColor: Color = .coolNeutral600
-    private let subject1Color: Color = .coolNeutral600
-    private let subject2Color: Color = .customBlue500
-    private let highlightedColor: Color = .customBlue500
-    private let unHighlightedColor: Color = .coolNeutral600
-    private let gridColor: Color = .coolNeutral200
-    private let axisLabelColor: Color = .coolNeutral600
+    private let totalColor: Color = Color.coolNeutral600
+    private let subject1Color: Color = Color.coolNeutral600
+    private let subject2Color: Color = Color.customBlue500
+    private let highlightedColor: Color = Color.customBlue500
+    private let unHighlightedColor: Color = Color.coolNeutral600
+    private let gridColor: Color = Color.coolNeutral200
+    private let axisLabelColor: Color = Color.coolNeutral600
     
     var body: some View {
         VStack(spacing: 8) {
             HStack {
                 Text("점수 변동")
-                    .foregroundStyle(.coolNeutral800)
+                    .foregroundStyle(Color.coolNeutral800)
                     .font(.system(size: 20, weight: .bold))
                 
                 Spacer()
@@ -40,12 +41,12 @@ struct ExamScoresGraphView: View {
                 } label: {
                     HStack(spacing: 6) {
                         Text(scoreGraphData.filterType.rawValue)
-                            .foregroundColor(.coolNeutral800)
+                            .foregroundColor(Color.coolNeutral800)
                             .font(.system(size: 14, weight: .medium))
                         Image(systemName: "chevron.down")
                             .resizable()
                             .frame(width: 9, height: 5)
-                            .foregroundColor(.coolNeutral800)
+                            .foregroundColor(Color.coolNeutral800)
                     }
                     .frame(maxWidth: .infinity, alignment: .trailing)
                 }
@@ -55,7 +56,7 @@ struct ExamScoresGraphView: View {
             
             HStack {
                 Text("(점수)")
-                    .foregroundStyle(.coolNeutral400)
+                    .foregroundStyle(Color.coolNeutral400)
                     .font(.system(size: 12, weight: .regular))
                 Spacer()
             }

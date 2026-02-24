@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import DesignSystem
 import QRIZUtils
 
 struct ProblemHeaderCardView: View {
@@ -24,14 +25,14 @@ struct ProblemHeaderCardView: View {
         .cornerRadius(8)
         .overlay(
             RoundedRectangle(cornerRadius: 8)
-                .stroke(Color(.coolNeutral100), lineWidth: 1)
+                .stroke(Color(Color.coolNeutral100), lineWidth: 1)
         )
         .overlay(alignment: .bottom) {
             TriangleBorder()
                 .fill(Color.white)
                 .overlay(
                     TriangleBorder()
-                        .stroke(Color(.coolNeutral100), lineWidth: 1)
+                        .stroke(Color(Color.coolNeutral100), lineWidth: 1)
                 )
                 .frame(width: 20, height: 16)
                 .offset(y: 15)
@@ -47,11 +48,11 @@ private extension ProblemHeaderCardView {
         HStack(spacing: 14) {
             Text(data.isCorrect ? "✓" : "✕")
                 .font(.system(size: 24))
-                .foregroundColor(data.isCorrect ? .customMint600 : .customRed500)
+                .foregroundColor(data.isCorrect ? Color.customMint600 : Color.customRed500)
 
             Text(data.examTitle)
                 .font(.system(size: 16, weight: .bold))
-                .foregroundColor(Color(.coolNeutral800))
+                .foregroundColor(Color(Color.coolNeutral800))
         }
     }
     
@@ -60,15 +61,15 @@ private extension ProblemHeaderCardView {
         HStack(spacing: 8) {
             Text(data.subject)
                 .font(.system(size: 14, weight: .regular))
-                .foregroundColor(Color(.coolNeutral500))
+                .foregroundColor(Color(Color.coolNeutral500))
 
             Rectangle()
-                .fill(Color(.coolNeutral200))
+                .fill(Color(Color.coolNeutral200))
                 .frame(width: 1, height: 13)
 
             Text("\(data.questionNumber)번")
                 .font(.system(size: 14, weight: .regular))
-                .foregroundColor(Color(.coolNeutral500))
+                .foregroundColor(Color(Color.coolNeutral500))
         }
     }
     
@@ -91,10 +92,10 @@ private struct TagChip: View {
     var body: some View {
         Text(text)
             .font(.system(size: 12, weight: .semibold))
-            .foregroundColor(Color(.customBlue400))
+            .foregroundColor(Color(Color.customBlue400))
             .padding(.horizontal, 8)
             .padding(.vertical, 8)
-            .background(Color(.customBlue100))
+            .background(Color(Color.customBlue100))
             .cornerRadius(6)
     }
 }

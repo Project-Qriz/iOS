@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import DesignSystem
 import QRIZUtils
 
 struct ResultGradeListCellView: View {
@@ -19,18 +20,18 @@ struct ResultGradeListCellView: View {
                 correctionImage()
                 Text("문제 \(gradeResult.id)")
                     .font(.system(size: 16, weight: .bold))
-                    .foregroundStyle(.coolNeutral800)
+                    .foregroundStyle(Color.coolNeutral800)
                 Spacer()
             }
             
             Text("\(gradeResult.question)")
                 .font(.system(size: 14, weight: .regular))
-                .foregroundStyle(.coolNeutral600)
+                .foregroundStyle(Color.coolNeutral600)
                 .lineLimit(2)
             
             HStack {
                 Text("\(gradeResult.skillName)")
-                    .foregroundStyle(.customBlue400)
+                    .foregroundStyle(Color.customBlue400)
                     .font(.system(size: 12, weight: .semibold))
                     .padding(EdgeInsets(top: 4, leading: 8, bottom: 4, trailing: 8))
                     .background(Color.customBlue100, in: RoundedRectangle(cornerRadius: 4))
@@ -51,12 +52,12 @@ struct ResultGradeListCellView: View {
             Image(systemName: "checkmark")
                 .resizable()
                 .frame(width: 15, height: 12)
-                .foregroundStyle(.customMint600)
+                .foregroundStyle(Color.customMint600)
         } else {
             Image(systemName: "xmark")
                 .resizable()
                 .frame(width: 10.5, height: 10.5)
-                .foregroundStyle(.customRed500)
+                .foregroundStyle(Color.customRed500)
         }
     }
 }

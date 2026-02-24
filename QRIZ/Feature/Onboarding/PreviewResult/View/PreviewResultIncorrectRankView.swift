@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import DesignSystem
 
 struct PreviewResultIncorrectRankView: View {
     
@@ -58,21 +59,21 @@ struct PreviewResultIncorrectRankView: View {
             switch rank {
             case 1:
                 return RankColors(
-                    textColor: .customBlue500,
-                    bgColor: .customBlue100,
-                    topicTextColor: .coolNeutral700
+                    textColor: Color.customBlue500,
+                    bgColor: Color.customBlue100,
+                    topicTextColor: Color.coolNeutral700
                 )
             case 2:
                 return RankColors(
-                    textColor: .coolNeutral500,
-                    bgColor: .coolNeutral100,
-                    topicTextColor: .coolNeutral600
+                    textColor: Color.coolNeutral500,
+                    bgColor: Color.coolNeutral100,
+                    topicTextColor: Color.coolNeutral600
                 )
             case 3:
                 return RankColors(
                     textColor: .white,
                     bgColor: .white,
-                    topicTextColor: .coolNeutral500
+                    topicTextColor: Color.coolNeutral500
                 )
             default:
                 return RankColors(

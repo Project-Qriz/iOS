@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import DesignSystem
 import Combine
 import QRIZUtils
 
@@ -98,7 +99,7 @@ final class SocialLoginView: UIView {
     
     private func buildButton(socialLogin: SocialLogin) -> UIButton {
         let button = RoundButton()
-        let image = UIImage(named: socialLogin.logoName)
+        let image = UIImage.designSystemImage(named: socialLogin.logoName)
         button.setImage(image, for: .normal)
         button.layer.masksToBounds = true
         button.layer.borderWidth = 1

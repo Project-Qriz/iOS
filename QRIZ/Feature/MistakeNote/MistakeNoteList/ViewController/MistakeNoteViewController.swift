@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import DesignSystem
 import SwiftUI
 import Combine
 
@@ -53,7 +54,7 @@ final class MistakeNoteViewController: UIHostingController<MistakeNoteMainView> 
     // MARK: - Private Methods
 
     private func configureNavigationTitle() {
-        setNavigationBarTitle(title: "오답노트", textColor: .coolNeutral800)
+        setNavigationBarTitle(title: "오답노트", textColor: UIColor.coolNeutral800)
     }
 
     private func configureNavigationBar() {

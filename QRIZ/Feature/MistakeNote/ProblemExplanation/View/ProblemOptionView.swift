@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import DesignSystem
 import QRIZUtils
 
 struct ProblemOptionView: View {
@@ -36,7 +37,7 @@ private extension ProblemOptionView {
             .clipShape(Circle())
             .overlay(
                 Circle()
-                    .stroke(Color(.coolNeutral700),
+                    .stroke(Color(Color.coolNeutral700),
                             lineWidth: option.state == .normal ? 1 : 0)
             )
     }
@@ -45,7 +46,7 @@ private extension ProblemOptionView {
     var optionText: some View {
         Text(option.text)
             .font(.system(size: 16))
-            .foregroundColor(Color(.coolNeutral800))
+            .foregroundColor(Color(Color.coolNeutral800))
             .fixedSize(horizontal: false, vertical: true)
             .frame(maxWidth: .infinity, alignment: .leading)
     }
@@ -61,16 +62,16 @@ private extension ProblemOptionView {
     var numberBackgroundColor: Color {
         switch option.state {
         case .normal:    return .white
-        case .correct:   return Color(.customBlue500)
-        case .incorrect: return Color(.customRed500)
+        case .correct:   return Color(Color.customBlue500)
+        case .incorrect: return Color(Color.customRed500)
         }
     }
 
     var optionBackgroundColor: Color {
         switch option.state {
         case .normal:    return .white
-        case .correct:   return Color(.customBlue500).opacity(0.14)
-        case .incorrect: return Color(.customRed500).opacity(0.14)
+        case .correct:   return Color(Color.customBlue500).opacity(0.14)
+        case .incorrect: return Color(Color.customRed500).opacity(0.14)
         }
     }
 }

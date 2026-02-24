@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import DesignSystem
 import Combine
 import Network
 import QRIZUtils
@@ -93,7 +94,7 @@ private extension ProblemDetailView {
         VStack(spacing: 20) {
             Text(message)
                 .font(.system(size: 16, weight: .medium))
-                .foregroundColor(Color(.coolNeutral600))
+                .foregroundColor(Color(Color.coolNeutral600))
                 .multilineTextAlignment(.center)
             
             Button("다시 시도") {
@@ -103,7 +104,7 @@ private extension ProblemDetailView {
             .foregroundColor(.white)
             .padding(.horizontal, 24)
             .padding(.vertical, 12)
-            .background(Color(.customBlue500))
+            .background(Color(Color.customBlue500))
             .cornerRadius(8)
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
@@ -116,7 +117,7 @@ private extension ProblemDetailView {
                 .foregroundColor(.white)
                 .frame(maxWidth: .infinity)
                 .frame(height: 48)
-                .background(Color(.customBlue500))
+                .background(Color(Color.customBlue500))
                 .cornerRadius(8)
         }
     }

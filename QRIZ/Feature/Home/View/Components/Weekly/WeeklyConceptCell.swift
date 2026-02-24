@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import DesignSystem
 import Combine
 import QRIZUtils
 
@@ -34,7 +35,7 @@ final class WeeklyConceptCell: UICollectionViewCell {
     // MARK: - UI
     
     private let lockImageView: UIImageView = {
-        let imageView = UIImageView(image: .lock)
+        let imageView = UIImageView(image: .lockIcon)
         imageView.tintColor = .coolNeutral800
         imageView.isHidden = true
         return imageView

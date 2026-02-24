@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import DesignSystem
 
 struct FilterChip: View {
 
@@ -21,7 +22,7 @@ struct FilterChip: View {
         Button(action: action) {
             Text(title)
                 .font(.system(size: 12, weight: .medium))
-            .foregroundColor(isSelected ? Color(uiColor: .customBlue500) : Color(uiColor: .coolNeutral800))
+            .foregroundColor(isSelected ? Color.customBlue500 : Color.coolNeutral800)
             .padding(.horizontal, 12)
             .padding(.vertical, 8)
             .background(Color.white)
@@ -29,7 +30,7 @@ struct FilterChip: View {
             .overlay(
                 RoundedRectangle(cornerRadius: 8)
                     .stroke(
-                        isSelected ? Color(uiColor: .customBlue500) : Color(uiColor: .coolNeutral200),
+                        isSelected ? Color.customBlue500 : Color.coolNeutral200,
                         lineWidth: 1
                     )
             )

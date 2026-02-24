@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import DesignSystem
 import QRIZUtils
 
 struct ProblemQuestionSectionView: View {
@@ -31,7 +32,7 @@ struct ProblemQuestionSectionView: View {
             .cornerRadius(12)
             .overlay(
                 RoundedRectangle(cornerRadius: 12)
-                    .stroke(Color(.coolNeutral200), lineWidth: 1.5)
+                    .stroke(Color(Color.coolNeutral200), lineWidth: 1.5)
             )
         }
         .frame(maxWidth: .infinity, alignment: .leading)
@@ -46,7 +47,7 @@ extension ProblemQuestionSectionView {
     var title: some View {
         Text("문제")
             .font(.system(size: 20, weight: .bold))
-            .foregroundColor(Color(.coolNeutral800))
+            .foregroundColor(Color(Color.coolNeutral800))
     }
     
     /// 문제 번호와 질문 텍스트
@@ -54,11 +55,11 @@ extension ProblemQuestionSectionView {
         VStack(alignment: .leading, spacing: 8) {
             Text("\(String(format: "%02d", data.questionNumber)).")
                 .font(.system(size: 16, weight: .bold))
-                .foregroundColor(Color(.coolNeutral800))
+                .foregroundColor(Color(Color.coolNeutral800))
             
             Text(data.questionText)
                 .font(.system(size: 16, weight: .medium))
-                .foregroundColor(Color(.coolNeutral800))
+                .foregroundColor(Color(Color.coolNeutral800))
                 .fixedSize(horizontal: false, vertical: true)
                 .lineSpacing(4)
         }
@@ -70,7 +71,7 @@ extension ProblemQuestionSectionView {
     func descriptionBox(_ description: String) -> some View {
         Text(description)
             .font(.system(.subheadline, design: .monospaced))
-            .foregroundColor(Color(.coolNeutral800))
+            .foregroundColor(Color(Color.coolNeutral800))
             .padding(.leading, 16)
             .frame(maxWidth: .infinity, alignment: .leading)
             .fixedSize(horizontal: false, vertical: true)

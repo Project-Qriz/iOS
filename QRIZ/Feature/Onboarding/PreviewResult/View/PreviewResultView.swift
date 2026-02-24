@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import DesignSystem
 import Combine
 import QRIZUtils
 
@@ -25,7 +26,7 @@ struct PreviewResultView: View {
                 PreviewResultConceptView(previewConceptsData: previewConceptsData)
                     .background(.white)
             }
-            .background(previewConceptsData.incorrectCountDataArr.count >= 2 ? .customBlue50 : .white)
+            .background(previewConceptsData.incorrectCountDataArr.count >= 2 ? Color.customBlue50 : .white)
         }
         .background(.white)
     }

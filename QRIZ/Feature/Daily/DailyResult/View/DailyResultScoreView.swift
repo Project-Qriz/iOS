@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import DesignSystem
 import Combine
 import QRIZUtils
 
@@ -27,16 +28,16 @@ struct DailyResultScoreView: View {
                 Spacer()
                 
             }
-            .foregroundStyle(.coolNeutral800)
+            .foregroundStyle(Color.coolNeutral800)
             
             HStack {
                 Text("\(resultScoresData.dayNum)")
                     .font(.system(size: 16, weight: .bold))
-                    .foregroundStyle(.coolNeutral600)
+                    .foregroundStyle(Color.coolNeutral600)
                 if !resultScoresData.passed {
                     Text("점수 미달")
                         .font(.system(size: 12, weight: .semibold))
-                        .foregroundStyle(.customRed500)
+                        .foregroundStyle(Color.customRed500)
                         .padding(EdgeInsets(top: 4, leading: 8, bottom: 4, trailing: 8))
                         .background(Color.customRed500.opacity(0.14), in: RoundedRectangle(cornerRadius: 4))
                 }
@@ -53,11 +54,11 @@ struct DailyResultScoreView: View {
                 } label: {
                     Text("상세보기")
                         .font(.system(size: 14, weight: .medium))
-                        .foregroundStyle(.coolNeutral800)
+                        .foregroundStyle(Color.coolNeutral800)
                         .background(.white)
                         .frame(maxWidth: .infinity)
                         .frame(height: 48)
-                        .overlay(RoundedRectangle(cornerRadius: 8).stroke(.customBlue200, lineWidth: 1))
+                        .overlay(RoundedRectangle(cornerRadius: 8).stroke(Color.customBlue200, lineWidth: 1))
                 }
             }
         }

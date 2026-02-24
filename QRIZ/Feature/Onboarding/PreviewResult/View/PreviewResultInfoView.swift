@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import DesignSystem
 
 struct PreviewResultInfoView: View {
     
@@ -16,7 +17,7 @@ struct PreviewResultInfoView: View {
             HStack {
                 Text("예측 점수란?")
                     .font(.system(size: 14, weight: .bold))
-                    .foregroundStyle(.coolNeutral800)
+                    .foregroundStyle(Color.coolNeutral800)
                 
                 Spacer(minLength: 13)
                 
@@ -25,7 +26,7 @@ struct PreviewResultInfoView: View {
                 }, label: {
                     Image(systemName: "xmark")
                         .frame(width: 8, height: 8)
-                        .foregroundStyle(.coolNeutral300)
+                        .foregroundStyle(Color.coolNeutral300)
                 })
             }
             
@@ -37,7 +38,7 @@ struct PreviewResultInfoView: View {
                 Text("* 실제 시험에서는 난이도나 변동 요소에 따라 점수가 달라질 수 있습니다.")
             }
                 .font(.system(size: 12, weight: .medium))
-                .foregroundStyle(.coolNeutral500)
+                .foregroundStyle(Color.coolNeutral500)
         }
         .padding(EdgeInsets(top: 20, leading: 16, bottom: 20, trailing: 16))
         .overlay(RoundedRectangle(cornerRadius: 8)

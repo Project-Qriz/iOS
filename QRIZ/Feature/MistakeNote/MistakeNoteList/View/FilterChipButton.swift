@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import DesignSystem
 
 struct FilterChipButton: View {
 
@@ -44,11 +45,11 @@ private extension FilterChipButton {
             HStack(spacing: 4) {
                 Text(selectedOption)
                     .font(.system(size: 14, weight: .medium))
-                    .foregroundColor(Color(uiColor: .coolNeutral500))
+                    .foregroundColor(Color.coolNeutral500)
 
                 Image(systemName: "chevron.down")
                     .font(.system(size: 16, weight: .light))
-                    .foregroundColor(Color(uiColor: .coolNeutral500))
+                    .foregroundColor(Color.coolNeutral500)
                     .rotationEffect(.degrees(isExpanded ? 180 : 0))
             }
             .padding(.horizontal, 12)
@@ -77,7 +78,7 @@ private extension FilterChipButton {
         } label: {
             Text(option)
                 .font(.system(size: 14, weight: isSelected ? .semibold : .regular))
-                .foregroundColor(Color(uiColor: isSelected ? .customBlue500 : .coolNeutral800))
+                .foregroundColor(isSelected ? Color.customBlue500 : Color.coolNeutral800)
                 .frame(maxWidth: .infinity, alignment: .leading)
                 .padding(.horizontal, 12)
                 .padding(.vertical, 10)
@@ -95,7 +96,7 @@ private extension View {
             .cornerRadius(16)
             .overlay(
                 RoundedRectangle(cornerRadius: 16)
-                    .stroke(Color(uiColor: .coolNeutral200), lineWidth: 1)
+                    .stroke(Color.coolNeutral200, lineWidth: 1)
             )
     }
 
@@ -105,10 +106,10 @@ private extension View {
             .cornerRadius(8)
             .overlay(
                 RoundedRectangle(cornerRadius: 8)
-                    .stroke(Color(uiColor: .coolNeutral200), lineWidth: 1)
+                    .stroke(Color.coolNeutral200, lineWidth: 1)
             )
             .shadow(
-                color: Color(uiColor: .coolNeutral300).opacity(0.12),
+                color: Color.coolNeutral300.opacity(0.12),
                 radius: 4,
                 x: 0,
                 y: 1

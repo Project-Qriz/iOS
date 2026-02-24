@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import DesignSystem
 import Network
 import QRIZUtils
 
@@ -50,7 +51,7 @@ final class StudySummaryCell: UICollectionViewCell {
     }()
     
     private let ellipsis: UIImageView = {
-        let imageView = UIImageView(image: .ellipsis)
+        let imageView = UIImageView(image: .ellipsisIcon)
         imageView.contentMode = .scaleAspectFit
         imageView.isHidden = true
         return imageView
@@ -81,7 +82,7 @@ final class StudySummaryCell: UICollectionViewCell {
     }()
     
     private lazy var lockVStackView: UIStackView = {
-        let icon = UIImageView(image: .lock)
+        let icon = UIImageView(image: .lockIcon)
         let stackView = UIStackView(arrangedSubviews: [icon, lockMessageLabel])
         stackView.axis = .vertical
         stackView.alignment = .center

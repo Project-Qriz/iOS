@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import DesignSystem
 
 struct SingleSubjectView: View {
 
@@ -30,11 +31,11 @@ struct SingleSubjectView: View {
             Spacer()
             Text("\(score)점")
                 .font(.system(size: 14, weight: .bold))
-                .foregroundStyle(.coolNeutral800)
+                .foregroundStyle(Color.coolNeutral800)
         }
     }
 }
 
 #Preview {
-    SingleSubjectView(circleColor: .customBlue800, subjectText: "임시", score: 20)
+    SingleSubjectView(circleColor: Color.customBlue800, subjectText: "임시", score: 20)
 }

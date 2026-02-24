@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import DesignSystem
 
 struct DaySelectDropdownButton: View {
     
@@ -35,13 +36,13 @@ struct DaySelectDropdownButton: View {
             HStack {
                 Text(displayText)
                     .font(.system(size: 14, weight: .medium))
-                    .foregroundColor(Color(uiColor: hasRecords ? .coolNeutral600 : .coolNeutral300))
+                    .foregroundColor(hasRecords ? Color.coolNeutral600 : Color.coolNeutral300)
 
                 Spacer()
 
                 Image(systemName: "chevron.down")
                     .font(.system(size: 16, weight: .semibold))
-                    .foregroundColor(Color(uiColor: hasRecords ? .coolNeutral500 : .coolNeutral300))
+                    .foregroundColor(hasRecords ? Color.coolNeutral500 : Color.coolNeutral300)
                     .rotationEffect(.degrees(isExpanded ? 180 : 0))
                     .animation(.easeInOut(duration: 0.2), value: isExpanded)
             }
@@ -53,7 +54,7 @@ struct DaySelectDropdownButton: View {
         .cornerRadius(8)
         .overlay(
             RoundedRectangle(cornerRadius: 8)
-                .stroke(Color(uiColor: .coolNeutral200), lineWidth: 1)
+                .stroke(Color.coolNeutral200, lineWidth: 1)
         )
     }
 }
@@ -71,7 +72,7 @@ struct DaySelectDropdownList: View {
         VStack(alignment: .leading, spacing: 0) {
             Text("회차 선택")
                 .font(.system(size: 14, weight: .semibold))
-                .foregroundColor(Color(uiColor: .coolNeutral600))
+                .foregroundColor(Color.coolNeutral600)
                 .padding(.horizontal, 8)
                 .padding(.vertical, 16)
             
@@ -90,10 +91,10 @@ struct DaySelectDropdownList: View {
         .cornerRadius(8)
         .overlay(
             RoundedRectangle(cornerRadius: 8)
-                .stroke(Color(uiColor: .coolNeutral200), lineWidth: 1)
+                .stroke(Color.coolNeutral200, lineWidth: 1)
         )
         .shadow(
-            color: Color(uiColor: .coolNeutral300).opacity(0.12),
+            color: Color.coolNeutral300.opacity(0.12),
             radius: 4,
             x: 0,
             y: 1
@@ -112,11 +113,11 @@ struct DaySelectDropdownList: View {
         } label: {
             Text(day)
                 .font(.system(size: 14, weight: .semibold))
-                .foregroundColor(Color(uiColor: .coolNeutral800))
+                .foregroundColor(Color.coolNeutral800)
                 .frame(maxWidth: .infinity, alignment: .leading)
                 .padding(.horizontal, 8)
                 .padding(.vertical, 14)
-                .background(isSelected ? Color(uiColor: .customBlue200) : Color.clear)
+                .background(isSelected ? Color.customBlue200 : Color.clear)
         }
     }
 }
