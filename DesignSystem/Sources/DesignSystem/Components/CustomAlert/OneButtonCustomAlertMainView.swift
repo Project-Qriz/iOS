@@ -9,7 +9,7 @@ import UIKit
 import Combine
 import QRIZUtils
 
-public final class OneButtonCustomAlertMainView: UIView {
+final class OneButtonCustomAlertMainView: UIView {
 
     // MARK: - Enums
 
@@ -26,7 +26,7 @@ public final class OneButtonCustomAlertMainView: UIView {
 
     private let confirmButtonTappedSubject = PassthroughSubject<Void, Never>()
 
-    public var confirmButtonTappedPublisher: AnyPublisher<Void, Never> {
+    var confirmButtonTappedPublisher: AnyPublisher<Void, Never> {
         confirmButtonTappedSubject.eraseToAnyPublisher()
     }
 
@@ -65,9 +65,9 @@ public final class OneButtonCustomAlertMainView: UIView {
         return button
     }()
 
-    // MARK: - Initialize
+    // MARK: - Initializer
 
-    override public init(frame: CGRect) {
+    override init(frame: CGRect) {
         super.init(frame: frame)
         addSubviews()
         setupConstraints()
@@ -86,7 +86,7 @@ public final class OneButtonCustomAlertMainView: UIView {
         layer.cornerRadius = 8
     }
 
-    public func config(title: String, description: String? = nil) {
+    func config(title: String, description: String? = nil) {
         titleLabel.text = title
         descriptionLabel.attributedText = NSAttributedString(text: description ?? "", lineSpacing: 4)
     }

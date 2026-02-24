@@ -10,7 +10,11 @@ import Combine
 
 public final class TwoButtonCustomAlertViewController: UIViewController {
 
+    // MARK: - Properties
+
     private let alertView: TwoButtonCustomAlertView
+
+    // MARK: - Initializer
 
     public init(
         title: String,
@@ -40,14 +44,17 @@ public final class TwoButtonCustomAlertViewController: UIViewController {
         fatalError("no initializer for coder: CustomAlertViewController")
     }
 
+    // MARK: - Lifecycle
+
     override public func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = .black.withAlphaComponent(0.8)
-        addViews()
+        setupLayout()
     }
 
-    public func setupButtonActions(confirmAction: UIAction?, cancelAction: UIAction?) {
+    // MARK: - Functions
 
+    public func setupButtonActions(confirmAction: UIAction?, cancelAction: UIAction?) {
         if let confirmAction = confirmAction {
             alertView.setButtonAction(true, action: confirmAction)
         }
@@ -56,9 +63,12 @@ public final class TwoButtonCustomAlertViewController: UIViewController {
             alertView.setButtonAction(false, action: cancelAction)
         }
     }
+}
 
-    private func addViews() {
+// MARK: - Layout
 
+extension TwoButtonCustomAlertViewController {
+    private func setupLayout() {
         self.view.addSubview(alertView)
 
         alertView.translatesAutoresizingMaskIntoConstraints = false

@@ -6,11 +6,16 @@
 //
 
 import UIKit
-import QRIZUtils
 
 public final class CardBackgroundView: UICollectionReusableView {
 
-    // MARK: - Initialize
+    // MARK: - Enums
+
+    private enum Metric {
+        static let cornerRadius: CGFloat = 14
+    }
+
+    // MARK: - Initializer
 
     override public init(frame: CGRect) {
         super.init(frame: frame)
@@ -21,14 +26,27 @@ public final class CardBackgroundView: UICollectionReusableView {
         fatalError("init(coder:) has not been implemented")
     }
 
+    // MARK: - Lifecycle
+
+    override public func layoutSubviews() {
+        super.layoutSubviews()
+        layer.shadowPath = UIBezierPath(
+            roundedRect: bounds,
+            cornerRadius: Metric.cornerRadius
+        ).cgPath
+    }
+
     // MARK: - Functions
 
     private func setupUI() {
         backgroundColor = .white
-        clipsToBounds = true
-        layer.cornerRadius = 14
+        layer.cornerRadius = Metric.cornerRadius
         layer.borderWidth = 1
         layer.borderColor = UIColor.coolNeutral100.cgColor
-        applyQRIZShadow(radius: 14)
+
+        layer.shadowColor = UIColor.gray.cgColor
+        layer.shadowOpacity = 0.15
+        layer.shadowOffset = CGSize(width: 0, height: 2)
+        layer.shadowRadius = 4
     }
 }

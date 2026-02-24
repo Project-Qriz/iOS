@@ -11,13 +11,19 @@ public final class RoundBoxLabel: UIView {
 
     // MARK: - UI
 
-    private let label = UILabel()
+    private let label: UILabel = {
+        let label = UILabel()
+        label.textColor = .white
+        label.font = .boldSystemFont(ofSize: 24)
+        return label
+    }()
 
-    // MARK: - Initialize
+    // MARK: - Initializer
 
     public init(text: String, width: CGFloat, height: CGFloat) {
         super.init(frame: .zero)
-        setupLabel(width: width, height: height)
+        setupUI()
+        setupLayout(width: width, height: height)
         setText(text)
     }
 
@@ -27,14 +33,13 @@ public final class RoundBoxLabel: UIView {
 
     // MARK: - Functions
 
-    private func setupLabel(width: CGFloat, height: CGFloat) {
+    private func setupUI() {
         backgroundColor = .customBlue500
         layer.cornerRadius = 8
-
-        label.textColor = .white
-        label.font = .boldSystemFont(ofSize: 24)
         addSubview(label)
+    }
 
+    private func setupLayout(width: CGFloat, height: CGFloat) {
         translatesAutoresizingMaskIntoConstraints = false
         label.translatesAutoresizingMaskIntoConstraints = false
 

@@ -81,7 +81,7 @@ public final class CustomTextField: UITextField {
         return imageView
     }()
 
-    // MARK: - Initialize
+    // MARK: - Initializer
 
     public init(
         placeholder: String,
@@ -132,7 +132,7 @@ public final class CustomTextField: UITextField {
         setupRightView(type)
     }
 
-    public func observe() {
+    private func observe() {
         self.controlEventPublisher(for: .editingDidBegin)
             .sink { [weak self] _ in
                 guard let self else { return }

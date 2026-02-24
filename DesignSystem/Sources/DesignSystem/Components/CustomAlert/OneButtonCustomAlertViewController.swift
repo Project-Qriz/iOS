@@ -25,7 +25,7 @@ public final class OneButtonCustomAlertViewController: UIViewController {
         rootView.confirmButtonTappedPublisher
     }
 
-    // MARK: - Initialize
+    // MARK: - Initializer
 
     public init(title: String, description: String? = nil) {
         self.rootView = OneButtonCustomAlertMainView()
