@@ -71,6 +71,12 @@ public extension UIImage {
     static let understandingDataModeling = image(named: "understandingDataModeling")
 }
 
+public extension UIImage {
+    static func designSystemImage(named name: String) -> UIImage? {
+        UIImage(named: name, in: .module, compatibleWith: nil)
+    }
+}
+
 private extension UIImage {
     static func image(named name: String) -> UIImage {
         UIImage(named: name, in: .module, compatibleWith: nil) ?? UIImage()
