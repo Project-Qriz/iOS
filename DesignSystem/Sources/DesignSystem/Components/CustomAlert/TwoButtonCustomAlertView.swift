@@ -83,11 +83,12 @@ final class TwoButtonCustomAlertView: UIView {
         setupUI()
         setLabelText(isTitleLabel: true, text: title, numberOfLines: titleLine)
         setLabelText(isTitleLabel: false, text: description, numberOfLines: descriptionLine)
-        setupLayout()
+        addSubviews()
+        setupConstraints()
     }
 
     required init?(coder: NSCoder) {
-        fatalError("no initializer for coder: CustomAlertView")
+        fatalError("init(coder:) has not been implemented")
     }
 
     // MARK: - Functions
@@ -139,15 +140,16 @@ final class TwoButtonCustomAlertView: UIView {
     }
 }
 
-// MARK: - Layout
+// MARK: - Layout Setup
 
-private extension TwoButtonCustomAlertView {
-
-    func setupLayout() {
+extension TwoButtonCustomAlertView {
+    private func addSubviews() {
         addSubview(titleLabel)
         addSubview(descriptionLabel)
         addSubview(buttonHStackView)
+    }
 
+    private func setupConstraints() {
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
         descriptionLabel.translatesAutoresizingMaskIntoConstraints = false
         buttonHStackView.translatesAutoresizingMaskIntoConstraints = false

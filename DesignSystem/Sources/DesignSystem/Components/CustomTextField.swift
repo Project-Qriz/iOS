@@ -31,6 +31,7 @@ public final class CustomTextField: UITextField {
     // MARK: - Properties
 
     private var cancellables = Set<AnyCancellable>()
+    private var isEditingActive = false
 
     // MARK: - UI
 
@@ -136,7 +137,8 @@ public final class CustomTextField: UITextField {
         self.controlEventPublisher(for: .editingDidBegin)
             .sink { [weak self] _ in
                 guard let self else { return }
-                if self.layer.borderColor == UIColor.coolNeutral200.cgColor {
+                if !self.isEditingActive {
+                    self.isEditingActive = true
                     self.layer.borderColor = UIColor.black.cgColor
                 }
             }
@@ -145,7 +147,8 @@ public final class CustomTextField: UITextField {
         self.controlEventPublisher(for: .editingDidEnd)
             .sink { [weak self] _ in
                 guard let self else { return }
-                if self.layer.borderColor == UIColor.black.cgColor {
+                if self.isEditingActive {
+                    self.isEditingActive = false
                     self.layer.borderColor = UIColor.coolNeutral200.cgColor
                 }
                 self.resignFirstResponder()

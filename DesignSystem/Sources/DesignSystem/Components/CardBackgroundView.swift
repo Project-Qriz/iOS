@@ -9,12 +9,6 @@ import UIKit
 
 public final class CardBackgroundView: UICollectionReusableView {
 
-    // MARK: - Enums
-
-    private enum Metric {
-        static let cornerRadius: CGFloat = 14
-    }
-
     // MARK: - Initializer
 
     override public init(frame: CGRect) {
@@ -26,21 +20,11 @@ public final class CardBackgroundView: UICollectionReusableView {
         fatalError("init(coder:) has not been implemented")
     }
 
-    // MARK: - Lifecycle
-
-    override public func layoutSubviews() {
-        super.layoutSubviews()
-        layer.shadowPath = UIBezierPath(
-            roundedRect: bounds,
-            cornerRadius: Metric.cornerRadius
-        ).cgPath
-    }
-
     // MARK: - Functions
 
     private func setupUI() {
         backgroundColor = .white
-        layer.cornerRadius = Metric.cornerRadius
+        layer.cornerRadius = 14
         layer.borderWidth = 1
         layer.borderColor = UIColor.coolNeutral100.cgColor
 

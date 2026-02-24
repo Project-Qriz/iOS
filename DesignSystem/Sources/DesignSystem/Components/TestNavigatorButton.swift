@@ -87,12 +87,13 @@ public final class TestNavigatorButton: UIView {
         super.init(frame: .zero)
         backgroundColor = .white
         setupLayer()
-        setupLayout()
+        addSubviews()
+        setupConstraints()
         setupLongPress()
     }
 
     required init?(coder: NSCoder) {
-        fatalError("no initializer for coder: TestNavigatorButton")
+        fatalError("init(coder:) has not been implemented")
     }
 
     // MARK: - Public Methods
@@ -126,14 +127,14 @@ public final class TestNavigatorButton: UIView {
         backgroundColor = .white
         layer.borderColor = UIColor.coolNeutral100.cgColor
 
-        testTitleLabel.text  = concept.title
+        testTitleLabel.text = concept.title
         scoreLabel.text = "\(concept.subjectCount)과목"
         scoreLabel.textColor = .coolNeutral500
 
-        let (textColor, backgroundColor) = colors(for: concept.importance)
+        let (badgeTextColor, badgeBgColor) = colors(for: concept.importance)
         retryBadge.text = concept.importance.text
-        retryBadge.textColor = textColor
-        retryBadge.backgroundColor = backgroundColor
+        retryBadge.textColor = badgeTextColor
+        retryBadge.backgroundColor = badgeBgColor
 
         isUserInteractionEnabled = !locked
     }
@@ -196,9 +197,9 @@ public final class TestNavigatorButton: UIView {
     @objc private func handleLongPress(_ sender: UIGestureRecognizer) {
         switch sender.state {
         case .began:
-            self.backgroundColor = .coolNeutral800.withAlphaComponent(0.1)
+            backgroundColor = .coolNeutral800.withAlphaComponent(0.1)
         case .cancelled, .failed, .ended:
-            self.backgroundColor = currentBackgroundColor
+            backgroundColor = currentBackgroundColor
         default:
             break
         }
@@ -213,13 +214,15 @@ public final class TestNavigatorButton: UIView {
     }
 }
 
-// MARK: - Layout
+// MARK: - Layout Setup
 
 extension TestNavigatorButton {
-    private func setupLayout() {
+    private func addSubviews() {
         addSubview(textVStackView)
         addSubview(chevronImageView)
+    }
 
+    private func setupConstraints() {
         textVStackView.translatesAutoresizingMaskIntoConstraints = false
         chevronImageView.translatesAutoresizingMaskIntoConstraints = false
 

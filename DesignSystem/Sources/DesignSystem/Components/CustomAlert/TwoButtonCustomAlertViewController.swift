@@ -35,21 +35,22 @@ public final class TwoButtonCustomAlertViewController: UIViewController {
             cancelTitle: cancelTitle
         )
         super.init(nibName: nil, bundle: nil)
-        self.modalPresentationStyle = .overFullScreen
-        self.modalTransitionStyle = .crossDissolve
+        modalPresentationStyle = .overFullScreen
+        modalTransitionStyle = .crossDissolve
         setupButtonActions(confirmAction: confirmAction, cancelAction: cancelAction)
     }
 
     required init?(coder: NSCoder) {
-        fatalError("no initializer for coder: CustomAlertViewController")
+        fatalError("init(coder:) has not been implemented")
     }
 
     // MARK: - Lifecycle
 
     override public func viewDidLoad() {
         super.viewDidLoad()
-        self.view.backgroundColor = .black.withAlphaComponent(0.8)
-        setupLayout()
+        view.backgroundColor = .black.withAlphaComponent(0.8)
+        addSubviews()
+        setupConstraints()
     }
 
     // MARK: - Functions
@@ -65,19 +66,21 @@ public final class TwoButtonCustomAlertViewController: UIViewController {
     }
 }
 
-// MARK: - Layout
+// MARK: - Layout Setup
 
 extension TwoButtonCustomAlertViewController {
-    private func setupLayout() {
-        self.view.addSubview(alertView)
+    private func addSubviews() {
+        view.addSubview(alertView)
+    }
 
+    private func setupConstraints() {
         alertView.translatesAutoresizingMaskIntoConstraints = false
 
         NSLayoutConstraint.activate([
-            alertView.centerXAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.centerXAnchor),
-            alertView.centerYAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.centerYAnchor),
-            alertView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 40),
-            alertView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: -40),
+            alertView.centerXAnchor.constraint(equalTo: view.safeAreaLayoutGuide.centerXAnchor),
+            alertView.centerYAnchor.constraint(equalTo: view.safeAreaLayoutGuide.centerYAnchor),
+            alertView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 40),
+            alertView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -40),
         ])
     }
 }
