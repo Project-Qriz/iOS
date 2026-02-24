@@ -1,15 +1,13 @@
 //
 //  TestPageIndicatorLabel.swift
-//  QRIZ
-//
-//  Created by ch on 12/22/24.
+//  ExamKit
 //
 
 import UIKit
 import DesignSystem
 
-final class TestPageIndicatorLabel: UILabel {
-    
+public final class TestPageIndicatorLabel: UILabel {
+
     // MARK: - Properties
     private var currentPageLabel: UILabel = {
         let label = UILabel()
@@ -20,7 +18,7 @@ final class TestPageIndicatorLabel: UILabel {
         label.textColor = .coolNeutral800
         return label
     }()
-    
+
     private var totalPageLabel: UILabel = {
         let label = UILabel()
         label.text = String(format: "/ %02d", 0)
@@ -30,23 +28,23 @@ final class TestPageIndicatorLabel: UILabel {
         label.textColor = .coolNeutral500
         return label
     }()
-    
+
     // MARK: - Initializers
-    init() {
+    public init() {
         super.init(frame: .zero)
         addViews()
     }
-    
+
     required init?(coder: NSCoder) {
-        fatalError("no initializer for coder: TestPageindicatorLabel")
+        fatalError("no initializer for coder: TestPageIndicatorLabel")
     }
 
     // MARK: - Methods
-    func setCurPage(curPage: Int) {
+    public func setCurPage(curPage: Int) {
         self.currentPageLabel.text = String(format: "%02d ", curPage)
     }
-    
-    func setTotalPage(totalPage: Int) {
+
+    public func setTotalPage(totalPage: Int) {
         self.totalPageLabel.text = String(format: "/ %02d", totalPage)
     }
 }
@@ -56,10 +54,10 @@ extension TestPageIndicatorLabel {
     private func addViews() {
         self.addSubview(currentPageLabel)
         self.addSubview(totalPageLabel)
-        
+
         currentPageLabel.translatesAutoresizingMaskIntoConstraints = false
         totalPageLabel.translatesAutoresizingMaskIntoConstraints = false
-        
+
         NSLayoutConstraint.activate([
             currentPageLabel.centerYAnchor.constraint(equalTo: self.centerYAnchor),
             totalPageLabel.centerYAnchor.constraint(equalTo: self.centerYAnchor),

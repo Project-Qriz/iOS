@@ -8,6 +8,7 @@
 import SwiftUI
 import DesignSystem
 import QRIZUtils
+import ExamKit
 
 struct PreviewResultScoreView: View {
     

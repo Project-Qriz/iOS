@@ -1,63 +1,61 @@
 //
-//  DailyResultDetailViewModel.swift
-//  QRIZ
-//
-//  Created by 이창현 on 4/19/25.
+//  TestResultDetailViewModel.swift
+//  ExamKit
 //
 
 import Foundation
 import Combine
 import QRIZUtils
 
-final class TestResultDetailViewModel: ResultDetailViewModel {
-    
-    // MARK: - Intializers
-    init(resultDetailData: ResultDetailData) {
-            self.resultDetailData = resultDetailData
-            super.init()
-            Task { [weak self] in
-                guard let self = self else { return }
-                await setScoresData(.total)
-            }
-    }
-    
+public final class TestResultDetailViewModel: ResultDetailViewModel {
+
     // MARK: - Properties
-    var resultDetailData: ResultDetailData
-    var resultScoresData: ResultScoresData = .init()
-    
+    public var resultDetailData: ResultDetailData
+    public var resultScoresData: ResultScoresData = .init()
+
     private var subscriptions = Set<AnyCancellable>()
-    
+
+    // MARK: - Initializers
+    public init(resultDetailData: ResultDetailData) {
+        self.resultDetailData = resultDetailData
+        super.init()
+        Task { [weak self] in
+            guard let self else { return }
+            await setScoresData(.total)
+        }
+    }
+
     // MARK: - Methods
-    func transform(input: AnyPublisher<ResultDetailViewModel.Input, Never>) {
+    public func transform(input: AnyPublisher<ResultDetailViewModel.Input, Never>) {
         input
             .receive(on: DispatchQueue.main)
             .sink { [weak self] event in
-            guard let self = self else { return }
-            switch event {
-            case .menuItemSelected(let selected):
-                Task { [weak self] in
-                    guard let self = self else { return }
-                    await setScoresData(selected)
+                guard let self else { return }
+                switch event {
+                case .menuItemSelected(let selected):
+                    Task { [weak self] in
+                        guard let self else { return }
+                        await setScoresData(selected)
+                    }
                 }
             }
-        }
-        .store(in: &subscriptions)
+            .store(in: &subscriptions)
     }
-    
+
     private func initScoresData() {
         for i in 0..<self.resultScoresData.subjectScores.count {
             self.resultScoresData.subjectScores[i] = 0
         }
         self.resultScoresData.subjectCount = 0
     }
-    
+
     @MainActor
     private func setScoresData(_ selectedItem: ResultDetailMenuItems) {
         let subject1Count: Int = self.resultDetailData.subject1DetailResult.count
         let subject2Count: Int = self.resultDetailData.subject2DetailResult.count
-        
+
         self.initScoresData()
-        
+
         switch selectedItem {
         case .total:
             self.resultScoresData.subjectCount = subject1Count + subject2Count

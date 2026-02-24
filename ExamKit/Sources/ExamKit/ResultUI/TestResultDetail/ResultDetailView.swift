@@ -1,8 +1,6 @@
 //
 //  ResultDetailView.swift
-//  QRIZ
-//
-//  Created by ch on 4/19/25.
+//  ExamKit
 //
 
 import SwiftUI
@@ -10,13 +8,18 @@ import DesignSystem
 import Combine
 import QRIZUtils
 
-struct ResultDetailView: View {
-    
-    @ObservedObject var resultScoreData: ResultScoresData
-    @ObservedObject var resultDetailData: ResultDetailData
-    let input: PassthroughSubject<ResultDetailViewModel.Input, Never> = .init()
-    
-    var body: some View {
+public struct ResultDetailView: View {
+
+    @ObservedObject public var resultScoreData: ResultScoresData
+    @ObservedObject public var resultDetailData: ResultDetailData
+    public let input: PassthroughSubject<ResultDetailViewModel.Input, Never> = .init()
+
+    public init(resultScoreData: ResultScoresData, resultDetailData: ResultDetailData) {
+        self.resultScoreData = resultScoreData
+        self.resultDetailData = resultDetailData
+    }
+
+    public var body: some View {
         ScrollView() {
             LazyVStack {
                 HStack {
@@ -25,9 +28,9 @@ struct ResultDetailView: View {
                         .foregroundStyle(Color.coolNeutral800)
                     Spacer()
                 }
-                
+
                 Spacer(minLength: 14)
-                
+
                 HStack(spacing: 0) {
                     Menu {
                         ForEach(ResultDetailMenuItems.allCases, id: \.self) { item in
@@ -50,17 +53,17 @@ struct ResultDetailView: View {
                         }
                         .frame(maxWidth: .infinity, alignment: .leading)
                     }
-                    
+
                     Spacer()
                 }
-                
+
                 Spacer(minLength: 24)
-                
+
                 ResultScoreCircularChartView(resultScoresData: resultScoreData)
                     .frame(width: 164, height: 164)
-                
+
                 Spacer(minLength: 32)
-                
+
                 ResultDetailScoreView(resultScoreData: resultScoreData, resultDetailData: resultDetailData)
             }
             .padding(EdgeInsets(top: 24, leading: 18, bottom: 24, trailing: 18))

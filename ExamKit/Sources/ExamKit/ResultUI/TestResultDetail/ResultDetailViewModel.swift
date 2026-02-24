@@ -1,15 +1,15 @@
 //
 //  ResultDetailViewModel.swift
-//  QRIZ
-//
-//  Created by 이창현 on 4/20/25.
+//  ExamKit
 //
 
 import Foundation
 import QRIZUtils
 
-class ResultDetailViewModel {
-    enum Input {
+public class ResultDetailViewModel {
+    public enum Input {
         case menuItemSelected(selected: ResultDetailMenuItems)
     }
+
+    public init() {}
 }

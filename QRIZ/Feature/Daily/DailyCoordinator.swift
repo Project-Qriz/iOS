@@ -8,6 +8,7 @@
 import UIKit
 import QRIZUtils
 import Network
+import ExamKit
 
 @MainActor
 protocol DailyCoordinator: Coordinator {

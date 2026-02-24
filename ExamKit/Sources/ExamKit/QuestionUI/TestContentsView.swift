@@ -1,16 +1,14 @@
 //
 //  TestContentsView.swift
-//  QRIZ
-//
-//  Created by 이창현 on 4/2/25.
+//  ExamKit
 //
 
 import UIKit
 import Combine
 import QRIZUtils
 
-final class TestContentsView: UIStackView {
-    
+public final class TestContentsView: UIStackView {
+
     // MARK: - Properties
     private let numberLabel: QuestionNumberLabel = .init()
     private let titleLabel: QuestionTitleLabel = .init()
@@ -24,27 +22,27 @@ final class TestContentsView: UIStackView {
         }
         return arr
     }()
-    
+
     private let optionTappedSubject: PassthroughSubject<Int, Never> = .init()
-    var optionTappedPublisher: AnyPublisher<Int, Never> {
+    public var optionTappedPublisher: AnyPublisher<Int, Never> {
         optionTappedSubject.eraseToAnyPublisher()
     }
-    
+
     // MARK: - Initializers
-    init() {
+    public init() {
         super.init(frame: .zero)
         setupStack()
         setMargins()
         addViews()
         addOptionsActions()
     }
-    
+
     required init(coder: NSCoder) {
         fatalError("no initializer for coder: TestContentsView")
     }
-    
+
     // MARK: - Methods
-    func updateQuestion(_ question: QuestionData) {
+    public func updateQuestion(_ question: QuestionData) {
         numberLabel.setNumber(question.questionNumber)
         titleLabel.setTitle(question.question)
         if let description = question.description {
@@ -59,34 +57,34 @@ final class TestContentsView: UIStackView {
             $0.setOptionString(options[$0.tag - 1])
         }
     }
-    
-    func setOptionState(optionIdx: Int, isSelected: Bool) {
+
+    public func setOptionState(optionIdx: Int, isSelected: Bool) {
         optionLabels[optionIdx - 1].setOptionState(isSelected: isSelected)
     }
-    
+
     private func setupStack() {
         axis = .vertical
         alignment = .fill
     }
-    
+
     private func setMargins() {
         isLayoutMarginsRelativeArrangement = true
         layoutMargins = UIEdgeInsets(top: 35, left: 0, bottom: 35, right: 0)
     }
-    
+
     private func addOptionsActions() {
         optionLabels.forEach {
             $0.isUserInteractionEnabled = true
             $0.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(sendTappedOption(_:))))
         }
     }
-    
+
     @objc private func sendTappedOption(_ sender: UITapGestureRecognizer) {
         guard let optionIdx = sender.view?.tag else { return }
         optionTappedSubject.send(optionIdx)
     }
 }
-    
+
 // MARK: - Layout
 extension TestContentsView {
     private func addViews() {
@@ -96,10 +94,10 @@ extension TestContentsView {
         for option in optionLabels {
             addArrangedSubview(option)
         }
-        
+
         addCustomSpacing()
     }
-    
+
     private func addCustomSpacing() {
         setCustomSpacing(14, after: numberLabel)
         setCustomSpacing(14, after: titleLabel)

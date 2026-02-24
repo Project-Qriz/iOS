@@ -1,18 +1,15 @@
 //
-//  TestPreviousButton.swift
-//  QRIZ
-//
-//  Created by ch on 12/19/24.
+//  TestButton.swift
+//  ExamKit
 //
 
 import UIKit
 import DesignSystem
 
-final class TestButton: UIButton {
+public final class TestButton: UIButton {
 
     // MARK: - Initializers
-    init(isPreviousButton: Bool) {
-
+    public init(isPreviousButton: Bool) {
         super.init(frame: .zero)
         self.titleLabel?.font = .boldSystemFont(ofSize: 16)
         self.layer.cornerRadius = 8
@@ -27,13 +24,13 @@ final class TestButton: UIButton {
             self.backgroundColor = .coolNeutral700
         }
     }
-    
+
     required init?(coder: NSCoder) {
         fatalError("no initializer for coder: TestButton")
     }
-    
+
     // MARK: - Methods
-    func setTitleText(_ str: String) {
+    public func setTitleText(_ str: String) {
         self.setTitle(str, for: .normal)
     }
 }

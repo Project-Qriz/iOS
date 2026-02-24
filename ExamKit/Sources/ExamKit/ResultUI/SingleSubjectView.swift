@@ -1,26 +1,24 @@
 //
 //  SingleSubjectView.swift
-//  QRIZ
-//
-//  Created by 이창현 on 4/17/25.
+//  ExamKit
 //
 
 import SwiftUI
 import DesignSystem
 
-struct SingleSubjectView: View {
+public struct SingleSubjectView: View {
 
     private let circleColor: Color
     private let subjectText: String
     private let score: Int
-    
-    init(circleColor: Color, subjectText: String, score: CGFloat) {
+
+    public init(circleColor: Color, subjectText: String, score: CGFloat) {
         self.circleColor = circleColor
         self.subjectText = subjectText
         self.score = Int(score)
     }
-    
-    var body: some View {
+
+    public var body: some View {
         HStack {
             Circle()
                 .frame(width: 8, height: 8)

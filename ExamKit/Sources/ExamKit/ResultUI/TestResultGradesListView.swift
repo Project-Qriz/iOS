@@ -1,8 +1,6 @@
 //
-//  DailyResultGradeListView.swift
-//  QRIZ
-//
-//  Created by 이창현 on 4/16/25.
+//  TestResultGradesListView.swift
+//  ExamKit
 //
 
 import SwiftUI
@@ -10,12 +8,17 @@ import DesignSystem
 import Combine
 import QRIZUtils
 
-struct TestResultGradesListView: View {
-    
-    @ObservedObject var resultGradeListData: ResultGradeListData
-    let onProblemTap: PassthroughSubject<Int, Never>
-    
-    var body: some View {
+public struct TestResultGradesListView: View {
+
+    @ObservedObject public var resultGradeListData: ResultGradeListData
+    public let onProblemTap: PassthroughSubject<Int, Never>
+
+    public init(resultGradeListData: ResultGradeListData, onProblemTap: PassthroughSubject<Int, Never>) {
+        self.resultGradeListData = resultGradeListData
+        self.onProblemTap = onProblemTap
+    }
+
+    public var body: some View {
         LazyVStack(spacing: 16) {
             HStack {
                 Text("문제 풀이 결과")
@@ -23,7 +26,7 @@ struct TestResultGradesListView: View {
                     .foregroundStyle(Color.coolNeutral800)
                 Spacer()
             }
-            
+
             ForEach(resultGradeListData.gradeResultList) { gradeResult in
                 ResultGradeListCellView(gradeResult: gradeResult) {
                     onProblemTap.send(gradeResult.questionId)

@@ -8,6 +8,7 @@
 import UIKit
 import DesignSystem
 import Combine
+import ExamKit
 
 final class DailyTestFooterView: UIView {
     

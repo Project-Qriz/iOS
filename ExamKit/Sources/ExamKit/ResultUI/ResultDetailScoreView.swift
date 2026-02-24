@@ -1,21 +1,24 @@
 //
 //  ResultDetailScoreView.swift
-//  QRIZ
-//
-//  Created by 이창현 on 4/20/25.
+//  ExamKit
 //
 
 import SwiftUI
 import DesignSystem
 import QRIZUtils
 
-struct ResultDetailScoreView: View {
-    
-    @ObservedObject var resultScoreData: ResultScoresData
-    @ObservedObject var resultDetailData: ResultDetailData
+public struct ResultDetailScoreView: View {
+
+    @ObservedObject public var resultScoreData: ResultScoresData
+    @ObservedObject public var resultDetailData: ResultDetailData
     @State var presentedSubject1ItemCount: Int = 0
-    
-    var body: some View {
+
+    public init(resultScoreData: ResultScoresData, resultDetailData: ResultDetailData) {
+        self.resultScoreData = resultScoreData
+        self.resultDetailData = resultDetailData
+    }
+
+    public var body: some View {
         VStack(spacing: 32) {
             if resultScoreData.selectedMenuItem != .subject2 {
                 ForEach(resultDetailData.subject1DetailResult.indices, id: \.self) { idx in
@@ -36,7 +39,7 @@ struct ResultDetailScoreView: View {
             }
         }
     }
-    
+
     @ViewBuilder
     private func singleMajorSubjectView(subjectData: SubjectDetailData, rank: Int) -> some View {
         VStack(spacing: 11) {
@@ -49,18 +52,16 @@ struct ResultDetailScoreView: View {
                     .foregroundStyle(.black)
                 Spacer()
             }
-            
+
             Spacer(minLength: 4)
-            
+
             ForEach(subjectData.minorItems.indices, id: \.self) { idx in
                 VStack(spacing: 8) {
                     HStack {
                         Text("\(subjectData.minorItems[idx].subItem)")
                             .font(.system(size: 14, weight: .regular))
                             .foregroundStyle(.black)
-                        
                         Spacer()
-                        
                         Text("\(Int(subjectData.minorItems[idx].score))점")
                             .font(.system(size: 14, weight: .bold))
                             .foregroundStyle(Color.coolNeutral800)
@@ -74,19 +75,14 @@ struct ResultDetailScoreView: View {
             }
         }
     }
-    
+
     private func rankColor(_ rank: Int) -> Color {
         switch rank {
-        case 0:
-            return Color.customBlue900
-        case 1:
-            return Color.customBlue500
-        case 2:
-            return Color.customBlue300
-        case 3:
-            return Color.customBlue200
-        case 4:
-            return Color.customBlue100
+        case 0: return Color.customBlue900
+        case 1: return Color.customBlue500
+        case 2: return Color.customBlue300
+        case 3: return Color.customBlue200
+        case 4: return Color.customBlue100
         default:
             print("Method rankColor received wrong argv")
             return .white

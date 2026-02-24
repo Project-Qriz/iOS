@@ -1,20 +1,23 @@
 //
-//  GradeListCellView.swift
-//  QRIZ
-//
-//  Created by 이창현 on 4/17/25.
+//  ResultGradeListCellView.swift
+//  ExamKit
 //
 
 import SwiftUI
 import DesignSystem
 import QRIZUtils
 
-struct ResultGradeListCellView: View {
-    
+public struct ResultGradeListCellView: View {
+
     let gradeResult: GradeResult
     let onTap: () -> Void
-    
-    var body: some View {
+
+    public init(gradeResult: GradeResult, onTap: @escaping () -> Void) {
+        self.gradeResult = gradeResult
+        self.onTap = onTap
+    }
+
+    public var body: some View {
         VStack(alignment: .leading, spacing: 8) {
             HStack(spacing: 8) {
                 correctionImage()
@@ -23,12 +26,12 @@ struct ResultGradeListCellView: View {
                     .foregroundStyle(Color.coolNeutral800)
                 Spacer()
             }
-            
+
             Text("\(gradeResult.question)")
                 .font(.system(size: 14, weight: .regular))
                 .foregroundStyle(Color.coolNeutral600)
                 .lineLimit(2)
-            
+
             HStack {
                 Text("\(gradeResult.skillName)")
                     .foregroundStyle(Color.customBlue400)
@@ -45,7 +48,7 @@ struct ResultGradeListCellView: View {
             onTap()
         }
     }
-    
+
     @ViewBuilder
     private func correctionImage() -> some View {
         if gradeResult.correction {

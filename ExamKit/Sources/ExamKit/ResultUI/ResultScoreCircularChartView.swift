@@ -1,20 +1,22 @@
 //
-//  SwiftUIView.swift
-//  QRIZ
-//
-//  Created by ch on 12/29/24.
+//  ResultScoreCircularChartView.swift
+//  ExamKit
 //
 
 import SwiftUI
 import DesignSystem
 import QRIZUtils
 
-struct ResultScoreCircularChartView: View {
-    
-    @ObservedObject var resultScoresData: ResultScoresData
+public struct ResultScoreCircularChartView: View {
+
+    @ObservedObject public var resultScoresData: ResultScoresData
     private let lineWidth: CGFloat = 36
-    
-    var body: some View {
+
+    public init(resultScoresData: ResultScoresData) {
+        self.resultScoresData = resultScoresData
+    }
+
+    public var body: some View {
         ZStack {
             Circle()
                 .stroke(style: StrokeStyle(lineWidth: lineWidth))
@@ -32,7 +34,7 @@ struct ResultScoreCircularChartView: View {
         }
         .padding(lineWidth / 2)
     }
-    
+
     @ViewBuilder
     private func trimmedCircle(subjectIdx: Int) -> some View {
         Circle()
@@ -42,23 +44,17 @@ struct ResultScoreCircularChartView: View {
             .rotationEffect(.degrees(-90))
             .animation(.easeInOut(duration: 1), value: resultScoresData.totalScore)
     }
-    
+
     private func rankColor(subjectIdx: Int) -> Color {
         if subjectIdx == resultScoresData.subjectCount { return Color.coolNeutral300 }
 
         switch subjectIdx {
-        case 0:
-            return Color.customBlue900
-        case 1:
-            return Color.customBlue500
-        case 2:
-            return Color.customBlue300
-        case 3:
-            return Color.customBlue200
-        case 4:
-            return Color.customBlue100
-        default:
-            return Color.coolNeutral300
+        case 0: return Color.customBlue900
+        case 1: return Color.customBlue500
+        case 2: return Color.customBlue300
+        case 3: return Color.customBlue200
+        case 4: return Color.customBlue100
+        default: return Color.coolNeutral300
         }
     }
 }
