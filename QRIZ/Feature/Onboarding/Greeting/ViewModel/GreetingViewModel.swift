@@ -10,6 +10,7 @@ import Combine
 import QRIZUtils
 import Network
 
+@MainActor
 final class GreetingViewModel {
     
     // MARK: - Input & Output

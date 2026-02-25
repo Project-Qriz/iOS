@@ -13,6 +13,7 @@ import KakaoSDKCommon
 import QRIZUtils
 import Network
 
+@MainActor
 final class LoginViewModel {
     
     // MARK: - Properties

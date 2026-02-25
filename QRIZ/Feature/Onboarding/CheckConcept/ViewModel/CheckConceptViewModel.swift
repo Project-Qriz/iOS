@@ -10,6 +10,7 @@ import Combine
 import QRIZUtils
 import Network
 
+@MainActor
 final class CheckConceptViewModel {
     
     // MARK: - Input & Output
