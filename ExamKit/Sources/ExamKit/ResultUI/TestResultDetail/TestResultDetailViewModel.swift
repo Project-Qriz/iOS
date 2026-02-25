@@ -7,6 +7,7 @@ import Foundation
 import Combine
 import QRIZUtils
 
+@MainActor
 public final class TestResultDetailViewModel: ResultDetailViewModel {
 
     // MARK: - Properties
