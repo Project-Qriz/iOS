@@ -10,17 +10,17 @@ import QRIZUtils
 
 public struct ResultDetailView: View {
 
-    @ObservedObject public var resultScoreData: ResultScoresData
+    @ObservedObject public var resultScoresData: ResultScoresData
     @ObservedObject public var resultDetailData: ResultDetailData
-    public let input: PassthroughSubject<ResultDetailViewModel.Input, Never> = .init()
+    public let input: PassthroughSubject<TestResultDetailViewModel.Input, Never> = .init()
 
-    public init(resultScoreData: ResultScoresData, resultDetailData: ResultDetailData) {
-        self.resultScoreData = resultScoreData
+    public init(resultScoresData: ResultScoresData, resultDetailData: ResultDetailData) {
+        self.resultScoresData = resultScoresData
         self.resultDetailData = resultDetailData
     }
 
     public var body: some View {
-        ScrollView() {
+        ScrollView {
             LazyVStack {
                 HStack {
                     Text("개념별 점수 분석")
@@ -35,7 +35,7 @@ public struct ResultDetailView: View {
                     Menu {
                         ForEach(ResultDetailMenuItems.allCases, id: \.self) { item in
                             Button(action: {
-                                resultScoreData.selectedMenuItem = item
+                                resultScoresData.selectedMenuItem = item
                                 input.send(.menuItemSelected(selected: item))
                             }) {
                                 Text(item.rawValue)
@@ -43,13 +43,13 @@ public struct ResultDetailView: View {
                         }
                     } label: {
                         HStack(spacing: 4) {
-                            Text(resultScoreData.selectedMenuItem.rawValue)
-                                .foregroundColor(Color.coolNeutral600)
+                            Text(resultScoresData.selectedMenuItem.rawValue)
+                                .foregroundStyle(Color.coolNeutral600)
                                 .font(.system(size: 16, weight: .medium))
                             Image(systemName: "chevron.down")
                                 .resizable()
                                 .frame(width: 9, height: 4)
-                                .foregroundColor(Color.coolNeutral600)
+                                .foregroundStyle(Color.coolNeutral600)
                         }
                         .frame(maxWidth: .infinity, alignment: .leading)
                     }
@@ -59,14 +59,15 @@ public struct ResultDetailView: View {
 
                 Spacer(minLength: 24)
 
-                ResultScoreCircularChartView(resultScoresData: resultScoreData)
+                ResultScoreCircularChartView(resultScoresData: resultScoresData)
                     .frame(width: 164, height: 164)
 
                 Spacer(minLength: 32)
 
-                ResultDetailScoreView(resultScoreData: resultScoreData, resultDetailData: resultDetailData)
+                ResultDetailScoreView(resultScoresData: resultScoresData, resultDetailData: resultDetailData)
             }
-            .padding(EdgeInsets(top: 24, leading: 18, bottom: 24, trailing: 18))
+            .padding(.vertical, 24)
+            .padding(.horizontal, 18)
             .background(.white)
         }
         .background(.white)
@@ -74,5 +75,5 @@ public struct ResultDetailView: View {
 }
 
 #Preview {
-    ResultDetailView(resultScoreData: ResultScoresData(), resultDetailData: ResultDetailData())
+    ResultDetailView(resultScoresData: ResultScoresData(), resultDetailData: ResultDetailData())
 }

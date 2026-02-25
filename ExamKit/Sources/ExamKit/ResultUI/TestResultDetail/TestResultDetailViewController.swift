@@ -4,16 +4,13 @@
 //
 
 import UIKit
+import SwiftUI
 import Combine
 
 public final class TestResultDetailViewController: UIViewController {
 
     // MARK: - Properties
-    private var resultDetailHostingController: ResultDetailHostingController!
-
     private let viewModel: TestResultDetailViewModel
-    private let input: PassthroughSubject<TestResultDetailViewModel.Input, Never> = .init()
-    private var subscriptions = Set<AnyCancellable>()
 
     // MARK: - Initializers
     public init(viewModel: TestResultDetailViewModel) {
@@ -28,44 +25,34 @@ public final class TestResultDetailViewController: UIViewController {
     // MARK: - Methods
     public override func viewDidLoad() {
         super.viewDidLoad()
-        self.view.backgroundColor = .white
-        addViews()
-        bind()
-    }
-
-    private func bind() {
-        let mergedInput = input.merge(with: resultDetailHostingController.rootView.input)
-        viewModel.transform(input: mergedInput.eraseToAnyPublisher())
-    }
-
-    private func loadDetailView() -> UIView {
-        resultDetailHostingController = ResultDetailHostingController(
-            rootView: ResultDetailView(
-                resultScoreData: self.viewModel.resultScoresData,
-                resultDetailData: self.viewModel.resultDetailData
-            )
+        view.backgroundColor = .white
+        let resultDetailView = ResultDetailView(
+            resultScoresData: viewModel.resultScoresData,
+            resultDetailData: viewModel.resultDetailData
         )
-        self.addChild(resultDetailHostingController)
-        resultDetailHostingController.didMove(toParent: self)
+        bind(to: resultDetailView.input)
+        embedHostingController(rootView: resultDetailView)
+    }
 
-        let detailView = resultDetailHostingController.view ?? UIView(frame: .zero)
-        return detailView
+    private func bind(to input: PassthroughSubject<TestResultDetailViewModel.Input, Never>) {
+        viewModel.transform(input: input.eraseToAnyPublisher())
     }
 }
 
-// MARK: - Auto Layout
+// MARK: - Layout
 extension TestResultDetailViewController {
-    private func addViews() {
-        let resultDetailView = loadDetailView()
-        self.view.addSubview(resultDetailView)
+    private func embedHostingController(rootView: ResultDetailView) {
+        let hostingController = UIHostingController(rootView: rootView)
+        addChild(hostingController)
+        hostingController.didMove(toParent: self)
+        view.addSubview(hostingController.view)
 
-        resultDetailView.translatesAutoresizingMaskIntoConstraints = false
-
+        hostingController.view.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
-            resultDetailView.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor),
-            resultDetailView.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor),
-            resultDetailView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
-            resultDetailView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor)
+            hostingController.view.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            hostingController.view.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
+            hostingController.view.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            hostingController.view.trailingAnchor.constraint(equalTo: view.trailingAnchor)
         ])
     }
 }
