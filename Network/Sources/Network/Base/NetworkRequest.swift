@@ -10,8 +10,8 @@ import Foundation
 public typealias QueryItems = [String: String]
 public typealias HTTPHeader = [String: String]
 
-public protocol Request {
-    associatedtype Response: Decodable
+public protocol Request: Sendable {
+    associatedtype Response: Decodable & Sendable
     
     var baseURL: URL { get }
     var path: String { get }

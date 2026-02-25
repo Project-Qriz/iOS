@@ -7,6 +7,7 @@
 
 import Foundation
 
+@MainActor
 public final class UserInfoManager {
 
     public static let shared = UserInfoManager()

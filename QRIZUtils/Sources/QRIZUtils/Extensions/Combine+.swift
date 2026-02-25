@@ -40,7 +40,7 @@ extension Combine.Publishers.ControlEvent {
     /// - subscriber: 이벤트를 전달받을 구독자입니다.
     /// - control: 이벤트를 감지할 UIControl입니다.
     /// - event: 감지하고 싶은 이벤트를 입력받습니다.
-    private final class Subscription<S: Subscriber, Target: UIControl>: Combine.Subscription where S.Input == Void {
+    private final class Subscription<S: Subscriber, Target: UIControl>: Combine.Subscription, @unchecked Sendable where S.Input == Void {
         private var subscriber: S?
         weak private var control: Target?
         private let event: Target.Event
@@ -49,14 +49,18 @@ extension Combine.Publishers.ControlEvent {
             self.subscriber = subscriber
             self.control = control
             self.event = event
-            control.addTarget(self, action: #selector(processControlEvent), for: event)
+            MainActor.assumeIsolated {
+                control.addTarget(self, action: #selector(processControlEvent), for: event)
+            }
         }
 
         func request(_ demand: Subscribers.Demand) {
         }
 
         func cancel() {
-            control?.removeTarget(self, action: #selector(processControlEvent), for: event)
+            MainActor.assumeIsolated {
+                control?.removeTarget(self, action: #selector(processControlEvent), for: event)
+            }
             subscriber = nil
         }
 
