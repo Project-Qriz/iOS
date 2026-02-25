@@ -32,11 +32,11 @@ final class DailyTestFooterView: UIView {
     
     // MARK: - Methods
     func updateCurPage(curPage: Int) {
-        pageIndicatorLabel.setCurPage(curPage: curPage)
+        pageIndicatorLabel.setCurrentPage(curPage)
     }
-    
+
     func updateTotalPage(totalPage: Int) {
-        pageIndicatorLabel.setTotalPage(totalPage: totalPage)
+        pageIndicatorLabel.setTotalPage(totalPage)
     }
     
     func setButtonsVisibility(isVisible: Bool) {
@@ -44,7 +44,7 @@ final class DailyTestFooterView: UIView {
     }
     
     func alterButtonText() {
-        nextButton.setTitleText("제출")
+        nextButton.updateTitle("제출")
     }
     
     private func setupUI() {

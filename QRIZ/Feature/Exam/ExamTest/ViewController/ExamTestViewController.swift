@@ -109,7 +109,7 @@ final class ExamTestViewController: UIViewController {
                 case .updateTime(let timeLimit, let timeRemaining):
                     updateProgress(timeLimit: timeLimit, timeRemaining: timeRemaining)
                 case .updateOptionState(let optionIdx, let isSelected):
-                    contentsView.setOptionState(optionIdx: optionIdx, isSelected: isSelected)
+                    contentsView.setOptionState(at: optionIdx, isSelected: isSelected)
                 case .updatePrevButton(let isVisible):
                     footerView.updatePrevButton(isVisible: isVisible)
                 case .updateNextButton(let isVisible, let isTextSubmit):

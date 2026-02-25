@@ -33,7 +33,9 @@ public struct TestResultGradesListView: View {
                 }
             }
         }
-        .padding(EdgeInsets(top: 24, leading: 18, bottom: 16, trailing: 18))
+        .padding(.top, 24)
+        .padding(.horizontal, 18)
+        .padding(.bottom, 16)
         .background(.white)
     }
 }

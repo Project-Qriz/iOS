@@ -37,7 +37,7 @@ final class PreviewTestViewController: UIViewController {
     private let optionLabels: [QuestionOptionLabel] = {
         var arr: [QuestionOptionLabel] = []
         for i in 1...4 {
-            arr.append(QuestionOptionLabel(optNum: i))
+            arr.append(QuestionOptionLabel(number: i))
         }
         return arr
     }()
@@ -194,8 +194,8 @@ final class PreviewTestViewController: UIViewController {
         }()
         setSelectedOption(selectedOption)
         setOptionsString(optStringArr)
-        pageIndicatorLabel.setCurPage(curPage: curNum)
-        pageIndicatorLabel.setTotalPage(totalPage: lastQuestionNum)
+        pageIndicatorLabel.setCurrentPage(curNum)
+        pageIndicatorLabel.setTotalPage(lastQuestionNum)
         setPageButtonsUI(curNum)
     }
 }
@@ -301,9 +301,9 @@ extension PreviewTestViewController {
     
     private func setNextButtonTitle(isLastQuestion: Bool) {
         if isLastQuestion {
-            nextButton.setTitleText("제출")
+            nextButton.updateTitle("제출")
         } else {
-            nextButton.setTitleText("다음")
+            nextButton.updateTitle("다음")
         }
     }
     

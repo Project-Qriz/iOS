@@ -30,9 +30,9 @@ public final class QuestionOptionLabel: UIView {
     }()
 
     // MARK: - Initializers
-    public init(optNum: Int) {
+    public init(number: Int) {
         super.init(frame: .zero)
-        optionNumberLabel.text = "\(optNum)"
+        optionNumberLabel.text = "\(number)"
         setOptionState(isSelected: false)
         addSubviews()
         setupConstraints()

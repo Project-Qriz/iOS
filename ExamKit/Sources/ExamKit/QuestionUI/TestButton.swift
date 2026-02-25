@@ -30,7 +30,7 @@ public final class TestButton: UIButton {
     }
 
     // MARK: - Methods
-    public func setTitleText(_ str: String) {
-        setTitle(str, for: .normal)
+    public func updateTitle(_ title: String) {
+        setTitle(title, for: .normal)
     }
 }

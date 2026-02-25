@@ -91,7 +91,7 @@ final class DailyTestViewController: UIViewController {
                 case .updateTime(let timeLimit, let timeRemaining):
                     updateProgress(timeLimit: timeLimit, timeRemaining: timeRemaining)
                 case .updateOptionState(let optionIdx, let isSelected):
-                    contentsView.setOptionState(optionIdx: optionIdx, isSelected: isSelected)
+                    contentsView.setOptionState(at: optionIdx, isSelected: isSelected)
                 case .setButtonVisibility(let isVisible):
                     footerView.setButtonsVisibility(isVisible: isVisible)
                 case .alterButtonText:

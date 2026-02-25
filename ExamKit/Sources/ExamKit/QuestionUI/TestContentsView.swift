@@ -46,7 +46,7 @@ public final class TestContentsView: UIStackView {
     }()
 
     private let optionLabels: [QuestionOptionLabel] = (1...4).map {
-        let option = QuestionOptionLabel(optNum: $0)
+        let option = QuestionOptionLabel(number: $0)
         option.tag = $0
         return option
     }
@@ -62,7 +62,7 @@ public final class TestContentsView: UIStackView {
         setupUI()
         addSubviews()
         setupConstraints()
-        addOptionsActions()
+        setupOptionGestures()
     }
 
     required init(coder: NSCoder) {
@@ -86,8 +86,8 @@ public final class TestContentsView: UIStackView {
         }
     }
 
-    public func setOptionState(optionIdx: Int, isSelected: Bool) {
-        optionLabels[optionIdx - 1].setOptionState(isSelected: isSelected)
+    public func setOptionState(at index: Int, isSelected: Bool) {
+        optionLabels[index - 1].setOptionState(isSelected: isSelected)
     }
 
     private func setupUI() {
@@ -105,16 +105,16 @@ public final class TestContentsView: UIStackView {
         return attributed
     }
 
-    private func addOptionsActions() {
+    private func setupOptionGestures() {
         optionLabels.forEach {
             $0.isUserInteractionEnabled = true
-            $0.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(sendTappedOption(_:))))
+            $0.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(optionTapped(_:))))
         }
     }
 
-    @objc private func sendTappedOption(_ sender: UITapGestureRecognizer) {
-        guard let optionIdx = sender.view?.tag else { return }
-        optionTappedSubject.send(optionIdx)
+    @objc private func optionTapped(_ sender: UITapGestureRecognizer) {
+        guard let index = sender.view?.tag else { return }
+        optionTappedSubject.send(index)
     }
 }
 
