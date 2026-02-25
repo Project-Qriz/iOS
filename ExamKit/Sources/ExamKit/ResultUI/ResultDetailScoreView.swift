@@ -9,45 +9,46 @@ import QRIZUtils
 
 public struct ResultDetailScoreView: View {
 
-    @ObservedObject public var resultScoreData: ResultScoresData
+    // MARK: - Properties
+    @ObservedObject public var resultScoresData: ResultScoresData
     @ObservedObject public var resultDetailData: ResultDetailData
-    @State var presentedSubject1ItemCount: Int = 0
+    private let rankColors: [Color] = [.customBlue900, .customBlue500, .customBlue300, .customBlue200, .customBlue100]
 
-    public init(resultScoreData: ResultScoresData, resultDetailData: ResultDetailData) {
-        self.resultScoreData = resultScoreData
+    private var rankOffset: Int {
+        resultScoresData.selectedMenuItem == .total ? resultDetailData.subject1DetailResult.count : 0
+    }
+
+    // MARK: - Initializers
+    public init(resultScoresData: ResultScoresData, resultDetailData: ResultDetailData) {
+        self.resultScoresData = resultScoresData
         self.resultDetailData = resultDetailData
     }
 
+    // MARK: - Body
     public var body: some View {
         VStack(spacing: 32) {
-            if resultScoreData.selectedMenuItem != .subject2 {
-                ForEach(resultDetailData.subject1DetailResult.indices, id: \.self) { idx in
-                    singleMajorSubjectView(subjectData: resultDetailData.subject1DetailResult[idx], rank: idx)
+            if resultScoresData.selectedMenuItem != .subject2 {
+                ForEach(Array(resultDetailData.subject1DetailResult.enumerated()), id: \.offset) { idx, subject in
+                    subjectSectionView(subject: subject, rank: idx)
                 }
             }
-            if resultScoreData.selectedMenuItem != .subject1 {
-                ForEach(resultDetailData.subject2DetailResult.indices, id: \.self) { idx in
-                    singleMajorSubjectView(subjectData: resultDetailData.subject2DetailResult[idx], rank: presentedSubject1ItemCount + idx)
+            if resultScoresData.selectedMenuItem != .subject1 {
+                ForEach(Array(resultDetailData.subject2DetailResult.enumerated()), id: \.offset) { idx, subject in
+                    subjectSectionView(subject: subject, rank: rankOffset + idx)
                 }
-            }
-        }
-        .onAppear() {
-            if resultScoreData.selectedMenuItem == .total {
-                presentedSubject1ItemCount = resultDetailData.subject1DetailResult.count
-            } else {
-                presentedSubject1ItemCount = 0
             }
         }
     }
 
+    // MARK: - Methods
     @ViewBuilder
-    private func singleMajorSubjectView(subjectData: SubjectDetailData, rank: Int) -> some View {
+    private func subjectSectionView(subject: SubjectDetailData, rank: Int) -> some View {
         VStack(spacing: 11) {
             HStack {
                 Circle()
                     .frame(width: 12, height: 12)
-                    .foregroundColor(rankColor(rank))
-                Text(subjectData.majorItem)
+                    .foregroundStyle(rankColor(at: rank))
+                Text(subject.majorItem)
                     .font(.system(size: 16, weight: .medium))
                     .foregroundStyle(.black)
                 Spacer()
@@ -55,19 +56,18 @@ public struct ResultDetailScoreView: View {
 
             Spacer(minLength: 4)
 
-            ForEach(subjectData.minorItems.indices, id: \.self) { idx in
+            ForEach(Array(subject.minorItems.enumerated()), id: \.offset) { idx, item in
                 VStack(spacing: 8) {
                     HStack {
-                        Text("\(subjectData.minorItems[idx].subItem)")
+                        Text(item.subItem)
                             .font(.system(size: 14, weight: .regular))
                             .foregroundStyle(.black)
                         Spacer()
-                        Text("\(Int(subjectData.minorItems[idx].score))점")
+                        Text("\(Int(item.score))점")
                             .font(.system(size: 14, weight: .bold))
                             .foregroundStyle(Color.coolNeutral800)
                     }
-
-                    if idx != subjectData.minorItems.count - 1 {
+                    if idx != subject.minorItems.count - 1 {
                         Divider()
                             .overlay(Color.customBlue200)
                     }
@@ -76,20 +76,35 @@ public struct ResultDetailScoreView: View {
         }
     }
 
-    private func rankColor(_ rank: Int) -> Color {
-        switch rank {
-        case 0: return Color.customBlue900
-        case 1: return Color.customBlue500
-        case 2: return Color.customBlue300
-        case 3: return Color.customBlue200
-        case 4: return Color.customBlue100
-        default:
-            print("Method rankColor received wrong argv")
-            return .white
-        }
+    private func rankColor(at rank: Int) -> Color {
+        guard rankColors.indices.contains(rank) else { return .white }
+        return rankColors[rank]
     }
 }
 
 #Preview {
-    ResultDetailScoreView(resultScoreData: ResultScoresData(), resultDetailData: ResultDetailData())
+    let scoreData = ResultScoresData()
+    let detailData = ResultDetailData()
+    detailData.subject1DetailResult = [
+        SubjectDetailData(majorItem: "데이터 모델링의 이해", score: 40, minorItems: [
+            SubItemInfoEntity(subItem: "엔터티", score: 20),
+            SubItemInfoEntity(subItem: "속성", score: 10),
+            SubItemInfoEntity(subItem: "관계", score: 10)
+        ]),
+        SubjectDetailData(majorItem: "데이터 모델과 성능", score: 15, minorItems: [
+            SubItemInfoEntity(subItem: "정규화", score: 10),
+            SubItemInfoEntity(subItem: "반정규화", score: 5)
+        ])
+    ]
+    detailData.subject2DetailResult = [
+        SubjectDetailData(majorItem: "SQL 기본", score: 30, minorItems: [
+            SubItemInfoEntity(subItem: "SELECT", score: 15),
+            SubItemInfoEntity(subItem: "JOIN", score: 15)
+        ]),
+        SubjectDetailData(majorItem: "SQL 활용", score: 25, minorItems: [
+            SubItemInfoEntity(subItem: "서브쿼리", score: 10),
+            SubItemInfoEntity(subItem: "윈도우 함수", score: 15)
+        ])
+    ]
+    return ResultDetailScoreView(resultScoresData: scoreData, resultDetailData: detailData)
 }

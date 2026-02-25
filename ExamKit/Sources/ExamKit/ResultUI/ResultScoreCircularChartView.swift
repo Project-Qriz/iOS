@@ -9,20 +9,24 @@ import QRIZUtils
 
 public struct ResultScoreCircularChartView: View {
 
+    // MARK: - Properties
     @ObservedObject public var resultScoresData: ResultScoresData
     private let lineWidth: CGFloat = 36
+    private let rankColors: [Color] = [.customBlue900, .customBlue500, .customBlue300, .customBlue200, .customBlue100]
 
+    // MARK: - Initializers
     public init(resultScoresData: ResultScoresData) {
         self.resultScoresData = resultScoresData
     }
 
+    // MARK: - Body
     public var body: some View {
         ZStack {
             Circle()
                 .stroke(style: StrokeStyle(lineWidth: lineWidth))
                 .foregroundStyle(Color.customBlue800)
             ForEach(0..<5) {
-                trimmedCircle(subjectIdx: ($0))
+                trimmedCircle(at: $0)
             }
             VStack {
                 Text(resultScoresData.selectedMenuItem == .total ? "총점수" : "과목 점수")
@@ -35,27 +39,21 @@ public struct ResultScoreCircularChartView: View {
         .padding(lineWidth / 2)
     }
 
+    // MARK: - Methods
     @ViewBuilder
-    private func trimmedCircle(subjectIdx: Int) -> some View {
+    private func trimmedCircle(at index: Int) -> some View {
         Circle()
-            .trim(from: 0.0, to: 1.0 - resultScoresData.cumulativePercentage(idx: subjectIdx))
+            .trim(from: 0, to: 1.0 - resultScoresData.cumulativePercentage(idx: index))
             .stroke(style: StrokeStyle(lineWidth: lineWidth, lineCap: .butt, lineJoin: .round))
-            .foregroundStyle(rankColor(subjectIdx: subjectIdx + 1))
+            .foregroundStyle(rankColor(at: index + 1))
             .rotationEffect(.degrees(-90))
             .animation(.easeInOut(duration: 1), value: resultScoresData.totalScore)
     }
 
-    private func rankColor(subjectIdx: Int) -> Color {
-        if subjectIdx == resultScoresData.subjectCount { return Color.coolNeutral300 }
-
-        switch subjectIdx {
-        case 0: return Color.customBlue900
-        case 1: return Color.customBlue500
-        case 2: return Color.customBlue300
-        case 3: return Color.customBlue200
-        case 4: return Color.customBlue100
-        default: return Color.coolNeutral300
-        }
+    private func rankColor(at index: Int) -> Color {
+        if index == resultScoresData.subjectCount { return .coolNeutral300 }
+        guard rankColors.indices.contains(index) else { return .coolNeutral300 }
+        return rankColors[index]
     }
 }
 

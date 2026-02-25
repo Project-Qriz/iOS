@@ -12,7 +12,11 @@ public struct SingleSubjectView: View {
     private let subjectText: String
     private let score: Int
 
-    public init(circleColor: Color, subjectText: String, score: CGFloat) {
+    public init(
+        circleColor: Color,
+        subjectText: String,
+        score: CGFloat
+    ) {
         self.circleColor = circleColor
         self.subjectText = subjectText
         self.score = Int(score)
@@ -22,7 +26,7 @@ public struct SingleSubjectView: View {
         HStack {
             Circle()
                 .frame(width: 8, height: 8)
-                .foregroundColor(circleColor)
+                .foregroundStyle(circleColor)
             Text(subjectText)
                 .font(.system(size: 14, weight: .regular))
                 .foregroundStyle(.black)
