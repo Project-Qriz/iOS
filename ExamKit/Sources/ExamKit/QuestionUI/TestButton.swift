@@ -11,17 +11,17 @@ public final class TestButton: UIButton {
     // MARK: - Initializers
     public init(isPreviousButton: Bool) {
         super.init(frame: .zero)
-        self.titleLabel?.font = .boldSystemFont(ofSize: 16)
-        self.layer.cornerRadius = 8
+        titleLabel?.font = .boldSystemFont(ofSize: 16)
+        layer.cornerRadius = 8
 
         if isPreviousButton {
-            self.setTitle("이전", for: .normal)
-            self.setTitleColor(.coolNeutral500, for: .normal)
-            self.backgroundColor = .coolNeutral200
+            setTitle("이전", for: .normal)
+            setTitleColor(.coolNeutral500, for: .normal)
+            backgroundColor = .coolNeutral200
         } else {
-            self.setTitle("다음", for: .normal)
-            self.setTitleColor(.white, for: .normal)
-            self.backgroundColor = .coolNeutral700
+            setTitle("다음", for: .normal)
+            setTitleColor(.white, for: .normal)
+            backgroundColor = .coolNeutral700
         }
     }
 
@@ -31,6 +31,6 @@ public final class TestButton: UIButton {
 
     // MARK: - Methods
     public func setTitleText(_ str: String) {
-        self.setTitle(str, for: .normal)
+        setTitle(str, for: .normal)
     }
 }

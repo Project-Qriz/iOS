@@ -6,22 +6,50 @@
 import UIKit
 import Combine
 import QRIZUtils
+import DesignSystem
 
 public final class TestContentsView: UIStackView {
 
     // MARK: - Properties
-    private let numberLabel: QuestionNumberLabel = .init()
-    private let titleLabel: QuestionTitleLabel = .init()
-    private let descriptionLabel: TestDescriptionView = .init()
-    private let optionLabels: [QuestionOptionLabel] = {
-        var arr: [QuestionOptionLabel] = []
-        for optionIdx in 1...4 {
-            let option = QuestionOptionLabel(optNum: optionIdx)
-            option.tag = optionIdx
-            arr.append(option)
-        }
-        return arr
+    private let numberLabel: UILabel = {
+        let label = UILabel()
+        label.textColor = .black
+        label.font = .boldSystemFont(ofSize: 20)
+        return label
     }()
+
+    private let titleLabel: UILabel = {
+        let label = UILabel()
+        label.textAlignment = .left
+        label.numberOfLines = 0
+        label.textColor = .black
+        label.font = .systemFont(ofSize: 16, weight: .medium)
+        return label
+    }()
+
+    private let descriptionView: UIView = {
+        let view = UIView()
+        view.layer.cornerRadius = 8
+        view.layer.masksToBounds = true
+        view.layer.borderWidth = 1
+        view.layer.borderColor = UIColor.coolNeutral200.cgColor
+        return view
+    }()
+
+    private let descriptionLabel: UILabel = {
+        let label = UILabel()
+        label.numberOfLines = 0
+        label.textAlignment = .left
+        label.font = .systemFont(ofSize: 12, weight: .medium)
+        label.textColor = .black
+        return label
+    }()
+
+    private let optionLabels: [QuestionOptionLabel] = (1...4).map {
+        let option = QuestionOptionLabel(optNum: $0)
+        option.tag = $0
+        return option
+    }
 
     private let optionTappedSubject: PassthroughSubject<Int, Never> = .init()
     public var optionTappedPublisher: AnyPublisher<Int, Never> {
@@ -31,9 +59,9 @@ public final class TestContentsView: UIStackView {
     // MARK: - Initializers
     public init() {
         super.init(frame: .zero)
-        setupStack()
-        setMargins()
-        addViews()
+        setupUI()
+        addSubviews()
+        setupConstraints()
         addOptionsActions()
     }
 
@@ -43,13 +71,13 @@ public final class TestContentsView: UIStackView {
 
     // MARK: - Methods
     public func updateQuestion(_ question: QuestionData) {
-        numberLabel.setNumber(question.questionNumber)
-        titleLabel.setTitle(question.question)
+        numberLabel.text = String(format: "%02d.", question.questionNumber)
+        titleLabel.attributedText = lineSpaced(question.question)
         if let description = question.description {
-            descriptionLabel.isHidden = false
-            descriptionLabel.setText(description)
+            descriptionView.isHidden = false
+            descriptionLabel.attributedText = lineSpaced(description)
         } else {
-            descriptionLabel.isHidden = true
+            descriptionView.isHidden = true
         }
         let options = [question.option1, question.option2, question.option3, question.option4]
         optionLabels.forEach {
@@ -62,14 +90,19 @@ public final class TestContentsView: UIStackView {
         optionLabels[optionIdx - 1].setOptionState(isSelected: isSelected)
     }
 
-    private func setupStack() {
+    private func setupUI() {
         axis = .vertical
         alignment = .fill
-    }
-
-    private func setMargins() {
         isLayoutMarginsRelativeArrangement = true
         layoutMargins = UIEdgeInsets(top: 35, left: 0, bottom: 35, right: 0)
+    }
+
+    private func lineSpaced(_ text: String) -> NSMutableAttributedString {
+        let paragraphStyle = NSMutableParagraphStyle()
+        paragraphStyle.lineSpacing = 4
+        let attributed = NSMutableAttributedString(string: text)
+        attributed.addAttribute(.paragraphStyle, value: paragraphStyle, range: NSRange(location: 0, length: attributed.length))
+        return attributed
     }
 
     private func addOptionsActions() {
@@ -87,20 +120,28 @@ public final class TestContentsView: UIStackView {
 
 // MARK: - Layout
 extension TestContentsView {
-    private func addViews() {
+    private func addSubviews() {
         addArrangedSubview(numberLabel)
         addArrangedSubview(titleLabel)
-        addArrangedSubview(descriptionLabel)
+        addArrangedSubview(descriptionView)
+        descriptionView.addSubview(descriptionLabel)
         for option in optionLabels {
             addArrangedSubview(option)
         }
-
-        addCustomSpacing()
     }
 
-    private func addCustomSpacing() {
+    private func setupConstraints() {
+        descriptionLabel.translatesAutoresizingMaskIntoConstraints = false
+
+        NSLayoutConstraint.activate([
+            descriptionLabel.leadingAnchor.constraint(equalTo: descriptionView.leadingAnchor, constant: 16),
+            descriptionLabel.trailingAnchor.constraint(equalTo: descriptionView.trailingAnchor, constant: -16),
+            descriptionLabel.topAnchor.constraint(equalTo: descriptionView.topAnchor, constant: 16),
+            descriptionLabel.bottomAnchor.constraint(equalTo: descriptionView.bottomAnchor, constant: -16)
+        ])
+
         setCustomSpacing(14, after: numberLabel)
         setCustomSpacing(14, after: titleLabel)
-        setCustomSpacing(16, after: descriptionLabel)
+        setCustomSpacing(16, after: descriptionView)
     }
 }

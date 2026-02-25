@@ -19,7 +19,12 @@ final class DailyTestViewController: UIViewController {
         scrollView.backgroundColor = .white
         return scrollView
     }()
-    private let progressView: TestProgressView = .init()
+    private let progressView: UIProgressView = {
+        let view = UIProgressView()
+        view.progressTintColor = .customBlue500
+        view.trackTintColor = .coolNeutral200
+        return view
+    }()
     private let footerView: DailyTestFooterView = .init()
     private let contentsView: TestContentsView = .init()
     private let timerLabel: DailyTestTimerLabel = .init()

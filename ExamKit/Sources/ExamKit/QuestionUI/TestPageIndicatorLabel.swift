@@ -6,25 +6,23 @@
 import UIKit
 import DesignSystem
 
-public final class TestPageIndicatorLabel: UILabel {
+public final class TestPageIndicatorLabel: UIView {
 
     // MARK: - Properties
-    private var currentPageLabel: UILabel = {
+    private let currentPageLabel: UILabel = {
         let label = UILabel()
         label.text = String(format: "%02d ", 0)
         label.font = .boldSystemFont(ofSize: 16)
         label.textAlignment = .right
-        label.numberOfLines = 1
         label.textColor = .coolNeutral800
         return label
     }()
 
-    private var totalPageLabel: UILabel = {
+    private let totalPageLabel: UILabel = {
         let label = UILabel()
         label.text = String(format: "/ %02d", 0)
         label.font = .systemFont(ofSize: 16)
         label.textAlignment = .left
-        label.numberOfLines = 1
         label.textColor = .coolNeutral500
         return label
     }()
@@ -32,7 +30,8 @@ public final class TestPageIndicatorLabel: UILabel {
     // MARK: - Initializers
     public init() {
         super.init(frame: .zero)
-        addViews()
+        addSubviews()
+        setupConstraints()
     }
 
     required init?(coder: NSCoder) {
@@ -41,32 +40,35 @@ public final class TestPageIndicatorLabel: UILabel {
 
     // MARK: - Methods
     public func setCurPage(curPage: Int) {
-        self.currentPageLabel.text = String(format: "%02d ", curPage)
+        currentPageLabel.text = String(format: "%02d ", curPage)
     }
 
     public func setTotalPage(totalPage: Int) {
-        self.totalPageLabel.text = String(format: "/ %02d", totalPage)
+        totalPageLabel.text = String(format: "/ %02d", totalPage)
     }
 }
 
-// MARK: - AutoLayout
+// MARK: - Layout
 extension TestPageIndicatorLabel {
-    private func addViews() {
-        self.addSubview(currentPageLabel)
-        self.addSubview(totalPageLabel)
+    private func addSubviews() {
+        addSubview(currentPageLabel)
+        addSubview(totalPageLabel)
+    }
 
+    private func setupConstraints() {
         currentPageLabel.translatesAutoresizingMaskIntoConstraints = false
         totalPageLabel.translatesAutoresizingMaskIntoConstraints = false
 
         NSLayoutConstraint.activate([
-            currentPageLabel.centerYAnchor.constraint(equalTo: self.centerYAnchor),
-            totalPageLabel.centerYAnchor.constraint(equalTo: self.centerYAnchor),
+            currentPageLabel.centerYAnchor.constraint(equalTo: centerYAnchor),
             currentPageLabel.heightAnchor.constraint(equalToConstant: 20),
+            currentPageLabel.leadingAnchor.constraint(equalTo: leadingAnchor),
+            currentPageLabel.trailingAnchor.constraint(equalTo: centerXAnchor, constant: -5),
+
+            totalPageLabel.centerYAnchor.constraint(equalTo: centerYAnchor),
             totalPageLabel.heightAnchor.constraint(equalToConstant: 20),
-            currentPageLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor),
-            totalPageLabel.trailingAnchor.constraint(equalTo: self.trailingAnchor),
-            currentPageLabel.trailingAnchor.constraint(equalTo: self.centerXAnchor, constant: -5),
-            totalPageLabel.leadingAnchor.constraint(equalTo: self.centerXAnchor)
+            totalPageLabel.leadingAnchor.constraint(equalTo: centerXAnchor),
+            totalPageLabel.trailingAnchor.constraint(equalTo: trailingAnchor)
         ])
     }
 }
