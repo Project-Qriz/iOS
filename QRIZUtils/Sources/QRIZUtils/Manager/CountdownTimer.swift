@@ -10,6 +10,7 @@ import Combine
 
 /// 카운트다운 타이머입니다.
 /// - Combine 구독을 통해 UI 업데이트
+@MainActor
 public final class CountdownTimer {
 
     // MARK: - Properties
@@ -34,13 +35,15 @@ public final class CountdownTimer {
     public func start() {
         stop() // 기존 타이머 해제
         timer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { [weak self] _ in
-            guard let self = self else { return }
-            let newTime = self.remainingTime.value - 1
-            self.remainingTime.send(newTime)
+            MainActor.assumeIsolated {
+                guard let self = self else { return }
+                let newTime = self.remainingTime.value - 1
+                self.remainingTime.send(newTime)
 
-            if newTime <= 0 {
-                self.stop()
-                self.remainingTime.send(0)
+                if newTime <= 0 {
+                    self.stop()
+                    self.remainingTime.send(0)
+                }
             }
         }
     }

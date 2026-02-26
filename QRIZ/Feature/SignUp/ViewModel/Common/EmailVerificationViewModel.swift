@@ -9,6 +9,7 @@ import Foundation
 import Combine
 import QRIZUtils
 
+@MainActor
 class EmailVerificationViewModel {
     
     // MARK: - Properties
