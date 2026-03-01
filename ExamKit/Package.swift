@@ -16,6 +16,13 @@ let package = Package(
         .target(
             name: "ExamKit",
             dependencies: ["DesignSystem", "QRIZUtils"]
+        ),
+        .testTarget(
+            name: "ExamKitTests",
+            dependencies: [
+                "ExamKit",
+                .product(name: "QRIZUtils", package: "QRIZUtils")
+            ]
         )
     ]
 )
