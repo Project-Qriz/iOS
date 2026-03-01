@@ -57,9 +57,11 @@ final class GreetingViewModel {
     private func startTimer() {
         timer?.invalidate()
         timer = Timer.scheduledTimer(withTimeInterval: 2.5, repeats: false) { [weak self] _ in
-            guard let self = self else { return }
-            self.output.send(.moveToHome)
-            timer?.invalidate()
+            MainActor.assumeIsolated {
+                guard let self = self else { return }
+                self.output.send(.moveToHome)
+                self.timer?.invalidate()
+            }
         }
     }
     
