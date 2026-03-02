@@ -5,7 +5,7 @@
 //  Created by ch on 12/21/24.
 //
 
-public struct QuestionData {
+public struct QuestionData: Sendable {
     public var question: String
     public var option1: String
     public var option2: String
@@ -46,7 +46,7 @@ public struct QuestionData {
         }
     }
 
-    public static var previewSampleList: [QuestionData] = {
+    public static let previewSampleList: [QuestionData] = {
         var list: [QuestionData] = []
         for i in 0..<20 {
             var question: QuestionData
@@ -62,7 +62,7 @@ public struct QuestionData {
         return list
     }()
 
-    public static var dailySampleList: [QuestionData] = {
+    public static let dailySampleList: [QuestionData] = {
         var list: [QuestionData] = []
         for i in 0..<6 {
             var question: QuestionData

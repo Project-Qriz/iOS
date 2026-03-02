@@ -1,8 +1,6 @@
 //
-//  DailyResultFooterView.swift
-//  QRIZ
-//
-//  Created by 이창현 on 4/16/25.
+//  TestResultFooterView.swift
+//  ExamKit
 //
 
 import SwiftUI
@@ -10,18 +8,23 @@ import DesignSystem
 import Combine
 import QRIZUtils
 
-struct TestResultFooterView: View {
-    
-    @ObservedObject var resultScoresData: ResultScoresData
-    let input: PassthroughSubject<Void, Never>
-    
-    var body: some View {
+public struct TestResultFooterView: View {
+
+    @ObservedObject public var resultScoresData: ResultScoresData
+    public let input: PassthroughSubject<Void, Never>
+
+    public init(resultScoresData: ResultScoresData, input: PassthroughSubject<Void, Never>) {
+        self.resultScoresData = resultScoresData
+        self.input = input
+    }
+
+    public var body: some View {
         VStack(spacing: 16) {
             HStack {
                 Text("\(resultScoresData.nickname)님이 ") +
                 Text("보완하면 좋은 개념을\n").font(.system(size: 18, weight: .bold)) +
                 Text("보러갈까요?")
-                
+
                 Spacer()
             }
             .font(.system(size: 18, weight: .regular))

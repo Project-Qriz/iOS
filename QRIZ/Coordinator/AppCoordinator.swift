@@ -6,7 +6,6 @@
 //
 
 import UIKit
-import Combine
 import QRIZUtils
 import Network
 
@@ -110,14 +109,13 @@ final class AppCoordinatorImpl: AppCoordinator {
     private let dependency: AppCoordinatorDependency
     private var splashCoordinator: SplashCoordinator?
     private var childCoordinators: [Coordinator] = []
-    private var cancellables = Set<AnyCancellable>()
-    
+
     // MARK: - Initialize
-    
+
     init(window: UIWindow, dependency: AppCoordinatorDependency) {
         self.window = window
         self.dependency = dependency
-        bindSessionEvent()
+        observeSessionEvents()
     }
     
     func start() -> UIViewController {
@@ -171,14 +169,15 @@ final class AppCoordinatorImpl: AppCoordinator {
         return onboardingVC
     }
 
-    private func bindSessionEvent() {
-        dependency.sessionNotifier.event
-            .receive(on: RunLoop.main)
-            .sink { [weak self] event in
-                guard let self else { return }
-                switch event { case .expired: self.resetToLogin() }
+    private func observeSessionEvents() {
+        Task { [weak self] in
+            guard let self else { return }
+            for await event in dependency.sessionNotifier.events {
+                switch event {
+                case .expired: resetToLogin()
+                }
             }
-            .store(in: &cancellables)
+        }
     }
     
     private func resetToLogin() {

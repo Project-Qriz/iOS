@@ -1,8 +1,6 @@
 //
 //  ResultDetailView.swift
-//  QRIZ
-//
-//  Created by ch on 4/19/25.
+//  ExamKit
 //
 
 import SwiftUI
@@ -10,14 +8,19 @@ import DesignSystem
 import Combine
 import QRIZUtils
 
-struct ResultDetailView: View {
-    
-    @ObservedObject var resultScoreData: ResultScoresData
-    @ObservedObject var resultDetailData: ResultDetailData
-    let input: PassthroughSubject<ResultDetailViewModel.Input, Never> = .init()
-    
-    var body: some View {
-        ScrollView() {
+public struct ResultDetailView: View {
+
+    @ObservedObject public var resultScoresData: ResultScoresData
+    @ObservedObject public var resultDetailData: ResultDetailData
+    public let input: PassthroughSubject<TestResultDetailViewModel.Input, Never> = .init()
+
+    public init(resultScoresData: ResultScoresData, resultDetailData: ResultDetailData) {
+        self.resultScoresData = resultScoresData
+        self.resultDetailData = resultDetailData
+    }
+
+    public var body: some View {
+        ScrollView {
             LazyVStack {
                 HStack {
                     Text("개념별 점수 분석")
@@ -25,14 +28,14 @@ struct ResultDetailView: View {
                         .foregroundStyle(Color.coolNeutral800)
                     Spacer()
                 }
-                
+
                 Spacer(minLength: 14)
-                
+
                 HStack(spacing: 0) {
                     Menu {
                         ForEach(ResultDetailMenuItems.allCases, id: \.self) { item in
                             Button(action: {
-                                resultScoreData.selectedMenuItem = item
+                                resultScoresData.selectedMenuItem = item
                                 input.send(.menuItemSelected(selected: item))
                             }) {
                                 Text(item.rawValue)
@@ -40,30 +43,31 @@ struct ResultDetailView: View {
                         }
                     } label: {
                         HStack(spacing: 4) {
-                            Text(resultScoreData.selectedMenuItem.rawValue)
-                                .foregroundColor(Color.coolNeutral600)
+                            Text(resultScoresData.selectedMenuItem.rawValue)
+                                .foregroundStyle(Color.coolNeutral600)
                                 .font(.system(size: 16, weight: .medium))
                             Image(systemName: "chevron.down")
                                 .resizable()
                                 .frame(width: 9, height: 4)
-                                .foregroundColor(Color.coolNeutral600)
+                                .foregroundStyle(Color.coolNeutral600)
                         }
                         .frame(maxWidth: .infinity, alignment: .leading)
                     }
-                    
+
                     Spacer()
                 }
-                
+
                 Spacer(minLength: 24)
-                
-                ResultScoreCircularChartView(resultScoresData: resultScoreData)
+
+                ResultScoreCircularChartView(resultScoresData: resultScoresData)
                     .frame(width: 164, height: 164)
-                
+
                 Spacer(minLength: 32)
-                
-                ResultDetailScoreView(resultScoreData: resultScoreData, resultDetailData: resultDetailData)
+
+                ResultDetailScoreView(resultScoresData: resultScoresData, resultDetailData: resultDetailData)
             }
-            .padding(EdgeInsets(top: 24, leading: 18, bottom: 24, trailing: 18))
+            .padding(.vertical, 24)
+            .padding(.horizontal, 18)
             .background(.white)
         }
         .background(.white)
@@ -71,5 +75,5 @@ struct ResultDetailView: View {
 }
 
 #Preview {
-    ResultDetailView(resultScoreData: ResultScoresData(), resultDetailData: ResultDetailData())
+    ResultDetailView(resultScoresData: ResultScoresData(), resultDetailData: ResultDetailData())
 }

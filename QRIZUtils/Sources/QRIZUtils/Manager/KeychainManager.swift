@@ -7,13 +7,13 @@
 
 import Foundation
 
-public protocol KeychainManager {
+public protocol KeychainManager: Sendable {
     func save(token: String, forKey key: String) -> Bool
     func retrieveToken(forKey key: String) -> String?
     func deleteToken(forKey key: String)
 }
 
-public final class KeychainManagerImpl: KeychainManager {
+public final class KeychainManagerImpl: KeychainManager, Sendable {
 
     public init() {}
 

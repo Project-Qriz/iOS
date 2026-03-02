@@ -10,6 +10,7 @@ import DesignSystem
 import Combine
 import Network
 import QRIZUtils
+import ExamKit
 
 final class PreviewTestViewController: UIViewController {
     
@@ -18,20 +19,50 @@ final class PreviewTestViewController: UIViewController {
     private var lastQuestionNum: Int = 0
     private var curNum: Int = 0
     
-    private let questionNumberLabel = QuestionNumberLabel()
-    private let questionTitleLabel = QuestionTitleLabel()
+    private let questionNumberLabel: UILabel = {
+        let label = UILabel()
+        label.textColor = .black
+        label.font = .boldSystemFont(ofSize: 20)
+        return label
+    }()
+
+    private let questionTitleLabel: UILabel = {
+        let label = UILabel()
+        label.textAlignment = .left
+        label.numberOfLines = 0
+        label.textColor = .black
+        label.font = .systemFont(ofSize: 16, weight: .medium)
+        return label
+    }()
     private let optionLabels: [QuestionOptionLabel] = {
         var arr: [QuestionOptionLabel] = []
         for i in 1...4 {
-            arr.append(QuestionOptionLabel(optNum: i))
+            arr.append(QuestionOptionLabel(number: i))
         }
         return arr
     }()
     private let previousButton: TestButton = TestButton(isPreviousButton: true)
     private let nextButton: TestButton = TestButton(isPreviousButton: false)
-    private let progressView: TestProgressView = TestProgressView()
-    private let timeLabel: TestTimeLabel = TestTimeLabel()
-    private let totalTimeRemainingLabel: TestTotalTimeRemainingLabel = TestTotalTimeRemainingLabel()
+    private let progressView: UIProgressView = {
+        let view = UIProgressView()
+        view.progressTintColor = .customBlue500
+        view.trackTintColor = .coolNeutral200
+        return view
+    }()
+    private let timeLabel: UILabel = {
+        let label = UILabel()
+        label.font = .monospacedSystemFont(ofSize: 14, weight: .semibold)
+        label.textColor = .customRed500
+        label.text = "00:00"
+        return label
+    }()
+    private let totalTimeRemainingLabel: UILabel = {
+        let label = UILabel()
+        label.font = .systemFont(ofSize: 14)
+        label.text = "전체 남은 시간"
+        label.textColor = .coolNeutral800
+        return label
+    }()
     private let pageIndicatorBgView: UIView = {
         let view = UIView()
         view.backgroundColor = .white
@@ -153,12 +184,18 @@ final class PreviewTestViewController: UIViewController {
         let optStringArr: [String] = question.options.map { question in
             question.content
         }
-        questionNumberLabel.setNumber(curNum)
-        questionTitleLabel.setTitle(question.question)
+        questionNumberLabel.text = String(format: "%02d.", curNum)
+        questionTitleLabel.attributedText = {
+            let paragraphStyle = NSMutableParagraphStyle()
+            paragraphStyle.lineSpacing = 4
+            let attributed = NSMutableAttributedString(string: question.question)
+            attributed.addAttribute(.paragraphStyle, value: paragraphStyle, range: NSRange(location: 0, length: attributed.length))
+            return attributed
+        }()
         setSelectedOption(selectedOption)
         setOptionsString(optStringArr)
-        pageIndicatorLabel.setCurPage(curPage: curNum)
-        pageIndicatorLabel.setTotalPage(totalPage: lastQuestionNum)
+        pageIndicatorLabel.setCurrentPage(curNum)
+        pageIndicatorLabel.setTotalPage(lastQuestionNum)
         setPageButtonsUI(curNum)
     }
 }
@@ -264,9 +301,9 @@ extension PreviewTestViewController {
     
     private func setNextButtonTitle(isLastQuestion: Bool) {
         if isLastQuestion {
-            nextButton.setTitleText("제출")
+            nextButton.updateTitle("제출")
         } else {
-            nextButton.setTitleText("다음")
+            nextButton.updateTitle("다음")
         }
     }
     

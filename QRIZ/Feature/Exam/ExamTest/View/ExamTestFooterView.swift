@@ -8,6 +8,7 @@
 import UIKit
 import DesignSystem
 import Combine
+import ExamKit
 
 final class ExamTestFooterView: UIView {
 
@@ -42,11 +43,11 @@ final class ExamTestFooterView: UIView {
     
     // MARK: - Methods
     func updateCurPage(curPage: Int) {
-        pageIndicatorLabel.setCurPage(curPage: curPage)
+        pageIndicatorLabel.setCurrentPage(curPage)
     }
-    
+
     func updateTotalPage(totalPage: Int) {
-        pageIndicatorLabel.setTotalPage(totalPage: totalPage)
+        pageIndicatorLabel.setTotalPage(totalPage)
     }
     
     func updatePrevButton(isVisible: Bool) {
@@ -56,7 +57,7 @@ final class ExamTestFooterView: UIView {
     func updateNextButton(isVisible: Bool, isTextSubmit: Bool) {
         nextButton.isHidden = !isVisible
         let nextButtonText = isTextSubmit ? "제출" : "다음"
-        nextButton.setTitleText(nextButtonText)
+        nextButton.updateTitle(nextButtonText)
     }
     
     private func setupUI() {

@@ -9,6 +9,7 @@ import UIKit
 import DesignSystem
 import Combine
 import QRIZUtils
+import ExamKit
 
 final class ExamTestViewController: UIViewController {
     
@@ -18,11 +19,28 @@ final class ExamTestViewController: UIViewController {
         scrollView.backgroundColor = .white
         return scrollView
     }()
-    private let progressView: TestProgressView = .init()
+    private let progressView: UIProgressView = {
+        let view = UIProgressView()
+        view.progressTintColor = .customBlue500
+        view.trackTintColor = .coolNeutral200
+        return view
+    }()
     private let footerView: ExamTestFooterView = .init()
     private let contentsView: TestContentsView = .init()
-    private let timeLabel: TestTimeLabel = TestTimeLabel()
-    private let totalTimeRemainingLabel: TestTotalTimeRemainingLabel = TestTotalTimeRemainingLabel()
+    private let timeLabel: UILabel = {
+        let label = UILabel()
+        label.font = .monospacedSystemFont(ofSize: 14, weight: .semibold)
+        label.textColor = .customRed500
+        label.text = "00:00"
+        return label
+    }()
+    private let totalTimeRemainingLabel: UILabel = {
+        let label = UILabel()
+        label.font = .systemFont(ofSize: 14)
+        label.text = "전체 남은 시간"
+        label.textColor = .coolNeutral800
+        return label
+    }()
 
     private let viewModel: ExamTestViewModel
     private let input: PassthroughSubject<ExamTestViewModel.Input, Never> = .init()
@@ -91,7 +109,7 @@ final class ExamTestViewController: UIViewController {
                 case .updateTime(let timeLimit, let timeRemaining):
                     updateProgress(timeLimit: timeLimit, timeRemaining: timeRemaining)
                 case .updateOptionState(let optionIdx, let isSelected):
-                    contentsView.setOptionState(optionIdx: optionIdx, isSelected: isSelected)
+                    contentsView.setOptionState(at: optionIdx, isSelected: isSelected)
                 case .updatePrevButton(let isVisible):
                     footerView.updatePrevButton(isVisible: isVisible)
                 case .updateNextButton(let isVisible, let isTextSubmit):

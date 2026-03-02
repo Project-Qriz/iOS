@@ -5,13 +5,13 @@
 //  Created by Claude on 2/16/26.
 //
 
-public enum ExamStatus: Equatable, Hashable {
+public enum ExamStatus: Equatable, Hashable, Sendable {
     case none
     case expired(detail: ExamDetail)
     case registered(dDay: Int, detail: ExamDetail)
 }
 
-public struct ExamDetail: Equatable, Hashable {
+public struct ExamDetail: Equatable, Hashable, Sendable {
     public let examDateText: String
     public let examName: String
     public let applyPeriod: String
@@ -23,12 +23,12 @@ public struct ExamDetail: Equatable, Hashable {
     }
 }
 
-public enum EntryCardState: Equatable, Hashable {
+public enum EntryCardState: Equatable, Hashable, Sendable {
     case preview
     case mock
 }
 
-public struct WeeklyConcept: Equatable, Hashable {
+public struct WeeklyConcept: Equatable, Hashable, Sendable {
     public let id: Int
     public let title: String
     public let subjectCount: Int
@@ -47,7 +47,7 @@ public struct WeeklyConcept: Equatable, Hashable {
     }
 }
 
-public enum Importance: String, Decodable {
+public enum Importance: String, Decodable, Sendable {
     case high = "상"
     case medium = "중"
     case low = "하"
@@ -55,7 +55,7 @@ public enum Importance: String, Decodable {
     public var text: String { "출제율 \(rawValue)" }
 }
 
-public enum RecommendationKind: String, Decodable {
+public enum RecommendationKind: String, Decodable, Sendable {
     case weeklyCustom = "주간 맞춤 개념"
     case weeklyRecommendation = "주간 추천 개념"
     case previewIncomplete = "프리뷰 테스트 미완료"

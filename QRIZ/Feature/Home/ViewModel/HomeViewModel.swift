@@ -11,6 +11,7 @@ import os.log
 import QRIZUtils
 import Network
 
+@MainActor
 final class HomeViewModel {
     
     // MARK: - Properties

@@ -5,7 +5,7 @@
 //  Created by 김세훈 on 5/27/25.
 //
 
-public struct HomeState: Equatable {
+public struct HomeState: Equatable, Sendable {
     public var userName: String
     public var examStatus: ExamStatus
     public var entryState: EntryCardState

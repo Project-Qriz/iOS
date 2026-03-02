@@ -5,21 +5,23 @@
 //  Created by Claude on 2/22/26.
 //
 
-import Combine
 import QRIZUtils
 
 final class MockSessionEventNotifier: SessionEventNotifier {
 
-    private let subject = PassthroughSubject<SessionEvent, Never>()
+    private let continuation: AsyncStream<SessionEvent>.Continuation
+    let events: AsyncStream<SessionEvent>
     var notifiedEvents: [SessionEvent] = []
 
-    var event: AnyPublisher<SessionEvent, Never> {
-        subject.eraseToAnyPublisher()
+    init() {
+        var continuation: AsyncStream<SessionEvent>.Continuation!
+        self.events = AsyncStream { continuation = $0 }
+        self.continuation = continuation
     }
 
     func notify(_ event: SessionEvent) {
         notifiedEvents.append(event)
-        subject.send(event)
+        continuation.yield(event)
     }
 
     func reset() {

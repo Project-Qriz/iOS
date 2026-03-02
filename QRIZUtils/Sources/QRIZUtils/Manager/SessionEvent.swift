@@ -5,14 +5,12 @@
 //  Created by 김세훈 on 6/2/25.
 //
 
-import Combine
-
-public enum SessionEvent: Equatable {
+public enum SessionEvent: Sendable {
     case expired
 }
 
-public protocol SessionEventNotifier {
-    var event: AnyPublisher<SessionEvent, Never> { get }
+public protocol SessionEventNotifier: Sendable {
+    var events: AsyncStream<SessionEvent> { get }
     func notify(_ event: SessionEvent)
 }
 
@@ -20,19 +18,20 @@ public final class SessionEventNotifierImpl: SessionEventNotifier {
 
     // MARK: - Properties
 
-    private let subject = PassthroughSubject<SessionEvent, Never>()
-
-    public var event: AnyPublisher<SessionEvent, Never> {
-        subject.eraseToAnyPublisher()
-    }
+    private let continuation: AsyncStream<SessionEvent>.Continuation
+    public let events: AsyncStream<SessionEvent>
 
     // MARK: - Initialize
 
-    public init() {}
+    public init() {
+        var continuation: AsyncStream<SessionEvent>.Continuation!
+        self.events = AsyncStream { continuation = $0 }
+        self.continuation = continuation
+    }
 
     // MARK: - Functions
 
     public func notify(_ event: SessionEvent) {
-        subject.send(event)
+        continuation.yield(event)
     }
 }

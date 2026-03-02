@@ -9,6 +9,7 @@ import UIKit
 import DesignSystem
 import Combine
 import QRIZUtils
+import ExamKit
 
 final class DailyTestViewController: UIViewController {
     
@@ -18,7 +19,12 @@ final class DailyTestViewController: UIViewController {
         scrollView.backgroundColor = .white
         return scrollView
     }()
-    private let progressView: TestProgressView = .init()
+    private let progressView: UIProgressView = {
+        let view = UIProgressView()
+        view.progressTintColor = .customBlue500
+        view.trackTintColor = .coolNeutral200
+        return view
+    }()
     private let footerView: DailyTestFooterView = .init()
     private let contentsView: TestContentsView = .init()
     private let timerLabel: DailyTestTimerLabel = .init()
@@ -85,7 +91,7 @@ final class DailyTestViewController: UIViewController {
                 case .updateTime(let timeLimit, let timeRemaining):
                     updateProgress(timeLimit: timeLimit, timeRemaining: timeRemaining)
                 case .updateOptionState(let optionIdx, let isSelected):
-                    contentsView.setOptionState(optionIdx: optionIdx, isSelected: isSelected)
+                    contentsView.setOptionState(at: optionIdx, isSelected: isSelected)
                 case .setButtonVisibility(let isVisible):
                     footerView.setButtonsVisibility(isVisible: isVisible)
                 case .alterButtonText:
