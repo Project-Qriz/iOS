@@ -9,6 +9,7 @@ import UIKit
 import DesignSystem
 import QRIZUtils
 import Network
+import Auth
 
 @MainActor
 protocol MyPageCoordinator: Coordinator {

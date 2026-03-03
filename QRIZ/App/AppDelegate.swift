@@ -7,9 +7,7 @@
 
 import UIKit
 import FirebaseCore
-import KakaoSDKCommon
-import KakaoSDKAuth
-import KakaoSDKUser
+import Auth
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -19,7 +17,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         FirebaseApp.configure()
         
         let appKey = Bundle.main.object(forInfoDictionaryKey: "KAKAO_NATIVE_APP_KEY") as? String ?? ""
-        KakaoSDK.initSDK(appKey: appKey)
+        AuthSDKConfigurator.configure(kakaoAppKey: appKey)
         return true
     }
     

@@ -8,6 +8,7 @@
 import UIKit
 import DesignSystem
 import Network
+import Auth
 
 @MainActor
 protocol TabBarCoordinator: Coordinator {

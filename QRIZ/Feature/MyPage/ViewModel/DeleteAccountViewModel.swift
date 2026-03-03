@@ -10,6 +10,7 @@ import Combine
 import os
 import QRIZUtils
 import Network
+import Auth
 
 final class DeleteAccountViewModel {
     
