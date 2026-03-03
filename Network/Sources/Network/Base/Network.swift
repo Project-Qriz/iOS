@@ -8,7 +8,7 @@
 import Foundation
 import QRIZUtils
 
-public protocol Network {
+public protocol Network: Sendable {
     func send<T: Request>(_ request: T) async throws -> T.Response
 }
 
