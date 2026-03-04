@@ -8,6 +8,7 @@
 import UIKit
 import QRIZUtils
 import Network
+import Auth
 
 @MainActor
 protocol Coordinator: AnyObject {
@@ -69,7 +70,8 @@ final class AppCoordinatorDependencyImpl: AppCoordinatorDependency {
             loginService: loginService,
             userInfoService: userInfoService,
             signUpService: signUpService,
-            accountRecoveryService: accountRecoveryService
+            accountRecoveryService: accountRecoveryService,
+            socialLoginService: socialLoginService
         )
     }()
     

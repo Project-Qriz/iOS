@@ -8,6 +8,7 @@
 import UIKit
 import QRIZUtils
 import Network
+import Auth
 
 @MainActor
 protocol LoginCoordinator: Coordinator {
@@ -34,6 +35,7 @@ final class LoginCoordinatorImpl: LoginCoordinator, NavigationGuard {
     private let userInfoService: UserInfoService
     private let signUpService: SignUpService
     private let accountRecoveryService: AccountRecoveryService
+    private let socialLoginService: SocialLoginService
 
     // NavigationGuard
     var isNavigating: Bool = false
@@ -43,17 +45,19 @@ final class LoginCoordinatorImpl: LoginCoordinator, NavigationGuard {
         loginService: LoginService,
         userInfoService: UserInfoService,
         signUpService: SignUpService,
-        accountRecoveryService: AccountRecoveryService
+        accountRecoveryService: AccountRecoveryService,
+        socialLoginService: SocialLoginService
     ) {
         self.navigationController = navigationController
         self.loginService = loginService
         self.userInfoService = userInfoService
         self.signUpService = signUpService
         self.accountRecoveryService = accountRecoveryService
+        self.socialLoginService = socialLoginService
     }
     
     func start() -> UIViewController {
-        let loginVM = LoginViewModel(loginService: loginService, userInfoService: userInfoService)
+        let loginVM = LoginViewModel(loginService: loginService, userInfoService: userInfoService, socialLoginService: socialLoginService)
         let loginVC = LoginViewController(loginVM: loginVM)
         loginVC.coordinator = self
         navigationController.viewControllers = [loginVC]
