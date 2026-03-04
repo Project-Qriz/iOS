@@ -18,19 +18,14 @@ public protocol ConceptBookCoordinator: Coordinator {
 public final class ConceptBookCoordinatorImpl: ConceptBookCoordinator, NavigationGuard {
 
     // MARK: - Properties
-
-    var childCoordinators: [Coordinator] = []
     private var navigationController: UINavigationController?
-
-    // MARK: - NavigationGuard
-
-    public var isNavigating: Bool = false
+    public var isNavigating: Bool = false // NavigationGuard
 
     // MARK: - Initialize
 
     public init() {}
 
-    // MARK: - Functions
+    // MARK: - Methods
 
     public func start() -> UIViewController {
         let conceptBookVM = ConceptBookViewModel()

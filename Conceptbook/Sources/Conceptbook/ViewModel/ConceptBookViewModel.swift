@@ -14,7 +14,7 @@ final class ConceptBookViewModel {
     // MARK: - Properties
 
     private let subjects: [QRIZUtils.Subject] = QRIZUtils.Subject.allCases
-    private let outputSubject: PassthroughSubject<Output, Never> = .init()
+    private let outputSubject = PassthroughSubject<Output, Never>()
     private var cancellables = Set<AnyCancellable>()
 
     // MARK: - Functions

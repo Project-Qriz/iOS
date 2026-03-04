@@ -33,14 +33,14 @@ final class ChapterDetailViewController: UIViewController {
 
     // MARK: - Lifecycle
 
+    override func loadView() {
+        self.view = rootView
+    }
+
     override func viewDidLoad() {
         super.viewDidLoad()
         bind()
         inputSubject.send(.viewDidLoad)
-    }
-
-    override func loadView() {
-        self.view = rootView
     }
 
     override func viewWillAppear(_ animated: Bool) {

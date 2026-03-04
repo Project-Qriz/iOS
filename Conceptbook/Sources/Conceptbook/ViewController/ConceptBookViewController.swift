@@ -14,7 +14,7 @@ final class ConceptBookViewController: UIViewController {
 
     // MARK: - Enums
 
-    enum Attributes {
+    private enum Attributes {
         static let navigationTitle = "개념서"
     }
 
@@ -40,15 +40,15 @@ final class ConceptBookViewController: UIViewController {
 
     // MARK: - Lifecycle
 
+    override func loadView() {
+        self.view = rootView
+    }
+
     override func viewDidLoad() {
         super.viewDidLoad()
         setNavigationBarTitle(title: Attributes.navigationTitle, textColor: .coolNeutral800)
         bind()
         inputSubject.send(.viewDidLoad)
-    }
-
-    override func loadView() {
-        self.view = rootView
     }
 
     // MARK: - Functions

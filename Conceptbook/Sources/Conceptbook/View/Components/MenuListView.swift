@@ -72,7 +72,8 @@ final class MenuListView: UIView {
 
     func configure(with items: [ConceptItem]) {
         vStackView.arrangedSubviews.forEach {
-            vStackView.removeArrangedSubview($0); $0.removeFromSuperview()
+            vStackView.removeArrangedSubview($0)
+            $0.removeFromSuperview()
         }
 
         for item in items {
