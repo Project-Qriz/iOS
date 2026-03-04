@@ -11,7 +11,7 @@ import OSLog
 import QRIZUtils
 
 @MainActor
-public final class ConceptPDFViewModel {
+final class ConceptPDFViewModel {
 
     // MARK: - Properties
 
@@ -23,7 +23,7 @@ public final class ConceptPDFViewModel {
 
     // MARK: - Initialize
 
-    public init(chapter: Chapter, conceptItem: ConceptItem) {
+    init(chapter: Chapter, conceptItem: ConceptItem) {
         self.chapter = chapter
         self.conceptItem = conceptItem
     }

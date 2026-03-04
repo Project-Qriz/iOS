@@ -12,22 +12,14 @@ import QRIZUtils
 
 final class ConceptBookViewController: UIViewController {
 
-    // MARK: - Enums
-
-    private enum Attributes {
-        static let navigationTitle = "개념서"
-    }
-
     // MARK: - Properties
-
     weak var coordinator: ConceptBookCoordinator?
     let rootView: ConceptBookMainView
     private let conceptBookVM: ConceptBookViewModel
     private let inputSubject = PassthroughSubject<ConceptBookViewModel.Input, Never>()
     private var cancellables = Set<AnyCancellable>()
 
-    // MARK: - Initialize
-
+    // MARK: - Initializes
     init(conceptBookVM: ConceptBookViewModel) {
         self.conceptBookVM = conceptBookVM
         self.rootView = ConceptBookMainView()
@@ -39,20 +31,18 @@ final class ConceptBookViewController: UIViewController {
     }
 
     // MARK: - Lifecycle
-
     override func loadView() {
         self.view = rootView
     }
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        setNavigationBarTitle(title: Attributes.navigationTitle, textColor: .coolNeutral800)
+        setNavigationBarTitle(title: "개념서", textColor: .coolNeutral800)
         bind()
         inputSubject.send(.viewDidLoad)
     }
 
-    // MARK: - Functions
-
+    // MARK: - Methods
     private func bind() {
         let cardViewTapped = rootView.chapterTappedPublisher.map { ConceptBookViewModel.Input.cardViewTapped($0) }
 

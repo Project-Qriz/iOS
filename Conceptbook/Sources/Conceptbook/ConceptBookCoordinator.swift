@@ -48,9 +48,14 @@ public final class ConceptBookCoordinatorImpl: ConceptBookCoordinator, Navigatio
 
     public func showConceptPDFView(chapter: Chapter, conceptItem: ConceptItem) {
         guardNavigation {
-            let conceptPDFVM = ConceptPDFViewModel(chapter: chapter, conceptItem: conceptItem)
-            let conceptPDFVC = ConceptPDFViewController(conceptPDFViewModel: conceptPDFVM)
+            let conceptPDFVC = makeConceptPDFViewController(chapter: chapter, conceptItem: conceptItem)
             self.navigationController?.pushViewController(conceptPDFVC, animated: true)
         }
     }
+}
+
+@MainActor
+public func makeConceptPDFViewController(chapter: Chapter, conceptItem: ConceptItem) -> UIViewController {
+    let vm = ConceptPDFViewModel(chapter: chapter, conceptItem: conceptItem)
+    return ConceptPDFViewController(conceptPDFViewModel: vm)
 }

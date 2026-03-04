@@ -91,6 +91,7 @@ final class ConceptBookMainView: UIView {
 
     func configure(with subjects: [QRIZUtils.Subject]) {
         guard subjects.count >= 2 else { return }
+        cancellables.removeAll()
         configureSection(stackView: firstSubjectCardsHStackView, with: subjects[0].chapters)
         configureSection(stackView: secondSubjectCardsHStackView, with: subjects[1].chapters)
     }

@@ -188,8 +188,7 @@ final class HomeCoordinatorImpl: HomeCoordinator, NavigationGuard {
     
     func showConceptPDF(chapter: Chapter, conceptItem: ConceptItem) {
         guardNavigation {
-            let conceptPDFVM = ConceptPDFViewModel(chapter: chapter, conceptItem: conceptItem)
-            let conceptPDFVC = ConceptPDFViewController(conceptPDFViewModel: conceptPDFVM)
+            let conceptPDFVC = makeConceptPDFViewController(chapter: chapter, conceptItem: conceptItem)
             navigationController?.pushViewController(conceptPDFVC, animated: true)
         }
     }
