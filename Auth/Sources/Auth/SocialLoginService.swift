@@ -13,14 +13,26 @@ import QRIZUtils
 import Network
 
 public protocol SocialLoginService: Sendable {
+
+    /// 카카오 로그인
     func loginWithKakao() async throws -> SocialLoginResponse
+
+    /// 카카오 로그아웃
     func logoutKakao() async throws
+
+    /// 카카오 연동 해제
     func unlinkKakao() async throws
 
+    /// 구글 로그인
     func loginWithGoogle(presenting: UIViewController) async throws -> SocialLoginResponse
+
+    /// 구글 로그아웃
     func logoutGoogle() async throws
 
+    /// 애플 로그인
     func loginWithApple(presenting: UIViewController) async throws -> SocialLoginResponse
+
+    /// 애플 로그아웃
     func logoutApple() async throws
 }
 
@@ -41,8 +53,7 @@ public final class SocialLoginServiceImpl: NSObject, SocialLoginService {
         self.keychain = keychain
     }
 
-    // MARK: - Kakao
-
+    // MARK: - Functions
     public func loginWithKakao() async throws -> SocialLoginResponse {
         try await performLogin {
             let token = try await self.kakaoAccessToken()
@@ -60,7 +71,6 @@ public final class SocialLoginServiceImpl: NSObject, SocialLoginService {
     }
 
     // MARK: - Google
-
     public func loginWithGoogle(presenting: UIViewController) async throws -> SocialLoginResponse {
         try await performLogin {
             try await self.ensureGoogleConfigured()
@@ -75,7 +85,6 @@ public final class SocialLoginServiceImpl: NSObject, SocialLoginService {
     }
 
     // MARK: - Apple
-
     public func loginWithApple(presenting: UIViewController) async throws -> SocialLoginResponse {
         try await performLogin {
             let apple = try await self.performAppleLogin(presenting: presenting)
@@ -95,7 +104,6 @@ public final class SocialLoginServiceImpl: NSObject, SocialLoginService {
 }
 
 // MARK: - Private Helpers
-
 private extension SocialLoginServiceImpl {
 
     /// 로그인 요청 빌드 → 전송 → 에러 매핑을 한 곳에서 처리
@@ -130,9 +138,8 @@ private extension SocialLoginServiceImpl {
            reason == .Cancelled {
             return SocialAuthError.cancelled
         }
-        if let nsError = error as NSError?,
-           nsError.domain == "com.google.GIDSignIn",
-           nsError.code == -5 {
+        let nsError = error as NSError
+        if nsError.domain == "com.google.GIDSignIn", nsError.code == -5 {
             return SocialAuthError.cancelled
         }
         if let appleError = error as? ASAuthorizationError,
@@ -219,7 +226,6 @@ private extension SocialLoginServiceImpl {
 }
 
 // MARK: - ASAuthorizationControllerDelegate
-
 extension SocialLoginServiceImpl: ASAuthorizationControllerDelegate {
 
     public func authorizationController(
@@ -257,7 +263,6 @@ extension SocialLoginServiceImpl: ASAuthorizationControllerDelegate {
 }
 
 // MARK: - ASAuthorizationControllerPresentationContextProviding
-
 extension SocialLoginServiceImpl: ASAuthorizationControllerPresentationContextProviding {
     public func presentationAnchor(for controller: ASAuthorizationController) -> ASPresentationAnchor {
         UIApplication.shared.connectedScenes
@@ -267,7 +272,6 @@ extension SocialLoginServiceImpl: ASAuthorizationControllerPresentationContextPr
 }
 
 // MARK: - AppleLoginResult
-
 private struct AppleLoginResult {
     let serverAuthCode: String
     let identityToken: String?
