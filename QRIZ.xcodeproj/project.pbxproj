@@ -45,6 +45,7 @@
 		B13045282DD9FA580036EBE2 /* TermsDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B13045272DD9FA580036EBE2 /* TermsDetailViewModel.swift */; };
 		B13774AD2ED9D7AF001A614D /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = B13774AC2ED9D7AF001A614D /* GoogleService-Info.plist */; };
 		B13BC2F22F56E3B500E99FA2 /* Auth in Frameworks */ = {isa = PBXBuildFile; productRef = B13BC2F32F56E3B500E99FA2 /* Auth */; };
+		B13BC73E2F58273500E99FA2 /* Conceptbook in Frameworks */ = {isa = PBXBuildFile; productRef = B13BC73F2F58273500E99FA2 /* Conceptbook */; };
 		B151082A2DFFEA8C00657506 /* DeleteAccountViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B15108262DFFEA8C00657506 /* DeleteAccountViewController.swift */; };
 		B151082B2DFFEA8C00657506 /* MyPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B15108272DFFEA8C00657506 /* MyPageViewController.swift */; };
 		B151082C2DFFEA8C00657506 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B15108282DFFEA8C00657506 /* SettingsViewController.swift */; };
@@ -112,7 +113,6 @@
 		B1BDD0C72F4D26CD00834D57 /* DesignSystem in Frameworks */ = {isa = PBXBuildFile; productRef = B1BDD0C62F4D26CD00834D57 /* DesignSystem */; };
 		B1BDD0CA2F4D2A5200834D57 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B1BDD0C82F4D2A5200834D57 /* Assets.xcassets */; };
 		B1D813712D6E0C1F00A9D447 /* HomeCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1D813702D6E0C1F00A9D447 /* HomeCoordinator.swift */; };
-		B1D813732D6E0CB200A9D447 /* ConceptBookCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1D813722D6E0CB200A9D447 /* ConceptBookCoordinator.swift */; };
 		B1D813772D6E0CD700A9D447 /* MyPageCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1D813762D6E0CD700A9D447 /* MyPageCoordinator.swift */; };
 		B1D8137A2D768D9B00A9D447 /* AppCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1D813792D768D9B00A9D447 /* AppCoordinator.swift */; };
 		D52D2E306AD846D98D4E9CDF5B15473A /* ExamKit in Frameworks */ = {isa = PBXBuildFile; productRef = F4E578BDAC154F81A58E0781EEE6FBD1 /* ExamKit */; };
@@ -243,6 +243,7 @@
 		B13045272DD9FA580036EBE2 /* TermsDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TermsDetailViewModel.swift; sourceTree = "<group>"; };
 		B13774AC2ED9D7AF001A614D /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		B13BC2F12F56E3B500E99FA2 /* Auth */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = Auth; sourceTree = "<group>"; };
+		B13BC73D2F58273500E99FA2 /* Conceptbook */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = Conceptbook; sourceTree = "<group>"; };
 		B15108262DFFEA8C00657506 /* DeleteAccountViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeleteAccountViewController.swift; sourceTree = "<group>"; };
 		B15108272DFFEA8C00657506 /* MyPageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageViewController.swift; sourceTree = "<group>"; };
 		B15108282DFFEA8C00657506 /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
@@ -309,7 +310,6 @@
 		B1BDD0C82F4D2A5200834D57 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		B1BDD3572F4E459300834D57 /* ExamKit */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = ExamKit; sourceTree = "<group>"; };
 		B1D813702D6E0C1F00A9D447 /* HomeCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeCoordinator.swift; sourceTree = "<group>"; };
-		B1D813722D6E0CB200A9D447 /* ConceptBookCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConceptBookCoordinator.swift; sourceTree = "<group>"; };
 		B1D813762D6E0CD700A9D447 /* MyPageCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageCoordinator.swift; sourceTree = "<group>"; };
 		B1D813792D768D9B00A9D447 /* AppCoordinator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppCoordinator.swift; sourceTree = "<group>"; };
 		B1DD53A52F45A85A00B60C85 /* QRIZUtils */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = QRIZUtils; sourceTree = "<group>"; };
@@ -435,9 +435,6 @@
 		B190A2D92DBBC7C6008FDE86 /* View */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = View; sourceTree = "<group>"; };
 		B190A2EE2DC4EAAD008FDE86 /* ViewController */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = ViewController; sourceTree = "<group>"; };
 		B190A2EF2DC4EAC5008FDE86 /* ViewModel */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = ViewModel; sourceTree = "<group>"; };
-		B1DC70412DAC36FE0007D943 /* View */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = View; sourceTree = "<group>"; };
-		B1DC70442DAC37350007D943 /* ViewController */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = ViewController; sourceTree = "<group>"; };
-		B1DC70452DAC37480007D943 /* ViewModel */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = ViewModel; sourceTree = "<group>"; };
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -455,6 +452,7 @@
 				B18CDE662F45AD2A00CB3AB4 /* QRIZUtils in Frameworks */,
 				B115FDCB2E44F1AD00805522 /* KakaoSDKAuth in Frameworks */,
 				B13BC2F22F56E3B500E99FA2 /* Auth in Frameworks */,
+				B13BC73E2F58273500E99FA2 /* Conceptbook in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -534,7 +532,6 @@
 				B168B7552D2806E50000F32E /* SignUp */,
 				B18F45072D398D3C0030F7DB /* FindAccount */,
 				54DB0D972D0950A500ABD458 /* Home */,
-				B19C4FBA2D6B6C6B00CD008A /* ConceptBook */,
 				B1296F272F33355400252AD9 /* MistakeNote */,
 				B19C4FB72D6A927C00CD008A /* MyPage */,
 			);
@@ -883,17 +880,6 @@
 			path = MyPage;
 			sourceTree = "<group>";
 		};
-		B19C4FBA2D6B6C6B00CD008A /* ConceptBook */ = {
-			isa = PBXGroup;
-			children = (
-				B1DC70412DAC36FE0007D943 /* View */,
-				B1DC70442DAC37350007D943 /* ViewController */,
-				B1DC70452DAC37480007D943 /* ViewModel */,
-				B1D813722D6E0CB200A9D447 /* ConceptBookCoordinator.swift */,
-			);
-			path = ConceptBook;
-			sourceTree = "<group>";
-		};
 		B19C4FC32D6C223E00CD008A /* TabBar */ = {
 			isa = PBXGroup;
 			children = (
@@ -1073,6 +1059,7 @@
 				E23963072D083B8F0092B39B /* QRIZ */,
 				E239631E2D083B910092B39B /* QRIZTests */,
 				E23963282D083B910092B39B /* QRIZUITests */,
+				B13BC73D2F58273500E99FA2 /* Conceptbook */,
 				B1BDD3572F4E459300834D57 /* ExamKit */,
 				B18CDFE62F46F93A00CB3AB4 /* Network */,
 				B13BC2F12F56E3B500E99FA2 /* Auth */,
@@ -1495,9 +1482,6 @@
 				B190A2D92DBBC7C6008FDE86 /* View */,
 				B190A2EE2DC4EAAD008FDE86 /* ViewController */,
 				B190A2EF2DC4EAC5008FDE86 /* ViewModel */,
-				B1DC70412DAC36FE0007D943 /* View */,
-				B1DC70442DAC37350007D943 /* ViewController */,
-				B1DC70452DAC37480007D943 /* ViewModel */,
 			);
 			name = QRIZ;
 			packageProductDependencies = (
@@ -1511,6 +1495,7 @@
 				B1BDD0C62F4D26CD00834D57 /* DesignSystem */,
 				F4E578BDAC154F81A58E0781EEE6FBD1 /* ExamKit */,
 				B13BC2F32F56E3B500E99FA2 /* Auth */,
+				B13BC73F2F58273500E99FA2 /* Conceptbook */,
 			);
 			productName = QRIZ;
 			productReference = E23963052D083B8F0092B39B /* QRIZ.app */;
@@ -1745,7 +1730,6 @@
 				E258577F2DD093A700AE174C /* ExamListViewController.swift in Sources */,
 				B168B7772D28481D0000F32E /* PasswordInputView.swift in Sources */,
 				E29CCD412D298656004AA30A /* PreviewResultViewController.swift in Sources */,
-				B1D813732D6E0CB200A9D447 /* ConceptBookCoordinator.swift in Sources */,
 				E211ADFA2DE467A000AB24FE /* ExamResultViewController.swift in Sources */,
 				54BC61592D1823F50094DC45 /* SocialLoginView.swift in Sources */,
 				E278431F2DDE0E4000E9AD07 /* ExamTestViewModel.swift in Sources */,
@@ -2273,6 +2257,10 @@
 		B13BC2F32F56E3B500E99FA2 /* Auth */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = Auth;
+		};
+		B13BC73F2F58273500E99FA2 /* Conceptbook */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = Conceptbook;
 		};
 		B18CDE652F45AD2A00CB3AB4 /* QRIZUtils */ = {
 			isa = XCSwiftPackageProductDependency;
