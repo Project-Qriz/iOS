@@ -10,6 +10,7 @@ import Combine
 import OSLog
 import QRIZUtils
 
+@MainActor
 public final class ConceptPDFViewModel {
 
     // MARK: - Properties
@@ -32,18 +33,18 @@ public final class ConceptPDFViewModel {
     func transform(input: AnyPublisher<Input, Never>) -> AnyPublisher<Output, Never> {
         input
             .sink { [weak self] event in
-                guard let self = self else { return }
+                guard let self else { return }
                 switch event {
                 case .viewDidLoad:
                     let subjectName = QRIZUtils.Subject.from(chapter: chapter) == .one ? "1과목" : "2과목"
                     self.outputSubject.send(
                         .configureHeader(
                             subject: subjectName,
-                            chapter: self.chapter.cardTitle,
-                            concept: self.conceptItem.title
+                            chapter: chapter.cardTitle,
+                            concept: conceptItem.title
                         )
                     )
-                    self.loadPDF()
+                    Task { await self.loadPDF() }
                 }
             }
             .store(in: &cancellables)
@@ -51,7 +52,7 @@ public final class ConceptPDFViewModel {
         return outputSubject.eraseToAnyPublisher()
     }
 
-    private func loadPDF() {
+    private func loadPDF() async {
         guard let pdfURL = Bundle.main.url(
             forResource: conceptItem.fileName,
             withExtension: "pdf"
@@ -62,12 +63,16 @@ public final class ConceptPDFViewModel {
         }
 
         do {
-            let data = try Data(contentsOf: pdfURL)
+            let data = try await readData(from: pdfURL)
             outputSubject.send(.pdfLoaded(data))
         } catch {
             logger.error("Error loading PDF data: \(error.localizedDescription, privacy: .public)")
             outputSubject.send(.showErrorAlert(title: "문서 불러오기에 실패했습니다."))
         }
+    }
+
+    private nonisolated func readData(from url: URL) async throws -> Data {
+        try Data(contentsOf: url)
     }
 }
 
