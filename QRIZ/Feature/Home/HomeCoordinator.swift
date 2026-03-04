@@ -9,6 +9,7 @@ import UIKit
 import DesignSystem
 import QRIZUtils
 import Network
+import Conceptbook
 
 @MainActor
 protocol HomeCoordinator: Coordinator {

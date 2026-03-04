@@ -8,6 +8,7 @@
 import UIKit
 import QRIZUtils
 import Network
+import Conceptbook
 
 @MainActor
 protocol MistakeNoteCoordinator: Coordinator {
