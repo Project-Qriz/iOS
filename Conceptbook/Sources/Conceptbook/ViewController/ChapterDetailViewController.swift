@@ -73,7 +73,7 @@ final class ChapterDetailViewController: UIViewController {
         chapterDetailVM.transform(input: input)
             .receive(on: DispatchQueue.main)
             .sink { [weak self] output in
-                guard let self = self else { return }
+                guard let self else { return }
                 switch output {
                 case .configureChapter(let chapter, let items):
                     self.rootView.configure(with: chapter, items: items)

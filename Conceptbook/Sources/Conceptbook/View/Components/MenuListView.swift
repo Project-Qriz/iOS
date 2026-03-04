@@ -18,11 +18,7 @@ final class MenuListView: UIView {
         static let titleLabelTopOffset: CGFloat = 24.0
         static let horizontalMargin: CGFloat = 18.0
         static let vStackViewTopOffset: CGFloat = 16.0
-    }
-
-    private enum Attributes {
-        static let title = "세부 항목"
-        static let chevronIcon = "chevron.right"
+        static let buttonHeightMultiplier: CGFloat = 0.17
     }
 
     // MARK: - Properties
@@ -37,7 +33,7 @@ final class MenuListView: UIView {
 
     private let titleLabel: UILabel = {
         let label = UILabel()
-        label.text = Attributes.title
+        label.text = "세부 항목"
         label.font = .systemFont(ofSize: 18, weight: .bold)
         label.textColor = .coolNeutral700
         return label
@@ -89,7 +85,7 @@ final class MenuListView: UIView {
 
         var config = UIButton.Configuration.plain()
         config.attributedTitle = attrTitle
-        config.image = UIImage(systemName: Attributes.chevronIcon)
+        config.image = UIImage(systemName: "chevron.right")
         config.imagePlacement = .trailing
         config.background.backgroundColor = .white
         config.baseForegroundColor = .coolNeutral800
@@ -109,7 +105,7 @@ final class MenuListView: UIView {
         }, for: .touchUpInside)
 
         button.translatesAutoresizingMaskIntoConstraints = false
-        button.heightAnchor.constraint(equalTo: button.widthAnchor, multiplier: 0.17).isActive = true
+        button.heightAnchor.constraint(equalTo: button.widthAnchor, multiplier: Metric.buttonHeightMultiplier).isActive = true
         return button
     }
 }

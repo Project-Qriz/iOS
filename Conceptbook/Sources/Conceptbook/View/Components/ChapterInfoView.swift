@@ -19,15 +19,11 @@ final class ChapterInfoView: UIView {
         static let itemCountLabelBottomOffset: CGFloat = -24.0
     }
 
-    private enum Attributes {
-        static let appName = "Qriz"
-    }
-
     // MARK: - UI
 
     private let appNameLabel: UILabel = {
         let label = UILabel()
-        label.text = Attributes.appName
+        label.text = "Qriz"
         label.font = .systemFont(ofSize: 18, weight: .medium)
         label.textColor = .customBlue500
         return label

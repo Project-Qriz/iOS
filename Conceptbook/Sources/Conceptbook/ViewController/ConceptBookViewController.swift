@@ -55,7 +55,7 @@ final class ConceptBookViewController: UIViewController {
         output
             .receive(on: DispatchQueue.main)
             .sink { [weak self] output in
-                guard let self = self else { return }
+                guard let self else { return }
                 switch output {
                 case .subjectsLoaded(let subjects):
                     self.rootView.configure(with: subjects)

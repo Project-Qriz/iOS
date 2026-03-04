@@ -13,12 +13,6 @@ import QRIZUtils
 
 final class ConceptPDFViewController: UIViewController {
 
-    // MARK: - Enums
-
-    private enum Attributes {
-        static let loadErrorMessage = "문서를 불러올 수 없습니다. 다시 시도해 주세요."
-    }
-
     // MARK: - Properties
 
     let rootView: ConceptPDFMainView
@@ -67,7 +61,7 @@ final class ConceptPDFViewController: UIViewController {
         output
             .receive(on: DispatchQueue.main)
             .sink { [weak self] output in
-                guard let self = self else { return }
+                guard let self else { return }
                 switch output {
                 case .configureHeader(let subject, let chapterTitle, let conceptName):
                     self.setNavigationBarTitle(title: conceptName, textColor: .coolNeutral800)
@@ -75,7 +69,7 @@ final class ConceptPDFViewController: UIViewController {
 
                 case .pdfLoaded(let data):
                     guard let document = PDFDocument(data: data) else {
-                        self.showOneButtonAlert(with: Attributes.loadErrorMessage, storingIn: &cancellables)
+                        self.showOneButtonAlert(with: "문서를 불러올 수 없습니다. 다시 시도해 주세요.", storingIn: &cancellables)
                         return
                     }
                     self.rootView.configPDF(document: document)

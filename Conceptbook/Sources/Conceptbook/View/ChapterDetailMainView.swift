@@ -23,7 +23,7 @@ final class ChapterDetailMainView: UIView {
 
     // MARK: - UI
 
-    private lazy var scrollView: UIScrollView = {
+    private let scrollView: UIScrollView = {
         let scrollView = UIScrollView()
         scrollView.showsVerticalScrollIndicator = false
         return scrollView
@@ -33,7 +33,6 @@ final class ChapterDetailMainView: UIView {
 
     private let imageView: UIImageView = {
         let imageView = UIImageView()
-        imageView.image = .dataModelAndSQL
         return imageView
     }()
 

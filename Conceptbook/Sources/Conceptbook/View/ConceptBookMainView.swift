@@ -22,11 +22,6 @@ final class ConceptBookMainView: UIView {
         static let stackViewTrailingOffset: CGFloat = -135.0
     }
 
-    private enum Attributes {
-        static let firstSubjectText = "1과목"
-        static let secondSubjectText = "2과목"
-    }
-
     // MARK: - Properties
 
     private let chapterTappedSubject = PassthroughSubject<Chapter, Never>()
@@ -40,7 +35,7 @@ final class ConceptBookMainView: UIView {
 
     private let firstSubjectLabel: UILabel = {
         let label = UILabel()
-        label.text = Attributes.firstSubjectText
+        label.text = "1과목"
         label.textColor = .coolNeutral800
         label.font = .systemFont(ofSize: 20, weight: .bold)
         return label
@@ -57,7 +52,7 @@ final class ConceptBookMainView: UIView {
 
     private let secondSubjectLabel: UILabel = {
         let label = UILabel()
-        label.text = Attributes.secondSubjectText
+        label.text = "2과목"
         label.textColor = .coolNeutral800
         label.font = .systemFont(ofSize: 20, weight: .bold)
         return label
