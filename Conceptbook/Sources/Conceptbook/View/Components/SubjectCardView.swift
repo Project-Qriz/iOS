@@ -13,7 +13,7 @@ final class SubjectCardView: UIView {
     // MARK: - Enums
 
     private enum Metric {
-        static let imageViewTopOffset: CGFloat = 8.0
+        static let titleLabelTopOffset: CGFloat = 8.0
         static let imageViewHeightMultiplier: CGFloat = 156 / 105
         static let itemCountLabelTopOffset: CGFloat = 6.0
     }
@@ -86,7 +86,7 @@ extension SubjectCardView {
             imageView.trailingAnchor.constraint(equalTo: trailingAnchor),
             imageView.heightAnchor.constraint(equalTo: imageView.widthAnchor, multiplier: Metric.imageViewHeightMultiplier),
 
-            titleLabel.topAnchor.constraint(equalTo: imageView.bottomAnchor, constant: Metric.imageViewTopOffset),
+            titleLabel.topAnchor.constraint(equalTo: imageView.bottomAnchor, constant: Metric.titleLabelTopOffset),
             titleLabel.leadingAnchor.constraint(equalTo: leadingAnchor),
             titleLabel.trailingAnchor.constraint(equalTo: imageView.trailingAnchor),
 
