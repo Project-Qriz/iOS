@@ -61,12 +61,12 @@ final class ConceptPDFMainView: UIView {
         self.backgroundColor = .white
     }
 
-    func configHeader(subject: String, chapter: String) {
+    func configure(subject: String, chapter: String) {
         subjectLabel.text = subject
         chapterLabel.text = chapter
     }
 
-    func configPDF(document: PDFDocument) {
+    func configure(document: PDFDocument) {
         pdfView.document = document
     }
 }

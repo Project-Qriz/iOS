@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Combine
 import DesignSystem
 import QRIZUtils
 
@@ -37,7 +38,11 @@ final class ChapterDetailMainView: UIView {
     }()
 
     private let chapterInfoView = ChapterInfoView()
-    let menuListView = MenuListView()
+    private let menuListView = MenuListView()
+
+    var conceptTappedPublisher: AnyPublisher<ConceptItem, Never> {
+        menuListView.tappedPublisher
+    }
 
     // MARK: - Initialize
 

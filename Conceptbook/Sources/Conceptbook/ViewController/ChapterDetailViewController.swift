@@ -64,7 +64,7 @@ final class ChapterDetailViewController: UIViewController {
     // MARK: - Functions
 
     private func bind() {
-        let conceptTapped = rootView.menuListView.tappedPublisher.map { ChapterDetailViewModel.Input.conceptTapped($0) }
+        let conceptTapped = rootView.conceptTappedPublisher.map { ChapterDetailViewModel.Input.conceptTapped($0) }
 
         let input = inputSubject
             .merge(with: conceptTapped)

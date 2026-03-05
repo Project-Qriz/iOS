@@ -65,14 +65,14 @@ final class ConceptPDFViewController: UIViewController {
                 switch output {
                 case .configureHeader(let subject, let chapterTitle, let conceptName):
                     self.setNavigationBarTitle(title: conceptName, textColor: .coolNeutral800)
-                    self.rootView.configHeader(subject: subject, chapter: chapterTitle)
+                    self.rootView.configure(subject: subject, chapter: chapterTitle)
 
                 case .pdfLoaded(let data):
                     guard let document = PDFDocument(data: data) else {
                         self.showOneButtonAlert(with: "문서를 불러올 수 없습니다. 다시 시도해 주세요.", storingIn: &cancellables)
                         return
                     }
-                    self.rootView.configPDF(document: document)
+                    self.rootView.configure(document: document)
 
                 case .showErrorAlert(let message):
                     self.showOneButtonAlert(with: message, storingIn: &cancellables)
