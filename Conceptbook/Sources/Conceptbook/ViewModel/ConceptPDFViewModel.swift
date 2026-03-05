@@ -17,15 +17,17 @@ final class ConceptPDFViewModel {
 
     private let chapter: Chapter
     private let conceptItem: ConceptItem
+    private let bundle: Bundle
     private let outputSubject = PassthroughSubject<Output, Never>()
     private var cancellables = Set<AnyCancellable>()
-    private let logger = Logger(subsystem: Bundle.main.bundleIdentifier ?? "com.ksh.qriz", category: "ConceptPDFViewModel")
+    private let logger = Logger(subsystem: Bundle.main.bundleIdentifier ?? "Conceptbook", category: "ConceptPDFViewModel")
 
     // MARK: - Initialization
 
-    init(chapter: Chapter, conceptItem: ConceptItem) {
+    init(chapter: Chapter, conceptItem: ConceptItem, bundle: Bundle = .main) {
         self.chapter = chapter
         self.conceptItem = conceptItem
+        self.bundle = bundle
     }
 
     // MARK: - Methods
@@ -53,7 +55,7 @@ final class ConceptPDFViewModel {
     }
 
     private func loadPDF() async {
-        guard let pdfURL = Bundle.main.url(
+        guard let pdfURL = bundle.url(
             forResource: conceptItem.fileName,
             withExtension: "pdf"
         ) else {

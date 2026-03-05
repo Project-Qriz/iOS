@@ -19,7 +19,8 @@ let package = Package(
         ),
         .testTarget(
             name: "ConceptbookTests",
-            dependencies: ["Conceptbook"]
+            dependencies: ["Conceptbook"],
+            resources: [.process("Resources")]
         ),
     ]
 )
