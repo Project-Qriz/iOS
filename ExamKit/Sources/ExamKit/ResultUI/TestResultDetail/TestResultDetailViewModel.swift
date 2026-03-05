@@ -11,22 +11,26 @@ import QRIZUtils
 public final class TestResultDetailViewModel {
 
     // MARK: - Enums
+
     public enum Input {
         case menuItemSelected(selected: ResultDetailMenuItems)
     }
 
     // MARK: - Properties
+
     public let resultDetailData: ResultDetailData
     public private(set) var resultScoresData: ResultScoresData = .init()
     private var subscriptions = Set<AnyCancellable>()
 
-    // MARK: - Initializers
+    // MARK: - Initialization
+
     public init(resultDetailData: ResultDetailData) {
         self.resultDetailData = resultDetailData
         setScoresData(.total)
     }
 
     // MARK: - Methods
+
     public func transform(input: AnyPublisher<Input, Never>) {
         input
             .receive(on: DispatchQueue.main)

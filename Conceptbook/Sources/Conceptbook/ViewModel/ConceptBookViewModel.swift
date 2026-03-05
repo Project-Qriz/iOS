@@ -18,7 +18,7 @@ final class ConceptBookViewModel {
     private let outputSubject = PassthroughSubject<Output, Never>()
     private var cancellables = Set<AnyCancellable>()
 
-    // MARK: - Functions
+    // MARK: - Methods
 
     func transform(input: AnyPublisher<Input, Never>) -> AnyPublisher<Output, Never> {
         input

@@ -18,14 +18,14 @@ public final class LoginServiceImpl: LoginService {
     
     private let network: Network
     
-    // MARK: - Initialize
-    
+    // MARK: - Initialization
+
     public init(network: Network = NetworkImpl()) {
         self.network = network
     }
     
-    // MARK: - Functions
-    
+    // MARK: - Methods
+
     public func login(id: String, password: String) async throws -> LoginResponse {
         let request = LoginRequest(id: id, password: password)
         return try await network.send(request)

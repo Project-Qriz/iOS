@@ -21,16 +21,19 @@ public protocol OnboardingService {
 public final class OnboardingServiceImpl: OnboardingService {
 
     // MARK: - Properties
+
     private let network: Network
     private let keychainManager: KeychainManager
     
-    // MARK: - Initializers
+    // MARK: - Initialization
+
     public init(network: Network = NetworkImpl(session: URLSession.shared), keychainManager: KeychainManager = KeychainManagerImpl()) {
         self.network = network
         self.keychainManager = keychainManager
     }
     
     // MARK: - Methods
+
     public func sendSurvey(keyConcepts: [String]) async throws {
         let request = SurveyRequest(accessToken: getAccessToken(), keyConcepts: keyConcepts)
         // SurveyResponse 는 서비스에서 필요 없기 때문에 디버깅용

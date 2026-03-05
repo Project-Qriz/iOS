@@ -47,7 +47,7 @@ final class MenuListView: UIView {
         return stackView
     }()
 
-    // MARK: - Initialize
+    // MARK: - Initialization
 
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -60,7 +60,7 @@ final class MenuListView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
 
-    // MARK: - Functions
+    // MARK: - Methods
 
     private func setupUI() {
         backgroundColor = .white

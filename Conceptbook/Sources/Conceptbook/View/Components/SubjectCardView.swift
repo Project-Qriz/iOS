@@ -41,7 +41,7 @@ final class SubjectCardView: UIView {
         return label
     }()
 
-    // MARK: - Initialize
+    // MARK: - Initialization
 
     init(image: UIImage?, title: String, itemCount: Int) {
         super.init(frame: .zero)
@@ -55,7 +55,7 @@ final class SubjectCardView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
 
-    // MARK: - Functions
+    // MARK: - Methods
 
     private func setupUI() {
         self.backgroundColor = .white

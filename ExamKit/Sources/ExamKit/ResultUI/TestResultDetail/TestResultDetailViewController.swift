@@ -10,9 +10,11 @@ import Combine
 public final class TestResultDetailViewController: UIViewController {
 
     // MARK: - Properties
+
     private let viewModel: TestResultDetailViewModel
 
-    // MARK: - Initializers
+    // MARK: - Initialization
+
     public init(viewModel: TestResultDetailViewModel) {
         self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
@@ -23,6 +25,7 @@ public final class TestResultDetailViewController: UIViewController {
     }
 
     // MARK: - Methods
+
     public override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
@@ -40,6 +43,7 @@ public final class TestResultDetailViewController: UIViewController {
 }
 
 // MARK: - Layout
+
 extension TestResultDetailViewController {
     private func embedHostingController(rootView: ResultDetailView) {
         let hostingController = UIHostingController(rootView: rootView)

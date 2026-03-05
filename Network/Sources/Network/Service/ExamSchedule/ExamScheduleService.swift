@@ -29,8 +29,8 @@ public final class ExamScheduleServiceImpl: ExamScheduleService {
     private let network: Network
     private let keychain: KeychainManager
     
-    // MARK: - Initialize
-    
+    // MARK: - Initialization
+
     public init(
         network: Network = NetworkImpl(session: URLSession.shared),
         keychain: KeychainManager = KeychainManagerImpl()
@@ -39,8 +39,8 @@ public final class ExamScheduleServiceImpl: ExamScheduleService {
         self.keychain = keychain
     }
     
-    // MARK: - Functions
-    
+    // MARK: - Methods
+
     public func fetchAppliedExams() async throws -> AppliedExamsResponse {
         let access = keychain.retrieveToken(forKey: TokenKey.accessToken.rawValue) ?? ""
         let request = AppliedExamsRequest(accessToken: access)

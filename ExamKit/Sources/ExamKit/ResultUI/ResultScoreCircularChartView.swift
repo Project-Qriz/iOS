@@ -10,16 +10,19 @@ import QRIZUtils
 public struct ResultScoreCircularChartView: View {
 
     // MARK: - Properties
+
     @ObservedObject public var resultScoresData: ResultScoresData
     private let lineWidth: CGFloat = 36
     private let rankColors: [Color] = [.customBlue900, .customBlue500, .customBlue300, .customBlue200, .customBlue100]
 
-    // MARK: - Initializers
+    // MARK: - Initialization
+
     public init(resultScoresData: ResultScoresData) {
         self.resultScoresData = resultScoresData
     }
 
     // MARK: - Body
+
     public var body: some View {
         ZStack {
             Circle()
@@ -40,6 +43,7 @@ public struct ResultScoreCircularChartView: View {
     }
 
     // MARK: - Methods
+
     @ViewBuilder
     private func trimmedCircle(at index: Int) -> some View {
         Circle()

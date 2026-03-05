@@ -13,13 +13,15 @@ import QRIZUtils
 final class ConceptBookViewController: UIViewController {
 
     // MARK: - Properties
+
     weak var coordinator: ConceptBookCoordinator?
     private let rootView: ConceptBookMainView
     private let conceptBookVM: ConceptBookViewModel
     private let inputSubject = PassthroughSubject<ConceptBookViewModel.Input, Never>()
     private var cancellables = Set<AnyCancellable>()
 
-    // MARK: - Initializes
+    // MARK: - Initialization
+
     init(conceptBookVM: ConceptBookViewModel) {
         self.conceptBookVM = conceptBookVM
         self.rootView = ConceptBookMainView()
@@ -31,6 +33,7 @@ final class ConceptBookViewController: UIViewController {
     }
 
     // MARK: - Lifecycle
+
     override func loadView() {
         self.view = rootView
     }
@@ -43,6 +46,7 @@ final class ConceptBookViewController: UIViewController {
     }
 
     // MARK: - Methods
+
     private func bind() {
         let cardViewTapped = rootView.chapterTappedPublisher.map { ConceptBookViewModel.Input.cardViewTapped($0) }
 

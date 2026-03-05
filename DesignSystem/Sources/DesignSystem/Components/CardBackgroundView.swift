@@ -9,7 +9,7 @@ import UIKit
 
 public final class CardBackgroundView: UICollectionReusableView {
 
-    // MARK: - Initializer
+    // MARK: - Initialization
 
     override public init(frame: CGRect) {
         super.init(frame: frame)
@@ -20,7 +20,7 @@ public final class CardBackgroundView: UICollectionReusableView {
         fatalError("init(coder:) has not been implemented")
     }
 
-    // MARK: - Functions
+    // MARK: - Methods
 
     private func setupUI() {
         backgroundColor = .white

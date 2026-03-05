@@ -33,7 +33,7 @@ public final class MistakeNoteServiceImpl: MistakeNoteService {
     private let network: Network
     private let keychainManager: KeychainManager
 
-    // MARK: - Initializers
+    // MARK: - Initialization
 
     public init(
         network: Network = NetworkImpl(session: URLSession.shared),

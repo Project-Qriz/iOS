@@ -67,7 +67,7 @@ final class TwoButtonCustomAlertView: UIView {
         return stackView
     }()
 
-    // MARK: - Initializer
+    // MARK: - Initialization
 
     init(
         title: String,
@@ -91,7 +91,7 @@ final class TwoButtonCustomAlertView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
 
-    // MARK: - Functions
+    // MARK: - Methods
 
     func setButtonAction(_ isConfirmButton: Bool, action: UIAction) {
         if isConfirmButton {

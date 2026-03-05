@@ -11,6 +11,7 @@ import DesignSystem
 public final class TestContentsView: UIStackView {
 
     // MARK: - Properties
+
     private let numberLabel: UILabel = {
         let label = UILabel()
         label.textColor = .black
@@ -56,7 +57,8 @@ public final class TestContentsView: UIStackView {
         optionTappedSubject.eraseToAnyPublisher()
     }
 
-    // MARK: - Initializers
+    // MARK: - Initialization
+
     public init() {
         super.init(frame: .zero)
         setupUI()
@@ -70,6 +72,7 @@ public final class TestContentsView: UIStackView {
     }
 
     // MARK: - Methods
+
     public func updateQuestion(_ question: QuestionData) {
         numberLabel.text = String(format: "%02d.", question.questionNumber)
         titleLabel.attributedText = lineSpaced(question.question)
@@ -119,6 +122,7 @@ public final class TestContentsView: UIStackView {
 }
 
 // MARK: - Layout
+
 extension TestContentsView {
     private func addSubviews() {
         addArrangedSubview(numberLabel)

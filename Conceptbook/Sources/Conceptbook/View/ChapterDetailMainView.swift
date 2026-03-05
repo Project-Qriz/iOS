@@ -44,7 +44,7 @@ final class ChapterDetailMainView: UIView {
         menuListView.tappedPublisher
     }
 
-    // MARK: - Initialize
+    // MARK: - Initialization
 
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -57,7 +57,7 @@ final class ChapterDetailMainView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
 
-    // MARK: - Functions
+    // MARK: - Methods
 
     private func setupUI() {
         self.backgroundColor = .customBlue50

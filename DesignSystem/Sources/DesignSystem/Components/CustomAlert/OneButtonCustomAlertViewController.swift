@@ -25,7 +25,7 @@ public final class OneButtonCustomAlertViewController: UIViewController {
         rootView.confirmButtonTappedPublisher
     }
 
-    // MARK: - Initializer
+    // MARK: - Initialization
 
     public init(title: String, description: String? = nil) {
         self.rootView = OneButtonCustomAlertMainView()
@@ -49,7 +49,7 @@ public final class OneButtonCustomAlertViewController: UIViewController {
         setupConstraints()
     }
 
-    // MARK: - Functions
+    // MARK: - Methods
 
     private func setupUI() {
         view.backgroundColor = UIColor.coolNeutral800.withAlphaComponent(0.7)

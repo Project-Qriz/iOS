@@ -81,7 +81,7 @@ public final class TestNavigatorButton: UIView {
         return label
     }()
 
-    // MARK: - Initializer
+    // MARK: - Initialization
 
     public init() {
         super.init(frame: .zero)

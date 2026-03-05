@@ -18,7 +18,7 @@ public final class RoundBoxLabel: UIView {
         return label
     }()
 
-    // MARK: - Initializer
+    // MARK: - Initialization
 
     public init(text: String, width: CGFloat, height: CGFloat) {
         super.init(frame: .zero)
@@ -31,7 +31,7 @@ public final class RoundBoxLabel: UIView {
         fatalError("init(coder:) has not been implemented")
     }
 
-    // MARK: - Functions
+    // MARK: - Methods
 
     private func setupUI() {
         backgroundColor = .customBlue500

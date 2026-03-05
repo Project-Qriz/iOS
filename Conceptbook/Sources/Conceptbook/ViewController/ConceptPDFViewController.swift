@@ -20,7 +20,7 @@ final class ConceptPDFViewController: UIViewController {
     private var cancellables = Set<AnyCancellable>()
     private let inputSubject = PassthroughSubject<ConceptPDFViewModel.Input, Never>()
 
-    // MARK: - Initialize
+    // MARK: - Initialization
 
     init(conceptPDFViewModel: ConceptPDFViewModel) {
         self.conceptPDFVM = conceptPDFViewModel
@@ -61,7 +61,7 @@ final class ConceptPDFViewController: UIViewController {
         navigationController?.navigationBar.compactAppearance = appearance
     }
 
-    // MARK: - Functions
+    // MARK: - Methods
 
     private func bind() {
         let output = conceptPDFVM.transform(input: inputSubject.eraseToAnyPublisher())

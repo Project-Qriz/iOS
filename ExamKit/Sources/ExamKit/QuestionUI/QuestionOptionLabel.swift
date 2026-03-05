@@ -9,6 +9,7 @@ import DesignSystem
 public final class QuestionOptionLabel: UIView {
 
     // MARK: - Properties
+
     private let optionNumberLabel: UILabel = {
         let label = UILabel()
         label.textAlignment = .center
@@ -29,7 +30,8 @@ public final class QuestionOptionLabel: UIView {
         return label
     }()
 
-    // MARK: - Initializers
+    // MARK: - Initialization
+
     public init(number: Int) {
         super.init(frame: .zero)
         optionNumberLabel.text = "\(number)"
@@ -43,6 +45,7 @@ public final class QuestionOptionLabel: UIView {
     }
 
     // MARK: - Methods
+
     public func setOptionString(_ str: String) {
         optionStringLabel.attributedText = formattedText(str)
     }
@@ -72,6 +75,7 @@ public final class QuestionOptionLabel: UIView {
 }
 
 // MARK: - Layout
+
 extension QuestionOptionLabel {
     private func addSubviews() {
         addSubview(optionNumberLabel)

@@ -29,16 +29,19 @@ public protocol DailyService {
 public final class DailyServiceImpl: DailyService {
     
     // MARK: - Properties
+
     private let network: Network
     private let keychainManager: KeychainManager
-    
-    // MARK: - Initializers
+
+    // MARK: - Initialization
+
     public init(network: Network = NetworkImpl(session: URLSession.shared), keychainManager: KeychainManager = KeychainManagerImpl()) {
         self.network = network
         self.keychainManager = keychainManager
     }
     
     // MARK: - Methods
+
     public func getDailyDetailAndStatus(dayNumber: Int) async throws -> DailyDetailAndStatusResponse {
         let request = DailyDetailAndStatusRequest(accessToken: getAccessToken(), dayNumber: dayNumber)
         return try await network.send(request)

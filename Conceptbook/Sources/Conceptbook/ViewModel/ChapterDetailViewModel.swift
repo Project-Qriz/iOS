@@ -18,13 +18,13 @@ final class ChapterDetailViewModel {
     private let outputSubject = PassthroughSubject<Output, Never>()
     private var cancellables = Set<AnyCancellable>()
 
-    // MARK: - Initialize
+    // MARK: - Initialization
 
     init(chapter: Chapter) {
         self.chapter = chapter
     }
 
-    // MARK: - Functions
+    // MARK: - Methods
 
     func transform(input: AnyPublisher<Input, Never>) -> AnyPublisher<Output, Never> {
         input

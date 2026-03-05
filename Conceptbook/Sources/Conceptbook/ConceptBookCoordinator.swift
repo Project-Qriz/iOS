@@ -18,10 +18,11 @@ public protocol ConceptBookCoordinator: Coordinator {
 public final class ConceptBookCoordinatorImpl: ConceptBookCoordinator, NavigationGuard {
 
     // MARK: - Properties
+
     private var navigationController: UINavigationController?
     public var isNavigating: Bool = false // NavigationGuard
 
-    // MARK: - Initialize
+    // MARK: - Initialization
 
     public init() {}
 

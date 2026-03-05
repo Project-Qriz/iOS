@@ -19,7 +19,7 @@ final class ChapterDetailViewController: UIViewController {
     private let inputSubject = PassthroughSubject<ChapterDetailViewModel.Input, Never>()
     private var cancellables = Set<AnyCancellable>()
 
-    // MARK: - Initialize
+    // MARK: - Initialization
 
     init(chapterDetailVM: ChapterDetailViewModel) {
         self.chapterDetailVM = chapterDetailVM
@@ -61,7 +61,7 @@ final class ChapterDetailViewController: UIViewController {
         navigationController?.navigationBar.compactAppearance = appearance
     }
 
-    // MARK: - Functions
+    // MARK: - Methods
 
     private func bind() {
         let conceptTapped = rootView.conceptTappedPublisher.map { ChapterDetailViewModel.Input.conceptTapped($0) }
