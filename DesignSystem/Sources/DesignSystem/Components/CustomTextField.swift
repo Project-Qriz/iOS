@@ -82,7 +82,7 @@ public final class CustomTextField: UITextField {
         return imageView
     }()
 
-    // MARK: - Initializer
+    // MARK: - Initialization
 
     public init(
         placeholder: String,
@@ -99,7 +99,7 @@ public final class CustomTextField: UITextField {
         fatalError("init(coder:) has not been implemented")
     }
 
-    // MARK: - Functions
+    // MARK: - Methods
 
     private func setupUI(placeholder: String, isSecure: Bool) {
         self.attributedPlaceholder = NSAttributedString(

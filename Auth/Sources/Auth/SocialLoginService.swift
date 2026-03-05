@@ -40,11 +40,13 @@ public protocol SocialLoginService: Sendable {
 public final class SocialLoginServiceImpl: NSObject, SocialLoginService {
 
     // MARK: - Properties
+
     private let network: Network
     private let keychain: KeychainManager
     private var continuation: CheckedContinuation<AppleLoginResult, Error>?
 
-    // MARK: - Initialize
+    // MARK: - Initialization
+
     public init(
         network: Network = NetworkImpl(session: .shared),
         keychain: KeychainManager = KeychainManagerImpl()
@@ -53,7 +55,8 @@ public final class SocialLoginServiceImpl: NSObject, SocialLoginService {
         self.keychain = keychain
     }
 
-    // MARK: - Functions
+    // MARK: - Methods
+
     public func loginWithKakao() async throws -> SocialLoginResponse {
         try await performLogin {
             let token = try await self.kakaoAccessToken()
@@ -71,6 +74,7 @@ public final class SocialLoginServiceImpl: NSObject, SocialLoginService {
     }
 
     // MARK: - Google
+
     public func loginWithGoogle(presenting: UIViewController) async throws -> SocialLoginResponse {
         try await performLogin {
             try await self.ensureGoogleConfigured()
@@ -85,6 +89,7 @@ public final class SocialLoginServiceImpl: NSObject, SocialLoginService {
     }
 
     // MARK: - Apple
+
     public func loginWithApple(presenting: UIViewController) async throws -> SocialLoginResponse {
         try await performLogin {
             let apple = try await self.performAppleLogin(presenting: presenting)
@@ -104,6 +109,7 @@ public final class SocialLoginServiceImpl: NSObject, SocialLoginService {
 }
 
 // MARK: - Private Helpers
+
 private extension SocialLoginServiceImpl {
 
     /// 로그인 요청 빌드 → 전송 → 에러 매핑을 한 곳에서 처리
@@ -226,6 +232,7 @@ private extension SocialLoginServiceImpl {
 }
 
 // MARK: - ASAuthorizationControllerDelegate
+
 extension SocialLoginServiceImpl: ASAuthorizationControllerDelegate {
 
     public func authorizationController(
@@ -263,6 +270,7 @@ extension SocialLoginServiceImpl: ASAuthorizationControllerDelegate {
 }
 
 // MARK: - ASAuthorizationControllerPresentationContextProviding
+
 extension SocialLoginServiceImpl: ASAuthorizationControllerPresentationContextProviding {
     public func presentationAnchor(for controller: ASAuthorizationController) -> ASPresentationAnchor {
         UIApplication.shared.connectedScenes
@@ -272,6 +280,7 @@ extension SocialLoginServiceImpl: ASAuthorizationControllerPresentationContextPr
 }
 
 // MARK: - AppleLoginResult
+
 private struct AppleLoginResult {
     let serverAuthCode: String
     let identityToken: String?

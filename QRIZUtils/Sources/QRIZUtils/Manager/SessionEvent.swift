@@ -21,7 +21,7 @@ public final class SessionEventNotifierImpl: SessionEventNotifier {
     private let continuation: AsyncStream<SessionEvent>.Continuation
     public let events: AsyncStream<SessionEvent>
 
-    // MARK: - Initialize
+    // MARK: - Initialization
 
     public init() {
         var continuation: AsyncStream<SessionEvent>.Continuation!
@@ -29,7 +29,7 @@ public final class SessionEventNotifierImpl: SessionEventNotifier {
         self.continuation = continuation
     }
 
-    // MARK: - Functions
+    // MARK: - Methods
 
     public func notify(_ event: SessionEvent) {
         continuation.yield(event)

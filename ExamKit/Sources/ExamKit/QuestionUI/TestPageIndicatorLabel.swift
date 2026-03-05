@@ -9,6 +9,7 @@ import DesignSystem
 public final class TestPageIndicatorLabel: UIView {
 
     // MARK: - Properties
+
     private let currentPageLabel: UILabel = {
         let label = UILabel()
         label.text = String(format: "%02d ", 0)
@@ -27,7 +28,8 @@ public final class TestPageIndicatorLabel: UIView {
         return label
     }()
 
-    // MARK: - Initializers
+    // MARK: - Initialization
+
     public init() {
         super.init(frame: .zero)
         addSubviews()
@@ -39,6 +41,7 @@ public final class TestPageIndicatorLabel: UIView {
     }
 
     // MARK: - Methods
+
     public func setCurrentPage(_ page: Int) {
         currentPageLabel.text = String(format: "%02d ", page)
     }
@@ -49,6 +52,7 @@ public final class TestPageIndicatorLabel: UIView {
 }
 
 // MARK: - Layout
+
 extension TestPageIndicatorLabel {
     private func addSubviews() {
         addSubview(currentPageLabel)

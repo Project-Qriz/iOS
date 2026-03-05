@@ -33,14 +33,14 @@ public final class SignUpServiceImpl: SignUpService {
     
     private let network: Network
     
-    // MARK: - Initialize
-    
+    // MARK: - Initialization
+
     public init(network: Network = NetworkImpl(session: URLSession.shared)) {
         self.network = network
     }
     
-    // MARK: - Functions
-    
+    // MARK: - Methods
+
     public func sendEmail(_ email: String) async throws -> EmailSendResponse {
         let request = EmailSendRequest(email: email)
         return try await network.send(request)

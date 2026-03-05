@@ -23,8 +23,8 @@ public actor NetworkImpl: Network {
     private let authKey = HTTPHeaderField.authorization.rawValue
     private var isRefreshing = false
     
-    // MARK: - Initialize
-    
+    // MARK: - Initialization
+
     public init(
         session: URLSession = .shared,
         notifier: SessionEventNotifier = SessionEventNotifierImpl(),
@@ -35,8 +35,8 @@ public actor NetworkImpl: Network {
         self.notifier = notifier
     }
     
-    // MARK: - Functions
-    
+    // MARK: - Methods
+
     public func send<T: Request>(_ request: T) async throws -> T.Response {
         let urlRequest = try RequestFactory(request: request).urlRequestRepresentation()
         let needsAuth = urlRequest.value(forHTTPHeaderField: authKey) != nil

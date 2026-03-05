@@ -11,6 +11,13 @@ public enum Subject: String, CaseIterable {
     case one = "데이터 모델링의 이해"
     case two = "SQL 기본 및 활용"
 
+    public var displayName: String {
+        switch self {
+        case .one: return "1과목"
+        case .two: return "2과목"
+        }
+    }
+
     public var chapters: [Chapter] {
         switch self {
         case .one: return [.dataModeling, .dataModelAndSQL]

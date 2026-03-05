@@ -25,16 +25,19 @@ public protocol ExamService {
 public final class ExamServiceImpl: ExamService {
     
     // MARK: - Properties
+
     private let network: Network
     private let keychainManager: KeychainManager
-    
-    // MARK: - Initializers
+
+    // MARK: - Initialization
+
     public init(network: Network = NetworkImpl(session: URLSession.shared), keychainManager: KeychainManager = KeychainManagerImpl()) {
         self.network = network
         self.keychainManager = keychainManager
     }
     
     // MARK: - Methods
+
     public func getExamList(filterType: ExamListFilterType) async throws -> ExamListResponse {
         let request = ExamListRequest(accessToken: getAccessToken(), filterType: filterType)
         return try await network.send(request)

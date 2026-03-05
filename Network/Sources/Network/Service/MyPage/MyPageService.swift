@@ -29,8 +29,8 @@ public final class MyPageServiceImpl: MyPageService {
     private let network: Network
     private let keychain: KeychainManager
     
-    // MARK: - Initialize
-    
+    // MARK: - Initialization
+
     public init(
         network: Network = NetworkImpl(),
         keychain: KeychainManager = KeychainManagerImpl()
@@ -39,8 +39,8 @@ public final class MyPageServiceImpl: MyPageService {
         self.keychain = keychain
     }
     
-    // MARK: - Functions
-    
+    // MARK: - Methods
+
     public func fetchVersion() async throws -> VersionResponse {
         let access = keychain.retrieveToken(forKey: TokenKey.accessToken.rawValue) ?? ""
         let request = VersionRequest(accessToken: access)

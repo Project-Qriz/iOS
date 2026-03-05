@@ -8,6 +8,7 @@
 import UIKit
 import QRIZUtils
 import Network
+import Conceptbook
 
 @MainActor
 protocol MistakeNoteCoordinator: Coordinator {
@@ -63,8 +64,7 @@ final class MistakeNoteCoordinatorImpl: MistakeNoteCoordinator, NavigationGuard 
 
     func showConcept(chapter: Chapter, conceptItem: ConceptItem) {
         guardNavigation {
-            let vm = ConceptPDFViewModel(chapter: chapter, conceptItem: conceptItem)
-            let vc = ConceptPDFViewController(conceptPDFViewModel: vm)
+            let vc = makeConceptPDFViewController(chapter: chapter, conceptItem: conceptItem)
             navigationController?.pushViewController(vc, animated: true)
         }
     }

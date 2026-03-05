@@ -9,6 +9,7 @@ import UIKit
 import QRIZUtils
 import Network
 import ExamKit
+import Conceptbook
 
 @MainActor
 protocol ExamCoordinator: Coordinator {
@@ -119,8 +120,7 @@ final class ExamCoordinatorImpl: ExamCoordinator, NavigationGuard {
 
     func showConcept(chapter: Chapter, conceptItem: ConceptItem) {
         guardNavigation {
-            let vm = ConceptPDFViewModel(chapter: chapter, conceptItem: conceptItem)
-            let vc = ConceptPDFViewController(conceptPDFViewModel: vm)
+            let vc = makeConceptPDFViewController(chapter: chapter, conceptItem: conceptItem)
             self.navigationController.pushViewController(vc, animated: true)
         }
     }

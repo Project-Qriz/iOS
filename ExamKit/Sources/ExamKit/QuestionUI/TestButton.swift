@@ -8,7 +8,8 @@ import DesignSystem
 
 public final class TestButton: UIButton {
 
-    // MARK: - Initializers
+    // MARK: - Initialization
+
     public init(isPreviousButton: Bool) {
         super.init(frame: .zero)
         titleLabel?.font = .boldSystemFont(ofSize: 16)
@@ -30,6 +31,7 @@ public final class TestButton: UIButton {
     }
 
     // MARK: - Methods
+
     public func updateTitle(_ title: String) {
         setTitle(title, for: .normal)
     }

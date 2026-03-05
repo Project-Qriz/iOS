@@ -10,6 +10,7 @@ import QRIZUtils
 public struct ResultDetailScoreView: View {
 
     // MARK: - Properties
+
     @ObservedObject public var resultScoresData: ResultScoresData
     @ObservedObject public var resultDetailData: ResultDetailData
     private let rankColors: [Color] = [.customBlue900, .customBlue500, .customBlue300, .customBlue200, .customBlue100]
@@ -18,13 +19,15 @@ public struct ResultDetailScoreView: View {
         resultScoresData.selectedMenuItem == .total ? resultDetailData.subject1DetailResult.count : 0
     }
 
-    // MARK: - Initializers
+    // MARK: - Initialization
+
     public init(resultScoresData: ResultScoresData, resultDetailData: ResultDetailData) {
         self.resultScoresData = resultScoresData
         self.resultDetailData = resultDetailData
     }
 
     // MARK: - Body
+
     public var body: some View {
         VStack(spacing: 32) {
             if resultScoresData.selectedMenuItem != .subject2 {
@@ -41,6 +44,7 @@ public struct ResultDetailScoreView: View {
     }
 
     // MARK: - Methods
+
     @ViewBuilder
     private func subjectSectionView(subject: SubjectDetailData, rank: Int) -> some View {
         VStack(spacing: 11) {

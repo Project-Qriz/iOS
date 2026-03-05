@@ -32,14 +32,14 @@ public final class AccountRecoveryServiceImpl: AccountRecoveryService {
     private let network: Network
     private var resetToken: String = ""
     
-    // MARK: - Initialize
-    
+    // MARK: - Initialization
+
     public init(network: Network = NetworkImpl(session: URLSession.shared)) {
         self.network = network
     }
     
-    // MARK: - Functions
-    
+    // MARK: - Methods
+
     public func findID(email: String) async throws -> FindIDResponse {
         let request = FindIDRequest(email: email)
         return try await network.send(request)

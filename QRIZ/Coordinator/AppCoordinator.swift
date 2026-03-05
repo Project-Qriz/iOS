@@ -11,11 +11,6 @@ import Network
 import Auth
 
 @MainActor
-protocol Coordinator: AnyObject {
-    func start() -> UIViewController
-}
-
-@MainActor
 protocol AppCoordinator: Coordinator {
     var window: UIWindow { get set }
 }

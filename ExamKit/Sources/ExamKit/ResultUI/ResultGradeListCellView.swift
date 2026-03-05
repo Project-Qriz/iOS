@@ -10,16 +10,19 @@ import QRIZUtils
 public struct ResultGradeListCellView: View {
 
     // MARK: - Properties
+
     private let gradeResult: GradeResult
     private let onTap: () -> Void
 
-    // MARK: - Initializers
+    // MARK: - Initialization
+
     public init(gradeResult: GradeResult, onTap: @escaping () -> Void) {
         self.gradeResult = gradeResult
         self.onTap = onTap
     }
 
     // MARK: - Body
+
     public var body: some View {
         VStack(alignment: .leading, spacing: 8) {
             HStack(spacing: 8) {
@@ -53,6 +56,7 @@ public struct ResultGradeListCellView: View {
     }
 
     // MARK: - Methods
+
     @ViewBuilder
     private func gradeIcon() -> some View {
         if gradeResult.correction {

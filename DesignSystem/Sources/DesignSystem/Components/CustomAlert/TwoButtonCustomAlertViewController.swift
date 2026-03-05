@@ -14,7 +14,7 @@ public final class TwoButtonCustomAlertViewController: UIViewController {
 
     private let alertView: TwoButtonCustomAlertView
 
-    // MARK: - Initializer
+    // MARK: - Initialization
 
     public init(
         title: String,
@@ -53,7 +53,7 @@ public final class TwoButtonCustomAlertViewController: UIViewController {
         setupConstraints()
     }
 
-    // MARK: - Functions
+    // MARK: - Methods
 
     public func setupButtonActions(confirmAction: UIAction?, cancelAction: UIAction?) {
         if let confirmAction = confirmAction {

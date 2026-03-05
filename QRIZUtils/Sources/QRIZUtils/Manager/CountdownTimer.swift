@@ -23,14 +23,14 @@ public final class CountdownTimer {
         remainingTime.eraseToAnyPublisher()
     }
     
-    // MARK: - Initialize
+    // MARK: - Initialization
 
     public init(totalTime: Int) {
         self.initialTime = totalTime
         self.remainingTime = CurrentValueSubject<Int, Never>(totalTime)
     }
 
-    // MARK: - Functions
+    // MARK: - Methods
 
     public func start() {
         stop() // 기존 타이머 해제
