@@ -128,9 +128,6 @@
 		E23824E12D0C3157009E7989 /* BeginOnboardingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E23824E02D0C3157009E7989 /* BeginOnboardingViewController.swift */; };
 		E23963092D083B900092B39B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E23963082D083B900092B39B /* AppDelegate.swift */; };
 		E239630B2D083B900092B39B /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E239630A2D083B900092B39B /* SceneDelegate.swift */; };
-		E23963202D083B910092B39B /* QRIZTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E239631F2D083B910092B39B /* QRIZTests.swift */; };
-		E239632A2D083B910092B39B /* QRIZUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E23963292D083B910092B39B /* QRIZUITests.swift */; };
-		E239632C2D083B910092B39B /* QRIZUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E239632B2D083B910092B39B /* QRIZUITestsLaunchTests.swift */; };
 		E24674452D6C730B00697D34 /* CheckAllOrNoneButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = E24674442D6C730B00697D34 /* CheckAllOrNoneButton.swift */; };
 		E24907D32D619F39004D6E61 /* DailyLearnViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E24907D22D619F39004D6E61 /* DailyLearnViewModel.swift */; };
 		E24907DA2D63698C004D6E61 /* DailyLearnSectionTitleLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E24907D92D63698C004D6E61 /* DailyLearnSectionTitleLabel.swift */; };
@@ -177,30 +174,6 @@
 		E2D70FEE2D0EC037005A3F51 /* CheckConceptViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2D70FED2D0EC037005A3F51 /* CheckConceptViewModel.swift */; };
 		E2F18BCF2D6060E900DC6F82 /* DailyLearnViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2F18BCE2D6060E900DC6F82 /* DailyLearnViewController.swift */; };
 /* End PBXBuildFile section */
-
-/* Begin PBXContainerItemProxy section */
-		E239631C2D083B910092B39B /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = E23962FD2D083B8F0092B39B /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = E23963042D083B8F0092B39B;
-			remoteInfo = QRIZ;
-		};
-		E23963262D083B910092B39B /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = E23962FD2D083B8F0092B39B /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = E23963042D083B8F0092B39B;
-			remoteInfo = QRIZ;
-		};
-		E23963402D083BC30092B39B /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = E23962FD2D083B8F0092B39B /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = E23963042D083B8F0092B39B;
-			remoteInfo = QRIZ;
-		};
-/* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
 		54BC61542D14AFB70094DC45 /* LoginInputView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginInputView.swift; sourceTree = "<group>"; };
@@ -327,12 +300,6 @@
 		E23963082D083B900092B39B /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		E239630A2D083B900092B39B /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		E23963162D083B900092B39B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		E239631B2D083B910092B39B /* QRIZTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = QRIZTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		E239631F2D083B910092B39B /* QRIZTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QRIZTests.swift; sourceTree = "<group>"; };
-		E23963252D083B910092B39B /* QRIZUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = QRIZUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		E23963292D083B910092B39B /* QRIZUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QRIZUITests.swift; sourceTree = "<group>"; };
-		E239632B2D083B910092B39B /* QRIZUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QRIZUITestsLaunchTests.swift; sourceTree = "<group>"; };
-		E239633C2D083BC30092B39B /* QRIZUnitTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = QRIZUnitTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		E24674442D6C730B00697D34 /* CheckAllOrNoneButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckAllOrNoneButton.swift; sourceTree = "<group>"; };
 		E24907D22D619F39004D6E61 /* DailyLearnViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyLearnViewModel.swift; sourceTree = "<group>"; };
 		E24907D92D63698C004D6E61 /* DailyLearnSectionTitleLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyLearnSectionTitleLabel.swift; sourceTree = "<group>"; };
@@ -425,8 +392,6 @@
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		B127B6D52DECBE1A0048401F /* Splash */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Splash; sourceTree = "<group>"; };
-		B159A1292DA27AE6001153B5 /* Service */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Service; sourceTree = "<group>"; };
-		B17D6ABB2D9146C90023FCA5 /* FindAccount */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = FindAccount; sourceTree = "<group>"; };
 		B18729F32DB5E5FB0050811C /* PDF */ = {isa = PBXFileSystemSynchronizedRootGroup; exceptions = (B1872A172DB68F100050811C /* PBXFileSystemSynchronizedBuildFileExceptionSet */, ); explicitFileTypes = {}; explicitFolders = (); path = PDF; sourceTree = "<group>"; };
 		B190A2D92DBBC7C6008FDE86 /* View */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = View; sourceTree = "<group>"; };
 		B190A2EE2DC4EAAD008FDE86 /* ViewController */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = ViewController; sourceTree = "<group>"; };
@@ -445,27 +410,6 @@
 				B18CDE662F45AD2A00CB3AB4 /* QRIZUtils in Frameworks */,
 				B13BC2F22F56E3B500E99FA2 /* Auth in Frameworks */,
 				B13BC73E2F58273500E99FA2 /* Conceptbook in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		E23963182D083B910092B39B /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		E23963222D083B910092B39B /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		E23963392D083BC30092B39B /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1049,8 +993,6 @@
 				B18729F32DB5E5FB0050811C /* PDF */,
 				E26AF7042D918F97006E3252 /* XCConfig */,
 				E23963072D083B8F0092B39B /* QRIZ */,
-				E239631E2D083B910092B39B /* QRIZTests */,
-				E23963282D083B910092B39B /* QRIZUITests */,
 				B13BC73D2F58273500E99FA2 /* Conceptbook */,
 				B1BDD3572F4E459300834D57 /* ExamKit */,
 				B18CDFE62F46F93A00CB3AB4 /* Network */,
@@ -1065,9 +1007,6 @@
 			isa = PBXGroup;
 			children = (
 				E23963052D083B8F0092B39B /* QRIZ.app */,
-				E239631B2D083B910092B39B /* QRIZTests.xctest */,
-				E23963252D083B910092B39B /* QRIZUITests.xctest */,
-				E239633C2D083BC30092B39B /* QRIZUnitTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -1083,25 +1022,6 @@
 				54DB0DA32D09524E00ABD458 /* SupportingFiles */,
 			);
 			path = QRIZ;
-			sourceTree = "<group>";
-		};
-		E239631E2D083B910092B39B /* QRIZTests */ = {
-			isa = PBXGroup;
-			children = (
-				B159A1292DA27AE6001153B5 /* Service */,
-				B17D6ABB2D9146C90023FCA5 /* FindAccount */,
-				E239631F2D083B910092B39B /* QRIZTests.swift */,
-			);
-			path = QRIZTests;
-			sourceTree = "<group>";
-		};
-		E23963282D083B910092B39B /* QRIZUITests */ = {
-			isa = PBXGroup;
-			children = (
-				E23963292D083B910092B39B /* QRIZUITests.swift */,
-				E239632B2D083B910092B39B /* QRIZUITestsLaunchTests.swift */,
-			);
-			path = QRIZUITests;
 			sourceTree = "<group>";
 		};
 		E24907D02D619F22004D6E61 /* ViewModel */ = {
@@ -1489,64 +1409,6 @@
 			productReference = E23963052D083B8F0092B39B /* QRIZ.app */;
 			productType = "com.apple.product-type.application";
 		};
-		E239631A2D083B910092B39B /* QRIZTests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = E23963322D083B910092B39B /* Build configuration list for PBXNativeTarget "QRIZTests" */;
-			buildPhases = (
-				E23963172D083B910092B39B /* Sources */,
-				E23963182D083B910092B39B /* Frameworks */,
-				E23963192D083B910092B39B /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				E239631D2D083B910092B39B /* PBXTargetDependency */,
-			);
-			fileSystemSynchronizedGroups = (
-				B159A1292DA27AE6001153B5 /* Service */,
-				B17D6ABB2D9146C90023FCA5 /* FindAccount */,
-			);
-			name = QRIZTests;
-			productName = QRIZTests;
-			productReference = E239631B2D083B910092B39B /* QRIZTests.xctest */;
-			productType = "com.apple.product-type.bundle.unit-test";
-		};
-		E23963242D083B910092B39B /* QRIZUITests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = E23963352D083B910092B39B /* Build configuration list for PBXNativeTarget "QRIZUITests" */;
-			buildPhases = (
-				E23963212D083B910092B39B /* Sources */,
-				E23963222D083B910092B39B /* Frameworks */,
-				E23963232D083B910092B39B /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				E23963272D083B910092B39B /* PBXTargetDependency */,
-			);
-			name = QRIZUITests;
-			productName = QRIZUITests;
-			productReference = E23963252D083B910092B39B /* QRIZUITests.xctest */;
-			productType = "com.apple.product-type.bundle.ui-testing";
-		};
-		E239633B2D083BC30092B39B /* QRIZUnitTests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = E23963422D083BC30092B39B /* Build configuration list for PBXNativeTarget "QRIZUnitTests" */;
-			buildPhases = (
-				E23963382D083BC30092B39B /* Sources */,
-				E23963392D083BC30092B39B /* Frameworks */,
-				E239633A2D083BC30092B39B /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				E23963412D083BC30092B39B /* PBXTargetDependency */,
-			);
-			name = QRIZUnitTests;
-			productName = QRIZUnitTests;
-			productReference = E239633C2D083BC30092B39B /* QRIZUnitTests.xctest */;
-			productType = "com.apple.product-type.bundle.unit-test";
-		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -1559,18 +1421,6 @@
 				TargetAttributes = {
 					E23963042D083B8F0092B39B = {
 						CreatedOnToolsVersion = 15.4;
-					};
-					E239631A2D083B910092B39B = {
-						CreatedOnToolsVersion = 15.4;
-						TestTargetID = E23963042D083B8F0092B39B;
-					};
-					E23963242D083B910092B39B = {
-						CreatedOnToolsVersion = 15.4;
-						TestTargetID = E23963042D083B8F0092B39B;
-					};
-					E239633B2D083BC30092B39B = {
-						CreatedOnToolsVersion = 15.4;
-						TestTargetID = E23963042D083B8F0092B39B;
 					};
 				};
 			};
@@ -1591,9 +1441,6 @@
 			projectRoot = "";
 			targets = (
 				E23963042D083B8F0092B39B /* QRIZ */,
-				E239631A2D083B910092B39B /* QRIZTests */,
-				E23963242D083B910092B39B /* QRIZUITests */,
-				E239633B2D083BC30092B39B /* QRIZUnitTests */,
 			);
 		};
 /* End PBXProject section */
@@ -1605,27 +1452,6 @@
 			files = (
 				B13774AD2ED9D7AF001A614D /* GoogleService-Info.plist in Resources */,
 				B1BDD0CA2F4D2A5200834D57 /* Assets.xcassets in Resources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		E23963192D083B910092B39B /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		E23963232D083B910092B39B /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		E239633A2D083BC30092B39B /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1796,49 +1622,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		E23963172D083B910092B39B /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				E23963202D083B910092B39B /* QRIZTests.swift in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		E23963212D083B910092B39B /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				E239632C2D083B910092B39B /* QRIZUITestsLaunchTests.swift in Sources */,
-				E239632A2D083B910092B39B /* QRIZUITests.swift in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		E23963382D083BC30092B39B /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXSourcesBuildPhase section */
-
-/* Begin PBXTargetDependency section */
-		E239631D2D083B910092B39B /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = E23963042D083B8F0092B39B /* QRIZ */;
-			targetProxy = E239631C2D083B910092B39B /* PBXContainerItemProxy */;
-		};
-		E23963272D083B910092B39B /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = E23963042D083B8F0092B39B /* QRIZ */;
-			targetProxy = E23963262D083B910092B39B /* PBXContainerItemProxy */;
-		};
-		E23963412D083BC30092B39B /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = E23963042D083B8F0092B39B /* QRIZ */;
-			targetProxy = E23963402D083BC30092B39B /* PBXContainerItemProxy */;
-		};
-/* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
 		E239632D2D083B910092B39B /* Debug */ = {
@@ -2034,120 +1818,6 @@
 			};
 			name = Release;
 		};
-		E23963332D083B910092B39B /* Debug */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = E26AF7022D918F03006E3252 /* Debug.xcconfig */;
-			buildSettings = {
-				BUNDLE_LOADER = "$(TEST_HOST)";
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 876W82FDBV;
-				GENERATE_INFOPLIST_FILE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 17.5;
-				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = kr.QRIZTests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_EMIT_LOC_STRINGS = NO;
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/QRIZ.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/QRIZ";
-			};
-			name = Debug;
-		};
-		E23963342D083B910092B39B /* Release */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = E26AF7012D918EFC006E3252 /* Release.xcconfig */;
-			buildSettings = {
-				BUNDLE_LOADER = "$(TEST_HOST)";
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 876W82FDBV;
-				GENERATE_INFOPLIST_FILE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 17.5;
-				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = kr.QRIZTests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_EMIT_LOC_STRINGS = NO;
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/QRIZ.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/QRIZ";
-			};
-			name = Release;
-		};
-		E23963362D083B910092B39B /* Debug */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = E26AF7022D918F03006E3252 /* Debug.xcconfig */;
-			buildSettings = {
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 876W82FDBV;
-				GENERATE_INFOPLIST_FILE = YES;
-				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = kr.QRIZUITests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_EMIT_LOC_STRINGS = NO;
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_TARGET_NAME = QRIZ;
-			};
-			name = Debug;
-		};
-		E23963372D083B910092B39B /* Release */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = E26AF7012D918EFC006E3252 /* Release.xcconfig */;
-			buildSettings = {
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 876W82FDBV;
-				GENERATE_INFOPLIST_FILE = YES;
-				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = kr.QRIZUITests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_EMIT_LOC_STRINGS = NO;
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_TARGET_NAME = QRIZ;
-			};
-			name = Release;
-		};
-		E23963432D083BC30092B39B /* Debug */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = E26AF7022D918F03006E3252 /* Debug.xcconfig */;
-			buildSettings = {
-				BUNDLE_LOADER = "$(TEST_HOST)";
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 876W82FDBV;
-				GENERATE_INFOPLIST_FILE = YES;
-				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = kr.QRIZUnitTests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_EMIT_LOC_STRINGS = NO;
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/QRIZ.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/QRIZ";
-			};
-			name = Debug;
-		};
-		E23963442D083BC30092B39B /* Release */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = E26AF7012D918EFC006E3252 /* Release.xcconfig */;
-			buildSettings = {
-				BUNDLE_LOADER = "$(TEST_HOST)";
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 876W82FDBV;
-				GENERATE_INFOPLIST_FILE = YES;
-				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = kr.QRIZUnitTests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_EMIT_LOC_STRINGS = NO;
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/QRIZ.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/QRIZ";
-			};
-			name = Release;
-		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -2165,33 +1835,6 @@
 			buildConfigurations = (
 				E23963302D083B910092B39B /* Debug */,
 				E23963312D083B910092B39B /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		E23963322D083B910092B39B /* Build configuration list for PBXNativeTarget "QRIZTests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				E23963332D083B910092B39B /* Debug */,
-				E23963342D083B910092B39B /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		E23963352D083B910092B39B /* Build configuration list for PBXNativeTarget "QRIZUITests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				E23963362D083B910092B39B /* Debug */,
-				E23963372D083B910092B39B /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		E23963422D083BC30092B39B /* Build configuration list for PBXNativeTarget "QRIZUnitTests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				E23963432D083BC30092B39B /* Debug */,
-				E23963442D083BC30092B39B /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
