@@ -35,7 +35,6 @@ final class ConceptBookMainView: UIView {
 
     private let firstSubjectLabel: UILabel = {
         let label = UILabel()
-        label.text = "1과목"
         label.textColor = .coolNeutral800
         label.font = .systemFont(ofSize: 20, weight: .bold)
         return label
@@ -52,7 +51,6 @@ final class ConceptBookMainView: UIView {
 
     private let secondSubjectLabel: UILabel = {
         let label = UILabel()
-        label.text = "2과목"
         label.textColor = .coolNeutral800
         label.font = .systemFont(ofSize: 20, weight: .bold)
         return label
@@ -87,6 +85,8 @@ final class ConceptBookMainView: UIView {
     func configure(with subjects: [QRIZUtils.Subject]) {
         guard subjects.count >= 2 else { return }
         cancellables.removeAll()
+        firstSubjectLabel.text = subjects[0].displayName
+        secondSubjectLabel.text = subjects[1].displayName
         configureSection(stackView: firstSubjectCardsHStackView, with: subjects[0].chapters)
         configureSection(stackView: secondSubjectCardsHStackView, with: subjects[1].chapters)
     }

@@ -36,7 +36,7 @@ final class ConceptPDFViewModel {
                 guard let self else { return }
                 switch event {
                 case .viewDidLoad:
-                    let subjectName = QRIZUtils.Subject.from(chapter: chapter) == .one ? "1과목" : "2과목"
+                    let subjectName = QRIZUtils.Subject.from(chapter: chapter)?.displayName ?? ""
                     self.outputSubject.send(
                         .configureHeader(
                             subject: subjectName,
