@@ -13,8 +13,6 @@
 		54C7A3102D146190001175D9 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54C7A30F2D146190001175D9 /* LoginViewController.swift */; };
 		54C7A3132D1461A6001175D9 /* LoginMainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54C7A3122D1461A6001175D9 /* LoginMainView.swift */; };
 		54C7A3162D14A5A6001175D9 /* LoginLogoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54C7A3152D14A5A6001175D9 /* LoginLogoView.swift */; };
-		B115FDC92E44F1AD00805522 /* KakaoSDK in Frameworks */ = {isa = PBXBuildFile; productRef = B115FDC82E44F1AD00805522 /* KakaoSDK */; };
-		B115FDCB2E44F1AD00805522 /* KakaoSDKAuth in Frameworks */ = {isa = PBXBuildFile; productRef = B115FDCA2E44F1AD00805522 /* KakaoSDKAuth */; };
 		B1296F282F33355400252AD9 /* ProblemHeaderCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1296F1A2F33355400252AD9 /* ProblemHeaderCardView.swift */; };
 		B1296F292F33355400252AD9 /* MistakeNoteMainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1296F0F2F33355400252AD9 /* MistakeNoteMainView.swift */; };
 		B1296F2A2F33355400252AD9 /* FilterChip.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1296F092F33355400252AD9 /* FilterChip.swift */; };
@@ -108,8 +106,6 @@
 		B19C4FA92D5D182600CD008A /* EmailVerificationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B19C4FA82D5D182600CD008A /* EmailVerificationViewModel.swift */; };
 		B19C4FAF2D67E58D00CD008A /* LoginCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = B19C4FAE2D67E58D00CD008A /* LoginCoordinator.swift */; };
 		B19C4FC52D6C226500CD008A /* TabBarCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = B19C4FC42D6C226500CD008A /* TabBarCoordinator.swift */; };
-		B1B0BBBC2E769F510024F230 /* GoogleSignIn in Frameworks */ = {isa = PBXBuildFile; productRef = B1B0BBBB2E769F510024F230 /* GoogleSignIn */; };
-		B1B0BBBE2E769F510024F230 /* GoogleSignInSwift in Frameworks */ = {isa = PBXBuildFile; productRef = B1B0BBBD2E769F510024F230 /* GoogleSignInSwift */; };
 		B1BDD0C72F4D26CD00834D57 /* DesignSystem in Frameworks */ = {isa = PBXBuildFile; productRef = B1BDD0C62F4D26CD00834D57 /* DesignSystem */; };
 		B1BDD0CA2F4D2A5200834D57 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B1BDD0C82F4D2A5200834D57 /* Assets.xcassets */; };
 		B1D813712D6E0C1F00A9D447 /* HomeCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1D813702D6E0C1F00A9D447 /* HomeCoordinator.swift */; };
@@ -442,15 +438,11 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B1B0BBBE2E769F510024F230 /* GoogleSignInSwift in Frameworks */,
 				B12FEEEE2F46F98200280847 /* Network in Frameworks */,
 				E292211E2E05478C00B6DC0D /* FirebaseAnalyticsWithoutAdIdSupport in Frameworks */,
 				B1BDD0C72F4D26CD00834D57 /* DesignSystem in Frameworks */,
 				D52D2E306AD846D98D4E9CDF5B15473A /* ExamKit in Frameworks */,
-				B1B0BBBC2E769F510024F230 /* GoogleSignIn in Frameworks */,
-				B115FDC92E44F1AD00805522 /* KakaoSDK in Frameworks */,
 				B18CDE662F45AD2A00CB3AB4 /* QRIZUtils in Frameworks */,
-				B115FDCB2E44F1AD00805522 /* KakaoSDKAuth in Frameworks */,
 				B13BC2F22F56E3B500E99FA2 /* Auth in Frameworks */,
 				B13BC73E2F58273500E99FA2 /* Conceptbook in Frameworks */,
 			);
