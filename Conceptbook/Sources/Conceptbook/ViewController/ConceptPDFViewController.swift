@@ -15,7 +15,7 @@ final class ConceptPDFViewController: UIViewController {
 
     // MARK: - Properties
 
-    let rootView: ConceptPDFMainView
+    private let rootView: ConceptPDFMainView
     private let conceptPDFVM: ConceptPDFViewModel
     private var cancellables = Set<AnyCancellable>()
     private let inputSubject = PassthroughSubject<ConceptPDFViewModel.Input, Never>()
@@ -48,6 +48,14 @@ final class ConceptPDFViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         let appearance = UINavigationBar.defaultBackButtonStyle(systemImageName: "xmark")
+        navigationController?.navigationBar.standardAppearance = appearance
+        navigationController?.navigationBar.scrollEdgeAppearance = appearance
+        navigationController?.navigationBar.compactAppearance = appearance
+    }
+
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        let appearance = UINavigationBar.defaultBackButtonStyle()
         navigationController?.navigationBar.standardAppearance = appearance
         navigationController?.navigationBar.scrollEdgeAppearance = appearance
         navigationController?.navigationBar.compactAppearance = appearance

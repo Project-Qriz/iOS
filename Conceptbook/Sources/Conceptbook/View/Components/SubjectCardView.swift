@@ -61,7 +61,7 @@ final class SubjectCardView: UIView {
         self.backgroundColor = .white
     }
 
-    func configure(image: UIImage?, title: String, itemCount: Int) {
+    private func configure(image: UIImage?, title: String, itemCount: Int) {
         imageView.image = image
         titleLabel.text = title
         itemCountLabel.text = "\(itemCount)항목"

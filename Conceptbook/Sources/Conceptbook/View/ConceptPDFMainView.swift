@@ -58,7 +58,7 @@ final class ConceptPDFMainView: UIView {
     // MARK: - Functions
 
     private func setupUI() {
-        self.backgroundColor = .white
+        backgroundColor = .white
     }
 
     func configure(subject: String, chapter: String) {

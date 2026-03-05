@@ -14,7 +14,7 @@ final class ConceptBookViewController: UIViewController {
 
     // MARK: - Properties
     weak var coordinator: ConceptBookCoordinator?
-    let rootView: ConceptBookMainView
+    private let rootView: ConceptBookMainView
     private let conceptBookVM: ConceptBookViewModel
     private let inputSubject = PassthroughSubject<ConceptBookViewModel.Input, Never>()
     private var cancellables = Set<AnyCancellable>()

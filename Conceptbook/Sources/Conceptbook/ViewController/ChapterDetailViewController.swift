@@ -14,7 +14,7 @@ final class ChapterDetailViewController: UIViewController {
     // MARK: - Properties
 
     weak var coordinator: ConceptBookCoordinator?
-    let rootView: ChapterDetailMainView
+    private let rootView: ChapterDetailMainView
     private let chapterDetailVM: ChapterDetailViewModel
     private let inputSubject = PassthroughSubject<ChapterDetailViewModel.Input, Never>()
     private var cancellables = Set<AnyCancellable>()

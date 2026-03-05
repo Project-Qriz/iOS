@@ -79,7 +79,7 @@ final class ConceptBookMainView: UIView {
     // MARK: - Functions
 
     private func setupUI() {
-        self.backgroundColor = .white
+        backgroundColor = .white
     }
 
     func configure(with subjects: [QRIZUtils.Subject]) {
