@@ -9,6 +9,7 @@ import UIKit
 import QRIZUtils
 import Network
 import Auth
+import Account
 
 @MainActor
 protocol AppCoordinator: Coordinator {
