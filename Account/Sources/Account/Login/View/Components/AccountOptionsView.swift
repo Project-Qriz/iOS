@@ -42,10 +42,9 @@ final class AccountOptionsView: UIView {
         stackView.spacing = 12
         return stackView
     }()
-    
-    
-    // MARK: - initialize
-    
+
+    // MARK: - Initialization
+
     override init(frame: CGRect) {
         super.init(frame: frame)
         addSubviews()

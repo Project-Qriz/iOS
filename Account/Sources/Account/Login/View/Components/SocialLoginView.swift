@@ -67,8 +67,7 @@ final class SocialLoginView: UIView {
         stackView.spacing = 20
         return stackView
     }()
-    
-    
+
     // MARK: - Initialization
 
     override init(frame: CGRect) {

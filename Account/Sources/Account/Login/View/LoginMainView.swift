@@ -22,8 +22,7 @@ final class LoginMainView: UIView {
         static let socialLoginViewTopOffset: CGFloat = 64.0
         static let socialLoginViewHorizontalMargin: CGFloat = 18.0
     }
-    
-    
+
     // MARK: - Properties
     
     private let loginLogoView = LoginLogoView()
@@ -31,8 +30,8 @@ final class LoginMainView: UIView {
     let accountOptionsView = AccountOptionsView()
     let socialLoginView = SocialLoginView()
     
-    // MARK: - initialize
-    
+    // MARK: - Initialization
+
     override init(frame: CGRect) {
         super.init(frame: frame)
         addSubviews()

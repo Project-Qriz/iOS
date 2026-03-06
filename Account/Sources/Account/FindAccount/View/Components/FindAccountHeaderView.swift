@@ -33,8 +33,8 @@ final class FindAccountHeaderView: UIView {
         return label
     }()
     
-    // MARK: - initialize
-    
+    // MARK: - Initialization
+
     override init(frame: CGRect) {
         super.init(frame: frame)
         addSubviews()
