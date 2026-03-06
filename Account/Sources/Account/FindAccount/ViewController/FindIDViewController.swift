@@ -89,7 +89,7 @@ final class FindIDViewController: UIViewController {
         output
             .receive(on: DispatchQueue.main)
             .sink { [weak self] output in
-                guard let self = self else { return }
+                guard let self else { return }
                 switch output {
                 case .isEmailValid(let isValid):
                     self.rootView.findIDInputView.updateErrorState(isValid: isValid)
@@ -123,7 +123,7 @@ final class FindIDViewController: UIViewController {
         oneButtonAlert.confirmButtonTappedPublisher
             .sink { [weak self] _ in
                 oneButtonAlert.dismiss(animated: true) {
-                    guard let self = self else { return }
+                    guard let self else { return }
                     self.coordinator?.popToRootViewController()
                 }
             }

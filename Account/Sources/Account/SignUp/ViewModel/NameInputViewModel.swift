@@ -29,7 +29,7 @@ final class NameInputViewModel {
     func transform(input: AnyPublisher<Input, Never>) -> AnyPublisher<Output, Never> {
         input
             .sink { [weak self] event in
-                guard let self = self else { return }
+                guard let self else { return }
                 switch event {
                 case .nameTextChanged(let text):
                     self.validateName(text)

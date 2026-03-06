@@ -100,7 +100,7 @@ final class FindPasswordVerificationViewController: UIViewController {
         output
             .receive(on: DispatchQueue.main)
             .sink { [weak self] output in
-                guard let self = self else { return }
+                guard let self else { return }
                 switch output {
                 case .isEmailValid(let isValid):
                     self.rootView.verificationInputView.updateErrorState(for: .email, isValid: isValid)

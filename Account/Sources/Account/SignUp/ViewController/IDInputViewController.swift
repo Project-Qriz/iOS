@@ -91,7 +91,7 @@ final class IDInputViewController: UIViewController {
         output
             .receive(on: DispatchQueue.main)
             .sink { [weak self] output in
-                guard let self = self else { return }
+                guard let self else { return }
                 switch output {
                 case .isIDValid(let isValid):
                     self.rootView.idInputView.updateErrorState(isValid: isValid)

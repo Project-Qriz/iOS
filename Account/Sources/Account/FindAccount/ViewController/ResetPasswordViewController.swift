@@ -92,7 +92,7 @@ final class ResetPasswordViewController: UIViewController {
         output
             .receive(on: DispatchQueue.main)
             .sink { [weak self] output in
-                guard let self = self else { return }
+                guard let self else { return }
                 switch output {
                 case .characterRequirementChanged(let isValid):
                     self.rootView.passwordInputView.updateCharacterRequirementUI(isValid)
@@ -134,7 +134,7 @@ final class ResetPasswordViewController: UIViewController {
         oneButtonAlert.confirmButtonTappedPublisher
             .sink { [weak self] _ in
                 oneButtonAlert.dismiss(animated: true) {
-                    guard let self = self else { return }
+                    guard let self else { return }
                     self.coordinator?.popToRootViewController()
                 }
             }
