@@ -23,13 +23,13 @@ final class ResetPasswordViewModel {
     private var cancellables = Set<AnyCancellable>()
     private let logger = Logger(subsystem: Bundle.main.bundleIdentifier ?? "com.ksh.qriz", category: "ResetPasswordViewModel")
     
-    // MARK: - Initialize
+    // MARK: - Initialization
     
     init(accountRecoveryService: AccountRecoveryService) {
         self.accountRecoveryService = accountRecoveryService
     }
     
-    // MARK: - Functions
+    // MARK: - Methods
     
     func transform(input: AnyPublisher<Input, Never>) -> AnyPublisher<Output, Never> {
         input
@@ -68,14 +68,14 @@ final class ResetPasswordViewModel {
         outputSubject.send(.lengthRequirementChanged(lengthRequirement))
         
         let canReset = passwordValid && (confirmPasswordDidEdit ? (confirmPassword == password) : false)
-        outputSubject.send(.updateSignUpButtonState(canReset))
+        outputSubject.send(.updateButtonState(canReset))
     }
     
     private func resetPassword() {
         Task {
             do {
-                let _ = try await accountRecoveryService.resetPassword(password: confirmPassword)
-                outputSubject.send(.navigateToAlertView)
+                _ = try await accountRecoveryService.resetPassword(password: confirmPassword)
+                outputSubject.send(.showResetCompleteAlert)
             } catch {
                 if let networkError = error as? NetworkError {
                     outputSubject.send(.showErrorAlert(networkError.errorMessage))
@@ -100,8 +100,8 @@ extension ResetPasswordViewModel {
         case characterRequirementChanged(Bool)
         case lengthRequirementChanged(Bool)
         case confirmValidChanged(Bool)
-        case updateSignUpButtonState(Bool)
+        case updateButtonState(Bool)
         case showErrorAlert(String)
-        case navigateToAlertView
+        case showResetCompleteAlert
     }
 }

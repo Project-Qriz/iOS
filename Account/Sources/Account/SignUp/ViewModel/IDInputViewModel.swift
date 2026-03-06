@@ -23,7 +23,7 @@ final class IDInputViewModel {
     private var cancellables = Set<AnyCancellable>()
     private let logger = Logger(subsystem: Bundle.main.bundleIdentifier ?? "com.ksh.qriz", category: "IDInputViewModel")
     
-    // MARK: - Initialize
+    // MARK: - Initialization
     
     init(
         signUpFlowViewModel: SignUpFlowViewModel,
@@ -33,7 +33,7 @@ final class IDInputViewModel {
         self.signUpService = signUpService
     }
     
-    // MARK: - Functions
+    // MARK: - Methods
     
     func transform(input: AnyPublisher<Input, Never>) -> AnyPublisher<Output, Never> {
         input
@@ -47,7 +47,7 @@ final class IDInputViewModel {
                 case .duplicateCheckButtonTapped:
                     self.checkUsernameDuplicateAPI(self.id)
                     
-                case .NextButtonTapped:
+                case .nextButtonTapped:
                     self.signUpFlowViewModel.updateID(id)
                     self.outputSubject.send(.navigateToPasswordInputView)
                 }
@@ -97,7 +97,7 @@ extension IDInputViewModel {
     enum Input {
         case idTextChanged(String)
         case duplicateCheckButtonTapped
-        case NextButtonTapped
+        case nextButtonTapped
     }
     
     enum Output {

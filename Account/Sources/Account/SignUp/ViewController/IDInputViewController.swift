@@ -27,7 +27,7 @@ final class IDInputViewController: UIViewController {
     private var cancellables = Set<AnyCancellable>()
     nonisolated(unsafe) private var keyboardCancellable: AnyCancellable?
     
-    // MARK: - Initialize
+    // MARK: - Initialization
     
     init(idInputVM: IDInputViewModel) {
         self.rootView = IDInputMainView()
@@ -67,7 +67,7 @@ final class IDInputViewController: UIViewController {
         keyboardCancellable?.cancel()
     }
     
-    // MARK: - Functions
+    // MARK: - Methods
     
     private func bind() {
         let idTextChanged = rootView.idInputView.textChangedPublisher
@@ -77,7 +77,7 @@ final class IDInputViewController: UIViewController {
             .map { IDInputViewModel.Input.duplicateCheckButtonTapped }
         
         let nextButtonTapped = rootView.signUpFooterView.buttonTappedPublisher
-            .map { IDInputViewModel.Input.NextButtonTapped }
+            .map { IDInputViewModel.Input.nextButtonTapped }
         
         let input = Publishers.Merge3(
             idTextChanged,

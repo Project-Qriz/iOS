@@ -70,7 +70,7 @@ final class ResetPasswordViewController: UIViewController {
         keyboardCancellable?.cancel()
     }
     
-    // MARK: - Functions
+    // MARK: - Methods
     
     private func bind() {
         let passwordTextChanged = rootView.passwordInputView.passwordTextChangedPublisher
@@ -103,13 +103,13 @@ final class ResetPasswordViewController: UIViewController {
                 case .confirmValidChanged(let isValid):
                     self.rootView.passwordInputView.updateConfirmPasswordUI(isValid)
                     
-                case .updateSignUpButtonState(let canSignUp):
+                case .updateButtonState(let canSignUp):
                     self.rootView.signUpFooterView.updateButtonState(isValid: canSignUp)
                     
                 case .showErrorAlert(let errorMessage):
                     self.showOneButtonAlert(with: errorMessage, storingIn: &cancellables)
                     
-                case .navigateToAlertView:
+                case .showResetCompleteAlert:
                     self.showOneButtonAlert()
                 }
             }
