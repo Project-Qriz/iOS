@@ -71,9 +71,7 @@ final class SingleInputView: UIView {
     }
     
     func focusInitialField() {
-        DispatchQueue.main.async { [weak self] in
-            self?.textField.becomeFirstResponder()
-        }
+        textField.becomeFirstResponder()
     }
 }
 

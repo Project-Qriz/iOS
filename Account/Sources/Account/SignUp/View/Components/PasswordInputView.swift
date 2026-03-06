@@ -115,9 +115,7 @@ final class PasswordInputView: UIView {
     }
     
     func focusInitialField() {
-        DispatchQueue.main.async { [weak self] in
-            self?.passwordTextField.becomeFirstResponder()
-        }
+        passwordTextField.becomeFirstResponder()
     }
     
     func updateCharacterRequirementUI(_ isValid: Bool) {
