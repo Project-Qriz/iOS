@@ -45,7 +45,7 @@ final class IDInputViewModel {
                     self.validateID(newId)
                     
                 case .duplicateCheckButtonTapped:
-                    self.checkUsernameDuplicateAPI(self.id)
+                    self.checkUsernameDuplicate(self.id)
                     
                 case .nextButtonTapped:
                     self.signUpFlowViewModel.updateID(id)
@@ -62,7 +62,7 @@ final class IDInputViewModel {
         outputSubject.send(.isIDValid(isValid))
     }
     
-    private func checkUsernameDuplicateAPI(_ id: String) {
+    private func checkUsernameDuplicate(_ id: String) {
         Task {
             do {
                 let response = try await signUpService.checkUsernameDuplication(username: id)
@@ -78,15 +78,15 @@ final class IDInputViewModel {
                             outputSubject.send(.updateNextButtonState(false))
                         } else {
                             outputSubject.send(.showErrorAlert(title: networkError.errorMessage))
-                            logger.error("Client error in checkUsernameDuplicateAPI: \(networkError.debugDescription, privacy: .public)")
+                            logger.error("Client error in checkUsernameDuplicate: \(networkError.debugDescription, privacy: .public)")
                         }
                     default:
                         outputSubject.send(.showErrorAlert(title: networkError.errorMessage))
-                        
+
                     }
                 } else {
                     outputSubject.send(.showErrorAlert(title: "아이디 중복 확인에 실패했습니다."))
-                    logger.error("Unhandled error in checkUsernameDuplicateAPI: \(String(describing: error), privacy: .public)")
+                    logger.error("Unhandled error in checkUsernameDuplicate: \(String(describing: error), privacy: .public)")
                 }
             }
         }

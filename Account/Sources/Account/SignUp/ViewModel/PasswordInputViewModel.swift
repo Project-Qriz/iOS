@@ -44,7 +44,7 @@ final class PasswordInputViewModel {
                     
                 case .buttonTapped:
                     self.signUpFlowViewModel.updatePassword(self.confirmPassword)
-                    self.outputSubject.send(.showSignUpCompleteAlert)
+                    self.outputSubject.send(.showTermsAgreementModal)
                 }
             }
             .store(in: &cancellables)
@@ -66,7 +66,7 @@ final class PasswordInputViewModel {
         outputSubject.send(.lengthRequirementChanged(lengthRequirement))
         
         let canSignUp = passwordValid && (confirmPasswordDidEdit ? (confirmPassword == password) : false)
-        outputSubject.send(.updateSignUpButtonState(canSignUp))
+        outputSubject.send(.updateButtonState(canSignUp))
     }
 }
 
@@ -81,7 +81,7 @@ extension PasswordInputViewModel {
         case characterRequirementChanged(Bool)
         case lengthRequirementChanged(Bool)
         case confirmValidChanged(Bool)
-        case updateSignUpButtonState(Bool)
-        case showSignUpCompleteAlert
+        case updateButtonState(Bool)
+        case showTermsAgreementModal
     }
 }

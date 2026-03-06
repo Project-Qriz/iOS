@@ -39,8 +39,7 @@ final class PasswordInputViewController: UIViewController {
     }
     
     // MARK: - Lifecycle
-    
-    
+
     override func loadView() {
         self.view = rootView
     }
@@ -101,10 +100,10 @@ final class PasswordInputViewController: UIViewController {
                 case .confirmValidChanged(let isValid):
                     self.rootView.passwordInputView.updateConfirmPasswordUI(isValid)
                     
-                case .updateSignUpButtonState(let canSignUp):
+                case .updateButtonState(let canSignUp):
                     self.rootView.signUpFooterView.updateButtonState(isValid: canSignUp)
-                    
-                case .showSignUpCompleteAlert:
+
+                case .showTermsAgreementModal:
                     self.coordinator?.showTermsAgreementModal()
                 }
             }
