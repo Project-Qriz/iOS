@@ -7,6 +7,8 @@
 
 import Foundation
 import Combine
+import os
+import Network
 import QRIZUtils
 
 @MainActor
@@ -19,25 +21,27 @@ class EmailVerificationViewModel {
     let outputSubject: PassthroughSubject<Output, Never> = .init()
     private var cancellables = Set<AnyCancellable>()
     let countdownTimer: CountdownTimer
+    let logger: Logger
     
-    // MARK: - Initialize
+    // MARK: - Initialization
     
-    init(totalTime: Int = 180) {
+    init(logCategory: String, totalTime: Int = 180) {
+        self.logger = Logger(subsystem: Bundle.main.bundleIdentifier ?? "com.ksh.qriz", category: logCategory)
         self.countdownTimer = CountdownTimer(totalTime: totalTime)
         
         countdownTimer.remainingTimePublisher
             .sink { [weak self] remainingTime in
                 guard let self else { return }
-                self.outputSubject.send(.updateRemainingTime(remainingTime))
+                outputSubject.send(.updateRemainingTime(remainingTime))
                 
                 if remainingTime <= 0 {
-                    self.outputSubject.send(.timerExpired)
+                    outputSubject.send(.timerExpired)
                 }
             }
             .store(in: &cancellables)
     }
     
-    // MARK: - Functions
+    // MARK: - Methods
     
     func transform(input: AnyPublisher<Input, Never>) -> AnyPublisher<Output, Never> {
         input
@@ -48,7 +52,7 @@ class EmailVerificationViewModel {
                     self.validateEmail(email)
                     
                 case .sendButtonTapped:
-                    guard let email = email else { return }
+                    guard let email = self.email else { return }
                     self.sendVerificationCode(email: email)
                     
                 case .codeTextChanged(let authNumber):
@@ -56,13 +60,13 @@ class EmailVerificationViewModel {
                     
                 case .confirmButtonTapped:
                     guard
-                        let email = email,
-                        let authNumber = authNumber
+                        let email = self.email,
+                        let authNumber = self.authNumber
                     else { return }
                     self.verifyCode(email: email, authNumber: authNumber)
                     
                 case .nextButtonTapped:
-                    self.outputSubject.send(.navigateToNextView)
+                    outputSubject.send(.navigateToNextView)
                 }
             }
             .store(in: &cancellables)
@@ -82,14 +86,51 @@ class EmailVerificationViewModel {
         outputSubject.send(.isCodeValid(isValid))
     }
     
-    // 하위 클래스에서 반드시 구현하도록 강제
+    // MARK: - Abstract
+    
     func sendVerificationCode(email: String) {
-        fatalError("sendVerificationCode(_:) must be implemented in subclass")
+        fatalError("sendVerificationCode(_:) must be overridden")
     }
     
-    // 하위 클래스에서 반드시 구현하도록 강제
     func verifyCode(email: String, authNumber: String) {
-        fatalError("verifyCode() must be implemented in subclass")
+        fatalError("verifyCode(_:_:) must be overridden")
+    }
+    
+    // MARK: - Shared Error Handling
+    
+    func handleSendVerificationError(_ error: Error) {
+        if let networkError = error as? NetworkError {
+            switch networkError {
+            case .clientError(_, let serverCode, let message):
+                if serverCode == -1 {
+                    outputSubject.send(.emailVerificationDuplicate(message))
+                } else {
+                    outputSubject.send(.showErrorAlert(title: "이메일을 올바르게 입력해주세요."))
+                    logger.error("Network error alert in sendVerificationCode: \(networkError.debugDescription, privacy: .public)")
+                }
+            default:
+                outputSubject.send(.showErrorAlert(title: networkError.errorMessage))
+                logger.error("Unhandled network error in sendVerificationCode: \(networkError.debugDescription, privacy: .public)")
+            }
+        } else {
+            outputSubject.send(.showErrorAlert(title: "이메일 인증에 실패했습니다."))
+            logger.error("Unhandled error in sendVerificationCode: \(String(describing: error), privacy: .public)")
+        }
+    }
+    
+    func handleVerifyCodeError(_ error: Error) {
+        if let networkError = error as? NetworkError {
+            switch networkError {
+            case .clientError(let statusCode, _, let message) where statusCode == 400:
+                outputSubject.send(.codeVerificationFailure(message))
+            default:
+                outputSubject.send(.showErrorAlert(title: networkError.errorMessage))
+            }
+            logger.error("NetworkError in verifyCode: \(networkError.debugDescription, privacy: .public)")
+        } else {
+            outputSubject.send(.showErrorAlert(title: "인증번호 검증에 실패했습니다."))
+            logger.error("Unhandled error in verifyCode: \(String(describing: error), privacy: .public)")
+        }
     }
 }
 
