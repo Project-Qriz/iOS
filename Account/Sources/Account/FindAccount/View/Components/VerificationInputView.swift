@@ -159,7 +159,7 @@ final class VerificationInputView: UIView {
         return stackView
     }()
     
-    // MARK: - Initialize
+    // MARK: - Initialization
     
     override init(frame: CGRect) {
         super.init(frame: .zero)
@@ -173,7 +173,7 @@ final class VerificationInputView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    // MARK: - Functions
+    // MARK: - Methods
     
     private func setupUI() {
         self.backgroundColor = .white

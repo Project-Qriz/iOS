@@ -52,7 +52,7 @@ final class TermsAgreementModalMainView: UIView {
     
     let footerView = SignUpFooterView()
     
-    // MARK: - Initialize
+    // MARK: - Initialization
     
     init() {
         super.init(frame: .zero)
@@ -65,7 +65,7 @@ final class TermsAgreementModalMainView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    // MARK: - Functions
+    // MARK: - Methods
     
     private func setupUI() {
         self.backgroundColor = .white

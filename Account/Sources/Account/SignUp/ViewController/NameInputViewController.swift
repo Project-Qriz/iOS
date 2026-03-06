@@ -26,7 +26,7 @@ final class NameInputViewController: UIViewController {
     private var cancellables = Set<AnyCancellable>()
     nonisolated(unsafe) private var keyboardCancellable: AnyCancellable?
     
-    // MARK: - Initialize
+    // MARK: - Initialization
     
     init(nameInputVM: NameInputViewModel) {
         self.rootView = NameInputMainView()
@@ -66,7 +66,7 @@ final class NameInputViewController: UIViewController {
         keyboardCancellable?.cancel()
     }
     
-    // MARK: - Functions
+    // MARK: - Methods
     
     private func bind() {
         let nameTextChanged = rootView.singleInputView.textChangedPublisher

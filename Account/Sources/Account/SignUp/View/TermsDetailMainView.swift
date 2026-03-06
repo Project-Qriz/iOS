@@ -59,7 +59,7 @@ final class TermsDetailMainView: UIView {
         return pdfView
     }()
     
-    // MARK: - Initialize
+    // MARK: - Initialization
     
     init() {
         super.init(frame: .zero)
@@ -72,7 +72,7 @@ final class TermsDetailMainView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    // MARK: - Functions
+    // MARK: - Methods
     
     private func setupUI() {
         self.backgroundColor = .white

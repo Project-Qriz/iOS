@@ -69,7 +69,7 @@ final class FindIDViewController: UIViewController {
         keyboardCancellable?.cancel()
     }
     
-    // MARK: - Functions
+    // MARK: - Methods
     
     private func bind() {
         let emailTextChanged = rootView.findIDInputView.textChangedPublisher

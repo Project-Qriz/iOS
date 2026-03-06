@@ -27,7 +27,7 @@ final class LoginViewModel {
     private var id: String = ""
     private var password: String = ""
     
-    // MARK: - Initialize
+    // MARK: - Initialization
     
     init(
         loginService: LoginService,
@@ -39,7 +39,7 @@ final class LoginViewModel {
         self.socialLoginService = socialLoginService
     }
     
-    // MARK: - Functions
+    // MARK: - Methods
     
     func transform(input: AnyPublisher<Input, Never>) -> AnyPublisher<Output, Never> {
         input

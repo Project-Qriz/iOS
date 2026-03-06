@@ -26,7 +26,7 @@ final class PasswordInputViewController: UIViewController {
     private var cancellables = Set<AnyCancellable>()
     nonisolated(unsafe) private var keyboardCancellable: AnyCancellable?
     
-    // MARK: - Initialize
+    // MARK: - Initialization
     
     init(passwordInputVM: PasswordInputViewModel) {
         self.rootView = PasswordInputMainView()
@@ -67,7 +67,7 @@ final class PasswordInputViewController: UIViewController {
         keyboardCancellable?.cancel()
     }
     
-    // MARK: - Functions
+    // MARK: - Methods
     
     private func bind() {
         let passwordTextChanged = rootView.passwordInputView.passwordTextChangedPublisher

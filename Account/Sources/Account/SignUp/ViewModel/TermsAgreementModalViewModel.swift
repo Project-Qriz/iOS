@@ -38,13 +38,13 @@ final class TermsAgreementModalViewModel {
         .init(title: "개인정보 처리방침", pdfName: "PrivacyPolicy", isAgreed: false)
     ]
     
-    // MARK: - Initialize
+    // MARK: - Initialization
     
     init(signUpFlowViewModel: SignUpFlowViewModel) {
         self.signUpFlowViewModel = signUpFlowViewModel
     }
     
-    // MARK: - Functions
+    // MARK: - Methods
     
     func transform(input: AnyPublisher<Input, Never>) -> AnyPublisher<Output, Never> {
         input

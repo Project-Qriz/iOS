@@ -18,7 +18,7 @@ final class LoginViewController: UIViewController {
     private let loginVM: LoginViewModel
     private var cancellables = Set<AnyCancellable>()
     
-    // MARK: - Initialize
+    // MARK: - Initialization
     
     init(loginVM: LoginViewModel) {
         self.loginVM = loginVM
@@ -42,7 +42,7 @@ final class LoginViewController: UIViewController {
         self.view = rootView
     }
     
-    // MARK: - Functions
+    // MARK: - Methods
     
     private func bind() {
         let idInput = rootView.loginInputView.idTextPublisher

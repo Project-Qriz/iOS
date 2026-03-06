@@ -66,7 +66,7 @@ final class FindIDInputView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    // MARK: - Functions
+    // MARK: - Methods
     
     private func setupUI() {
         self.backgroundColor = .white

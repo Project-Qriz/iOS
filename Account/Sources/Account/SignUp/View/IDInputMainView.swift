@@ -46,7 +46,7 @@ final class IDInputMainView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    // MARK: - Functions
+    // MARK: - Methods
     
     private func setupUI(
         title: String,

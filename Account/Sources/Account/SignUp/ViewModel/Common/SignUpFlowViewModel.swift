@@ -20,13 +20,13 @@ final class SignUpFlowViewModel {
     private var id: String = ""
     private var password: String = ""
     
-    // MARK: - Initialize
+    // MARK: - Initialization
     
     init(signUpService: SignUpService) {
         self.signUpService = signUpService
     }
     
-    // MARK: - Functions
+    // MARK: - Methods
     
     func updateEmail(_ newEmail: String) {
         self.email = newEmail

@@ -19,13 +19,13 @@ public final class TermsDetailViewModel {
     private var cancellables = Set<AnyCancellable>()
     private let logger = Logger(subsystem: Bundle.main.bundleIdentifier ?? "com.ksh.qriz", category: "TermsDetailVM")
     
-    // MARK: - Initialize
+    // MARK: - Initialization
     
     public init(termItem: TermItem) {
         self.term = termItem
     }
     
-    // MARK: - Functions
+    // MARK: - Methods
     
     func transform(input: AnyPublisher<Input, Never>) -> AnyPublisher<Output, Never> {
         input

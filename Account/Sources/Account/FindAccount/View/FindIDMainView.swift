@@ -29,7 +29,7 @@ final class FindIDMainView: UIView {
     let findIDInputView = FindIDInputView()
     let signUpFooterView = SignUpFooterView()
     
-    // MARK: - Initialize
+    // MARK: - Initialization
     
     init() {
         super.init(frame: .zero)
@@ -42,7 +42,7 @@ final class FindIDMainView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    // MARK: - Functions
+    // MARK: - Methods
     
     private func setupUI() {
         self.backgroundColor = .white

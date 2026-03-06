@@ -70,7 +70,7 @@ final class TermsAgreementItemView: UIView {
         return imageView
     }()
     
-    // MARK: - Initialize
+    // MARK: - Initialization
     
     init(index: Int, title: String) {
         self.index = index
@@ -86,7 +86,7 @@ final class TermsAgreementItemView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    // MARK: - Functions
+    // MARK: - Methods
     
     private func setupUI() {
         self.backgroundColor = .white

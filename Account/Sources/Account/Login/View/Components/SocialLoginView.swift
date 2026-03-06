@@ -85,7 +85,7 @@ final class SocialLoginView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    // MARK: - Functions
+    // MARK: - Methods
     
     private func buildSeparator() -> UIView {
         let separator = UIView()

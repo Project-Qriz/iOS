@@ -28,7 +28,7 @@ final class SignUpVerificationViewController: UIViewController {
     private var cancellables = Set<AnyCancellable>()
     nonisolated(unsafe) private var keyboardCancellable: AnyCancellable?
     
-    // MARK: - Initialize
+    // MARK: - Initialization
     
     init(signUpVerificationVM: SignUpVerificationViewModel) {
         self.rootView = SignUpVerificationMainView()
@@ -64,7 +64,7 @@ final class SignUpVerificationViewController: UIViewController {
         }
     }
     
-    // MARK: - Functions
+    // MARK: - Methods
     
     private func bind() {
         let emailTextChanged = rootView.verificationInputView.emailTextChangedPublisher

@@ -17,7 +17,7 @@ final class TermsAgreementModalViewController: UIViewController {
     private let viewModel: TermsAgreementModalViewModel
     private var cancellables = Set<AnyCancellable>()
     
-    // MARK: - Initialize
+    // MARK: - Initialization
     
     init(viewModel: TermsAgreementModalViewModel) {
         self.rootView = TermsAgreementModalMainView()
@@ -40,7 +40,7 @@ final class TermsAgreementModalViewController: UIViewController {
         self.view = rootView
     }
     
-    // MARK: - Functions
+    // MARK: - Methods
     
     private func bind() {
         let dismissButtonTapped = rootView.headerView.dismissButtonTappedPublisher.map { TermsAgreementModalViewModel.Input.dismissButtonTapped }

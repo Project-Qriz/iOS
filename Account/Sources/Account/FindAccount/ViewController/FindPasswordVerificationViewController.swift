@@ -70,7 +70,7 @@ final class FindPasswordVerificationViewController: UIViewController {
         keyboardCancellable?.cancel()
     }
     
-    // MARK: - Functions
+    // MARK: - Methods
     
     private func bind() {
         let emailTextChanged = rootView.verificationInputView.emailTextChangedPublisher

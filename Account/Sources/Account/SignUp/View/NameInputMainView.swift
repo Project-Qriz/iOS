@@ -29,7 +29,7 @@ final class NameInputMainView: UIView {
     let singleInputView = SingleInputView()
     let signUpFooterView = SignUpFooterView()
     
-    // MARK: - Initialize
+    // MARK: - Initialization
     
     init() {
         super.init(frame: .zero)
@@ -42,7 +42,7 @@ final class NameInputMainView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    // MARK: - Functions
+    // MARK: - Methods
     
     private func setupUI() {
         self.backgroundColor = .white

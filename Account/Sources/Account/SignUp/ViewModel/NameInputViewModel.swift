@@ -18,13 +18,13 @@ final class NameInputViewModel {
     private let outputSubject: PassthroughSubject<Output, Never> = .init()
     private var cancellables = Set<AnyCancellable>()
     
-    // MARK: - Initialize
+    // MARK: - Initialization
     
     init(signUpFlowViewModel: SignUpFlowViewModel) {
         self.signUpFlowViewModel = signUpFlowViewModel
     }
     
-    // MARK: - Functions
+    // MARK: - Methods
     
     func transform(input: AnyPublisher<Input, Never>) -> AnyPublisher<Output, Never> {
         input

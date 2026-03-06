@@ -25,7 +25,7 @@ public final class TermsDetailViewController: UIViewController {
     private let inputSubject = PassthroughSubject<TermsDetailViewModel.Input, Never>()
     private var cancellables = Set<AnyCancellable>()
 
-    // MARK: - Initialize
+    // MARK: - Initialization
 
     public init(viewModel: TermsDetailViewModel) {
         self.rootView = TermsDetailMainView()
@@ -49,7 +49,7 @@ public final class TermsDetailViewController: UIViewController {
         self.view = rootView
     }
     
-    // MARK: - Functions
+    // MARK: - Methods
     
     private func bind() {
         let dismissButtonTapped = rootView.dismissButtonTappedPublisher.map { TermsDetailViewModel.Input.dismissButtonTapped }
