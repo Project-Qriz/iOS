@@ -97,22 +97,6 @@ final class LoginInputView: UIView {
         loginButton.backgroundColor = isEnabled ? .customBlue500 : .coolNeutral200
         loginButton.setTitleColor(isEnabled ? .white : .coolNeutral500, for: .normal)
     }
-    
-    // MARK: - Actions
-    
-    private func clearButtonTapped() {
-        idTextField.text = ""
-        NotificationCenter.default.post(
-            name: UITextField.textDidChangeNotification,
-            object: idTextField
-        )
-    }
-    
-    private func showPwButtonTapped(button: UIButton) {
-        passwordTextField.isSecureTextEntry.toggle()
-        let imageName = passwordTextField.isSecureTextEntry ? UIImage.eyeIcon : UIImage.eyeSlashIcon
-        button.setImage(imageName, for: .normal)
-    }
 }
 
 // MARK: - Layout Setup

@@ -10,12 +10,6 @@ import DesignSystem
 
 final class LoginLogoView: UIView {
     
-    // MARK: - Enums
-    
-    private enum Attributes {
-        static let loginLogo: String = "loginLogo"
-    }
-    
     // MARK: - UI
     
     private let appLogoImageView: UIImageView = {
@@ -24,8 +18,8 @@ final class LoginLogoView: UIView {
         return imageView
     }()
     
-    // MARK: - initialize
-    
+    // MARK: - Initialization
+
     override init(frame: CGRect) {
         super.init(frame: frame)
         addSubviews()
