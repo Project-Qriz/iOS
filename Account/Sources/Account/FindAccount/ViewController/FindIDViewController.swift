@@ -91,14 +91,14 @@ final class FindIDViewController: UIViewController {
             .sink { [weak self] output in
                 guard let self = self else { return }
                 switch output {
-                case .isNameValid(let isValid):
+                case .isEmailValid(let isValid):
                     self.rootView.findIDInputView.updateErrorState(isValid: isValid)
                     self.rootView.signUpFooterView.updateButtonState(isValid: isValid)
-                    
+
                 case .showErrorAlert(let errorMessage):
                     self.showOneButtonAlert(with: errorMessage, storingIn: &cancellables)
-                    
-                case .navigateToAlerView:
+
+                case .showEmailSentAlert:
                     self.showOneButtonAlert()
                 }
             }

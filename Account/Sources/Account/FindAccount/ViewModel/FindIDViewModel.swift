@@ -51,14 +51,14 @@ final class FindIDViewModel {
     
     private func validateEmail(_ text: String) {
         let isValid = text.isValidEmail
-        outputSubject.send(.isNameValid(isValid))
+        outputSubject.send(.isEmailValid(isValid))
     }
     
     private func sendFindIDEmail(email: String) {
         Task {
             do {
                 _ = try await accountRecoveryService.findID(email: email)
-                outputSubject.send(.navigateToAlerView)
+                outputSubject.send(.showEmailSentAlert)
             } catch {
                 if let networkError = error as? NetworkError {
                     outputSubject.send(.showErrorAlert(networkError.errorMessage))
@@ -79,8 +79,8 @@ extension FindIDViewModel {
     }
     
     enum Output {
-        case isNameValid(Bool)
+        case isEmailValid(Bool)
         case showErrorAlert(String)
-        case navigateToAlerView
+        case showEmailSentAlert
     }
 }

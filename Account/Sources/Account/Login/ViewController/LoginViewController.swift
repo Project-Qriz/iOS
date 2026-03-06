@@ -83,8 +83,8 @@ final class LoginViewController: UIViewController {
                 case .isLoginButtonEnabled(let isEnabled):
                     self.rootView.loginInputView.setLoginButtonEnabled(isEnabled)
                     
-                case .showErrorAlert(let errorTitle, let errorDescription):
-                    self.showOneButtonAlert(with: errorTitle, for: errorDescription, storingIn: &cancellables)
+                case .showErrorAlert(let title, let description):
+                    self.showOneButtonAlert(with: title, for: description, storingIn: &cancellables)
                     
                 case .navigateToAccountAction(let accountAction):
                     switch accountAction {

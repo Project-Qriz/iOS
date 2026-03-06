@@ -101,7 +101,7 @@ final class LoginViewModel {
                 UserInfoManager.shared.update(name: user.name, userId: user.userId, email: user.email, previewTestStatus: user.previewTestStatus, provider: user.provider)
                 outputSubject.send(.loginSucceeded)
             } catch {
-                outputSubject.send(.showErrorAlert(title: "아이디 또는 비밀번호 확인", descrption: "아이디와 비밀번호를 정확하게 입력해 주세요."))
+                outputSubject.send(.showErrorAlert(title: "아이디 또는 비밀번호 확인", description: "아이디와 비밀번호를 정확하게 입력해 주세요."))
                 logger.error("Login failed: \(String(describing: error), privacy: .public)")
             }
         }
@@ -144,7 +144,7 @@ final class LoginViewModel {
             } catch let error as SocialAuthError where error == .cancelled {
                 logger.info("\(providerName) login canceled by user.")
             } catch {
-                outputSubject.send(.showErrorAlert(title: "\(providerName) 로그인 실패", descrption: "잠시 후 다시 시도해 주세요."))
+                outputSubject.send(.showErrorAlert(title: "\(providerName) 로그인 실패", description: "잠시 후 다시 시도해 주세요."))
                 logger.error("\(providerName) social login failed: \(String(describing: error), privacy: .public)")
             }
         }
@@ -163,7 +163,7 @@ extension LoginViewModel {
     
     enum Output {
         case isLoginButtonEnabled(Bool)
-        case showErrorAlert(title: String, descrption: String? = nil)
+        case showErrorAlert(title: String, description: String? = nil)
         case navigateToAccountAction(AccountAction)
         case loginSucceeded
     }
