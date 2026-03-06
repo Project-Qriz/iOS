@@ -7,7 +7,7 @@
 
 import Foundation
 
-public protocol AccountRecoveryService {
+public protocol AccountRecoveryService: Sendable {
     
     /// 아이디 찾기
     func findID(email: String) async throws -> FindIDResponse
@@ -25,12 +25,12 @@ public protocol AccountRecoveryService {
     func setResetToken(resetToken: String)
 }
 
-public final class AccountRecoveryServiceImpl: AccountRecoveryService {
-    
+public final class AccountRecoveryServiceImpl: AccountRecoveryService, Sendable {
+
     // MARK: - Properties
-    
+
     private let network: Network
-    private var resetToken: String = ""
+    nonisolated(unsafe) private var resetToken: String = ""
     
     // MARK: - Initialization
 

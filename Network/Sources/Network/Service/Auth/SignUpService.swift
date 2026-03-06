@@ -7,7 +7,7 @@
 
 import Foundation
 
-public protocol SignUpService {
+public protocol SignUpService: Sendable {
     
     /// 이메일 인증번호 전송 및 중복 확인
     func sendEmail(_ email: String) async throws -> EmailSendResponse
@@ -27,7 +27,7 @@ public protocol SignUpService {
     ) async throws -> JoinResponse
 }
 
-public final class SignUpServiceImpl: SignUpService {
+public final class SignUpServiceImpl: SignUpService, Sendable {
     
     // MARK: - Properties
     

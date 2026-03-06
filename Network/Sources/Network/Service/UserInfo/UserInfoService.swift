@@ -8,11 +8,11 @@
 import Foundation
 import QRIZUtils
 
-public protocol UserInfoService {
+public protocol UserInfoService: Sendable {
     func getUserInfo() async throws -> UserInfoResponse
 }
 
-public final class UserInfoServiceImpl: UserInfoService {
+public final class UserInfoServiceImpl: UserInfoService, Sendable {
     
     private let network: Network
     private let keychainManager: KeychainManager

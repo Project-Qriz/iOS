@@ -7,12 +7,12 @@
 
 import Foundation
 
-public protocol LoginService {
+public protocol LoginService: Sendable {
     /// 로그인
     func login(id: String, password: String) async throws -> LoginResponse
 }
 
-public final class LoginServiceImpl: LoginService {
+public final class LoginServiceImpl: LoginService, Sendable {
     
     // MARK: - Properties
     
