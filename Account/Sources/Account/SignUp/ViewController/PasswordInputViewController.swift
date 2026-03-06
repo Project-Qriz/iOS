@@ -11,12 +11,6 @@ import Combine
 
 final class PasswordInputViewController: UIViewController {
     
-    // MARK: - Enums
-    
-    private enum Attributes {
-        static let navigationTitle: String = "회원가입"
-    }
-    
     // MARK: - Properties
     
     weak var coordinator: SignUpCoordinator?
@@ -46,7 +40,7 @@ final class PasswordInputViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        setNavigationBarTitle(title: Attributes.navigationTitle, textColor: .coolNeutral800)
+        setNavigationBarTitle(title: "회원가입", textColor: .coolNeutral800)
         bind()
         observe()
     }

@@ -20,10 +20,6 @@ final class TermsAgreementModalMainView: UIView {
         static let horizontalMargin: CGFloat = 32.0
     }
     
-    private enum Attributes {
-        static let footerTitle: String = "가입하기"
-    }
-    
     // MARK: - Properties
     
     private let checkmarkTapSubject   = PassthroughSubject<Int, Never>()
@@ -69,7 +65,7 @@ final class TermsAgreementModalMainView: UIView {
     
     private func setupUI() {
         self.backgroundColor = .white
-        footerView.configure(buttonTitle: Attributes.footerTitle)
+        footerView.configure(buttonTitle: "가입하기")
         footerView.updateButtonState(isValid: false)
     }
     

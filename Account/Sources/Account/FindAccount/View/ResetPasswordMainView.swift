@@ -19,10 +19,6 @@ final class ResetPasswordMainView: UIView {
         static let signUpFooterViewBottomOffset: CGFloat = -16.0
     }
     
-    private enum Attributes {
-        static let buttonTitle: String = "변경하기"
-    }
-    
     // MARK: - Properties
     
     private let findAccountHeaderView = FindAccountHeaderView()
@@ -50,7 +46,7 @@ final class ResetPasswordMainView: UIView {
             title: FindAccountType.resetPassword.headerTitle,
             description: NSAttributedString(text: FindAccountType.resetPassword.headerDescription, lineSpacing: 8)
         )
-        signUpFooterView.configure(buttonTitle: Attributes.buttonTitle)
+        signUpFooterView.configure(buttonTitle: "변경하기")
         signUpFooterView.updateButtonState(isValid: false)
     }
 }

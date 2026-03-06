@@ -19,11 +19,6 @@ final class SingleInputView: UIView {
         static let inputErrorLabelTopOffset: CGFloat = 8.0
     }
     
-    private enum Attributes {
-        static let placeholder: String = "이름을 입력"
-        static let errorText: String = "이름을 다시 확인해 주세요."
-    }
-    
     // MARK: - Properties
     
     private var cancellables = Set<AnyCancellable>()
@@ -36,15 +31,15 @@ final class SingleInputView: UIView {
     
     private let textField: UITextField = {
         let textField = CustomTextField(
-            placeholder: Attributes.placeholder,
+            placeholder: "이름을 입력",
             rightViewType: .clearButton
         )
         return textField
     }()
-    
+
     private let inputErrorLabel: UILabel = {
         let label = UILabel()
-        label.text = Attributes.errorText
+        label.text = "이름을 다시 확인해 주세요."
         label.font = .systemFont(ofSize: 14, weight: .regular)
         label.textColor = .customRed500
         label.isHidden = true

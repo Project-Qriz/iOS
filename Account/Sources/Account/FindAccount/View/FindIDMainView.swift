@@ -19,10 +19,6 @@ final class FindIDMainView: UIView {
         static let signUpFooterViewBottomOffset: CGFloat = -16.0
     }
     
-    private enum Attributes {
-        static let buttonTitle: String = "아이디 찾기"
-    }
-    
     // MARK: - Properties
     
     private let findAccountHeaderView = FindAccountHeaderView()
@@ -50,7 +46,7 @@ final class FindIDMainView: UIView {
             title: FindAccountType.findId.headerTitle,
             description: NSAttributedString(text: FindAccountType.findId.headerDescription, lineSpacing: 8)
         )
-        signUpFooterView.configure(buttonTitle: Attributes.buttonTitle)
+        signUpFooterView.configure(buttonTitle: "아이디 찾기")
         signUpFooterView.updateButtonState(isValid: false)
     }
 }

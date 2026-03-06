@@ -17,12 +17,6 @@ final class NameInputMainView: UIView {
         static let horizontalMargin: CGFloat = 18.0
     }
     
-    private enum Attributes {
-        static let headerTitle: String = "이름을 입력해주세요!"
-        static let footerTitle: String = "다음"
-        static let progressValue: Float = 0.5
-    }
-    
     // MARK: - Properties
     
     private let signUpHeaderView = SignUpHeaderView()
@@ -47,10 +41,10 @@ final class NameInputMainView: UIView {
     private func setupUI() {
         self.backgroundColor = .white
         signUpHeaderView.configure(
-            title: Attributes.headerTitle,
-            progress: Attributes.progressValue
+            title: "이름을 입력해주세요!",
+            progress: 0.5
         )
-        signUpFooterView.configure(buttonTitle: Attributes.footerTitle)
+        signUpFooterView.configure(buttonTitle: "다음")
         signUpFooterView.updateButtonState(isValid: false)
     }
 }

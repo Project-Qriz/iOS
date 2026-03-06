@@ -12,14 +12,6 @@ import QRIZUtils
 
 final class FindPasswordVerificationViewController: UIViewController {
     
-    // MARK: - Enums
-    
-    private enum Attributes {
-        static let navigationTitle: String = "비밀번호 찾기"
-        static let alertTitle: String = "이메일을 올바르게 입력해주세요."
-        static let progressMessage: String = "이메일 확인중..."
-        }
-    
     // MARK: - Properties
     
     weak var coordinator: AccountRecoveryCoordinator?
@@ -50,7 +42,7 @@ final class FindPasswordVerificationViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        setNavigationBarTitle(title: Attributes.navigationTitle, textColor: .coolNeutral800)
+        setNavigationBarTitle(title: "비밀번호 찾기", textColor: .coolNeutral800)
         bind()
         observe()
     }
@@ -111,7 +103,7 @@ final class FindPasswordVerificationViewController: UIViewController {
                     
                 case .emailVerificationInProgress:
                     self.rootView.verificationInputView.showMessage(
-                        Attributes.progressMessage,
+                        "이메일 확인중...",
                         textColor: .coolNeutral500
                     )
                     

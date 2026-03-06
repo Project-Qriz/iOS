@@ -19,12 +19,6 @@ final class TermsAgreementItemView: UIView {
         static let contentSpacing: CGFloat = 8.0
     }
     
-    private enum Attributes {
-        static let checkmark: String = "checkmark"
-        static let chevron: String = "chevron.right"
-        static let requiredText: String = "(필수)"
-    }
-    
     // MARK: - Properties
     
     private let index: Int
@@ -42,7 +36,7 @@ final class TermsAgreementItemView: UIView {
     // MARK: - UI
     
     private let checkmarkImageView: UIImageView = {
-        let imageView = UIImageView(image: UIImage(systemName: Attributes.checkmark))
+        let imageView = UIImageView(image: UIImage(systemName: "checkmark"))
         imageView.tintColor = .coolNeutral200
         imageView.contentMode = .scaleAspectFit
         return imageView
@@ -57,14 +51,14 @@ final class TermsAgreementItemView: UIView {
     
     private let requiredLabel: UILabel = {
         let label = UILabel()
-        label.text = Attributes.requiredText
+        label.text = "(필수)"
         label.font = .systemFont(ofSize: 14, weight: .regular)
         label.textColor = .customRed500
         return label
     }()
     
     private let chevronImageView: UIImageView = {
-        let imageView = UIImageView(image: UIImage(systemName: Attributes.chevron))
+        let imageView = UIImageView(image: UIImage(systemName: "chevron.right"))
         imageView.tintColor = .coolNeutral600
         imageView.contentMode = .scaleAspectFit
         return imageView

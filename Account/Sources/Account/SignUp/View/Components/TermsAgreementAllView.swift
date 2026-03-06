@@ -19,10 +19,6 @@ final class TermsAgreementAllView: UIView {
         static let horizontalMargin: CGFloat = 16.0
     }
     
-    private enum Attributes {
-        static let title: String = "전체 동의"
-    }
-    
     // MARK: - Properties
     
     private let checkBoxButtonTappedSubject = PassthroughSubject<Void, Never>()
@@ -44,7 +40,7 @@ final class TermsAgreementAllView: UIView {
     
     private let titleLabel: UILabel = {
         let label = UILabel()
-        label.text = Attributes.title
+        label.text = "전체 동의"
         label.font = .systemFont(ofSize: 16, weight: .medium)
         label.textColor = .coolNeutral800
         return label

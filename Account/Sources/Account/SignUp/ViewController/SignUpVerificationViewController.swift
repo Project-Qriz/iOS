@@ -12,13 +12,6 @@ import QRIZUtils
 
 final class SignUpVerificationViewController: UIViewController {
     
-    // MARK: - Enums
-    
-    private enum Attributes {
-        static let navigationTitle: String = "회원가입"
-        static let progressMessage: String = "이메일 확인중..."
-    }
-    
     // MARK: - Properties
     
     weak var coordinator: SignUpCoordinator?
@@ -48,7 +41,7 @@ final class SignUpVerificationViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        setNavigationBarTitle(title: Attributes.navigationTitle, textColor: .coolNeutral800)
+        setNavigationBarTitle(title: "회원가입", textColor: .coolNeutral800)
         bind()
         observe()
     }
@@ -109,7 +102,7 @@ final class SignUpVerificationViewController: UIViewController {
                     
                 case .emailVerificationInProgress:
                     self.rootView.verificationInputView.showMessage(
-                        Attributes.progressMessage,
+                        "이메일 확인중...",
                         textColor: .coolNeutral500
                     )
                     

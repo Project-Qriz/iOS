@@ -12,14 +12,6 @@ import QRIZUtils
 
 final class FindIDViewController: UIViewController {
     
-    // MARK: - Enums
-    
-    private enum Attributes {
-        static let navigationTitle: String = "아이디 찾기"
-        static let alertTitle: String = "이메일 발송 완료!"
-        static let alertDescription: String = "입력하신 이메일 주소로 아이디가\n발송되었습니다. 메일함을 확인해주세요."
-    }
-    
     // MARK: - Properties
     
     weak var coordinator: LoginCoordinator?
@@ -49,7 +41,7 @@ final class FindIDViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        setNavigationBarTitle(title: Attributes.navigationTitle, textColor: .coolNeutral800)
+        setNavigationBarTitle(title: "아이디 찾기", textColor: .coolNeutral800)
         bind()
         observe()
     }
@@ -117,8 +109,8 @@ final class FindIDViewController: UIViewController {
     
     private func showOneButtonAlert() {
         let oneButtonAlert = OneButtonCustomAlertViewController(
-            title: Attributes.alertTitle,
-            description: Attributes.alertDescription
+            title: "이메일 발송 완료!",
+            description: "입력하신 이메일 주소로 아이디가\n발송되었습니다. 메일함을 확인해주세요."
         )
         oneButtonAlert.confirmButtonTappedPublisher
             .sink { [weak self] _ in

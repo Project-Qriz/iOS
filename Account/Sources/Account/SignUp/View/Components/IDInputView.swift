@@ -20,12 +20,6 @@ final class IDInputView: UIView {
         static let noticeLabelTopOffset: CGFloat = 4.0
     }
     
-    private enum Attributes {
-        static let placeholder: String = "아이디 입력"
-        static let buttonTitle: String = "중복확인"
-        static let noticeLabelText: String = "영문과 숫자를 포함하여 6자 이상 20자 이하 입력"
-    }
-    
     // MARK: - Properties
     
     private let buttonTappedSubject = PassthroughSubject<Void, Never>()
@@ -42,13 +36,13 @@ final class IDInputView: UIView {
     // MARK: - UI
     
     private let idTextField: UITextField = CustomTextField(
-        placeholder: Attributes.placeholder,
+        placeholder: "아이디 입력",
         rightViewType: .clearButton
     )
-    
+
     private lazy var duplicateCheckButton: UIButton = {
         let button = UIButton()
-        button.setTitle(Attributes.buttonTitle, for: .normal)
+        button.setTitle("중복확인", for: .normal)
         button.titleLabel?.font = .systemFont(ofSize: 14, weight: .semibold)
         button.setTitleColor(.coolNeutral800, for: .normal)
         button.layer.borderWidth = 1
@@ -76,7 +70,7 @@ final class IDInputView: UIView {
     
     private let noticeLabel: UILabel = {
         let label = UILabel()
-        label.text = Attributes.noticeLabelText
+        label.text = "영문과 숫자를 포함하여 6자 이상 20자 이하 입력"
         label.font = .systemFont(ofSize: 12, weight: .regular)
         label.textColor = .customRed500
         label.isHidden = true
@@ -103,7 +97,7 @@ final class IDInputView: UIView {
     }
     
     func updateErrorState(isValid: Bool) {
-        noticeLabel.text = Attributes.noticeLabelText
+        noticeLabel.text = "영문과 숫자를 포함하여 6자 이상 20자 이하 입력"
         noticeLabel.textColor = .customRed500
         noticeLabel.isHidden = isValid
     }

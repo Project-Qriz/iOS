@@ -12,14 +12,6 @@ import QRIZUtils
 
 final class ResetPasswordViewController: UIViewController {
     
-    // MARK: - Enums
-    
-    private enum Attributes {
-        static let navigationTitle: String = "비밀번호 찾기"
-        static let alertTitle: String = "비밀번호 변경 완료"
-        static let alertDescription: String = "변경이 완료되었습니다.\n보안을 위해 재로그인을 진행해 주세요."
-    }
-    
     // MARK: - Properties
     
     weak var coordinator: AccountRecoveryCoordinator?
@@ -50,7 +42,7 @@ final class ResetPasswordViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        setNavigationBarTitle(title: Attributes.navigationTitle, textColor: .coolNeutral800)
+        setNavigationBarTitle(title: "비밀번호 찾기", textColor: .coolNeutral800)
         bind()
         observe()
     }
@@ -128,8 +120,8 @@ final class ResetPasswordViewController: UIViewController {
     
     private func showOneButtonAlert() {
         let oneButtonAlert = OneButtonCustomAlertViewController(
-            title: Attributes.alertTitle,
-            description: Attributes.alertDescription
+            title: "비밀번호 변경 완료",
+            description: "변경이 완료되었습니다.\n보안을 위해 재로그인을 진행해 주세요."
         )
         oneButtonAlert.confirmButtonTappedPublisher
             .sink { [weak self] _ in

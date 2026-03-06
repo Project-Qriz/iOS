@@ -17,11 +17,6 @@ final class TermsAgreementHeaderView: UIView {
         static let xmarkSize: CGFloat = 24.0
     }
     
-    private enum Attributes {
-        static let title: String = "약관동의"
-        static let xmark: String = "xmark"
-    }
-    
     // MARK: - Properties
     
     private let dismissButtonTappedSubject = PassthroughSubject<Void, Never>()
@@ -34,7 +29,7 @@ final class TermsAgreementHeaderView: UIView {
     
     private let titleLabel: UILabel = {
         let label = UILabel()
-        label.text = Attributes.title
+        label.text = "약관동의"
         label.font = .systemFont(ofSize: 20, weight: .bold)
         label.textColor = .coolNeutral800
         return label
@@ -42,7 +37,7 @@ final class TermsAgreementHeaderView: UIView {
     
     private lazy var dismissButton: UIButton = {
         let button = UIButton(type: .system)
-        button.setImage(UIImage(systemName: Attributes.xmark), for: .normal)
+        button.setImage(UIImage(systemName: "xmark"), for: .normal)
         button.tintColor = .coolNeutral800
         button.addAction(UIAction { [weak self] _ in
             self?.dismissButtonTappedSubject.send()

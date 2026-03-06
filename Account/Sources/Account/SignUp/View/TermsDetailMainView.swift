@@ -19,10 +19,6 @@ final class TermsDetailMainView: UIView {
         static let dismissButtonLeadingOffset: CGFloat = 18.0
     }
     
-    private enum Attributes {
-        static let xmark: String = "xmark"
-    }
-    
     // MARK: - Properties
     
     private let dismissButtonTappedSubject = PassthroughSubject<Void, Never>()
@@ -36,7 +32,7 @@ final class TermsDetailMainView: UIView {
     private lazy var dismissButton: UIButton = {
         let button = UIButton(type: .system)
         let config = UIImage.SymbolConfiguration(pointSize: 16, weight: .semibold)
-        let image  = UIImage(systemName: Attributes.xmark, withConfiguration: config)
+        let image = UIImage(systemName: "xmark", withConfiguration: config)
         button.setImage(image, for: .normal)
         button.tintColor = .coolNeutral800
         button.addAction(UIAction { [weak self] _ in

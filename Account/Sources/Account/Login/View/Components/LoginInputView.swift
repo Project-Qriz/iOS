@@ -21,12 +21,6 @@ final class LoginInputView: UIView {
         static let loginButtonHeight: CGFloat = 48.0
     }
     
-    private enum Attributes {
-        static let idPlaceholder = "아이디를 입력해 주세요"
-        static let passwordPlaceholder = "비밀번호를 입력해 주세요"
-        static let loginButtonTitle = "로그인"
-    }
-    
     // MARK: - Properties
     
     private let loginButtonTapSubject = PassthroughSubject<Void, Never>()
@@ -46,20 +40,20 @@ final class LoginInputView: UIView {
     // MARK: - UI
     
     private lazy var idTextField = CustomTextField(
-        placeholder: Attributes.idPlaceholder,
+        placeholder: "아이디를 입력해 주세요",
         isSecure: false,
         rightViewType: .clearButton
     )
-    
+
     private lazy var passwordTextField = CustomTextField(
-        placeholder: Attributes.passwordPlaceholder,
+        placeholder: "비밀번호를 입력해 주세요",
         isSecure: true,
         rightViewType: .passwordToggle
     )
-    
+
     private lazy var loginButton: UIButton = {
         let button = UIButton(type: .system)
-        button.setTitle(Attributes.loginButtonTitle, for: .normal)
+        button.setTitle("로그인", for: .normal)
         button.titleLabel?.font = .systemFont(ofSize: 16, weight: .bold)
         button.setTitleColor(.coolNeutral500, for: .normal)
         button.backgroundColor = .coolNeutral200

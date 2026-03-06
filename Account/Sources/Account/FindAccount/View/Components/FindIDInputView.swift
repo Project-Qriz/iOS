@@ -13,19 +13,12 @@ import QRIZUtils
 final class FindIDInputView: UIView {
     
     // MARK: - Enums
-    
+
     private enum Metric {
         static let textFieldHeight: CGFloat = 48.0
         static let inputErrorLabelTopOffset: CGFloat = 4.0
     }
-    
-    // MARK: - Enums
-    
-    private enum Attributes {
-        static let placeholder: String = "qriz@gmail.com"
-        static let errorLabelText: String = "올바른 이메일 형식으로 입력해주세요."
-    }
-    
+
     // MARK: - Properties
     
     private var cancellables = Set<AnyCancellable>()
@@ -38,23 +31,23 @@ final class FindIDInputView: UIView {
     
     private lazy var textField: UITextField = {
         let textField = CustomTextField(
-            placeholder: Attributes.placeholder,
+            placeholder: "qriz@gmail.com",
             rightViewType: .clearButton
         )
         return textField
     }()
-    
+
     private let inputErrorLabel: UILabel = {
         let label = UILabel()
-        label.text = Attributes.errorLabelText
+        label.text = "올바른 이메일 형식으로 입력해주세요."
         label.font = .systemFont(ofSize: 14, weight: .regular)
         label.textColor = .customRed500
         label.isHidden = true
         return label
     }()
     
-    // MARK: - initialize
-    
+    // MARK: - Initialization
+
     override init(frame: CGRect) {
         super.init(frame: .zero)
         addSubviews()

@@ -23,17 +23,6 @@ final class PasswordInputView: UIView {
         static let inputErrorLabelTopOffset: CGFloat = 8.0
     }
     
-    private enum Attributes {
-        static let passwordPlaceholder: String = "새 비밀번호 입력"
-        static let confirmPasswordPlaceholder: String = "새 비밀번호 재입력"
-        
-        static let characterRequirementText: String = "대문자/소문자/숫자/특수문자 포함"
-        static let lengthRequirementText: String = "8자 이상 16자 이하 입력 (공백 제외)"
-        
-        static let checkmark: String = "checkmark"
-        static let errorText: String = "비밀번호가 다릅니다. 동일한 비밀번호를 입력해 주세요."
-    }
-    
     // MARK: - Properties
     
     private var isCharacterValid: Bool = false
@@ -51,18 +40,18 @@ final class PasswordInputView: UIView {
     // MARK: - UI
     
     private let passwordTextField = CustomTextField(
-        placeholder: Attributes.passwordPlaceholder,
+        placeholder: "새 비밀번호 입력",
         isSecure: true,
         rightViewType: .passwordToggle
     )
     private let characterCheckImageView = buildCheckmarkImageView()
     private let characterRequirementLabel = buildRequirementLabel(
-        text: Attributes.characterRequirementText
+        text: "대문자/소문자/숫자/특수문자 포함"
     )
-    
+
     private let lengthCheckImageView = buildCheckmarkImageView()
     private let lengthRequirementLabel = buildRequirementLabel(
-        text: Attributes.lengthRequirementText
+        text: "8자 이상 16자 이하 입력 (공백 제외)"
     )
     
     private lazy var characterRequirementHStack = PasswordInputView.buildRequirementHStack(
@@ -86,7 +75,7 @@ final class PasswordInputView: UIView {
     }()
     
     private let confirmPasswordTextField = CustomTextField(
-        placeholder: Attributes.confirmPasswordPlaceholder,
+        placeholder: "새 비밀번호 재입력",
         isSecure: true,
         rightViewType: .passwordToggle
     )
@@ -99,15 +88,15 @@ final class PasswordInputView: UIView {
     
     private let inputErrorLabel: UILabel = {
         let label = UILabel()
-        label.text = Attributes.errorText
+        label.text = "비밀번호가 다릅니다. 동일한 비밀번호를 입력해 주세요."
         label.font = .systemFont(ofSize: 12, weight: .regular)
         label.textColor = .customRed500
         label.isHidden = true
         return label
     }()
     
-    // MARK: - initialize
-    
+    // MARK: - Initialization
+
     override init(frame: CGRect) {
         super.init(frame: .zero)
         addSubviews()
@@ -174,7 +163,7 @@ final class PasswordInputView: UIView {
     }
     
     private static func buildCheckmarkImageView(tintColor: UIColor? = .coolNeutral500) -> UIImageView {
-        let imageView = UIImageView(image: UIImage(systemName: Attributes.checkmark))
+        let imageView = UIImageView(image: UIImage(systemName: "checkmark"))
         let config = UIImage.SymbolConfiguration(pointSize: 15, weight: .medium)
         imageView.preferredSymbolConfiguration = config
         imageView.tintColor = tintColor

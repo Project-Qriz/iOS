@@ -20,10 +20,6 @@ final class SocialLoginView: UIView {
         static let socialLoginHStackViewTopOffset: CGFloat = 12.0
     }
     
-    private enum Attributes {
-        static let socialLoginLabelText: String = "다른 방법으로 로그인하기"
-    }
-    
     // MARK: - Properties
     
     private let socialLoginTapSubject = PassthroughSubject<SocialLogin, Never>()
@@ -36,7 +32,7 @@ final class SocialLoginView: UIView {
     
     private let socialLoginLabel: UILabel = {
         let label = UILabel()
-        label.text = Attributes.socialLoginLabelText
+        label.text = "다른 방법으로 로그인하기"
         label.textColor = .coolNeutral400
         label.font = .systemFont(ofSize: 14, weight: .regular)
         label.textAlignment = .center
@@ -73,8 +69,8 @@ final class SocialLoginView: UIView {
     }()
     
     
-    // MARK: - initialize
-    
+    // MARK: - Initialization
+
     override init(frame: CGRect) {
         super.init(frame: frame)
         addSubviews()

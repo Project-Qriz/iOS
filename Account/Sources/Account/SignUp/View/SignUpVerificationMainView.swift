@@ -17,20 +17,14 @@ final class SignUpVerificationMainView: UIView {
         static let horizontalMargin: CGFloat = 18.0
     }
     
-    private enum Attributes {
-        static let headerTitle: String = "본인확인을 위해\n이메일을 인증해 주세요."
-        static let progressValue: Float = 0.25
-        static let footerTitle: String = "다음"
-    }
-    
     // MARK: - Properties
     
     private let signUpHeaderView = SignUpHeaderView()
     let verificationInputView = VerificationInputView()
     let signUpFooterView = SignUpFooterView()
     
-    // MARK: - initialize
-    
+    // MARK: - Initialization
+
     init() {
         super.init(frame: .zero)
         setupUI()
@@ -47,10 +41,10 @@ final class SignUpVerificationMainView: UIView {
     private func setupUI() {
         self.backgroundColor = .white
         signUpHeaderView.configure(
-            title: Attributes.headerTitle,
-            progress: Attributes.progressValue
+            title: "본인확인을 위해\n이메일을 인증해 주세요.",
+            progress: 0.25
         )
-        signUpFooterView.configure(buttonTitle: Attributes.footerTitle)
+        signUpFooterView.configure(buttonTitle: "다음")
         signUpFooterView.updateButtonState(isValid: false)
     }
 }

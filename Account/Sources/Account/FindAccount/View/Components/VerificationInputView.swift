@@ -24,22 +24,6 @@ final class VerificationInputView: UIView {
         static let sendButtonWidthMultiplier: CGFloat = 80 / 48
     }
 
-    private enum Attributes {
-        static let emailPlaceholder = "qriz@gmail.com"
-        static let codePlaceholder = "인증번호 입력"
-        
-        static let sendButtonTitle = "전송"
-        static let resendButtonTitle = "재전송"
-        static let confirmButtonTitle = "확인"
-        
-        static let emailErrorText = "올바른 이메일 형식으로 입력해주세요."
-        static let codeErrorText = "인증번호가 올바르지 않습니다."
-        static let expiredErrorText = "인증 시간이 만료되었어요. 재전송을 눌러주세요."
-        
-        static let emailVerificationSentMessage = "인증번호가 이메일로 전송됐습니다!"
-        static let codeVerificationSuccessMessage = "인증 완료되었습니다."
-    }
-    
     // MARK: - Properties
     
     private let sendButtonTappedSubject = PassthroughSubject<Void, Never>()
@@ -66,15 +50,15 @@ final class VerificationInputView: UIView {
     
     private lazy var emailTextField: CustomTextField = {
         let textField = CustomTextField(
-            placeholder: Attributes.emailPlaceholder,
+            placeholder: "qriz@gmail.com",
             rightViewType: .clearButton
         )
         return textField
     }()
-    
+
     private lazy var sendButton: UIButton = {
         let button = UIButton()
-        button.setTitle(Attributes.sendButtonTitle, for: .normal)
+        button.setTitle("전송", for: .normal)
         button.titleLabel?.font = .systemFont(ofSize: 14, weight: .semibold)
         button.setTitleColor(.coolNeutral300, for: .normal)
         button.layer.borderWidth = 1
@@ -101,7 +85,7 @@ final class VerificationInputView: UIView {
     
     private lazy var codeTextField: CustomTextField = {
         let textField = CustomTextField(
-            placeholder: Attributes.codePlaceholder,
+            placeholder: "인증번호 입력",
             rightViewType: .clearButtonWithTimer
         )
         textField.keyboardType = .numberPad
@@ -110,7 +94,7 @@ final class VerificationInputView: UIView {
     
     private lazy var confirmButton: UIButton = {
         let button = UIButton()
-        button.setTitle(Attributes.confirmButtonTitle, for: .normal)
+        button.setTitle("확인", for: .normal)
         button.titleLabel?.font = .systemFont(ofSize: 14, weight: .semibold)
         button.setTitleColor(.coolNeutral300, for: .normal)
         button.layer.borderWidth = 1
@@ -138,7 +122,7 @@ final class VerificationInputView: UIView {
     
     private let inputErrorLabel: UILabel = {
         let label = UILabel()
-        label.text = Attributes.emailErrorText
+        label.text = "올바른 이메일 형식으로 입력해주세요."
         label.font = .systemFont(ofSize: 14, weight: .regular)
         label.textColor = .customRed500
         label.isHidden = true
@@ -226,10 +210,10 @@ final class VerificationInputView: UIView {
         switch type {
         case .email:
             textField = emailTextField
-            defaultText = Attributes.emailErrorText
+            defaultText = "올바른 이메일 형식으로 입력해주세요."
         case .code:
             textField = codeTextField
-            defaultText = Attributes.codeErrorText
+            defaultText = "인증번호가 올바르지 않습니다."
         }
         
         if isValid {
@@ -262,8 +246,8 @@ final class VerificationInputView: UIView {
         codeHStackView.isHidden = false
         emailTextField.isEnabled = false
         emailTextField.updateRightView(.checkmark)
-        sendButton.setTitle(Attributes.resendButtonTitle, for: .normal)
-        showMessage(Attributes.emailVerificationSentMessage, textColor: .customMint800)
+        sendButton.setTitle("재전송", for: .normal)
+        showMessage("인증번호가 이메일로 전송됐습니다!", textColor: .customMint800)
         emailTextField.layer.borderColor = UIColor.coolNeutral200.cgColor
         setTextFieldState(
             codeTextField,
@@ -296,12 +280,12 @@ final class VerificationInputView: UIView {
             disabledBorderColor: UIColor.coolNeutral200.cgColor
         )
         codeTextField.updateRightView(.checkmark)
-        showSuccessMessage(Attributes.codeVerificationSuccessMessage)
+        showSuccessMessage("인증 완료되었습니다.")
     }
     
     func handleCodeVerificationFailure() {
         codeTextField.layer.borderColor = UIColor.customRed500.cgColor
-        showErrorMessage(Attributes.codeErrorText)
+        showErrorMessage("인증번호가 올바르지 않습니다.")
     }
     
     func handleTimerExpired() {
@@ -320,7 +304,7 @@ final class VerificationInputView: UIView {
             disabledBorderColor: UIColor.customBlue200.cgColor
         )
         
-        showErrorMessage(Attributes.expiredErrorText)
+        showErrorMessage("인증 시간이 만료되었어요. 재전송을 눌러주세요.")
     }
     
     func updateTimerLabel(_ remainingTime: Int) {

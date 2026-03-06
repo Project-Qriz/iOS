@@ -19,10 +19,6 @@ final class FindPasswordVerificationMainView: UIView {
         static let signUpFooterViewBottomOffset: CGFloat = -16.0
     }
     
-    private enum Attributes {
-        static let buttonTitle: String = "재설정 하기"
-    }
-    
     // MARK: - Properties
     
     private let findAccountHeaderView = FindAccountHeaderView()
@@ -50,7 +46,7 @@ final class FindPasswordVerificationMainView: UIView {
             title: FindAccountType.findPassword.headerTitle,
             description: NSAttributedString(text: FindAccountType.findPassword.headerDescription, lineSpacing: 8)
         )
-        signUpFooterView.configure(buttonTitle: Attributes.buttonTitle)
+        signUpFooterView.configure(buttonTitle: "재설정 하기")
         signUpFooterView.updateButtonState(isValid: false)
     }
 }

@@ -17,26 +17,20 @@ final class IDInputMainView: UIView {
         static let horizontalMargin: CGFloat = 18.0
     }
     
-    private enum Attributes {
-        static let headerTitle: String = "사용할 아이디를 입력한 후\n중복확인 버튼을 눌러주세요."
-        static let footerTitle: String = "다음"
-        static let progressValue: Float = 0.5
-    }
-    
     // MARK: - Properties
     
     private let signUpHeaderView = SignUpHeaderView()
     let idInputView = IDInputView()
     let signUpFooterView = SignUpFooterView()
     
-    // MARK: - initialize
-    
+    // MARK: - Initialization
+
     init() {
         super.init(frame: .zero)
         setupUI(
-            title: Attributes.headerTitle,
-            progressValue: Attributes.progressValue,
-            buttonTitle: Attributes.footerTitle
+            title: "사용할 아이디를 입력한 후\n중복확인 버튼을 눌러주세요.",
+            progressValue: 0.5,
+            buttonTitle: "다음"
         )
         addSubviews()
         setupConstraints()

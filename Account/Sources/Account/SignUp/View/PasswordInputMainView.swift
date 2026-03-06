@@ -17,27 +17,20 @@ final class PasswordInputMainView: UIView {
         static let horizontalMargin: CGFloat = 18.0
     }
     
-    private enum Attributes {
-        static let headerTitle: String = "비밀번호를 입력해주세요!"
-        static let headerDescription: String = "사용할 비밀번호를 입력해주세요."
-        static let footerTitle: String = "가입하기"
-        static let progressValue: Float = 1.0
-    }
-    
     // MARK: - Properties
     
     private let signUpHeaderView = SignUpHeaderView()
     let passwordInputView = PasswordInputView()
     let signUpFooterView = SignUpFooterView()
     
-    // MARK: - initialize
-    
+    // MARK: - Initialization
+
     init() {
         super.init(frame: .zero)
         setupUI(
-            title: Attributes.headerTitle,
-            progressValue: Attributes.progressValue,
-            buttonTitle: Attributes.footerTitle
+            title: "비밀번호를 입력해주세요!",
+            progressValue: 1.0,
+            buttonTitle: "가입하기"
         )
         addSubviews()
         setupConstraints()
