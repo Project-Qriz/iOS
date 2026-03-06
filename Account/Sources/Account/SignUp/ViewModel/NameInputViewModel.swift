@@ -46,7 +46,7 @@ final class NameInputViewModel {
     
     private func validateName(_ text: String) {
         let isValid = text.isValidName
-        name = isValid ? text : name
+        name = text
         outputSubject.send(.isNameValid(isValid))
     }
 }
