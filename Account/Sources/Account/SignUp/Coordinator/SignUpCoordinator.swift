@@ -127,7 +127,6 @@ public final class SignUpCoordinatorImpl: SignUpCoordinator, NavigationGuard {
 
             let viewModel = TermsDetailViewModel(termItem: term)
             let vc = TermsDetailViewController(viewModel: viewModel)
-            vc.coordinator = self
             vc.dismissDelegate = self
             vc.modalPresentationStyle = .fullScreen
             sheetNav.present(vc, animated: true)

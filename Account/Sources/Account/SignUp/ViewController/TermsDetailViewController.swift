@@ -18,7 +18,6 @@ public final class TermsDetailViewController: UIViewController {
 
     // MARK: - Properties
 
-    public weak var coordinator: SignUpCoordinator?
     public weak var dismissDelegate: TermsDetailDismissible?
     private let rootView: TermsDetailMainView
     private let viewModel: TermsDetailViewModel

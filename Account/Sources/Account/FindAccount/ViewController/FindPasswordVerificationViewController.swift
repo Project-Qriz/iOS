@@ -29,8 +29,8 @@ final class FindPasswordVerificationViewController: UIViewController {
     private var cancellables = Set<AnyCancellable>()
     nonisolated(unsafe) private var keyboardCancellable: AnyCancellable?
     
-    // MARK: - initialize
-    
+    // MARK: - Initialization
+
     init(findPasswordVerificationVM: FindPasswordVerificationViewModel) {
         self.rootView = FindPasswordVerificationMainView()
         self.findPasswordVerificationVM = findPasswordVerificationVM

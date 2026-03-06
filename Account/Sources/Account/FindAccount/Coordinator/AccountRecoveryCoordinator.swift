@@ -25,7 +25,7 @@ public protocol AccountRecoveryCoordinatorDelegate: AnyObject {
 @MainActor
 public final class AccountRecoveryCoordinatorImpl: AccountRecoveryCoordinator, NavigationGuard {
 
-    // MARK: Properties
+    // MARK: - Properties
 
     public weak var delegate: AccountRecoveryCoordinatorDelegate?
     private let navigationController: UINavigationController
@@ -35,7 +35,7 @@ public final class AccountRecoveryCoordinatorImpl: AccountRecoveryCoordinator, N
     // NavigationGuard
     public var isNavigating: Bool = false
 
-    // MARK: Initialize
+    // MARK: - Initialization
 
     public init(
         navigationController: UINavigationController,

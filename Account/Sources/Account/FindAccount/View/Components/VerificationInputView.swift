@@ -13,19 +13,17 @@ import QRIZUtils
 final class VerificationInputView: UIView {
     
     // MARK: - Enums
-    
+
     enum TextFieldType {
         case email
         case code
     }
-    
+
     private enum Metric {
         static let textFieldHeight: CGFloat = 48.0
         static let sendButtonWidthMultiplier: CGFloat = 80 / 48
     }
-    
-    // MARK: - Enums
-    
+
     private enum Attributes {
         static let emailPlaceholder = "qriz@gmail.com"
         static let codePlaceholder = "인증번호 입력"

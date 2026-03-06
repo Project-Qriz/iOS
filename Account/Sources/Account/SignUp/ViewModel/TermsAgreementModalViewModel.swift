@@ -66,7 +66,7 @@ final class TermsAgreementModalViewModel {
                     
                     outputSubject.send(.allAgreeChanged(newState))
                     
-                    for (index, _) in terms.enumerated() {
+                    for index in terms.indices {
                         outputSubject.send(.termChanged(index: index, isAgreed: newState))
                     }
                     

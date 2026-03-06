@@ -39,8 +39,8 @@ public final class SignUpFooterView: UIView {
         return button
     }()
     
-    // MARK: - initialize
-    
+    // MARK: - Initialization
+
     public override init(frame: CGRect) {
         super.init(frame: frame)
         addSubviews()

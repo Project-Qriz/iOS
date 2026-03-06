@@ -29,8 +29,8 @@ final class ResetPasswordViewController: UIViewController {
     private var cancellables = Set<AnyCancellable>()
     nonisolated(unsafe) private var keyboardCancellable: AnyCancellable?
     
-    // MARK: - initialize
-    
+    // MARK: - Initialization
+
     init(resetPasswordVM: ResetPasswordViewModel) {
         self.rootView = ResetPasswordMainView()
         self.resetPasswordVM = resetPasswordVM

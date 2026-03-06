@@ -31,15 +31,15 @@ final class LoginViewController: UIViewController {
     }
     
     // MARK: - Lifecycle
-    
+
+    override func loadView() {
+        self.view = rootView
+    }
+
     override func viewDidLoad() {
         super.viewDidLoad()
         bind()
         observe()
-    }
-    
-    override func loadView() {
-        self.view = rootView
     }
     
     // MARK: - Methods

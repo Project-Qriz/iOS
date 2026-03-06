@@ -63,7 +63,11 @@ final class SignUpVerificationViewController: UIViewController {
             self?.rootView.verificationInputView.focusInitialField()
         }
     }
-    
+
+    deinit {
+        keyboardCancellable?.cancel()
+    }
+
     // MARK: - Methods
     
     private func bind() {

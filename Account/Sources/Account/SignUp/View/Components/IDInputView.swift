@@ -121,9 +121,7 @@ final class IDInputView: UIView {
     }
     
     func focusInitialField() {
-        DispatchQueue.main.async { [weak self] in
-            self?.idTextField.becomeFirstResponder()
-        }
+        idTextField.becomeFirstResponder()
     }
 }
 
