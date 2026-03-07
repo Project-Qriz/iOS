@@ -17,7 +17,6 @@ final class SignUpVerificationViewController: UIViewController {
     weak var coordinator: SignUpCoordinator?
     private let rootView: SignUpVerificationMainView
     private let signUpVerificationVM: SignUpVerificationViewModel
-    private var didFocusOnce = false
     private var cancellables = Set<AnyCancellable>()
 
     // MARK: - Initialization
@@ -47,8 +46,7 @@ final class SignUpVerificationViewController: UIViewController {
 
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        guard !didFocusOnce else { return }
-        didFocusOnce = true
+        guard isMovingToParent else { return }
         rootView.verificationInputView.focusInitialField()
     }
 

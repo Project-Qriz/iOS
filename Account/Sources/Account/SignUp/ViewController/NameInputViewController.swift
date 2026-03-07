@@ -16,7 +16,6 @@ final class NameInputViewController: UIViewController {
     weak var coordinator: SignUpCoordinator?
     private let rootView: NameInputMainView
     private let nameInputVM: NameInputViewModel
-    private var didFocusOnce = false
     private var cancellables = Set<AnyCancellable>()
 
     // MARK: - Initialization
@@ -46,8 +45,7 @@ final class NameInputViewController: UIViewController {
 
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        guard !didFocusOnce else { return }
-        didFocusOnce = true
+        guard isMovingToParent else { return }
         rootView.singleInputView.focusInitialField()
     }
 

@@ -17,7 +17,6 @@ final class FindPasswordVerificationViewController: UIViewController {
     weak var coordinator: AccountRecoveryCoordinator?
     private let rootView: FindPasswordVerificationMainView
     private let findPasswordVerificationVM: FindPasswordVerificationViewModel
-    private var didFocusOnce = false
     private var cancellables = Set<AnyCancellable>()
 
     // MARK: - Initialization
@@ -48,8 +47,7 @@ final class FindPasswordVerificationViewController: UIViewController {
 
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        guard !didFocusOnce else { return }
-        didFocusOnce = true
+        guard isMovingToParent else { return }
         rootView.verificationInputView.focusInitialField()
     }
 

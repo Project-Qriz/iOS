@@ -17,7 +17,6 @@ final class ResetPasswordViewController: UIViewController {
     weak var coordinator: AccountRecoveryCoordinator?
     private let rootView: ResetPasswordMainView
     private let resetPasswordVM: ResetPasswordViewModel
-    private var didFocusOnce = false
     private var cancellables = Set<AnyCancellable>()
 
     // MARK: - Initialization
@@ -48,8 +47,7 @@ final class ResetPasswordViewController: UIViewController {
 
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        guard !didFocusOnce else { return }
-        didFocusOnce = true
+        guard isMovingToParent else { return }
         rootView.passwordInputView.focusInitialField()
     }
 

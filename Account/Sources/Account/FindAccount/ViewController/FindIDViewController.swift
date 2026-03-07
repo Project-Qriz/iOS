@@ -17,7 +17,6 @@ final class FindIDViewController: UIViewController {
     weak var coordinator: LoginCoordinator?
     private let rootView: FindIDMainView
     private let findIDInputVM: FindIDViewModel
-    private var didFocusOnce = false
     private var cancellables = Set<AnyCancellable>()
 
     // MARK: - Initialization
@@ -47,8 +46,7 @@ final class FindIDViewController: UIViewController {
 
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        guard !didFocusOnce else { return }
-        didFocusOnce = true
+        guard isMovingToParent else { return }
         rootView.findIDInputView.focusInitialField()
     }
 

@@ -16,7 +16,6 @@ final class PasswordInputViewController: UIViewController {
     weak var coordinator: SignUpCoordinator?
     private let rootView: PasswordInputMainView
     private let passwordInputVM: PasswordInputViewModel
-    private var didFocusOnce = false
     private var cancellables = Set<AnyCancellable>()
 
     // MARK: - Initialization
@@ -46,8 +45,7 @@ final class PasswordInputViewController: UIViewController {
 
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        guard !didFocusOnce else { return }
-        didFocusOnce = true
+        guard isMovingToParent else { return }
         rootView.passwordInputView.focusInitialField()
     }
 
