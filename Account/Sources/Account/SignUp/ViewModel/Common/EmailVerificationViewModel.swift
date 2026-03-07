@@ -39,7 +39,7 @@ enum EmailVerificationOutput {
     case updateRemainingTime(Int)
     case timerExpired
     case codeVerificationSuccess
-    case codeVerificationFailure(String)
+    case codeVerificationFailure
     case navigateToNextView
 }
 
@@ -139,8 +139,8 @@ final class EmailVerificationCore {
     func handleVerifyCodeError(_ error: Error) {
         if let networkError = error as? NetworkError {
             switch networkError {
-            case .clientError(let statusCode, _, let message) where statusCode == 400:
-                outputSubject.send(.codeVerificationFailure(message))
+            case .clientError(let statusCode, _, _) where statusCode == 400:
+                outputSubject.send(.codeVerificationFailure)
             default:
                 outputSubject.send(.showErrorAlert(title: networkError.errorMessage))
             }
