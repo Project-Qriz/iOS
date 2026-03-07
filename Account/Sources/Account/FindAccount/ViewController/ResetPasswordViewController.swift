@@ -110,6 +110,7 @@ final class ResetPasswordViewController: UIViewController {
             description: "변경이 완료되었습니다.\n보안을 위해 재로그인을 진행해 주세요."
         )
         oneButtonAlert.confirmButtonTappedPublisher
+            .first()
             .sink { [weak self] _ in
                 oneButtonAlert.dismiss(animated: true) {
                     guard let self else { return }

@@ -94,6 +94,7 @@ final class FindIDViewController: UIViewController {
             description: "입력하신 이메일 주소로 아이디가\n발송되었습니다. 메일함을 확인해주세요."
         )
         oneButtonAlert.confirmButtonTappedPublisher
+            .first()
             .sink { [weak self] _ in
                 oneButtonAlert.dismiss(animated: true) {
                     guard let self else { return }
