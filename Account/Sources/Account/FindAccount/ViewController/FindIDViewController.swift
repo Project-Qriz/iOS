@@ -49,9 +49,7 @@ final class FindIDViewController: UIViewController {
         super.viewDidAppear(animated)
         guard !didFocusOnce else { return }
         didFocusOnce = true
-        DispatchQueue.main.async { [weak self] in
-            self?.rootView.findIDInputView.focusInitialField()
-        }
+        rootView.findIDInputView.focusInitialField()
     }
 
     // MARK: - Methods

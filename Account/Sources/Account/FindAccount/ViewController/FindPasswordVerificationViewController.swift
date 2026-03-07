@@ -50,9 +50,7 @@ final class FindPasswordVerificationViewController: UIViewController {
         super.viewDidAppear(animated)
         guard !didFocusOnce else { return }
         didFocusOnce = true
-        DispatchQueue.main.async { [weak self] in
-            self?.rootView.verificationInputView.focusInitialField()
-        }
+        rootView.verificationInputView.focusInitialField()
     }
 
     // MARK: - Methods

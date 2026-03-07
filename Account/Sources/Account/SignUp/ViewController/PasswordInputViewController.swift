@@ -48,9 +48,7 @@ final class PasswordInputViewController: UIViewController {
         super.viewDidAppear(animated)
         guard !didFocusOnce else { return }
         didFocusOnce = true
-        DispatchQueue.main.async { [weak self] in
-            self?.rootView.passwordInputView.focusInitialField()
-        }
+        rootView.passwordInputView.focusInitialField()
     }
 
     // MARK: - Methods

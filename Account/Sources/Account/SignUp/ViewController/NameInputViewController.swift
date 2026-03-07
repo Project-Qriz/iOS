@@ -48,9 +48,7 @@ final class NameInputViewController: UIViewController {
         super.viewDidAppear(animated)
         guard !didFocusOnce else { return }
         didFocusOnce = true
-        DispatchQueue.main.async { [weak self] in
-            self?.rootView.singleInputView.focusInitialField()
-        }
+        rootView.singleInputView.focusInitialField()
     }
 
     // MARK: - Methods
