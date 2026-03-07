@@ -18,7 +18,6 @@ final class NameInputViewController: UIViewController {
     private let nameInputVM: NameInputViewModel
     private var didFocusOnce = false
     private var cancellables = Set<AnyCancellable>()
-    nonisolated(unsafe) private var keyboardCancellable: AnyCancellable?
 
     // MARK: - Initialization
 
@@ -54,10 +53,6 @@ final class NameInputViewController: UIViewController {
         }
     }
 
-    deinit {
-        keyboardCancellable?.cancel()
-    }
-
     // MARK: - Methods
 
     private func bind() {
@@ -85,7 +80,8 @@ final class NameInputViewController: UIViewController {
     }
 
     private func observe() {
-        keyboardCancellable = observeKeyboardNotifications(for: rootView.signUpFooterView)
+        observeKeyboardNotifications(for: rootView.signUpFooterView)
+            .store(in: &cancellables)
 
         view.tapGestureEndedPublisher()
             .sink { [weak self] _ in self?.view.endEditing(true) }

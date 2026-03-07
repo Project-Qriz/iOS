@@ -19,7 +19,6 @@ final class FindPasswordVerificationViewController: UIViewController {
     private let findPasswordVerificationVM: FindPasswordVerificationViewModel
     private var didFocusOnce = false
     private var cancellables = Set<AnyCancellable>()
-    nonisolated(unsafe) private var keyboardCancellable: AnyCancellable?
 
     // MARK: - Initialization
 
@@ -54,10 +53,6 @@ final class FindPasswordVerificationViewController: UIViewController {
         DispatchQueue.main.async { [weak self] in
             self?.rootView.verificationInputView.focusInitialField()
         }
-    }
-
-    deinit {
-        keyboardCancellable?.cancel()
     }
 
     // MARK: - Methods
@@ -128,7 +123,8 @@ final class FindPasswordVerificationViewController: UIViewController {
     }
 
     private func observe() {
-        keyboardCancellable = observeKeyboardNotifications(for: rootView.signUpFooterView)
+        observeKeyboardNotifications(for: rootView.signUpFooterView)
+            .store(in: &cancellables)
 
         view.tapGestureEndedPublisher()
             .sink { [weak self] _ in self?.view.endEditing(true) }

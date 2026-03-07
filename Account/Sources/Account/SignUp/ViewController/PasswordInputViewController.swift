@@ -18,7 +18,6 @@ final class PasswordInputViewController: UIViewController {
     private let passwordInputVM: PasswordInputViewModel
     private var didFocusOnce = false
     private var cancellables = Set<AnyCancellable>()
-    nonisolated(unsafe) private var keyboardCancellable: AnyCancellable?
 
     // MARK: - Initialization
 
@@ -52,10 +51,6 @@ final class PasswordInputViewController: UIViewController {
         DispatchQueue.main.async { [weak self] in
             self?.rootView.passwordInputView.focusInitialField()
         }
-    }
-
-    deinit {
-        keyboardCancellable?.cancel()
     }
 
     // MARK: - Methods
@@ -97,7 +92,8 @@ final class PasswordInputViewController: UIViewController {
     }
 
     private func observe() {
-        keyboardCancellable = observeKeyboardNotifications(for: rootView.signUpFooterView)
+        observeKeyboardNotifications(for: rootView.signUpFooterView)
+            .store(in: &cancellables)
 
         view.tapGestureEndedPublisher()
             .sink { [weak self] _ in self?.view.endEditing(true) }

@@ -19,7 +19,6 @@ final class IDInputViewController: UIViewController {
     private let idInputVM: IDInputViewModel
     private var didFocusOnce = false
     private var cancellables = Set<AnyCancellable>()
-    nonisolated(unsafe) private var keyboardCancellable: AnyCancellable?
 
     // MARK: - Initialization
 
@@ -53,10 +52,6 @@ final class IDInputViewController: UIViewController {
         DispatchQueue.main.async { [weak self] in
             self?.rootView.idInputView.focusInitialField()
         }
-    }
-
-    deinit {
-        keyboardCancellable?.cancel()
     }
 
     // MARK: - Methods
@@ -100,7 +95,8 @@ final class IDInputViewController: UIViewController {
     }
 
     private func observe() {
-        keyboardCancellable = observeKeyboardNotifications(for: rootView.signUpFooterView)
+        observeKeyboardNotifications(for: rootView.signUpFooterView)
+            .store(in: &cancellables)
 
         view.tapGestureEndedPublisher()
             .sink { [weak self] _ in self?.view.endEditing(true) }
