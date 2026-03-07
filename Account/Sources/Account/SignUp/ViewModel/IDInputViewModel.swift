@@ -20,7 +20,7 @@ final class IDInputViewModel {
     private let signUpService: SignUpService
     private var id: String = ""
     private let outputSubject: PassthroughSubject<Output, Never> = .init()
-    private let logger = Logger(subsystem: Bundle.main.bundleIdentifier ?? "com.ksh.qriz", category: "IDInputViewModel")
+    private let logger = Logger.account(category: "IDInputViewModel")
 
     var output: AnyPublisher<Output, Never> {
         outputSubject.eraseToAnyPublisher()

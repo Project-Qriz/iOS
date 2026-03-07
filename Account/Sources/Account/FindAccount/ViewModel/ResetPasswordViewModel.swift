@@ -20,7 +20,7 @@ final class ResetPasswordViewModel {
     private var confirmPassword: String = ""
     private var confirmPasswordDidEdit: Bool = false
     private let outputSubject: PassthroughSubject<Output, Never> = .init()
-    private let logger = Logger(subsystem: Bundle.main.bundleIdentifier ?? "com.ksh.qriz", category: "ResetPasswordViewModel")
+    private let logger = Logger.account(category: "ResetPasswordViewModel")
 
     var output: AnyPublisher<Output, Never> {
         outputSubject.eraseToAnyPublisher()

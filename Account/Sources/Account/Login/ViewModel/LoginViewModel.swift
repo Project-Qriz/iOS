@@ -21,7 +21,7 @@ final class LoginViewModel {
     private let userInfoService: UserInfoService
     private let socialLoginService: SocialLoginService
     private let outputSubject: PassthroughSubject<Output, Never> = .init()
-    private let logger = Logger(subsystem: Bundle.main.bundleIdentifier ?? "com.ksh.qriz", category: "LoginViewModel")
+    private let logger = Logger.account(category: "LoginViewModel")
 
     private var id: String = ""
     private var password: String = ""

@@ -62,7 +62,7 @@ final class EmailVerificationCore {
     // MARK: - Initialization
 
     init(logCategory: String, totalTime: Int = 180) {
-        self.logger = Logger(subsystem: Bundle.main.bundleIdentifier ?? "com.ksh.qriz", category: logCategory)
+        self.logger = Logger.account(category: logCategory)
         self.countdownTimer = CountdownTimer(totalTime: totalTime)
 
         countdownTimer.remainingTimePublisher

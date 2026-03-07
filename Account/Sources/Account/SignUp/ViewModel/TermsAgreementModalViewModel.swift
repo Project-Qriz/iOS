@@ -29,8 +29,7 @@ final class TermsAgreementModalViewModel {
 
     private let signUpFlowViewModel: SignUpFlowViewModel
     private let outputSubject: PassthroughSubject<Output, Never> = .init()
-    private let logger = Logger(subsystem: Bundle.main.bundleIdentifier ?? "com.ksh.qriz",
-                                category: "TermsAgreementModalVM")
+    private let logger = Logger.account(category: "TermsAgreementModalVM")
 
     private var terms: [TermItem] = [
         .init(title: "서비스 이용약관", pdfName: "TermsOfService", isAgreed: false),

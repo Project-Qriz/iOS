@@ -16,7 +16,7 @@ public final class TermsDetailViewModel {
 
     private let term: TermItem
     private let outputSubject: PassthroughSubject<Output, Never> = .init()
-    private let logger = Logger(subsystem: Bundle.main.bundleIdentifier ?? "com.ksh.qriz", category: "TermsDetailVM")
+    private let logger = Logger.account(category: "TermsDetailVM")
 
     var output: AnyPublisher<Output, Never> {
         outputSubject.eraseToAnyPublisher()
