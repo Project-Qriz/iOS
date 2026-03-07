@@ -60,6 +60,7 @@ final class PasswordInputViewModel {
 
         outputSubject.send(.characterRequirementChanged(characterRequirement))
         outputSubject.send(.lengthRequirementChanged(lengthRequirement))
+        outputSubject.send(.passwordValidChanged(passwordValid))
 
         let canSignUp = passwordValid && (confirmPasswordDidEdit ? (confirmPassword == password) : false)
         outputSubject.send(.updateButtonState(canSignUp))
@@ -76,6 +77,7 @@ extension PasswordInputViewModel {
     enum Output {
         case characterRequirementChanged(Bool)
         case lengthRequirementChanged(Bool)
+        case passwordValidChanged(Bool)
         case confirmValidChanged(Bool)
         case updateButtonState(Bool)
         case showTermsAgreementModal

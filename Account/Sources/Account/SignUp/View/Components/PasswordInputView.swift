@@ -24,11 +24,7 @@ final class PasswordInputView: UIView {
     }
     
     // MARK: - Properties
-    
-    private var isCharacterValid: Bool = false
-    private var isLengthValid: Bool = false
-    private var cancellables = Set<AnyCancellable>()
-    
+
     var passwordTextChangedPublisher: AnyPublisher<String, Never> {
         passwordTextField.textPublisher
     }
@@ -119,39 +115,31 @@ final class PasswordInputView: UIView {
     }
     
     func updateCharacterRequirementUI(_ isValid: Bool) {
-        isCharacterValid = isValid
-        
         let color: UIColor = isValid ? .customMint800 : .coolNeutral500
         characterCheckImageView.tintColor = color
         characterRequirementLabel.textColor = color
-        updatePasswordTextFieldBorderColor()
     }
-    
+
     func updateLengthRequirementUI(_ isValid: Bool) {
-        isLengthValid = isValid
-        
         let color: UIColor = isValid ? .customMint800 : .coolNeutral500
         lengthCheckImageView.tintColor = color
         lengthRequirementLabel.textColor = color
-        updatePasswordTextFieldBorderColor()
     }
-    
+
+    func updatePasswordBorderColor(_ isValid: Bool) {
+        passwordTextField.layer.borderColor = isValid
+            ? UIColor.customMint800.cgColor
+            : UIColor.coolNeutral600.cgColor
+    }
+
     func updateConfirmPasswordUI(_ isValid: Bool) {
         inputErrorLabel.isHidden = isValid
         confirmCheckmark.isHidden = !isValid
-        
+
         let borderColor = isValid ? UIColor.customMint800.cgColor : UIColor.customRed500.cgColor
         confirmPasswordTextField.layer.borderColor = borderColor
     }
-    
-    private func updatePasswordTextFieldBorderColor() {
-        if isCharacterValid && isLengthValid {
-            passwordTextField.layer.borderColor = UIColor.customMint800.cgColor
-        } else {
-            passwordTextField.layer.borderColor = UIColor.coolNeutral600.cgColor
-        }
-    }
-    
+
     private static func buildRequirementLabel(text: String) -> UILabel {
         let label = UILabel()
         label.text = text

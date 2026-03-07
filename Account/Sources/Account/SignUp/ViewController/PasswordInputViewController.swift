@@ -62,6 +62,9 @@ final class PasswordInputViewController: UIViewController {
                 case .lengthRequirementChanged(let isValid):
                     rootView.passwordInputView.updateLengthRequirementUI(isValid)
 
+                case .passwordValidChanged(let isValid):
+                    rootView.passwordInputView.updatePasswordBorderColor(isValid)
+
                 case .confirmValidChanged(let isValid):
                     rootView.passwordInputView.updateConfirmPasswordUI(isValid)
 

@@ -62,6 +62,7 @@ final class ResetPasswordViewModel {
 
         outputSubject.send(.characterRequirementChanged(characterRequirement))
         outputSubject.send(.lengthRequirementChanged(lengthRequirement))
+        outputSubject.send(.passwordValidChanged(passwordValid))
 
         let canReset = passwordValid && (confirmPasswordDidEdit ? (confirmPassword == password) : false)
         outputSubject.send(.updateButtonState(canReset))
@@ -95,6 +96,7 @@ extension ResetPasswordViewModel {
     enum Output {
         case characterRequirementChanged(Bool)
         case lengthRequirementChanged(Bool)
+        case passwordValidChanged(Bool)
         case confirmValidChanged(Bool)
         case updateButtonState(Bool)
         case showErrorAlert(String)
