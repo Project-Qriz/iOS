@@ -6,15 +6,21 @@
 //
 
 import Foundation
+import Combine
 import Network
 
 @MainActor
-final class SignUpVerificationViewModel: EmailVerificationViewModel {
+final class SignUpVerificationViewModel: EmailVerificationViewModelType {
     
     // MARK: - Properties
     
+    private let core: EmailVerificationCore
     private let signUpFlowViewModel: SignUpFlowViewModel
     private let signUpService: SignUpService
+    
+    var output: AnyPublisher<EmailVerificationOutput, Never> {
+        core.output
+    }
     
     // MARK: - Initialization
     
@@ -22,37 +28,45 @@ final class SignUpVerificationViewModel: EmailVerificationViewModel {
         signUpFlowViewModel: SignUpFlowViewModel,
         signUpService: SignUpService
     ) {
+        self.core = EmailVerificationCore(logCategory: "SignUpVerificationViewModel")
         self.signUpFlowViewModel = signUpFlowViewModel
         self.signUpService = signUpService
-        super.init(logCategory: "SignUpVerificationViewModel")
     }
     
-    // MARK: - Override
+    // MARK: - Methods
     
-    override func sendVerificationCode(email: String) {
-        outputSubject.send(.emailVerificationInProgress)
+    func send(_ input: EmailVerificationInput) {
+        core.handle(
+            input,
+            onSendCode: { [weak self] email in self?.sendVerificationCode(email: email) },
+            onVerifyCode: { [weak self] email, code in self?.verifyCode(email: email, authNumber: code) }
+        )
+    }
+    
+    private func sendVerificationCode(email: String) {
+        core.outputSubject.send(.emailVerificationInProgress)
         
         Task {
             do {
                 _ = try await signUpService.sendEmail(email)
-                outputSubject.send(.emailVerificationSuccess)
+                core.outputSubject.send(.emailVerificationSuccess)
                 signUpFlowViewModel.updateEmail(email)
-                countdownTimer.reset()
-                countdownTimer.start()
+                core.countdownTimer.reset()
+                core.countdownTimer.start()
             } catch {
-                handleSendVerificationError(error)
+                core.handleSendVerificationError(error)
             }
         }
     }
     
-    override func verifyCode(email: String, authNumber: String) {
+    private func verifyCode(email: String, authNumber: String) {
         Task {
             do {
                 _ = try await signUpService.emailAuthentication(email: email, authNumber: authNumber)
-                outputSubject.send(.codeVerificationSuccess)
-                countdownTimer.stop()
+                core.outputSubject.send(.codeVerificationSuccess)
+                core.countdownTimer.stop()
             } catch {
-                handleVerifyCodeError(error)
+                core.handleVerifyCodeError(error)
             }
         }
     }

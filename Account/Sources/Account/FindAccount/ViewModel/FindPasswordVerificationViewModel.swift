@@ -6,48 +6,62 @@
 //
 
 import Foundation
+import Combine
 import Network
 
 @MainActor
-final class FindPasswordVerificationViewModel: EmailVerificationViewModel {
+final class FindPasswordVerificationViewModel: EmailVerificationViewModelType {
     
     // MARK: - Properties
     
+    private let core: EmailVerificationCore
     private let accountRecoveryService: AccountRecoveryService
+    
+    var output: AnyPublisher<EmailVerificationOutput, Never> {
+        core.output
+    }
     
     // MARK: - Initialization
     
     init(accountRecoveryService: AccountRecoveryService) {
+        self.core = EmailVerificationCore(logCategory: "FindPasswordVerificationViewModel")
         self.accountRecoveryService = accountRecoveryService
-        super.init(logCategory: "FindPasswordVerificationViewModel")
     }
     
-    // MARK: - Override
+    // MARK: - Methods
     
-    override func sendVerificationCode(email: String) {
-        outputSubject.send(.emailVerificationInProgress)
+    func send(_ input: EmailVerificationInput) {
+        core.handle(
+            input,
+            onSendCode: { [weak self] email in self?.sendVerificationCode(email: email) },
+            onVerifyCode: { [weak self] email, code in self?.verifyCode(email: email, authNumber: code) }
+        )
+    }
+    
+    private func sendVerificationCode(email: String) {
+        core.outputSubject.send(.emailVerificationInProgress)
         
         Task {
             do {
                 _ = try await accountRecoveryService.findPassword(email: email)
-                outputSubject.send(.emailVerificationSuccess)
-                countdownTimer.reset()
-                countdownTimer.start()
+                core.outputSubject.send(.emailVerificationSuccess)
+                core.countdownTimer.reset()
+                core.countdownTimer.start()
             } catch {
-                handleSendVerificationError(error)
+                core.handleSendVerificationError(error)
             }
         }
     }
     
-    override func verifyCode(email: String, authNumber: String) {
+    private func verifyCode(email: String, authNumber: String) {
         Task {
             do {
                 let response = try await accountRecoveryService.verifyPasswordReset(email: email, authNumber: authNumber)
                 accountRecoveryService.setResetToken(resetToken: response.data.resetToken)
-                outputSubject.send(.codeVerificationSuccess)
-                countdownTimer.stop()
+                core.outputSubject.send(.codeVerificationSuccess)
+                core.countdownTimer.stop()
             } catch {
-                handleVerifyCodeError(error)
+                core.handleVerifyCodeError(error)
             }
         }
     }

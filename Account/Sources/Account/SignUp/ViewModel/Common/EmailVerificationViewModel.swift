@@ -11,19 +11,51 @@ import os
 import Network
 import QRIZUtils
 
+// MARK: - Protocol
+
 @MainActor
-class EmailVerificationViewModel {
+protocol EmailVerificationViewModelType: AnyObject {
+    var output: AnyPublisher<EmailVerificationOutput, Never> { get }
+    func send(_ input: EmailVerificationInput)
+}
+
+// MARK: - Input / Output
+
+enum EmailVerificationInput {
+    case emailTextChanged(String)
+    case sendButtonTapped
+    case codeTextChanged(String)
+    case confirmButtonTapped
+    case nextButtonTapped
+}
+
+enum EmailVerificationOutput {
+    case isEmailValid(Bool)
+    case isCodeValid(Bool)
+    case emailVerificationInProgress
+    case emailVerificationSuccess
+    case emailVerificationDuplicate(String)
+    case showErrorAlert(title: String)
+    case updateRemainingTime(Int)
+    case timerExpired
+    case codeVerificationSuccess
+    case codeVerificationFailure(String)
+    case navigateToNextView
+}
+
+@MainActor
+final class EmailVerificationCore {
 
     // MARK: - Properties
 
-    private var email: String?
-    private var authNumber: String?
-    let outputSubject: PassthroughSubject<Output, Never> = .init()
+    let outputSubject: PassthroughSubject<EmailVerificationOutput, Never> = .init()
     private var cancellables = Set<AnyCancellable>()
     let countdownTimer: CountdownTimer
     let logger: Logger
+    private(set) var email: String?
+    private(set) var authNumber: String?
 
-    var output: AnyPublisher<Output, Never> {
+    var output: AnyPublisher<EmailVerificationOutput, Never> {
         outputSubject.eraseToAnyPublisher()
     }
 
@@ -47,24 +79,25 @@ class EmailVerificationViewModel {
 
     // MARK: - Methods
 
-    func send(_ input: Input) {
+    func handle(
+        _ input: EmailVerificationInput,
+        onSendCode: (String) -> Void,
+        onVerifyCode: (String, String) -> Void
+    ) {
         switch input {
         case .emailTextChanged(let email):
             validateEmail(email)
 
         case .sendButtonTapped:
-            guard let email = self.email else { return }
-            sendVerificationCode(email: email)
+            guard let email else { return }
+            onSendCode(email)
 
         case .codeTextChanged(let authNumber):
             validateCode(authNumber)
 
         case .confirmButtonTapped:
-            guard
-                let email = self.email,
-                let authNumber = self.authNumber
-            else { return }
-            verifyCode(email: email, authNumber: authNumber)
+            guard let email, let authNumber else { return }
+            onVerifyCode(email, authNumber)
 
         case .nextButtonTapped:
             outputSubject.send(.navigateToNextView)
@@ -82,18 +115,6 @@ class EmailVerificationViewModel {
         self.authNumber = authNumber
         outputSubject.send(.isCodeValid(isValid))
     }
-
-    // MARK: - Abstract
-
-    func sendVerificationCode(email: String) {
-        fatalError("sendVerificationCode(_:) must be overridden")
-    }
-
-    func verifyCode(email: String, authNumber: String) {
-        fatalError("verifyCode(_:_:) must be overridden")
-    }
-
-    // MARK: - Shared Error Handling
 
     func handleSendVerificationError(_ error: Error) {
         if let networkError = error as? NetworkError {
@@ -128,29 +149,5 @@ class EmailVerificationViewModel {
             outputSubject.send(.showErrorAlert(title: "인증번호 검증에 실패했습니다."))
             logger.error("Unhandled error in verifyCode: \(String(describing: error), privacy: .public)")
         }
-    }
-}
-
-extension EmailVerificationViewModel {
-    enum Input {
-        case emailTextChanged(String)
-        case sendButtonTapped
-        case codeTextChanged(String)
-        case confirmButtonTapped
-        case nextButtonTapped
-    }
-
-    enum Output {
-        case isEmailValid(Bool)
-        case isCodeValid(Bool)
-        case emailVerificationInProgress
-        case emailVerificationSuccess
-        case emailVerificationDuplicate(String)
-        case showErrorAlert(title: String)
-        case updateRemainingTime(Int)
-        case timerExpired
-        case codeVerificationSuccess
-        case codeVerificationFailure(String)
-        case navigateToNextView
     }
 }
