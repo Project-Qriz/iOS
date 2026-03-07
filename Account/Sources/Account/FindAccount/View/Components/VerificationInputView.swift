@@ -176,25 +176,17 @@ final class VerificationInputView: UIView {
     }
     
     func updateSendButton(isValid: Bool) {
-        setButtonState(
-            button: sendButton,
-            isEnabled: isValid,
-            enabledTitleColor: .coolNeutral800,
-            disabledTitleColor: .coolNeutral300,
-            enabledBorderColor: UIColor.customBlue200.cgColor,
-            disabledBorderColor: UIColor.customBlue200.cgColor
-        )
+        sendButton.isEnabled = isValid
+        sendButton.setTitleColor(isValid ? .coolNeutral800 : .coolNeutral300, for: .normal)
+        sendButton.layer.borderColor = UIColor.customBlue200.cgColor
     }
-    
+
     func updateConfirmButton(isValid: Bool) {
-        setButtonState(
-            button: confirmButton,
-            isEnabled: isValid,
-            enabledTitleColor: .customBlue500,
-            disabledTitleColor: .coolNeutral300,
-            enabledBorderColor: UIColor.customBlue500.cgColor,
-            disabledBorderColor: UIColor.coolNeutral200.cgColor
-        )
+        confirmButton.isEnabled = isValid
+        confirmButton.setTitleColor(isValid ? .customBlue500 : .coolNeutral300, for: .normal)
+        confirmButton.layer.borderColor = isValid
+            ? UIColor.customBlue500.cgColor
+            : UIColor.coolNeutral200.cgColor
     }
     
     func updateErrorState(
@@ -261,22 +253,8 @@ final class VerificationInputView: UIView {
     
     func handleCodeVerificationSuccess() {
         setTextFieldState(codeTextField, enabled: false, borderColor: UIColor.coolNeutral200.cgColor)
-        setButtonState(
-            button: confirmButton,
-            isEnabled: false,
-            enabledTitleColor: .customBlue500,
-            disabledTitleColor: .coolNeutral300,
-            enabledBorderColor: UIColor.customBlue200.cgColor,
-            disabledBorderColor: UIColor.coolNeutral200.cgColor
-        )
-        setButtonState(
-            button: sendButton,
-            isEnabled: false,
-            enabledTitleColor: .coolNeutral800,
-            disabledTitleColor: .coolNeutral300,
-            enabledBorderColor: UIColor.customBlue200.cgColor,
-            disabledBorderColor: UIColor.coolNeutral200.cgColor
-        )
+        updateConfirmButton(isValid: false)
+        updateSendButton(isValid: false)
         codeTextField.updateRightView(.checkmark)
         showSuccessMessage("인증 완료되었습니다.")
     }
@@ -294,34 +272,12 @@ final class VerificationInputView: UIView {
             borderColor: UIColor.coolNeutral100.cgColor,
             backgroundColor: .coolNeutral100
         )
-        setButtonState(
-            button: confirmButton,
-            isEnabled: false,
-            enabledTitleColor: .customBlue500,
-            disabledTitleColor: .coolNeutral300,
-            enabledBorderColor: UIColor.customBlue200.cgColor,
-            disabledBorderColor: UIColor.customBlue200.cgColor
-        )
-
+        updateConfirmButton(isValid: false)
         showErrorMessage("인증 시간이 만료되었어요. 재전송을 눌러주세요.")
     }
     
     func updateTimerLabel(_ remainingTime: Int) {
         codeTextField.updateTimerLabel(remainingTime)
-    }
-    
-    /// 버튼 상태 관리 메서드
-    private func setButtonState(
-        button: UIButton,
-        isEnabled: Bool,
-        enabledTitleColor: UIColor,
-        disabledTitleColor: UIColor,
-        enabledBorderColor: CGColor,
-        disabledBorderColor: CGColor
-    ) {
-        button.isEnabled = isEnabled
-        button.setTitleColor(isEnabled ? enabledTitleColor : disabledTitleColor, for: .normal)
-        button.layer.borderColor = isEnabled ? enabledBorderColor : disabledBorderColor
     }
     
     /// 텍스트필드 상태 관리 메서드
