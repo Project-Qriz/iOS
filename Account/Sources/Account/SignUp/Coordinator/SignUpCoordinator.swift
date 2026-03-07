@@ -35,6 +35,7 @@ public final class SignUpCoordinatorImpl: SignUpCoordinator, NavigationGuard {
     private let navigationController: UINavigationController
     private let signUpFlowVM: SignUpFlowViewModel
     private let signUpService: SignUpService
+    private var cancellables = Set<AnyCancellable>()
 
     // NavigationGuard
     public var isNavigating: Bool = false
@@ -150,13 +151,14 @@ public final class SignUpCoordinatorImpl: SignUpCoordinator, NavigationGuard {
         )
         
         alert.confirmButtonTappedPublisher
+            .first()
             .sink { [weak self] _ in
                 alert.dismiss(animated: true) {
                     guard let self else { return }
                     self.delegate?.didFinishSignUp(self)
                 }
             }
-            .store(in: &alert.cancellables)
+            .store(in: &cancellables)
         
         navigationController.present(alert, animated: true)
     }
