@@ -48,10 +48,10 @@ final class EmailVerificationCore {
 
     // MARK: - Properties
 
-    let outputSubject: PassthroughSubject<EmailVerificationOutput, Never> = .init()
+    private let outputSubject: PassthroughSubject<EmailVerificationOutput, Never> = .init()
     private var cancellables = Set<AnyCancellable>()
-    let countdownTimer: CountdownTimer
-    let logger: Logger
+    private let countdownTimer: CountdownTimer
+    private let logger: Logger
     private(set) var email: String?
     private(set) var authNumber: String?
 
@@ -78,6 +78,21 @@ final class EmailVerificationCore {
     }
 
     // MARK: - Methods
+
+    func sendEmailVerificationInProgress() {
+        outputSubject.send(.emailVerificationInProgress)
+    }
+
+    func handleSendCodeSuccess() {
+        outputSubject.send(.emailVerificationSuccess)
+        countdownTimer.reset()
+        countdownTimer.start()
+    }
+
+    func handleVerifyCodeSuccess() {
+        outputSubject.send(.codeVerificationSuccess)
+        countdownTimer.stop()
+    }
 
     func handle(
         _ input: EmailVerificationInput,

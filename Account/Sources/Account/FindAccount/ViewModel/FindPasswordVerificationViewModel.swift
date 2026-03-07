@@ -39,27 +39,24 @@ final class FindPasswordVerificationViewModel: EmailVerificationViewModelType {
     }
     
     private func sendVerificationCode(email: String) {
-        core.outputSubject.send(.emailVerificationInProgress)
-        
+        core.sendEmailVerificationInProgress()
+
         Task {
             do {
                 _ = try await accountRecoveryService.findPassword(email: email)
-                core.outputSubject.send(.emailVerificationSuccess)
-                core.countdownTimer.reset()
-                core.countdownTimer.start()
+                core.handleSendCodeSuccess()
             } catch {
                 core.handleSendVerificationError(error)
             }
         }
     }
-    
+
     private func verifyCode(email: String, authNumber: String) {
         Task {
             do {
                 let response = try await accountRecoveryService.verifyPasswordReset(email: email, authNumber: authNumber)
                 accountRecoveryService.setResetToken(resetToken: response.data.resetToken)
-                core.outputSubject.send(.codeVerificationSuccess)
-                core.countdownTimer.stop()
+                core.handleVerifyCodeSuccess()
             } catch {
                 core.handleVerifyCodeError(error)
             }

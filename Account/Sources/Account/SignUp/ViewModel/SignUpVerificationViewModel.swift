@@ -44,27 +44,24 @@ final class SignUpVerificationViewModel: EmailVerificationViewModelType {
     }
     
     private func sendVerificationCode(email: String) {
-        core.outputSubject.send(.emailVerificationInProgress)
-        
+        core.sendEmailVerificationInProgress()
+
         Task {
             do {
                 _ = try await signUpService.sendEmail(email)
-                core.outputSubject.send(.emailVerificationSuccess)
                 signUpFlowViewModel.updateEmail(email)
-                core.countdownTimer.reset()
-                core.countdownTimer.start()
+                core.handleSendCodeSuccess()
             } catch {
                 core.handleSendVerificationError(error)
             }
         }
     }
-    
+
     private func verifyCode(email: String, authNumber: String) {
         Task {
             do {
                 _ = try await signUpService.emailAuthentication(email: email, authNumber: authNumber)
-                core.outputSubject.send(.codeVerificationSuccess)
-                core.countdownTimer.stop()
+                core.handleVerifyCodeSuccess()
             } catch {
                 core.handleVerifyCodeError(error)
             }
