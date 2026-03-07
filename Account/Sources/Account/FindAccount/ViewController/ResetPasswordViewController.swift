@@ -11,16 +11,16 @@ import Combine
 import QRIZUtils
 
 final class ResetPasswordViewController: UIViewController {
-    
+
     // MARK: - Properties
-    
+
     weak var coordinator: AccountRecoveryCoordinator?
     private let rootView: ResetPasswordMainView
     private let resetPasswordVM: ResetPasswordViewModel
     private var didFocusOnce = false
     private var cancellables = Set<AnyCancellable>()
     nonisolated(unsafe) private var keyboardCancellable: AnyCancellable?
-    
+
     // MARK: - Initialization
 
     init(resetPasswordVM: ResetPasswordViewModel) {
@@ -29,96 +29,88 @@ final class ResetPasswordViewController: UIViewController {
         super.init(nibName: nil, bundle: nil)
         self.hidesBottomBarWhenPushed = true
     }
-    
+
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
+
     // MARK: - Lifecycle
-    
+
     override func loadView() {
         self.view = rootView
     }
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         setNavigationBarTitle(title: "비밀번호 찾기", textColor: .coolNeutral800)
         bind()
         observe()
     }
-    
+
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-
         guard !didFocusOnce else { return }
         didFocusOnce = true
-
         DispatchQueue.main.async { [weak self] in
             self?.rootView.passwordInputView.focusInitialField()
         }
     }
-    
+
     deinit {
         keyboardCancellable?.cancel()
     }
-    
+
     // MARK: - Methods
-    
+
     private func bind() {
-        let passwordTextChanged = rootView.passwordInputView.passwordTextChangedPublisher
-            .map { ResetPasswordViewModel.Input.passwordTextChanged($0) }
-        
-        let confirmTextChanged = rootView.passwordInputView.confirmTextChangedPublisher
-            .map { ResetPasswordViewModel.Input.confirmPasswordTextChanged($0) }
-        
-        let signUpButtonTapped = rootView.signUpFooterView.buttonTappedPublisher
-            .map { ResetPasswordViewModel.Input.buttonTapped }
-        
-        let input = passwordTextChanged
-            .merge(with: confirmTextChanged)
-            .merge(with: signUpButtonTapped)
-            .eraseToAnyPublisher()
-        
-        let output = resetPasswordVM.transform(input: input)
-        
-        output
+        resetPasswordVM.output
             .receive(on: DispatchQueue.main)
             .sink { [weak self] output in
                 guard let self else { return }
                 switch output {
                 case .characterRequirementChanged(let isValid):
-                    self.rootView.passwordInputView.updateCharacterRequirementUI(isValid)
-                    
+                    rootView.passwordInputView.updateCharacterRequirementUI(isValid)
+
                 case .lengthRequirementChanged(let isValid):
-                    self.rootView.passwordInputView.updateLengthRequirementUI(isValid)
-                    
+                    rootView.passwordInputView.updateLengthRequirementUI(isValid)
+
                 case .confirmValidChanged(let isValid):
-                    self.rootView.passwordInputView.updateConfirmPasswordUI(isValid)
-                    
+                    rootView.passwordInputView.updateConfirmPasswordUI(isValid)
+
                 case .updateButtonState(let canSignUp):
-                    self.rootView.signUpFooterView.updateButtonState(isValid: canSignUp)
-                    
+                    rootView.signUpFooterView.updateButtonState(isValid: canSignUp)
+
                 case .showErrorAlert(let errorMessage):
-                    self.showOneButtonAlert(with: errorMessage, storingIn: &cancellables)
-                    
+                    showOneButtonAlert(with: errorMessage, storingIn: &cancellables)
+
                 case .showResetCompleteAlert:
-                    self.showOneButtonAlert()
+                    showResetCompleteAlert()
                 }
             }
             .store(in: &cancellables)
-    }
-    
-    private func observe() {
-        keyboardCancellable = observeKeyboardNotifications(for: rootView.signUpFooterView)
-        
-        view.tapGestureEndedPublisher()
-            .sink { [weak self] _ in
-                self?.view.endEditing(true)
-            }
+
+        rootView.passwordInputView.passwordTextChangedPublisher
+            .sink { [weak self] text in self?.resetPasswordVM.send(.passwordTextChanged(text)) }
+            .store(in: &cancellables)
+
+        rootView.passwordInputView.confirmTextChangedPublisher
+            .sink { [weak self] text in self?.resetPasswordVM.send(.confirmPasswordTextChanged(text)) }
+            .store(in: &cancellables)
+
+        rootView.signUpFooterView.buttonTappedPublisher
+            .sink { [weak self] in self?.resetPasswordVM.send(.buttonTapped) }
             .store(in: &cancellables)
     }
-    
-    private func showOneButtonAlert() {
+
+    private func observe() {
+        keyboardCancellable = observeKeyboardNotifications(for: rootView.signUpFooterView)
+
+        view.tapGestureEndedPublisher()
+            .sink { [weak self] _ in self?.view.endEditing(true) }
+            .store(in: &cancellables)
+    }
+
+    private func showResetCompleteAlert() {
         let oneButtonAlert = OneButtonCustomAlertViewController(
             title: "비밀번호 변경 완료",
             description: "변경이 완료되었습니다.\n보안을 위해 재로그인을 진행해 주세요."
@@ -131,7 +123,7 @@ final class ResetPasswordViewController: UIViewController {
                 }
             }
             .store(in: &cancellables)
-        
+
         present(oneButtonAlert, animated: true)
     }
 }

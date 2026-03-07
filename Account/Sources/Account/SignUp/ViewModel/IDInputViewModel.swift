@@ -13,18 +13,21 @@ import Network
 
 @MainActor
 final class IDInputViewModel {
-    
+
     // MARK: - Properties
-    
+
     private let signUpFlowViewModel: SignUpFlowViewModel
     private let signUpService: SignUpService
     private var id: String = ""
     private let outputSubject: PassthroughSubject<Output, Never> = .init()
-    private var cancellables = Set<AnyCancellable>()
     private let logger = Logger(subsystem: Bundle.main.bundleIdentifier ?? "com.ksh.qriz", category: "IDInputViewModel")
-    
+
+    var output: AnyPublisher<Output, Never> {
+        outputSubject.eraseToAnyPublisher()
+    }
+
     // MARK: - Initialization
-    
+
     init(
         signUpFlowViewModel: SignUpFlowViewModel,
         signUpService: SignUpService
@@ -32,36 +35,29 @@ final class IDInputViewModel {
         self.signUpFlowViewModel = signUpFlowViewModel
         self.signUpService = signUpService
     }
-    
+
     // MARK: - Methods
-    
-    func transform(input: AnyPublisher<Input, Never>) -> AnyPublisher<Output, Never> {
-        input
-            .sink { [weak self] event in
-                guard let self else { return }
-                switch event {
-                case .idTextChanged(let newId):
-                    self.id = newId
-                    self.validateID(newId)
-                    
-                case .duplicateCheckButtonTapped:
-                    self.checkUsernameDuplicate(self.id)
-                    
-                case .nextButtonTapped:
-                    self.signUpFlowViewModel.updateID(id)
-                    self.outputSubject.send(.navigateToPasswordInputView)
-                }
-            }
-            .store(in: &cancellables)
-        
-        return outputSubject.eraseToAnyPublisher()
+
+    func send(_ input: Input) {
+        switch input {
+        case .idTextChanged(let newId):
+            id = newId
+            validateID(newId)
+
+        case .duplicateCheckButtonTapped:
+            checkUsernameDuplicate(id)
+
+        case .nextButtonTapped:
+            signUpFlowViewModel.updateID(id)
+            outputSubject.send(.navigateToPasswordInputView)
+        }
     }
-    
+
     private func validateID(_ text: String) {
         let isValid = text.isValidId
         outputSubject.send(.isIDValid(isValid))
     }
-    
+
     private func checkUsernameDuplicate(_ id: String) {
         Task {
             do {
@@ -82,7 +78,6 @@ final class IDInputViewModel {
                         }
                     default:
                         outputSubject.send(.showErrorAlert(title: networkError.errorMessage))
-
                     }
                 } else {
                     outputSubject.send(.showErrorAlert(title: "아이디 중복 확인에 실패했습니다."))
@@ -99,7 +94,7 @@ extension IDInputViewModel {
         case duplicateCheckButtonTapped
         case nextButtonTapped
     }
-    
+
     enum Output {
         case isIDValid(Bool)
         case duplicateCheckResult(message: String, isAvailable: Bool)
@@ -108,4 +103,3 @@ extension IDInputViewModel {
         case navigateToPasswordInputView
     }
 }
-

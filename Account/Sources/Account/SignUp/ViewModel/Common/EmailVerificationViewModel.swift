@@ -13,91 +13,88 @@ import QRIZUtils
 
 @MainActor
 class EmailVerificationViewModel {
-    
+
     // MARK: - Properties
-    
+
     private var email: String?
     private var authNumber: String?
     let outputSubject: PassthroughSubject<Output, Never> = .init()
     private var cancellables = Set<AnyCancellable>()
     let countdownTimer: CountdownTimer
     let logger: Logger
-    
+
+    var output: AnyPublisher<Output, Never> {
+        outputSubject.eraseToAnyPublisher()
+    }
+
     // MARK: - Initialization
-    
+
     init(logCategory: String, totalTime: Int = 180) {
         self.logger = Logger(subsystem: Bundle.main.bundleIdentifier ?? "com.ksh.qriz", category: logCategory)
         self.countdownTimer = CountdownTimer(totalTime: totalTime)
-        
+
         countdownTimer.remainingTimePublisher
             .sink { [weak self] remainingTime in
                 guard let self else { return }
                 outputSubject.send(.updateRemainingTime(remainingTime))
-                
+
                 if remainingTime <= 0 {
                     outputSubject.send(.timerExpired)
                 }
             }
             .store(in: &cancellables)
     }
-    
+
     // MARK: - Methods
-    
-    func transform(input: AnyPublisher<Input, Never>) -> AnyPublisher<Output, Never> {
-        input
-            .sink { [weak self] event in
-                guard let self else { return }
-                switch event {
-                case .emailTextChanged(let email):
-                    self.validateEmail(email)
-                    
-                case .sendButtonTapped:
-                    guard let email = self.email else { return }
-                    self.sendVerificationCode(email: email)
-                    
-                case .codeTextChanged(let authNumber):
-                    self.validateCode(authNumber)
-                    
-                case .confirmButtonTapped:
-                    guard
-                        let email = self.email,
-                        let authNumber = self.authNumber
-                    else { return }
-                    self.verifyCode(email: email, authNumber: authNumber)
-                    
-                case .nextButtonTapped:
-                    outputSubject.send(.navigateToNextView)
-                }
-            }
-            .store(in: &cancellables)
-        
-        return outputSubject.eraseToAnyPublisher()
+
+    func send(_ input: Input) {
+        switch input {
+        case .emailTextChanged(let email):
+            validateEmail(email)
+
+        case .sendButtonTapped:
+            guard let email = self.email else { return }
+            sendVerificationCode(email: email)
+
+        case .codeTextChanged(let authNumber):
+            validateCode(authNumber)
+
+        case .confirmButtonTapped:
+            guard
+                let email = self.email,
+                let authNumber = self.authNumber
+            else { return }
+            verifyCode(email: email, authNumber: authNumber)
+
+        case .nextButtonTapped:
+            outputSubject.send(.navigateToNextView)
+        }
     }
-    
+
     private func validateEmail(_ email: String) {
         let isValid = email.isValidEmail
         self.email = email
         outputSubject.send(.isEmailValid(isValid))
     }
-    
+
     private func validateCode(_ authNumber: String) {
         let isValid = authNumber.count == 6
         self.authNumber = authNumber
         outputSubject.send(.isCodeValid(isValid))
     }
-    
+
     // MARK: - Abstract
-    
+
     func sendVerificationCode(email: String) {
         fatalError("sendVerificationCode(_:) must be overridden")
     }
-    
+
     func verifyCode(email: String, authNumber: String) {
         fatalError("verifyCode(_:_:) must be overridden")
     }
-    
+
     // MARK: - Shared Error Handling
-    
+
     func handleSendVerificationError(_ error: Error) {
         if let networkError = error as? NetworkError {
             switch networkError {
@@ -117,7 +114,7 @@ class EmailVerificationViewModel {
             logger.error("Unhandled error in sendVerificationCode: \(String(describing: error), privacy: .public)")
         }
     }
-    
+
     func handleVerifyCodeError(_ error: Error) {
         if let networkError = error as? NetworkError {
             switch networkError {
@@ -142,7 +139,7 @@ extension EmailVerificationViewModel {
         case confirmButtonTapped
         case nextButtonTapped
     }
-    
+
     enum Output {
         case isEmailValid(Bool)
         case isCodeValid(Bool)

@@ -13,47 +13,43 @@ import Network
 
 @MainActor
 final class FindIDViewModel {
-    
+
     // MARK: - Properties
-    
+
     private let accountRecoveryService: AccountRecoveryService
     private var email: String?
     private let outputSubject: PassthroughSubject<Output, Never> = .init()
-    private var cancellables = Set<AnyCancellable>()
     private let logger = Logger(subsystem: Bundle.main.bundleIdentifier ?? "com.ksh.qriz", category: "FindIDViewModel")
-    
+
+    var output: AnyPublisher<Output, Never> {
+        outputSubject.eraseToAnyPublisher()
+    }
+
     // MARK: - Initialization
-    
+
     init(accountRecoveryService: AccountRecoveryService) {
         self.accountRecoveryService = accountRecoveryService
     }
-    
+
     // MARK: - Methods
-    
-    func transform(input: AnyPublisher<Input, Never>) -> AnyPublisher<Output, Never> {
-        input
-            .sink { [weak self] event in
-                guard let self else { return }
-                switch event {
-                case .emailTextChanged(let text):
-                    self.email = text
-                    self.validateEmail(text)
-                    
-                case .buttonTapped:
-                    guard let email = self.email else { return }
-                    self.sendFindIDEmail(email: email)
-                }
-            }
-            .store(in: &cancellables)
-        
-        return outputSubject.eraseToAnyPublisher()
+
+    func send(_ input: Input) {
+        switch input {
+        case .emailTextChanged(let text):
+            email = text
+            validateEmail(text)
+
+        case .buttonTapped:
+            guard let email = self.email else { return }
+            sendFindIDEmail(email: email)
+        }
     }
-    
+
     private func validateEmail(_ text: String) {
         let isValid = text.isValidEmail
         outputSubject.send(.isEmailValid(isValid))
     }
-    
+
     private func sendFindIDEmail(email: String) {
         Task {
             do {
@@ -77,7 +73,7 @@ extension FindIDViewModel {
         case emailTextChanged(String)
         case buttonTapped
     }
-    
+
     enum Output {
         case isEmailValid(Bool)
         case showErrorAlert(String)

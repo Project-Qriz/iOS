@@ -11,16 +11,16 @@ import Combine
 import QRIZUtils
 
 final class FindIDViewController: UIViewController {
-    
+
     // MARK: - Properties
-    
+
     weak var coordinator: LoginCoordinator?
     private let rootView: FindIDMainView
     private let findIDInputVM: FindIDViewModel
     private var didFocusOnce = false
     private var cancellables = Set<AnyCancellable>()
     nonisolated(unsafe) private var keyboardCancellable: AnyCancellable?
-    
+
     // MARK: - Initialization
 
     init(findIDInputVM: FindIDViewModel) {
@@ -28,86 +28,76 @@ final class FindIDViewController: UIViewController {
         self.findIDInputVM = findIDInputVM
         super.init(nibName: nil, bundle: nil)
     }
-    
+
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
+
     // MARK: - Lifecycle
-    
+
     override func loadView() {
         self.view = rootView
     }
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         setNavigationBarTitle(title: "아이디 찾기", textColor: .coolNeutral800)
         bind()
         observe()
     }
-    
+
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-
         guard !didFocusOnce else { return }
         didFocusOnce = true
-
         DispatchQueue.main.async { [weak self] in
             self?.rootView.findIDInputView.focusInitialField()
         }
     }
-    
+
     deinit {
         keyboardCancellable?.cancel()
     }
-    
+
     // MARK: - Methods
-    
+
     private func bind() {
-        let emailTextChanged = rootView.findIDInputView.textChangedPublisher
-            .map { FindIDViewModel.Input.emailTextChanged($0) }
-        
-        let nextButtonTapped = rootView.signUpFooterView.buttonTappedPublisher
-            .map { FindIDViewModel.Input.buttonTapped }
-        
-        let input = Publishers.Merge(
-            emailTextChanged,
-            nextButtonTapped
-        )
-            .eraseToAnyPublisher()
-        
-        let output = findIDInputVM.transform(input: input)
-        
-        output
+        findIDInputVM.output
             .receive(on: DispatchQueue.main)
             .sink { [weak self] output in
                 guard let self else { return }
                 switch output {
                 case .isEmailValid(let isValid):
-                    self.rootView.findIDInputView.updateErrorState(isValid: isValid)
-                    self.rootView.signUpFooterView.updateButtonState(isValid: isValid)
+                    rootView.findIDInputView.updateErrorState(isValid: isValid)
+                    rootView.signUpFooterView.updateButtonState(isValid: isValid)
 
                 case .showErrorAlert(let errorMessage):
-                    self.showOneButtonAlert(with: errorMessage, storingIn: &cancellables)
+                    showOneButtonAlert(with: errorMessage, storingIn: &cancellables)
 
                 case .showEmailSentAlert:
-                    self.showOneButtonAlert()
+                    showEmailSentAlert()
                 }
             }
             .store(in: &cancellables)
-    }
-    
-    private func observe() {
-        keyboardCancellable = observeKeyboardNotifications(for: rootView.signUpFooterView)
-        
-        view.tapGestureEndedPublisher()
-            .sink { [weak self] _ in
-                self?.view.endEditing(true)
-            }
+
+        rootView.findIDInputView.textChangedPublisher
+            .sink { [weak self] text in self?.findIDInputVM.send(.emailTextChanged(text)) }
+            .store(in: &cancellables)
+
+        rootView.signUpFooterView.buttonTappedPublisher
+            .sink { [weak self] in self?.findIDInputVM.send(.buttonTapped) }
             .store(in: &cancellables)
     }
-    
-    private func showOneButtonAlert() {
+
+    private func observe() {
+        keyboardCancellable = observeKeyboardNotifications(for: rootView.signUpFooterView)
+
+        view.tapGestureEndedPublisher()
+            .sink { [weak self] _ in self?.view.endEditing(true) }
+            .store(in: &cancellables)
+    }
+
+    private func showEmailSentAlert() {
         let oneButtonAlert = OneButtonCustomAlertViewController(
             title: "이메일 발송 완료!",
             description: "입력하신 이메일 주소로 아이디가\n발송되었습니다. 메일함을 확인해주세요."
@@ -120,7 +110,7 @@ final class FindIDViewController: UIViewController {
                 }
             }
             .store(in: &cancellables)
-        
+
         present(oneButtonAlert, animated: true)
     }
 }

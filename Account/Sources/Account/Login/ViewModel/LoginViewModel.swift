@@ -14,21 +14,24 @@ import Auth
 
 @MainActor
 final class LoginViewModel {
-    
+
     // MARK: - Properties
-    
+
     private let loginService: LoginService
     private let userInfoService: UserInfoService
     private let socialLoginService: SocialLoginService
     private let outputSubject: PassthroughSubject<Output, Never> = .init()
-    private var cancellables = Set<AnyCancellable>()
     private let logger = Logger(subsystem: Bundle.main.bundleIdentifier ?? "com.ksh.qriz", category: "LoginViewModel")
-    
+
     private var id: String = ""
     private var password: String = ""
-    
+
+    var output: AnyPublisher<Output, Never> {
+        outputSubject.eraseToAnyPublisher()
+    }
+
     // MARK: - Initialization
-    
+
     init(
         loginService: LoginService,
         userInfoService: UserInfoService,
@@ -38,42 +41,35 @@ final class LoginViewModel {
         self.userInfoService = userInfoService
         self.socialLoginService = socialLoginService
     }
-    
+
     // MARK: - Methods
-    
-    func transform(input: AnyPublisher<Input, Never>) -> AnyPublisher<Output, Never> {
-        input
-            .sink { [weak self] event in
-                guard let self else { return }
-                switch event {
-                case .idTextChanged(let newID):
-                    self.id = newID
-                    self.validateFields()
-                    
-                case .passwordTextChanged(let newPassword):
-                    self.password = newPassword
-                    self.validateFields()
-                    
-                case .loginButtonTapped:
-                    self.login()
-                    
-                case .accountActionSelected(let action):
-                    self.outputSubject.send(.navigateToAccountAction(action))
-                    
-                case .socialLoginSelected(let socialLogin, let presenter):
-                    self.handleSocialLogin(socialLogin, presenter: presenter)
-                }
-            }
-            .store(in: &cancellables)
-        
-        return outputSubject.eraseToAnyPublisher()
+
+    func send(_ input: Input) {
+        switch input {
+        case .idTextChanged(let newID):
+            id = newID
+            validateFields()
+
+        case .passwordTextChanged(let newPassword):
+            password = newPassword
+            validateFields()
+
+        case .loginButtonTapped:
+            login()
+
+        case .accountActionSelected(let action):
+            outputSubject.send(.navigateToAccountAction(action))
+
+        case .socialLoginSelected(let socialLogin, let presenter):
+            handleSocialLogin(socialLogin, presenter: presenter)
+        }
     }
-    
+
     private func validateFields() {
         let isValid = id.isValidId && password.isValidPassword
         outputSubject.send(.isLoginButtonEnabled(isValid))
     }
-    
+
     private func handleSocialLogin(_ socialLogin: SocialLogin, presenter: UIViewController?) {
         switch socialLogin {
         case .google:
@@ -92,7 +88,7 @@ final class LoginViewModel {
         case .email: break
         }
     }
-    
+
     private func login() {
         Task {
             do {
@@ -151,7 +147,6 @@ final class LoginViewModel {
     }
 }
 
-
 extension LoginViewModel {
     enum Input {
         case idTextChanged(String)
@@ -160,14 +155,14 @@ extension LoginViewModel {
         case accountActionSelected(AccountAction)
         case socialLoginSelected(SocialLogin, presenter: UIViewController?)
     }
-    
+
     enum Output {
         case isLoginButtonEnabled(Bool)
         case showErrorAlert(title: String, description: String? = nil)
         case navigateToAccountAction(AccountAction)
         case loginSucceeded
     }
-    
+
     enum AccountAction: String {
         case findId = "아이디 찾기"
         case findPassword = "비밀번호 찾기"

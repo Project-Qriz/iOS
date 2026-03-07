@@ -12,65 +12,61 @@ import Network
 
 @MainActor
 final class ResetPasswordViewModel {
-    
+
     // MARK: - Properties
-    
+
     private let accountRecoveryService: AccountRecoveryService
     private var password: String = ""
     private var confirmPassword: String = ""
     private var confirmPasswordDidEdit: Bool = false
     private let outputSubject: PassthroughSubject<Output, Never> = .init()
-    private var cancellables = Set<AnyCancellable>()
     private let logger = Logger(subsystem: Bundle.main.bundleIdentifier ?? "com.ksh.qriz", category: "ResetPasswordViewModel")
-    
+
+    var output: AnyPublisher<Output, Never> {
+        outputSubject.eraseToAnyPublisher()
+    }
+
     // MARK: - Initialization
-    
+
     init(accountRecoveryService: AccountRecoveryService) {
         self.accountRecoveryService = accountRecoveryService
     }
-    
+
     // MARK: - Methods
-    
-    func transform(input: AnyPublisher<Input, Never>) -> AnyPublisher<Output, Never> {
-        input
-            .sink { [weak self] event in
-                guard let self else { return }
-                switch event {
-                case .passwordTextChanged(let newPassword):
-                    self.password = newPassword
-                    self.validate()
-                    
-                case .confirmPasswordTextChanged(let newConfirm):
-                    self.confirmPassword = newConfirm
-                    self.confirmPasswordDidEdit = true
-                    self.validate()
-                    
-                case .buttonTapped:
-                    self.resetPassword()
-                }
-            }
-            .store(in: &cancellables)
-        
-        return outputSubject.eraseToAnyPublisher()
+
+    func send(_ input: Input) {
+        switch input {
+        case .passwordTextChanged(let newPassword):
+            password = newPassword
+            validate()
+
+        case .confirmPasswordTextChanged(let newConfirm):
+            confirmPassword = newConfirm
+            confirmPasswordDidEdit = true
+            validate()
+
+        case .buttonTapped:
+            resetPassword()
+        }
     }
-    
+
     private func validate() {
         let characterRequirement = password.isValidCharacterRequirement
         let lengthRequirement = password.isValidLengthRequirement
         let passwordValid = characterRequirement && lengthRequirement
-        
+
         if confirmPasswordDidEdit {
             let confirmValid = passwordValid && (confirmPassword == password)
             outputSubject.send(.confirmValidChanged(confirmValid))
         }
-        
+
         outputSubject.send(.characterRequirementChanged(characterRequirement))
         outputSubject.send(.lengthRequirementChanged(lengthRequirement))
-        
+
         let canReset = passwordValid && (confirmPasswordDidEdit ? (confirmPassword == password) : false)
         outputSubject.send(.updateButtonState(canReset))
     }
-    
+
     private func resetPassword() {
         Task {
             do {
@@ -95,7 +91,7 @@ extension ResetPasswordViewModel {
         case confirmPasswordTextChanged(String)
         case buttonTapped
     }
-    
+
     enum Output {
         case characterRequirementChanged(Bool)
         case lengthRequirementChanged(Bool)

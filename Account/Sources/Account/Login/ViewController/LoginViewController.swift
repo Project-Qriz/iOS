@@ -10,26 +10,26 @@ import Combine
 import QRIZUtils
 
 final class LoginViewController: UIViewController {
-    
+
     // MARK: - Properties
-    
+
     weak var coordinator: LoginCoordinator?
     private let rootView: LoginMainView
     private let loginVM: LoginViewModel
     private var cancellables = Set<AnyCancellable>()
-    
+
     // MARK: - Initialization
-    
+
     init(loginVM: LoginViewModel) {
         self.loginVM = loginVM
         self.rootView = LoginMainView()
         super.init(nibName: nil, bundle: nil)
     }
-    
+
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
+
     // MARK: - Lifecycle
 
     override func loadView() {
@@ -41,72 +41,65 @@ final class LoginViewController: UIViewController {
         bind()
         observe()
     }
-    
+
     // MARK: - Methods
-    
+
     private func bind() {
-        let idInput = rootView.loginInputView.idTextPublisher
-            .map { LoginViewModel.Input.idTextChanged($0) }
-        
-        let passwordInput = rootView.loginInputView.passwordTextPublisher
-            .map { LoginViewModel.Input.passwordTextChanged($0) }
-        
-        let loginButtonInput = rootView.loginInputView.loginButtonTapPublisher
-            .map { LoginViewModel.Input.loginButtonTapped }
-        
-        let accountActionInput = rootView.accountOptionsView.accountActionTapPublisher
-            .map { LoginViewModel.Input.accountActionSelected($0) }
-        
-        let socialLoginInput = rootView.socialLoginView.socialLoginPublisher
-            .map { [weak self] social -> LoginViewModel.Input in
-                let isPresentingProvider = (social == .google) || (social == .apple)
-                let presenter = isPresentingProvider ? self : nil
-                return .socialLoginSelected(social, presenter: presenter)
-            }
-        
-        let input = Publishers.Merge5(
-            idInput,
-            passwordInput,
-            loginButtonInput,
-            accountActionInput,
-            socialLoginInput
-        )
-            .eraseToAnyPublisher()
-        
-        let output = loginVM.transform(input: input)
-        
-        output
+        loginVM.output
             .receive(on: DispatchQueue.main)
             .sink { [weak self] output in
                 guard let self else { return }
                 switch output {
                 case .isLoginButtonEnabled(let isEnabled):
-                    self.rootView.loginInputView.setLoginButtonEnabled(isEnabled)
-                    
+                    rootView.loginInputView.setLoginButtonEnabled(isEnabled)
+
                 case .showErrorAlert(let title, let description):
-                    self.showOneButtonAlert(with: title, for: description, storingIn: &cancellables)
-                    
+                    showOneButtonAlert(with: title, for: description, storingIn: &cancellables)
+
                 case .navigateToAccountAction(let accountAction):
                     switch accountAction {
-                    case .findId: self.coordinator?.showFindId()
-                    case .findPassword: self.coordinator?.showFindPassword()
-                    case .signUp: self.coordinator?.showSignUp()
+                    case .findId: coordinator?.showFindId()
+                    case .findPassword: coordinator?.showFindPassword()
+                    case .signUp: coordinator?.showSignUp()
                     }
-                    
+
                 case .loginSucceeded:
-                    if let loginCoordinator = self.coordinator {
+                    if let loginCoordinator = coordinator {
                         loginCoordinator.delegate?.didLogin(loginCoordinator)
                     }
                 }
             }
             .store(in: &cancellables)
+
+        rootView.loginInputView.idTextPublisher
+            .sink { [weak self] text in self?.loginVM.send(.idTextChanged(text)) }
+            .store(in: &cancellables)
+
+        rootView.loginInputView.passwordTextPublisher
+            .sink { [weak self] text in self?.loginVM.send(.passwordTextChanged(text)) }
+            .store(in: &cancellables)
+
+        rootView.loginInputView.loginButtonTapPublisher
+            .sink { [weak self] in self?.loginVM.send(.loginButtonTapped) }
+            .store(in: &cancellables)
+
+        rootView.accountOptionsView.accountActionTapPublisher
+            .sink { [weak self] action in self?.loginVM.send(.accountActionSelected(action)) }
+            .store(in: &cancellables)
+
+        rootView.socialLoginView.socialLoginPublisher
+            .sink { [weak self] social in
+                guard let self else { return }
+                let isPresentingProvider = (social == .google) || (social == .apple)
+                let presenter: UIViewController? = isPresentingProvider ? self : nil
+                loginVM.send(.socialLoginSelected(social, presenter: presenter))
+            }
+            .store(in: &cancellables)
     }
-    
+
     private func observe() {
         view.tapGestureEndedPublisher()
-            .sink { [weak self] _ in
-                self?.view.endEditing(true)
-            }
+            .sink { [weak self] _ in self?.view.endEditing(true) }
             .store(in: &cancellables)
     }
 }

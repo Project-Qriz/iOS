@@ -11,16 +11,16 @@ import Combine
 import QRIZUtils
 
 final class FindPasswordVerificationViewController: UIViewController {
-    
+
     // MARK: - Properties
-    
+
     weak var coordinator: AccountRecoveryCoordinator?
     private let rootView: FindPasswordVerificationMainView
     private let findPasswordVerificationVM: FindPasswordVerificationViewModel
     private var didFocusOnce = false
     private var cancellables = Set<AnyCancellable>()
     nonisolated(unsafe) private var keyboardCancellable: AnyCancellable?
-    
+
     // MARK: - Initialization
 
     init(findPasswordVerificationVM: FindPasswordVerificationViewModel) {
@@ -29,17 +29,17 @@ final class FindPasswordVerificationViewController: UIViewController {
         super.init(nibName: nil, bundle: nil)
         self.hidesBottomBarWhenPushed = true
     }
-    
+
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
+
     // MARK: - Lifecycle
-    
+
     override func loadView() {
         self.view = rootView
     }
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         setNavigationBarTitle(title: "비밀번호 찾기", textColor: .coolNeutral800)
@@ -49,105 +49,90 @@ final class FindPasswordVerificationViewController: UIViewController {
 
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-
         guard !didFocusOnce else { return }
         didFocusOnce = true
-
         DispatchQueue.main.async { [weak self] in
             self?.rootView.verificationInputView.focusInitialField()
         }
     }
-    
+
     deinit {
         keyboardCancellable?.cancel()
     }
-    
+
     // MARK: - Methods
-    
+
     private func bind() {
-        let emailTextChanged = rootView.verificationInputView.emailTextChangedPublisher
-            .map { FindPasswordVerificationViewModel.Input.emailTextChanged($0) }
-        
-        let sendButtonTapped = rootView.verificationInputView.sendButtonTappedPublisher
-            .map { FindPasswordVerificationViewModel.Input.sendButtonTapped }
-        
-        let codeTextChanged = rootView.verificationInputView.codeTextChangedPublisher
-            .map { FindPasswordVerificationViewModel.Input.codeTextChanged($0) }
-        
-        let confirmButtonTapped = rootView.verificationInputView.confirmButtonPublisher
-            .map { FindPasswordVerificationViewModel.Input.confirmButtonTapped }
-        
-        let nextButtonTapped = rootView.signUpFooterView.buttonTappedPublisher
-            .map { FindPasswordVerificationViewModel.Input.nextButtonTapped }
-        
-        let input = emailTextChanged
-            .merge(with: sendButtonTapped)
-            .merge(with: codeTextChanged)
-            .merge(with: confirmButtonTapped)
-            .merge(with: nextButtonTapped)
-            .eraseToAnyPublisher()
-        
-        let output = findPasswordVerificationVM.transform(input: input)
-        
-        output
+        findPasswordVerificationVM.output
             .receive(on: DispatchQueue.main)
             .sink { [weak self] output in
                 guard let self else { return }
                 switch output {
                 case .isEmailValid(let isValid):
-                    self.rootView.verificationInputView.updateErrorState(for: .email, isValid: isValid)
-                    self.rootView.verificationInputView.updateSendButton(isValid: isValid)
-                    
+                    rootView.verificationInputView.updateErrorState(for: .email, isValid: isValid)
+                    rootView.verificationInputView.updateSendButton(isValid: isValid)
+
                 case .isCodeValid(let isValid):
-                    self.rootView.verificationInputView.updateConfirmButton(isValid: isValid)
-                    
+                    rootView.verificationInputView.updateConfirmButton(isValid: isValid)
+
                 case .emailVerificationInProgress:
-                    self.rootView.verificationInputView.showMessage(
-                        "이메일 확인중...",
-                        textColor: .coolNeutral500
-                    )
-                    
+                    rootView.verificationInputView.showMessage("이메일 확인중...", textColor: .coolNeutral500)
+
                 case .emailVerificationSuccess:
-                    self.rootView.verificationInputView.handleEmailVerificationSuccess()
-                    
+                    rootView.verificationInputView.handleEmailVerificationSuccess()
+
                 case .emailVerificationDuplicate(let errorMessage):
-                    self.rootView.verificationInputView.updateErrorState(
-                        for: .email,
-                        isValid: false,
-                        message: errorMessage
-                    )
-                    
+                    rootView.verificationInputView.updateErrorState(for: .email, isValid: false, message: errorMessage)
+
                 case .showErrorAlert(let title):
-                    self.showOneButtonAlert(with: title, storingIn: &cancellables)
-                    
+                    showOneButtonAlert(with: title, storingIn: &cancellables)
+
                 case .updateRemainingTime(let remainingTime):
-                    self.rootView.verificationInputView.updateTimerLabel(remainingTime)
-                    
+                    rootView.verificationInputView.updateTimerLabel(remainingTime)
+
                 case .timerExpired:
-                    self.rootView.verificationInputView.handleTimerExpired()
-                    self.rootView.verificationInputView.resetCodeTextField()
-                    
+                    rootView.verificationInputView.handleTimerExpired()
+                    rootView.verificationInputView.resetCodeTextField()
+
                 case .codeVerificationSuccess:
-                    self.rootView.verificationInputView.handleCodeVerificationSuccess()
-                    self.rootView.signUpFooterView.updateButtonState(isValid: true)
-                    
+                    rootView.verificationInputView.handleCodeVerificationSuccess()
+                    rootView.signUpFooterView.updateButtonState(isValid: true)
+
                 case .codeVerificationFailure:
-                    self.rootView.verificationInputView.handleCodeVerificationFailure()
-                    
+                    rootView.verificationInputView.handleCodeVerificationFailure()
+
                 case .navigateToNextView:
-                    self.coordinator?.showResetPassword()
+                    coordinator?.showResetPassword()
                 }
             }
             .store(in: &cancellables)
+
+        rootView.verificationInputView.emailTextChangedPublisher
+            .sink { [weak self] text in self?.findPasswordVerificationVM.send(.emailTextChanged(text)) }
+            .store(in: &cancellables)
+
+        rootView.verificationInputView.sendButtonTappedPublisher
+            .sink { [weak self] in self?.findPasswordVerificationVM.send(.sendButtonTapped) }
+            .store(in: &cancellables)
+
+        rootView.verificationInputView.codeTextChangedPublisher
+            .sink { [weak self] text in self?.findPasswordVerificationVM.send(.codeTextChanged(text)) }
+            .store(in: &cancellables)
+
+        rootView.verificationInputView.confirmButtonPublisher
+            .sink { [weak self] in self?.findPasswordVerificationVM.send(.confirmButtonTapped) }
+            .store(in: &cancellables)
+
+        rootView.signUpFooterView.buttonTappedPublisher
+            .sink { [weak self] in self?.findPasswordVerificationVM.send(.nextButtonTapped) }
+            .store(in: &cancellables)
     }
-    
+
     private func observe() {
         keyboardCancellable = observeKeyboardNotifications(for: rootView.signUpFooterView)
-        
+
         view.tapGestureEndedPublisher()
-            .sink { [weak self] _ in
-                self?.view.endEditing(true)
-            }
+            .sink { [weak self] _ in self?.view.endEditing(true) }
             .store(in: &cancellables)
     }
 }

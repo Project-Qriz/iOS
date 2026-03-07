@@ -11,40 +11,36 @@ import os.log
 
 @MainActor
 public final class TermsDetailViewModel {
-    
+
     // MARK: - Properties
-    
+
     private let term: TermItem
     private let outputSubject: PassthroughSubject<Output, Never> = .init()
-    private var cancellables = Set<AnyCancellable>()
     private let logger = Logger(subsystem: Bundle.main.bundleIdentifier ?? "com.ksh.qriz", category: "TermsDetailVM")
-    
+
+    var output: AnyPublisher<Output, Never> {
+        outputSubject.eraseToAnyPublisher()
+    }
+
     // MARK: - Initialization
-    
+
     public init(termItem: TermItem) {
         self.term = termItem
     }
-    
+
     // MARK: - Methods
-    
-    func transform(input: AnyPublisher<Input, Never>) -> AnyPublisher<Output, Never> {
-        input
-            .sink { [weak self] event in
-                guard let self else { return }
-                switch event {
-                case .viewDidLoad:
-                    self.outputSubject.send(.configureTitle(self.term.title))
-                    self.loadPDF()
-                    
-                case .dismissButtonTapped:
-                    self.outputSubject.send(.dismissModal)
-                }
-            }
-            .store(in: &cancellables)
-        
-        return outputSubject.eraseToAnyPublisher()
+
+    func send(_ input: Input) {
+        switch input {
+        case .viewDidLoad:
+            outputSubject.send(.configureTitle(term.title))
+            loadPDF()
+
+        case .dismissButtonTapped:
+            outputSubject.send(.dismissModal)
+        }
     }
-    
+
     private func loadPDF() {
         guard let url = Bundle.main.url(
             forResource: term.pdfName, withExtension: "pdf") else {
@@ -67,7 +63,7 @@ extension TermsDetailViewModel {
         case viewDidLoad
         case dismissButtonTapped
     }
-    
+
     enum Output {
         case configureTitle(String)
         case pdfLoaded(Data)

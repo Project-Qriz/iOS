@@ -10,40 +10,36 @@ import Combine
 
 @MainActor
 final class NameInputViewModel {
-    
+
     // MARK: - Properties
-    
+
     private let signUpFlowViewModel: SignUpFlowViewModel
     private var name: String = ""
     private let outputSubject: PassthroughSubject<Output, Never> = .init()
-    private var cancellables = Set<AnyCancellable>()
-    
+
+    var output: AnyPublisher<Output, Never> {
+        outputSubject.eraseToAnyPublisher()
+    }
+
     // MARK: - Initialization
-    
+
     init(signUpFlowViewModel: SignUpFlowViewModel) {
         self.signUpFlowViewModel = signUpFlowViewModel
     }
-    
+
     // MARK: - Methods
-    
-    func transform(input: AnyPublisher<Input, Never>) -> AnyPublisher<Output, Never> {
-        input
-            .sink { [weak self] event in
-                guard let self else { return }
-                switch event {
-                case .nameTextChanged(let text):
-                    self.validateName(text)
-                    
-                case .buttonTapped:
-                    self.signUpFlowViewModel.updateName(name)
-                    self.outputSubject.send(.navigateToEmailInputView)
-                }
-            }
-            .store(in: &cancellables)
-        
-        return outputSubject.eraseToAnyPublisher()
+
+    func send(_ input: Input) {
+        switch input {
+        case .nameTextChanged(let text):
+            validateName(text)
+
+        case .buttonTapped:
+            signUpFlowViewModel.updateName(name)
+            outputSubject.send(.navigateToEmailInputView)
+        }
     }
-    
+
     private func validateName(_ text: String) {
         let isValid = text.isValidName
         name = text
@@ -56,7 +52,7 @@ extension NameInputViewModel {
         case nameTextChanged(String)
         case buttonTapped
     }
-    
+
     enum Output {
         case isNameValid(Bool)
         case navigateToEmailInputView
