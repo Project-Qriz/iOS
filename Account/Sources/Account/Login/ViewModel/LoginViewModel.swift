@@ -22,6 +22,7 @@ final class LoginViewModel {
     private let socialLoginService: SocialLoginService
     private var id: String = ""
     private var password: String = ""
+    private var isLoggingIn: Bool = false
     private let outputSubject: PassthroughSubject<Output, Never> = .init()
     private let logger = Logger.account(category: "LoginViewModel")
 
@@ -124,7 +125,11 @@ final class LoginViewModel {
         providerName: String,
         action: @escaping () async throws -> SocialLoginResponse
     ) {
+        guard !isLoggingIn else { return }
+        isLoggingIn = true
+
         Task {
+            defer { isLoggingIn = false }
             do {
                 let response = try await action()
                 let user = response.data.user
