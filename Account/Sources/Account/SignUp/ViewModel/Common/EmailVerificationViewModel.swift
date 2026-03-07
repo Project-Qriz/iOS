@@ -48,12 +48,12 @@ final class EmailVerificationCore {
 
     // MARK: - Properties
 
-    private let outputSubject: PassthroughSubject<EmailVerificationOutput, Never> = .init()
+    private var email: String?
+    private var authNumber: String?
     private var cancellables = Set<AnyCancellable>()
     private let countdownTimer: CountdownTimer
     private let logger: Logger
-    private(set) var email: String?
-    private(set) var authNumber: String?
+    private let outputSubject: PassthroughSubject<EmailVerificationOutput, Never> = .init()
 
     var output: AnyPublisher<EmailVerificationOutput, Never> {
         outputSubject.eraseToAnyPublisher()
@@ -78,21 +78,6 @@ final class EmailVerificationCore {
     }
 
     // MARK: - Methods
-
-    func sendEmailVerificationInProgress() {
-        outputSubject.send(.emailVerificationInProgress)
-    }
-
-    func handleSendCodeSuccess() {
-        outputSubject.send(.emailVerificationSuccess)
-        countdownTimer.reset()
-        countdownTimer.start()
-    }
-
-    func handleVerifyCodeSuccess() {
-        outputSubject.send(.codeVerificationSuccess)
-        countdownTimer.stop()
-    }
 
     func handle(
         _ input: EmailVerificationInput,
@@ -119,16 +104,19 @@ final class EmailVerificationCore {
         }
     }
 
-    private func validateEmail(_ email: String) {
-        let isValid = email.isValidEmail
-        self.email = email
-        outputSubject.send(.isEmailValid(isValid))
+    func sendEmailVerificationInProgress() {
+        outputSubject.send(.emailVerificationInProgress)
     }
 
-    private func validateCode(_ authNumber: String) {
-        let isValid = authNumber.count == 6
-        self.authNumber = authNumber
-        outputSubject.send(.isCodeValid(isValid))
+    func handleSendCodeSuccess() {
+        outputSubject.send(.emailVerificationSuccess)
+        countdownTimer.reset()
+        countdownTimer.start()
+    }
+
+    func handleVerifyCodeSuccess() {
+        outputSubject.send(.codeVerificationSuccess)
+        countdownTimer.stop()
     }
 
     func handleSendVerificationError(_ error: Error) {
@@ -164,5 +152,17 @@ final class EmailVerificationCore {
             outputSubject.send(.showErrorAlert(title: "인증번호 검증에 실패했습니다."))
             logger.error("Unhandled error in verifyCode: \(String(describing: error), privacy: .public)")
         }
+    }
+
+    private func validateEmail(_ email: String) {
+        let isValid = email.isValidEmail
+        self.email = email
+        outputSubject.send(.isEmailValid(isValid))
+    }
+
+    private func validateCode(_ authNumber: String) {
+        let isValid = authNumber.count == 6
+        self.authNumber = authNumber
+        outputSubject.send(.isCodeValid(isValid))
     }
 }

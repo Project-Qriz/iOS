@@ -28,13 +28,12 @@ final class TermsAgreementModalViewModel {
     // MARK: - Properties
 
     private let signUpFlowViewModel: SignUpFlowViewModel
-    private let outputSubject: PassthroughSubject<Output, Never> = .init()
-    private let logger = Logger.account(category: "TermsAgreementModalVM")
-
     private var terms: [TermItem] = [
         .init(title: "서비스 이용약관", pdfName: "TermsOfService", isAgreed: false),
         .init(title: "개인정보 처리방침", pdfName: "PrivacyPolicy", isAgreed: false)
     ]
+    private let outputSubject: PassthroughSubject<Output, Never> = .init()
+    private let logger = Logger.account(category: "TermsAgreementModalViewModel")
 
     var output: AnyPublisher<Output, Never> {
         outputSubject.eraseToAnyPublisher()
