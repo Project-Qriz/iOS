@@ -51,7 +51,6 @@ public final class TermsDetailViewController: UIViewController {
 
     private func bind() {
         viewModel.output
-            .receive(on: DispatchQueue.main)
             .sink { [weak self] output in
                 guard let self else { return }
                 switch output {

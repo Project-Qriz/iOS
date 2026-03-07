@@ -63,7 +63,6 @@ final class SignUpVerificationViewController: UIViewController {
 
     private func bind() {
         signUpVerificationVM.output
-            .receive(on: DispatchQueue.main)
             .sink { [weak self] output in
                 guard let self else { return }
                 switch output {

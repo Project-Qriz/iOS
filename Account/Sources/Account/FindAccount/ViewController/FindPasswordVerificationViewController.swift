@@ -64,7 +64,6 @@ final class FindPasswordVerificationViewController: UIViewController {
 
     private func bind() {
         findPasswordVerificationVM.output
-            .receive(on: DispatchQueue.main)
             .sink { [weak self] output in
                 guard let self else { return }
                 switch output {

@@ -62,7 +62,6 @@ final class PasswordInputViewController: UIViewController {
 
     private func bind() {
         passwordInputVM.output
-            .receive(on: DispatchQueue.main)
             .sink { [weak self] output in
                 guard let self else { return }
                 switch output {

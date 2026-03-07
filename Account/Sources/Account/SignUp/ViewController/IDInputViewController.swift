@@ -63,7 +63,6 @@ final class IDInputViewController: UIViewController {
 
     private func bind() {
         idInputVM.output
-            .receive(on: DispatchQueue.main)
             .sink { [weak self] output in
                 guard let self else { return }
                 switch output {

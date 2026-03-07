@@ -46,7 +46,6 @@ final class LoginViewController: UIViewController {
 
     private func bind() {
         loginVM.output
-            .receive(on: DispatchQueue.main)
             .sink { [weak self] output in
                 guard let self else { return }
                 switch output {
