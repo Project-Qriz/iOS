@@ -7,7 +7,7 @@
 
 import Foundation
 import Combine
-import os.log
+import os
 import Network
 
 public struct TermItem {
@@ -59,10 +59,8 @@ final class TermsAgreementModalViewModel {
         case .allToggle:
             let newState = !terms.allSatisfy(\.isAgreed)
 
-            terms = terms.map {
-                .init(title: $0.title,
-                      pdfName: $0.pdfName,
-                      isAgreed: newState)
+            for index in terms.indices {
+                terms[index].isAgreed = newState
             }
 
             outputSubject.send(.allAgreeChanged(newState))

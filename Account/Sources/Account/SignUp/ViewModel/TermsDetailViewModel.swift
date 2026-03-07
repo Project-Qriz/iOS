@@ -7,7 +7,7 @@
 
 import Foundation
 import Combine
-import os.log
+import os
 
 @MainActor
 public final class TermsDetailViewModel {
