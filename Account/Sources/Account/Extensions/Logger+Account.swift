@@ -6,6 +6,7 @@
 //
 
 import os
+import Foundation
 
 extension Logger {
     static func account(category: String) -> Logger {
