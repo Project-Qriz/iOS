@@ -84,7 +84,6 @@ final class FindPasswordVerificationViewController: UIViewController {
 
                 case .timerExpired:
                     rootView.verificationInputView.handleTimerExpired()
-                    rootView.verificationInputView.resetCodeTextField()
 
                 case .codeVerificationSuccess:
                     rootView.verificationInputView.handleCodeVerificationSuccess()

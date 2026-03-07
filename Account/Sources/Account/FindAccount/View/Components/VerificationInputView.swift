@@ -287,6 +287,7 @@ final class VerificationInputView: UIView {
     }
     
     func handleTimerExpired() {
+        codeTextField.text = ""
         setTextFieldState(
             codeTextField,
             enabled: false,
@@ -301,16 +302,12 @@ final class VerificationInputView: UIView {
             enabledBorderColor: UIColor.customBlue200.cgColor,
             disabledBorderColor: UIColor.customBlue200.cgColor
         )
-        
+
         showErrorMessage("인증 시간이 만료되었어요. 재전송을 눌러주세요.")
     }
     
     func updateTimerLabel(_ remainingTime: Int) {
         codeTextField.updateTimerLabel(remainingTime)
-    }
-    
-    func resetCodeTextField() {
-        codeTextField.text = ""
     }
     
     /// 버튼 상태 관리 메서드
