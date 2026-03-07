@@ -165,10 +165,8 @@ final class VerificationInputView: UIView {
         codeTextField.textPublisher
             .sink { [weak self] text in
                 guard let self else { return }
-                let trimmedText = text.count > 6 ? String(text.prefix(6)) : text
-                
-                if trimmedText != text {
-                    self.codeTextField.text = trimmedText
+                if text.count > 6 {
+                    self.codeTextField.text = String(text.prefix(6))
                 }
                 
                 self.inputErrorLabel.isHidden = true
