@@ -60,7 +60,7 @@ final class NameInputViewController: UIViewController {
                     rootView.singleInputView.updateErrorState(isValid: isValid)
                     rootView.signUpFooterView.updateButtonState(isValid: isValid)
 
-                case .navigateToEmailInputView:
+                case .navigateToIDInputView:
                     coordinator?.showIDInput()
                 }
             }

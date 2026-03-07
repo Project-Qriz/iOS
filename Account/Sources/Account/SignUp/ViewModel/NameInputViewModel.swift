@@ -36,7 +36,7 @@ final class NameInputViewModel {
 
         case .buttonTapped:
             signUpFlowViewModel.updateName(name)
-            outputSubject.send(.navigateToEmailInputView)
+            outputSubject.send(.navigateToIDInputView)
         }
     }
 
@@ -55,6 +55,6 @@ extension NameInputViewModel {
 
     enum Output {
         case isNameValid(Bool)
-        case navigateToEmailInputView
+        case navigateToIDInputView
     }
 }
