@@ -4,50 +4,25 @@
 //
 
 import XCTest
-import iOSSnapshotTestCase
+import SnapshotTesting
 @testable import Conceptbook
 import QRIZUtils
 import DesignSystem
 
 @MainActor
-class ConceptbookSnapshotTests: FBSnapshotTestCase {
-
-    override func setUp() {
-        super.setUp()
-        recordMode = false
-
-        let referenceImagesDir = URL(fileURLWithPath: #filePath)
-            .deletingLastPathComponent()
-            .appendingPathComponent("__Snapshots__")
-            .path
-        setenv("FB_REFERENCE_IMAGE_DIR", referenceImagesDir, 1)
-    }
-
-    // MARK: - ChapterInfoView
+class ConceptbookSnapshotTests: ConceptbookSnapshotTestCase {
 
     func testChapterInfoView() {
         let view = ChapterInfoView()
         view.configure(subjectTitle: Chapter.dataModeling.cardTitle, itemCount: Chapter.dataModeling.cardItemCount)
-        let size = view.systemLayoutSizeFitting(CGSize(width: 375, height: UIView.layoutFittingCompressedSize.height))
-        view.frame = CGRect(origin: .zero, size: size)
-        view.layoutIfNeeded()
-
-        FBSnapshotVerifyView(view)
+        assertSnapshot(of: snapshotView(view, width: 375), as: .image)
     }
-
-    // MARK: - MenuListView
 
     func testMenuListView() {
         let view = MenuListView()
         view.configure(with: Chapter.dataModeling.conceptItems)
-        let size = view.systemLayoutSizeFitting(CGSize(width: 375, height: UIView.layoutFittingCompressedSize.height))
-        view.frame = CGRect(origin: .zero, size: size)
-        view.layoutIfNeeded()
-
-        FBSnapshotVerifyView(view)
+        assertSnapshot(of: snapshotView(view, width: 375), as: .image)
     }
-
-    // MARK: - SubjectCardView
 
     func testSubjectCardView() {
         let view = SubjectCardView(
@@ -55,10 +30,6 @@ class ConceptbookSnapshotTests: FBSnapshotTestCase {
             title: Chapter.dataModeling.cardTitle,
             itemCount: Chapter.dataModeling.cardItemCount
         )
-        let size = view.systemLayoutSizeFitting(CGSize(width: 160, height: UIView.layoutFittingCompressedSize.height))
-        view.frame = CGRect(origin: .zero, size: size)
-        view.layoutIfNeeded()
-
-        FBSnapshotVerifyView(view)
+        assertSnapshot(of: snapshotView(view, width: 160), as: .image)
     }
 }
