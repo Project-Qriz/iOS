@@ -62,7 +62,7 @@ final class EmailVerificationCore {
     // MARK: - Initialization
 
     init(logCategory: String, totalTime: Int = 180) {
-        self.logger = Logger.account(category: logCategory)
+        self.logger = Logger.make(category: logCategory)
         self.countdownTimer = CountdownTimer(totalTime: totalTime)
 
         countdownTimer.remainingTimePublisher

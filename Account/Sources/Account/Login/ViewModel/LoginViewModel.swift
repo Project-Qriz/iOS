@@ -23,7 +23,7 @@ final class LoginViewModel {
     private var password: String = ""
     private var isLoggingIn: Bool = false
     private let outputSubject: PassthroughSubject<Output, Never> = .init()
-    private let logger = Logger.account(category: "LoginViewModel")
+    private let logger = Logger.make(category: "LoginViewModel")
 
     var output: AnyPublisher<Output, Never> {
         outputSubject.eraseToAnyPublisher()

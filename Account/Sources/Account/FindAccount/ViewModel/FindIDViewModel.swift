@@ -19,7 +19,7 @@ final class FindIDViewModel {
     private let accountRecoveryService: AccountRecoveryService
     private var email: String?
     private let outputSubject: PassthroughSubject<Output, Never> = .init()
-    private let logger = Logger.account(category: "FindIDViewModel")
+    private let logger = Logger.make(category: "FindIDViewModel")
 
     var output: AnyPublisher<Output, Never> {
         outputSubject.eraseToAnyPublisher()

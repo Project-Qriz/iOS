@@ -33,7 +33,7 @@ final class TermsAgreementModalViewModel {
         .init(title: "개인정보 처리방침", pdfName: "PrivacyPolicy", isAgreed: false)
     ]
     private let outputSubject: PassthroughSubject<Output, Never> = .init()
-    private let logger = Logger.account(category: "TermsAgreementModalViewModel")
+    private let logger = Logger.make(category: "TermsAgreementModalViewModel")
 
     var output: AnyPublisher<Output, Never> {
         outputSubject.eraseToAnyPublisher()
