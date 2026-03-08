@@ -19,6 +19,12 @@ class SignUpSnapshotTests: AccountSnapshotTestCase {
         flowVM = SignUpFlowViewModel(signUpService: signUpService)
     }
 
+    override func tearDown() {
+        signUpService = nil
+        flowVM = nil
+        super.tearDown()
+    }
+
     func testNameInputInitialState() {
         let vc = inNav(NameInputViewController(nameInputVM: NameInputViewModel(signUpFlowViewModel: flowVM)))
         vc.view.frame = CGRect(origin: .zero, size: Self.deviceSize)
