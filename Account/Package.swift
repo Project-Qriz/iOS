@@ -12,6 +12,7 @@ let package = Package(
         .package(path: "../Network"),
         .package(path: "../DesignSystem"),
         .package(path: "../QRIZUtils"),
+        .package(url: "https://github.com/pointfreeco/swift-snapshot-testing", from: "1.18.9")
     ],
     targets: [
         .target(
@@ -27,7 +28,8 @@ let package = Package(
             dependencies: [
                 "Account",
                 "Network",
-                "QRIZUtils"
+                "QRIZUtils",
+                .product(name: "SnapshotTesting", package: "swift-snapshot-testing"),
             ]
         ),
     ]
