@@ -4,14 +4,14 @@ import PackageDescription
 
 let package = Package(
     name: "Account",
-    platforms: [.iOS(.v15)],
+    platforms: [.iOS(.v17)],
     products: [
         .library(name: "Account", targets: ["Account"]),
     ],
     dependencies: [
         .package(path: "../Network"),
         .package(path: "../DesignSystem"),
-        .package(path: "../QRIZUtils")
+        .package(path: "../QRIZUtils"),
     ],
     targets: [
         .target(
@@ -24,7 +24,11 @@ let package = Package(
         ),
         .testTarget(
             name: "AccountTests",
-            dependencies: ["Account", "Network", "QRIZUtils"]
+            dependencies: [
+                "Account",
+                "Network",
+                "QRIZUtils"
+            ]
         ),
     ]
 )

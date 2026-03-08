@@ -5,7 +5,7 @@ import PackageDescription
 
 let package = Package(
     name: "Network",
-    platforms: [.iOS(.v15)],
+    platforms: [.iOS(.v17)],
     products: [.library(name: "Network", targets: ["Network"]),],
     dependencies: [.package(path: "../QRIZUtils")],
     targets: [
