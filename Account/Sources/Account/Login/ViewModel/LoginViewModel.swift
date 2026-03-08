@@ -10,7 +10,6 @@ import Combine
 import os
 import QRIZUtils
 import Network
-import Auth
 
 @MainActor
 final class LoginViewModel {
@@ -160,7 +159,7 @@ extension LoginViewModel {
         case socialLoginSelected(SocialLogin, presenter: UIViewController?)
     }
 
-    enum Output {
+    enum Output: Equatable {
         case isLoginButtonEnabled(Bool)
         case showErrorAlert(title: String, description: String? = nil)
         case navigateToAccountAction(AccountAction)

@@ -53,7 +53,7 @@ extension NameInputViewModel {
         case buttonTapped
     }
 
-    enum Output {
+    enum Output: Equatable {
         case isNameValid(Bool)
         case navigateToIDInputView
     }

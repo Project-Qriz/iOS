@@ -74,7 +74,7 @@ extension FindIDViewModel {
         case buttonTapped
     }
 
-    enum Output {
+    enum Output: Equatable {
         case isEmailValid(Bool)
         case showErrorAlert(String)
         case showEmailSentAlert

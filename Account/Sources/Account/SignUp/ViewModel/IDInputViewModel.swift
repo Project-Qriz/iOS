@@ -95,7 +95,7 @@ extension IDInputViewModel {
         case nextButtonTapped
     }
 
-    enum Output {
+    enum Output: Equatable {
         case isIDValid(Bool)
         case duplicateCheckResult(message: String, isAvailable: Bool)
         case updateNextButtonState(Bool)

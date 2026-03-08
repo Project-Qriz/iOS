@@ -1,6 +1,6 @@
 //
 //  SocialAuthError.swift
-//  Auth
+//  Network
 //
 
 public enum SocialAuthError: Error, Equatable {

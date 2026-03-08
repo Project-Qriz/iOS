@@ -10,7 +10,7 @@ import Combine
 import os
 import Network
 
-public struct TermItem {
+public struct TermItem: Equatable {
     public let title: String
     public let pdfName: String
     public var isAgreed: Bool
@@ -126,7 +126,7 @@ extension TermsAgreementModalViewModel {
         case signUpButtonTapped
     }
 
-    enum Output {
+    enum Output: Equatable {
         case initialTerms([TermItem])
         case dismissModal
         case allAgreeChanged(Bool)

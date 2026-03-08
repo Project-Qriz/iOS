@@ -9,7 +9,6 @@ let package = Package(
         .library(name: "Account", targets: ["Account"]),
     ],
     dependencies: [
-        .package(path: "../Auth"),
         .package(path: "../Network"),
         .package(path: "../DesignSystem"),
         .package(path: "../QRIZUtils")
@@ -18,7 +17,6 @@ let package = Package(
         .target(
             name: "Account",
             dependencies: [
-                "Auth",
                 "Network",
                 "DesignSystem",
                 "QRIZUtils"
@@ -26,7 +24,7 @@ let package = Package(
         ),
         .testTarget(
             name: "AccountTests",
-            dependencies: ["Account"]
+            dependencies: ["Account", "Network", "QRIZUtils"]
         ),
     ]
 )

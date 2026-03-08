@@ -74,7 +74,7 @@ extension PasswordInputViewModel {
         case buttonTapped
     }
 
-    enum Output {
+    enum Output: Equatable {
         case characterRequirementChanged(Bool)
         case lengthRequirementChanged(Bool)
         case passwordValidChanged(Bool)

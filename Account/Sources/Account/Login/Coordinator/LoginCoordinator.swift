@@ -8,7 +8,6 @@
 import UIKit
 import QRIZUtils
 import Network
-import Auth
 
 @MainActor
 public protocol LoginCoordinator: Coordinator {
