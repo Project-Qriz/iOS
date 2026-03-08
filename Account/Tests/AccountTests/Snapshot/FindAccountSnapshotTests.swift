@@ -10,19 +10,8 @@ import SnapshotTesting
 @MainActor
 class FindAccountSnapshotTests: AccountSnapshotTestCase {
 
-    private var recoveryService: StubAccountRecoveryService!
-
-    override func setUp() {
-        super.setUp()
-        recoveryService = StubAccountRecoveryService()
-    }
-
-    override func tearDown() {
-        recoveryService = nil
-        super.tearDown()
-    }
-
     func testFindIDInitialState() {
+        let recoveryService = StubAccountRecoveryService()
         let vc = inNav(FindIDViewController(findIDInputVM: FindIDViewModel(accountRecoveryService: recoveryService)))
         vc.view.frame = CGRect(origin: .zero, size: Self.deviceSize)
         vc.view.layoutIfNeeded()
@@ -30,6 +19,7 @@ class FindAccountSnapshotTests: AccountSnapshotTestCase {
     }
 
     func testFindPasswordVerificationInitialState() {
+        let recoveryService = StubAccountRecoveryService()
         let vc = inNav(FindPasswordVerificationViewController(findPasswordVerificationVM: FindPasswordVerificationViewModel(accountRecoveryService: recoveryService)))
         vc.view.frame = CGRect(origin: .zero, size: Self.deviceSize)
         vc.view.layoutIfNeeded()
@@ -37,6 +27,7 @@ class FindAccountSnapshotTests: AccountSnapshotTestCase {
     }
 
     func testResetPasswordInitialState() {
+        let recoveryService = StubAccountRecoveryService()
         let vc = inNav(ResetPasswordViewController(resetPasswordVM: ResetPasswordViewModel(accountRecoveryService: recoveryService)))
         vc.view.frame = CGRect(origin: .zero, size: Self.deviceSize)
         vc.view.layoutIfNeeded()
