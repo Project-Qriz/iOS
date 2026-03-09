@@ -1,24 +1,28 @@
 // swift-tools-version: 6.0
-// The swift-tools-version declares the minimum version of Swift required to build this package.
 
 import PackageDescription
 
 let package = Package(
     name: "MistakeNote",
+    platforms: [.iOS(.v17)],
     products: [
-        // Products define the executables and libraries a package produces, making them visible to other packages.
-        .library(
-            name: "MistakeNote",
-            targets: ["MistakeNote"]),
+        .library(name: "MistakeNote", targets: ["MistakeNote"]),
+    ],
+    dependencies: [
+        .package(path: "../Network"),
+        .package(path: "../DesignSystem"),
+        .package(path: "../QRIZUtils"),
+        .package(path: "../Conceptbook"),
     ],
     targets: [
-        // Targets are the basic building blocks of a package, defining a module or a test suite.
-        // Targets can depend on other targets in this package and products from dependencies.
         .target(
-            name: "MistakeNote"),
-        .testTarget(
-            name: "MistakeNoteTests",
-            dependencies: ["MistakeNote"]
+            name: "MistakeNote",
+            dependencies: [
+                "Network",
+                "DesignSystem",
+                "QRIZUtils",
+                "Conceptbook",
+            ]
         ),
     ]
 )
