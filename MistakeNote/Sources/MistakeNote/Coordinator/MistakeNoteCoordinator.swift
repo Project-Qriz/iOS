@@ -31,7 +31,7 @@ public final class MistakeNoteCoordinatorImpl: MistakeNoteCoordinator, Navigatio
     public var childCoordinators: [Coordinator] = []
     public var isNavigating: Bool = false
     private var navigationController: UINavigationController?
-    private nonisolated(unsafe) let service: MistakeNoteService
+    private let service: MistakeNoteService
 
     // MARK: - Initializers
 

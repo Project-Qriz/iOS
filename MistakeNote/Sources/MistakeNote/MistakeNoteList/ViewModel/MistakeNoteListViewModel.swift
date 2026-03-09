@@ -98,7 +98,7 @@ public final class MistakeNoteListViewModel: ObservableObject {
 
     // MARK: - Private Properties
 
-    private nonisolated(unsafe) let service: MistakeNoteService
+    private let service: MistakeNoteService
     private var cancellables = Set<AnyCancellable>()
     private let output = PassthroughSubject<Output, Never>()
 
