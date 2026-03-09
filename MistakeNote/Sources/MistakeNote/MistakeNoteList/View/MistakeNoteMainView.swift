@@ -19,7 +19,6 @@ public struct MistakeNoteMainView: View {
 
     @State private var isDropdownExpanded: Bool = false
     @State private var hasAppeared: Bool = false
-    @State private var expandedFilter: FilterType? = nil
     @State private var showSubjectFilterSheet: Bool = false
     @State private var sheetSubject: QRIZUtils.Subject = .one
 
@@ -107,10 +106,20 @@ private extension MistakeNoteMainView {
 
     var questionSection: some View {
         VStack(spacing: 0) {
-            filterChipsRow
-                .padding(.horizontal, 18)
-                .padding(.top, 16)
-                .zIndex(1)
+            MistakeNoteFilterBarView(
+                filterAll: viewModel.filterAll,
+                hasActiveConceptFilter: !viewModel.selectedConceptsFilter.isEmpty,
+                hasFilterForSubject: { viewModel.hasFilterForSubject($0) },
+                onFilterAllChanged: { input.send(.filterAllChanged($0)) },
+                onSubjectTapped: { subject in
+                    sheetSubject = subject
+                    showSubjectFilterSheet = true
+                },
+                onReset: { input.send(.resetConceptFilters) }
+            )
+            .padding(.horizontal, 18)
+            .padding(.top, 16)
+            .zIndex(1)
 
             questionCountLabel
                 .padding(.horizontal, 18)
@@ -134,6 +143,15 @@ private extension MistakeNoteMainView {
             .padding(.horizontal, 18)
             .padding(.top, 12)
             .padding(.bottom, 24)
+        }
+    }
+
+    var questionCountLabel: some View {
+        HStack {
+            Text("\(viewModel.displayedQuestions.count)개")
+                .font(.system(size: 14, weight: .regular))
+                .foregroundColor(Color.coolNeutral500)
+            Spacer()
         }
     }
 }
@@ -163,99 +181,6 @@ private extension MistakeNoteMainView {
             )
             .padding(.horizontal, 18)
             .padding(.top, 120)
-        }
-    }
-}
-
-// MARK: - Filter Components
-
-private extension MistakeNoteMainView {
-
-    var filterChipsRow: some View {
-        HStack(spacing: 8) {
-            FilterChipButton(
-                title: "모두",
-                options: QuestionFilter.allCases.map { $0.rawValue },
-                selectedOption: Binding(
-                    get: { viewModel.filterAll.rawValue },
-                    set: { input.send(.filterAllChanged(QuestionFilter(rawValue: $0) ?? .all)) }
-                ),
-                isExpanded: Binding(
-                    get: { expandedFilter == .all },
-                    set: { expandedFilter = $0 ? .all : nil }
-                )
-            )
-
-            Divider()
-                .frame(height: 32)
-                .background(Color.coolNeutral200)
-
-            if !viewModel.selectedConceptsFilter.isEmpty {
-                resetFilterButton
-            }
-
-            subjectFilterButton(subject: .one, title: "1과목")
-            subjectFilterButton(subject: .two, title: "2과목")
-
-            Spacer()
-        }
-    }
-
-    var resetFilterButton: some View {
-        Button {
-            input.send(.resetConceptFilters)
-        } label: {
-            HStack(spacing: 4) {
-                Text("초기화")
-                    .font(.system(size: 14, weight: .medium))
-
-                Image(systemName: "arrow.trianglehead.2.counterclockwise.rotate.90")
-                    .font(.system(size: 12, weight: .regular))
-            }
-            .foregroundColor(Color.coolNeutral500)
-            .padding(.horizontal, 12)
-            .padding(.vertical, 8)
-            .background(Color.white)
-            .cornerRadius(16)
-            .overlay(
-                RoundedRectangle(cornerRadius: 16)
-                    .stroke(Color.coolNeutral200, lineWidth: 1)
-            )
-        }
-    }
-
-    func subjectFilterButton(subject: QRIZUtils.Subject, title: String) -> some View {
-        let isActive = viewModel.hasFilterForSubject(subject)
-
-        return Button {
-            sheetSubject = subject
-            showSubjectFilterSheet = true
-        } label: {
-            HStack(spacing: 4) {
-                Text(title)
-                    .font(.system(size: 14, weight: .medium))
-
-                Image(systemName: "chevron.down")
-                    .font(.system(size: 10, weight: .semibold))
-            }
-            .foregroundColor(isActive ? .white : Color.coolNeutral500)
-            .padding(.horizontal, 12)
-            .padding(.vertical, 8)
-            .background(isActive ? Color.coolNeutral700 : Color.white)
-            .cornerRadius(16)
-            .overlay(
-                RoundedRectangle(cornerRadius: 16)
-                    .stroke(isActive ? Color.clear : Color.coolNeutral200, lineWidth: 1)
-            )
-        }
-    }
-
-    var questionCountLabel: some View {
-        HStack {
-            Text("\(viewModel.displayedQuestions.count)개")
-                .font(.system(size: 14, weight: .regular))
-                .foregroundColor(Color.coolNeutral500)
-            Spacer()
         }
     }
 }
@@ -305,12 +230,6 @@ private extension MistakeNoteMainView {
             input.send(.sessionSelected(item))
         }
     }
-}
-
-// MARK: - FilterType
-
-private enum FilterType {
-    case all
 }
 
 // MARK: - Preview
