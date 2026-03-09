@@ -37,9 +37,9 @@ public final class SubjectFilterSheetViewModel: ObservableObject {
     }
 
     public var availableChapters: [Chapter] {
-        let normalizedAvailableConcepts = Set(availableConcepts.map { normalizeConceptName($0) })
+        let normalizedAvailableConcepts = Set(availableConcepts.map { $0.normalizingConcept() })
         return selectedSubject.chapters.filter { chapter in
-            chapter.concepts.contains { normalizedAvailableConcepts.contains(normalizeConceptName($0)) }
+            chapter.concepts.contains { normalizedAvailableConcepts.contains($0.normalizingConcept()) }
         }
     }
 
@@ -65,7 +65,4 @@ public final class SubjectFilterSheetViewModel: ObservableObject {
         }
     }
 
-    public func normalizeConceptName(_ name: String) -> String {
-        name.replacingOccurrences(of: " ", with: "")
-    }
 }

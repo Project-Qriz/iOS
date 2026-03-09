@@ -19,13 +19,8 @@ public struct FilterSectionView: View {
 
     /// 해당 챕터에서 가용한 개념만 필터링 (공백 제거하여 비교)
     private var filteredConcepts: [String] {
-        let normalizedAvailableConcepts = Set(availableConcepts.map { normalizeConceptName($0) })
-        return chapter.concepts.filter { normalizedAvailableConcepts.contains(normalizeConceptName($0)) }
-    }
-
-    /// 개념 이름 정규화 (공백 제거)
-    private func normalizeConceptName(_ name: String) -> String {
-        name.replacingOccurrences(of: " ", with: "")
+        let normalizedAvailableConcepts = Set(availableConcepts.map { $0.normalizingConcept() })
+        return chapter.concepts.filter { normalizedAvailableConcepts.contains($0.normalizingConcept()) }
     }
 
     // MARK: - Initializer

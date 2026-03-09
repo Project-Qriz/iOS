@@ -73,11 +73,11 @@ public final class MistakeNoteListViewModel: ObservableObject {
         }
 
         if !selectedConceptsFilter.isEmpty {
-            let normalizedSelectedConcepts = Set(selectedConceptsFilter.map { normalizeConceptName($0) })
+            let normalizedSelectedConcepts = Set(selectedConceptsFilter.map { $0.normalizingConcept() })
             questions = questions.filter { question in
                 let questionConcepts = question.keyConcepts
                     .components(separatedBy: ",")
-                    .map { normalizeConceptName($0.trimmingCharacters(in: .whitespaces)) }
+                    .map { $0.trimmingCharacters(in: .whitespaces).normalizingConcept() }
                 return questionConcepts.contains { normalizedSelectedConcepts.contains($0) }
             }
         }
@@ -157,8 +157,8 @@ public final class MistakeNoteListViewModel: ObservableObject {
     public func hasFilterForSubject(_ subject: QRIZUtils.Subject) -> Bool {
         guard !selectedConceptsFilter.isEmpty else { return false }
 
-        let normalizedSelectedConcepts = Set(selectedConceptsFilter.map { normalizeConceptName($0) })
-        let subjectConcepts = subject.chapters.flatMap { $0.concepts }.map { normalizeConceptName($0) }
+        let normalizedSelectedConcepts = Set(selectedConceptsFilter.map { $0.normalizingConcept() })
+        let subjectConcepts = subject.chapters.flatMap { $0.concepts }.map { $0.normalizingConcept() }
 
         return normalizedSelectedConcepts.contains { selectedConcept in
             subjectConcepts.contains(selectedConcept)
@@ -166,10 +166,6 @@ public final class MistakeNoteListViewModel: ObservableObject {
     }
 
     // MARK: - Private Methods
-
-    private func normalizeConceptName(_ name: String) -> String {
-        name.replacingOccurrences(of: " ", with: "")
-    }
 
     private func resetConceptFilters() {
         selectedConceptsFilter = []
