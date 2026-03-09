@@ -9,7 +9,7 @@ import os
 import Foundation
 
 extension Logger {
-    static func make(category: String) -> Logger {
+    public static func make(category: String) -> Logger {
         Logger(subsystem: Bundle.main.bundleIdentifier ?? "com.ksh.qriz", category: category)
     }
 }
