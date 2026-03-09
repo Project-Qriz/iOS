@@ -7,6 +7,7 @@
 
 import Foundation
 import Combine
+import os
 import QRIZUtils
 import Network
 
@@ -103,6 +104,7 @@ public final class MistakeNoteListViewModel: ObservableObject {
 
     // MARK: - Private Properties
 
+    private let logger = Logger.make(category: "MistakeNoteListViewModel")
     private let service: MistakeNoteService
     private var cancellables = Set<AnyCancellable>()
     private let output = PassthroughSubject<Output, Never>()
@@ -216,7 +218,7 @@ public final class MistakeNoteListViewModel: ObservableObject {
             }
         } catch {
             errorMessage = "데이터를 불러오는데 실패했습니다."
-            print("Failed to load daily initial data: \(error)")
+            logger.error("Failed to load daily initial data: \(error)")
         }
 
         isLoading = false
@@ -240,7 +242,7 @@ public final class MistakeNoteListViewModel: ObservableObject {
             }
         } catch {
             errorMessage = "문제를 불러오는데 실패했습니다."
-            print("Failed to load clips (category: \(category)): \(error)")
+            logger.error("Failed to load clips (category: \(category)): \(error)")
         }
 
         isLoading = false
@@ -275,7 +277,7 @@ public final class MistakeNoteListViewModel: ObservableObject {
             }
         } catch {
             errorMessage = "데이터를 불러오는데 실패했습니다."
-            print("Failed to load mock exam initial data: \(error)")
+            logger.error("Failed to load mock exam initial data: \(error)")
         }
 
         isLoading = false

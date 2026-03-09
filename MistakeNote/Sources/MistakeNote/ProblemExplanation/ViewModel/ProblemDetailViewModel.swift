@@ -7,6 +7,7 @@
 
 import Foundation
 import Combine
+import os
 import QRIZUtils
 import Network
 
@@ -32,6 +33,7 @@ public final class ProblemDetailViewModel: ObservableObject {
     @Published public var errorMessage: String?
 
     // MARK: - Private Properties
+    private let logger = Logger.make(category: "ProblemDetailViewModel")
     private let fetchDetail: () async throws -> DailyResultDetailEntity
     private var cancellables = Set<AnyCancellable>()
     private let output: PassthroughSubject<Output, Never> = .init()
@@ -97,7 +99,7 @@ public final class ProblemDetailViewModel: ObservableObject {
             problemDetail = try await fetchDetail()
         } catch {
             errorMessage = "문제 정보를 불러오는데 실패했습니다."
-            print("Failed to load problem detail: \(error)")
+            logger.error("Failed to load problem detail: \(error)")
         }
 
         isLoading = false
