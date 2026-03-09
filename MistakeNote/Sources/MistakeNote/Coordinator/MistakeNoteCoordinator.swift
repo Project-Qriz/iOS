@@ -31,7 +31,7 @@ public final class MistakeNoteCoordinatorImpl: MistakeNoteCoordinator, Navigatio
     public var childCoordinators: [Coordinator] = []
     public var isNavigating: Bool = false
     private var navigationController: UINavigationController?
-    private let service: MistakeNoteService
+    private nonisolated(unsafe) let service: MistakeNoteService
 
     // MARK: - Initializers
 
@@ -73,14 +73,14 @@ public final class MistakeNoteCoordinatorImpl: MistakeNoteCoordinator, Navigatio
 // MARK: - MistakeNoteViewControllerDelegate
 
 extension MistakeNoteCoordinatorImpl: MistakeNoteViewControllerDelegate {
-    func mistakeNoteViewController(
+    public func mistakeNoteViewController(
         _ viewController: MistakeNoteViewController,
         didSelectClipWithId clipId: Int
     ) {
         showClipDetail(clipId: clipId)
     }
 
-    func mistakeNoteViewController(
+    public func mistakeNoteViewController(
         _ viewController: MistakeNoteViewController,
         didRequestExamForTab tab: MistakeNoteTab
     ) {
@@ -91,11 +91,11 @@ extension MistakeNoteCoordinatorImpl: MistakeNoteViewControllerDelegate {
 // MARK: - ProblemDetailCoordinating
 
 extension MistakeNoteCoordinatorImpl: ProblemDetailCoordinating {
-    func navigateToConceptTab() {
+    public func navigateToConceptTab() {
         delegate?.moveFromMistakeNoteToConcept(self)
     }
 
-    func navigateToConcept(chapter: Chapter, conceptItem: ConceptItem) {
+    public func navigateToConcept(chapter: Chapter, conceptItem: ConceptItem) {
         showConcept(chapter: chapter, conceptItem: conceptItem)
     }
 }

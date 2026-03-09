@@ -10,6 +10,7 @@ import QRIZUtils
 import Network
 import ExamKit
 import Conceptbook
+import MistakeNote
 
 @MainActor
 protocol ExamCoordinator: Coordinator {
