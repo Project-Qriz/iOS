@@ -11,6 +11,7 @@ import DesignSystem
 import Network
 import Auth
 import Conceptbook
+import MistakeNote
 
 @MainActor
 protocol TabBarCoordinator: Coordinator {
