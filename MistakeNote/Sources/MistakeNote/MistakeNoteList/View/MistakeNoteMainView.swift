@@ -175,10 +175,10 @@ private extension MistakeNoteMainView {
         HStack(spacing: 8) {
             FilterChipButton(
                 title: "모두",
-                options: ["모두", "오답만"],
+                options: QuestionFilter.allCases.map { $0.rawValue },
                 selectedOption: Binding(
-                    get: { viewModel.filterAll },
-                    set: { input.send(.filterAllChanged($0)) }
+                    get: { viewModel.filterAll.rawValue },
+                    set: { input.send(.filterAllChanged(QuestionFilter(rawValue: $0) ?? .all)) }
                 ),
                 isExpanded: Binding(
                     get: { expandedFilter == .all },

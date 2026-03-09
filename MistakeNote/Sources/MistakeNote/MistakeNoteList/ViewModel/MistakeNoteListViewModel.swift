@@ -10,6 +10,11 @@ import Combine
 import QRIZUtils
 import Network
 
+public enum QuestionFilter: String, CaseIterable, Sendable {
+    case all = "모두"
+    case incorrectOnly = "오답만"
+}
+
 @MainActor
 public final class MistakeNoteListViewModel: ObservableObject {
 
@@ -22,7 +27,7 @@ public final class MistakeNoteListViewModel: ObservableObject {
         case sessionSelected(String)
         case questionTapped(MistakeNoteQuestion)
         case goToExamTapped
-        case filterAllChanged(String)
+        case filterAllChanged(QuestionFilter)
         case conceptFilterApplied(Set<String>, QRIZUtils.Subject?)
         case resetConceptFilters
     }
@@ -50,7 +55,7 @@ public final class MistakeNoteListViewModel: ObservableObject {
     @Published public var errorMessage: String?
 
     // Filter
-    @Published public var filterAll: String = "모두"
+    @Published public var filterAll: QuestionFilter = .all
     @Published public var selectedConceptsFilter: Set<String> = []
     @Published public var selectedFilterSubject: QRIZUtils.Subject?
 
@@ -68,7 +73,7 @@ public final class MistakeNoteListViewModel: ObservableObject {
     public var displayedQuestions: [MistakeNoteQuestion] {
         var questions = filteredQuestions
 
-        if filterAll == "오답만" {
+        if filterAll == .incorrectOnly {
             questions = questions.filter { !$0.correction }
         }
 
@@ -125,12 +130,12 @@ public final class MistakeNoteListViewModel: ObservableObject {
             case .daySelected(let day):
                 self.selectedDay = day
                 self.resetAllFilters()
-                Task { await self.loadDailyQuestions(for: day) }
+                Task { await self.loadClips(category: 2, testInfo: self.extractTestInfo(from: day)) }
 
             case .sessionSelected(let session):
                 self.selectedSession = session
                 self.resetAllFilters()
-                Task { await self.loadMockExamQuestions(for: session) }
+                Task { await self.loadClips(category: 3, testInfo: self.extractSessionInfo(from: session)) }
 
             case .questionTapped(let question):
                 self.output.send(.navigateToClipDetail(clipId: question.id))
@@ -175,7 +180,7 @@ public final class MistakeNoteListViewModel: ObservableObject {
     private func resetAllFilters() {
         selectedConceptsFilter = []
         selectedFilterSubject = nil
-        filterAll = "모두"
+        filterAll = .all
     }
 
     private func handleTabChange(_ tab: MistakeNoteTab) async {
@@ -184,13 +189,13 @@ public final class MistakeNoteListViewModel: ObservableObject {
             if availableDays.isEmpty {
                 await loadDailyInitialData()
             } else {
-                await loadDailyQuestions(for: selectedDay)
+                await loadClips(category: 2, testInfo: extractTestInfo(from: selectedDay))
             }
         case .mockExam:
             if availableSessions.isEmpty {
                 await loadMockExamInitialData()
             } else {
-                await loadMockExamQuestions(for: selectedSession)
+                await loadClips(category: 3, testInfo: extractSessionInfo(from: selectedSession))
             }
         }
     }
@@ -207,7 +212,7 @@ public final class MistakeNoteListViewModel: ObservableObject {
 
             if let firstDay = availableDays.first {
                 selectedDay = firstDay
-                await loadDailyQuestions(for: firstDay)
+                await loadClips(category: 2, testInfo: extractTestInfo(from: firstDay))
             }
         } catch {
             errorMessage = "데이터를 불러오는데 실패했습니다."
@@ -217,13 +222,12 @@ public final class MistakeNoteListViewModel: ObservableObject {
         isLoading = false
     }
 
-    private func loadDailyQuestions(for day: String) async {
+    private func loadClips(category: Int, testInfo: String) async {
         isLoading = true
         errorMessage = nil
 
         do {
-            let testInfo = extractTestInfo(from: day)
-            let response = try await service.getClips(category: 2, testInfo: testInfo)
+            let response = try await service.getClips(category: category, testInfo: testInfo)
             filteredQuestions = response.data.map { clipData in
                 MistakeNoteQuestion(
                     id: clipData.id,
@@ -236,7 +240,7 @@ public final class MistakeNoteListViewModel: ObservableObject {
             }
         } catch {
             errorMessage = "문제를 불러오는데 실패했습니다."
-            print("Failed to load daily questions: \(error)")
+            print("Failed to load clips (category: \(category)): \(error)")
         }
 
         isLoading = false
@@ -267,7 +271,7 @@ public final class MistakeNoteListViewModel: ObservableObject {
 
             if let session = targetSession {
                 selectedSession = session
-                await loadMockExamQuestions(for: session)
+                await loadClips(category: 3, testInfo: extractSessionInfo(from: session))
             }
         } catch {
             errorMessage = "데이터를 불러오는데 실패했습니다."
@@ -277,29 +281,4 @@ public final class MistakeNoteListViewModel: ObservableObject {
         isLoading = false
     }
 
-    private func loadMockExamQuestions(for session: String) async {
-        isLoading = true
-        errorMessage = nil
-
-        let testInfo = extractSessionInfo(from: session)
-
-        do {
-            let response = try await service.getClips(category: 3, testInfo: testInfo)
-            filteredQuestions = response.data.map { clipData in
-                MistakeNoteQuestion(
-                    id: clipData.id,
-                    questionNum: clipData.questionNum,
-                    question: clipData.question,
-                    correction: clipData.correction,
-                    keyConcepts: clipData.keyConcepts,
-                    date: clipData.date
-                )
-            }
-        } catch {
-            errorMessage = "문제를 불러오는데 실패했습니다."
-            print("Failed to load mock exam questions: \(error)")
-        }
-
-        isLoading = false
-    }
 }
