@@ -10,6 +10,7 @@ import Combine
 import os
 import Network
 import Account
+import QRIZUtils
 
 final class MyPageViewModel {
     
@@ -19,7 +20,7 @@ final class MyPageViewModel {
     private let myPageService: MyPageService
     private let outputSubject = PassthroughSubject<Output, Never>()
     private var cancellables = Set<AnyCancellable>()
-    private let logger = Logger(subsystem: Bundle.main.bundleIdentifier ?? "com.ksh.qriz", category: "MyPageViewModel")
+    private let logger = Logger.make(category: "MyPageViewModel")
     
     // MARK: - Initialize
     
