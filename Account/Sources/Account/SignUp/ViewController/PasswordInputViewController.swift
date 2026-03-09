@@ -1,0 +1,101 @@
+//
+//  PasswordInputViewController.swift
+//  QRIZ
+//
+//  Created by 김세훈 on 1/4/25.
+//
+
+import UIKit
+import DesignSystem
+import Combine
+
+final class PasswordInputViewController: UIViewController {
+
+    // MARK: - Properties
+
+    weak var coordinator: SignUpCoordinator?
+    private let rootView: PasswordInputMainView
+    private let passwordInputVM: PasswordInputViewModel
+    private var cancellables = Set<AnyCancellable>()
+
+    // MARK: - Initialization
+
+    init(passwordInputVM: PasswordInputViewModel) {
+        self.rootView = PasswordInputMainView()
+        self.passwordInputVM = passwordInputVM
+        super.init(nibName: nil, bundle: nil)
+    }
+
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+
+    // MARK: - Lifecycle
+
+    override func loadView() {
+        self.view = rootView
+    }
+
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        setNavigationBarTitle(title: "회원가입", textColor: .coolNeutral800)
+        bind()
+        observe()
+    }
+
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        guard isMovingToParent else { return }
+        rootView.passwordInputView.focusInitialField()
+    }
+
+    // MARK: - Methods
+
+    private func bind() {
+        passwordInputVM.output
+            .sink { [weak self] output in
+                guard let self else { return }
+                switch output {
+                case .characterRequirementChanged(let isValid):
+                    rootView.passwordInputView.updateCharacterRequirementUI(isValid)
+
+                case .lengthRequirementChanged(let isValid):
+                    rootView.passwordInputView.updateLengthRequirementUI(isValid)
+
+                case .passwordValidChanged(let isValid):
+                    rootView.passwordInputView.updatePasswordBorderColor(isValid)
+
+                case .confirmValidChanged(let isValid):
+                    rootView.passwordInputView.updateConfirmPasswordUI(isValid)
+
+                case .updateButtonState(let canSignUp):
+                    rootView.signUpFooterView.updateButtonState(isValid: canSignUp)
+
+                case .showTermsAgreementModal:
+                    coordinator?.showTermsAgreementModal()
+                }
+            }
+            .store(in: &cancellables)
+
+        rootView.passwordInputView.passwordTextChangedPublisher
+            .sink { [weak self] text in self?.passwordInputVM.send(.passwordTextChanged(text)) }
+            .store(in: &cancellables)
+
+        rootView.passwordInputView.confirmTextChangedPublisher
+            .sink { [weak self] text in self?.passwordInputVM.send(.confirmPasswordTextChanged(text)) }
+            .store(in: &cancellables)
+
+        rootView.signUpFooterView.buttonTappedPublisher
+            .sink { [weak self] in self?.passwordInputVM.send(.buttonTapped) }
+            .store(in: &cancellables)
+    }
+
+    private func observe() {
+        observeKeyboardNotifications(for: rootView.signUpFooterView)
+            .store(in: &cancellables)
+
+        view.tapGestureEndedPublisher()
+            .sink { [weak self] _ in self?.view.endEditing(true) }
+            .store(in: &cancellables)
+    }
+}

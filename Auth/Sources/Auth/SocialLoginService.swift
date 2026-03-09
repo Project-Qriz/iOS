@@ -12,30 +12,6 @@ import AuthenticationServices
 import QRIZUtils
 import Network
 
-public protocol SocialLoginService: Sendable {
-
-    /// 카카오 로그인
-    func loginWithKakao() async throws -> SocialLoginResponse
-
-    /// 카카오 로그아웃
-    func logoutKakao() async throws
-
-    /// 카카오 연동 해제
-    func unlinkKakao() async throws
-
-    /// 구글 로그인
-    func loginWithGoogle(presenting: UIViewController) async throws -> SocialLoginResponse
-
-    /// 구글 로그아웃
-    func logoutGoogle() async throws
-
-    /// 애플 로그인
-    func loginWithApple(presenting: UIViewController) async throws -> SocialLoginResponse
-
-    /// 애플 로그아웃
-    func logoutApple() async throws
-}
-
 @MainActor
 public final class SocialLoginServiceImpl: NSObject, SocialLoginService {
 

@@ -10,6 +10,7 @@ import DesignSystem
 import QRIZUtils
 import Network
 import Auth
+import Account
 
 @MainActor
 protocol MyPageCoordinator: Coordinator {

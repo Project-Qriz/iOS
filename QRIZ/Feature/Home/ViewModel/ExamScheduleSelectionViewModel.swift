@@ -19,7 +19,7 @@ final class ExamScheduleSelectionViewModel {
     private let examScheduleService: ExamScheduleService
     private let outputSubject: PassthroughSubject<Output, Never> = .init()
     private var cancellables = Set<AnyCancellable>()
-    private let logger = Logger(subsystem: Bundle.main.bundleIdentifier ?? "com.ksh.qriz", category: "ExamScheduleSelectionViewModel")
+    private let logger = Logger.make(category: "ExamScheduleSelectionViewModel")
     
     private var registeredApplicationId: Int?
     private var registeredUserApplyId: Int?

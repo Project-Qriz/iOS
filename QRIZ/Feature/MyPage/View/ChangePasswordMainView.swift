@@ -8,6 +8,7 @@
 import UIKit
 import DesignSystem
 import Combine
+import Account
 
 final class ChangePasswordMainView: UIView {
     

@@ -4,14 +4,14 @@ import PackageDescription
 
 let package = Package(
     name: "Conceptbook",
-    platforms: [.iOS(.v15)],
+    platforms: [.iOS(.v17)],
     products: [
         .library(name: "Conceptbook", targets: ["Conceptbook"]),
     ],
     dependencies: [
         .package(path: "../DesignSystem"),
         .package(path: "../QRIZUtils"),
-        .package(url: "https://github.com/uber/ios-snapshot-test-case", from: "8.0.0")
+        .package(url: "https://github.com/pointfreeco/swift-snapshot-testing", from: "1.18.9")
     ],
     targets: [
         .target(
@@ -22,7 +22,7 @@ let package = Package(
             name: "ConceptbookTests",
             dependencies: [
                 "Conceptbook",
-                .product(name: "iOSSnapshotTestCase", package: "ios-snapshot-test-case")
+                .product(name: "SnapshotTesting", package: "swift-snapshot-testing"),
             ],
             resources: [.process("Resources")]
         ),
