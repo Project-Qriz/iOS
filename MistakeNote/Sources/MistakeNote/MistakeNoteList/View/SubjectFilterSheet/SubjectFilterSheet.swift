@@ -91,7 +91,7 @@ private extension SubjectFilterSheet {
 
     var resetButton: some View {
         Button {
-            viewModel.send(.resetTapped)
+            viewModel.reset()
         } label: {
             Text("초기화")
                 .font(.system(size: 14, weight: .semibold))

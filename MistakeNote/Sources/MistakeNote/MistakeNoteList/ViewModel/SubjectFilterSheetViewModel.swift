@@ -11,12 +11,6 @@ import QRIZUtils
 @MainActor
 public final class SubjectFilterSheetViewModel: ObservableObject {
 
-    // MARK: - Input
-
-    public enum Input {
-        case resetTapped
-    }
-
     // MARK: - Published Properties
 
     @Published public var selectedSubject: Subject
@@ -59,11 +53,8 @@ public final class SubjectFilterSheetViewModel: ObservableObject {
 
     // MARK: - Methods
 
-    public func send(_ input: Input) {
-        switch input {
-        case .resetTapped:
-            selectedConcepts.removeAll()
-        }
+    public func reset() {
+        selectedConcepts.removeAll()
     }
 
 }

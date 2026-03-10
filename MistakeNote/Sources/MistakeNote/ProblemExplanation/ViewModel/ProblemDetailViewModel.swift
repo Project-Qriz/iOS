@@ -72,9 +72,7 @@ public final class ProblemDetailViewModel: ObservableObject {
                 }
 
                 // 공백 제거하고 비교 (예: "SELECT문" vs "SELECT 문")
-                let normalizedTitle = conceptItem.title.replacingOccurrences(of: " ", with: "")
-                let normalizedSearch = normalizedInput.replacingOccurrences(of: " ", with: "")
-                if normalizedTitle.lowercased() == normalizedSearch.lowercased() {
+                if conceptItem.title.normalizingConcept().lowercased() == normalizedInput.normalizingConcept().lowercased() {
                     return (chapter, conceptItem)
                 }
             }
