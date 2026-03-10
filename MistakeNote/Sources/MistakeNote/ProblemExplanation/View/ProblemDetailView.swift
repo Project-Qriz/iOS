@@ -7,27 +7,26 @@
 
 import SwiftUI
 import DesignSystem
-import Combine
 import Network
 import QRIZUtils
 
 public struct ProblemDetailView: View {
 
     @ObservedObject public var viewModel: ProblemDetailViewModel
-    public let retryInput: PassthroughSubject<Void, Never>
-    public let learnButtonTapInput: PassthroughSubject<Void, Never>
-    public let conceptTapInput: PassthroughSubject<String, Never>
+    public let onRetry: () -> Void
+    public let onLearnButtonTapped: () -> Void
+    public let onConceptTapped: (String) -> Void
 
     public init(
         viewModel: ProblemDetailViewModel,
-        retryInput: PassthroughSubject<Void, Never>,
-        learnButtonTapInput: PassthroughSubject<Void, Never>,
-        conceptTapInput: PassthroughSubject<String, Never>
+        onRetry: @escaping () -> Void,
+        onLearnButtonTapped: @escaping () -> Void,
+        onConceptTapped: @escaping (String) -> Void
     ) {
         self.viewModel = viewModel
-        self.retryInput = retryInput
-        self.learnButtonTapInput = learnButtonTapInput
-        self.conceptTapInput = conceptTapInput
+        self.onRetry = onRetry
+        self.onLearnButtonTapped = onLearnButtonTapped
+        self.onConceptTapped = onConceptTapped
     }
 
     public var body: some View {
@@ -79,7 +78,7 @@ private extension ProblemDetailView {
                     ProblemKeyConceptsView(
                         keyConcepts: data.keyConcepts,
                         subject: data.title,
-                        onConceptTap: conceptTapInput
+                        onConceptTap: onConceptTapped
                     )
                 }
 
@@ -110,7 +109,7 @@ private extension ProblemDetailView {
                 .multilineTextAlignment(.center)
 
             Button("다시 시도") {
-                retryInput.send(())
+                onRetry()
             }
             .font(.system(size: 16, weight: .semibold))
             .foregroundColor(.white)
@@ -123,7 +122,7 @@ private extension ProblemDetailView {
     }
 
     var learnButton: some View {
-        Button(action: { learnButtonTapInput.send(()) }) {
+        Button(action: { onLearnButtonTapped() }) {
             Text("학습하러 가기")
                 .font(.system(size: 16, weight: .semibold))
                 .foregroundColor(.white)
@@ -145,9 +144,9 @@ private extension ProblemDetailView {
                 let response = try await service.getDailyResultDetail(dayNumber: 1, questionId: 1)
                 return response.data.toEntity()
             },
-            retryInput: PassthroughSubject<Void, Never>(),
-            learnButtonTapInput: PassthroughSubject<Void, Never>(),
-            conceptTapInput: PassthroughSubject<String, Never>()
+            onRetry: {},
+            onLearnButtonTapped: {},
+            onConceptTapped: { _ in }
         )
     }
 }

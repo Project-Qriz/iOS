@@ -7,7 +7,6 @@
 
 import UIKit
 import SwiftUI
-import Combine
 import QRIZUtils
 
 @MainActor
@@ -21,19 +20,14 @@ public final class ProblemDetailViewController: UIHostingController<ProblemDetai
 
     public weak var coordinator: ProblemDetailCoordinating?
     private let viewModel: ProblemDetailViewModel
-    private let input: PassthroughSubject<ProblemDetailViewModel.Input, Never> = .init()
-    private let retryInput: PassthroughSubject<Void, Never> = .init()
-    private let learnButtonTapInput: PassthroughSubject<Void, Never> = .init()
-    private let conceptTapInput: PassthroughSubject<String, Never> = .init()
-    private var cancellables = Set<AnyCancellable>()
 
     public init(viewModel: ProblemDetailViewModel) {
         self.viewModel = viewModel
         let swiftUIView = ProblemDetailView(
             viewModel: viewModel,
-            retryInput: retryInput,
-            learnButtonTapInput: learnButtonTapInput,
-            conceptTapInput: conceptTapInput
+            onRetry: { [viewModel] in viewModel.retry() },
+            onLearnButtonTapped: { [viewModel] in viewModel.learnButtonTapped() },
+            onConceptTapped: { [viewModel] concept in viewModel.conceptTapped(concept: concept) }
         )
         super.init(rootView: swiftUIView)
         self.hidesBottomBarWhenPushed = true
@@ -47,7 +41,7 @@ public final class ProblemDetailViewController: UIHostingController<ProblemDetai
         super.viewDidLoad()
         configureNavigationTitle()
         bind()
-        input.send(.viewDidLoad)
+        viewModel.viewDidLoad()
     }
 
     override public func viewWillAppear(_ animated: Bool) {
@@ -67,23 +61,14 @@ public final class ProblemDetailViewController: UIHostingController<ProblemDetai
     }
 
     private func bind() {
-        let retry = retryInput.map { ProblemDetailViewModel.Input.retry }
-        let learnButtonTapped = learnButtonTapInput.map { ProblemDetailViewModel.Input.learnButtonTapped }
-        let conceptTapped = conceptTapInput.map { ProblemDetailViewModel.Input.conceptTapped(concept: $0) }
-        let mergedInput = input.merge(with: retry, learnButtonTapped, conceptTapped)
-        let output = viewModel.transform(input: mergedInput.eraseToAnyPublisher())
-
-        output
-            .receive(on: DispatchQueue.main)
-            .sink { [weak self] event in
-                guard let self = self else { return }
-                switch event {
-                case .navigateToConceptTab:
-                    self.coordinator?.navigateToConceptTab()
-                case .navigateToConceptDetail(let chapter, let conceptItem):
-                    self.coordinator?.navigateToConcept(chapter: chapter, conceptItem: conceptItem)
-                }
+        viewModel.onNavigate = { [weak self] output in
+            guard let self else { return }
+            switch output {
+            case .navigateToConceptTab:
+                self.coordinator?.navigateToConceptTab()
+            case .navigateToConceptDetail(let chapter, let conceptItem):
+                self.coordinator?.navigateToConcept(chapter: chapter, conceptItem: conceptItem)
             }
-            .store(in: &cancellables)
+        }
     }
 }

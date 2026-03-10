@@ -6,7 +6,6 @@
 //
 
 import Foundation
-import Combine
 import os
 import QRIZUtils
 import Network
@@ -14,14 +13,7 @@ import Network
 @MainActor
 public final class ProblemDetailViewModel: ObservableObject {
 
-    // MARK: - Input & Output
-    public enum Input {
-        case viewDidLoad
-        case retry
-        case learnButtonTapped
-        case conceptTapped(concept: String)
-    }
-
+    // MARK: - Output
     public enum Output {
         case navigateToConceptTab
         case navigateToConceptDetail(chapter: Chapter, conceptItem: ConceptItem)
@@ -32,11 +24,12 @@ public final class ProblemDetailViewModel: ObservableObject {
     @Published public var isLoading = false
     @Published public var errorMessage: String?
 
+    // MARK: - Public Properties
+    public var onNavigate: ((Output) -> Void)?
+
     // MARK: - Private Properties
     private let logger = Logger.make(category: "ProblemDetailViewModel")
     private let fetchDetail: () async throws -> DailyResultDetailEntity
-    private var cancellables = Set<AnyCancellable>()
-    private let output: PassthroughSubject<Output, Never> = .init()
 
     // MARK: - Initializers
     public init(fetchDetail: @escaping () async throws -> DailyResultDetailEntity) {
@@ -44,23 +37,22 @@ public final class ProblemDetailViewModel: ObservableObject {
     }
 
     // MARK: - Methods
-    public func transform(input: AnyPublisher<Input, Never>) -> AnyPublisher<Output, Never> {
-        input.sink { [weak self] event in
-            guard let self = self else { return }
-            switch event {
-            case .viewDidLoad, .retry:
-                Task { await self.fetchProblemDetail() }
-            case .learnButtonTapped:
-                output.send(.navigateToConceptTab)
-            case .conceptTapped(let concept):
-                if let (chapter, conceptItem) = self.findConceptItem(for: concept) {
-                    output.send(.navigateToConceptDetail(chapter: chapter, conceptItem: conceptItem))
-                }
-            }
-        }
-        .store(in: &cancellables)
+    public func viewDidLoad() {
+        Task { await fetchProblemDetail() }
+    }
 
-        return output.eraseToAnyPublisher()
+    public func retry() {
+        Task { await fetchProblemDetail() }
+    }
+
+    public func learnButtonTapped() {
+        onNavigate?(.navigateToConceptTab)
+    }
+
+    public func conceptTapped(concept: String) {
+        if let (chapter, conceptItem) = findConceptItem(for: concept) {
+            onNavigate?(.navigateToConceptDetail(chapter: chapter, conceptItem: conceptItem))
+        }
     }
 
     /// 개념 이름으로 Chapter와 ConceptItem을 찾는 메서드

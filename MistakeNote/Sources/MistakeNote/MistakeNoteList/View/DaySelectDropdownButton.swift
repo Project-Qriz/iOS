@@ -72,14 +72,16 @@ public struct DaySelectDropdownButton: View {
 public struct DaySelectDropdownList: View {
 
     public let days: [String]
+    public let title: String
     @Binding public var selectedDay: String
     @Binding public var isExpanded: Bool
     public var onDaySelected: ((String) -> Void)?
 
     // MARK: - Initializer
 
-    public init(days: [String], selectedDay: Binding<String>, isExpanded: Binding<Bool>, onDaySelected: ((String) -> Void)? = nil) {
+    public init(days: [String], title: String = "회차 선택", selectedDay: Binding<String>, isExpanded: Binding<Bool>, onDaySelected: ((String) -> Void)? = nil) {
         self.days = days
+        self.title = title
         _selectedDay = selectedDay
         _isExpanded = isExpanded
         self.onDaySelected = onDaySelected
@@ -87,7 +89,7 @@ public struct DaySelectDropdownList: View {
 
     public var body: some View {
         VStack(alignment: .leading, spacing: 0) {
-            Text("회차 선택")
+            Text(title)
                 .font(.system(size: 14, weight: .semibold))
                 .foregroundColor(Color.coolNeutral600)
                 .padding(.horizontal, 8)

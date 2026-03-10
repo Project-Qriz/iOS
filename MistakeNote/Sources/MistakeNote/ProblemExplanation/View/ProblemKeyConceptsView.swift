@@ -7,18 +7,17 @@
 
 import SwiftUI
 import DesignSystem
-import Combine
 
 public struct ProblemKeyConceptsView: View {
 
     public let keyConcepts: String
     public let subject: String
-    public let onConceptTap: PassthroughSubject<String, Never>
+    public let onConceptTap: (String) -> Void
 
     public init(
         keyConcepts: String,
         subject: String,
-        onConceptTap: PassthroughSubject<String, Never>
+        onConceptTap: @escaping (String) -> Void
     ) {
         self.keyConcepts = keyConcepts
         self.subject = subject
@@ -50,7 +49,7 @@ private extension ProblemKeyConceptsView {
         VStack(spacing: 8) {
             ForEach(conceptTags, id: \.self) { concept in
                 ConceptCard(concept: concept, subject: subject) {
-                    onConceptTap.send(concept)
+                    onConceptTap(concept)
                 }
             }
         }
@@ -108,7 +107,7 @@ private struct ConceptCard: View {
     ProblemKeyConceptsView(
         keyConcepts: "엔터티, 식별자",
         subject: "1과목",
-        onConceptTap: PassthroughSubject<String, Never>()
+        onConceptTap: { _ in }
     )
     .padding()
     .background(Color(.systemGroupedBackground))

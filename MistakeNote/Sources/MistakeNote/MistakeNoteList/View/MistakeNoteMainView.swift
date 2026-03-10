@@ -167,6 +167,7 @@ private extension MistakeNoteMainView {
 
             DaySelectDropdownList(
                 days: viewModel.dropdownItems,
+                title: viewModel.selectedTab == .daily ? "날짜 선택" : "회차 선택",
                 selectedDay: selectedItemBinding,
                 isExpanded: $isDropdownExpanded,
                 onDaySelected: { item in

@@ -8,6 +8,7 @@
 import Foundation
 import QRIZUtils
 
+@MainActor
 public final class SubjectFilterSheetViewModel: ObservableObject {
 
     // MARK: - Input
