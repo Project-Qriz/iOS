@@ -11,17 +11,12 @@ import QRIZUtils
 @MainActor
 public final class SubjectFilterSheetViewModel: ObservableObject {
 
-    // MARK: - Published Properties
+    // MARK: - Properties
 
     @Published public var selectedSubject: Subject
     @Published public var selectedConcepts: Set<String>
 
-    // MARK: - Properties
-
     public let availableConcepts: Set<String>
-    private let initialSelectedConcepts: Set<String>
-
-    // MARK: - Computed Properties
 
     public var hasSelections: Bool {
         !selectedConcepts.isEmpty
@@ -38,7 +33,9 @@ public final class SubjectFilterSheetViewModel: ObservableObject {
         }
     }
 
-    // MARK: - Initializer
+    private let initialSelectedConcepts: Set<String>
+
+    // MARK: - Initialization
 
     public init(
         availableConcepts: Set<String>,
@@ -56,5 +53,4 @@ public final class SubjectFilterSheetViewModel: ObservableObject {
     public func reset() {
         selectedConcepts.removeAll()
     }
-
 }

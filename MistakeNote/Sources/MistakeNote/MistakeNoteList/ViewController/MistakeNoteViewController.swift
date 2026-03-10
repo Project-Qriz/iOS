@@ -23,7 +23,7 @@ public final class MistakeNoteViewController: UIHostingController<MistakeNoteMai
     public weak var delegate: MistakeNoteViewControllerDelegate?
     private let viewModel: MistakeNoteListViewModel
 
-    // MARK: - Initialize
+    // MARK: - Initialization
 
     public init(viewModel: MistakeNoteListViewModel) {
         self.viewModel = viewModel
@@ -35,7 +35,7 @@ public final class MistakeNoteViewController: UIHostingController<MistakeNoteMai
         fatalError("init(coder:) has not been implemented")
     }
 
-    // MARK: - LifeCycle
+    // MARK: - Lifecycle
 
     override public func viewDidLoad() {
         super.viewDidLoad()
@@ -48,7 +48,7 @@ public final class MistakeNoteViewController: UIHostingController<MistakeNoteMai
         configureNavigationBar()
     }
 
-    // MARK: - Private Methods
+    // MARK: - Methods
 
     private func configureNavigationTitle() {
         setNavigationBarTitle(title: "오답노트", textColor: UIColor.coolNeutral800)

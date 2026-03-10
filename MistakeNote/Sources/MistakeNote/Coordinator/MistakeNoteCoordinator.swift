@@ -33,7 +33,7 @@ public final class MistakeNoteCoordinatorImpl: MistakeNoteCoordinator, Navigatio
     private var navigationController: UINavigationController?
     private let service: MistakeNoteService
 
-    // MARK: - Initializers
+    // MARK: - Initialization
 
     public init(service: MistakeNoteService = MistakeNoteServiceImpl()) {
         self.service = service

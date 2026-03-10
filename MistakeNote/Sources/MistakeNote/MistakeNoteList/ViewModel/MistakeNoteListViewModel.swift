@@ -18,43 +18,24 @@ public enum QuestionFilter: String, CaseIterable, Sendable {
 @MainActor
 public final class MistakeNoteListViewModel: ObservableObject {
 
-    // MARK: - Output
-
-    public enum Output {
-        case navigateToClipDetail(clipId: Int)
-        case navigateToExam(tab: MistakeNoteTab)
-    }
-
-    // MARK: - Published Properties
+    // MARK: - Properties
 
     @Published public var selectedTab: MistakeNoteTab = .daily
-
-    // Daily
     @Published public var availableDays: [String] = []
     @Published public var selectedDay: String = ""
-
-    // Mock Exam
     @Published public var availableSessions: [String] = []
     @Published public var selectedSession: String = ""
-
-    // Questions
     @Published public var filteredQuestions: [MistakeNoteQuestion] = []
     @Published public var isLoading = false
     @Published public var errorMessage: String?
-
-    // Filter
     @Published public var filterAll: QuestionFilter = .all
     @Published public var selectedConceptsFilter: Set<String> = []
     @Published public var selectedFilterSubject: QRIZUtils.Subject?
 
-    // MARK: - Computed Properties
-
     public var dropdownItems: [String] {
         switch selectedTab {
-        case .daily:
-            return availableDays
-        case .mockExam:
-            return availableSessions
+        case .daily: return availableDays
+        case .mockExam: return availableSessions
         }
     }
 
@@ -89,16 +70,12 @@ public final class MistakeNoteListViewModel: ObservableObject {
         return concepts
     }
 
-    // MARK: - Private Properties
+    public var onNavigate: ((Output) -> Void)?
 
     private let logger = Logger.make(category: "MistakeNoteListViewModel")
     private let service: MistakeNoteService
 
-    // MARK: - Navigation
-
-    public var onNavigate: ((Output) -> Void)?
-
-    // MARK: - Initializers
+    // MARK: - Initialization
 
     public init(service: MistakeNoteService = MistakeNoteServiceImpl()) {
         self.service = service
@@ -161,8 +138,6 @@ public final class MistakeNoteListViewModel: ObservableObject {
         }
     }
 
-    // MARK: - Private Methods
-
     private func resetAllFilters() {
         selectedConceptsFilter = []
         selectedFilterSubject = nil
@@ -185,8 +160,6 @@ public final class MistakeNoteListViewModel: ObservableObject {
             }
         }
     }
-
-    // MARK: - Daily Methods
 
     private func loadDailyInitialData() async {
         isLoading = true
@@ -242,8 +215,6 @@ public final class MistakeNoteListViewModel: ObservableObject {
         session.components(separatedBy: " ").first ?? session
     }
 
-    // MARK: - Mock Exam Methods
-
     private func loadMockExamInitialData() async {
         isLoading = true
         errorMessage = nil
@@ -252,7 +223,6 @@ public final class MistakeNoteListViewModel: ObservableObject {
             let sessionsResponse = try await service.getCompletedExamSessions()
             availableSessions = sessionsResponse.data.sessions
 
-            // latestSession 또는 첫 번째 세션 선택
             let targetSession = sessionsResponse.data.latestSession ?? availableSessions.first
 
             if let session = targetSession {
@@ -266,5 +236,13 @@ public final class MistakeNoteListViewModel: ObservableObject {
 
         isLoading = false
     }
+}
 
+// MARK: - Output
+
+extension MistakeNoteListViewModel {
+    public enum Output {
+        case navigateToClipDetail(clipId: Int)
+        case navigateToExam(tab: MistakeNoteTab)
+    }
 }

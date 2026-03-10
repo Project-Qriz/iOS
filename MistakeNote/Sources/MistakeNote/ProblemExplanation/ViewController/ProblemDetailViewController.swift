@@ -18,8 +18,12 @@ public protocol ProblemDetailCoordinating: AnyObject {
 @MainActor
 public final class ProblemDetailViewController: UIHostingController<ProblemDetailView> {
 
+    // MARK: - Properties
+
     public weak var coordinator: ProblemDetailCoordinating?
     private let viewModel: ProblemDetailViewModel
+
+    // MARK: - Initialization
 
     public init(viewModel: ProblemDetailViewModel) {
         self.viewModel = viewModel
@@ -37,6 +41,8 @@ public final class ProblemDetailViewController: UIHostingController<ProblemDetai
         fatalError("init(coder:) has not been implemented")
     }
 
+    // MARK: - Lifecycle
+
     override public func viewDidLoad() {
         super.viewDidLoad()
         configureNavigationTitle()
@@ -48,6 +54,8 @@ public final class ProblemDetailViewController: UIHostingController<ProblemDetai
         super.viewWillAppear(animated)
         configureNavigationBar()
     }
+
+    // MARK: - Methods
 
     private func configureNavigationTitle() {
         navigationItem.title = "오답노트"
