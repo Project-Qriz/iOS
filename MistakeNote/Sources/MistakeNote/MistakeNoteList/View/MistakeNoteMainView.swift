@@ -7,7 +7,6 @@
 
 import SwiftUI
 import DesignSystem
-import Combine
 import QRIZUtils
 
 public struct MistakeNoteMainView: View {
@@ -15,10 +14,8 @@ public struct MistakeNoteMainView: View {
     // MARK: - Properties
 
     @StateObject private var viewModel: MistakeNoteListViewModel
-    private let input = PassthroughSubject<MistakeNoteListViewModel.Input, Never>()
 
     @State private var isDropdownExpanded: Bool = false
-    @State private var hasAppeared: Bool = false
     @State private var showSubjectFilterSheet: Bool = false
     @State private var sheetSubject: QRIZUtils.Subject = .one
 
@@ -37,17 +34,11 @@ public struct MistakeNoteMainView: View {
         }
         .background(Color.customBlue50)
         .animation(.easeInOut(duration: 0.1), value: isDropdownExpanded)
-        .onChange(of: viewModel.selectedTab) { _, newTab in
-            input.send(.tabSelected(newTab))
-        }
         .sheet(isPresented: $showSubjectFilterSheet) {
             subjectFilterSheet
         }
-        .onAppear {
-            guard !hasAppeared else { return }
-            hasAppeared = true
-            bindViewModel()
-            input.send(.viewDidLoad)
+        .task {
+            await viewModel.viewDidLoad()
         }
     }
 }
@@ -65,9 +56,12 @@ private extension MistakeNoteMainView {
 
     var tabSelector: some View {
         VStack(spacing: 0) {
-            MistakeNoteTabSelector(selectedTab: $viewModel.selectedTab)
-                .padding(.horizontal, 18)
-                .padding(.top, 16)
+            MistakeNoteTabSelector(
+                selectedTab: viewModel.selectedTab,
+                onTabSelected: { viewModel.tabSelected($0) }
+            )
+            .padding(.horizontal, 18)
+            .padding(.top, 16)
         }
         .background(Color.white)
     }
@@ -96,7 +90,7 @@ private extension MistakeNoteMainView {
         if viewModel.dropdownItems.isEmpty {
             MistakeNoteNoRecordView(
                 onGoToExam: {
-                    input.send(.goToExamTapped)
+                    viewModel.goToExamTapped()
                 }
             )
         } else {
@@ -110,12 +104,12 @@ private extension MistakeNoteMainView {
                 filterAll: viewModel.filterAll,
                 hasActiveConceptFilter: !viewModel.selectedConceptsFilter.isEmpty,
                 hasFilterForSubject: { viewModel.hasFilterForSubject($0) },
-                onFilterAllChanged: { input.send(.filterAllChanged($0)) },
+                onFilterAllChanged: { viewModel.filterAllChanged($0) },
                 onSubjectTapped: { subject in
                     sheetSubject = subject
                     showSubjectFilterSheet = true
                 },
-                onReset: { input.send(.resetConceptFilters) }
+                onReset: { viewModel.resetConceptFilters() }
             )
             .padding(.horizontal, 18)
             .padding(.top, 16)
@@ -137,7 +131,7 @@ private extension MistakeNoteMainView {
             MistakeNoteQuestionListView(
                 questions: viewModel.displayedQuestions,
                 onQuestionTap: { question in
-                    input.send(.questionTapped(question))
+                    viewModel.questionTapped(question)
                 }
             )
             .padding(.horizontal, 18)
@@ -196,7 +190,7 @@ private extension MistakeNoteMainView {
             initialSubject: sheetSubject,
             initialSelectedConcepts: viewModel.selectedConceptsFilter,
             onApply: { selectedConcepts in
-                input.send(.conceptFilterApplied(selectedConcepts, viewModel.selectedFilterSubject))
+                viewModel.conceptFilterApplied(selectedConcepts, sheetSubject)
             }
         )
         .presentationDetents([.fraction(0.6)])
@@ -218,16 +212,12 @@ private extension MistakeNoteMainView {
         }
     }
 
-    func bindViewModel() {
-        _ = viewModel.transform(input: input.eraseToAnyPublisher())
-    }
-
     func handleDropdownSelection(_ item: String) {
         switch viewModel.selectedTab {
         case .daily:
-            input.send(.daySelected(item))
+            viewModel.daySelected(item)
         case .mockExam:
-            input.send(.sessionSelected(item))
+            viewModel.sessionSelected(item)
         }
     }
 }

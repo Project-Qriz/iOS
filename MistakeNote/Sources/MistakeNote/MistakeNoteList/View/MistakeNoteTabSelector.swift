@@ -15,12 +15,17 @@ public enum MistakeNoteTab: String, CaseIterable, Sendable {
 
 public struct MistakeNoteTabSelector: View {
 
-    @Binding public var selectedTab: MistakeNoteTab
+    public let selectedTab: MistakeNoteTab
+    public let onTabSelected: (MistakeNoteTab) -> Void
 
     // MARK: - Initializer
 
-    public init(selectedTab: Binding<MistakeNoteTab>) {
-        _selectedTab = selectedTab
+    public init(
+        selectedTab: MistakeNoteTab,
+        onTabSelected: @escaping (MistakeNoteTab) -> Void
+    ) {
+        self.selectedTab = selectedTab
+        self.onTabSelected = onTabSelected
     }
 
     public var body: some View {
@@ -41,7 +46,7 @@ private extension MistakeNoteTabSelector {
 
         return Button {
             withAnimation(.easeInOut(duration: 0.3)) {
-                selectedTab = tab
+                onTabSelected(tab)
             }
         } label: {
             VStack(spacing: 10) {
@@ -66,8 +71,11 @@ private extension MistakeNoteTabSelector {
 
         var body: some View {
             VStack {
-                MistakeNoteTabSelector(selectedTab: $selectedTab)
-                    .padding(.horizontal, 18)
+                MistakeNoteTabSelector(
+                    selectedTab: selectedTab,
+                    onTabSelected: { selectedTab = $0 }
+                )
+                .padding(.horizontal, 18)
 
                 Spacer()
             }

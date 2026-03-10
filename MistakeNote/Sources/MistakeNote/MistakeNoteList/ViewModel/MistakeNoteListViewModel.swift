@@ -6,7 +6,6 @@
 //
 
 import Foundation
-import Combine
 import os
 import QRIZUtils
 import Network
@@ -19,19 +18,7 @@ public enum QuestionFilter: String, CaseIterable, Sendable {
 @MainActor
 public final class MistakeNoteListViewModel: ObservableObject {
 
-    // MARK: - Input & Output
-
-    public enum Input {
-        case viewDidLoad
-        case tabSelected(MistakeNoteTab)
-        case daySelected(String)
-        case sessionSelected(String)
-        case questionTapped(MistakeNoteQuestion)
-        case goToExamTapped
-        case filterAllChanged(QuestionFilter)
-        case conceptFilterApplied(Set<String>, QRIZUtils.Subject?)
-        case resetConceptFilters
-    }
+    // MARK: - Output
 
     public enum Output {
         case navigateToClipDetail(clipId: Int)
@@ -106,8 +93,10 @@ public final class MistakeNoteListViewModel: ObservableObject {
 
     private let logger = Logger.make(category: "MistakeNoteListViewModel")
     private let service: MistakeNoteService
-    private var cancellables = Set<AnyCancellable>()
-    private let output = PassthroughSubject<Output, Never>()
+
+    // MARK: - Navigation
+
+    public var onNavigate: ((Output) -> Void)?
 
     // MARK: - Initializers
 
@@ -117,48 +106,48 @@ public final class MistakeNoteListViewModel: ObservableObject {
 
     // MARK: - Methods
 
-    public func transform(input: AnyPublisher<Input, Never>) -> AnyPublisher<Output, Never> {
-        input.sink { [weak self] event in
-            guard let self = self else { return }
-            switch event {
-            case .viewDidLoad:
-                Task { await self.loadDailyInitialData() }
+    public func viewDidLoad() async {
+        await loadDailyInitialData()
+    }
 
-            case .tabSelected(let tab):
-                self.selectedTab = tab
-                self.resetAllFilters()
-                Task { await self.handleTabChange(tab) }
+    public func tabSelected(_ tab: MistakeNoteTab) {
+        selectedTab = tab
+        resetAllFilters()
+        Task { await handleTabChange(tab) }
+    }
 
-            case .daySelected(let day):
-                self.selectedDay = day
-                self.resetAllFilters()
-                Task { await self.loadClips(category: 2, testInfo: self.extractTestInfo(from: day)) }
+    public func daySelected(_ day: String) {
+        selectedDay = day
+        resetAllFilters()
+        Task { await loadClips(category: 2, testInfo: extractTestInfo(from: day)) }
+    }
 
-            case .sessionSelected(let session):
-                self.selectedSession = session
-                self.resetAllFilters()
-                Task { await self.loadClips(category: 3, testInfo: self.extractSessionInfo(from: session)) }
+    public func sessionSelected(_ session: String) {
+        selectedSession = session
+        resetAllFilters()
+        Task { await loadClips(category: 3, testInfo: extractSessionInfo(from: session)) }
+    }
 
-            case .questionTapped(let question):
-                self.output.send(.navigateToClipDetail(clipId: question.id))
+    public func questionTapped(_ question: MistakeNoteQuestion) {
+        onNavigate?(.navigateToClipDetail(clipId: question.id))
+    }
 
-            case .goToExamTapped:
-                self.output.send(.navigateToExam(tab: self.selectedTab))
+    public func goToExamTapped() {
+        onNavigate?(.navigateToExam(tab: selectedTab))
+    }
 
-            case .filterAllChanged(let filter):
-                self.filterAll = filter
+    public func filterAllChanged(_ filter: QuestionFilter) {
+        filterAll = filter
+    }
 
-            case .conceptFilterApplied(let concepts, let subject):
-                self.selectedConceptsFilter = concepts
-                self.selectedFilterSubject = subject
+    public func conceptFilterApplied(_ concepts: Set<String>, _ subject: QRIZUtils.Subject?) {
+        selectedConceptsFilter = concepts
+        selectedFilterSubject = subject
+    }
 
-            case .resetConceptFilters:
-                self.resetConceptFilters()
-            }
-        }
-        .store(in: &cancellables)
-
-        return output.eraseToAnyPublisher()
+    public func resetConceptFilters() {
+        selectedConceptsFilter = []
+        selectedFilterSubject = nil
     }
 
     public func hasFilterForSubject(_ subject: QRIZUtils.Subject) -> Bool {
@@ -173,11 +162,6 @@ public final class MistakeNoteListViewModel: ObservableObject {
     }
 
     // MARK: - Private Methods
-
-    private func resetConceptFilters() {
-        selectedConceptsFilter = []
-        selectedFilterSubject = nil
-    }
 
     private func resetAllFilters() {
         selectedConceptsFilter = []

@@ -8,7 +8,6 @@
 import UIKit
 import DesignSystem
 import SwiftUI
-import Combine
 
 @MainActor
 public protocol MistakeNoteViewControllerDelegate: AnyObject {
@@ -23,8 +22,6 @@ public final class MistakeNoteViewController: UIHostingController<MistakeNoteMai
 
     public weak var delegate: MistakeNoteViewControllerDelegate?
     private let viewModel: MistakeNoteListViewModel
-    private let input = PassthroughSubject<MistakeNoteListViewModel.Input, Never>()
-    private var cancellables = Set<AnyCancellable>()
 
     // MARK: - Initialize
 
@@ -66,19 +63,14 @@ public final class MistakeNoteViewController: UIHostingController<MistakeNoteMai
     }
 
     private func bind() {
-        let output = viewModel.transform(input: input.eraseToAnyPublisher())
-
-        output
-            .receive(on: DispatchQueue.main)
-            .sink { [weak self] event in
-                guard let self = self else { return }
-                switch event {
-                case .navigateToClipDetail(let clipId):
-                    self.delegate?.mistakeNoteViewController(self, didSelectClipWithId: clipId)
-                case .navigateToExam(let tab):
-                    self.delegate?.mistakeNoteViewController(self, didRequestExamForTab: tab)
-                }
+        viewModel.onNavigate = { [weak self] output in
+            guard let self else { return }
+            switch output {
+            case .navigateToClipDetail(let clipId):
+                self.delegate?.mistakeNoteViewController(self, didSelectClipWithId: clipId)
+            case .navigateToExam(let tab):
+                self.delegate?.mistakeNoteViewController(self, didRequestExamForTab: tab)
             }
-            .store(in: &cancellables)
+        }
     }
 }
