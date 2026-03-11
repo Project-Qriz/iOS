@@ -4,6 +4,8 @@ import Foundation
 @testable import MistakeNote
 import QRIZUtils
 
+let asyncSleepNanoseconds: UInt64 = 100_000_000
+
 // MARK: - Test Fixtures
 
 extension MistakeNoteQuestion {
