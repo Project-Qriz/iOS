@@ -42,7 +42,7 @@ public final class MistakeNoteCoordinatorImpl: MistakeNoteCoordinator, Navigatio
     // MARK: - Methods
 
     public func start() -> UIViewController {
-        let viewModel = MistakeNoteListViewModel()
+        let viewModel = MistakeNoteListViewModel(service: service)
         let mistakeNoteVC = MistakeNoteViewController(viewModel: viewModel)
         mistakeNoteVC.delegate = self
         let nav = UINavigationController(rootViewController: mistakeNoteVC)
