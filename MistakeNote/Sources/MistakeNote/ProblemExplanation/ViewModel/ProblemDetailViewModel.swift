@@ -54,17 +54,10 @@ public final class ProblemDetailViewModel: ObservableObject {
     private func findConceptItem(for conceptName: String) -> (Chapter, ConceptItem)? {
         let normalizedInput = conceptName.trimmingCharacters(in: .whitespacesAndNewlines)
 
+        let normalizedTarget = normalizedInput.normalizingConcept().lowercased()
         for chapter in Chapter.allCases {
             for conceptItem in chapter.conceptItems {
-                if conceptItem.title == normalizedInput {
-                    return (chapter, conceptItem)
-                }
-
-                if conceptItem.title.lowercased() == normalizedInput.lowercased() {
-                    return (chapter, conceptItem)
-                }
-
-                if conceptItem.title.normalizingConcept().lowercased() == normalizedInput.normalizingConcept().lowercased() {
+                if conceptItem.title.normalizingConcept().lowercased() == normalizedTarget {
                     return (chapter, conceptItem)
                 }
             }
