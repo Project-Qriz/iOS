@@ -13,20 +13,9 @@ import QRIZUtils
 public struct ProblemDetailView: View {
 
     @ObservedObject public var viewModel: ProblemDetailViewModel
-    public let onRetry: () -> Void
-    public let onLearnButtonTapped: () -> Void
-    public let onConceptTapped: (String) -> Void
 
-    public init(
-        viewModel: ProblemDetailViewModel,
-        onRetry: @escaping () -> Void,
-        onLearnButtonTapped: @escaping () -> Void,
-        onConceptTapped: @escaping (String) -> Void
-    ) {
+    public init(viewModel: ProblemDetailViewModel) {
         self.viewModel = viewModel
-        self.onRetry = onRetry
-        self.onLearnButtonTapped = onLearnButtonTapped
-        self.onConceptTapped = onConceptTapped
     }
 
     public var body: some View {
@@ -78,7 +67,7 @@ private extension ProblemDetailView {
                     ProblemKeyConceptsView(
                         keyConcepts: data.keyConcepts,
                         subject: data.title,
-                        onConceptTap: onConceptTapped
+                        onConceptTap: { viewModel.conceptTapped(concept: $0) }
                     )
                 }
 
@@ -109,7 +98,7 @@ private extension ProblemDetailView {
                 .multilineTextAlignment(.center)
 
             Button("다시 시도") {
-                onRetry()
+                viewModel.retry()
             }
             .font(.system(size: 16, weight: .semibold))
             .foregroundColor(.white)
@@ -122,7 +111,7 @@ private extension ProblemDetailView {
     }
 
     var learnButton: some View {
-        Button(action: { onLearnButtonTapped() }) {
+        Button(action: { viewModel.learnButtonTapped() }) {
             Text("학습하러 가기")
                 .font(.system(size: 16, weight: .semibold))
                 .foregroundColor(.white)
@@ -143,10 +132,7 @@ private extension ProblemDetailView {
                 let service = DailyServiceImpl()
                 let response = try await service.getDailyResultDetail(dayNumber: 1, questionId: 1)
                 return response.data.toEntity()
-            },
-            onRetry: {},
-            onLearnButtonTapped: {},
-            onConceptTapped: { _ in }
+            }
         )
     }
 }

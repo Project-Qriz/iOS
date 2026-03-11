@@ -27,13 +27,7 @@ public final class ProblemDetailViewController: UIHostingController<ProblemDetai
 
     public init(viewModel: ProblemDetailViewModel) {
         self.viewModel = viewModel
-        let swiftUIView = ProblemDetailView(
-            viewModel: viewModel,
-            onRetry: { [viewModel] in viewModel.retry() },
-            onLearnButtonTapped: { [viewModel] in viewModel.learnButtonTapped() },
-            onConceptTapped: { [viewModel] concept in viewModel.conceptTapped(concept: concept) }
-        )
-        super.init(rootView: swiftUIView)
+        super.init(rootView: ProblemDetailView(viewModel: viewModel))
         self.hidesBottomBarWhenPushed = true
     }
 
