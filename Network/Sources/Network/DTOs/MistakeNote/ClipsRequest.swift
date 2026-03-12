@@ -54,6 +54,12 @@ public struct ClipsResponse: Decodable, Sendable {
     public let code: Int
     public let msg: String
     public let data: [ClipsQuestionData]
+
+    public init(code: Int, msg: String, data: [ClipsQuestionData]) {
+        self.code = code
+        self.msg = msg
+        self.data = data
+    }
 }
 
 public struct ClipsQuestionData: Decodable, Sendable {

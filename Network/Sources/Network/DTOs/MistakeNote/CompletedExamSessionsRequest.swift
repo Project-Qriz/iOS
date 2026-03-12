@@ -28,9 +28,20 @@ public struct CompletedExamSessionsResponse: Decodable, Sendable {
     public let code: Int
     public let msg: String
     public let data: CompletedExamSessionsData
+
+    public init(code: Int, msg: String, data: CompletedExamSessionsData) {
+        self.code = code
+        self.msg = msg
+        self.data = data
+    }
 }
 
 public struct CompletedExamSessionsData: Decodable, Sendable {
     public let sessions: [String]
     public let latestSession: String?
+
+    public init(sessions: [String], latestSession: String?) {
+        self.sessions = sessions
+        self.latestSession = latestSession
+    }
 }

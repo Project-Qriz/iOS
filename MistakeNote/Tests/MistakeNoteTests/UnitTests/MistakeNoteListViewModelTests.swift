@@ -3,7 +3,7 @@
 import Testing
 import Foundation
 @testable import MistakeNote
-@testable import Network
+import Network
 import QRIZUtils
 
 @MainActor

@@ -28,8 +28,18 @@ public struct CompletedDailyDaysResponse: Decodable, Sendable {
     public let code: Int
     public let msg: String
     public let data: CompletedDailyDaysData
+
+    public init(code: Int, msg: String, data: CompletedDailyDaysData) {
+        self.code = code
+        self.msg = msg
+        self.data = data
+    }
 }
 
 public struct CompletedDailyDaysData: Decodable, Sendable {
     public let days: [String]
+
+    public init(days: [String]) {
+        self.days = days
+    }
 }

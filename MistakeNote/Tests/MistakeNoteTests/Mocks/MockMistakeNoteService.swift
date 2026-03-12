@@ -1,7 +1,7 @@
 // MistakeNote/Tests/MistakeNoteTests/Mocks/MockMistakeNoteService.swift
 
 import Foundation
-@testable import Network
+import Network
 
 final class MockMistakeNoteService: MistakeNoteService, @unchecked Sendable {
 
