@@ -18,7 +18,7 @@ final class StubMistakeNoteService: MistakeNoteService, @unchecked Sendable {
     }
 }
 
-private func neverReturns<T>() async throws -> T {
+func neverReturns<T>() async throws -> T {
     try await withTaskCancellationHandler(
         operation: {
             let _: Void = try await Task.sleep(nanoseconds: .max)

@@ -66,6 +66,17 @@ struct MistakeNoteListViewModelTests {
         #expect(sut.selectedFilterSubject == nil)
     }
 
+    @Test("resetConceptFilters() 호출 시 concept 필터 리셋")
+    func resetConceptFilters_resetsConceptAndSubjectFilter() {
+        let sut = makeSUT()
+        sut.conceptFilterApplied(["SELECT문"], .one)
+
+        sut.resetConceptFilters()
+
+        #expect(sut.selectedConceptsFilter.isEmpty)
+        #expect(sut.selectedFilterSubject == nil)
+    }
+
     @Test("daySelected() 호출 시 모든 필터 리셋")
     func daySelected_resetsAllFilters() {
         let sut = makeSUT()
