@@ -32,4 +32,10 @@ public struct ClipDetailResponse: Decodable, Sendable {
     public let code: Int
     public let msg: String
     public let data: DailyResultDetail
+
+    public init(code: Int, msg: String, data: DailyResultDetail) {
+        self.code = code
+        self.msg = msg
+        self.data = data
+    }
 }
