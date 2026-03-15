@@ -62,7 +62,7 @@ public final class MistakeNoteCoordinatorImpl: MistakeNoteCoordinator, Navigatio
         }
     }
 
-    func showConcept(chapter: Chapter, conceptItem: ConceptItem) {
+    private func showConcept(chapter: Chapter, conceptItem: ConceptItem) {
         guardNavigation {
             let vc = makeConceptPDFViewController(chapter: chapter, conceptItem: conceptItem)
             navigationController?.pushViewController(vc, animated: true)
