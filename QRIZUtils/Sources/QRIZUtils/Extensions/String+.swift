@@ -59,6 +59,11 @@ public extension String {
         let emailRegex = "^[a-zA-Z0-9._%+-]{2,64}@[a-zA-Z0-9.-]{2,255}\\.[a-zA-Z]{2,10}$"
         return NSPredicate(format: "SELF MATCHES %@", emailRegex).evaluate(with: self)
     }
+    
+    /// 개념 이름 정규화 — 공백 제거하여 비교 시 사용
+    func normalizingConcept() -> String {
+        replacingOccurrences(of: " ", with: "")
+    }
 }
 
 public extension String {

@@ -7,34 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		B1296F282F33355400252AD9 /* ProblemHeaderCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1296F1A2F33355400252AD9 /* ProblemHeaderCardView.swift */; };
-		B1296F292F33355400252AD9 /* MistakeNoteMainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1296F0F2F33355400252AD9 /* MistakeNoteMainView.swift */; };
-		B1296F2A2F33355400252AD9 /* FilterChip.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1296F092F33355400252AD9 /* FilterChip.swift */; };
-		B1296F2B2F33355400252AD9 /* MistakeNoteCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1296F262F33355400252AD9 /* MistakeNoteCoordinator.swift */; };
-		B1296F2C2F33355400252AD9 /* SubjectFilterSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1296F0B2F33355400252AD9 /* SubjectFilterSheet.swift */; };
-		B1296F2D2F33355400252AD9 /* ProblemKeyConceptsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1296F1B2F33355400252AD9 /* ProblemKeyConceptsView.swift */; };
-		B1296F2E2F33355400252AD9 /* MistakeNoteTabSelector.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1296F122F33355400252AD9 /* MistakeNoteTabSelector.swift */; };
-		B1296F2F2F33355400252AD9 /* DaySelectDropdownButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1296F0D2F33355400252AD9 /* DaySelectDropdownButton.swift */; };
-		B1296F302F33355400252AD9 /* MistakeNoteListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1296F162F33355400252AD9 /* MistakeNoteListViewModel.swift */; };
-		B1296F312F33355400252AD9 /* ProblemDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1296F232F33355400252AD9 /* ProblemDetailViewModel.swift */; };
-		B1296F322F33355400252AD9 /* FilterSectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1296F0A2F33355400252AD9 /* FilterSectionView.swift */; };
-		B1296F332F33355400252AD9 /* ProblemResultView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1296F1E2F33355400252AD9 /* ProblemResultView.swift */; };
-		B1296F342F33355400252AD9 /* FilterChipButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1296F0E2F33355400252AD9 /* FilterChipButton.swift */; };
-		B1296F352F33355400252AD9 /* MistakeNoteQuestionCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1296F102F33355400252AD9 /* MistakeNoteQuestionCard.swift */; };
-		B1296F362F33355400252AD9 /* MistakeNoteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1296F142F33355400252AD9 /* MistakeNoteViewController.swift */; };
-		B1296F372F33355400252AD9 /* ProblemSolutionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1296F1F2F33355400252AD9 /* ProblemSolutionView.swift */; };
-		B1296F382F33355400252AD9 /* MistakeNoteQuestionListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1296F112F33355400252AD9 /* MistakeNoteQuestionListView.swift */; };
-		B1296F392F33355400252AD9 /* ProblemDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1296F212F33355400252AD9 /* ProblemDetailViewController.swift */; };
-		B1296F3A2F33355400252AD9 /* ProblemOptionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1296F1C2F33355400252AD9 /* ProblemOptionView.swift */; };
-		B1296F3B2F33355400252AD9 /* ProblemQuestionSectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1296F1D2F33355400252AD9 /* ProblemQuestionSectionView.swift */; };
-		B1296F3C2F33355400252AD9 /* ProblemDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1296F192F33355400252AD9 /* ProblemDetailView.swift */; };
-		B1296F402F34654B00252AD9 /* MistakeNoteEmptyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1296F3F2F34654B00252AD9 /* MistakeNoteEmptyView.swift */; };
-		B1296F422F34882100252AD9 /* MistakeNoteNoRecordView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1296F412F34882100252AD9 /* MistakeNoteNoRecordView.swift */; };
-		B1296F442F3735F600252AD9 /* SubjectFilterSheetViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1296F432F3735F600252AD9 /* SubjectFilterSheetViewModel.swift */; };
 		B12FEEEE2F46F98200280847 /* Network in Frameworks */ = {isa = PBXBuildFile; productRef = B12FEEED2F46F98200280847 /* Network */; };
 		B13774AD2ED9D7AF001A614D /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = B13774AC2ED9D7AF001A614D /* GoogleService-Info.plist */; };
 		B13BC2F22F56E3B500E99FA2 /* Auth in Frameworks */ = {isa = PBXBuildFile; productRef = B13BC2F32F56E3B500E99FA2 /* Auth */; };
 		B13BC73E2F58273500E99FA2 /* Conceptbook in Frameworks */ = {isa = PBXBuildFile; productRef = B13BC73F2F58273500E99FA2 /* Conceptbook */; };
+		B1D7CE482F5EE18200E6C2CD /* MistakeNote in Frameworks */ = {isa = PBXBuildFile; productRef = B1D7CE492F5EE18200E6C2CD /* MistakeNote */; };
 		B151082A2DFFEA8C00657506 /* DeleteAccountViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B15108262DFFEA8C00657506 /* DeleteAccountViewController.swift */; };
 		B151082B2DFFEA8C00657506 /* MyPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B15108272DFFEA8C00657506 /* MyPageViewController.swift */; };
 		B151082C2DFFEA8C00657506 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B15108282DFFEA8C00657506 /* SettingsViewController.swift */; };
@@ -128,30 +105,6 @@
 
 /* Begin PBXFileReference section */
 		B1004A992EC77C66000E4DE2 /* QRIZ.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = QRIZ.entitlements; sourceTree = "<group>"; };
-		B1296F092F33355400252AD9 /* FilterChip.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterChip.swift; sourceTree = "<group>"; };
-		B1296F0A2F33355400252AD9 /* FilterSectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterSectionView.swift; sourceTree = "<group>"; };
-		B1296F0B2F33355400252AD9 /* SubjectFilterSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubjectFilterSheet.swift; sourceTree = "<group>"; };
-		B1296F0D2F33355400252AD9 /* DaySelectDropdownButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DaySelectDropdownButton.swift; sourceTree = "<group>"; };
-		B1296F0E2F33355400252AD9 /* FilterChipButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterChipButton.swift; sourceTree = "<group>"; };
-		B1296F0F2F33355400252AD9 /* MistakeNoteMainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MistakeNoteMainView.swift; sourceTree = "<group>"; };
-		B1296F102F33355400252AD9 /* MistakeNoteQuestionCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MistakeNoteQuestionCard.swift; sourceTree = "<group>"; };
-		B1296F112F33355400252AD9 /* MistakeNoteQuestionListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MistakeNoteQuestionListView.swift; sourceTree = "<group>"; };
-		B1296F122F33355400252AD9 /* MistakeNoteTabSelector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MistakeNoteTabSelector.swift; sourceTree = "<group>"; };
-		B1296F142F33355400252AD9 /* MistakeNoteViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MistakeNoteViewController.swift; sourceTree = "<group>"; };
-		B1296F162F33355400252AD9 /* MistakeNoteListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MistakeNoteListViewModel.swift; sourceTree = "<group>"; };
-		B1296F192F33355400252AD9 /* ProblemDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProblemDetailView.swift; sourceTree = "<group>"; };
-		B1296F1A2F33355400252AD9 /* ProblemHeaderCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProblemHeaderCardView.swift; sourceTree = "<group>"; };
-		B1296F1B2F33355400252AD9 /* ProblemKeyConceptsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProblemKeyConceptsView.swift; sourceTree = "<group>"; };
-		B1296F1C2F33355400252AD9 /* ProblemOptionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProblemOptionView.swift; sourceTree = "<group>"; };
-		B1296F1D2F33355400252AD9 /* ProblemQuestionSectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProblemQuestionSectionView.swift; sourceTree = "<group>"; };
-		B1296F1E2F33355400252AD9 /* ProblemResultView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProblemResultView.swift; sourceTree = "<group>"; };
-		B1296F1F2F33355400252AD9 /* ProblemSolutionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProblemSolutionView.swift; sourceTree = "<group>"; };
-		B1296F212F33355400252AD9 /* ProblemDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProblemDetailViewController.swift; sourceTree = "<group>"; };
-		B1296F232F33355400252AD9 /* ProblemDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProblemDetailViewModel.swift; sourceTree = "<group>"; };
-		B1296F262F33355400252AD9 /* MistakeNoteCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MistakeNoteCoordinator.swift; sourceTree = "<group>"; };
-		B1296F3F2F34654B00252AD9 /* MistakeNoteEmptyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MistakeNoteEmptyView.swift; sourceTree = "<group>"; };
-		B1296F412F34882100252AD9 /* MistakeNoteNoRecordView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MistakeNoteNoRecordView.swift; sourceTree = "<group>"; };
-		B1296F432F3735F600252AD9 /* SubjectFilterSheetViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubjectFilterSheetViewModel.swift; sourceTree = "<group>"; };
 		B13774AC2ED9D7AF001A614D /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		B13BC2F12F56E3B500E99FA2 /* Auth */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = Auth; sourceTree = "<group>"; };
 		B13BC73D2F58273500E99FA2 /* Conceptbook */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = Conceptbook; sourceTree = "<group>"; };
@@ -180,6 +133,7 @@
 		B1BDD0C42F4CCC5300834D57 /* DesignSystem */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = DesignSystem; sourceTree = "<group>"; };
 		B1BDD0C82F4D2A5200834D57 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		B1BDD3572F4E459300834D57 /* ExamKit */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = ExamKit; sourceTree = "<group>"; };
+		B1D7CE472F5EE18200E6C2CD /* MistakeNote */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = MistakeNote; sourceTree = "<group>"; };
 		B1D813702D6E0C1F00A9D447 /* HomeCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeCoordinator.swift; sourceTree = "<group>"; };
 		B1D813762D6E0CD700A9D447 /* MyPageCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageCoordinator.swift; sourceTree = "<group>"; };
 		B1D813792D768D9B00A9D447 /* AppCoordinator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppCoordinator.swift; sourceTree = "<group>"; };
@@ -313,6 +267,7 @@
 				B18CDE662F45AD2A00CB3AB4 /* QRIZUtils in Frameworks */,
 				B13BC2F22F56E3B500E99FA2 /* Auth in Frameworks */,
 				B13BC73E2F58273500E99FA2 /* Conceptbook in Frameworks */,
+				B1D7CE482F5EE18200E6C2CD /* MistakeNote in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -337,7 +292,6 @@
 				E25F33572DAFBA27002347D4 /* Daily */,
 				E258577D2DD0939500AE174C /* Exam */,
 				54DB0D972D0950A500ABD458 /* Home */,
-				B1296F272F33355400252AD9 /* MistakeNote */,
 				B19C4FB72D6A927C00CD008A /* MyPage */,
 			);
 			path = Feature;
@@ -361,109 +315,6 @@
 				B13774AC2ED9D7AF001A614D /* GoogleService-Info.plist */,
 			);
 			path = SupportingFiles;
-			sourceTree = "<group>";
-		};
-		B1296F0C2F33355400252AD9 /* SubjectFilterSheet */ = {
-			isa = PBXGroup;
-			children = (
-				B1296F092F33355400252AD9 /* FilterChip.swift */,
-				B1296F0A2F33355400252AD9 /* FilterSectionView.swift */,
-				B1296F0B2F33355400252AD9 /* SubjectFilterSheet.swift */,
-			);
-			path = SubjectFilterSheet;
-			sourceTree = "<group>";
-		};
-		B1296F132F33355400252AD9 /* View */ = {
-			isa = PBXGroup;
-			children = (
-				B1296F0C2F33355400252AD9 /* SubjectFilterSheet */,
-				B1296F412F34882100252AD9 /* MistakeNoteNoRecordView.swift */,
-				B1296F3F2F34654B00252AD9 /* MistakeNoteEmptyView.swift */,
-				B1296F0D2F33355400252AD9 /* DaySelectDropdownButton.swift */,
-				B1296F0E2F33355400252AD9 /* FilterChipButton.swift */,
-				B1296F0F2F33355400252AD9 /* MistakeNoteMainView.swift */,
-				B1296F102F33355400252AD9 /* MistakeNoteQuestionCard.swift */,
-				B1296F112F33355400252AD9 /* MistakeNoteQuestionListView.swift */,
-				B1296F122F33355400252AD9 /* MistakeNoteTabSelector.swift */,
-			);
-			path = View;
-			sourceTree = "<group>";
-		};
-		B1296F152F33355400252AD9 /* ViewController */ = {
-			isa = PBXGroup;
-			children = (
-				B1296F142F33355400252AD9 /* MistakeNoteViewController.swift */,
-			);
-			path = ViewController;
-			sourceTree = "<group>";
-		};
-		B1296F172F33355400252AD9 /* ViewModel */ = {
-			isa = PBXGroup;
-			children = (
-				B1296F162F33355400252AD9 /* MistakeNoteListViewModel.swift */,
-				B1296F432F3735F600252AD9 /* SubjectFilterSheetViewModel.swift */,
-			);
-			path = ViewModel;
-			sourceTree = "<group>";
-		};
-		B1296F182F33355400252AD9 /* MistakeNoteList */ = {
-			isa = PBXGroup;
-			children = (
-				B1296F132F33355400252AD9 /* View */,
-				B1296F152F33355400252AD9 /* ViewController */,
-				B1296F172F33355400252AD9 /* ViewModel */,
-			);
-			path = MistakeNoteList;
-			sourceTree = "<group>";
-		};
-		B1296F202F33355400252AD9 /* View */ = {
-			isa = PBXGroup;
-			children = (
-				B1296F192F33355400252AD9 /* ProblemDetailView.swift */,
-				B1296F1A2F33355400252AD9 /* ProblemHeaderCardView.swift */,
-				B1296F1B2F33355400252AD9 /* ProblemKeyConceptsView.swift */,
-				B1296F1C2F33355400252AD9 /* ProblemOptionView.swift */,
-				B1296F1D2F33355400252AD9 /* ProblemQuestionSectionView.swift */,
-				B1296F1E2F33355400252AD9 /* ProblemResultView.swift */,
-				B1296F1F2F33355400252AD9 /* ProblemSolutionView.swift */,
-			);
-			path = View;
-			sourceTree = "<group>";
-		};
-		B1296F222F33355400252AD9 /* ViewController */ = {
-			isa = PBXGroup;
-			children = (
-				B1296F212F33355400252AD9 /* ProblemDetailViewController.swift */,
-			);
-			path = ViewController;
-			sourceTree = "<group>";
-		};
-		B1296F242F33355400252AD9 /* ViewModel */ = {
-			isa = PBXGroup;
-			children = (
-				B1296F232F33355400252AD9 /* ProblemDetailViewModel.swift */,
-			);
-			path = ViewModel;
-			sourceTree = "<group>";
-		};
-		B1296F252F33355400252AD9 /* ProblemExplanation */ = {
-			isa = PBXGroup;
-			children = (
-				B1296F202F33355400252AD9 /* View */,
-				B1296F222F33355400252AD9 /* ViewController */,
-				B1296F242F33355400252AD9 /* ViewModel */,
-			);
-			path = ProblemExplanation;
-			sourceTree = "<group>";
-		};
-		B1296F272F33355400252AD9 /* MistakeNote */ = {
-			isa = PBXGroup;
-			children = (
-				B1296F182F33355400252AD9 /* MistakeNoteList */,
-				B1296F252F33355400252AD9 /* ProblemExplanation */,
-				B1296F262F33355400252AD9 /* MistakeNoteCoordinator.swift */,
-			);
-			path = MistakeNote;
 			sourceTree = "<group>";
 		};
 		B15108292DFFEA8C00657506 /* ViewController */ = {
@@ -722,6 +573,7 @@
 		E23962FC2D083B8F0092B39B = {
 			isa = PBXGroup;
 			children = (
+				B1D7CE472F5EE18200E6C2CD /* MistakeNote */,
 				B17C0EC22F5AA88900C8219A /* Account */,
 				B18729F32DB5E5FB0050811C /* PDF */,
 				E26AF7042D918F97006E3252 /* XCConfig */,
@@ -1139,6 +991,7 @@
 				B13BC2F32F56E3B500E99FA2 /* Auth */,
 				B13BC73F2F58273500E99FA2 /* Conceptbook */,
 				B17C0EC42F5AACD200C8219A /* Account */,
+				B1D7CE492F5EE18200E6C2CD /* MistakeNote */,
 			);
 			productName = QRIZ;
 			productReference = E23963052D083B8F0092B39B /* QRIZ.app */;
@@ -1207,7 +1060,6 @@
 				E22341AD2DD4C35D00A67D04 /* ExamSummaryViewController.swift in Sources */,
 				E29CCD3C2D298656004AA30A /* PreviewResultBarGraphsView.swift in Sources */,
 				E2C084BE2D89AF2C0096CE20 /* PreviewResultInfoView.swift in Sources */,
-				B1296F402F34654B00252AD9 /* MistakeNoteEmptyView.swift in Sources */,
 				B15109832E04DFA400657506 /* ChangePasswordMainView.swift in Sources */,
 				E29CCD522D299AD5004AA30A /* PreviewResultIncorrectConceptsRankView.swift in Sources */,
 				E29CCD492D29867F004AA30A /* GreetingViewController.swift in Sources */,
@@ -1225,31 +1077,8 @@
 				E2804CF52DFAD5D500F5F05D /* ExamCoordinator.swift in Sources */,
 				B15109852E05208B00657506 /* ChangePasswordInputView.swift in Sources */,
 				E217C3692D9BF0B20095A3D8 /* DailyResultViewModel.swift in Sources */,
-				B1296F282F33355400252AD9 /* ProblemHeaderCardView.swift in Sources */,
-				B1296F292F33355400252AD9 /* MistakeNoteMainView.swift in Sources */,
-				B1296F2A2F33355400252AD9 /* FilterChip.swift in Sources */,
-				B1296F2B2F33355400252AD9 /* MistakeNoteCoordinator.swift in Sources */,
-				B1296F2C2F33355400252AD9 /* SubjectFilterSheet.swift in Sources */,
-				B1296F2D2F33355400252AD9 /* ProblemKeyConceptsView.swift in Sources */,
-				B1296F2E2F33355400252AD9 /* MistakeNoteTabSelector.swift in Sources */,
-				B1296F2F2F33355400252AD9 /* DaySelectDropdownButton.swift in Sources */,
-				B1296F302F33355400252AD9 /* MistakeNoteListViewModel.swift in Sources */,
-				B1296F312F33355400252AD9 /* ProblemDetailViewModel.swift in Sources */,
-				B1296F322F33355400252AD9 /* FilterSectionView.swift in Sources */,
-				B1296F332F33355400252AD9 /* ProblemResultView.swift in Sources */,
-				B1296F342F33355400252AD9 /* FilterChipButton.swift in Sources */,
-				B1296F352F33355400252AD9 /* MistakeNoteQuestionCard.swift in Sources */,
-				B1296F362F33355400252AD9 /* MistakeNoteViewController.swift in Sources */,
-				B1296F372F33355400252AD9 /* ProblemSolutionView.swift in Sources */,
-				B1296F382F33355400252AD9 /* MistakeNoteQuestionListView.swift in Sources */,
-				B1296F392F33355400252AD9 /* ProblemDetailViewController.swift in Sources */,
-				B1296F3A2F33355400252AD9 /* ProblemOptionView.swift in Sources */,
-				B1296F3B2F33355400252AD9 /* ProblemQuestionSectionView.swift in Sources */,
-				B1296F3C2F33355400252AD9 /* ProblemDetailView.swift in Sources */,
-				B1296F422F34882100252AD9 /* MistakeNoteNoRecordView.swift in Sources */,
 				E27E54A92D6D74C500BF3B55 /* CheckListFoldButton.swift in Sources */,
 				E22341AF2DD4C5B000A67D04 /* ExamSummaryViewModel.swift in Sources */,
-				B1296F442F3735F600252AD9 /* SubjectFilterSheetViewModel.swift in Sources */,
 				E211AE032DE47D4D00AB24FE /* ExamResultScoreView.swift in Sources */,
 				E29CCD422D298656004AA30A /* PreviewResultViewModel.swift in Sources */,
 				E258577F2DD093A700AE174C /* ExamListViewController.swift in Sources */,
@@ -1553,6 +1382,10 @@
 		B17C0EC42F5AACD200C8219A /* Account */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = Account;
+		};
+		B1D7CE492F5EE18200E6C2CD /* MistakeNote */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = MistakeNote;
 		};
 		B18CDE652F45AD2A00CB3AB4 /* QRIZUtils */ = {
 			isa = XCSwiftPackageProductDependency;

@@ -8,7 +8,7 @@
 import Foundation
 import QRIZUtils
 
-public protocol MistakeNoteService {
+public protocol MistakeNoteService: Sendable {
     /// 오답노트 문제 목록 조회
     /// - Parameters:
     ///   - category: 카테고리 (2 = 데일리, 3 = 모의고사)
@@ -26,7 +26,7 @@ public protocol MistakeNoteService {
     func getClipDetail(clipId: Int) async throws -> ClipDetailResponse
 }
 
-public final class MistakeNoteServiceImpl: MistakeNoteService {
+public final class MistakeNoteServiceImpl: MistakeNoteService, Sendable {
 
     // MARK: - Properties
 
