@@ -1,5 +1,3 @@
-// MistakeNote/Tests/MistakeNoteTests/Mocks/SnapshotServiceStubs.swift
-
 import Foundation
 import Network
 

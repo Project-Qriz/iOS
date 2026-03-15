@@ -1,5 +1,3 @@
-// MistakeNote/Tests/MistakeNoteTests/SnapshotTests/MistakeNoteSnapshotTests.swift
-
 import XCTest
 import SnapshotTesting
 @testable import MistakeNote

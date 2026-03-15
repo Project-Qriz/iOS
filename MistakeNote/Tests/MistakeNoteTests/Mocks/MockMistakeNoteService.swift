@@ -1,5 +1,3 @@
-// MistakeNote/Tests/MistakeNoteTests/Mocks/MockMistakeNoteService.swift
-
 import Foundation
 import Network
 

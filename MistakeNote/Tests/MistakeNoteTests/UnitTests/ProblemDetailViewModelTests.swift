@@ -1,5 +1,3 @@
-// MistakeNote/Tests/MistakeNoteTests/UnitTests/ProblemDetailViewModelTests.swift
-
 import Testing
 import Foundation
 @testable import MistakeNote

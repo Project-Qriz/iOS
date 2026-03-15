@@ -1,5 +1,3 @@
-// MistakeNote/Tests/MistakeNoteTests/TestHelpers.swift
-
 import Foundation
 @testable import MistakeNote
 import QRIZUtils

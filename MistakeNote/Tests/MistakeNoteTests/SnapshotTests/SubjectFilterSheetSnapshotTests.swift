@@ -1,5 +1,3 @@
-// MistakeNote/Tests/MistakeNoteTests/SnapshotTests/SubjectFilterSheetSnapshotTests.swift
-
 import XCTest
 import SnapshotTesting
 import SwiftUI

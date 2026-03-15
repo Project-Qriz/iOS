@@ -1,5 +1,3 @@
-// MistakeNote/Tests/MistakeNoteTests/UnitTests/SubjectFilterSheetViewModelTests.swift
-
 import Testing
 @testable import MistakeNote
 import QRIZUtils

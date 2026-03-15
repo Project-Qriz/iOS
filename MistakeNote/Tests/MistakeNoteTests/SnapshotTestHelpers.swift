@@ -1,5 +1,3 @@
-// MistakeNote/Tests/MistakeNoteTests/SnapshotTestHelpers.swift
-
 import UIKit
 import XCTest
 
