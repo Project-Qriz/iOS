@@ -96,13 +96,13 @@ public final class MistakeNoteListViewModel: ObservableObject {
     public func daySelected(_ day: String) {
         selectedDay = day
         resetAllFilters()
-        Task { await loadClips(category: 2, testInfo: extractTestInfo(from: day)) }
+        Task { await loadClips(category: 2, testInfo: extractFirstComponent(from: day)) }
     }
 
     public func sessionSelected(_ session: String) {
         selectedSession = session
         resetAllFilters()
-        Task { await loadClips(category: 3, testInfo: extractSessionInfo(from: session)) }
+        Task { await loadClips(category: 3, testInfo: extractFirstComponent(from: session)) }
     }
 
     public func questionTapped(_ question: MistakeNoteQuestion) {
@@ -139,8 +139,7 @@ public final class MistakeNoteListViewModel: ObservableObject {
     }
 
     private func resetAllFilters() {
-        selectedConceptsFilter = []
-        selectedFilterSubject = nil
+        resetConceptFilters()
         filterAll = .all
     }
 
@@ -150,13 +149,13 @@ public final class MistakeNoteListViewModel: ObservableObject {
             if availableDays.isEmpty {
                 await loadDailyInitialData()
             } else {
-                await loadClips(category: 2, testInfo: extractTestInfo(from: selectedDay))
+                await loadClips(category: 2, testInfo: extractFirstComponent(from: selectedDay))
             }
         case .mockExam:
             if availableSessions.isEmpty {
                 await loadMockExamInitialData()
             } else {
-                await loadClips(category: 3, testInfo: extractSessionInfo(from: selectedSession))
+                await loadClips(category: 3, testInfo: extractFirstComponent(from: selectedSession))
             }
         }
     }
@@ -171,7 +170,7 @@ public final class MistakeNoteListViewModel: ObservableObject {
 
             if let firstDay = availableDays.first {
                 selectedDay = firstDay
-                await loadClips(category: 2, testInfo: extractTestInfo(from: firstDay))
+                await loadClips(category: 2, testInfo: extractFirstComponent(from: firstDay))
             }
         } catch {
             errorMessage = "데이터를 불러오는데 실패했습니다."
@@ -205,14 +204,9 @@ public final class MistakeNoteListViewModel: ObservableObject {
         isLoading = false
     }
 
-    /// "Day6 (주간 복습)" -> "Day6"
-    private func extractTestInfo(from day: String) -> String {
-        day.components(separatedBy: " ").first ?? day
-    }
-
-    /// "3회차 (제일 최신 회차)" -> "3회차"
-    private func extractSessionInfo(from session: String) -> String {
-        session.components(separatedBy: " ").first ?? session
+    /// "Day6 (주간 복습)" -> "Day6", "3회차 (제일 최신 회차)" -> "3회차"
+    private func extractFirstComponent(from string: String) -> String {
+        string.components(separatedBy: " ").first ?? string
     }
 
     private func loadMockExamInitialData() async {
@@ -227,7 +221,7 @@ public final class MistakeNoteListViewModel: ObservableObject {
 
             if let session = targetSession {
                 selectedSession = session
-                await loadClips(category: 3, testInfo: extractSessionInfo(from: session))
+                await loadClips(category: 3, testInfo: extractFirstComponent(from: session))
             }
         } catch {
             errorMessage = "데이터를 불러오는데 실패했습니다."
