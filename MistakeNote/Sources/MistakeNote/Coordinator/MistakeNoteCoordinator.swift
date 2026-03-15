@@ -43,8 +43,16 @@ public final class MistakeNoteCoordinatorImpl: MistakeNoteCoordinator, Navigatio
 
     public func start() -> UIViewController {
         let viewModel = MistakeNoteListViewModel(service: service)
+        viewModel.onNavigate = { [weak self] output in
+            guard let self else { return }
+            switch output {
+            case .navigateToClipDetail(let clipId):
+                self.showClipDetail(clipId: clipId)
+            case .navigateToExam(let tab):
+                self.delegate?.moveFromMistakeNoteToExam(self, tab: tab)
+            }
+        }
         let mistakeNoteVC = MistakeNoteViewController(viewModel: viewModel)
-        mistakeNoteVC.delegate = self
         let nav = UINavigationController(rootViewController: mistakeNoteVC)
         navigationController = nav
         return nav
@@ -67,24 +75,6 @@ public final class MistakeNoteCoordinatorImpl: MistakeNoteCoordinator, Navigatio
             let vc = makeConceptPDFViewController(chapter: chapter, conceptItem: conceptItem)
             navigationController?.pushViewController(vc, animated: true)
         }
-    }
-}
-
-// MARK: - MistakeNoteViewControllerDelegate
-
-extension MistakeNoteCoordinatorImpl: MistakeNoteViewControllerDelegate {
-    public func mistakeNoteViewController(
-        _ viewController: MistakeNoteViewController,
-        didSelectClipWithId clipId: Int
-    ) {
-        showClipDetail(clipId: clipId)
-    }
-
-    public func mistakeNoteViewController(
-        _ viewController: MistakeNoteViewController,
-        didRequestExamForTab tab: MistakeNoteTab
-    ) {
-        delegate?.moveFromMistakeNoteToExam(self, tab: tab)
     }
 }
 
