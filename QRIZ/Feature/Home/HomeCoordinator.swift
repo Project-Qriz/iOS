@@ -10,6 +10,7 @@ import DesignSystem
 import QRIZUtils
 import Network
 import Conceptbook
+import Onboarding
 
 @MainActor
 protocol HomeCoordinator: Coordinator {
@@ -50,7 +51,7 @@ final class HomeCoordinatorImpl: HomeCoordinator, NavigationGuard {
     private(set) var homeVM: HomeViewModel?
     var needsRefresh: Bool = false
     var childCoordinators: [Coordinator] = []
-    private var onboardingCoordinator: OnboardingCoordinator?
+    private var onboardingCoordinator: (any OnboardingCoordinator)?
 
     // NavigationGuard
     var isNavigating: Bool = false
@@ -112,13 +113,14 @@ final class HomeCoordinatorImpl: HomeCoordinator, NavigationGuard {
     func showOnboarding() {
         guard let navi = navigationController else { return }
         guardNavigation {
-            let onboarding = OnboardingCoordinatorImpl(
+            var onboarding = OnboardingCoordinator.make(
                 navigationController: navi,
-                onboardingService: onboardingService,
-                userInfoService: userInfoService
+                onboardingService: self.onboardingService,
+                userInfoService: self.userInfoService
             )
             onboarding.delegate = self
-            childCoordinators.append(onboarding)
+            self.onboardingCoordinator = onboarding
+            self.childCoordinators.append(onboarding)
             _ = onboarding.start()
         }
     }
@@ -205,7 +207,7 @@ extension HomeCoordinatorImpl: ExamSelectionDelegate {
 // MARK: - OnboardingCoordinatorDelegate
 
 extension HomeCoordinatorImpl: OnboardingCoordinatorDelegate {
-    func didFinishOnboarding(_ coordinator: OnboardingCoordinator) {
+    func didFinishOnboarding(_ coordinator: any OnboardingCoordinator) {
         childCoordinators.removeAll { $0 === coordinator }
         navigationController?.popToRootViewController(animated: true)
         homeVM?.reloadExamSchedule()
