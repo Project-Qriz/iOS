@@ -35,13 +35,14 @@ Onboarding/
         │   ├── ViewController/
         │   └── ViewModel/
         ├── PreviewResult/
+        │   ├── HostingController/
         │   ├── ViewController/
         │   ├── ViewModel/
         │   └── View/
         ├── Greeting/
         │   ├── ViewController/
         │   └── ViewModel/
-        └── Components/
+        └── OnboardingComponents/
             ├── OnboardingButton.swift
             ├── OnboardingTitleLabel.swift
             └── OnboardingSubtitleLabel.swift
@@ -54,6 +55,7 @@ Onboarding/
 모듈 외부에 노출되는 것은 다음 세 가지뿐이다.
 
 ```swift
+// 외부 공개 (public)
 @MainActor
 public protocol OnboardingCoordinator: Coordinator {
     var delegate: OnboardingCoordinatorDelegate? { get set }
@@ -79,6 +81,28 @@ public extension OnboardingCoordinator {
 }
 ```
 
+### 프로토콜 분리 전략
+
+기존 `OnboardingCoordinator` 프로토콜에는 ViewController가 호출하는 6개의 내부 내비게이션 메서드(`showBeginOnboarding`, `showCheckConcept` 등)가 있다. 이를 다음과 같이 분리한다.
+
+```swift
+// internal — ViewController가 coordinator를 참조할 때 사용
+@MainActor
+protocol OnboardingNavigating: AnyObject {
+    func showBeginOnboarding()
+    func showCheckConcept()
+    func showBeginPreviewTest()
+    func showPreviewTest()
+    func showPreviewResult()
+    func showGreeting()
+}
+
+// OnboardingCoordinatorImpl은 두 프로토콜 모두 채택
+final class OnboardingCoordinatorImpl: OnboardingCoordinator, OnboardingNavigating { ... }
+```
+
+각 ViewController의 `weak var coordinator` 타입을 `OnboardingCoordinator` → `OnboardingNavigating`으로 변경한다.
+
 `OnboardingCoordinatorImpl` 및 모든 ViewModel, ViewController, View는 `internal`.
 
 ---
@@ -86,13 +110,26 @@ public extension OnboardingCoordinator {
 ## 의존성
 
 ```swift
-// Package.swift
-dependencies: [
-    .package(path: "../Network"),
-    .package(path: "../DesignSystem"),
-    .package(path: "../QRIZUtils"),
-    .package(path: "../ExamKit"),
-]
+// Package.swift (swift-tools-version: 6.0)
+let package = Package(
+    name: "Onboarding",
+    platforms: [.iOS(.v17)],
+    products: [
+        .library(name: "Onboarding", targets: ["Onboarding"]),
+    ],
+    dependencies: [
+        .package(path: "../Network"),
+        .package(path: "../DesignSystem"),
+        .package(path: "../QRIZUtils"),
+        .package(path: "../ExamKit"),
+    ],
+    targets: [
+        .target(
+            name: "Onboarding",
+            dependencies: ["Network", "DesignSystem", "QRIZUtils", "ExamKit"]
+        ),
+    ]
+)
 ```
 
 **의존성 그래프:**
@@ -111,32 +148,118 @@ QRIZ (메인앱)
 
 ## 메인 앱 변경사항
 
-**AppCoordinator.swift:**
+변경이 필요한 파일: **AppCoordinator.swift**, **HomeCoordinator.swift**
+
+### AppCoordinator.swift
+
+`AppCoordinatorDependency` 프로토콜은 `var onboardingCoordinator: OnboardingCoordinator { get }`를 선언하고, `AppCoordinatorDependencyImpl`이 이를 구현한다. `AppCoordinatorImpl.showOnboarding()`은 `dependency.onboardingCoordinator`를 통해 Coordinator를 가져온다.
+
+```swift
+// Before — AppCoordinatorDependencyImpl
+var onboardingCoordinator: OnboardingCoordinator {
+    let navi = UINavigationController()
+    return OnboardingCoordinatorImpl(
+        navigationController: navi,
+        onboardingService: onboardingService,
+        userInfoService: userInfoService
+    )
+}
+
+// Before — AppCoordinatorImpl.showOnboarding()
+let onboardingCoordinator = dependency.onboardingCoordinator
+(onboardingCoordinator as? OnboardingCoordinatorImpl)?.delegate = self  // forced downcast
+childCoordinators.append(onboardingCoordinator)
+
+// After — AppCoordinatorDependencyImpl (factory 호출로 교체)
+import Onboarding
+
+var onboardingCoordinator: any OnboardingCoordinator {
+    let navi = UINavigationController()
+    return OnboardingCoordinator.make(
+        navigationController: navi,
+        onboardingService: onboardingService,
+        userInfoService: userInfoService
+    )
+}
+
+// After — AppCoordinatorImpl.showOnboarding() (forced downcast 제거)
+var onboardingCoordinator = dependency.onboardingCoordinator
+onboardingCoordinator.delegate = self  // 직접 할당
+childCoordinators.append(onboardingCoordinator)
+```
+
+`AppCoordinatorDependency` 프로토콜의 반환 타입도 `OnboardingCoordinator` → `any OnboardingCoordinator`로 변경한다.
+
+### HomeCoordinator.swift
+
+`HomeCoordinator`도 `OnboardingCoordinatorImpl`을 직접 참조하고 `OnboardingCoordinatorDelegate`를 구현한다.
+
+현재 `HomeCoordinatorImpl`에는 `private var onboardingCoordinator: OnboardingCoordinator?` 프로퍼티가 선언되어 있으나 `showOnboarding()` 내부에서 할당되지 않은 상태다. 모듈화 시 이 프로퍼티를 활용해 identity를 보존한다.
 
 ```swift
 // Before
 import UIKit
 
-OnboardingCoordinatorImpl(
-    navigationController: navi,
-    onboardingService: onboardingService,
-    userInfoService: userInfoService
-)
+// showOnboarding() — OnboardingCoordinatorImpl 직접 참조, typed property 미사용
+func showOnboarding() {
+    guard let navi = navigationController else { return }
+    guardNavigation {
+        let onboarding = OnboardingCoordinatorImpl(
+            navigationController: navi,
+            onboardingService: onboardingService,
+            userInfoService: userInfoService
+        )
+        onboarding.delegate = self
+        childCoordinators.append(onboarding)  // typed property 할당 없음
+        _ = onboarding.start()
+    }
+}
+
+// delegate 시그니처 (bare, any 없음)
+func didFinishOnboarding(_ coordinator: OnboardingCoordinator) {
+    childCoordinators.removeAll { $0 === coordinator }
+    ...
+}
 
 // After
 import Onboarding
 
-OnboardingCoordinator.make(
-    navigationController: navi,
-    onboardingService: onboardingService,
-    userInfoService: userInfoService
-)
+// showOnboarding() — factory + typed property 할당
+func showOnboarding() {
+    guard let navi = navigationController else { return }
+    guardNavigation {
+        var onboarding = OnboardingCoordinator.make(
+            navigationController: navi,
+            onboardingService: onboardingService,
+            userInfoService: userInfoService
+        )
+        onboarding.delegate = self
+        onboardingCoordinator = onboarding   // typed property에 저장 (identity 보존)
+        childCoordinators.append(onboarding)
+        _ = onboarding.start()
+    }
+}
+
+// delegate 시그니처 — any 키워드 추가 (패키지 정의에 맞춤)
+func didFinishOnboarding(_ coordinator: any OnboardingCoordinator) {
+    childCoordinators.removeAll { $0 === coordinator }
+    ...
+}
 ```
+
+`private var onboardingCoordinator: OnboardingCoordinator?` 프로퍼티 타입을 `(any OnboardingCoordinator)?`로 변경한다.
+
+### 공통 작업
 
 - `import Onboarding` 추가
 - `OnboardingCoordinatorImpl` 직접 참조 제거
-- `OnboardingCoordinatorDelegate` 구현은 그대로 유지 (프로토콜이 public으로 모듈에서 노출됨)
 - QRIZ.xcodeproj에 Onboarding 패키지 의존성 추가
+
+---
+
+## 주의사항
+
+`AppCoordinatorDependencyImpl.onboardingCoordinator`는 non-isolated 컨텍스트에서 `@MainActor` 타입을 생성한다. 이는 기존 코드의 pre-existing 이슈로, Swift 6 strict concurrency 환경에서 컴파일 에러가 될 수 있다. 모듈화 작업 중 컴파일 에러 발생 시 `AppCoordinatorDependencyImpl`에 `@MainActor` 어노테이션 추가로 해결한다.
 
 ---
 
@@ -144,4 +267,4 @@ OnboardingCoordinator.make(
 
 - 테스트 코드 (구조 분리 후 별도 작업)
 - Conceptbook 의존성
-- 기존 내부 로직 변경 (파일 이동 + 접근 제어자 수정만)
+- 기존 내부 로직 변경 (파일 이동 + 접근 제어자 수정, 프로토콜 분리만)
