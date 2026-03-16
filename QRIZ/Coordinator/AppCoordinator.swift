@@ -93,7 +93,7 @@ final class AppCoordinatorDependencyImpl: AppCoordinatorDependency {
     
     var onboardingCoordinator: any OnboardingCoordinator {
         let navi = UINavigationController()
-        return OnboardingCoordinator.make(
+        return makeOnboardingCoordinator(
             navigationController: navi,
             onboardingService: onboardingService,
             userInfoService: userInfoService

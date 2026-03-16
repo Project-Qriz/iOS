@@ -22,6 +22,9 @@ let package = Package(
                 "DesignSystem",
                 "QRIZUtils",
                 "ExamKit",
+            ],
+            swiftSettings: [
+                .swiftLanguageMode(.v5)
             ]
         ),
     ]

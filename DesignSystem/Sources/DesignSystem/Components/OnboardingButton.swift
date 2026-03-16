@@ -1,10 +1,8 @@
 import UIKit
-import DesignSystem
 
-final class OnboardingButton: UIButton {
+public final class OnboardingButton: UIButton {
 
-    // MARK: - Initializers
-    init(_ titleText: String) {
+    public init(_ titleText: String) {
         super.init(frame: .zero)
         self.setTitle(titleText, for: .normal)
         self.setTitleColor(.white, for: .normal)
@@ -17,8 +15,7 @@ final class OnboardingButton: UIButton {
         fatalError("no initializer for coder: OnboardingButton")
     }
 
-    // MARK: - Methods
-    func setButtonState(isActive: Bool) {
+    public func setButtonState(isActive: Bool) {
         if isActive {
             self.setTitleColor(.white, for: .normal)
             self.backgroundColor = .customBlue500

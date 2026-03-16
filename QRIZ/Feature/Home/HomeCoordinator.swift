@@ -113,7 +113,7 @@ final class HomeCoordinatorImpl: HomeCoordinator, NavigationGuard {
     func showOnboarding() {
         guard let navi = navigationController else { return }
         guardNavigation {
-            var onboarding = OnboardingCoordinator.make(
+            var onboarding = makeOnboardingCoordinator(
                 navigationController: navi,
                 onboardingService: self.onboardingService,
                 userInfoService: self.userInfoService

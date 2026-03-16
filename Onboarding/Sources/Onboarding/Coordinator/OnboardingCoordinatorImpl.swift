@@ -4,7 +4,7 @@ import QRIZUtils
 import Network
 
 @MainActor
-final class OnboardingCoordinatorImpl: OnboardingCoordinator, OnboardingNavigating, NavigationGuard {
+final class OnboardingCoordinatorImpl: OnboardingNavigating, NavigationGuard {
 
     // MARK: - Properties
     weak var delegate: OnboardingCoordinatorDelegate?
