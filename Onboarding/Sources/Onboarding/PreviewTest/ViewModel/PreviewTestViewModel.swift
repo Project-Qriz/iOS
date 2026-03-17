@@ -3,190 +3,149 @@ import Combine
 import QRIZUtils
 import Network
 
-final class PreviewTestViewModel {
+@MainActor
+final class PreviewTestViewModel: ObservableObject {
+    @Published var timeRemaining: Int = 0
+    @Published var timeLimit: Int = 0
+    @Published var totalNum: Int = 0
+    @Published var showSubmitAlert: Bool = false
+    @Published var errorMessage: String? = nil
 
-    // MARK: - Input & Output
-    enum Input {
-        case viewDidLoad
-        case prevButtonClicked(selectedOption: Int?)
-        case nextButtonClicked(selectedOption: Int?)
-        case escapeButtonClicked
-        case alertSubmitButtonClicked
-        case alertCancelButtonClicked
-    }
+    var onUpdateQuestion: ((_ question: PreviewTestListQuestion, _ curNum: Int, _ selectedOption: Int?) -> Void)?
+    var onNavigateToResult: (() -> Void)?
+    var onNavigateToHome: (() -> Void)?
 
-    enum Output {
-        case fetchFailed
-        case updateQuestion(question: PreviewTestListQuestion, curNum: Int, selectedOption: Int?)
-        case updateLastQuestionNum(num: Int)
-        case updateTime(timeLimit: Int, timeRemaining: Int)
-        case moveToPreviewResult
-        case moveToHome
-        case popUpAlert
-        case submitSuccess
-        case submitFail
-        case cancelAlert
-    }
-
-    // MARK: - Properties
-    private var questionList: [PreviewTestListQuestion] = [] // 문제 리스트
-    private var submitList: [TestSubmitData] = [] // 제출을 위한 TestSubmitData 리스트
-    private var selectedList: [Int?] = [] // UI를 위한 선택된 옵션 리스트
+    private var questionList: [PreviewTestListQuestion] = []
+    private var submitList: [TestSubmitData] = []
+    private var selectedList: [Int?] = []
     private var currentNumber: Int? = nil
-    private var totalTimeLimit: Int? = nil
-    private var timer: Timer? = nil
-    private var startTime: Date? = nil
-
-    private let output: PassthroughSubject<Output, Never> = .init()
-    private var subscriptions = Set<AnyCancellable>()
+    private var timer: Timer?
+    private var startTime: Date?
 
     private let onboardingService: OnboardingService
 
-    // MARK: - Initializer
     init(onboardingService: OnboardingService) {
         self.onboardingService = onboardingService
     }
 
-    // MARK: - Deinitializer
     deinit {
-        exitTimer()
-        print("DEINIT: PreviewTestViewModel")
+        timer?.invalidate()
     }
 
-    // MARK: - Methods
-    func transform(input: AnyPublisher<Input, Never>) -> AnyPublisher<Output, Never> {
-        input.sink { [weak self] event in
-            guard let self = self else { return }
-            switch event {
-            case .viewDidLoad:
-                getPreviewTestList()
-            case .prevButtonClicked(let selectedOption):
-                updateAnswer(selectedOption: selectedOption)
-                pageButtonsActionHandler(isNextButton: false)
-            case .nextButtonClicked(let selectedOption):
-                updateAnswer(selectedOption: selectedOption)
-                pageButtonsActionHandler(isNextButton: true)
-            case .escapeButtonClicked:
-                exitTimer()
-                // coordinator role
-                output.send(.moveToHome)
-            case .alertSubmitButtonClicked:
-                submitHandler()
-            case .alertCancelButtonClicked:
-                output.send(.cancelAlert)
-            }
-        }
-        .store(in: &subscriptions)
-        return output.eraseToAnyPublisher()
+    func onViewDidLoad() {
+        Task { await fetchQuestions() }
     }
 
-    private func submitHandler() {
-        Task { [weak self] in
-            guard let self = self else { return }
-            do {
-                let _ = try await onboardingService.submitPreview(testSubmitDataList: submitList)
-                exitTimer()
-                output.send(.submitSuccess)
-                output.send(.moveToPreviewResult)
-            } catch {
-                output.send(.submitFail)
-            }
+    func didTapPrev(selectedOption: Int?) {
+        updateAnswer(selectedOption: selectedOption)
+        navigatePage(offset: -1)
+    }
+
+    func didTapNext(selectedOption: Int?) {
+        updateAnswer(selectedOption: selectedOption)
+        guard let curNum = currentNumber else { return }
+        if curNum >= questionList.count {
+            showSubmitAlert = true
+        } else {
+            navigatePage(offset: 1)
         }
+    }
+
+    func didTapEscape() {
+        stopTimer()
+        onNavigateToHome?()
+    }
+
+    func didConfirmSubmit() {
+        Task { await submit() }
+    }
+
+    func didCancelSubmit() {
+        showSubmitAlert = false
     }
 
     private func updateAnswer(selectedOption: Int?) {
-        if let currentNumber {
-            selectedList[currentNumber - 1] = selectedOption
-
-            if let selectedOpt = selectedOption {
-                submitList[currentNumber - 1].optionId = questionList[currentNumber - 1].options[selectedOpt - 1].id
-            } else {
-                submitList[currentNumber - 1].optionId = nil
-            }
-        }
-    }
-
-    private func pageButtonsActionHandler(isNextButton: Bool) {
-        guard let curNum = currentNumber else { return }
-        if isNextButton && curNum >= questionList.count {
-            output.send(.popUpAlert)
+        guard let currentNumber else { return }
+        selectedList[currentNumber - 1] = selectedOption
+        if let opt = selectedOption {
+            submitList[currentNumber - 1].optionId = questionList[currentNumber - 1].options[opt - 1].id
         } else {
-            let pageDiff = isNextButton ? 1 : -1
-            currentNumber = curNum + pageDiff
-            output.send(.updateQuestion(question: questionList[currentNumber! - 1], curNum: currentNumber!, selectedOption: selectedList[currentNumber! - 1]))
+            submitList[currentNumber - 1].optionId = nil
         }
     }
 
-    private func getPreviewTestList() {
-        Task { [weak self] in
-            guard let self = self else { return }
-            do {
-                let response = try await onboardingService.getPreviewTestList()
-                let questions = response.data.questions
-                if !questions.isEmpty {
-                    currentNumber = 1
-                    totalTimeLimit = response.data.totalTimeLimit
-                    sendTimer()
-                    questionList = response.data.questions
-                    initSubmitList(response)
-                    initSelectedList(response.data.questions.count)
-                    output.send(.updateLastQuestionNum(num: questionList.count))
-                    output.send(.updateQuestion(question: questionList[0], curNum: currentNumber!, selectedOption: selectedList[0]))
-                }
-            } catch {
-                output.send(.fetchFailed)
-            }
+    private func navigatePage(offset: Int) {
+        guard let curNum = currentNumber else { return }
+        currentNumber = curNum + offset
+        let idx = currentNumber! - 1
+        onUpdateQuestion?(questionList[idx], currentNumber!, selectedList[idx])
+    }
+
+    private func submit() async {
+        do {
+            _ = try await onboardingService.submitPreview(testSubmitDataList: submitList)
+            stopTimer()
+            showSubmitAlert = false
+            onNavigateToResult?()
+        } catch {
+            showSubmitAlert = false
+            errorMessage = "잠시 후 다시 시도해주세요."
+        }
+    }
+
+    private func fetchQuestions() async {
+        do {
+            let response = try await onboardingService.getPreviewTestList()
+            let questions = response.data.questions
+            guard !questions.isEmpty else { return }
+            currentNumber = 1
+            totalNum = questions.count
+            timeLimit = response.data.totalTimeLimit
+            questionList = questions
+            initSubmitList(response)
+            selectedList = Array(repeating: nil, count: questions.count)
+            startTimerPublishing(totalTimeLimit: response.data.totalTimeLimit)
+            onUpdateQuestion?(questionList[0], 1, nil)
+        } catch {
+            errorMessage = "문제 불러오기 실패"
         }
     }
 
     private func initSubmitList(_ response: PreviewTestListResponse) {
-        response.data.questions.enumerated().forEach { [weak self] idx, question in
-            guard let self = self else { return }
-            self.submitList.append(TestSubmitData(question: SubmitQuestionData(questionId: question.questionId, category: question.category), questionNum: idx + 1, optionId: nil))
+        response.data.questions.enumerated().forEach { idx, question in
+            submitList.append(TestSubmitData(
+                question: SubmitQuestionData(questionId: question.questionId, category: question.category),
+                questionNum: idx + 1,
+                optionId: nil
+            ))
         }
     }
 
-    private func initSelectedList(_ len: Int) {
-        selectedList = Array(repeating: nil, count: len)
-    }
-}
-
-// MARK: - Methods For Timer
-extension PreviewTestViewModel {
-    private func sendTimer() {
-        guard let totalTimeLimit = totalTimeLimit else { return }
-        output.send(.updateTime(timeLimit: totalTimeLimit, timeRemaining: totalTimeLimit))
-        DispatchQueue.main.async { [weak self] in
-            guard let self = self else { return }
-            self.startTimer()
-        }
-    }
-
-    private func startTimer() {
+    private func startTimerPublishing(totalTimeLimit: Int) {
+        timeRemaining = totalTimeLimit
         startTime = Date()
-        timer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(updateTimer), userInfo: nil, repeats: true)
-        if let timer = timer {
-            RunLoop.main.add(timer, forMode: .common)
+        // @MainActor 클래스에서 #selector 기반 타이머는 strict concurrency 경고 유발.
+        // 클로저 기반 타이머 사용.
+        timer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { [weak self] _ in
+            self?.tickTimer()
         }
+        if let t = timer { RunLoop.main.add(t, forMode: .common) }
     }
 
-    @objc func updateTimer() {
-        guard let totalTimeLimit = totalTimeLimit, let startTime = startTime else { return }
-        let timeElapsed = Int(Date().timeIntervalSince(startTime))
-        let timeRemaining = totalTimeLimit - timeElapsed
-        if timeRemaining >= 0 {
-            output.send(.updateTime(timeLimit: totalTimeLimit, timeRemaining: timeRemaining))
+    private func tickTimer() {
+        guard let start = startTime else { return }
+        let elapsed = Int(Date().timeIntervalSince(start))
+        let remaining = timeLimit - elapsed
+        if remaining >= 0 {
+            timeRemaining = remaining
         } else {
-            submitHandler()
-            exitTimer()
+            stopTimer()
+            Task { await submit() }
         }
     }
 
-    private func exitTimer() {
-        DispatchQueue.main.async { [weak self] in
-            guard let self = self else { return }
-            self.timer?.invalidate()
-            self.timer = nil
-        }
+    private func stopTimer() {
+        timer?.invalidate()
+        timer = nil
     }
 }

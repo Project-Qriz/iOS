@@ -77,9 +77,6 @@ final class PreviewTestViewController: UIViewController {
 
     private let viewModel: PreviewTestViewModel
     private var subscriptions = Set<AnyCancellable>()
-    private let input: PassthroughSubject<PreviewTestViewModel.Input, Never> = .init()
-
-    weak var coordinator: (any OnboardingNavigating)?
 
     // MARK: - Initializers
     init(viewModel: PreviewTestViewModel) {
@@ -101,56 +98,64 @@ final class PreviewTestViewController: UIViewController {
         setOptionActions()
         setButtonActions()
         setAlertButtonActions()
-        input.send(.viewDidLoad)
+        viewModel.onViewDidLoad()
     }
 
     private func bind() {
-        let output = viewModel.transform(input: input.eraseToAnyPublisher())
+        // 문제/선택지 업데이트 클로저
+        viewModel.onUpdateQuestion = { [weak self] question, curNum, selectedOption in
+            self?.updateQuestionUI(question: question, curNum: curNum, selectedOption: selectedOption)
+        }
 
-        output
+        // 총 문항 수 구독 — lastQuestionNum 동기화
+        viewModel.$totalNum
             .receive(on: RunLoop.main)
-            .sink { [weak self] event in
-                guard let self = self else { return }
-                switch event {
-                case .fetchFailed:
-                    self.showOneButtonAlert(with: "문제 불러오기 실패", for: "잠시 후 다시 시도해주세요.", storingIn: &subscriptions)
-                case .updateQuestion(let question, let curNum, let selectedOption):
-                    updateQuestionUI(question: question, curNum: curNum, selectedOption: selectedOption)
-                case .updateLastQuestionNum(let num):
-                    self.lastQuestionNum = num
-                case .updateTime(let timeLimit, let timeRemaining):
-                    updateProgress(timeLimit: timeLimit, timeRemaining: timeRemaining)
-                case .moveToPreviewResult:
-                    self.coordinator?.showPreviewResult()
-                case .moveToHome:
-                    if let coordinator = self.coordinator {
-                        coordinator.delegate?.didFinishOnboarding(coordinator)
-                    }
-                case .popUpAlert:
+            .sink { [weak self] num in
+                self?.lastQuestionNum = num
+            }
+            .store(in: &subscriptions)
+
+        // 타이머 구독
+        viewModel.$timeRemaining
+            .receive(on: RunLoop.main)
+            .sink { [weak self] _ in
+                guard let self else { return }
+                updateProgress(timeLimit: viewModel.timeLimit, timeRemaining: viewModel.timeRemaining)
+            }
+            .store(in: &subscriptions)
+
+        // 제출 알럿 구독 (.dropFirst()로 초기값 false에 의한 spurious dismiss 방지)
+        viewModel.$showSubmitAlert
+            .dropFirst()
+            .receive(on: RunLoop.main)
+            .sink { [weak self] show in
+                guard let self else { return }
+                if show {
                     present(submitAlertViewController, animated: true)
-                case .cancelAlert:
+                } else {
                     submitAlertViewController.dismiss(animated: true)
-                case .submitSuccess:
-                    submitAlertViewController.dismiss(animated: true)
-                case .submitFail:
-                    submitAlertViewController.dismiss(animated: true)
-                    self.showOneButtonAlert(with: "잠시 후 다시 시도해주세요.", storingIn: &subscriptions)
                 }
+            }
+            .store(in: &subscriptions)
+
+        // 에러 구독
+        viewModel.$errorMessage
+            .receive(on: RunLoop.main)
+            .compactMap { $0 }
+            .sink { [weak self] msg in
+                guard let self else { return }
+                showOneButtonAlert(with: msg, storingIn: &subscriptions)
             }
             .store(in: &subscriptions)
     }
 
     private func setAlertButtonActions() {
         let confirmAction = UIAction { [weak self] _ in
-            guard let self = self else { return }
-            self.input.send(.alertSubmitButtonClicked)
+            self?.viewModel.didConfirmSubmit()
         }
-
         let cancelAction = UIAction { [weak self] _ in
-            guard let self = self else { return }
-            self.input.send(.alertCancelButtonClicked)
+            self?.viewModel.didCancelSubmit()
         }
-
         submitAlertViewController.setupButtonActions(confirmAction: confirmAction, cancelAction: cancelAction)
     }
 
@@ -169,7 +174,7 @@ final class PreviewTestViewController: UIViewController {
     }
 
     @objc private func moveToHome() {
-        input.send(.escapeButtonClicked)
+        viewModel.didTapEscape()
     }
 
     private func updateQuestionUI(question: PreviewTestListQuestion, curNum: Int, selectedOption: Int?) {
@@ -267,13 +272,14 @@ extension PreviewTestViewController {
 // MARK: - Methods For Previous & Next Button
 extension PreviewTestViewController {
     private func setButtonActions() {
-        self.previousButton.addAction(UIAction(handler: { [weak self] _ in
-            guard let self = self else { return }
-            self.input.send(.prevButtonClicked(selectedOption: selectedOptionIdx))
+        previousButton.addAction(UIAction(handler: { [weak self] _ in
+            guard let self else { return }
+            self.viewModel.didTapPrev(selectedOption: selectedOptionIdx)
         }), for: .touchUpInside)
-        self.nextButton.addAction(UIAction(handler: { [weak self] _ in
-            guard let self = self else { return }
-            self.input.send(.nextButtonClicked(selectedOption: selectedOptionIdx))
+
+        nextButton.addAction(UIAction(handler: { [weak self] _ in
+            guard let self else { return }
+            self.viewModel.didTapNext(selectedOption: selectedOptionIdx)
         }), for: .touchUpInside)
     }
 
