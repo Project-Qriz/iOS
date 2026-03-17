@@ -1,4 +1,5 @@
 import UIKit
+import SwiftUI
 import Combine
 import QRIZUtils
 import Network
@@ -42,8 +43,8 @@ final class OnboardingCoordinatorImpl: OnboardingNavigating, NavigationGuard {
     func showBeginOnboarding() {
         guardNavigation {
             let vm = BeginOnboardingViewModel()
-            let vc = BeginOnboardingViewController(viewModel: vm)
-            vc.coordinator = self
+            vm.onNavigate = { [weak self] in self?.showCheckConcept() }
+            let vc = UIHostingController(rootView: BeginOnboardingView(viewModel: vm))
             navigationController.pushViewController(vc, animated: true)
         }
     }
