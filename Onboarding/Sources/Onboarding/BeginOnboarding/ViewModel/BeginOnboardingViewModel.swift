@@ -2,9 +2,20 @@ import Foundation
 
 @MainActor
 final class BeginOnboardingViewModel: ObservableObject {
-    var onNavigate: (() -> Void)?
+
+    // MARK: - Properties
+
+    private let onNavigate: () -> Void
+
+    // MARK: - Initializer
+
+    init(onNavigate: @escaping () -> Void) {
+        self.onNavigate = onNavigate
+    }
+
+    // MARK: - Methods
 
     func didTapButton() {
-        onNavigate?()
+        onNavigate()
     }
 }
