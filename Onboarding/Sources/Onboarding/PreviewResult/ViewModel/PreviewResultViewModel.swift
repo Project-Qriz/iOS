@@ -3,125 +3,74 @@ import Combine
 import QRIZUtils
 import Network
 
-final class PreviewResultViewModel {
+@MainActor
+final class PreviewResultViewModel: ObservableObject {
+    let previewScoresData = ResultScoresData()
+    let previewConceptsData = PreviewConceptsData()
+    @Published var errorMessage: String? = nil
 
-    // MARK: - Input & Output
-    enum Input {
-        case viewDidLoad
-        case toHomeButtonClicked
-    }
-
-    enum Output {
-        case fetchFailed
-        case moveToGreetingView
-    }
-
-    // MARK: - Properties
-    var previewScoresData = ResultScoresData()
-    var previewConceptsData = PreviewConceptsData()
-    private var incorrectCountDataArr: [IncorrectCountData] = []
-
-    private let output: PassthroughSubject<Output, Never> = .init()
-    private var subscriptions = Set<AnyCancellable>()
+    var onNavigateToGreeting: (() -> Void)?
 
     private let onboardingService: OnboardingService
+    private var incorrectCountDataArr: [IncorrectCountData] = []
 
-    // MARK: - Intializers
     init(onboardingService: OnboardingService) {
         self.onboardingService = onboardingService
     }
 
-    // MARK: - Methods
-    func transform(input: AnyPublisher<Input, Never>) -> AnyPublisher<Output, Never> {
-        input.sink { [weak self] event in
-            guard let self = self else { return }
-            switch event {
-            case .viewDidLoad:
-                analyzePreviewResult()
-            case .toHomeButtonClicked:
-                output.send(.moveToGreetingView)
-            }
-        }
-        .store(in: &subscriptions)
-        return output.eraseToAnyPublisher()
+    func onViewDidLoad() {
+        Task { await fetchResult() }
     }
 
-    private func analyzePreviewResult() {
-        Task { [weak self] in
-            guard let self = self else { return }
-            do {
-                let response = try await onboardingService.analyzePreview()
-                updateData(response.data)
-            } catch {
-                output.send(.fetchFailed)
-            }
+    func didTapClose() {
+        onNavigateToGreeting?()
+    }
+
+    private func fetchResult() async {
+        do {
+            let response = try await onboardingService.analyzePreview()
+            updateData(response.data)
+        } catch {
+            errorMessage = "잠시 후 다시 시도해주세요."
         }
     }
 
     private func updateData(_ data: AnalyzePreviewResponse.DataInfo) {
-        DispatchQueue.main.async { [weak self] in
-            guard let self = self else { return }
-            previewScoresData.nickname = UserInfoManager.shared.name
-            self.previewScoresData.expectScore = data.estimatedScore
+        previewScoresData.nickname = UserInfoManager.shared.name
+        previewScoresData.expectScore = data.estimatedScore
 
-            if data.topConceptsToImprove.count >= 2 {
-                previewConceptsData.firstConcept = data.topConceptsToImprove[0]
-                previewConceptsData.secondConcept = data.topConceptsToImprove[1]
-            }
-
-            previewConceptsData.totalQuestions = data.weakAreaAnalysis.totalQuestions
+        if data.topConceptsToImprove.count >= 2 {
+            previewConceptsData.firstConcept = data.topConceptsToImprove[0]
+            previewConceptsData.secondConcept = data.topConceptsToImprove[1]
         }
+        previewConceptsData.totalQuestions = data.weakAreaAnalysis.totalQuestions
 
-        updateScoreData(data)
+        previewScoresData.subjectScores[0] = Double(data.scoreBreakdown.part1Score)
+        previewScoresData.subjectScores[1] = Double(data.scoreBreakdown.part2Score)
+        previewScoresData.subjectCount = 2
+
         updateIncorrectArr(data)
     }
 
-    private func updateScoreData(_ data: AnalyzePreviewResponse.DataInfo) {
-        DispatchQueue.main.async { [weak self] in
-            guard let self = self else { return }
-            previewScoresData.subjectScores[0] = Double(data.scoreBreakdown.part1Score)
-            previewScoresData.subjectScores[1] = Double(data.scoreBreakdown.part2Score)
-            previewScoresData.subjectCount = 2
-        }
-    }
-
     private func updateIncorrectArr(_ data: AnalyzePreviewResponse.DataInfo) {
-        updateLocIncorrectArr(data)
-        updateConceptIncorrectArr()
-    }
-
-    private func updateLocIncorrectArr(_ data: AnalyzePreviewResponse.DataInfo) {
         var dic: [Int: [String]] = [:]
-
         data.weakAreaAnalysis.weakAreas.forEach { item in
-            if let _ = dic[item.incorrectCount] {
+            if dic[item.incorrectCount] != nil {
                 dic[item.incorrectCount]?.append(item.topic)
             } else {
                 dic[item.incorrectCount] = [item.topic]
             }
         }
 
-        dic.sorted { lhs, rhs in
-            lhs.key > rhs.key
-        }.enumerated().forEach { [weak self] idx, item in
-            guard let self = self else { return }
-            self.incorrectCountDataArr.append(
-                IncorrectCountData(id: idx + 1,
-                                   incorrectCount: item.key,
-                                   topic: item.value))
+        dic.sorted { $0.key > $1.key }.enumerated().forEach { idx, item in
+            incorrectCountDataArr.append(IncorrectCountData(id: idx + 1, incorrectCount: item.key, topic: item.value))
         }
-    }
 
-    private func updateConceptIncorrectArr() {
+        previewConceptsData.numOfChartToPresent = incorrectCountDataArr.count
+        previewConceptsData.initAnimationChart()
 
-        DispatchQueue.main.async { [weak self] in
-            guard let self = self else { return }
-            self.previewConceptsData.numOfChartToPresent = self.incorrectCountDataArr.count
-            self.previewConceptsData.initAnimationChart()
-
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.50) {
-                self.previewConceptsData.incorrectCountDataArr = self.incorrectCountDataArr
-            }
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) { [weak self] in
+            self?.previewConceptsData.incorrectCountDataArr = self?.incorrectCountDataArr ?? []
         }
     }
 }

@@ -84,8 +84,8 @@ final class OnboardingCoordinatorImpl: OnboardingNavigating, NavigationGuard {
     func showPreviewResult() {
         guardNavigation {
             let vm = PreviewResultViewModel(onboardingService: onboardingService)
-            let vc = PreviewResultViewController(viewModel: vm)
-            vc.coordinator = self
+            vm.onNavigateToGreeting = { [weak self] in self?.showGreeting() }
+            let vc = PreviewResultHostingController(viewModel: vm)
             navigationController.pushViewController(vc, animated: true)
         }
     }
