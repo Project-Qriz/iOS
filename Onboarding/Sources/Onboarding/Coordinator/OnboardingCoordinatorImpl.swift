@@ -52,8 +52,9 @@ final class OnboardingCoordinatorImpl: OnboardingNavigating, NavigationGuard {
     func showCheckConcept() {
         guardNavigation {
             let vm = CheckConceptViewModel(onboardingService: onboardingService)
-            let vc = CheckConceptViewController(viewModel: vm)
-            vc.coordinator = self
+            vm.onNavigateToPreviewTest = { [weak self] in self?.showBeginPreviewTest() }
+            vm.onNavigateToGreeting = { [weak self] in self?.showGreeting() }
+            let vc = UIHostingController(rootView: CheckConceptView(viewModel: vm))
             navigationController.pushViewController(vc, animated: true)
         }
     }
