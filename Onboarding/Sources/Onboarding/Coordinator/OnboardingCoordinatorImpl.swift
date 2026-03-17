@@ -88,8 +88,11 @@ final class OnboardingCoordinatorImpl: OnboardingNavigating, NavigationGuard {
     func showGreeting() {
         guardNavigation {
             let vm = GreetingViewModel(userInfoService: userInfoService)
-            let vc = GreetingViewController(viewModel: vm)
-            vc.coordinator = self
+            vm.onNavigate = { [weak self] in
+                guard let self else { return }
+                self.delegate?.didFinishOnboarding(self)
+            }
+            let vc = UIHostingController(rootView: GreetingView(viewModel: vm))
             navigationController.pushViewController(vc, animated: true)
         }
     }

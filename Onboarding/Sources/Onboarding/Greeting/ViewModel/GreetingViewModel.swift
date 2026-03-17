@@ -1,73 +1,40 @@
 import Foundation
-import Combine
 import QRIZUtils
 import Network
 
 @MainActor
-final class GreetingViewModel {
+final class GreetingViewModel: ObservableObject {
+    @Published var nickname: String = ""
 
-    // MARK: - Input & Output
-    enum Input {
-        case viewDidLoad
-        case viewDidAppear
-    }
-
-    enum Output {
-        case updateNickname(nickname: String)
-        case moveToHome
-        case fetchFailed
-    }
-
-    // MARK: - Properties
-    private let output: PassthroughSubject<Output, Never> = .init()
-    private var subscriptions = Set<AnyCancellable>()
-    private var timer: Timer?
+    var onNavigate: (() -> Void)?
 
     private let userInfoService: UserInfoService
+    private var timer: Timer?
 
-    // MARK: - Initializer
     init(userInfoService: UserInfoService) {
         self.userInfoService = userInfoService
     }
 
-    // MARK: - Methods
-    func transform(input: AnyPublisher<Input, Never>) -> AnyPublisher<Output, Never> {
-        input.sink { [weak self] event in
-            guard let self = self else { return }
-            switch event {
-            case .viewDidLoad:
-                self.updateUserInfo()
-                output.send(.updateNickname(nickname: UserInfoManager.shared.name))
-            case .viewDidAppear:
-                self.startTimer()
-            }
-        }
-        .store(in: &subscriptions)
-
-        return output.eraseToAnyPublisher()
+    func onAppear() {
+        nickname = UserInfoManager.shared.name  // 최신 닉네임을 화면에 즉시 반영
+        Task { await fetchUserInfo() }          // 서버에서 갱신 (실패해도 타이머가 화면 전환 처리)
+        startTimer()
     }
 
     private func startTimer() {
         timer?.invalidate()
         timer = Timer.scheduledTimer(withTimeInterval: 2.5, repeats: false) { [weak self] _ in
-            MainActor.assumeIsolated {
-                guard let self = self else { return }
-                self.output.send(.moveToHome)
-                self.timer?.invalidate()
-            }
+            self?.onNavigate?()
+            self?.timer?.invalidate()
         }
     }
 
-    private func updateUserInfo() {
-        Task { [weak self] in
-            guard let self = self else { return }
-            do {
-                let response = try await userInfoService.getUserInfo()
-                let user = response.data
-                UserInfoManager.shared.update(name: user.name, userId: user.userId, email: user.email, previewTestStatus: user.previewTestStatus, provider: user.provider)
-            } catch {
-                output.send(.fetchFailed)
-            }
-        }
+    private func fetchUserInfo() async {
+        // 실패해도 에러 알럿 없음 — 기존 UIKit 버전의 fetchFailed 알럿은 의도적으로 제거.
+        // 타이머가 2.5초 후 화면 전환을 처리하므로 서버 에러는 무시해도 무방.
+        guard let response = try? await userInfoService.getUserInfo() else { return }
+        let user = response.data
+        UserInfoManager.shared.update(name: user.name, userId: user.userId, email: user.email, previewTestStatus: user.previewTestStatus, provider: user.provider)
+        nickname = UserInfoManager.shared.name
     }
 }
