@@ -61,8 +61,8 @@ final class OnboardingCoordinatorImpl: OnboardingNavigating, NavigationGuard {
     func showBeginPreviewTest() {
         guardNavigation {
             let vm = BeginPreviewTestViewModel()
-            let vc = BeginPreviewTestViewController(viewModel: vm)
-            vc.coordinator = self
+            vm.onNavigate = { [weak self] in self?.showPreviewTest() }
+            let vc = UIHostingController(rootView: BeginPreviewTestView(viewModel: vm))
             navigationController.pushViewController(vc, animated: true)
         }
     }
