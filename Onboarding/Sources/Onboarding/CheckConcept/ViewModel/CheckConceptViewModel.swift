@@ -4,25 +4,53 @@ import Network
 
 @MainActor
 final class CheckConceptViewModel: ObservableObject {
+
+    // MARK: - Properties
+
     @Published var selectedSet: Set<Int> = []
     @Published var isDoneButtonEnabled: Bool = false
     @Published var isLoading: Bool = false
     @Published var errorMessage: String? = nil
 
-    var onNavigateToPreviewTest: (() -> Void)?
-    var onNavigateToGreeting: (() -> Void)?
+    let sections: [(title: String, range: Range<Int>)] = [
+        ("데이터 모델링의 이해", 0..<5),
+        ("데이터 모델과 SQL", 5..<10),
+        ("SQL 기본", 10..<18),
+        ("SQL 활용", 18..<26),
+        ("SQL 명령어", 26..<30),
+    ]
 
+    var isAllSelected: Bool {
+        selectedSet.count == totalConceptCount
+    }
+
+    private let onNavigateToPreviewTest: () -> Void
+    private let onNavigateToGreeting: () -> Void
     private let onboardingService: OnboardingService
 
-    init(onboardingService: OnboardingService) {
+    // MARK: - Initializer
+
+    init(
+        onboardingService: OnboardingService,
+        onNavigateToPreviewTest: @escaping () -> Void,
+        onNavigateToGreeting: @escaping () -> Void
+    ) {
         self.onboardingService = onboardingService
+        self.onNavigateToPreviewTest = onNavigateToPreviewTest
+        self.onNavigateToGreeting = onNavigateToGreeting
+    }
+
+    // MARK: - Methods
+
+    func title(for index: Int) -> String {
+        SurveyCheckList.list[index]
     }
 
     func didTapAll() {
-        if selectedSet.count == SurveyCheckList.list.count {
+        if selectedSet.count == totalConceptCount {
             selectedSet.removeAll()
         } else {
-            selectedSet = Set(0..<SurveyCheckList.list.count)
+            selectedSet = Set(0..<totalConceptCount)
         }
         updateDoneButton()
     }
@@ -32,11 +60,11 @@ final class CheckConceptViewModel: ObservableObject {
         isDoneButtonEnabled = true
     }
 
-    func didTapConcept(idx: Int) {
-        if selectedSet.contains(idx) {
-            selectedSet.remove(idx)
+    func didTapConcept(at index: Int) {
+        if selectedSet.contains(index) {
+            selectedSet.remove(index)
         } else {
-            selectedSet.insert(idx)
+            selectedSet.insert(index)
         }
         updateDoneButton()
     }
@@ -44,6 +72,12 @@ final class CheckConceptViewModel: ObservableObject {
     func didTapDone() {
         guard isDoneButtonEnabled, !isLoading else { return }
         Task { await sendSurvey() }
+    }
+
+    // MARK: - Private
+
+    private var totalConceptCount: Int {
+        sections.reduce(0) { $0 + $1.range.count }
     }
 
     private func updateDoneButton() {
@@ -54,13 +88,13 @@ final class CheckConceptViewModel: ObservableObject {
         isLoading = true
         defer { isLoading = false }
         do {
-            let keyConcepts = selectedSet.map { SurveyCheckList.list[$0] }
+            let keyConcepts = selectedSet.map { title(for: $0) }
             _ = try await onboardingService.sendSurvey(keyConcepts: keyConcepts)
             UserInfoManager.shared.previewTestStatus = .surveyCompleted
             if selectedSet.isEmpty {
-                onNavigateToGreeting?()
+                onNavigateToGreeting()
             } else {
-                onNavigateToPreviewTest?()
+                onNavigateToPreviewTest()
             }
         } catch {
             errorMessage = "잠시 후 다시 시도해주세요."
