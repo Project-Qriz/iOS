@@ -1,30 +1,38 @@
 import Foundation
-import Combine
 import QRIZUtils
 import Network
 
 @MainActor
 final class PreviewResultViewModel: ObservableObject {
+
+    // MARK: - Properties
+
     let previewScoresData = ResultScoresData()
     let previewConceptsData = PreviewConceptsData()
-    @Published var errorMessage: String? = nil
+    @Published var errorMessage: String?
 
-    var onNavigateToGreeting: (() -> Void)?
-
+    private let onNavigateToGreeting: () -> Void
     private let onboardingService: OnboardingService
     private var incorrectCountDataArr: [IncorrectCountData] = []
 
-    init(onboardingService: OnboardingService) {
+    // MARK: - Initializer
+
+    init(onboardingService: OnboardingService, onNavigateToGreeting: @escaping () -> Void) {
         self.onboardingService = onboardingService
+        self.onNavigateToGreeting = onNavigateToGreeting
     }
+
+    // MARK: - Methods
 
     func onViewDidLoad() {
         Task { await fetchResult() }
     }
 
     func didTapClose() {
-        onNavigateToGreeting?()
+        onNavigateToGreeting()
     }
+
+    // MARK: - Private
 
     private func fetchResult() async {
         do {
@@ -53,24 +61,21 @@ final class PreviewResultViewModel: ObservableObject {
     }
 
     private func updateIncorrectArr(_ data: AnalyzePreviewResponse.DataInfo) {
-        var dic: [Int: [String]] = [:]
-        data.weakAreaAnalysis.weakAreas.forEach { item in
-            if dic[item.incorrectCount] != nil {
-                dic[item.incorrectCount]?.append(item.topic)
-            } else {
-                dic[item.incorrectCount] = [item.topic]
-            }
-        }
+        let grouped = Dictionary(grouping: data.weakAreaAnalysis.weakAreas, by: \.incorrectCount)
+            .mapValues { $0.map(\.topic) }
 
-        dic.sorted { $0.key > $1.key }.enumerated().forEach { idx, item in
-            incorrectCountDataArr.append(IncorrectCountData(id: idx + 1, incorrectCount: item.key, topic: item.value))
-        }
+        incorrectCountDataArr = grouped
+            .sorted { $0.key > $1.key }
+            .enumerated()
+            .map { idx, item in IncorrectCountData(id: idx + 1, incorrectCount: item.key, topic: item.value) }
 
         previewConceptsData.numOfChartToPresent = incorrectCountDataArr.count
         previewConceptsData.initAnimationChart()
 
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) { [weak self] in
-            self?.previewConceptsData.incorrectCountDataArr = self?.incorrectCountDataArr ?? []
+        Task { @MainActor [weak self] in
+            try? await Task.sleep(nanoseconds: 500_000_000)
+            guard let self else { return }
+            self.previewConceptsData.incorrectCountDataArr = self.incorrectCountDataArr
         }
     }
 }
