@@ -1,6 +1,5 @@
 import UIKit
 import SwiftUI
-import Combine
 import QRIZUtils
 import Network
 
@@ -8,6 +7,7 @@ import Network
 final class OnboardingCoordinatorImpl: OnboardingNavigating, NavigationGuard {
 
     // MARK: - Properties
+
     weak var delegate: OnboardingCoordinatorDelegate?
     private let navigationController: UINavigationController
     private let onboardingService: OnboardingService
@@ -20,12 +20,19 @@ final class OnboardingCoordinatorImpl: OnboardingNavigating, NavigationGuard {
     // NavigationGuard
     var isNavigating: Bool = false
 
-    // MARK: - Initializers
-    init(navigationController: UINavigationController, onboardingService: OnboardingService, userInfoService: UserInfoService) {
+    // MARK: - Initializer
+
+    init(
+        navigationController: UINavigationController,
+        onboardingService: OnboardingService,
+        userInfoService: UserInfoService
+    ) {
         self.navigationController = navigationController
         self.onboardingService = onboardingService
         self.userInfoService = userInfoService
     }
+
+    // MARK: - Coordinator
 
     func start() -> UIViewController {
         switch previewTestStatus {
@@ -40,10 +47,11 @@ final class OnboardingCoordinatorImpl: OnboardingNavigating, NavigationGuard {
         return navigationController
     }
 
+    // MARK: - Navigation
+
     func showBeginOnboarding() {
         guardNavigation {
-            let vm = BeginOnboardingViewModel()
-            vm.onNavigate = { [weak self] in self?.showCheckConcept() }
+            let vm = BeginOnboardingViewModel(onNavigate: { [weak self] in self?.showCheckConcept() })
             let vc = UIHostingController(rootView: BeginOnboardingView(viewModel: vm))
             navigationController.pushViewController(vc, animated: true)
         }
@@ -51,9 +59,11 @@ final class OnboardingCoordinatorImpl: OnboardingNavigating, NavigationGuard {
 
     func showCheckConcept() {
         guardNavigation {
-            let vm = CheckConceptViewModel(onboardingService: onboardingService)
-            vm.onNavigateToPreviewTest = { [weak self] in self?.showBeginPreviewTest() }
-            vm.onNavigateToGreeting = { [weak self] in self?.showGreeting() }
+            let vm = CheckConceptViewModel(
+                onboardingService: onboardingService,
+                onNavigateToPreviewTest: { [weak self] in self?.showBeginPreviewTest() },
+                onNavigateToGreeting: { [weak self] in self?.showGreeting() }
+            )
             let vc = UIHostingController(rootView: CheckConceptView(viewModel: vm))
             navigationController.pushViewController(vc, animated: true)
         }
@@ -61,8 +71,7 @@ final class OnboardingCoordinatorImpl: OnboardingNavigating, NavigationGuard {
 
     func showBeginPreviewTest() {
         guardNavigation {
-            let vm = BeginPreviewTestViewModel()
-            vm.onNavigate = { [weak self] in self?.showPreviewTest() }
+            let vm = BeginPreviewTestViewModel(onNavigate: { [weak self] in self?.showPreviewTest() })
             let vc = UIHostingController(rootView: BeginPreviewTestView(viewModel: vm))
             navigationController.pushViewController(vc, animated: true)
         }
@@ -70,33 +79,38 @@ final class OnboardingCoordinatorImpl: OnboardingNavigating, NavigationGuard {
 
     func showPreviewTest() {
         guardNavigation {
-            let vm = PreviewTestViewModel(onboardingService: onboardingService)
-            let vc = PreviewTestViewController(viewModel: vm)
-            vm.onNavigateToResult = { [weak self] in self?.showPreviewResult() }
-            vm.onNavigateToHome = { [weak self] in
-                guard let self else { return }
-                self.delegate?.didFinishOnboarding(self)
-            }
+            let vc = PreviewTestViewController(
+                onboardingService: onboardingService,
+                onNavigateToResult: { [weak self] in self?.showPreviewResult() },
+                onNavigateToHome: { [weak self] in
+                    guard let self else { return }
+                    self.delegate?.didFinishOnboarding(self)
+                }
+            )
             navigationController.pushViewController(vc, animated: true)
         }
     }
 
     func showPreviewResult() {
         guardNavigation {
-            let vm = PreviewResultViewModel(onboardingService: onboardingService)
-            vm.onNavigateToGreeting = { [weak self] in self?.showGreeting() }
-            let vc = PreviewResultHostingController(viewModel: vm)
+            let vm = PreviewResultViewModel(
+                onboardingService: onboardingService,
+                onNavigateToGreeting: { [weak self] in self?.showGreeting() }
+            )
+            let vc = UIHostingController(rootView: PreviewResultView(viewModel: vm))
             navigationController.pushViewController(vc, animated: true)
         }
     }
 
     func showGreeting() {
         guardNavigation {
-            let vm = GreetingViewModel(userInfoService: userInfoService)
-            vm.onNavigate = { [weak self] in
-                guard let self else { return }
-                self.delegate?.didFinishOnboarding(self)
-            }
+            let vm = GreetingViewModel(
+                userInfoService: userInfoService,
+                onNavigate: { [weak self] in
+                    guard let self else { return }
+                    self.delegate?.didFinishOnboarding(self)
+                }
+            )
             let vc = UIHostingController(rootView: GreetingView(viewModel: vm))
             navigationController.pushViewController(vc, animated: true)
         }
