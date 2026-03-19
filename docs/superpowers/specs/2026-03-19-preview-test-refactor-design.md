@@ -1,4 +1,4 @@
-# PreviewTest 리팩토링 Implementation Plan
+# PreviewTest 리팩토링 Design
 
 > **For agentic workers:** REQUIRED: Use superpowers:subagent-driven-development (if subagents available) or superpowers:executing-plans to implement this plan. Steps use checkbox (`- [ ]`) syntax for tracking.
 
@@ -31,33 +31,49 @@ private var selectedList: [Int?]                     // 선택된 옵션 (동일
 private var currentNumber: Int?                      // 1-based 현재 번호
 ```
 
-`questionList[currentNumber - 1]`, `submitList[currentNumber - 1]`, `selectedList[currentNumber - 1]`처럼 항상 `- 1` 연산과 3개 배열을 동시에 수정해야 해서 파악이 어렵다.
-
 ### 해결
 
+`PreviewQuestion`은 ViewModel 파일 상단에 private 구조체로 선언한다.
+
 ```swift
-struct PreviewQuestion {
+private struct PreviewQuestion {
     let data: PreviewTestListQuestion
     var selectedOptionIdx: Int?   // 선택된 옵션 (1-based), nil이면 미선택
     var submitOptionId: Int?      // 제출 시 사용할 option ID
 }
-
-// 3개 배열 → 1개
-private var questions: [PreviewQuestion] = []
-
-// currentNumber (1-based) → currentIndex (0-based)
-private var currentIndex: Int = 0
 ```
 
-배열 접근:
+ViewModel 프로퍼티:
+```swift
+private var questions: [PreviewQuestion] = []
+private var currentIndex: Int = 0  // 0-based. fetchQuestions 완료 시 0으로 설정
+```
+
+배열 접근이 단순해진다:
 ```swift
 // 이전
 questionList[currentNumber - 1]
 submitList[currentNumber - 1].optionId = ...
+selectedList[currentNumber - 1] = idx
 
 // 이후
 questions[currentIndex].data
 questions[currentIndex].submitOptionId = ...
+questions[currentIndex].selectedOptionIdx = idx
+```
+
+`submit()` 호출 시 `TestSubmitData` 재구성:
+```swift
+func submit() async {
+    let submitList = questions.enumerated().map { idx, q in
+        TestSubmitData(
+            question: SubmitQuestionData(questionId: q.data.questionId, category: q.data.category),
+            questionNum: idx + 1,
+            optionId: q.submitOptionId
+        )
+    }
+    // ...onboardingService.submitPreview(testSubmitDataList: submitList)
+}
 ```
 
 ---
@@ -77,7 +93,7 @@ private var timeLimit: Int = 0
 
 ### 해결
 
-`QRIZUtils.CountdownTimer`로 교체. `CountdownTimer`가 `@MainActor`이므로 ViewModel에 `@MainActor`를 복원한다.
+`QRIZUtils.CountdownTimer`로 교체. `CountdownTimer`가 `@MainActor`이므로 ViewModel에 `@MainActor`를 복원한다. `@MainActor` 클래스의 `deinit`은 main actor에서 실행되므로 `countdownTimer?.stop()` 호출이 안전하다.
 
 ```swift
 @MainActor
@@ -86,37 +102,71 @@ final class PreviewTestViewModel {
     private var timeLimit: Int = 0  // progress 계산용으로 유지
 ```
 
-`fetchQuestions` 완료 시:
+**타이머 구독 위치:** `transform`이 실행될 때는 아직 `countdownTimer`가 nil이므로, 구독은 `fetchQuestions` 완료 후 `CountdownTimer` 생성 직후에 설정한다.
+
 ```swift
-countdownTimer = CountdownTimer(totalTime: response.data.totalTimeLimit)
-countdownTimer?.start()
+private func fetchQuestions() async {
+    // ...fetch 완료 후
+    currentIndex = 0
+    timeLimit = response.data.totalTimeLimit
+
+    // 초기 버튼 상태 설정 (첫 문제, 옵션 미선택)
+    sendButtonStates(index: 0, selectedOption: nil)
+
+    let timer = CountdownTimer(totalTime: timeLimit)
+    countdownTimer = timer
+    timer.remainingTimePublisher
+        .sink { [weak self] remaining in
+            guard let self else { return }
+            output.send(.updateTime(timeLimit: timeLimit, timeRemaining: remaining))
+            if remaining == 0 {
+                guard !isSubmitting else { return }
+                Task { await self.submit() }
+            }
+        }
+        .store(in: &cancellables)
+    timer.start()
+}
 ```
 
-`transform` 내에서 타이머 구독:
+**이중 제출 방지:** 타이머 만료와 `escapeTapped`의 레이스 컨디션을 막기 위해 `isSubmitting` 플래그를 사용한다.
+
 ```swift
-countdownTimer?.remainingTimePublisher
-    .sink { [weak self] remaining in
-        guard let self else { return }
-        output.send(.updateTime(timeLimit: timeLimit, timeRemaining: remaining))
-        if remaining <= 0 { Task { await self.submit() } }
-    }
-    .store(in: &cancellables)
+private var isSubmitting: Bool = false
+
+// submit() 시작 시
+func submit() async {
+    guard !isSubmitting else { return }
+    isSubmitting = true
+    countdownTimer?.stop()
+    // ...onboardingService.submitPreview(...)
+}
 ```
 
-`deinit` 정리:
+**타이머 정지:** `escapeTapped`와 `submit()` 성공 시 명시적으로 정지. `deinit`에서도 정지.
+
 ```swift
+// transform 내부
+case .escapeTapped:
+    countdownTimer?.stop()
+    output.send(.navigateToHome)
+
+// submit() 성공 시
+countdownTimer?.stop()
+
+// deinit (@MainActor 클래스이므로 안전)
 deinit {
     countdownTimer?.stop()
 }
 ```
 
+제거되는 코드: `timer`, `startTime` 프로퍼티, `startTimer()`, `tickTimer()`, `stopTimer()` 메서드.
+
 ---
 
-## Section 3: Button Output 통합
+## Section 3: Button Output 통합 + handleOptionTap 수정
 
-### 문제
-
-버튼 상태 변경 시 Output 3개를 개별 전송:
+### 문제 1: Output 3개 개별 전송
 
 ```swift
 case setPrevButtonHidden(Bool)
@@ -124,17 +174,12 @@ case setNextButtonHidden(Bool)
 case setNextButtonTitle(isLastQuestion: Bool)
 ```
 
-`sendButtonStates()` 호출 한 번에 Output이 3개 발생해 VC의 switch도 3개 case 처리 필요.
-
-### 해결
-
-Output 1개로 통합:
+### 해결 1: Output 1개로 통합
 
 ```swift
 case updateButtonStates(prevHidden: Bool, nextHidden: Bool, nextTitle: String)
 ```
 
-ViewModel:
 ```swift
 func sendButtonStates(index: Int, selectedOption: Int?) {
     let isFirst = index == 0
@@ -147,8 +192,31 @@ func sendButtonStates(index: Int, selectedOption: Int?) {
 }
 ```
 
-ViewController:
+### 문제 2: handleOptionTap에서 버튼 상태 미갱신
+
+첫 번째 문제(index == 0)에서 옵션을 탭하면 다음 버튼 가시성이 바뀌어야 하는데, 페이지 이동 시에만 `sendButtonStates`를 호출하면 옵션 탭 시 버튼 상태가 갱신되지 않는다.
+
+### 해결 2: handleOptionTap 내에서도 첫 문제 시 버튼 상태 갱신
+
 ```swift
+func handleOptionTap(_ idx: Int) {
+    // ...옵션 토글 로직
+
+    if currentIndex == 0 {
+        sendButtonStates(index: 0, selectedOption: questions[0].selectedOptionIdx)
+    }
+}
+```
+
+### ViewController 변경
+
+```swift
+// 이전 (3개 case)
+case .setPrevButtonHidden(let hidden): ...
+case .setNextButtonHidden(let hidden): ...
+case .setNextButtonTitle(let isLastQuestion): ...
+
+// 이후 (1개 case)
 case .updateButtonStates(let prevHidden, let nextHidden, let nextTitle):
     previewTestView.previousButton.isHidden = prevHidden
     previewTestView.nextButton.isHidden = nextHidden
@@ -161,6 +229,6 @@ case .updateButtonStates(let prevHidden, let nextHidden, let nextTitle):
 
 - `PreviewTestView`: UI 컴포넌트 구조 유지
 - Input enum: 변경 없음
-- Output enum의 나머지 case: 변경 없음
+- Output enum의 나머지 case: 변경 없음 (updateButtonStates로 3개 통합만)
 - ViewController의 나머지 구조: 변경 없음
 - `CountdownTimer` 자체: 수정 없음 (QRIZUtils 그대로 사용)
