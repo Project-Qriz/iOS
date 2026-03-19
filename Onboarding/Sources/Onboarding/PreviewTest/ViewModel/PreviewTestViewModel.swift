@@ -1,28 +1,57 @@
 import Foundation
 import Combine
-import QRIZUtils
 import Network
+import QRIZUtils
 
-@MainActor
-final class PreviewTestViewModel: ObservableObject {
-    @Published var timeRemaining: Int = 0
-    @Published var timeLimit: Int = 0
-    @Published var totalNum: Int = 0
-    @Published var showSubmitAlert: Bool = false
-    @Published var errorMessage: String? = nil
+private struct PreviewQuestion {
+    let data: PreviewTestListQuestion
+    var selectedOptionIdx: Int?   // 선택된 옵션 번호 (1-based), nil이면 미선택
+    var submitOptionId: Int?      // 제출 시 사용할 option ID
+}
 
-    var onUpdateQuestion: ((_ question: PreviewTestListQuestion, _ curNum: Int, _ selectedOption: Int?) -> Void)?
-    var onNavigateToResult: (() -> Void)?
-    var onNavigateToHome: (() -> Void)?
+final class PreviewTestViewModel {
 
-    private var questionList: [PreviewTestListQuestion] = []
-    private var submitList: [TestSubmitData] = []
-    private var selectedList: [Int?] = []
-    private var currentNumber: Int? = nil
+    // MARK: - Input & Output
+
+    enum Input {
+        case viewDidLoad
+        case optionTapped(Int)
+        case prevTapped
+        case nextTapped
+        case escapeTapped
+        case confirmSubmit
+        case cancelSubmit
+    }
+
+    enum Output {
+        case updateQuestion(question: PreviewTestListQuestion, curNum: Int, selectedOption: Int?)
+        case updateTotalNum(Int)
+        case updateTime(timeLimit: Int, timeRemaining: Int)
+        case updateOptionState(idx: Int, isSelected: Bool)
+        case setPrevButtonHidden(Bool)
+        case setNextButtonHidden(Bool)
+        case setNextButtonTitle(isLastQuestion: Bool)
+        case showSubmitAlert
+        case dismissSubmitAlert
+        case showError(String)
+        case navigateToResult
+        case navigateToHome
+    }
+
+    // MARK: - Properties
+
+    private var questions: [PreviewQuestion] = []
+    private var currentIndex: Int = 0   // 0-based 현재 문제 인덱스
     private var timer: Timer?
     private var startTime: Date?
+    private var timeLimit: Int = 0
+
+    private let output = PassthroughSubject<Output, Never>()
+    private var cancellables = Set<AnyCancellable>()
 
     private let onboardingService: OnboardingService
+
+    // MARK: - Initializer
 
     init(onboardingService: OnboardingService) {
         self.onboardingService = onboardingService
@@ -32,119 +61,147 @@ final class PreviewTestViewModel: ObservableObject {
         timer?.invalidate()
     }
 
-    func onViewDidLoad() {
-        Task { await fetchQuestions() }
+    // MARK: - Methods
+
+    func transform(input: AnyPublisher<Input, Never>) -> AnyPublisher<Output, Never> {
+        input.sink { [weak self] event in
+            guard let self else { return }
+            switch event {
+            case .viewDidLoad:
+                Task { await self.fetchQuestions() }
+            case .optionTapped(let idx):
+                handleOptionTap(idx)
+            case .prevTapped:
+                navigatePage(offset: -1)
+            case .nextTapped:
+                handleNextTap()
+            case .escapeTapped:
+                stopTimer()
+                output.send(.navigateToHome)
+            case .confirmSubmit:
+                Task { await self.submit() }
+            case .cancelSubmit:
+                output.send(.dismissSubmitAlert)
+            }
+        }
+        .store(in: &cancellables)
+        return output.eraseToAnyPublisher()
+    }
+}
+
+// MARK: - Private
+
+private extension PreviewTestViewModel {
+
+    func handleOptionTap(_ idx: Int) {
+        let prev = questions[currentIndex].selectedOptionIdx
+
+        if let prev {
+            output.send(.updateOptionState(idx: prev, isSelected: false))
+        }
+
+        if prev == idx {
+            questions[currentIndex].selectedOptionIdx = nil
+            questions[currentIndex].submitOptionId = nil
+        } else {
+            questions[currentIndex].selectedOptionIdx = idx
+            questions[currentIndex].submitOptionId = questions[currentIndex].data.options[idx - 1].id
+            output.send(.updateOptionState(idx: idx, isSelected: true))
+        }
+
+        if currentIndex == 0 {
+            output.send(.setNextButtonHidden(questions[0].selectedOptionIdx == nil))
+        }
     }
 
-    func didTapPrev(selectedOption: Int?) {
-        updateAnswer(selectedOption: selectedOption)
-        navigatePage(offset: -1)
-    }
-
-    func didTapNext(selectedOption: Int?) {
-        updateAnswer(selectedOption: selectedOption)
-        guard let curNum = currentNumber else { return }
-        if curNum >= questionList.count {
-            showSubmitAlert = true
+    func handleNextTap() {
+        if currentIndex >= questions.count - 1 {
+            output.send(.showSubmitAlert)
         } else {
             navigatePage(offset: 1)
         }
     }
 
-    func didTapEscape() {
-        stopTimer()
-        onNavigateToHome?()
+    func navigatePage(offset: Int) {
+        currentIndex += offset
+        let selectedOption = questions[currentIndex].selectedOptionIdx
+
+        output.send(.updateQuestion(
+            question: questions[currentIndex].data,
+            curNum: currentIndex + 1,
+            selectedOption: selectedOption
+        ))
+        sendButtonStates(curNum: currentIndex + 1, selectedOption: selectedOption)
     }
 
-    func didConfirmSubmit() {
-        Task { await submit() }
+    func sendButtonStates(curNum: Int, selectedOption: Int?) {
+        let isFirst = curNum == 1
+        let isLast = curNum == questions.count
+        output.send(.setPrevButtonHidden(isFirst))
+        output.send(.setNextButtonHidden(isFirst && selectedOption == nil))
+        output.send(.setNextButtonTitle(isLastQuestion: isLast))
     }
 
-    func didCancelSubmit() {
-        showSubmitAlert = false
-    }
+    func fetchQuestions() async {
+        do {
+            let response = try await onboardingService.getPreviewTestList()
+            let rawQuestions = response.data.questions
+            guard !rawQuestions.isEmpty else { return }
 
-    private func updateAnswer(selectedOption: Int?) {
-        guard let currentNumber else { return }
-        selectedList[currentNumber - 1] = selectedOption
-        if let opt = selectedOption {
-            submitList[currentNumber - 1].optionId = questionList[currentNumber - 1].options[opt - 1].id
-        } else {
-            submitList[currentNumber - 1].optionId = nil
+            currentIndex = 0
+            timeLimit = response.data.totalTimeLimit
+            questions = rawQuestions.map { PreviewQuestion(data: $0) }
+
+            output.send(.updateTotalNum(rawQuestions.count))
+            output.send(.updateQuestion(question: questions[0].data, curNum: 1, selectedOption: nil))
+            sendButtonStates(curNum: 1, selectedOption: nil)
+            startTimer(totalTimeLimit: response.data.totalTimeLimit)
+        } catch {
+            output.send(.showError("문제 불러오기 실패"))
         }
     }
 
-    private func navigatePage(offset: Int) {
-        guard let curNum = currentNumber else { return }
-        currentNumber = curNum + offset
-        let idx = currentNumber! - 1
-        onUpdateQuestion?(questionList[idx], currentNumber!, selectedList[idx])
-    }
-
-    private func submit() async {
+    func submit() async {
+        let submitList = questions.enumerated().map { idx, q in
+            TestSubmitData(
+                question: SubmitQuestionData(questionId: q.data.questionId, category: q.data.category),
+                questionNum: idx + 1,
+                optionId: q.submitOptionId
+            )
+        }
         do {
             _ = try await onboardingService.submitPreview(testSubmitDataList: submitList)
             stopTimer()
-            showSubmitAlert = false
-            onNavigateToResult?()
+            output.send(.dismissSubmitAlert)
+            output.send(.navigateToResult)
         } catch {
-            showSubmitAlert = false
-            errorMessage = "잠시 후 다시 시도해주세요."
+            output.send(.dismissSubmitAlert)
+            output.send(.showError("잠시 후 다시 시도해주세요."))
         }
     }
 
-    private func fetchQuestions() async {
-        do {
-            let response = try await onboardingService.getPreviewTestList()
-            let questions = response.data.questions
-            guard !questions.isEmpty else { return }
-            currentNumber = 1
-            totalNum = questions.count
-            timeLimit = response.data.totalTimeLimit
-            questionList = questions
-            initSubmitList(response)
-            selectedList = Array(repeating: nil, count: questions.count)
-            startTimerPublishing(totalTimeLimit: response.data.totalTimeLimit)
-            onUpdateQuestion?(questionList[0], 1, nil)
-        } catch {
-            errorMessage = "문제 불러오기 실패"
-        }
-    }
-
-    private func initSubmitList(_ response: PreviewTestListResponse) {
-        response.data.questions.enumerated().forEach { idx, question in
-            submitList.append(TestSubmitData(
-                question: SubmitQuestionData(questionId: question.questionId, category: question.category),
-                questionNum: idx + 1,
-                optionId: nil
-            ))
-        }
-    }
-
-    private func startTimerPublishing(totalTimeLimit: Int) {
-        timeRemaining = totalTimeLimit
-        startTime = Date()
-        // @MainActor 클래스에서 #selector 기반 타이머는 strict concurrency 경고 유발.
-        // 클로저 기반 타이머 사용.
+    func startTimer(totalTimeLimit: Int) {
         timer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { [weak self] _ in
-            self?.tickTimer()
+            Task { @MainActor [weak self] in self?.tickTimer() }
         }
+        startTime = Date()
         if let t = timer { RunLoop.main.add(t, forMode: .common) }
+        output.send(.updateTime(timeLimit: totalTimeLimit, timeRemaining: totalTimeLimit))
     }
 
-    private func tickTimer() {
+    func tickTimer() {
         guard let start = startTime else { return }
         let elapsed = Int(Date().timeIntervalSince(start))
         let remaining = timeLimit - elapsed
         if remaining >= 0 {
-            timeRemaining = remaining
+            output.send(.updateTime(timeLimit: timeLimit, timeRemaining: remaining))
         } else {
             stopTimer()
             Task { await submit() }
         }
     }
 
-    private func stopTimer() {
+    func stopTimer() {
         timer?.invalidate()
         timer = nil
     }
