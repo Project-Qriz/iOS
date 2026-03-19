@@ -29,9 +29,7 @@ final class PreviewTestViewModel {
         case updateTotalNum(Int)
         case updateTime(timeLimit: Int, timeRemaining: Int)
         case updateOptionState(idx: Int, isSelected: Bool)
-        case setPrevButtonHidden(Bool)
-        case setNextButtonHidden(Bool)
-        case setNextButtonTitle(isLastQuestion: Bool)
+        case updateButtonStates(prevHidden: Bool, nextHidden: Bool, nextTitle: String)
         case showSubmitAlert
         case dismissSubmitAlert
         case showError(String)
@@ -113,7 +111,7 @@ private extension PreviewTestViewModel {
         }
 
         if currentIndex == 0 {
-            output.send(.setNextButtonHidden(questions[0].selectedOptionIdx == nil))
+            sendButtonStates(index: 0, selectedOption: questions[0].selectedOptionIdx)
         }
     }
 
@@ -134,15 +132,17 @@ private extension PreviewTestViewModel {
             curNum: currentIndex + 1,
             selectedOption: selectedOption
         ))
-        sendButtonStates(curNum: currentIndex + 1, selectedOption: selectedOption)
+        sendButtonStates(index: currentIndex, selectedOption: selectedOption)
     }
 
-    func sendButtonStates(curNum: Int, selectedOption: Int?) {
-        let isFirst = curNum == 1
-        let isLast = curNum == questions.count
-        output.send(.setPrevButtonHidden(isFirst))
-        output.send(.setNextButtonHidden(isFirst && selectedOption == nil))
-        output.send(.setNextButtonTitle(isLastQuestion: isLast))
+    func sendButtonStates(index: Int, selectedOption: Int?) {
+        let isFirst = index == 0
+        let isLast = index == questions.count - 1
+        output.send(.updateButtonStates(
+            prevHidden: isFirst,
+            nextHidden: isFirst && selectedOption == nil,
+            nextTitle: isLast ? "제출" : "다음"
+        ))
     }
 
     func fetchQuestions() async {
@@ -157,7 +157,7 @@ private extension PreviewTestViewModel {
 
             output.send(.updateTotalNum(rawQuestions.count))
             output.send(.updateQuestion(question: questions[0].data, curNum: 1, selectedOption: nil))
-            sendButtonStates(curNum: 1, selectedOption: nil)
+            sendButtonStates(index: 0, selectedOption: nil)
             let timer = CountdownTimer(totalTime: response.data.totalTimeLimit)
             countdownTimer = timer
             timer.remainingTimePublisher
