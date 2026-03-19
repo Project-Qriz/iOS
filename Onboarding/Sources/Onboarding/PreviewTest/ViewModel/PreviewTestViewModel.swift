@@ -9,6 +9,7 @@ private struct PreviewQuestion {
     var submitOptionId: Int?      // 제출 시 사용할 option ID
 }
 
+@MainActor
 final class PreviewTestViewModel {
 
     // MARK: - Input & Output
@@ -42,8 +43,8 @@ final class PreviewTestViewModel {
 
     private var questions: [PreviewQuestion] = []
     private var currentIndex: Int = 0   // 0-based 현재 문제 인덱스
-    private var timer: Timer?
-    private var startTime: Date?
+    private var countdownTimer: CountdownTimer?
+    private var isSubmitting: Bool = false
     private var timeLimit: Int = 0
 
     private let output = PassthroughSubject<Output, Never>()
@@ -58,7 +59,9 @@ final class PreviewTestViewModel {
     }
 
     deinit {
-        timer?.invalidate()
+        MainActor.assumeIsolated {
+            countdownTimer?.stop()
+        }
     }
 
     // MARK: - Methods
@@ -76,7 +79,7 @@ final class PreviewTestViewModel {
             case .nextTapped:
                 handleNextTap()
             case .escapeTapped:
-                stopTimer()
+                countdownTimer?.stop()
                 output.send(.navigateToHome)
             case .confirmSubmit:
                 Task { await self.submit() }
@@ -155,13 +158,29 @@ private extension PreviewTestViewModel {
             output.send(.updateTotalNum(rawQuestions.count))
             output.send(.updateQuestion(question: questions[0].data, curNum: 1, selectedOption: nil))
             sendButtonStates(curNum: 1, selectedOption: nil)
-            startTimer(totalTimeLimit: response.data.totalTimeLimit)
+            let timer = CountdownTimer(totalTime: response.data.totalTimeLimit)
+            countdownTimer = timer
+            timer.remainingTimePublisher
+                .sink { [weak self] remaining in
+                    guard let self else { return }
+                    output.send(.updateTime(timeLimit: timeLimit, timeRemaining: remaining))
+                    if remaining == 0 {
+                        guard !isSubmitting else { return }
+                        Task { await self.submit() }
+                    }
+                }
+                .store(in: &cancellables)
+            timer.start()
         } catch {
             output.send(.showError("문제 불러오기 실패"))
         }
     }
 
     func submit() async {
+        guard !isSubmitting else { return }
+        isSubmitting = true
+        countdownTimer?.stop()
+
         let submitList = questions.enumerated().map { idx, q in
             TestSubmitData(
                 question: SubmitQuestionData(questionId: q.data.questionId, category: q.data.category),
@@ -171,38 +190,14 @@ private extension PreviewTestViewModel {
         }
         do {
             _ = try await onboardingService.submitPreview(testSubmitDataList: submitList)
-            stopTimer()
             output.send(.dismissSubmitAlert)
             output.send(.navigateToResult)
         } catch {
+            isSubmitting = false
             output.send(.dismissSubmitAlert)
             output.send(.showError("잠시 후 다시 시도해주세요."))
         }
     }
 
-    func startTimer(totalTimeLimit: Int) {
-        timer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { [weak self] _ in
-            Task { @MainActor [weak self] in self?.tickTimer() }
-        }
-        startTime = Date()
-        if let t = timer { RunLoop.main.add(t, forMode: .common) }
-        output.send(.updateTime(timeLimit: totalTimeLimit, timeRemaining: totalTimeLimit))
-    }
 
-    func tickTimer() {
-        guard let start = startTime else { return }
-        let elapsed = Int(Date().timeIntervalSince(start))
-        let remaining = timeLimit - elapsed
-        if remaining >= 0 {
-            output.send(.updateTime(timeLimit: timeLimit, timeRemaining: remaining))
-        } else {
-            stopTimer()
-            Task { await submit() }
-        }
-    }
-
-    func stopTimer() {
-        timer?.invalidate()
-        timer = nil
-    }
 }
