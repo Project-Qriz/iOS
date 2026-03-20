@@ -13,11 +13,12 @@ final class OnboardingCoordinatorImpl: OnboardingNavigating, NavigationGuard {
     private let onboardingService: OnboardingService
     private let userInfoService: UserInfoService
 
-    var previewTestStatus: PreviewTestStatus {
+    private var previewTestStatus: PreviewTestStatus {
         UserInfoManager.shared.previewTestStatus
     }
 
-    // NavigationGuard
+    // MARK: - NavigationGuard
+
     var isNavigating: Bool = false
 
     // MARK: - Initializer
@@ -40,8 +41,7 @@ final class OnboardingCoordinatorImpl: OnboardingNavigating, NavigationGuard {
             showBeginOnboarding()
         case .surveyCompleted:
             showBeginPreviewTest()
-        default:
-            // case : previewSkipped, previewCompleted
+        case .previewSkipped, .previewCompleted:
             break
         }
         return navigationController
@@ -82,10 +82,7 @@ final class OnboardingCoordinatorImpl: OnboardingNavigating, NavigationGuard {
             let vc = PreviewTestViewController(
                 onboardingService: onboardingService,
                 onNavigateToResult: { [weak self] in self?.showPreviewResult() },
-                onNavigateToHome: { [weak self] in
-                    guard let self else { return }
-                    self.delegate?.didFinishOnboarding(self)
-                }
+                onNavigateToHome: { [weak self] in self?.finishOnboarding() }
             )
             navigationController.pushViewController(vc, animated: true)
         }
@@ -106,13 +103,19 @@ final class OnboardingCoordinatorImpl: OnboardingNavigating, NavigationGuard {
         guardNavigation {
             let vm = GreetingViewModel(
                 userInfoService: userInfoService,
-                onNavigate: { [weak self] in
-                    guard let self else { return }
-                    self.delegate?.didFinishOnboarding(self)
-                }
+                onNavigate: { [weak self] in self?.finishOnboarding() }
             )
             let vc = UIHostingController(rootView: GreetingView(viewModel: vm))
             navigationController.pushViewController(vc, animated: true)
         }
+    }
+}
+
+// MARK: - Private
+
+private extension OnboardingCoordinatorImpl {
+
+    func finishOnboarding() {
+        delegate?.didFinishOnboarding(self)
     }
 }
