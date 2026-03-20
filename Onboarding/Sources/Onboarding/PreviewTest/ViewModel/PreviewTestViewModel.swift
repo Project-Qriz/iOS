@@ -22,6 +22,7 @@ final class PreviewTestViewModel {
         case escapeTapped
         case confirmSubmit
         case cancelSubmit
+        case retrySubmit
     }
 
     enum Output {
@@ -32,6 +33,7 @@ final class PreviewTestViewModel {
         case updateButtonStates(prevHidden: Bool, nextHidden: Bool, nextTitle: String)
         case showSubmitAlert
         case dismissSubmitAlert
+        case showSubmitRetryAlert
         case showError(String)
         case navigateToResult
         case navigateToHome
@@ -43,7 +45,6 @@ final class PreviewTestViewModel {
     private var currentIndex: Int = 0   // 0-based 현재 문제 인덱스
     private var countdownTimer: CountdownTimer?
     private var isSubmitting: Bool = false
-    private var timeLimit: Int = 0
 
     private let output = PassthroughSubject<Output, Never>()
     private var cancellables = Set<AnyCancellable>()
@@ -83,6 +84,8 @@ final class PreviewTestViewModel {
                 Task { await self.submit() }
             case .cancelSubmit:
                 output.send(.dismissSubmitAlert)
+            case .retrySubmit:
+                Task { await self.submit() }
             }
         }
         .store(in: &cancellables)
@@ -152,18 +155,19 @@ private extension PreviewTestViewModel {
             guard !rawQuestions.isEmpty else { return }
 
             currentIndex = 0
-            timeLimit = response.data.totalTimeLimit
             questions = rawQuestions.map { PreviewQuestion(data: $0) }
 
             output.send(.updateTotalNum(rawQuestions.count))
             output.send(.updateQuestion(question: questions[0].data, curNum: 1, selectedOption: nil))
             sendButtonStates(index: 0, selectedOption: nil)
-            let timer = CountdownTimer(totalTime: response.data.totalTimeLimit)
+
+            let totalTimeLimit = response.data.totalTimeLimit
+            let timer = CountdownTimer(totalTime: totalTimeLimit)
             countdownTimer = timer
             timer.remainingTimePublisher
                 .sink { [weak self] remaining in
                     guard let self else { return }
-                    output.send(.updateTime(timeLimit: timeLimit, timeRemaining: remaining))
+                    output.send(.updateTime(timeLimit: totalTimeLimit, timeRemaining: remaining))
                     if remaining == 0 {
                         guard !isSubmitting else { return }
                         Task { await self.submit() }
@@ -195,9 +199,7 @@ private extension PreviewTestViewModel {
         } catch {
             isSubmitting = false
             output.send(.dismissSubmitAlert)
-            output.send(.showError("잠시 후 다시 시도해주세요."))
+            output.send(.showSubmitRetryAlert)
         }
     }
-
-
 }

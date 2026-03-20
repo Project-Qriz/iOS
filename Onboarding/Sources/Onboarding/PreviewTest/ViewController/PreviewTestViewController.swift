@@ -9,12 +9,17 @@ final class PreviewTestViewController: UIViewController {
 
     // MARK: - Properties
 
-    private var previewTestView: PreviewTestView { view as! PreviewTestView }
+    private let previewTestView = PreviewTestView()
     private var totalNum: Int = 0
 
     private let submitAlertViewController = TwoButtonCustomAlertViewController(
         title: "제출하시겠습니까?",
         description: "확인 버튼을 누르면 다시 돌아올 수 없어요."
+    )
+
+    private let submitRetryAlertViewController = TwoButtonCustomAlertViewController(
+        title: "제출에 실패했습니다.",
+        description: "다시 시도하시겠습니까?"
     )
 
     private let viewModel: PreviewTestViewModel
@@ -44,7 +49,7 @@ final class PreviewTestViewController: UIViewController {
     // MARK: - Life Cycle
 
     override func loadView() {
-        view = PreviewTestView()
+        view = previewTestView
     }
 
     override func viewDidLoad() {
@@ -87,6 +92,8 @@ private extension PreviewTestViewController {
                     present(submitAlertViewController, animated: true)
                 case .dismissSubmitAlert:
                     submitAlertViewController.dismiss(animated: true)
+                case .showSubmitRetryAlert:
+                    present(submitRetryAlertViewController, animated: true)
                 case .showError(let message):
                     showOneButtonAlert(with: message, storingIn: &cancellables)
                 case .navigateToResult:
@@ -114,6 +121,10 @@ private extension PreviewTestViewController {
         submitAlertViewController.setupButtonActions(
             confirmAction: UIAction { [weak self] _ in self?.input.send(.confirmSubmit) },
             cancelAction: UIAction { [weak self] _ in self?.input.send(.cancelSubmit) }
+        )
+        submitRetryAlertViewController.setupButtonActions(
+            confirmAction: UIAction { [weak self] _ in self?.input.send(.retrySubmit) },
+            cancelAction: UIAction { [weak self] _ in self?.submitRetryAlertViewController.dismiss(animated: true) }
         )
     }
 
