@@ -4,6 +4,12 @@
 
 **Tech Stack:** Swift Testing (유닛), XCTest + swift-snapshot-testing (스냅샷), Combine, SwiftUI, UIKit
 
+**주요 설계 결정:**
+- Mock 클래스에 `@unchecked Sendable` 대신 `@MainActor` 사용 (Swift 5.7+에서 암묵적 Sendable 충족)
+- `GreetingViewModel` 타이머 테스트는 `RunLoop.main.run(until:)`으로 실제 2.5초 대기
+- `PreviewTestViewModel`은 Combine Output 수집 헬퍼로 이벤트 배열을 수집 후 검증
+- `UserInfoManager.shared` 싱글톤 오염 방지를 위해 각 테스트 스위트 init에서 상태 리셋
+
 ---
 
 ## Section 1: Package.swift & 파일 구조
@@ -26,6 +32,9 @@
         "Network",
         "QRIZUtils",
         .product(name: "SnapshotTesting", package: "swift-snapshot-testing"),
+    ],
+    swiftSettings: [
+        .swiftLanguageMode(.v5)
     ]
 ),
 ```
@@ -80,7 +89,7 @@ final class MockOnboardingService: OnboardingService {
 
 ### MockUserInfoService
 
-`UserInfoService: Sendable`이므로 `@MainActor` 클래스의 암묵적 Sendable로 충족한다.
+`UserInfoService: Sendable`을 요구한다. Swift 5.7+에서 `@MainActor` 클래스는 단일 액터에 격리되므로 암묵적으로 `Sendable`을 만족한다. 테스트 타겟이 `swiftLanguageMode(.v5)`이므로 이 규칙이 적용된다.
 
 ```swift
 @MainActor
@@ -102,11 +111,35 @@ extension PreviewTestListResponse {
 }
 
 extension PreviewTestListQuestion {
-    static func make(questionId: Int = 1, category: Int = 1, question: String = "테스트 문제", ...) -> Self { ... }
+    // options는 기본 4개 제공 — optionTapped 테스트에서 options[idx-1] 접근 시 크래시 방지
+    static func make(
+        questionId: Int = 1,
+        skillId: Int = 1,
+        category: Int = 1,
+        question: String = "테스트 문제",
+        description: String? = nil,
+        options: [PreviewTestListOption] = [
+            .init(id: 1, content: "선택지1"),
+            .init(id: 2, content: "선택지2"),
+            .init(id: 3, content: "선택지3"),
+            .init(id: 4, content: "선택지4"),
+        ],
+        timeLimit: Int = 60,
+        difficulty: Int = 1
+    ) -> Self { ... }
 }
 
 extension AnalyzePreviewResponse {
-    static func stub(estimatedScore: Double = 72.0, part1Score: Int = 40, part2Score: Int = 32, ...) -> Self { ... }
+    // totalScore = part1Score + part2Score로 계산해 ScoreBreakdown 생성
+    static func stub(
+        estimatedScore: Double = 72.0,
+        totalScore: Int = 72,
+        part1Score: Int = 40,
+        part2Score: Int = 32,
+        topConceptsToImprove: [String] = ["SQL 기본", "SELECT문"],
+        totalQuestions: Int = 10,
+        weakAreas: [WeakArea] = []
+    ) -> Self { ... }
 }
 
 extension PreviewSubmitResponse {
@@ -114,13 +147,19 @@ extension PreviewSubmitResponse {
 }
 
 extension UserInfoResponse {
-    static func stub(name: String = "테스트유저") -> Self { ... }
+    // previewTestStatus 노출 — fetchUserInfo 후 UserInfoManager 상태 검증 시 제어 필요
+    static func stub(
+        name: String = "테스트유저",
+        previewTestStatus: PreviewTestStatus = .previewCompleted
+    ) -> Self { ... }
 }
 ```
 
 ### Combine Output 수집 헬퍼 (TestHelpers.swift)
 
-`PreviewTestViewModel`의 Input/Output Combine 패턴 테스트용:
+`PreviewTestViewModel`의 Input/Output Combine 패턴 테스트용.
+
+**중요:** `transform(input:)`은 반드시 헬퍼 호출 전 한 번만 호출한다. 헬퍼는 이미 materialized된 Output publisher와 Input subject를 받는다.
 
 ```swift
 @MainActor
@@ -137,6 +176,17 @@ func collectOutputs(
 }
 ```
 
+**사용 패턴 (테스트 내부):**
+```swift
+let inputSubject = PassthroughSubject<PreviewTestViewModel.Input, Never>()
+let outputPublisher = vm.transform(input: inputSubject.eraseToAnyPublisher())
+
+let outputs = await collectOutputs(from: outputPublisher) {
+    inputSubject.send(.viewDidLoad)
+}
+#expect(outputs.contains { ... })
+```
+
 ---
 
 ## Section 3: 유닛 테스트 설계
@@ -151,13 +201,16 @@ func collectOutputs(
 
 ### CheckConceptViewModelTests
 
+각 테스트 시작 전 `UserInfoManager.shared` 상태를 리셋해 싱글톤 오염을 방지한다.
+
 ```
 - 초기 상태: selectedSet 비어있음, isDoneButtonEnabled = false
 - didTapConcept: 선택/해제 토글 @Test(arguments: [0, 5, 15, 29])
 - didTapAll: 전체 선택 (30개), 재탭 시 전체 해제
 - didTapNone: selectedSet 비워지고 isDoneButtonEnabled = true
+- didTapNone 후 didTapConcept: updateDoneButton()을 통해 isDoneButtonEnabled 정상 갱신
 - isDoneButtonEnabled: 선택 없을 때 false, 1개 이상 true
-- didTapDone: selectedSet 비어있으면 .greeting으로 navigate
+- didTapDone: didTapNone() 후 selectedSet 비어있고 isDoneButtonEnabled = true인 상태에서 .greeting으로 navigate
 - didTapDone: selectedSet 있으면 .previewTest로 navigate
 - didTapDone: sendSurvey 성공 → navigate 호출
 - didTapDone: sendSurvey 실패 → errorMessage 세팅
@@ -169,8 +222,17 @@ func collectOutputs(
 ```
 - onAppear: nickname을 UserInfoManager.shared.name으로 즉시 세팅
 - onAppear: fetchUserInfo 성공 시 nickname 업데이트
-- onAppear: 2.5초 후 onNavigate 호출 (실제 타이머 대기)
+- onAppear: 2.5초 후 onNavigate 호출
 ```
+
+Timer는 RunLoop 기반이므로 Swift Testing의 협력 스레드 풀에서 단순 `Task.sleep`만으로는 실행되지 않는다. 대기 방법:
+
+```swift
+RunLoop.main.run(until: Date(timeIntervalSinceNow: 2.6))
+#expect(navigateCalled)
+```
+
+각 GreetingViewModel 테스트 시작 전 `UserInfoManager.shared`를 초기 상태로 리셋한다.
 
 ### PreviewTestViewModelTests
 
@@ -187,7 +249,7 @@ Combine Output 수집 헬퍼로 출력 이벤트를 배열로 수집한 뒤 `#ex
 - escapeTapped: navigateToHome
 - confirmSubmit: submitPreview 성공 → navigateToResult
 - confirmSubmit: submitPreview 실패 → showSubmitRetryAlert
-- confirmSubmit 중 retrySubmit: 이중 제출 방지
+- confirmSubmit 동시 중복 호출: isSubmitting guard로 두 번째 submit 무시 (retrySubmit은 실패 후 isSubmitting이 false로 리셋된 뒤의 정상 재시도 경로임)
 ```
 
 ### PreviewResultViewModelTests
@@ -257,8 +319,10 @@ func testLoadedState() {
         onNavigateToGreeting: {}
     )
     vm.previewScoresData.expectScore = 72.0
-    vm.previewScoresData.subjectScores = [40, 32]
-    // ...
+    // subjectScores는 5개 배열로 초기화되므로 인덱스 할당으로 실제 updateData와 동일한 상태 재현
+    vm.previewScoresData.subjectScores[0] = 40
+    vm.previewScoresData.subjectScores[1] = 32
+    vm.previewScoresData.subjectCount = 2
     let vc = UIHostingController(rootView: PreviewResultView(viewModel: vm))
     vc.view.frame = CGRect(origin: .zero, size: Self.deviceSize)
     vc.view.layoutIfNeeded()
