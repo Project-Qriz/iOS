@@ -6,7 +6,14 @@ struct CheckConceptView: View {
     // MARK: - Properties
 
     @ObservedObject var viewModel: CheckConceptViewModel
-    @State private var expandedSections: Set<Int> = Set(0..<5)
+    @State private var expandedSections: Set<Int>
+
+    // MARK: - Initializer
+
+    init(viewModel: CheckConceptViewModel) {
+        self.viewModel = viewModel
+        _expandedSections = State(initialValue: Set(0..<viewModel.sections.count))
+    }
 
     // MARK: - Body
 

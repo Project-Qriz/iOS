@@ -42,6 +42,7 @@ final class OnboardingCoordinatorImpl: OnboardingNavigating, NavigationGuard {
         case .surveyCompleted:
             showBeginPreviewTest()
         case .previewSkipped, .previewCompleted:
+            assertionFailure("OnboardingCoordinator previewSkipped/previewCompleted 상태에서 시작 오류")
             break
         }
         return navigationController

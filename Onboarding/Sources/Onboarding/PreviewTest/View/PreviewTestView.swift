@@ -90,7 +90,7 @@ final class PreviewTestView: UIView {
 
 // MARK: - Layout Setup
 
-extension PreviewTestView {
+private extension PreviewTestView {
     private func addSubviews() {
         let views: [UIView] = [
             progressView, questionNumberLabel, questionTitleLabel,
