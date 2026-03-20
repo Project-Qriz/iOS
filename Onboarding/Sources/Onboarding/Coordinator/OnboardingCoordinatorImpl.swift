@@ -83,8 +83,9 @@ final class OnboardingCoordinatorImpl: OnboardingNavigating, NavigationGuard {
 
     func showPreviewTest() {
         guardNavigation {
+            let vm = PreviewTestViewModel(onboardingService: onboardingService)
             let vc = PreviewTestViewController(
-                onboardingService: onboardingService,
+                viewModel: vm,
                 onNavigateToResult: { [weak self] in self?.showPreviewResult() },
                 onNavigateToHome: { [weak self] in self?.finishOnboarding() }
             )

@@ -75,7 +75,7 @@ final class PreviewResultViewModel: ObservableObject {
 
         Task { @MainActor [weak self] in
             try? await Task.sleep(nanoseconds: 500_000_000)
-            guard let self else { return }
+            guard !Task.isCancelled, let self else { return }
             self.previewConceptsData.incorrectCountDataArr = self.incorrectCountDataArr
         }
     }

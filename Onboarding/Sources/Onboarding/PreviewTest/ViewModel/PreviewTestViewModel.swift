@@ -127,7 +127,9 @@ private extension PreviewTestViewModel {
     }
 
     func navigatePage(offset: Int) {
-        currentIndex += offset
+        let newIndex = currentIndex + offset
+        guard newIndex >= 0, newIndex < questions.count else { return }
+        currentIndex = newIndex
         let selectedOption = questions[currentIndex].selectedOptionIdx
 
         output.send(.updateQuestion(

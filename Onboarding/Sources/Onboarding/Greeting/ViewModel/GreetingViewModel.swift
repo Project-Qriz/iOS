@@ -20,6 +20,12 @@ final class GreetingViewModel: ObservableObject {
         self.onNavigate = onNavigate
     }
 
+    deinit {
+        MainActor.assumeIsolated {
+            timer?.invalidate()
+        }
+    }
+
     // MARK: - Methods
 
     func onAppear() {
@@ -35,7 +41,6 @@ final class GreetingViewModel: ObservableObject {
         timer = Timer.scheduledTimer(withTimeInterval: 2.5, repeats: false) { [weak self] _ in
             Task { @MainActor [weak self] in
                 self?.onNavigate()
-                self?.timer?.invalidate()
             }
         }
     }

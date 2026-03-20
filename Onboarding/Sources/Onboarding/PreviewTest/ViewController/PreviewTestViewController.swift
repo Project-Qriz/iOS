@@ -32,13 +32,13 @@ final class PreviewTestViewController: UIViewController {
     // MARK: - Initializer
 
     init(
-        onboardingService: OnboardingService,
+        viewModel: PreviewTestViewModel,
         onNavigateToResult: @escaping () -> Void,
         onNavigateToHome: @escaping () -> Void
     ) {
+        self.viewModel = viewModel
         self.onNavigateToResult = onNavigateToResult
         self.onNavigateToHome = onNavigateToHome
-        self.viewModel = PreviewTestViewModel(onboardingService: onboardingService)
         super.init(nibName: nil, bundle: nil)
     }
 
