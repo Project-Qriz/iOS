@@ -2,6 +2,11 @@ import Foundation
 import QRIZUtils
 import Network
 
+enum CheckConceptNavigation {
+    case previewTest
+    case greeting
+}
+
 @MainActor
 final class CheckConceptViewModel: ObservableObject {
 
@@ -24,20 +29,17 @@ final class CheckConceptViewModel: ObservableObject {
         selectedSet.count == totalConceptCount
     }
 
-    private let onNavigateToPreviewTest: () -> Void
-    private let onNavigateToGreeting: () -> Void
+    private let onNavigate: (CheckConceptNavigation) -> Void
     private let onboardingService: OnboardingService
 
     // MARK: - Initializer
 
     init(
         onboardingService: OnboardingService,
-        onNavigateToPreviewTest: @escaping () -> Void,
-        onNavigateToGreeting: @escaping () -> Void
+        onNavigate: @escaping (CheckConceptNavigation) -> Void
     ) {
         self.onboardingService = onboardingService
-        self.onNavigateToPreviewTest = onNavigateToPreviewTest
-        self.onNavigateToGreeting = onNavigateToGreeting
+        self.onNavigate = onNavigate
     }
 
     // MARK: - Methods
@@ -71,7 +73,8 @@ final class CheckConceptViewModel: ObservableObject {
 
     func didTapDone() {
         guard isDoneButtonEnabled, !isLoading else { return }
-        Task { await sendSurvey() }
+        let destination: CheckConceptNavigation = selectedSet.isEmpty ? .greeting : .previewTest
+        Task { await sendSurvey(navigateTo: destination) }
     }
 
     // MARK: - Private
@@ -84,18 +87,14 @@ final class CheckConceptViewModel: ObservableObject {
         isDoneButtonEnabled = !selectedSet.isEmpty
     }
 
-    private func sendSurvey() async {
+    private func sendSurvey(navigateTo destination: CheckConceptNavigation) async {
         isLoading = true
         defer { isLoading = false }
         do {
             let keyConcepts = selectedSet.map { title(for: $0) }
             _ = try await onboardingService.sendSurvey(keyConcepts: keyConcepts)
             UserInfoManager.shared.previewTestStatus = .surveyCompleted
-            if selectedSet.isEmpty {
-                onNavigateToGreeting()
-            } else {
-                onNavigateToPreviewTest()
-            }
+            onNavigate(destination)
         } catch {
             errorMessage = "잠시 후 다시 시도해주세요."
         }
