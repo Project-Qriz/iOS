@@ -53,6 +53,7 @@ final class PreviewResultViewModel: ObservableObject {
         }
         previewConceptsData.totalQuestions = data.weakAreaAnalysis.totalQuestions
 
+        guard previewScoresData.subjectScores.count >= 2 else { return }
         previewScoresData.subjectScores[0] = Double(data.scoreBreakdown.part1Score)
         previewScoresData.subjectScores[1] = Double(data.scoreBreakdown.part2Score)
         previewScoresData.subjectCount = 2
