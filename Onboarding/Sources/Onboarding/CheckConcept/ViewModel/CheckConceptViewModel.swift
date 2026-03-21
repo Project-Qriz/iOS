@@ -73,6 +73,7 @@ final class CheckConceptViewModel: ObservableObject {
 
     func didTapDone() {
         guard isDoneButtonEnabled, !isLoading else { return }
+        isLoading = true
         let destination: CheckConceptNavigation = selectedSet.isEmpty ? .greeting : .previewTest
         Task { await sendSurvey(navigateTo: destination) }
     }
@@ -88,7 +89,6 @@ final class CheckConceptViewModel: ObservableObject {
     }
 
     private func sendSurvey(navigateTo destination: CheckConceptNavigation) async {
-        isLoading = true
         defer { isLoading = false }
         do {
             let keyConcepts = selectedSet.map { title(for: $0) }
