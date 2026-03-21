@@ -81,10 +81,14 @@ final class PreviewTestViewModel {
                 countdownTimer?.stop()
                 output.send(.navigateToHome)
             case .confirmSubmit:
+                guard !self.isSubmitting else { return }
+                self.isSubmitting = true
                 Task { await self.submit() }
             case .cancelSubmit:
                 output.send(.dismissSubmitAlert)
             case .retrySubmit:
+                guard !self.isSubmitting else { return }
+                self.isSubmitting = true
                 Task { await self.submit() }
             }
         }
@@ -172,6 +176,7 @@ private extension PreviewTestViewModel {
                     output.send(.updateTime(timeLimit: totalTimeLimit, timeRemaining: remaining))
                     if remaining == 0 {
                         guard !isSubmitting else { return }
+                        isSubmitting = true
                         Task { await self.submit() }
                     }
                 }
@@ -183,8 +188,6 @@ private extension PreviewTestViewModel {
     }
 
     func submit() async {
-        guard !isSubmitting else { return }
-        isSubmitting = true
         countdownTimer?.stop()
 
         let submitList = questions.enumerated().map { idx, q in
