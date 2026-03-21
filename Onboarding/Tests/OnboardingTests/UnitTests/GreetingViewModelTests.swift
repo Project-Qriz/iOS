@@ -1,4 +1,5 @@
 import Testing
+import Foundation
 import QRIZUtils
 import Network
 @testable import Onboarding
@@ -54,15 +55,14 @@ struct GreetingViewModelTests {
     // MARK: - 타이머 (실제 2.5초 대기)
 
     @Test("onAppear: 2.5초 후 onNavigate 호출")
-    func onAppear_after2_5Seconds_callsOnNavigate() {
+    func onAppear_after2_5Seconds_callsOnNavigate() async {
         resetUserInfo()
         var navigateCalled = false
         let sut = makeSUT(onNavigate: { navigateCalled = true })
 
         sut.onAppear()
 
-        // Timer는 RunLoop 기반 — Task.sleep 대신 RunLoop.main.run으로 드레인
-        RunLoop.main.run(until: Date(timeIntervalSinceNow: 2.6))
+        try? await Task.sleep(nanoseconds: 2_600_000_000)
 
         #expect(navigateCalled)
     }
