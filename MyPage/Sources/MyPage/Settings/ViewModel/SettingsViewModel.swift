@@ -1,4 +1,5 @@
 import Foundation
+import os
 import Combine
 import QRIZUtils
 import Network
@@ -18,6 +19,7 @@ final class SettingsViewModel {
     private let myPageService: MyPageService
     private let socialLoginService: SocialLoginService
     private let outputSubject = PassthroughSubject<Output, Never>()
+    private let logger = Logger.make(category: "SettingsViewModel")
     private var cancellables = Set<AnyCancellable>()
 
     // MARK: - Initialize
@@ -79,6 +81,7 @@ final class SettingsViewModel {
             outputSubject.send(.logoutSucceeded)
 
         } catch {
+            logger.error("Logout failed: \(error.localizedDescription, privacy: .public)")
             outputSubject.send(.showErrorAlert("로그아웃에 실패했습니다. 잠시 후 다시 시도해 주세요."))
         }
     }
