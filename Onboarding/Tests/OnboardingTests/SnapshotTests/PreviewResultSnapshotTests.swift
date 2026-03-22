@@ -20,6 +20,12 @@ class PreviewResultSnapshotTests: OnboardingSnapshotTestCase {
         vm.previewConceptsData.firstConcept = "SQL 기본"
         vm.previewConceptsData.secondConcept = "SELECT문"
         vm.previewConceptsData.totalQuestions = 10
+        vm.previewConceptsData.numOfChartToPresent = 3
+        vm.previewConceptsData.incorrectCountDataArr = [
+            IncorrectCountData(id: 1, incorrectCount: 5, topic: ["DDL"]),
+            IncorrectCountData(id: 2, incorrectCount: 3, topic: ["조인"]),
+            IncorrectCountData(id: 3, incorrectCount: 1, topic: ["모델링"]),
+        ]
 
         let vc = UIHostingController(rootView: PreviewResultView(viewModel: vm))
         vc.view.frame = CGRect(origin: .zero, size: Self.deviceSize)
