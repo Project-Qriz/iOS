@@ -28,8 +28,8 @@ protocol MyPageCoordinator: Coordinator {
 
 @MainActor
 protocol MyPageCoordinatorDelegate: AnyObject {
-  /// 회원탈퇴 완료 시 호출
-  func myPageCoordinatorDidLogout(_ coordinator: MyPageCoordinator)
+    func myPageCoordinatorDidLogout(_ coordinator: MyPageCoordinator)
+    func myPageCoordinatorDidRequestExamScheduleSelection(_ coordinator: MyPageCoordinator)
 }
 
 @MainActor
@@ -37,8 +37,6 @@ final class MyPageCoordinatorImpl: MyPageCoordinator, NavigationGuard {
 
     private weak var navigationController: UINavigationController?
     weak var delegate: MyPageCoordinatorDelegate?
-    weak var examDelegate: ExamSelectionDelegate?
-    private let examService: ExamScheduleService
     private let myPageService: MyPageService
     private let accountRecoveryService: AccountRecoveryService
     private let socialLoginService: SocialLoginService
@@ -48,12 +46,10 @@ final class MyPageCoordinatorImpl: MyPageCoordinator, NavigationGuard {
     var isNavigating: Bool = false
     
     init(
-        examService: ExamScheduleService,
         myPageService: MyPageService,
         accountRecoveryService: AccountRecoveryService,
         socialLoginService: SocialLoginService
     ) {
-        self.examService = examService
         self.myPageService = myPageService
         self.accountRecoveryService = accountRecoveryService
         self.socialLoginService = socialLoginService
@@ -123,24 +119,7 @@ final class MyPageCoordinatorImpl: MyPageCoordinator, NavigationGuard {
     
     func showExamSelectionSheet() {
         guardNavigation {
-            let viewModel = ExamScheduleSelectionViewModel(examScheduleService: examService)
-            viewModel.delegate = examDelegate
-            let vc = ExamScheduleSelectionViewController(examScheduleSelectionVM: viewModel)
-            vc.modalPresentationStyle = .pageSheet
-
-            if let sheet = vc.sheetPresentationController {
-                sheet.prefersGrabberVisible = true
-                sheet.preferredCornerRadius = 20
-
-                let fit = UISheetPresentationController.Detent.custom(
-                    identifier: .init("fit")
-                ) { context in min(540, context.maximumDetentValue) }
-
-                sheet.detents = [fit]
-                sheet.selectedDetentIdentifier = .init("fit")
-            }
-
-            navigationController?.present(vc, animated: true)
+            self.delegate?.myPageCoordinatorDidRequestExamScheduleSelection(self)
         }
     }
 
