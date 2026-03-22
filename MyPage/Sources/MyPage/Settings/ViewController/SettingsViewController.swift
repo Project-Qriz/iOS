@@ -1,0 +1,97 @@
+import UIKit
+import DesignSystem
+import QRIZUtils
+import Combine
+
+final class SettingsViewController: UIViewController {
+
+    // MARK: - Enums
+
+    private enum Attributes {
+        static let navigationTitle: String = "설정"
+    }
+
+    // MARK: - Properties
+
+    weak var coordinator: MyPageNavigating?
+    private let rootView: SettingsMainView
+    private let viewModel: SettingsViewModel
+    private let inputSubject = PassthroughSubject<SettingsViewModel.Input, Never>()
+    private var cancellables = Set<AnyCancellable>()
+
+    // MARK: - Initialize
+
+    init(viewModel: SettingsViewModel) {
+        self.rootView = SettingsMainView()
+        self.viewModel = viewModel
+        super.init(nibName: nil, bundle: nil)
+        self.hidesBottomBarWhenPushed = true
+    }
+
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+
+    // MARK: - LifeCycle
+
+    override func loadView() {
+        self.view = rootView
+    }
+
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        bind()
+        setNavigationBarTitle(title: Attributes.navigationTitle, textColor: .coolNeutral800)
+        inputSubject.send(.viewDidLoad)
+    }
+
+    // MARK: - Functions
+
+    private func bind() {
+        let viewDidLoad = inputSubject
+
+        let optionTap = rootView.optionTapPublisher
+            .compactMap { option -> SettingsViewModel.Input? in
+                switch option {
+                case .resetPassword: return .didTapResetPassword
+                case .logout: return .didTapLogout
+                case .deleteAccount: return .didTapDeleteAccount
+                }
+            }
+
+        let input = viewDidLoad
+            .merge(with: optionTap)
+            .eraseToAnyPublisher()
+
+        let output = viewModel.transform(input: input)
+
+        output.sink { [weak self] output in
+            guard let self else { return }
+
+            switch output {
+            case .setupProfile(let userName, let email):
+                rootView.profileHeaderView.configure(name: userName, email: email)
+
+            case .navigateToResetPassword:
+                self.coordinator?.showFindPassword()
+
+            case .showLogoutAlert:
+                guard let coord = self.coordinator else { return }
+                coord.showLogoutAlert(confirm: { [weak self] in
+                    self?.inputSubject.send(.didConfirmLogout)
+                })
+
+            case .navigateToDeleteAccount:
+                self.coordinator?.showDeleteAccount()
+
+            case .logoutSucceeded:
+                if let coord = self.coordinator {
+                    coord.delegate?.myPageCoordinatorDidLogout(coord)
+                }
+
+            case .showErrorAlert(let message):
+                self.showOneButtonAlert(with: message, storingIn: &self.cancellables)
+            }
+        }.store(in: &cancellables)
+    }
+}
