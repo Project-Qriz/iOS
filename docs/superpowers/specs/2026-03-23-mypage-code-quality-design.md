@@ -65,9 +65,11 @@ public func makeMyPageCoordinator(
 ) -> any MyPageCoordinator
 ```
 
-**`MyPageCoordinatorImpl.swift`** — init에 `userInfo` 추가, `UserInfoManager.shared` 참조 제거:
+**`MyPageCoordinatorImpl.swift`** — `userInfo` 저장 프로퍼티 추가, init에 `userInfo` 파라미터 추가, `UserInfoManager.shared` 참조 제거:
 
 ```swift
+private let userInfo: MyPageUserInfo
+
 init(
     userInfo: MyPageUserInfo,
     myPageService: MyPageService,
@@ -96,7 +98,7 @@ func showSettingsView() {
 }
 ```
 
-**`TabBarCoordinator.swift`** — `makeMyPageCoordinator` 호출 시 `MyPageUserInfo` 전달:
+**`TabBarCoordinator.swift`** — `_myPageCoordinator` lazy var에서 `makeMyPageCoordinator` 호출 시 `MyPageUserInfo` 전달:
 
 ```swift
 makeMyPageCoordinator(
@@ -112,6 +114,10 @@ makeMyPageCoordinator(
 
 `UserInfoManager.shared` 참조는 패키지 외부인 `TabBarCoordinator`에만 남는다.
 
+`UserInfoManager`는 `QRIZUtils` 모듈에 정의된 싱글턴이며 `public var name: String`, `public var email: String` 프로퍼티를 모두 제공한다 (`QRIZUtils/Sources/QRIZUtils/Manager/UserInfoManager.swift`). `TabBarCoordinator.swift`는 이미 `import QRIZUtils`를 포함하고 있으므로 추가 import 없이 컴파일된다.
+
+> **참고:** `TabBarCoordinator.swift` 261번째 줄 `moveFromMistakeNoteToExam` 클로저 내부에도 `guard let self = self else { return }` 패턴이 존재하지만, 이 파일은 `MyPage` 패키지 외부이므로 본 스펙 범위에서 제외한다.
+
 ---
 
 ## Section 2 — 코드 품질
@@ -122,12 +128,13 @@ Swift 5.3부터 `guard let self` 단축 표현이 지원된다. 패키지 전체
 
 **대상 파일 및 위치:**
 
-| 파일 | 줄 |
-|---|---|
-| `MyPage/ViewModel/MyPageViewModel.swift` | 30, 67 |
-| `Settings/ViewModel/SettingsViewModel.swift` | 44 |
-| `DeleteAccount/ViewModel/DeleteAccountViewModel.swift` | 32 |
-| `DeleteAccount/ViewController/DeleteAccountViewController.swift` | 61 |
+| 파일 | 줄 | 메서드 |
+|---|---|---|
+| `MyPage/ViewModel/MyPageViewModel.swift` | 30 | `transform(input:)` — input sink 클로저 |
+| `MyPage/ViewModel/MyPageViewModel.swift` | 67 | `fetchVersion()` — Task 클로저 |
+| `Settings/ViewModel/SettingsViewModel.swift` | 44 | `transform(input:)` — input sink 클로저 |
+| `DeleteAccount/ViewModel/DeleteAccountViewModel.swift` | 32 | `transform(input:)` — input sink 클로저 |
+| `DeleteAccount/ViewController/DeleteAccountViewController.swift` | 61 | `bind()` — output sink 클로저 |
 
 ```swift
 // 기존
@@ -138,6 +145,8 @@ guard let self else { return }
 ```
 
 ### 2-2. `MyPageViewModel` TermItem 하드코딩 → 상수 추출
+
+`TermItem`은 `Account` 모듈에 정의된 public 타입으로, `MyPageViewModel.swift` 상단에 `import Account`가 이미 선언되어 있다.
 
 약관 메타데이터(제목, PDF 파일명)가 `transform(input:)` 내부에 인라인으로 작성되어 있다.
 
