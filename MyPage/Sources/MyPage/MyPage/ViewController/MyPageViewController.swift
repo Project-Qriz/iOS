@@ -49,7 +49,10 @@ final class MyPageViewController: UIViewController {
     private func bind() {
         let viewDidLoad = inputSubject
         let profileTap = rootView.profileTapPublisher.map { MyPageViewModel.Input.didTapProfile }
-        let quickActionTap = rootView.quickActionTappedPublisher
+        let resetPlan = rootView.resetPlanTappedPublisher
+            .map { MyPageViewModel.Input.didTapResetPlan }
+        let registerExam = rootView.registerExamTappedPublisher
+            .map { MyPageViewModel.Input.didTapRegisterExam }
 
         let menuTap = rootView.selectionPublisher
             .compactMap { item -> MyPageViewModel.Input? in
@@ -62,8 +65,9 @@ final class MyPageViewController: UIViewController {
 
         let input = viewDidLoad
             .merge(with: profileTap)
+            .merge(with: resetPlan)
+            .merge(with: registerExam)
             .merge(with: menuTap)
-            .merge(with: quickActionTap)
             .eraseToAnyPublisher()
 
         let output = viewModel.transform(input: input)

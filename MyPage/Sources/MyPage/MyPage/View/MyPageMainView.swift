@@ -13,7 +13,8 @@ final class MyPageMainView: UIView {
 
     private let profileTapSubject = PassthroughSubject<Void, Never>()
     private let selectionSubject = PassthroughSubject<MyPageSectionItem, Never>()
-    private let quickActionTappedSubject = PassthroughSubject<MyPageViewModel.Input, Never>()
+    private let resetPlanTappedSubject = PassthroughSubject<Void, Never>()
+    private let registerExamTappedSubject = PassthroughSubject<Void, Never>()
 
     var profileTapPublisher: AnyPublisher<Void, Never> {
         profileTapSubject.eraseToAnyPublisher()
@@ -23,8 +24,12 @@ final class MyPageMainView: UIView {
         selectionSubject.eraseToAnyPublisher()
     }
 
-    var quickActionTappedPublisher: AnyPublisher<MyPageViewModel.Input, Never> {
-        quickActionTappedSubject.eraseToAnyPublisher()
+    var resetPlanTappedPublisher: AnyPublisher<Void, Never> {
+        resetPlanTappedSubject.eraseToAnyPublisher()
+    }
+
+    var registerExamTappedPublisher: AnyPublisher<Void, Never> {
+        registerExamTappedSubject.eraseToAnyPublisher()
     }
 
     // MARK: - UI
@@ -44,14 +49,14 @@ final class MyPageMainView: UIView {
             guard let self else { return }
 
             cell.resetPlanTappedPublisher
-                .sink { [weak self] _ in
-                    self?.quickActionTappedSubject.send(.didTapResetPlan)
+                .sink { [weak self] in
+                    self?.resetPlanTappedSubject.send()
                 }
                 .store(in: &cell.cancellables)
 
             cell.registerExamTappedPublisher
-                .sink { [weak self] _ in
-                    self?.quickActionTappedSubject.send(.didTapRegisterExam)
+                .sink { [weak self] in
+                    self?.registerExamTappedSubject.send()
                 }
                 .store(in: &cell.cancellables)
         }
@@ -130,8 +135,6 @@ final class MyPageMainView: UIView {
     // MARK: - Functions
 
     private func setupUI() {
-        _ = quickActionRegistration
-        _ = profileRegistration
         backgroundColor = .customBlue50
     }
 
