@@ -12,15 +12,12 @@ final class DeleteAccountMainView: UIView {
         static let titleTopOffset: CGFloat = 40.0
         static let horizontalSpacing: CGFloat = 18.0
         static let verticalSpacing: CGFloat = 20.0
-        static let bulletLabel2TopOffset: CGFloat = 8.0
-        static let delteButtonTopOffset: CGFloat = 14.0
+        static let deleteButtonTopOffset: CGFloat = 14.0
         static let deleteButtonHeightRatio: CGFloat = 0.117
     }
 
     private enum Attributes {
         static let titleText: String = "회원 탈퇴 시 아래 내용을 확인해 주세요."
-        static let bullet1Text: String = "•  회원 탈퇴 시 계정 정보는 모두 삭제됩니다."
-        static let bullet2Text: String = "•  진행 중인 '오늘의 공부'를 포함해, 모든 데이터가 삭\n    제되며 복구할 수 없습니다."
         static let questionText: String = "QRIZ 회원 탈퇴를 하시겠습니까?"
         static let deleteButtonTitle: String = "회원 탈퇴"
     }
@@ -49,32 +46,7 @@ final class DeleteAccountMainView: UIView {
         return label
     }()
 
-    private let infoContainerView: UIView = {
-        let view = UIView()
-        view.backgroundColor = .white
-        view.layer.borderWidth = 1.0
-        view.layer.borderColor = UIColor.coolNeutral100.cgColor
-        view.layer.cornerRadius = 8.0
-        view.applyQRIZShadow(radius: 8.0, color: .coolNeutral300)
-        return view
-    }()
-
-    private let bulletLabel1: UILabel = {
-        let label = UILabel()
-        label.text = Attributes.bullet1Text
-        label.font = .systemFont(ofSize: 14, weight: .medium)
-        label.textColor = .coolNeutral500
-        return label
-    }()
-
-    private let bulletLabel2: UILabel = {
-        let label = UILabel()
-        label.text = Attributes.bullet2Text
-        label.font = .systemFont(ofSize: 14, weight: .medium)
-        label.textColor = .coolNeutral500
-        label.numberOfLines = 2
-        return label
-    }()
+    private let infoView = DeleteAccountInfoView()
 
     private let questionLabel: UILabel = {
         let label = UILabel()
@@ -129,25 +101,18 @@ extension DeleteAccountMainView {
         [
             separator,
             titleLabel,
-            infoContainerView,
+            infoView,
             questionLabel,
             deleteButton
         ].forEach(addSubview(_:))
-
-        [
-            bulletLabel1,
-            bulletLabel2
-        ].forEach(infoContainerView.addSubview(_:))
     }
 
     private func setupConstraints() {
         separator.translatesAutoresizingMaskIntoConstraints = false
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
-        infoContainerView.translatesAutoresizingMaskIntoConstraints = false
+        infoView.translatesAutoresizingMaskIntoConstraints = false
         questionLabel.translatesAutoresizingMaskIntoConstraints = false
         deleteButton.translatesAutoresizingMaskIntoConstraints = false
-        bulletLabel1.translatesAutoresizingMaskIntoConstraints = false
-        bulletLabel2.translatesAutoresizingMaskIntoConstraints = false
 
         NSLayoutConstraint.activate([
             separator.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor),
@@ -168,51 +133,21 @@ extension DeleteAccountMainView {
                 constant: -Metric.horizontalSpacing
             ),
 
-            infoContainerView.topAnchor.constraint(
+            infoView.topAnchor.constraint(
                 equalTo: titleLabel.bottomAnchor,
                 constant: Metric.verticalSpacing
             ),
-            infoContainerView.leadingAnchor.constraint(
+            infoView.leadingAnchor.constraint(
                 equalTo: leadingAnchor,
                 constant: Metric.horizontalSpacing
             ),
-            infoContainerView.trailingAnchor.constraint(
+            infoView.trailingAnchor.constraint(
                 equalTo: trailingAnchor,
-                constant: Metric.horizontalSpacing
-            ),
-
-            bulletLabel1.topAnchor.constraint(
-                equalTo: infoContainerView.topAnchor,
-                constant: Metric.verticalSpacing
-            ),
-            bulletLabel1.leadingAnchor.constraint(
-                equalTo: infoContainerView.leadingAnchor,
-                constant: Metric.horizontalSpacing
-            ),
-            bulletLabel1.trailingAnchor.constraint(
-                equalTo: infoContainerView.trailingAnchor,
                 constant: -Metric.horizontalSpacing
-            ),
-
-            bulletLabel2.topAnchor.constraint(
-                equalTo: bulletLabel1.bottomAnchor,
-                constant: Metric.bulletLabel2TopOffset
-            ),
-            bulletLabel2.leadingAnchor.constraint(
-                equalTo: infoContainerView.leadingAnchor,
-                constant: Metric.horizontalSpacing
-            ),
-            bulletLabel2.trailingAnchor.constraint(
-                equalTo: infoContainerView.trailingAnchor,
-                constant: -Metric.horizontalSpacing
-            ),
-            bulletLabel2.bottomAnchor.constraint(
-                equalTo: infoContainerView.bottomAnchor,
-                constant: -Metric.verticalSpacing
             ),
 
             questionLabel.topAnchor.constraint(
-                equalTo: infoContainerView.bottomAnchor,
+                equalTo: infoView.bottomAnchor,
                 constant: Metric.verticalSpacing
             ),
             questionLabel.leadingAnchor.constraint(
@@ -226,7 +161,7 @@ extension DeleteAccountMainView {
 
             deleteButton.topAnchor.constraint(
                 equalTo: questionLabel.bottomAnchor,
-                constant: Metric.delteButtonTopOffset
+                constant: Metric.deleteButtonTopOffset
             ),
             deleteButton.leadingAnchor.constraint(
                 equalTo: leadingAnchor,
