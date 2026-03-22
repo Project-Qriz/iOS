@@ -20,7 +20,7 @@ final class SettingsMainView: UIView {
 
     // MARK: - UI
 
-    let profileHeaderView = ProfileHeaderView()
+    private let profileHeaderView = ProfileHeaderView()
 
     private lazy var optionsVStackView: UIStackView = {
         let stackView = UIStackView(arrangedSubviews: makeOptionViews())
@@ -46,6 +46,10 @@ final class SettingsMainView: UIView {
 
     private func setupUI() {
         backgroundColor = .white
+    }
+
+    func configureProfile(name: String, email: String) {
+        profileHeaderView.configure(name: name, email: email)
     }
 
     private func makeOptionViews() -> [SettingsOptionView] {

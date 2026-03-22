@@ -64,12 +64,14 @@ final class SettingsViewController: UIViewController {
 
         let output = viewModel.transform(input: input)
 
-        output.sink { [weak self] output in
+        output
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] output in
             guard let self else { return }
 
             switch output {
             case .setupProfile(let userName, let email):
-                rootView.profileHeaderView.configure(name: userName, email: email)
+                rootView.configureProfile(name: userName, email: email)
 
             case .navigateToResetPassword:
                 self.coordinator?.showFindPassword()

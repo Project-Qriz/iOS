@@ -4,6 +4,7 @@ import os
 import QRIZUtils
 import Network
 
+@MainActor
 final class DeleteAccountViewModel {
 
     // MARK: - Properties
@@ -48,7 +49,6 @@ final class DeleteAccountViewModel {
         return outputSubject.eraseToAnyPublisher()
     }
 
-    @MainActor
     private func performDelete() async {
         do {
             let provider = SocialLogin(from: provider)
@@ -65,7 +65,6 @@ final class DeleteAccountViewModel {
         }
     }
 
-    @MainActor
     private func deleteByProvider(_ provider: SocialLogin) async throws {
         switch provider {
         case .kakao:

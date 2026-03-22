@@ -10,6 +10,7 @@ enum SettingsOption: String, CaseIterable {
     case deleteAccount = "계정 탈퇴"
 }
 
+@MainActor
 final class SettingsViewModel {
 
     // MARK: - Properties
@@ -70,7 +71,6 @@ final class SettingsViewModel {
         return outputSubject.eraseToAnyPublisher()
     }
 
-    @MainActor
     private func performLogout() async {
         do {
             let provider = SocialLogin(from: provider)

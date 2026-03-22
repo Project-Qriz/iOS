@@ -5,6 +5,7 @@ import Network
 import Account
 import QRIZUtils
 
+@MainActor
 final class MyPageViewModel {
 
     // MARK: - Properties
@@ -76,7 +77,6 @@ final class MyPageViewModel {
         }
     }
 
-    @MainActor
     private func performReset() async {
         let title = "초기화할 수 없습니다."
 

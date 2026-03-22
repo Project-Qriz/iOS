@@ -4,6 +4,17 @@ import Combine
 
 final class DeleteAccountMainView: UIView {
 
+    // MARK: - Enums
+
+    private enum Metric {
+        static let separatorHeight: CGFloat = 1.0
+        static let titleTopOffset: CGFloat = 40.0
+        static let horizontalSpacing: CGFloat = 18.0
+        static let contentSpacing: CGFloat = 20.0
+        static let buttonTopOffset: CGFloat = 14.0
+        static let buttonHeightMultiplier: CGFloat = 0.117
+    }
+
     // MARK: - Properties
 
     private let deleteTapSubject = PassthroughSubject<Void, Never>()
@@ -100,62 +111,62 @@ extension DeleteAccountMainView {
             separator.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor),
             separator.leadingAnchor.constraint(equalTo: leadingAnchor),
             separator.trailingAnchor.constraint(equalTo: trailingAnchor),
-            separator.heightAnchor.constraint(equalToConstant: 1.0),
+            separator.heightAnchor.constraint(equalToConstant: Metric.separatorHeight),
 
             titleLabel.topAnchor.constraint(
                 equalTo: safeAreaLayoutGuide.topAnchor,
-                constant: 40.0
+                constant: Metric.titleTopOffset
             ),
             titleLabel.leadingAnchor.constraint(
                 equalTo: leadingAnchor,
-                constant: 18.0
+                constant: Metric.horizontalSpacing
             ),
             titleLabel.trailingAnchor.constraint(
                 equalTo: trailingAnchor,
-                constant: -18.0
+                constant: -Metric.horizontalSpacing
             ),
 
             infoView.topAnchor.constraint(
                 equalTo: titleLabel.bottomAnchor,
-                constant: 20.0
+                constant: Metric.contentSpacing
             ),
             infoView.leadingAnchor.constraint(
                 equalTo: leadingAnchor,
-                constant: 18.0
+                constant: Metric.horizontalSpacing
             ),
             infoView.trailingAnchor.constraint(
                 equalTo: trailingAnchor,
-                constant: -18.0
+                constant: -Metric.horizontalSpacing
             ),
 
             questionLabel.topAnchor.constraint(
                 equalTo: infoView.bottomAnchor,
-                constant: 20.0
+                constant: Metric.contentSpacing
             ),
             questionLabel.leadingAnchor.constraint(
                 equalTo: leadingAnchor,
-                constant: 18.0
+                constant: Metric.horizontalSpacing
             ),
             questionLabel.trailingAnchor.constraint(
                 equalTo: trailingAnchor,
-                constant: -18.0
+                constant: -Metric.horizontalSpacing
             ),
 
             deleteButton.topAnchor.constraint(
                 equalTo: questionLabel.bottomAnchor,
-                constant: 14.0
+                constant: Metric.buttonTopOffset
             ),
             deleteButton.leadingAnchor.constraint(
                 equalTo: leadingAnchor,
-                constant: 18.0
+                constant: Metric.horizontalSpacing
             ),
             deleteButton.trailingAnchor.constraint(
                 equalTo: trailingAnchor,
-                constant: -18.0
+                constant: -Metric.horizontalSpacing
             ),
             deleteButton.heightAnchor.constraint(
                 equalTo: deleteButton.widthAnchor,
-                multiplier: 0.117
+                multiplier: Metric.buttonHeightMultiplier
             )
         ])
     }
