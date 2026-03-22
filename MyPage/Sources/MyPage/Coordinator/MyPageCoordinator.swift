@@ -16,13 +16,25 @@ public protocol MyPageCoordinatorDelegate: AnyObject {
     func myPageCoordinatorDidRequestExamScheduleSelection(_ coordinator: any MyPageCoordinator)
 }
 
+public struct MyPageUserInfo {
+    public let name: String
+    public let email: String
+
+    public init(name: String, email: String) {
+        self.name = name
+        self.email = email
+    }
+}
+
 @MainActor
 public func makeMyPageCoordinator(
-    myPageService: MyPageService,
-    accountRecoveryService: AccountRecoveryService,
-    socialLoginService: SocialLoginService
+    userInfo: MyPageUserInfo,
+    myPageService: any MyPageService,
+    accountRecoveryService: any AccountRecoveryService,
+    socialLoginService: any SocialLoginService
 ) -> any MyPageCoordinator {
     MyPageCoordinatorImpl(
+        userInfo: userInfo,
         myPageService: myPageService,
         accountRecoveryService: accountRecoveryService,
         socialLoginService: socialLoginService

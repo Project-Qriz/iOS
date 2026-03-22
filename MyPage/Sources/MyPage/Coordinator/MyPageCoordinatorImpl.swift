@@ -7,6 +7,7 @@ import Account
 @MainActor
 final class MyPageCoordinatorImpl: MyPageNavigating, NavigationGuard {
 
+    private let userInfo: MyPageUserInfo
     private weak var navigationController: UINavigationController?
     weak var delegate: MyPageCoordinatorDelegate?
     private let myPageService: MyPageService
@@ -18,10 +19,12 @@ final class MyPageCoordinatorImpl: MyPageNavigating, NavigationGuard {
     var isNavigating: Bool = false
 
     init(
+        userInfo: MyPageUserInfo,
         myPageService: MyPageService,
         accountRecoveryService: AccountRecoveryService,
         socialLoginService: SocialLoginService
     ) {
+        self.userInfo = userInfo
         self.myPageService = myPageService
         self.accountRecoveryService = accountRecoveryService
         self.socialLoginService = socialLoginService
@@ -29,7 +32,7 @@ final class MyPageCoordinatorImpl: MyPageNavigating, NavigationGuard {
 
     func start() -> UIViewController {
         let viewModel = MyPageViewModel(
-            userName: UserInfoManager.shared.name,
+            userName: userInfo.name,
             myPageService: myPageService
         )
         let myPageVC = MyPageViewController(viewModel: viewModel)
@@ -43,8 +46,8 @@ final class MyPageCoordinatorImpl: MyPageNavigating, NavigationGuard {
     func showSettingsView() {
         guardNavigation {
             let viewModel = SettingsViewModel(
-                userName: UserInfoManager.shared.name,
-                email: UserInfoManager.shared.email,
+                userName: userInfo.name,
+                email: userInfo.email,
                 myPageService: myPageService,
                 socialLoginService: socialLoginService
             )
