@@ -4,13 +4,6 @@ import Combine
 
 final class SettingsMainView: UIView {
 
-    // MARK: - Enums
-
-    private enum Metric {
-        static let headerViewTopOffset: CGFloat = 24.0
-        static let horizontalSpacing: CGFloat = 18.0
-    }
-
     // MARK: - Properties
 
     private let optionTapSubject = PassthroughSubject<SettingsOption, Never>()
@@ -79,28 +72,28 @@ extension SettingsMainView {
         NSLayoutConstraint.activate([
             profileHeaderView.topAnchor.constraint(
                 equalTo: safeAreaLayoutGuide.topAnchor,
-                constant: Metric.headerViewTopOffset
+                constant: 24.0
             ),
             profileHeaderView.leadingAnchor.constraint(
                 equalTo: leadingAnchor,
-                constant: Metric.horizontalSpacing
+                constant: 18.0
             ),
             profileHeaderView.trailingAnchor.constraint(
                 equalTo: trailingAnchor,
-                constant: -Metric.horizontalSpacing
+                constant: -18.0
             ),
 
             optionsVStackView.topAnchor.constraint(
                 equalTo: profileHeaderView.bottomAnchor,
-                constant: Metric.headerViewTopOffset
+                constant: 24.0
             ),
             optionsVStackView.leadingAnchor.constraint(
                 equalTo: leadingAnchor,
-                constant: Metric.horizontalSpacing
+                constant: 18.0
             ),
             optionsVStackView.trailingAnchor.constraint(
                 equalTo: trailingAnchor,
-                constant: -Metric.horizontalSpacing
+                constant: -18.0
             ),
         ])
     }

@@ -5,12 +5,6 @@ import Combine
 
 final class DeleteAccountViewController: UIViewController {
 
-    // MARK: - Enums
-
-    private enum Attributes {
-        static let navigationTitle: String = "회원 탈퇴"
-    }
-
     // MARK: - Properties
 
     weak var coordinator: MyPageNavigating?
@@ -41,7 +35,7 @@ final class DeleteAccountViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         bind()
-        setNavigationBarTitle(title: Attributes.navigationTitle, textColor: .coolNeutral800)
+        setNavigationBarTitle(title: "회원 탈퇴", textColor: .coolNeutral800)
     }
 
     // MARK: - Functions

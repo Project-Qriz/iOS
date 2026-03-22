@@ -30,34 +30,21 @@ enum MyPageSectionItem: Hashable {
 
 enum MyPageLayoutFactory {
 
-    private enum Metric {
-        static let profileTopOffset: CGFloat = 24.0
-        static let horizontalSpacing: CGFloat = 18.0
-        static let profileEstimated: CGFloat = 90.0
-
-        static let quickActionTopOffset: CGFloat = 40.0
-        static let quickActionEstimated: CGFloat = 82.0
-
-        static let supportTopOffset: CGFloat = 32.0
-        static let supportRowEstimated: CGFloat  = 54.0
-        static let supportEstimated: CGFloat = 266.0
-    }
-
     // MARK: - Functions
 
     static func profile() -> NSCollectionLayoutSection {
         let itemSize = NSCollectionLayoutSize(
             widthDimension: .fractionalWidth(1.0),
-            heightDimension: .estimated(Metric.profileEstimated)
+            heightDimension: .estimated(90.0)
         )
         let item  = NSCollectionLayoutItem(layoutSize: itemSize)
         let group = NSCollectionLayoutGroup.vertical(layoutSize: itemSize, subitems: [item])
         let section = NSCollectionLayoutSection(group: group)
         section.contentInsets = NSDirectionalEdgeInsets(
-            top: Metric.profileTopOffset,
-            leading: Metric.horizontalSpacing,
+            top: 24.0,
+            leading: 18.0,
             bottom: 0,
-            trailing: Metric.horizontalSpacing
+            trailing: 18.0
         )
         return section
     }
@@ -65,16 +52,16 @@ enum MyPageLayoutFactory {
     static func quickAction() -> NSCollectionLayoutSection {
         let itemSize = NSCollectionLayoutSize(
             widthDimension: .fractionalWidth(1.0),
-            heightDimension: .estimated(Metric.quickActionEstimated)
+            heightDimension: .estimated(82.0)
         )
         let item  = NSCollectionLayoutItem(layoutSize: itemSize)
         let group = NSCollectionLayoutGroup.vertical(layoutSize: itemSize, subitems: [item])
         let section = NSCollectionLayoutSection(group: group)
         section.contentInsets = NSDirectionalEdgeInsets(
-            top: Metric.quickActionTopOffset,
-            leading: Metric.horizontalSpacing,
+            top: 40.0,
+            leading: 18.0,
             bottom: 0,
-            trailing: Metric.horizontalSpacing
+            trailing: 18.0
         )
         return section
     }
@@ -82,20 +69,20 @@ enum MyPageLayoutFactory {
     static func support() -> NSCollectionLayoutSection {
         let itemSize = NSCollectionLayoutSize(
             widthDimension: .fractionalWidth(1),
-            heightDimension: .estimated(Metric.supportRowEstimated)
+            heightDimension: .estimated(54.0)
         )
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
         let groupSize = NSCollectionLayoutSize(
             widthDimension: .fractionalWidth(1),
-            heightDimension: .estimated(Metric.supportEstimated)
+            heightDimension: .estimated(266.0)
         )
         let group = NSCollectionLayoutGroup.vertical(layoutSize: groupSize, subitems: [item])
         let section = NSCollectionLayoutSection(group: group)
         section.contentInsets = NSDirectionalEdgeInsets(
-            top: Metric.supportTopOffset + 8,
-            leading: Metric.horizontalSpacing + 1,
+            top: 40.0,
+            leading: 19.0,
             bottom: 0,
-            trailing: Metric.horizontalSpacing + 1
+            trailing: 19.0
         )
 
         let background = NSCollectionLayoutDecorationItem.background(
@@ -103,10 +90,10 @@ enum MyPageLayoutFactory {
         )
 
         background.contentInsets = NSDirectionalEdgeInsets(
-            top: Metric.supportTopOffset + 6,
-            leading: Metric.horizontalSpacing,
-            bottom: -Metric.horizontalSpacing,
-            trailing: Metric.horizontalSpacing
+            top: 38.0,
+            leading: 18.0,
+            bottom: -18.0,
+            trailing: 18.0
         )
 
         section.decorationItems = [background]

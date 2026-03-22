@@ -3,22 +3,11 @@ import DesignSystem
 
 final class SupportHeaderCell: UICollectionViewCell {
 
-    // MARK: - Enums
-
-    private enum Metric {
-        static let horizontalSpacing: CGFloat = 24.0
-        static let separatorHeight: CGFloat = 1.0
-    }
-
-    private enum Attributes {
-        static let title: String = "고객센터"
-    }
-
     // MARK: - UI
 
     private let titleLabel: UILabel = {
         let label = UILabel()
-        label.text = Attributes.title
+        label.text = "고객센터"
         label.font = .systemFont(ofSize: 18, weight: .bold)
         label.textColor = .coolNeutral800
         return label
@@ -65,13 +54,13 @@ extension SupportHeaderCell {
         separator.translatesAutoresizingMaskIntoConstraints = false
 
         NSLayoutConstraint.activate([
-            titleLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: Metric.horizontalSpacing),
-            titleLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: Metric.horizontalSpacing),
+            titleLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 24.0),
+            titleLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 24.0),
 
-            separator.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: Metric.horizontalSpacing),
-            separator.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -Metric.horizontalSpacing),
+            separator.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 24.0),
+            separator.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -24.0),
             separator.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
-            separator.heightAnchor.constraint(equalToConstant: Metric.separatorHeight),
+            separator.heightAnchor.constraint(equalToConstant: 1.0),
         ])
     }
 }
@@ -79,16 +68,6 @@ extension SupportHeaderCell {
 // MARK: - SupportMenuCell
 
 final class SupportMenuCell: UICollectionViewCell {
-
-    // MARK: - Enums
-
-    private enum Metric {
-        static let horizontalSpacing: CGFloat = 24.0
-    }
-
-    private enum Attributes {
-        static let chevron: String = "chevron.right"
-    }
 
     // MARK: - UI
 
@@ -102,7 +81,7 @@ final class SupportMenuCell: UICollectionViewCell {
     private let chevronButton: UIButton = {
         let button = UIButton()
         let config = UIImage.SymbolConfiguration(pointSize: 16, weight: .medium)
-        let image = UIImage(systemName: Attributes.chevron, withConfiguration: config)
+        let image = UIImage(systemName: "chevron.right", withConfiguration: config)
         button.setImage(image, for: .normal)
         button.tintColor = .coolNeutral400
         return button
@@ -167,13 +146,13 @@ extension SupportMenuCell {
 
         NSLayoutConstraint.activate([
             titleLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 25),
-            titleLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: Metric.horizontalSpacing),
+            titleLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 24.0),
             titleLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -25),
 
-            chevronButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -Metric.horizontalSpacing),
+            chevronButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -24.0),
             chevronButton.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
 
-            versionLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -Metric.horizontalSpacing),
+            versionLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -24.0),
             versionLabel.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
         ])
     }

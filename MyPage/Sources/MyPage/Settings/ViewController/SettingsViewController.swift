@@ -5,12 +5,6 @@ import Combine
 
 final class SettingsViewController: UIViewController {
 
-    // MARK: - Enums
-
-    private enum Attributes {
-        static let navigationTitle: String = "설정"
-    }
-
     // MARK: - Properties
 
     weak var coordinator: MyPageNavigating?
@@ -41,7 +35,7 @@ final class SettingsViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         bind()
-        setNavigationBarTitle(title: Attributes.navigationTitle, textColor: .coolNeutral800)
+        setNavigationBarTitle(title: "설정", textColor: .coolNeutral800)
         inputSubject.send(.viewDidLoad)
     }
 
