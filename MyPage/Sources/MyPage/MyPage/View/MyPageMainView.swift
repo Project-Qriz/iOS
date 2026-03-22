@@ -126,6 +126,8 @@ final class MyPageMainView: UIView {
         setupConstraints()
         setupUI()
         collectionView.delegate = self
+        _ = profileRegistration
+        _ = quickActionRegistration
     }
 
     required init?(coder: NSCoder) {
