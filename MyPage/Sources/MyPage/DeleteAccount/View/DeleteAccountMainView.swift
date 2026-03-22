@@ -5,23 +5,6 @@ import Combine
 
 final class DeleteAccountMainView: UIView {
 
-    // MARK: - Enums
-
-    private enum Metric {
-        static let separatorHeight: CGFloat = 1.0
-        static let titleTopOffset: CGFloat = 40.0
-        static let horizontalSpacing: CGFloat = 18.0
-        static let verticalSpacing: CGFloat = 20.0
-        static let deleteButtonTopOffset: CGFloat = 14.0
-        static let deleteButtonHeightRatio: CGFloat = 0.117
-    }
-
-    private enum Attributes {
-        static let titleText: String = "회원 탈퇴 시 아래 내용을 확인해 주세요."
-        static let questionText: String = "QRIZ 회원 탈퇴를 하시겠습니까?"
-        static let deleteButtonTitle: String = "회원 탈퇴"
-    }
-
     // MARK: - Properties
 
     private let deleteTapSubject = PassthroughSubject<Void, Never>()
@@ -40,7 +23,7 @@ final class DeleteAccountMainView: UIView {
 
     private let titleLabel: UILabel = {
         let label = UILabel()
-        label.text = Attributes.titleText
+        label.text = "회원 탈퇴 시 아래 내용을 확인해 주세요."
         label.font = .systemFont(ofSize: 20, weight: .bold)
         label.textColor = .coolNeutral800
         return label
@@ -50,7 +33,7 @@ final class DeleteAccountMainView: UIView {
 
     private let questionLabel: UILabel = {
         let label = UILabel()
-        label.text = Attributes.questionText
+        label.text = "QRIZ 회원 탈퇴를 하시겠습니까?"
         label.font = .systemFont(ofSize: 14, weight: .semibold)
         label.textColor = .coolNeutral500
         return label
@@ -58,7 +41,7 @@ final class DeleteAccountMainView: UIView {
 
     private lazy var deleteButton: UIButton = {
         var config = UIButton.Configuration.filled()
-        config.title = Attributes.deleteButtonTitle
+        config.title = "회원 탈퇴"
         config.baseBackgroundColor = .customBlue500
         config.baseForegroundColor = .white
         config.cornerStyle = .medium
@@ -118,62 +101,62 @@ extension DeleteAccountMainView {
             separator.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor),
             separator.leadingAnchor.constraint(equalTo: leadingAnchor),
             separator.trailingAnchor.constraint(equalTo: trailingAnchor),
-            separator.heightAnchor.constraint(equalToConstant: Metric.separatorHeight),
+            separator.heightAnchor.constraint(equalToConstant: 1.0),
 
             titleLabel.topAnchor.constraint(
                 equalTo: safeAreaLayoutGuide.topAnchor,
-                constant: Metric.titleTopOffset
+                constant: 40.0
             ),
             titleLabel.leadingAnchor.constraint(
                 equalTo: leadingAnchor,
-                constant: Metric.horizontalSpacing
+                constant: 18.0
             ),
             titleLabel.trailingAnchor.constraint(
                 equalTo: trailingAnchor,
-                constant: -Metric.horizontalSpacing
+                constant: -18.0
             ),
 
             infoView.topAnchor.constraint(
                 equalTo: titleLabel.bottomAnchor,
-                constant: Metric.verticalSpacing
+                constant: 20.0
             ),
             infoView.leadingAnchor.constraint(
                 equalTo: leadingAnchor,
-                constant: Metric.horizontalSpacing
+                constant: 18.0
             ),
             infoView.trailingAnchor.constraint(
                 equalTo: trailingAnchor,
-                constant: -Metric.horizontalSpacing
+                constant: -18.0
             ),
 
             questionLabel.topAnchor.constraint(
                 equalTo: infoView.bottomAnchor,
-                constant: Metric.verticalSpacing
+                constant: 20.0
             ),
             questionLabel.leadingAnchor.constraint(
                 equalTo: leadingAnchor,
-                constant: Metric.horizontalSpacing
+                constant: 18.0
             ),
             questionLabel.trailingAnchor.constraint(
                 equalTo: trailingAnchor,
-                constant: -Metric.horizontalSpacing
+                constant: -18.0
             ),
 
             deleteButton.topAnchor.constraint(
                 equalTo: questionLabel.bottomAnchor,
-                constant: Metric.deleteButtonTopOffset
+                constant: 14.0
             ),
             deleteButton.leadingAnchor.constraint(
                 equalTo: leadingAnchor,
-                constant: Metric.horizontalSpacing
+                constant: 18.0
             ),
             deleteButton.trailingAnchor.constraint(
                 equalTo: trailingAnchor,
-                constant: -Metric.horizontalSpacing
+                constant: -18.0
             ),
             deleteButton.heightAnchor.constraint(
                 equalTo: deleteButton.widthAnchor,
-                multiplier: Metric.deleteButtonHeightRatio
+                multiplier: 0.117
             )
         ])
     }
