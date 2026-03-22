@@ -1,6 +1,5 @@
 import UIKit
 import DesignSystem
-import QRIZUtils
 import Combine
 
 final class DeleteAccountViewController: UIViewController {

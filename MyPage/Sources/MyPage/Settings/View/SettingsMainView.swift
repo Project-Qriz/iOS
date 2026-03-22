@@ -1,5 +1,4 @@
 import UIKit
-import QRIZUtils
 import Combine
 
 final class SettingsMainView: UIView {
