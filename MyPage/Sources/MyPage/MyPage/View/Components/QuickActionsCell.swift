@@ -5,6 +5,18 @@ import Combine
 
 final class QuickActionsCell: UICollectionViewCell {
 
+    // MARK: - Enums
+
+    private enum Metric {
+        static let horizontalSpacing: CGFloat = 8.0
+        static let buttonAspectRatio: CGFloat = 82.0 / 165.5
+    }
+
+    private enum Attributes {
+        static let resetPlanText: String = "플랜 초기화"
+        static let registerExamText: String = "시험 등록"
+    }
+
     // MARK: - Properties
 
     private let resetPlanTappedSubject = PassthroughSubject<Void, Never>()
@@ -22,7 +34,7 @@ final class QuickActionsCell: UICollectionViewCell {
     // MARK: - UI
 
     private lazy var resetPlanButton: UIButton = {
-        let button = buildButton(title: "플랜 초기화", image: .resetIcon)
+        let button = buildButton(title: Attributes.resetPlanText, image: .resetIcon)
         button.layer.cornerRadius = 16.0
         button.applyQRIZShadow(radius: 16.0, color: .coolNeutral300)
         button.addAction(UIAction { [weak self] _ in
@@ -32,7 +44,7 @@ final class QuickActionsCell: UICollectionViewCell {
     }()
 
     private lazy var registerExamButton: UIButton = {
-        let button = buildButton(title: "시험 등록", image: .examRegister)
+        let button = buildButton(title: Attributes.registerExamText, image: .examRegister)
         button.layer.cornerRadius = 16.0
         button.applyQRIZShadow(radius: 16.0, color: .coolNeutral300)
         button.addAction(UIAction { [weak self] _ in
@@ -104,18 +116,18 @@ extension QuickActionsCell {
             ),
             resetPlanButton.heightAnchor.constraint(
                 equalTo: resetPlanButton.widthAnchor,
-                multiplier: 82.0 / 165.5
+                multiplier: Metric.buttonAspectRatio
             ),
 
             registerExamButton.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
             registerExamButton.leadingAnchor.constraint(
                 equalTo: resetPlanButton.trailingAnchor,
-                constant: 8.0
+                constant: Metric.horizontalSpacing
             ),
             registerExamButton.trailingAnchor.constraint(equalTo: trailingAnchor),
             registerExamButton.heightAnchor.constraint(
                 equalTo: registerExamButton.widthAnchor,
-                multiplier: 82.0 / 165.5
+                multiplier: Metric.buttonAspectRatio
             ),
         ])
     }

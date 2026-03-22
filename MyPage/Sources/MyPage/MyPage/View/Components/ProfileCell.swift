@@ -4,6 +4,16 @@ import Combine
 
 final class ProfileCell: UICollectionViewCell {
 
+    // MARK: - Enums
+
+    private enum Metric {
+        static let spacing: CGFloat = 12.0
+    }
+
+    private enum Attributes {
+        static let chevron: String = "chevron.right"
+    }
+
     // MARK: - Properties
 
     private let tapSubject = PassthroughSubject<Void, Never>()
@@ -25,7 +35,7 @@ final class ProfileCell: UICollectionViewCell {
     private lazy var chevronButton: UIButton = {
         let button = UIButton()
         let config = UIImage.SymbolConfiguration(pointSize: 16, weight: .medium)
-        let image = UIImage(systemName: "chevron.right", withConfiguration: config)
+        let image = UIImage(systemName: Attributes.chevron, withConfiguration: config)
         button.setImage(image, for: .normal)
         button.tintColor = .coolNeutral800
         button.isUserInteractionEnabled = false
@@ -35,7 +45,7 @@ final class ProfileCell: UICollectionViewCell {
     private lazy var stackView: UIStackView = {
         let stackView = UIStackView(arrangedSubviews: [userNameLabel, chevronButton])
         stackView.axis = .horizontal
-        stackView.spacing = 12.0
+        stackView.spacing = Metric.spacing
         stackView.alignment = .center
         return stackView
     }()

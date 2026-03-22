@@ -3,6 +3,13 @@ import DesignSystem
 
 final class ProfileHeaderView: UIView {
 
+    // MARK: - Enums
+
+    private enum Metric {
+        static let spacing: CGFloat = 16.0
+        static let emailLabelTopOffset: CGFloat = 10.0
+    }
+
     // MARK: - Properties
 
     // MARK: - UI
@@ -64,12 +71,12 @@ extension ProfileHeaderView {
         emailLabel.translatesAutoresizingMaskIntoConstraints = false
 
         NSLayoutConstraint.activate([
-            nameLabel.topAnchor.constraint(equalTo: topAnchor, constant: 16.0),
-            nameLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16.0),
+            nameLabel.topAnchor.constraint(equalTo: topAnchor, constant: Metric.spacing),
+            nameLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Metric.spacing),
 
-            emailLabel.topAnchor.constraint(equalTo: nameLabel.bottomAnchor, constant: 10.0),
-            emailLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16.0),
-            emailLabel.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -16.0)
+            emailLabel.topAnchor.constraint(equalTo: nameLabel.bottomAnchor, constant: Metric.emailLabelTopOffset),
+            emailLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Metric.spacing),
+            emailLabel.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -Metric.spacing)
         ])
     }
 }

@@ -5,6 +5,17 @@ import Combine
 
 final class SettingsOptionView: UIView {
 
+    // MARK: - Enums
+
+    private enum Metric {
+        static let verticalSpacing: CGFloat = 21.0
+        static let horizontalSpacing: CGFloat = 18.0
+    }
+
+    private enum Attributes {
+        static let chevron: String = "chevron.right"
+    }
+
     // MARK: - Properties
 
     var cancellables = Set<AnyCancellable>()
@@ -21,7 +32,7 @@ final class SettingsOptionView: UIView {
     private let chevronButton: UIButton = {
         let button = UIButton()
         let config = UIImage.SymbolConfiguration(pointSize: 14, weight: .semibold)
-        let image = UIImage(systemName: "chevron.right", withConfiguration: config)
+        let image = UIImage(systemName: Attributes.chevron, withConfiguration: config)
         button.setImage(image, for: .normal)
         button.tintColor = .coolNeutral400
         return button
@@ -66,11 +77,11 @@ extension SettingsOptionView {
         chevronButton.translatesAutoresizingMaskIntoConstraints = false
 
         NSLayoutConstraint.activate([
-            titleLabel.topAnchor.constraint(equalTo: topAnchor, constant: 21.0),
-            titleLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 18.0),
-            titleLabel.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -21.0),
+            titleLabel.topAnchor.constraint(equalTo: topAnchor, constant: Metric.verticalSpacing),
+            titleLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Metric.horizontalSpacing),
+            titleLabel.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -Metric.verticalSpacing),
 
-            chevronButton.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -18.0),
+            chevronButton.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -Metric.horizontalSpacing),
             chevronButton.centerYAnchor.constraint(equalTo: titleLabel.centerYAnchor),
         ])
     }

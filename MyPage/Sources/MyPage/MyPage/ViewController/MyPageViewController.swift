@@ -5,6 +5,12 @@ import Combine
 
 final class MyPageViewController: UIViewController {
 
+    // MARK: - Enums
+
+    private enum Attributes {
+        static let navigationTitle: String = "마이페이지"
+    }
+
     // MARK: - Properties
 
     weak var coordinator: MyPageNavigating?
@@ -30,7 +36,7 @@ final class MyPageViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         bind()
-        setNavigationBarTitle(title: "마이페이지", textColor: .coolNeutral800)
+        setNavigationBarTitle(title: Attributes.navigationTitle, textColor: .coolNeutral800)
         inputSubject.send(.viewDidLoad)
     }
 
