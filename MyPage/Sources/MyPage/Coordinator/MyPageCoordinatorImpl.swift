@@ -48,6 +48,7 @@ final class MyPageCoordinatorImpl: MyPageNavigating, NavigationGuard {
             let viewModel = SettingsViewModel(
                 userName: userInfo.name,
                 email: userInfo.email,
+                provider: userInfo.provider,
                 myPageService: myPageService,
                 socialLoginService: socialLoginService
             )
@@ -119,6 +120,7 @@ final class MyPageCoordinatorImpl: MyPageNavigating, NavigationGuard {
     func showDeleteAccount() {
         guardNavigation {
             let viewModel = DeleteAccountViewModel(
+                provider: userInfo.provider,
                 myPageService: myPageService,
                 socialLoginService: socialLoginService
             )

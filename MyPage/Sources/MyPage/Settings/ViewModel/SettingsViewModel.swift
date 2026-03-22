@@ -16,6 +16,7 @@ final class SettingsViewModel {
 
     private let userName: String
     private let email: String
+    private let provider: String
     private let myPageService: MyPageService
     private let socialLoginService: SocialLoginService
     private let outputSubject = PassthroughSubject<Output, Never>()
@@ -27,11 +28,13 @@ final class SettingsViewModel {
     init(
         userName: String,
         email: String,
+        provider: String,
         myPageService: MyPageService,
         socialLoginService: SocialLoginService
     ) {
         self.userName = userName
         self.email = email
+        self.provider = provider
         self.myPageService = myPageService
         self.socialLoginService = socialLoginService
     }
@@ -70,7 +73,7 @@ final class SettingsViewModel {
     @MainActor
     private func performLogout() async {
         do {
-            let provider = SocialLogin(from: UserInfoManager.shared.provider)
+            let provider = SocialLogin(from: provider)
 
             switch provider {
             case .kakao: try await socialLoginService.logoutKakao()

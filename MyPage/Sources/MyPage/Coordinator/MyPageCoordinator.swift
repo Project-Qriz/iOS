@@ -19,10 +19,12 @@ public protocol MyPageCoordinatorDelegate: AnyObject {
 public struct MyPageUserInfo {
     public let name: String
     public let email: String
+    public let provider: String
 
-    public init(name: String, email: String) {
+    public init(name: String, email: String, provider: String) {
         self.name = name
         self.email = email
+        self.provider = provider
     }
 }
 

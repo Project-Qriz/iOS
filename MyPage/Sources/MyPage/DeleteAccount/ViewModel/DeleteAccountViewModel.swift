@@ -8,6 +8,7 @@ final class DeleteAccountViewModel {
 
     // MARK: - Properties
 
+    private let provider: String
     private let myPageService: MyPageService
     private let socialLoginService: SocialLoginService
     private let outputSubject = PassthroughSubject<Output, Never>()
@@ -17,9 +18,11 @@ final class DeleteAccountViewModel {
     // MARK: - Initialize
 
     init(
+        provider: String,
         myPageService: MyPageService,
         socialLoginService: SocialLoginService
     ) {
+        self.provider = provider
         self.myPageService = myPageService
         self.socialLoginService = socialLoginService
     }
@@ -48,7 +51,7 @@ final class DeleteAccountViewModel {
     @MainActor
     private func performDelete() async {
         do {
-            let provider = SocialLogin(from: UserInfoManager.shared.provider)
+            let provider = SocialLogin(from: provider)
             try await deleteByProvider(provider)
             outputSubject.send(.deletionSucceeded)
 
