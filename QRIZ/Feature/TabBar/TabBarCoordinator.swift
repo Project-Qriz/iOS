@@ -72,6 +72,10 @@ final class TabBarCoordinatorDependencyImpl: TabBarCoordinatorDependency {
     }
     
     private lazy var _myPageCoordinator = makeMyPageCoordinator(
+        userInfo: MyPageUserInfo(
+            name: UserInfoManager.shared.name,
+            email: UserInfoManager.shared.email
+        ),
         myPageService: myPageService,
         accountRecoveryService: accountRecoveryService,
         socialLoginService: socialLoginService
