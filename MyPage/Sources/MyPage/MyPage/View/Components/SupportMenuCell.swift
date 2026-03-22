@@ -84,6 +84,7 @@ final class SupportMenuCell: UICollectionViewCell {
 
     private enum Metric {
         static let horizontalSpacing: CGFloat = 24.0
+        static let verticalSpacing: CGFloat = 25.0
     }
 
     private enum Attributes {
@@ -166,9 +167,9 @@ extension SupportMenuCell {
         versionLabel.translatesAutoresizingMaskIntoConstraints = false
 
         NSLayoutConstraint.activate([
-            titleLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 25),
+            titleLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: Metric.verticalSpacing),
             titleLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: Metric.horizontalSpacing),
-            titleLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -25),
+            titleLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -Metric.verticalSpacing),
 
             chevronButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -Metric.horizontalSpacing),
             chevronButton.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),

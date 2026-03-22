@@ -27,7 +27,7 @@ final class MyPageViewModel {
     func transform(input: AnyPublisher<Input, Never>) -> AnyPublisher<Output, Never> {
         input
             .sink { [weak self] event in
-                guard let self = self else { return }
+                guard let self else { return }
                 switch event {
                 case .viewDidLoad:
                     self.fetchVersion()
@@ -45,16 +45,10 @@ final class MyPageViewModel {
                     self.outputSubject.send(.showExamSchedule)
 
                 case .didTapTermsOfService:
-                    self.outputSubject.send(.showTermsDetail(termItem: TermItem(
-                        title: "서비스 이용약관",
-                        pdfName: "TermsOfService",
-                        isAgreed: false)))
+                    outputSubject.send(.showTermsDetail(termItem: .termsOfService))
 
                 case .didTapPrivacyPolicy:
-                    self.outputSubject.send(.showTermsDetail(termItem:TermItem(
-                        title: "개인정보 처리방침",
-                        pdfName: "PrivacyPolicy",
-                        isAgreed: false)))
+                    outputSubject.send(.showTermsDetail(termItem: .privacyPolicy))
                 }
             }
             .store(in: &cancellables)
@@ -64,7 +58,7 @@ final class MyPageViewModel {
 
     private func fetchVersion() {
         Task { [weak self] in
-            guard let self = self else { return }
+            guard let self else { return }
             do {
                 let version = try await myPageService.fetchVersion()
                 outputSubject.send(.setupView(userName: userName, version: "\(version.data.versionInfo)"))
@@ -121,4 +115,19 @@ extension MyPageViewModel {
         case showExamSchedule
         case showTermsDetail(termItem: TermItem)
     }
+}
+
+// MARK: - TermItem Constants
+
+private extension TermItem {
+    static let termsOfService = TermItem(
+        title: "서비스 이용약관",
+        pdfName: "TermsOfService",
+        isAgreed: false
+    )
+    static let privacyPolicy = TermItem(
+        title: "개인정보 처리방침",
+        pdfName: "PrivacyPolicy",
+        isAgreed: false
+    )
 }
