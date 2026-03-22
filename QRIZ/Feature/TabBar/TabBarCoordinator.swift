@@ -12,6 +12,7 @@ import Network
 import Auth
 import Conceptbook
 import MistakeNote
+import MyPage
 
 @MainActor
 protocol TabBarCoordinator: Coordinator {
@@ -70,7 +71,7 @@ final class TabBarCoordinatorDependencyImpl: TabBarCoordinatorDependency {
         _mistakeNoteCoordinator
     }
     
-    private lazy var _myPageCoordinator = MyPageCoordinatorImpl(
+    private lazy var _myPageCoordinator = makeMyPageCoordinator(
         myPageService: myPageService,
         accountRecoveryService: accountRecoveryService,
         socialLoginService: socialLoginService
@@ -272,11 +273,11 @@ extension TabBarCoordinatorImpl: MistakeNoteCoordinatorDelegate {
 // MARK: - MyPageCoordinatorDelegate
 
 extension TabBarCoordinatorImpl: MyPageCoordinatorDelegate {
-    func myPageCoordinatorDidLogout(_ coordinator: MyPageCoordinator) {
+    func myPageCoordinatorDidLogout(_ coordinator: any MyPageCoordinator) {
         logout()
     }
 
-    func myPageCoordinatorDidRequestExamScheduleSelection(_ coordinator: MyPageCoordinator) {
+    func myPageCoordinatorDidRequestExamScheduleSelection(_ coordinator: any MyPageCoordinator) {
         let viewModel = ExamScheduleSelectionViewModel(examScheduleService: dependency.examScheduleService)
         viewModel.delegate = self
 
