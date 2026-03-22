@@ -38,4 +38,8 @@ public struct PreviewSubmitResponse: Decodable, Sendable {
     public let code: Int
     public let msg: String
     public let data: String?
+
+    public init(code: Int, msg: String, data: String?) {
+        self.code = code; self.msg = msg; self.data = data
+    }
 }

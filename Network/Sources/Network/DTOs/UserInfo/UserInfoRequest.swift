@@ -84,6 +84,10 @@ public struct UserInfoResponse: Decodable, Sendable {
     public let code: Int
     public let msg: String
     public let data: UserInfo
+
+    public init(code: Int, msg: String, data: UserInfo) {
+        self.code = code; self.msg = msg; self.data = data
+    }
 }
 
 public struct UserInfo: Decodable, Sendable {
@@ -92,4 +96,10 @@ public struct UserInfo: Decodable, Sendable {
     public let email: String
     public let previewTestStatus: PreviewTestStatus
     public let provider: String?
+
+    public init(name: String, userId: String, email: String,
+                previewTestStatus: PreviewTestStatus, provider: String?) {
+        self.name = name; self.userId = userId; self.email = email
+        self.previewTestStatus = previewTestStatus; self.provider = provider
+    }
 }

@@ -10,6 +10,7 @@ import QRIZUtils
 import Network
 import Auth
 import Account
+import Onboarding
 
 @MainActor
 protocol AppCoordinator: Coordinator {
@@ -21,7 +22,7 @@ protocol AppCoordinatorDependency {
     // Coordinators
     var loginCoordinator: LoginCoordinator { get }
     var tabBarCoordinator: TabBarCoordinator { get }
-    var onboardingCoordinator: OnboardingCoordinator { get }
+    var onboardingCoordinator: any OnboardingCoordinator { get }
     
     // Services
     var loginService: LoginService { get }
@@ -90,11 +91,13 @@ final class AppCoordinatorDependencyImpl: AppCoordinatorDependency {
         return TabBarCoordinatorImpl(dependency: tabBarDependency)
     }
     
-    var onboardingCoordinator: OnboardingCoordinator {
+    var onboardingCoordinator: any OnboardingCoordinator {
         let navi = UINavigationController()
-        return OnboardingCoordinatorImpl(navigationController: navi,
-                                         onboardingService: onboardingService,
-                                         userInfoService: userInfoService)
+        return makeOnboardingCoordinator(
+            navigationController: navi,
+            onboardingService: onboardingService,
+            userInfoService: userInfoService
+        )
     }
 }
 
@@ -157,8 +160,8 @@ final class AppCoordinatorImpl: AppCoordinator {
     }
     
     private func showOnboarding() -> UIViewController {
-        let onboardingCoordinator = dependency.onboardingCoordinator
-        (onboardingCoordinator as? OnboardingCoordinatorImpl)?.delegate = self
+        var onboardingCoordinator = dependency.onboardingCoordinator
+        onboardingCoordinator.delegate = self
         childCoordinators.append(onboardingCoordinator)
         
         let onboardingVC = onboardingCoordinator.start()

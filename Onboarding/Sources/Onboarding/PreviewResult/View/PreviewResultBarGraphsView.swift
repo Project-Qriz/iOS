@@ -1,0 +1,83 @@
+import SwiftUI
+import DesignSystem
+import QRIZUtils
+
+struct PreviewResultBarGraphsView: View {
+
+    // MARK: - Properties
+
+    @ObservedObject var previewConceptsData: PreviewConceptsData
+
+    // MARK: - Body
+
+    var body: some View {
+        VStack(spacing: 0) {
+            barGraphs
+            Divider()
+                .overlay(Color.customBlue200)
+        }
+        .padding([.leading, .trailing], 20)
+    }
+}
+
+// MARK: - Content
+
+private extension PreviewResultBarGraphsView {
+
+    var barGraphs: some View {
+        HStack(alignment: .bottom, spacing: 30) {
+            ForEach(previewConceptsData.incorrectCountDataArr.filter { $0.id <= 3 }) { data in
+                barItem(data: data)
+            }
+        }
+    }
+
+    func barItem(data: IncorrectCountData) -> some View {
+        VStack {
+            HStack(spacing: 0) {
+                Text(data.topic.first ?? "")
+                    .frame(width: 40)
+                Text(countText(for: data.topic.count))
+            }
+            .font(.system(size: 14, weight: .bold))
+            .lineLimit(1)
+            Rectangle()
+                .frame(width: 28, height: CGFloat(data.incorrectCount * 6))
+                .cornerRadius(8, corners: [.topLeft, .topRight])
+                .animation(.easeInOut(duration: 1), value: CGFloat(data.incorrectCount))
+        }
+        .frame(height: 100, alignment: .bottom)
+        .foregroundStyle(barColor(for: data.id))
+    }
+}
+
+// MARK: - Private Methods
+
+private extension PreviewResultBarGraphsView {
+
+    func barColor(for rank: Int) -> Color {
+        switch rank {
+        case 1: return Color.customBlue500
+        case 2: return Color.coolNeutral600
+        case 3: return Color.coolNeutral400
+        default: return .clear
+        }
+    }
+
+    func countText(for numOfConcepts: Int) -> String {
+        numOfConcepts == 1 ? "" : " + \(numOfConcepts)개"
+    }
+}
+
+#Preview {
+    PreviewResultBarGraphsView(previewConceptsData: PreviewConceptsData(
+        totalQuestions: 20,
+        incorrectCountDataArr: [
+            IncorrectCountData(id: 1, incorrectCount: 5, topic: ["DDL"]),
+            IncorrectCountData(id: 2, incorrectCount: 3, topic: ["조인"]),
+            IncorrectCountData(id: 3, incorrectCount: 1, topic: ["모델이 표현하는 트랜잭션의 이해"]),
+        ],
+        firstConcept: "",
+        secondConcept: ""
+    ))
+}
