@@ -35,8 +35,6 @@ final class QuickActionsCell: UICollectionViewCell {
 
     private lazy var resetPlanButton: UIButton = {
         let button = buildButton(title: Attributes.resetPlanText, image: .resetIcon)
-        button.layer.cornerRadius = 16.0
-        button.applyQRIZShadow(radius: 16.0, color: .coolNeutral300)
         button.addAction(UIAction { [weak self] _ in
             self?.resetPlanTappedSubject.send()
         }, for: .touchUpInside)
@@ -45,8 +43,6 @@ final class QuickActionsCell: UICollectionViewCell {
 
     private lazy var registerExamButton: UIButton = {
         let button = buildButton(title: Attributes.registerExamText, image: .examRegister)
-        button.layer.cornerRadius = 16.0
-        button.applyQRIZShadow(radius: 16.0, color: .coolNeutral300)
         button.addAction(UIAction { [weak self] _ in
             self?.registerExamTappedSubject.send()
         }, for: .touchUpInside)
@@ -126,8 +122,8 @@ extension QuickActionsCell {
         registerExamButton.translatesAutoresizingMaskIntoConstraints = false
 
         NSLayoutConstraint.activate([
-            resetPlanButton.centerYAnchor.constraint(equalTo: centerYAnchor),
-            resetPlanButton.leadingAnchor.constraint(equalTo: leadingAnchor),
+            resetPlanButton.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
+            resetPlanButton.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
             resetPlanButton.widthAnchor.constraint(
                 equalTo: registerExamButton.widthAnchor
             ),
@@ -141,7 +137,7 @@ extension QuickActionsCell {
                 equalTo: resetPlanButton.trailingAnchor,
                 constant: Metric.horizontalSpacing
             ),
-            registerExamButton.trailingAnchor.constraint(equalTo: trailingAnchor),
+            registerExamButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
             registerExamButton.heightAnchor.constraint(
                 equalTo: registerExamButton.widthAnchor,
                 multiplier: Metric.buttonAspectRatio
