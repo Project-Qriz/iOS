@@ -55,4 +55,6 @@ protocol MyPageNavigating: MyPageCoordinator {
     func showLogoutAlert(confirm: @escaping () -> Void)
     func showDeleteAccount()
     func showConfirmDeleteAlert(confirm: @escaping () -> Void)
+    func handleLogoutSucceeded()
+    func handleDeletionSucceeded()
 }

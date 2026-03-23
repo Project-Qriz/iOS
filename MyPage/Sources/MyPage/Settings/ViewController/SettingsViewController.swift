@@ -85,9 +85,7 @@ final class SettingsViewController: UIViewController {
                     coordinator?.showDeleteAccount()
 
                 case .logoutSucceeded:
-                    if let coord = coordinator {
-                        coord.delegate?.myPageCoordinatorDidLogout(coord)
-                    }
+                    coordinator?.handleLogoutSucceeded()
 
                 case .showErrorAlert(let message):
                     showOneButtonAlert(with: message, storingIn: &cancellables)

@@ -41,6 +41,12 @@ enum MyPageLayoutFactory {
         static let supportTopOffset: CGFloat = 32.0
         static let supportRowEstimated: CGFloat  = 54.0
         static let supportEstimated: CGFloat = 266.0
+
+        // CardBackgroundView 그림자/테두리 보정값
+        static let supportContentTopInset: CGFloat = supportTopOffset + 8
+        static let supportContentHorizontalInset: CGFloat = horizontalSpacing + 1
+        static let cardBackgroundTopInset: CGFloat = supportTopOffset + 6
+        static let cardBackgroundBottomInset: CGFloat = -horizontalSpacing
     }
 
     // MARK: - Functions
@@ -92,10 +98,10 @@ enum MyPageLayoutFactory {
         let group = NSCollectionLayoutGroup.vertical(layoutSize: groupSize, subitems: [item])
         let section = NSCollectionLayoutSection(group: group)
         section.contentInsets = NSDirectionalEdgeInsets(
-            top: Metric.supportTopOffset + 8,
-            leading: Metric.horizontalSpacing + 1,
+            top: Metric.supportContentTopInset,
+            leading: Metric.supportContentHorizontalInset,
             bottom: 0,
-            trailing: Metric.horizontalSpacing + 1
+            trailing: Metric.supportContentHorizontalInset
         )
 
         let background = NSCollectionLayoutDecorationItem.background(
@@ -103,9 +109,9 @@ enum MyPageLayoutFactory {
         )
 
         background.contentInsets = NSDirectionalEdgeInsets(
-            top: Metric.supportTopOffset + 6,
+            top: Metric.cardBackgroundTopInset,
             leading: Metric.horizontalSpacing,
-            bottom: -Metric.horizontalSpacing,
+            bottom: Metric.cardBackgroundBottomInset,
             trailing: Metric.horizontalSpacing
         )
 

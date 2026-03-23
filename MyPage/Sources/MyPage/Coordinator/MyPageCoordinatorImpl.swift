@@ -130,6 +130,14 @@ final class MyPageCoordinatorImpl: MyPageNavigating, NavigationGuard {
         }
     }
 
+    func handleLogoutSucceeded() {
+        delegate?.myPageCoordinatorDidLogout(self)
+    }
+
+    func handleDeletionSucceeded() {
+        delegate?.myPageCoordinatorDidLogout(self)
+    }
+
     func showConfirmDeleteAlert(confirm: @escaping () -> Void) {
         let alert = TwoButtonCustomAlertViewController(
             title: "회원탈퇴",

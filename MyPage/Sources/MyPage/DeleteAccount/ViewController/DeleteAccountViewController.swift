@@ -66,8 +66,7 @@ final class DeleteAccountViewController: UIViewController {
                     }
 
                 case .deletionSucceeded:
-                    guard let coord = self.coordinator else { return }
-                    coord.delegate?.myPageCoordinatorDidLogout(coord)
+                    coordinator?.handleDeletionSucceeded()
 
                 case .showErrorAlert(let message):
                     self.showOneButtonAlert(with: message, storingIn: &self.cancellables)

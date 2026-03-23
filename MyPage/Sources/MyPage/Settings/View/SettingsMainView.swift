@@ -7,6 +7,7 @@ final class SettingsMainView: UIView {
 
     private enum Metric {
         static let headerViewTopOffset: CGFloat = 24.0
+        static let optionsTopSpacing: CGFloat = 24.0
         static let horizontalSpacing: CGFloat = 18.0
     }
 
@@ -93,7 +94,7 @@ extension SettingsMainView {
 
             optionsVStackView.topAnchor.constraint(
                 equalTo: profileHeaderView.bottomAnchor,
-                constant: Metric.headerViewTopOffset
+                constant: Metric.optionsTopSpacing
             ),
             optionsVStackView.leadingAnchor.constraint(
                 equalTo: leadingAnchor,

@@ -68,16 +68,13 @@ final class QuickActionsCell: UICollectionViewCell {
         backgroundColor = .customBlue50
     }
 
-    func onResetPlanTapped(_ action: @escaping () -> Void) {
-        resetPlanTappedPublisher
-            .sink { action() }
-            .store(in: &cancellables)
-    }
-
-    func onRegisterExamTapped(_ action: @escaping () -> Void) {
-        registerExamTappedPublisher
-            .sink { action() }
-            .store(in: &cancellables)
+    func configureActions(
+        onResetPlan: @escaping () -> Void,
+        onRegisterExam: @escaping () -> Void
+    ) {
+        cancellables.removeAll()
+        resetPlanTappedPublisher.sink { onResetPlan() }.store(in: &cancellables)
+        registerExamTappedPublisher.sink { onRegisterExam() }.store(in: &cancellables)
     }
 
     override func prepareForReuse() {

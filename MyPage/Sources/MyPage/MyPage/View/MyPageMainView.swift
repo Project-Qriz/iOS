@@ -42,12 +42,10 @@ final class MyPageMainView: UIView {
     }
 
     private lazy var quickActionRegistration = QuickActionsRegistration { [weak self] cell, _, _ in
-        cell.onResetPlanTapped { [weak self] in
-            self?.resetPlanTappedSubject.send()
-        }
-        cell.onRegisterExamTapped { [weak self] in
-            self?.registerExamTappedSubject.send()
-        }
+        cell.configureActions(
+            onResetPlan: { [weak self] in self?.resetPlanTappedSubject.send() },
+            onRegisterExam: { [weak self] in self?.registerExamTappedSubject.send() }
+        )
     }
 
     private let supportHeaderRegistration = SupportHeaderRegistration { _, _, _ in
