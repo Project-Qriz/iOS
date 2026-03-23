@@ -67,9 +67,9 @@ final class SettingsViewModel {
 
     private func performLogout() async {
         do {
-            let provider = SocialLogin(from: provider)
+            let loginType = SocialLogin(from: provider)
 
-            switch provider {
+            switch loginType {
             case .kakao: try await socialLoginService.logoutKakao()
             case .google: try await socialLoginService.logoutGoogle()
             case .apple: try await socialLoginService.logoutApple()

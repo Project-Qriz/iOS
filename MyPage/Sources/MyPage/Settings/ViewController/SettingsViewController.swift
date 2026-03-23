@@ -74,24 +74,23 @@ final class SettingsViewController: UIViewController {
                 rootView.configureProfile(name: userName, email: email)
 
             case .navigateToResetPassword:
-                self.coordinator?.showFindPassword()
+                coordinator?.showFindPassword()
 
             case .showLogoutAlert:
-                guard let coord = self.coordinator else { return }
-                coord.showLogoutAlert(confirm: { [weak self] in
+                coordinator?.showLogoutAlert(confirm: { [weak self] in
                     self?.inputSubject.send(.didConfirmLogout)
                 })
 
             case .navigateToDeleteAccount:
-                self.coordinator?.showDeleteAccount()
+                coordinator?.showDeleteAccount()
 
             case .logoutSucceeded:
-                if let coord = self.coordinator {
+                if let coord = coordinator {
                     coord.delegate?.myPageCoordinatorDidLogout(coord)
                 }
 
             case .showErrorAlert(let message):
-                self.showOneButtonAlert(with: message, storingIn: &self.cancellables)
+                showOneButtonAlert(with: message, storingIn: &cancellables)
             }
         }.store(in: &cancellables)
     }
