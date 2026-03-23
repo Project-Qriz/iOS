@@ -54,8 +54,8 @@ final class SettingsViewModel {
                     outputSubject.send(.navigateToDeleteAccount)
 
                 case .didConfirmLogout:
-                    Task { [weak self] in
-                        await self?.performLogout()
+                    Task {
+                        await self.performLogout()
                     }
 
                 }

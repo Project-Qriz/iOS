@@ -39,8 +39,8 @@ final class DeleteAccountViewModel {
                     outputSubject.send(.showConfirmAlert)
 
                 case .didConfirmDelete:
-                    Task { [weak self] in
-                        await self?.performDelete()
+                    Task {
+                        await self.performDelete()
                     }
                 }
             }

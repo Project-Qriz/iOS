@@ -54,6 +54,7 @@ final class SettingsOptionView: UIView {
     // MARK: - Functions
 
     func onTap(_ action: @escaping () -> Void) {
+        cancellables.removeAll()
         tapGestureEndedPublisher()
             .sink { _ in action() }
             .store(in: &cancellables)

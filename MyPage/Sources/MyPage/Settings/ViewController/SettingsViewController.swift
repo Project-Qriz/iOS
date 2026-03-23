@@ -67,31 +67,31 @@ final class SettingsViewController: UIViewController {
         output
             .receive(on: DispatchQueue.main)
             .sink { [weak self] output in
-            guard let self else { return }
+                guard let self else { return }
 
-            switch output {
-            case .setupProfile(let userName, let email):
-                rootView.configureProfile(name: userName, email: email)
+                switch output {
+                case .setupProfile(let userName, let email):
+                    rootView.configureProfile(name: userName, email: email)
 
-            case .navigateToResetPassword:
-                coordinator?.showFindPassword()
+                case .navigateToResetPassword:
+                    coordinator?.showFindPassword()
 
-            case .showLogoutAlert:
-                coordinator?.showLogoutAlert(confirm: { [weak self] in
-                    self?.inputSubject.send(.didConfirmLogout)
-                })
+                case .showLogoutAlert:
+                    coordinator?.showLogoutAlert(confirm: { [weak self] in
+                        self?.inputSubject.send(.didConfirmLogout)
+                    })
 
-            case .navigateToDeleteAccount:
-                coordinator?.showDeleteAccount()
+                case .navigateToDeleteAccount:
+                    coordinator?.showDeleteAccount()
 
-            case .logoutSucceeded:
-                if let coord = coordinator {
-                    coord.delegate?.myPageCoordinatorDidLogout(coord)
+                case .logoutSucceeded:
+                    if let coord = coordinator {
+                        coord.delegate?.myPageCoordinatorDidLogout(coord)
+                    }
+
+                case .showErrorAlert(let message):
+                    showOneButtonAlert(with: message, storingIn: &cancellables)
                 }
-
-            case .showErrorAlert(let message):
-                showOneButtonAlert(with: message, storingIn: &cancellables)
-            }
-        }.store(in: &cancellables)
+            }.store(in: &cancellables)
     }
 }
