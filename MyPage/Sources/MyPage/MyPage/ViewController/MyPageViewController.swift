@@ -95,7 +95,7 @@ final class MyPageViewController: UIViewController {
                     self.showOneButtonAlert(with: title, for: description, storingIn: &cancellables)
 
                 case .showExamSchedule:
-                    self.coordinator?.showExamSelectionSheet()
+                    self.coordinator?.requestExamScheduleSelection()
 
                 case .showTermsDetail(let termItem):
                     self.coordinator?.showTermsDetail(for: termItem)

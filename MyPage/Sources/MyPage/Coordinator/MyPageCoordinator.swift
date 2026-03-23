@@ -50,7 +50,7 @@ protocol MyPageNavigating: MyPageCoordinator {
     func showSettingsView()
     func showFindPassword()
     func showResetAlert(confirm: @escaping () -> Void)
-    func showExamSelectionSheet()
+    func requestExamScheduleSelection()
     func showTermsDetail(for term: TermItem)
     func showLogoutAlert(confirm: @escaping () -> Void)
     func showDeleteAccount()

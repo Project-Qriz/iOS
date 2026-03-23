@@ -7,28 +7,34 @@ import Account
 @MainActor
 final class MyPageCoordinatorImpl: MyPageNavigating, NavigationGuard {
 
+    // MARK: - Properties
+
     private let userInfo: MyPageUserInfo
     private weak var navigationController: UINavigationController?
     weak var delegate: MyPageCoordinatorDelegate?
-    private let myPageService: MyPageService
-    private let accountRecoveryService: AccountRecoveryService
-    private let socialLoginService: SocialLoginService
+    private let myPageService: any MyPageService
+    private let accountRecoveryService: any AccountRecoveryService
+    private let socialLoginService: any SocialLoginService
     var childCoordinators: [Coordinator] = []
 
     // NavigationGuard
     var isNavigating: Bool = false
 
+    // MARK: - Initialize
+
     init(
         userInfo: MyPageUserInfo,
-        myPageService: MyPageService,
-        accountRecoveryService: AccountRecoveryService,
-        socialLoginService: SocialLoginService
+        myPageService: any MyPageService,
+        accountRecoveryService: any AccountRecoveryService,
+        socialLoginService: any SocialLoginService
     ) {
         self.userInfo = userInfo
         self.myPageService = myPageService
         self.accountRecoveryService = accountRecoveryService
         self.socialLoginService = socialLoginService
     }
+
+    // MARK: - Start
 
     func start() -> UIViewController {
         let viewModel = MyPageViewModel(
@@ -59,8 +65,8 @@ final class MyPageCoordinatorImpl: MyPageNavigating, NavigationGuard {
     }
 
     func showFindPassword() {
-        guard let navi = navigationController else { return }
         guardNavigation {
+            guard let navi = self.navigationController else { return }
             let recoveryCoordinator = AccountRecoveryCoordinatorImpl(
                 navigationController: navi,
                 accountRecoveryService: accountRecoveryService
@@ -70,6 +76,37 @@ final class MyPageCoordinatorImpl: MyPageNavigating, NavigationGuard {
             _ = recoveryCoordinator.start()
         }
     }
+
+    func requestExamScheduleSelection() {
+        guardNavigation {
+            self.delegate?.myPageCoordinatorDidRequestExamScheduleSelection(self)
+        }
+    }
+
+    func showTermsDetail(for term: TermItem) {
+        guardNavigation {
+            let viewModel = TermsDetailViewModel(termItem: term)
+            let vc = TermsDetailViewController(viewModel: viewModel)
+            vc.modalPresentationStyle = .fullScreen
+            vc.dismissDelegate = self
+            navigationController?.present(vc, animated: true)
+        }
+    }
+
+    func showDeleteAccount() {
+        guardNavigation {
+            let viewModel = DeleteAccountViewModel(
+                provider: userInfo.provider,
+                myPageService: myPageService,
+                socialLoginService: socialLoginService
+            )
+            let vc = DeleteAccountViewController(viewModel: viewModel)
+            vc.coordinator = self
+            navigationController?.pushViewController(vc, animated: true)
+        }
+    }
+
+    // MARK: - Alerts
 
     func showResetAlert(confirm: @escaping () -> Void) {
         let alert = TwoButtonCustomAlertViewController(
@@ -86,22 +123,6 @@ final class MyPageCoordinatorImpl: MyPageNavigating, NavigationGuard {
         navigationController?.present(alert, animated: true)
     }
 
-    func showExamSelectionSheet() {
-        guardNavigation {
-            self.delegate?.myPageCoordinatorDidRequestExamScheduleSelection(self)
-        }
-    }
-
-    func showTermsDetail(for term: TermItem) {
-        guardNavigation {
-            let viewModel = TermsDetailViewModel(termItem: term)
-            let vc = TermsDetailViewController(viewModel: viewModel)
-            vc.modalPresentationStyle = .fullScreen
-            vc.dismissDelegate = self
-            navigationController?.present(vc, animated: true)
-        }
-    }
-
     func showLogoutAlert(confirm: @escaping () -> Void) {
         let alert = TwoButtonCustomAlertViewController(
             title: "로그아웃",
@@ -115,27 +136,6 @@ final class MyPageCoordinatorImpl: MyPageNavigating, NavigationGuard {
             }
         )
         navigationController?.present(alert, animated: true)
-    }
-
-    func showDeleteAccount() {
-        guardNavigation {
-            let viewModel = DeleteAccountViewModel(
-                provider: userInfo.provider,
-                myPageService: myPageService,
-                socialLoginService: socialLoginService
-            )
-            let vc = DeleteAccountViewController(viewModel: viewModel)
-            vc.coordinator = self
-            navigationController?.pushViewController(vc, animated: true)
-        }
-    }
-
-    func handleLogoutSucceeded() {
-        delegate?.myPageCoordinatorDidLogout(self)
-    }
-
-    func handleDeletionSucceeded() {
-        delegate?.myPageCoordinatorDidLogout(self)
     }
 
     func showConfirmDeleteAlert(confirm: @escaping () -> Void) {
@@ -154,6 +154,16 @@ final class MyPageCoordinatorImpl: MyPageNavigating, NavigationGuard {
             }
         )
         navigationController?.present(alert, animated: true)
+    }
+
+    // MARK: - Session
+
+    func handleLogoutSucceeded() {
+        delegate?.myPageCoordinatorDidLogout(self)
+    }
+
+    func handleDeletionSucceeded() {
+        delegate?.myPageCoordinatorDidLogout(self)
     }
 }
 
