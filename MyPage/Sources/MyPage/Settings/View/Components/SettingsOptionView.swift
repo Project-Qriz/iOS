@@ -17,7 +17,7 @@ final class SettingsOptionView: UIView {
 
     // MARK: - Properties
 
-    var cancellables = Set<AnyCancellable>()
+    private var cancellables = Set<AnyCancellable>()
 
     // MARK: - UI
 
@@ -52,6 +52,12 @@ final class SettingsOptionView: UIView {
     }
 
     // MARK: - Functions
+
+    func onTap(_ action: @escaping () -> Void) {
+        tapGestureEndedPublisher()
+            .sink { _ in action() }
+            .store(in: &cancellables)
+    }
 
     private func setupUI() {
         backgroundColor = .white

@@ -55,11 +55,9 @@ final class SettingsMainView: UIView {
     private func makeOptionViews() -> [SettingsOptionView] {
         return SettingsOption.allCases.map { type in
             let view = SettingsOptionView(title: type.rawValue)
-            view.tapGestureEndedPublisher()
-                .sink { [weak self] _ in
-                    self?.optionTapSubject.send(type)
-                }
-                .store(in: &view.cancellables)
+            view.onTap { [weak self] in
+                self?.optionTapSubject.send(type)
+            }
             return view
         }
     }
