@@ -18,7 +18,7 @@ final class DeleteAccountViewController: UIViewController {
     private let inputSubject = PassthroughSubject<DeleteAccountViewModel.Input, Never>()
     private var cancellables = Set<AnyCancellable>()
 
-    // MARK: - Initialize
+    // MARK: - Initialization
 
     init(viewModel: DeleteAccountViewModel) {
         self.rootView = DeleteAccountMainView()
@@ -31,7 +31,7 @@ final class DeleteAccountViewController: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
 
-    // MARK: - LifeCycle
+    // MARK: - Lifecycle
 
     override func loadView() {
         self.view = rootView
@@ -43,7 +43,7 @@ final class DeleteAccountViewController: UIViewController {
         setNavigationBarTitle(title: Attributes.navigationTitle, textColor: .coolNeutral800)
     }
 
-    // MARK: - Functions
+    // MARK: - Methods
 
     private func bind() {
         let didTapDeleteButton  = rootView.deleteTapPublisher

@@ -37,7 +37,7 @@ final class SettingsOptionView: UIView {
         return button
     }()
 
-    // MARK: - Initialize
+    // MARK: - Initialization
 
     init(title: String) {
         super.init(frame: .zero)
@@ -51,7 +51,7 @@ final class SettingsOptionView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
 
-    // MARK: - Functions
+    // MARK: - Methods
 
     func onTap(_ action: @escaping () -> Void) {
         cancellables.removeAll()

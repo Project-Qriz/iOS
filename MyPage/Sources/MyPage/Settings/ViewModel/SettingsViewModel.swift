@@ -18,7 +18,7 @@ final class SettingsViewModel {
     private let logger = Logger.make(category: "SettingsViewModel")
     private var cancellables = Set<AnyCancellable>()
 
-    // MARK: - Initialize
+    // MARK: - Initialization
 
     init(
         userName: String,
@@ -34,7 +34,7 @@ final class SettingsViewModel {
         self.socialLoginService = socialLoginService
     }
 
-    // MARK: - Functions
+    // MARK: - Methods
 
     func transform(input: AnyPublisher<Input, Never>) -> AnyPublisher<Output, Never> {
         input

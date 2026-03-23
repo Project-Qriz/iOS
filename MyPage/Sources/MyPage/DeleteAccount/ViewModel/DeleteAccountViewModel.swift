@@ -16,7 +16,7 @@ final class DeleteAccountViewModel {
     private var cancellables = Set<AnyCancellable>()
     private let logger = Logger.make(category: "DeleteAccountViewModel")
 
-    // MARK: - Initialize
+    // MARK: - Initialization
 
     init(
         provider: String,
@@ -28,7 +28,7 @@ final class DeleteAccountViewModel {
         self.socialLoginService = socialLoginService
     }
 
-    // MARK: - Functions
+    // MARK: - Methods
 
     func transform(input: AnyPublisher<Input, Never>) -> AnyPublisher<Output, Never> {
         input

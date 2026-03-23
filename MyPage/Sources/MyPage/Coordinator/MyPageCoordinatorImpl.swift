@@ -20,7 +20,7 @@ final class MyPageCoordinatorImpl: MyPageNavigating, NavigationGuard {
     // NavigationGuard
     var isNavigating: Bool = false
 
-    // MARK: - Initialize
+    // MARK: - Initialization
 
     init(
         userInfo: MyPageUserInfo,

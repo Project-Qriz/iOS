@@ -40,7 +40,7 @@ final class SupportMenuCell: UICollectionViewCell {
         return label
     }()
 
-    // MARK: Initialize
+    // MARK: - Initialization
 
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -53,7 +53,7 @@ final class SupportMenuCell: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
 
-    // MARK: Functions
+    // MARK: - Methods
 
     private func setupUI() {
         backgroundColor = .white

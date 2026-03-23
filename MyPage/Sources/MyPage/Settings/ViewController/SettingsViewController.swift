@@ -18,7 +18,7 @@ final class SettingsViewController: UIViewController {
     private let inputSubject = PassthroughSubject<SettingsViewModel.Input, Never>()
     private var cancellables = Set<AnyCancellable>()
 
-    // MARK: - Initialize
+    // MARK: - Initialization
 
     init(viewModel: SettingsViewModel) {
         self.rootView = SettingsMainView()
@@ -31,7 +31,7 @@ final class SettingsViewController: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
 
-    // MARK: - LifeCycle
+    // MARK: - Lifecycle
 
     override func loadView() {
         self.view = rootView
@@ -44,7 +44,7 @@ final class SettingsViewController: UIViewController {
         inputSubject.send(.viewDidLoad)
     }
 
-    // MARK: - Functions
+    // MARK: - Methods
 
     private func bind() {
         let viewDidLoad = inputSubject

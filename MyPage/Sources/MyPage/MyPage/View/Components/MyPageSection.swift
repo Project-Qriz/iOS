@@ -49,7 +49,7 @@ enum MyPageLayoutFactory {
         static let cardBackgroundBottomInset: CGFloat = -horizontalSpacing
     }
 
-    // MARK: - Functions
+    // MARK: - Methods
 
     static func profile() -> NSCollectionLayoutSection {
         let itemSize = NSCollectionLayoutSize(

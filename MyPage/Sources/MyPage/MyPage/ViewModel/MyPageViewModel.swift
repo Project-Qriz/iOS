@@ -16,14 +16,14 @@ final class MyPageViewModel {
     private var cancellables = Set<AnyCancellable>()
     private let logger = Logger.make(category: "MyPageViewModel")
 
-    // MARK: - Initialize
+    // MARK: - Initialization
 
     init(userName: String, myPageService: MyPageService) {
         self.userName = userName
         self.myPageService = myPageService
     }
 
-    // MARK: - Functions
+    // MARK: - Methods
 
     func transform(input: AnyPublisher<Input, Never>) -> AnyPublisher<Output, Never> {
         input
