@@ -34,33 +34,21 @@ final class MyPageMainView: UIView {
 
     // MARK: - UI
 
-    private lazy var profileRegistration = ProfileRegistration { cell, _, userName in
+    private lazy var profileRegistration = ProfileRegistration { [weak self] cell, _, userName in
         cell.configure(with: userName)
-
-        cell.tapPublisher
-            .sink { [weak self] in
-                self?.profileTapSubject.send()
-            }
-            .store(in: &cell.cancellables)
+        cell.onTap { [weak self] in
+            self?.profileTapSubject.send()
+        }
     }
 
-    private lazy var quickActionRegistration: QuickActionsRegistration = {
-        return QuickActionsRegistration { [weak self] cell, _, _ in
-            guard let self else { return }
-
-            cell.resetPlanTappedPublisher
-                .sink { [weak self] in
-                    self?.resetPlanTappedSubject.send()
-                }
-                .store(in: &cell.cancellables)
-
-            cell.registerExamTappedPublisher
-                .sink { [weak self] in
-                    self?.registerExamTappedSubject.send()
-                }
-                .store(in: &cell.cancellables)
+    private lazy var quickActionRegistration = QuickActionsRegistration { [weak self] cell, _, _ in
+        cell.onResetPlanTapped { [weak self] in
+            self?.resetPlanTappedSubject.send()
         }
-    }()
+        cell.onRegisterExamTapped { [weak self] in
+            self?.registerExamTappedSubject.send()
+        }
+    }
 
     private let supportHeaderRegistration = SupportHeaderRegistration { _, _, _ in
     }

@@ -21,7 +21,7 @@ final class QuickActionsCell: UICollectionViewCell {
 
     private let resetPlanTappedSubject = PassthroughSubject<Void, Never>()
     private let registerExamTappedSubject = PassthroughSubject<Void, Never>()
-    var cancellables = Set<AnyCancellable>()
+    private var cancellables = Set<AnyCancellable>()
 
     var resetPlanTappedPublisher: AnyPublisher<Void, Never> {
         resetPlanTappedSubject.eraseToAnyPublisher()
@@ -70,6 +70,23 @@ final class QuickActionsCell: UICollectionViewCell {
 
     private func setupUI() {
         backgroundColor = .customBlue50
+    }
+
+    func onResetPlanTapped(_ action: @escaping () -> Void) {
+        resetPlanTappedPublisher
+            .sink { action() }
+            .store(in: &cancellables)
+    }
+
+    func onRegisterExamTapped(_ action: @escaping () -> Void) {
+        registerExamTappedPublisher
+            .sink { action() }
+            .store(in: &cancellables)
+    }
+
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        cancellables.removeAll()
     }
 
     private func buildButton(title: String, image: UIImage?) -> UIButton {

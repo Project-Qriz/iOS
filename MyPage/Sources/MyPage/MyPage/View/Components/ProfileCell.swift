@@ -17,7 +17,7 @@ final class ProfileCell: UICollectionViewCell {
     // MARK: - Properties
 
     private let tapSubject = PassthroughSubject<Void, Never>()
-    var cancellables = Set<AnyCancellable>()
+    private var cancellables = Set<AnyCancellable>()
 
     var tapPublisher: AnyPublisher<Void, Never> {
         tapSubject.eraseToAnyPublisher()
@@ -72,6 +72,18 @@ final class ProfileCell: UICollectionViewCell {
 
     func configure(with userName: String) {
         userNameLabel.text = userName
+    }
+
+    func onTap(_ action: @escaping () -> Void) {
+        cancellables.removeAll()
+        tapPublisher
+            .sink { action() }
+            .store(in: &cancellables)
+    }
+
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        cancellables.removeAll()
     }
 
     private func addTapGesture() {
