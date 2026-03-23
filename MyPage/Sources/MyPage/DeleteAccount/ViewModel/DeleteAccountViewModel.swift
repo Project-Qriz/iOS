@@ -51,8 +51,8 @@ final class DeleteAccountViewModel {
 
     private func performDelete() async {
         do {
-            let provider = SocialLogin(from: provider)
-            try await deleteByProvider(provider)
+            let loginType = SocialLogin(from: provider)
+            try await deleteByProvider(loginType)
             outputSubject.send(.deletionSucceeded)
 
         } catch let error as NetworkError {

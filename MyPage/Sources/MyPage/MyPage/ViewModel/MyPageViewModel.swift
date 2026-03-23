@@ -58,8 +58,7 @@ final class MyPageViewModel {
     }
 
     private func fetchVersion() {
-        Task { [weak self] in
-            guard let self else { return }
+        Task {
             do {
                 let version = try await myPageService.fetchVersion()
                 outputSubject.send(.setupView(userName: userName, version: "\(version.data.versionInfo)"))

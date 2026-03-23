@@ -84,7 +84,9 @@ final class MyPageViewController: UIViewController {
                     self.coordinator?.showSettingsView()
 
                 case .showResetAlert:
-                    self.coordinator?.showResetAlert { self.inputSubject.send(.didConfirmResetPlan) }
+                    self.coordinator?.showResetAlert { [weak self] in
+                        self?.inputSubject.send(.didConfirmResetPlan)
+                    }
 
                 case .resetSucceeded(let message):
                     self.showOneButtonAlert(with: message, storingIn: &cancellables)

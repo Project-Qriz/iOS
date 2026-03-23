@@ -61,8 +61,8 @@ final class DeleteAccountViewController: UIViewController {
                 guard let self else { return }
                 switch output {
                 case .showConfirmAlert:
-                    self.coordinator?.showConfirmDeleteAlert {
-                        self.inputSubject.send(.didConfirmDelete)
+                    self.coordinator?.showConfirmDeleteAlert { [weak self] in
+                        self?.inputSubject.send(.didConfirmDelete)
                     }
 
                 case .deletionSucceeded:
