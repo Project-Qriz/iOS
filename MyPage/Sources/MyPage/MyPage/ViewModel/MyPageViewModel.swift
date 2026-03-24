@@ -11,14 +11,14 @@ final class MyPageViewModel {
     // MARK: - Properties
 
     private let userName: String
-    private let myPageService: MyPageService
+    private let myPageService: any MyPageService
     private let outputSubject = PassthroughSubject<Output, Never>()
     private var cancellables = Set<AnyCancellable>()
     private let logger = Logger.make(category: "MyPageViewModel")
 
     // MARK: - Initialization
 
-    init(userName: String, myPageService: MyPageService) {
+    init(userName: String, myPageService: any MyPageService) {
         self.userName = userName
         self.myPageService = myPageService
     }

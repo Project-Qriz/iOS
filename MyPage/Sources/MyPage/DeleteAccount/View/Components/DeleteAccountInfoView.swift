@@ -40,7 +40,7 @@ final class DeleteAccountInfoView: UIView {
 
     override init(frame: CGRect) {
         super.init(frame: frame)
-        setupStyle()
+        setupUI()
         addSubviews()
         setupConstraints()
     }
@@ -51,7 +51,7 @@ final class DeleteAccountInfoView: UIView {
 
     // MARK: - Methods
 
-    private func setupStyle() {
+    private func setupUI() {
         backgroundColor = .white
         layer.borderWidth = 1.0
         layer.borderColor = UIColor.coolNeutral100.cgColor

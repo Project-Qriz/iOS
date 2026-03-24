@@ -12,7 +12,7 @@ final class DeleteAccountMainView: UIView {
         static let horizontalSpacing: CGFloat = 18.0
         static let contentSpacing: CGFloat = 20.0
         static let buttonTopOffset: CGFloat = 14.0
-        static let buttonHeightMultiplier: CGFloat = 0.117
+        static let buttonHeightMultiplier: CGFloat = 0.117 // 54pt / 462pt (기준 너비 대비 버튼 높이 비율)
     }
 
     // MARK: - Properties

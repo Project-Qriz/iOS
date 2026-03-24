@@ -165,6 +165,7 @@ extension MyPageMainView {
 
 extension MyPageMainView: UICollectionViewDelegate {
     func collectionView(_ cv: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        cv.deselectItem(at: indexPath, animated: true)
         if let item = dataSource.itemIdentifier(for: indexPath) {
             selectionSubject.send(item)
         }

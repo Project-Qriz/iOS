@@ -12,8 +12,8 @@ final class SettingsViewModel {
     private let userName: String
     private let email: String
     private let provider: String
-    private let myPageService: MyPageService
-    private let socialLoginService: SocialLoginService
+    private let myPageService: any MyPageService
+    private let socialLoginService: any SocialLoginService
     private let outputSubject = PassthroughSubject<Output, Never>()
     private let logger = Logger.make(category: "SettingsViewModel")
     private var cancellables = Set<AnyCancellable>()
@@ -24,8 +24,8 @@ final class SettingsViewModel {
         userName: String,
         email: String,
         provider: String,
-        myPageService: MyPageService,
-        socialLoginService: SocialLoginService
+        myPageService: any MyPageService,
+        socialLoginService: any SocialLoginService
     ) {
         self.userName = userName
         self.email = email

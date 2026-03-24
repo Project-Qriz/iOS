@@ -10,8 +10,8 @@ final class DeleteAccountViewModel {
     // MARK: - Properties
 
     private let provider: String
-    private let myPageService: MyPageService
-    private let socialLoginService: SocialLoginService
+    private let myPageService: any MyPageService
+    private let socialLoginService: any SocialLoginService
     private let outputSubject = PassthroughSubject<Output, Never>()
     private var cancellables = Set<AnyCancellable>()
     private let logger = Logger.make(category: "DeleteAccountViewModel")
@@ -20,8 +20,8 @@ final class DeleteAccountViewModel {
 
     init(
         provider: String,
-        myPageService: MyPageService,
-        socialLoginService: SocialLoginService
+        myPageService: any MyPageService,
+        socialLoginService: any SocialLoginService
     ) {
         self.provider = provider
         self.myPageService = myPageService
