@@ -220,4 +220,87 @@ struct MyPageViewModelTests {
         #expect(termItem.title == "개인정보 처리방침")
         #expect(termItem.pdfName == "PrivacyPolicy")
     }
+
+    // MARK: - didConfirmResetPlan
+
+    @Test("didConfirmResetPlan → resetPlan 성공 → resetSucceeded emit")
+    func didConfirmResetPlan_resetPlanSuccess_emitsResetSucceeded() async throws {
+        let sut = makeSUT()
+        let inputSubject = PassthroughSubject<MyPageViewModel.Input, Never>()
+        var received: [MyPageViewModel.Output] = []
+        var cancellables = Set<AnyCancellable>()
+
+        sut.transform(input: inputSubject.eraseToAnyPublisher())
+            .sink { received.append($0) }
+            .store(in: &cancellables)
+
+        inputSubject.send(.didConfirmResetPlan)
+        try await Task.sleep(nanoseconds: asyncSleepNanoseconds)
+
+        guard received.count == 1, let first = received.first else {
+            Issue.record("Expected 1 output, got \(received.count): \(received)")
+            return
+        }
+        guard case .resetSucceeded(let message) = first else {
+            Issue.record("Expected .resetSucceeded, got \(first)")
+            return
+        }
+        #expect(message == "초기화 완료!")
+    }
+
+    @Test("didConfirmResetPlan → resetPlan NetworkError 실패 → showErrorAlert emit")
+    func didConfirmResetPlan_resetPlanNetworkError_emitsShowErrorAlert() async throws {
+        let service = MockMyPageService()
+        service.resetPlanResult = .failure(NetworkError.serverError)
+        let sut = makeSUT(service: service)
+        let inputSubject = PassthroughSubject<MyPageViewModel.Input, Never>()
+        var received: [MyPageViewModel.Output] = []
+        var cancellables = Set<AnyCancellable>()
+
+        sut.transform(input: inputSubject.eraseToAnyPublisher())
+            .sink { received.append($0) }
+            .store(in: &cancellables)
+
+        inputSubject.send(.didConfirmResetPlan)
+        try await Task.sleep(nanoseconds: asyncSleepNanoseconds)
+
+        guard received.count == 1, let first = received.first else {
+            Issue.record("Expected 1 output, got \(received.count): \(received)")
+            return
+        }
+        guard case .showErrorAlert(let title, let description) = first else {
+            Issue.record("Expected .showErrorAlert, got \(first)")
+            return
+        }
+        #expect(title == "초기화할 수 없습니다.")
+        #expect(description == "서버 에러가 발생했습니다. 잠시 후 다시 시도해 주세요.")
+    }
+
+    @Test("didConfirmResetPlan → resetPlan 일반 Error 실패 → showErrorAlert emit")
+    func didConfirmResetPlan_resetPlanGenericError_emitsShowErrorAlert() async throws {
+        let service = MockMyPageService()
+        service.resetPlanResult = .failure(URLError(.notConnectedToInternet))
+        let sut = makeSUT(service: service)
+        let inputSubject = PassthroughSubject<MyPageViewModel.Input, Never>()
+        var received: [MyPageViewModel.Output] = []
+        var cancellables = Set<AnyCancellable>()
+
+        sut.transform(input: inputSubject.eraseToAnyPublisher())
+            .sink { received.append($0) }
+            .store(in: &cancellables)
+
+        inputSubject.send(.didConfirmResetPlan)
+        try await Task.sleep(nanoseconds: asyncSleepNanoseconds)
+
+        guard received.count == 1, let first = received.first else {
+            Issue.record("Expected 1 output, got \(received.count): \(received)")
+            return
+        }
+        guard case .showErrorAlert(let title, let description) = first else {
+            Issue.record("Expected .showErrorAlert, got \(first)")
+            return
+        }
+        #expect(title == "초기화할 수 없습니다.")
+        #expect(description == "잠시 후 다시 시도해주세요.")
+    }
 }
