@@ -30,9 +30,12 @@ struct MyPageViewModelTests {
         inputSubject.send(.viewDidLoad)
         try await Task.sleep(nanoseconds: asyncSleepNanoseconds)
 
-        #expect(received.count == 1)
-        guard case .setupView(let userName, let version) = received[0] else {
-            Issue.record("Expected .setupView, got \(received)")
+        guard received.count == 1, let first = received.first else {
+            Issue.record("Expected 1 output, got \(received.count): \(received)")
+            return
+        }
+        guard case .setupView(let userName, let version) = first else {
+            Issue.record("Expected .setupView, got \(first)")
             return
         }
         #expect(userName == "테스트")
@@ -57,9 +60,12 @@ struct MyPageViewModelTests {
         inputSubject.send(.viewDidLoad)
         try await Task.sleep(nanoseconds: asyncSleepNanoseconds)
 
-        #expect(received.count == 1)
-        guard case .setupView(let userName, let version) = received[0] else {
-            Issue.record("Expected .setupView, got \(received)")
+        guard received.count == 1, let first = received.first else {
+            Issue.record("Expected 1 output, got \(received.count): \(received)")
+            return
+        }
+        guard case .setupView(let userName, let version) = first else {
+            Issue.record("Expected .setupView, got \(first)")
             return
         }
         #expect(userName == "테스트")
@@ -82,9 +88,12 @@ struct MyPageViewModelTests {
         inputSubject.send(.viewDidLoad)
         try await Task.sleep(nanoseconds: asyncSleepNanoseconds)
 
-        #expect(received.count == 1)
-        guard case .setupView(let userName, let version) = received[0] else {
-            Issue.record("Expected .setupView, got \(received)")
+        guard received.count == 1, let first = received.first else {
+            Issue.record("Expected 1 output, got \(received.count): \(received)")
+            return
+        }
+        guard case .setupView(let userName, let version) = first else {
+            Issue.record("Expected .setupView, got \(first)")
             return
         }
         #expect(userName == "테스트")
@@ -106,9 +115,12 @@ struct MyPageViewModelTests {
 
         inputSubject.send(.didTapProfile)
 
-        #expect(received.count == 1)
-        guard case .navigateToSettingsView = received[0] else {
-            Issue.record("Expected .navigateToSettingsView, got \(received)")
+        guard received.count == 1, let first = received.first else {
+            Issue.record("Expected 1 output, got \(received.count): \(received)")
+            return
+        }
+        guard case .navigateToSettingsView = first else {
+            Issue.record("Expected .navigateToSettingsView, got \(first)")
             return
         }
     }
@@ -126,9 +138,12 @@ struct MyPageViewModelTests {
 
         inputSubject.send(.didTapResetPlan)
 
-        #expect(received.count == 1)
-        guard case .showResetAlert = received[0] else {
-            Issue.record("Expected .showResetAlert, got \(received)")
+        guard received.count == 1, let first = received.first else {
+            Issue.record("Expected 1 output, got \(received.count): \(received)")
+            return
+        }
+        guard case .showResetAlert = first else {
+            Issue.record("Expected .showResetAlert, got \(first)")
             return
         }
     }
@@ -146,9 +161,12 @@ struct MyPageViewModelTests {
 
         inputSubject.send(.didTapRegisterExam)
 
-        #expect(received.count == 1)
-        guard case .showExamSchedule = received[0] else {
-            Issue.record("Expected .showExamSchedule, got \(received)")
+        guard received.count == 1, let first = received.first else {
+            Issue.record("Expected 1 output, got \(received.count): \(received)")
+            return
+        }
+        guard case .showExamSchedule = first else {
+            Issue.record("Expected .showExamSchedule, got \(first)")
             return
         }
     }
@@ -166,9 +184,12 @@ struct MyPageViewModelTests {
 
         inputSubject.send(.didTapTermsOfService)
 
-        #expect(received.count == 1)
-        guard case .showTermsDetail(let termItem) = received[0] else {
-            Issue.record("Expected .showTermsDetail, got \(received)")
+        guard received.count == 1, let first = received.first else {
+            Issue.record("Expected 1 output, got \(received.count): \(received)")
+            return
+        }
+        guard case .showTermsDetail(let termItem) = first else {
+            Issue.record("Expected .showTermsDetail, got \(first)")
             return
         }
         #expect(termItem.title == "서비스 이용약관")
@@ -188,9 +209,12 @@ struct MyPageViewModelTests {
 
         inputSubject.send(.didTapPrivacyPolicy)
 
-        #expect(received.count == 1)
-        guard case .showTermsDetail(let termItem) = received[0] else {
-            Issue.record("Expected .showTermsDetail, got \(received)")
+        guard received.count == 1, let first = received.first else {
+            Issue.record("Expected 1 output, got \(received.count): \(received)")
+            return
+        }
+        guard case .showTermsDetail(let termItem) = first else {
+            Issue.record("Expected .showTermsDetail, got \(first)")
             return
         }
         #expect(termItem.title == "개인정보 처리방침")
