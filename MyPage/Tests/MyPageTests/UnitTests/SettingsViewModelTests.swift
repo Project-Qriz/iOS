@@ -12,15 +12,15 @@ struct SettingsViewModelTests {
         userName: String = "테스트",
         email: String = "test@test.com",
         provider: String = "kakao",
-        myPageService: MockMyPageService = .init(),
-        socialLoginService: MockSocialLoginService = .init()
+        myPageService: MockMyPageService? = nil,
+        socialLoginService: MockSocialLoginService? = nil
     ) -> SettingsViewModel {
         SettingsViewModel(
             userName: userName,
             email: email,
             provider: provider,
-            myPageService: myPageService,
-            socialLoginService: socialLoginService
+            myPageService: myPageService ?? MockMyPageService(),
+            socialLoginService: socialLoginService ?? MockSocialLoginService()
         )
     }
 
@@ -219,7 +219,34 @@ struct SettingsViewModelTests {
         }
     }
 
-    @Test("didConfirmLogout 실패 → showErrorAlert emit")
+    @Test("didConfirmLogout NetworkError 실패 → showErrorAlert emit")
+    func didConfirmLogout_networkError_emitsShowErrorAlert() async throws {
+        let socialLoginService = MockSocialLoginService()
+        socialLoginService.logoutKakaoResult = .failure(NetworkError.serverError)
+        let sut = makeSUT(provider: "kakao", socialLoginService: socialLoginService)
+        let inputSubject = PassthroughSubject<SettingsViewModel.Input, Never>()
+        var received: [SettingsViewModel.Output] = []
+        var cancellables = Set<AnyCancellable>()
+
+        sut.transform(input: inputSubject.eraseToAnyPublisher())
+            .sink { received.append($0) }
+            .store(in: &cancellables)
+
+        inputSubject.send(.didConfirmLogout)
+        try await Task.sleep(nanoseconds: asyncSleepNanoseconds)
+
+        guard received.count == 1, let first = received.first else {
+            Issue.record("Expected 1 output, got \(received.count): \(received)")
+            return
+        }
+        guard case .showErrorAlert(let message) = first else {
+            Issue.record("Expected .showErrorAlert, got \(first)")
+            return
+        }
+        #expect(message == "로그아웃에 실패했습니다. 잠시 후 다시 시도해 주세요.")
+    }
+
+    @Test("didConfirmLogout 일반 Error 실패 → showErrorAlert emit")
     func didConfirmLogout_failure_emitsShowErrorAlert() async throws {
         let socialLoginService = MockSocialLoginService()
         socialLoginService.logoutKakaoResult = .failure(URLError(.notConnectedToInternet))

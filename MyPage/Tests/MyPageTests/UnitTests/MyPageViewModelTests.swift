@@ -10,9 +10,9 @@ struct MyPageViewModelTests {
 
     private func makeSUT(
         userName: String = "테스트",
-        service: MockMyPageService = .init()
+        service: MockMyPageService? = nil
     ) -> MyPageViewModel {
-        MyPageViewModel(userName: userName, myPageService: service)
+        MyPageViewModel(userName: userName, myPageService: service ?? MockMyPageService())
     }
 
     // MARK: - viewDidLoad
@@ -40,8 +40,7 @@ struct MyPageViewModelTests {
             return
         }
         #expect(userName == "테스트")
-        // versionInfo: Float = 1.0 → "\(Float(1.0))" → "1.0"
-        #expect(version == "\(Float(1.0))")
+        #expect(version == "1.0")
     }
 
     @Test("viewDidLoad → fetchVersion NetworkError 실패 → setupView(fallback) emit")

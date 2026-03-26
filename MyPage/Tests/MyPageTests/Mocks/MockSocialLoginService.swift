@@ -3,7 +3,8 @@ import UIKit
 import Network
 import QRIZUtils
 
-final class MockSocialLoginService: SocialLoginService, @unchecked Sendable {
+@MainActor
+final class MockSocialLoginService: SocialLoginService {
 
     enum MockError: Error { case notExpected }
 
@@ -11,6 +12,7 @@ final class MockSocialLoginService: SocialLoginService, @unchecked Sendable {
     var logoutGoogleResult: Result<Void, Error> = .success(())
     var logoutAppleResult:  Result<Void, Error> = .success(())
     var unlinkKakaoResult:  Result<Void, Error> = .success(())
+    private(set) var unlinkKakaoCallCount = 0
 
     func loginWithKakao() async throws -> SocialLoginResponse { throw MockError.notExpected }
     func loginWithGoogle(presenting: UIViewController) async throws -> SocialLoginResponse { throw MockError.notExpected }
@@ -19,5 +21,8 @@ final class MockSocialLoginService: SocialLoginService, @unchecked Sendable {
     func logoutKakao() async throws  { try logoutKakaoResult.get() }
     func logoutGoogle() async throws { try logoutGoogleResult.get() }
     func logoutApple() async throws  { try logoutAppleResult.get() }
-    func unlinkKakao() async throws  { try unlinkKakaoResult.get() }
+    func unlinkKakao() async throws  {
+        unlinkKakaoCallCount += 1
+        try unlinkKakaoResult.get()
+    }
 }

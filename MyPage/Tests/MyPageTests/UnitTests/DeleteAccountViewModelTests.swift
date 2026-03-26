@@ -10,13 +10,13 @@ struct DeleteAccountViewModelTests {
 
     private func makeSUT(
         provider: String = "kakao",
-        myPageService: MockMyPageService = .init(),
-        socialLoginService: MockSocialLoginService = .init()
+        myPageService: MockMyPageService? = nil,
+        socialLoginService: MockSocialLoginService? = nil
     ) -> DeleteAccountViewModel {
         DeleteAccountViewModel(
             provider: provider,
-            myPageService: myPageService,
-            socialLoginService: socialLoginService
+            myPageService: myPageService ?? MockMyPageService(),
+            socialLoginService: socialLoginService ?? MockSocialLoginService()
         )
     }
 
@@ -47,10 +47,11 @@ struct DeleteAccountViewModelTests {
 
     // MARK: - didConfirmDelete
 
-    @Test("didConfirmDelete kakao 성공 → deletionSucceeded emit")
+    @Test("didConfirmDelete kakao 성공 → unlinkKakao 호출 후 deletionSucceeded emit")
     func didConfirmDelete_kakao_emitsDeletionSucceeded() async throws {
         // kakao: unlinkKakao() + deleteSocialAccount(.kakao) 순서로 호출
-        let sut = makeSUT(provider: "kakao")
+        let socialLoginService = MockSocialLoginService()
+        let sut = makeSUT(provider: "kakao", socialLoginService: socialLoginService)
         let inputSubject = PassthroughSubject<DeleteAccountViewModel.Input, Never>()
         var received: [DeleteAccountViewModel.Output] = []
         var cancellables = Set<AnyCancellable>()
@@ -61,6 +62,8 @@ struct DeleteAccountViewModelTests {
 
         inputSubject.send(.didConfirmDelete)
         try await Task.sleep(nanoseconds: asyncSleepNanoseconds)
+
+        #expect(socialLoginService.unlinkKakaoCallCount == 1)
 
         guard received.count == 1, let first = received.first else {
             Issue.record("Expected 1 output, got \(received.count): \(received)")

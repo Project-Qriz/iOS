@@ -2,7 +2,8 @@ import Foundation
 @testable import Network
 import QRIZUtils
 
-final class MockMyPageService: MyPageService, @unchecked Sendable {
+@MainActor
+final class MockMyPageService: MyPageService {
 
     var fetchVersionResult: Result<VersionResponse, Error> = .success(
         VersionResponse(
