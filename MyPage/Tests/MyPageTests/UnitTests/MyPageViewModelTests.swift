@@ -1,3 +1,4 @@
+import Foundation
 import Testing
 import Combine
 @testable import MyPage
@@ -39,9 +40,8 @@ struct MyPageViewModelTests {
             return
         }
         #expect(userName == "테스트")
-        // MockMyPageService returns versionInfo: Float = 1.0
-        // Swift String interpolation of Float(1.0) produces "1.0" (locale-independent)
-        #expect(version == "1.0")
+        // versionInfo: Float = 1.0 → "\(Float(1.0))" → "1.0"
+        #expect(version == "\(Float(1.0))")
     }
 
     @Test("viewDidLoad → fetchVersion NetworkError 실패 → setupView(fallback) emit")
