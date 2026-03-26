@@ -200,4 +200,59 @@ struct DeleteAccountViewModelTests {
         // DeleteAccountViewModel.swift performDelete() 일반 catch 블록 문자열
         #expect(message == "잠시 후 다시 시도해 주세요.")
     }
+
+    @Test("didConfirmDelete kakao unlinkKakao NetworkError 실패 → showErrorAlert emit")
+    func didConfirmDelete_kakaoUnlinkNetworkError_emitsShowErrorAlert() async throws {
+        // kakao: unlinkKakao() 자체가 NetworkError로 실패하는 경우
+        let socialLoginService = MockSocialLoginService()
+        socialLoginService.unlinkKakaoResult = .failure(NetworkError.serverError)
+        let sut = makeSUT(provider: "kakao", socialLoginService: socialLoginService)
+        let inputSubject = PassthroughSubject<DeleteAccountViewModel.Input, Never>()
+        var received: [DeleteAccountViewModel.Output] = []
+        var cancellables = Set<AnyCancellable>()
+
+        sut.transform(input: inputSubject.eraseToAnyPublisher())
+            .sink { received.append($0) }
+            .store(in: &cancellables)
+
+        inputSubject.send(.didConfirmDelete)
+        try await Task.sleep(nanoseconds: asyncSleepNanoseconds)
+
+        guard received.count == 1, let first = received.first else {
+            Issue.record("Expected 1 output, got \(received.count): \(received)")
+            return
+        }
+        guard case .showErrorAlert(let message) = first else {
+            Issue.record("Expected .showErrorAlert, got \(first)")
+            return
+        }
+        #expect(message == NetworkError.serverError.errorMessage)
+    }
+
+    @Test("didConfirmDelete kakao unlinkKakao 일반 Error 실패 → showErrorAlert emit")
+    func didConfirmDelete_kakaoUnlinkGenericError_emitsShowErrorAlert() async throws {
+        let socialLoginService = MockSocialLoginService()
+        socialLoginService.unlinkKakaoResult = .failure(URLError(.notConnectedToInternet))
+        let sut = makeSUT(provider: "kakao", socialLoginService: socialLoginService)
+        let inputSubject = PassthroughSubject<DeleteAccountViewModel.Input, Never>()
+        var received: [DeleteAccountViewModel.Output] = []
+        var cancellables = Set<AnyCancellable>()
+
+        sut.transform(input: inputSubject.eraseToAnyPublisher())
+            .sink { received.append($0) }
+            .store(in: &cancellables)
+
+        inputSubject.send(.didConfirmDelete)
+        try await Task.sleep(nanoseconds: asyncSleepNanoseconds)
+
+        guard received.count == 1, let first = received.first else {
+            Issue.record("Expected 1 output, got \(received.count): \(received)")
+            return
+        }
+        guard case .showErrorAlert(let message) = first else {
+            Issue.record("Expected .showErrorAlert, got \(first)")
+            return
+        }
+        #expect(message == "잠시 후 다시 시도해 주세요.")
+    }
 }
