@@ -29,7 +29,7 @@ class MyPageSnapshotTests: MyPageSnapshotTestCase {
     func testProfileCell() {
         let cell = ProfileCell()
         cell.configure(with: "테스트")
-        cell.frame = CGRect(origin: .zero, size: CGSize(width: 393, height: 60))
+        cell.frame = CGRect(origin: .zero, size: CGSize(width: Self.deviceSize.width, height: 60))
         cell.layoutIfNeeded()
         assertSnapshot(of: cell, as: .image)
     }
@@ -39,7 +39,7 @@ class MyPageSnapshotTests: MyPageSnapshotTestCase {
     /// configureActions는 액션 콜백용이므로 snapshot에서 호출 불필요
     func testQuickActionsCell() {
         let cell = QuickActionsCell()
-        cell.frame = CGRect(origin: .zero, size: CGSize(width: 393, height: 82))
+        cell.frame = CGRect(origin: .zero, size: CGSize(width: Self.deviceSize.width, height: 82))
         cell.layoutIfNeeded()
         assertSnapshot(of: cell, as: .image)
     }
@@ -48,7 +48,7 @@ class MyPageSnapshotTests: MyPageSnapshotTestCase {
     /// height 70 = titleLabel 상단 여백(24) + 폰트 높이(≈21) + 하단 여백 + separator(1)
     func testSupportHeaderCell() {
         let cell = SupportHeaderCell()
-        cell.frame = CGRect(origin: .zero, size: CGSize(width: 393, height: 70))
+        cell.frame = CGRect(origin: .zero, size: CGSize(width: Self.deviceSize.width, height: 70))
         cell.layoutIfNeeded()
         assertSnapshot(of: cell, as: .image)
     }

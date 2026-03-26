@@ -1,5 +1,5 @@
 import Foundation
-import Network
+@testable import Network
 import QRIZUtils
 
 final class MockMyPageService: MyPageService, @unchecked Sendable {
