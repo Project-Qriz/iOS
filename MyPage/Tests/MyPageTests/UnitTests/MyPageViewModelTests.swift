@@ -36,6 +36,8 @@ struct MyPageViewModelTests {
             return
         }
         #expect(userName == "테스트")
+        // MockMyPageService returns versionInfo: Float = 1.0
+        // Swift String interpolation of Float(1.0) produces "1.0" (locale-independent)
         #expect(version == "1.0")
     }
 
