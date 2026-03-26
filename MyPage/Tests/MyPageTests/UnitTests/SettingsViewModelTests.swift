@@ -119,4 +119,130 @@ struct SettingsViewModelTests {
             return
         }
     }
+
+    // MARK: - didConfirmLogout
+
+    @Test("didConfirmLogout kakao 성공 → logoutSucceeded emit")
+    func didConfirmLogout_kakao_emitsLogoutSucceeded() async throws {
+        let sut = makeSUT(provider: "kakao")
+        let inputSubject = PassthroughSubject<SettingsViewModel.Input, Never>()
+        var received: [SettingsViewModel.Output] = []
+        var cancellables = Set<AnyCancellable>()
+
+        sut.transform(input: inputSubject.eraseToAnyPublisher())
+            .sink { received.append($0) }
+            .store(in: &cancellables)
+
+        inputSubject.send(.didConfirmLogout)
+        try await Task.sleep(nanoseconds: asyncSleepNanoseconds)
+
+        guard received.count == 1, let first = received.first else {
+            Issue.record("Expected 1 output, got \(received.count): \(received)")
+            return
+        }
+        guard case .logoutSucceeded = first else {
+            Issue.record("Expected .logoutSucceeded, got \(first)")
+            return
+        }
+    }
+
+    @Test("didConfirmLogout google 성공 → logoutSucceeded emit")
+    func didConfirmLogout_google_emitsLogoutSucceeded() async throws {
+        let sut = makeSUT(provider: "google")
+        let inputSubject = PassthroughSubject<SettingsViewModel.Input, Never>()
+        var received: [SettingsViewModel.Output] = []
+        var cancellables = Set<AnyCancellable>()
+
+        sut.transform(input: inputSubject.eraseToAnyPublisher())
+            .sink { received.append($0) }
+            .store(in: &cancellables)
+
+        inputSubject.send(.didConfirmLogout)
+        try await Task.sleep(nanoseconds: asyncSleepNanoseconds)
+
+        guard received.count == 1, let first = received.first else {
+            Issue.record("Expected 1 output, got \(received.count): \(received)")
+            return
+        }
+        guard case .logoutSucceeded = first else {
+            Issue.record("Expected .logoutSucceeded, got \(first)")
+            return
+        }
+    }
+
+    @Test("didConfirmLogout apple 성공 → logoutSucceeded emit")
+    func didConfirmLogout_apple_emitsLogoutSucceeded() async throws {
+        let sut = makeSUT(provider: "apple")
+        let inputSubject = PassthroughSubject<SettingsViewModel.Input, Never>()
+        var received: [SettingsViewModel.Output] = []
+        var cancellables = Set<AnyCancellable>()
+
+        sut.transform(input: inputSubject.eraseToAnyPublisher())
+            .sink { received.append($0) }
+            .store(in: &cancellables)
+
+        inputSubject.send(.didConfirmLogout)
+        try await Task.sleep(nanoseconds: asyncSleepNanoseconds)
+
+        guard received.count == 1, let first = received.first else {
+            Issue.record("Expected 1 output, got \(received.count): \(received)")
+            return
+        }
+        guard case .logoutSucceeded = first else {
+            Issue.record("Expected .logoutSucceeded, got \(first)")
+            return
+        }
+    }
+
+    @Test("didConfirmLogout email 성공 → logoutSucceeded emit")
+    func didConfirmLogout_email_emitsLogoutSucceeded() async throws {
+        // email provider: SettingsViewModel의 switch에서 case .email: break → 서비스 호출 없이 logoutSucceeded
+        let sut = makeSUT(provider: "email")
+        let inputSubject = PassthroughSubject<SettingsViewModel.Input, Never>()
+        var received: [SettingsViewModel.Output] = []
+        var cancellables = Set<AnyCancellable>()
+
+        sut.transform(input: inputSubject.eraseToAnyPublisher())
+            .sink { received.append($0) }
+            .store(in: &cancellables)
+
+        inputSubject.send(.didConfirmLogout)
+        try await Task.sleep(nanoseconds: asyncSleepNanoseconds)
+
+        guard received.count == 1, let first = received.first else {
+            Issue.record("Expected 1 output, got \(received.count): \(received)")
+            return
+        }
+        guard case .logoutSucceeded = first else {
+            Issue.record("Expected .logoutSucceeded, got \(first)")
+            return
+        }
+    }
+
+    @Test("didConfirmLogout 실패 → showErrorAlert emit")
+    func didConfirmLogout_failure_emitsShowErrorAlert() async throws {
+        let socialLoginService = MockSocialLoginService()
+        socialLoginService.logoutKakaoResult = .failure(URLError(.notConnectedToInternet))
+        let sut = makeSUT(provider: "kakao", socialLoginService: socialLoginService)
+        let inputSubject = PassthroughSubject<SettingsViewModel.Input, Never>()
+        var received: [SettingsViewModel.Output] = []
+        var cancellables = Set<AnyCancellable>()
+
+        sut.transform(input: inputSubject.eraseToAnyPublisher())
+            .sink { received.append($0) }
+            .store(in: &cancellables)
+
+        inputSubject.send(.didConfirmLogout)
+        try await Task.sleep(nanoseconds: asyncSleepNanoseconds)
+
+        guard received.count == 1, let first = received.first else {
+            Issue.record("Expected 1 output, got \(received.count): \(received)")
+            return
+        }
+        guard case .showErrorAlert(let message) = first else {
+            Issue.record("Expected .showErrorAlert, got \(first)")
+            return
+        }
+        #expect(message == "로그아웃에 실패했습니다. 잠시 후 다시 시도해 주세요.")
+    }
 }
