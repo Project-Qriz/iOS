@@ -64,13 +64,11 @@ final class MyPageViewModel {
                 outputSubject.send(.setupView(userName: userName, version: "\(version.data.versionInfo)"))
 
             } catch let error as NetworkError {
-                let version = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "0.0.0"
-                outputSubject.send(.setupView(userName: userName, version: version))
+                outputSubject.send(.setupView(userName: userName, version: "0.0.0"))
                 logger.error("NetworkError(fetchVersion): \(error.debugDescription, privacy: .public)")
 
             } catch {
-                let version = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "0.0.0"
-                outputSubject.send(.setupView(userName: userName, version: version))
+                outputSubject.send(.setupView(userName: userName, version: "0.0.0"))
                 logger.error("Unhandled error(fetchVersion): \(error.localizedDescription, privacy: .public)")
             }
         }
