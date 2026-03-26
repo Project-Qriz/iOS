@@ -36,7 +36,11 @@ let package = Package(
                 "MyPage",
                 "Network",
                 "Account",
+                "QRIZUtils",
                 .product(name: "SnapshotTesting", package: "swift-snapshot-testing"),
+            ],
+            swiftSettings: [
+                .swiftLanguageMode(.v5)
             ]
         ),
     ]
