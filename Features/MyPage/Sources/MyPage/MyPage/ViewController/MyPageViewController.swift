@@ -1,0 +1,107 @@
+import UIKit
+import DesignSystem
+import Combine
+
+final class MyPageViewController: UIViewController {
+
+    // MARK: - Enums
+
+    private enum Attributes {
+        static let navigationTitle: String = "마이페이지"
+    }
+
+    // MARK: - Properties
+
+    weak var coordinator: MyPageNavigating?
+    private let rootView: MyPageMainView
+    private let viewModel: MyPageViewModel
+    private let inputSubject = PassthroughSubject<MyPageViewModel.Input, Never>()
+    private var cancellables = Set<AnyCancellable>()
+
+    // MARK: - Initialization
+
+    init(viewModel: MyPageViewModel) {
+        self.rootView = MyPageMainView()
+        self.viewModel = viewModel
+        super.init(nibName: nil, bundle: nil)
+    }
+
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+
+    // MARK: - Lifecycle
+
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        bind()
+        setNavigationBarTitle(title: Attributes.navigationTitle, textColor: .coolNeutral800)
+        inputSubject.send(.viewDidLoad)
+    }
+
+    override func loadView() {
+        self.view = rootView
+    }
+
+    // MARK: - Methods
+
+    private func bind() {
+        let viewDidLoad = inputSubject
+        let profileTap = rootView.profileTapPublisher.map { MyPageViewModel.Input.didTapProfile }
+        let resetPlan = rootView.resetPlanTappedPublisher
+            .map { MyPageViewModel.Input.didTapResetPlan }
+        let registerExam = rootView.registerExamTappedPublisher
+            .map { MyPageViewModel.Input.didTapRegisterExam }
+
+        let menuTap = rootView.selectionPublisher
+            .compactMap { item -> MyPageViewModel.Input? in
+                switch item {
+                case .supportMenu(.termsOfService): return .didTapTermsOfService
+                case .supportMenu(.privacyPolicy):  return .didTapPrivacyPolicy
+                default: return nil
+                }
+            }
+
+        let input = viewDidLoad
+            .merge(with: profileTap)
+            .merge(with: resetPlan)
+            .merge(with: registerExam)
+            .merge(with: menuTap)
+            .eraseToAnyPublisher()
+
+        let output = viewModel.transform(input: input)
+
+        output
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] output in
+                guard let self else { return }
+
+                switch output {
+                case .setupView(let userName, let version):
+                    self.rootView.applySnapshot(userName: userName, appVersion: version)
+
+                case .navigateToSettingsView:
+                    self.coordinator?.showSettingsView()
+
+                case .showResetAlert:
+                    self.coordinator?.showResetAlert { [weak self] in
+                        self?.inputSubject.send(.didConfirmResetPlan)
+                    }
+
+                case .resetSucceeded(let message):
+                    self.showOneButtonAlert(with: message, storingIn: &cancellables)
+
+                case .showErrorAlert(let title, let description):
+                    self.showOneButtonAlert(with: title, for: description, storingIn: &cancellables)
+
+                case .showExamSchedule:
+                    self.coordinator?.requestExamScheduleSelection()
+
+                case .showTermsDetail(let termItem):
+                    self.coordinator?.showTermsDetail(for: termItem)
+
+                }
+            }
+            .store(in: &cancellables)
+    }
+}

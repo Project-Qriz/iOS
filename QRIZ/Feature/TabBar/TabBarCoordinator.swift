@@ -12,6 +12,7 @@ import Network
 import Auth
 import Conceptbook
 import MistakeNote
+import MyPage
 
 @MainActor
 protocol TabBarCoordinator: Coordinator {
@@ -29,6 +30,7 @@ protocol TabBarCoordinatorDependency {
     var conceptBookCoordinator: ConceptBookCoordinator { get }
     var mistakeNoteCoordinator: MistakeNoteCoordinator { get }
     var myPageCoordinator: MyPageCoordinator { get }
+    var examScheduleService: ExamScheduleService { get }
 }
 
 @MainActor
@@ -69,8 +71,12 @@ final class TabBarCoordinatorDependencyImpl: TabBarCoordinatorDependency {
         _mistakeNoteCoordinator
     }
     
-    private lazy var _myPageCoordinator = MyPageCoordinatorImpl(
-        examService: examService,
+    private lazy var _myPageCoordinator = makeMyPageCoordinator(
+        userInfo: MyPageUserInfo(
+            name: UserInfoManager.shared.name,
+            email: UserInfoManager.shared.email,
+            provider: UserInfoManager.shared.provider ?? ""
+        ),
         myPageService: myPageService,
         accountRecoveryService: accountRecoveryService,
         socialLoginService: socialLoginService
@@ -79,7 +85,9 @@ final class TabBarCoordinatorDependencyImpl: TabBarCoordinatorDependency {
     var myPageCoordinator: MyPageCoordinator {
         _myPageCoordinator
     }
-    
+
+    var examScheduleService: ExamScheduleService { examService }
+
     init(
         examService: ExamScheduleService,
         examTestService: ExamService,
@@ -112,49 +120,45 @@ final class TabBarCoordinatorImpl: TabBarCoordinator {
     private var tabBarController: UITabBarController?
     private let homeCoordinator: HomeCoordinatorImpl
     private let mistakeNoteCoordinator: MistakeNoteCoordinatorImpl
-    private let myPageCoordinator: MyPageCoordinatorImpl
 
     init(dependency: TabBarCoordinatorDependency) {
         self.dependency = dependency
 
         guard
             let home = dependency.homeCoordinator as? HomeCoordinatorImpl,
-            let mistakeNote = dependency.mistakeNoteCoordinator as? MistakeNoteCoordinatorImpl,
-            let my = dependency.myPageCoordinator as? MyPageCoordinatorImpl
+            let mistakeNote = dependency.mistakeNoteCoordinator as? MistakeNoteCoordinatorImpl
         else {
             fatalError("TabBar 의존성 주입 오류: 예상한 Coordinator 타입이 아닙니다‼️")
         }
 
         self.homeCoordinator = home
         self.mistakeNoteCoordinator = mistakeNote
-        self.myPageCoordinator = my
     }
     
     func start() -> UIViewController {
         homeCoordinator.examDelegate = self
         homeCoordinator.delegate = self
         mistakeNoteCoordinator.delegate = self
-        myPageCoordinator.examDelegate = self
-        myPageCoordinator.delegate = self
-        
+        dependency.myPageCoordinator.delegate = self
+
         var viewControllers: [UIViewController] = [
             homeCoordinator.start(),
             dependency.conceptBookCoordinator.start(),
             dependency.mistakeNoteCoordinator.start(),
-            myPageCoordinator.start()
+            dependency.myPageCoordinator.start()
         ]
         setupTabBarItems(for: &viewControllers)
-        
+
         let tabBar = UITabBarController()
         configureTabBarController(tabBar)
         tabBar.viewControllers = viewControllers
         self.tabBarController = tabBar
-        
+
         childCoordinators = [
             homeCoordinator,
             dependency.conceptBookCoordinator,
             dependency.mistakeNoteCoordinator,
-            myPageCoordinator
+            dependency.myPageCoordinator
         ]
         return tabBar
     }
@@ -274,7 +278,31 @@ extension TabBarCoordinatorImpl: MistakeNoteCoordinatorDelegate {
 // MARK: - MyPageCoordinatorDelegate
 
 extension TabBarCoordinatorImpl: MyPageCoordinatorDelegate {
-    func myPageCoordinatorDidLogout(_ coordinator: MyPageCoordinator) {
+    func myPageCoordinatorDidLogout(_ coordinator: any MyPageCoordinator) {
         logout()
+    }
+
+    func myPageCoordinatorDidRequestExamScheduleSelection(_ coordinator: any MyPageCoordinator) {
+        let viewModel = ExamScheduleSelectionViewModel(examScheduleService: dependency.examScheduleService)
+        viewModel.delegate = self
+
+        let vc = ExamScheduleSelectionViewController(examScheduleSelectionVM: viewModel)
+        vc.modalPresentationStyle = .pageSheet
+
+        if let sheet = vc.sheetPresentationController {
+            sheet.prefersGrabberVisible = true
+            sheet.preferredCornerRadius = 20
+            let fit = UISheetPresentationController.Detent.custom(identifier: .init("fit")) { context in
+                min(540, context.maximumDetentValue)
+            }
+            sheet.detents = [fit]
+            sheet.selectedDetentIdentifier = .init("fit")
+        }
+
+        if let presentingNC = tabBarController?.selectedViewController as? UINavigationController {
+            presentingNC.present(vc, animated: true)
+        } else {
+            tabBarController?.present(vc, animated: true)
+        }
     }
 }
