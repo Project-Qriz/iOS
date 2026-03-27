@@ -35,7 +35,7 @@ final class DailyTestViewController: UIViewController {
     
     private let submitAlertViewController = TwoButtonCustomAlertViewController(title: "제출하시겠습니까?", description: "확인 버튼을 누르면 다시 돌아올 수 없어요.")
     
-    weak var coordinator: DailyCoordinator?
+    weak var coordinator: (any DailyNavigating)?
     
     // MARK: - Initializers
     init(viewModel: DailyTestViewModel) {

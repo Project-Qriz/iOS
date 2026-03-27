@@ -47,7 +47,7 @@ final class DailyLearnViewController: UIViewController {
     private let input: PassthroughSubject<DailyLearnViewModel.Input, Never> = .init()
     private var subscriptions = Set<AnyCancellable>()
     
-    weak var coordinator: DailyCoordinator?
+    weak var coordinator: (any DailyNavigating)?
     
     private var conceptArr: [(Int, String)] = []
     private var testNavigatorHeightConstraint: NSLayoutConstraint? = nil

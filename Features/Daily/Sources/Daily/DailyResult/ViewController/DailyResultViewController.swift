@@ -18,7 +18,7 @@ final class DailyResultViewController: UIViewController {
     private let input: PassthroughSubject<DailyResultViewModel.Input, Never> = .init()
     private var subscriptions = Set<AnyCancellable>()
     
-    weak var coordinator: DailyCoordinator?
+    weak var coordinator: (any DailyNavigating)?
     
     // MARK: - Initializers
     init(viewModel: DailyResultViewModel) {
