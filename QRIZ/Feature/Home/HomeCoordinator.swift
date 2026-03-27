@@ -238,6 +238,8 @@ extension HomeCoordinatorImpl: DailyCoordinatorDelegate {
     }
     
     func moveFromDailyToConcept(_ coordinator: any DailyCoordinator) {
+        childCoordinators.removeAll { $0 === coordinator }
+        navigationController?.popToRootViewController(animated: true)
         delegate?.moveToConcept()
     }
 }
