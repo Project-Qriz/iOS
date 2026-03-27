@@ -3,44 +3,35 @@
 import PackageDescription
 
 let package = Package(
-    name: "MyPage",
+    name: "MistakeNote",
     platforms: [.iOS(.v17)],
     products: [
-        .library(name: "MyPage", targets: ["MyPage"]),
+        .library(name: "MistakeNote", targets: ["MistakeNote"]),
     ],
     dependencies: [
-        .package(path: "../Network"),
-        .package(path: "../DesignSystem"),
-        .package(path: "../QRIZUtils"),
-        .package(path: "../Auth"),
-        .package(path: "../Account"),
+        .package(path: "../../Core/Network"),
+        .package(path: "../../Core/DesignSystem"),
+        .package(path: "../../Core/QRIZUtils"),
+        .package(path: "../Conceptbook"),
         .package(url: "https://github.com/pointfreeco/swift-snapshot-testing", from: "1.18.9"),
     ],
     targets: [
         .target(
-            name: "MyPage",
+            name: "MistakeNote",
             dependencies: [
                 "Network",
                 "DesignSystem",
                 "QRIZUtils",
-                "Auth",
-                "Account",
-            ],
-            swiftSettings: [
-                .swiftLanguageMode(.v5)
+                "Conceptbook",
             ]
         ),
         .testTarget(
-            name: "MyPageTests",
+            name: "MistakeNoteTests",
             dependencies: [
-                "MyPage",
+                "MistakeNote",
                 "Network",
-                "Account",
                 "QRIZUtils",
                 .product(name: "SnapshotTesting", package: "swift-snapshot-testing"),
-            ],
-            swiftSettings: [
-                .swiftLanguageMode(.v5)
             ]
         ),
     ]

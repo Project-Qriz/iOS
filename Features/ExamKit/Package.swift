@@ -9,8 +9,8 @@ let package = Package(
         .library(name: "ExamKit", targets: ["ExamKit"])
     ],
     dependencies: [
-        .package(path: "../DesignSystem"),
-        .package(path: "../QRIZUtils")
+        .package(path: "../../Core/DesignSystem"),
+        .package(path: "../../Core/QRIZUtils")
     ],
     targets: [
         .target(

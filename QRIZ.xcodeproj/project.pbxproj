@@ -7,18 +7,18 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2F7A758592D8472A94299C4B /* Onboarding in Frameworks */ = {isa = PBXBuildFile; productRef = E9849FEE34F04512AEA4EBE2 /* Onboarding */; };
+		A1B2C3D52F60000200AAAAAA /* MyPage in Frameworks */ = {isa = PBXBuildFile; productRef = A1B2C3D62F60000300AAAAAA /* MyPage */; };
 		B12FEEEE2F46F98200280847 /* Network in Frameworks */ = {isa = PBXBuildFile; productRef = B12FEEED2F46F98200280847 /* Network */; };
 		B13774AD2ED9D7AF001A614D /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = B13774AC2ED9D7AF001A614D /* GoogleService-Info.plist */; };
 		B13BC2F22F56E3B500E99FA2 /* Auth in Frameworks */ = {isa = PBXBuildFile; productRef = B13BC2F32F56E3B500E99FA2 /* Auth */; };
 		B13BC73E2F58273500E99FA2 /* Conceptbook in Frameworks */ = {isa = PBXBuildFile; productRef = B13BC73F2F58273500E99FA2 /* Conceptbook */; };
-		B1D7CE482F5EE18200E6C2CD /* MistakeNote in Frameworks */ = {isa = PBXBuildFile; productRef = B1D7CE492F5EE18200E6C2CD /* MistakeNote */; };
-		A1B2C3D52F60000200AAAAAA /* MyPage in Frameworks */ = {isa = PBXBuildFile; productRef = A1B2C3D62F60000300AAAAAA /* MyPage */; };
-		2F7A758592D8472A94299C4B /* Onboarding in Frameworks */ = {isa = PBXBuildFile; productRef = E9849FEE34F04512AEA4EBE2 /* Onboarding */; };
 		B17C0EC52F5AACD200C8219A /* Account in Frameworks */ = {isa = PBXBuildFile; productRef = B17C0EC42F5AACD200C8219A /* Account */; };
 		B18CDE662F45AD2A00CB3AB4 /* QRIZUtils in Frameworks */ = {isa = PBXBuildFile; productRef = B18CDE652F45AD2A00CB3AB4 /* QRIZUtils */; };
 		B19C4FC52D6C226500CD008A /* TabBarCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = B19C4FC42D6C226500CD008A /* TabBarCoordinator.swift */; };
 		B1BDD0C72F4D26CD00834D57 /* DesignSystem in Frameworks */ = {isa = PBXBuildFile; productRef = B1BDD0C62F4D26CD00834D57 /* DesignSystem */; };
 		B1BDD0CA2F4D2A5200834D57 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B1BDD0C82F4D2A5200834D57 /* Assets.xcassets */; };
+		B1D7CE482F5EE18200E6C2CD /* MistakeNote in Frameworks */ = {isa = PBXBuildFile; productRef = B1D7CE492F5EE18200E6C2CD /* MistakeNote */; };
 		B1D813712D6E0C1F00A9D447 /* HomeCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1D813702D6E0C1F00A9D447 /* HomeCoordinator.swift */; };
 		B1D8137A2D768D9B00A9D447 /* AppCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1D813792D768D9B00A9D447 /* AppCoordinator.swift */; };
 		D52D2E306AD846D98D4E9CDF5B15473A /* ExamKit in Frameworks */ = {isa = PBXBuildFile; productRef = F4E578BDAC154F81A58E0781EEE6FBD1 /* ExamKit */; };
@@ -59,22 +59,22 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		A1B2C3D42F60000100AAAAAA /* MyPage */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = MyPage; path = Features/MyPage; sourceTree = "<group>"; };
+		B0C014955974425CB1F19F0D /* Onboarding */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = Onboarding; path = Features/Onboarding; sourceTree = "<group>"; };
 		B1004A992EC77C66000E4DE2 /* QRIZ.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = QRIZ.entitlements; sourceTree = "<group>"; };
 		B13774AC2ED9D7AF001A614D /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
-		B13BC2F12F56E3B500E99FA2 /* Auth */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = Auth; sourceTree = "<group>"; };
-		B13BC73D2F58273500E99FA2 /* Conceptbook */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = Conceptbook; sourceTree = "<group>"; };
-		B17C0EC22F5AA88900C8219A /* Account */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = Account; sourceTree = "<group>"; };
-		B18CDFE62F46F93A00CB3AB4 /* Network */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = Network; sourceTree = "<group>"; };
+		B13BC2F12F56E3B500E99FA2 /* Auth */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = Auth; path = Features/Auth; sourceTree = "<group>"; };
+		B13BC73D2F58273500E99FA2 /* Conceptbook */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = Conceptbook; path = Features/Conceptbook; sourceTree = "<group>"; };
+		B17C0EC22F5AA88900C8219A /* Account */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = Account; path = Features/Account; sourceTree = "<group>"; };
+		B18CDFE62F46F93A00CB3AB4 /* Network */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = Network; path = Core/Network; sourceTree = "<group>"; };
 		B19C4FC42D6C226500CD008A /* TabBarCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarCoordinator.swift; sourceTree = "<group>"; };
-		B1BDD0C42F4CCC5300834D57 /* DesignSystem */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = DesignSystem; sourceTree = "<group>"; };
+		B1BDD0C42F4CCC5300834D57 /* DesignSystem */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = DesignSystem; path = Core/DesignSystem; sourceTree = "<group>"; };
 		B1BDD0C82F4D2A5200834D57 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		B1BDD3572F4E459300834D57 /* ExamKit */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = ExamKit; sourceTree = "<group>"; };
-		B1D7CE472F5EE18200E6C2CD /* MistakeNote */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = MistakeNote; sourceTree = "<group>"; };
-		A1B2C3D42F60000100AAAAAA /* MyPage */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = MyPage; path = MyPage; sourceTree = "<group>"; };
-		B0C014955974425CB1F19F0D /* Onboarding */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = Onboarding; sourceTree = "<group>"; };
+		B1BDD3572F4E459300834D57 /* ExamKit */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = ExamKit; path = Features/ExamKit; sourceTree = "<group>"; };
+		B1D7CE472F5EE18200E6C2CD /* MistakeNote */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = MistakeNote; path = Features/MistakeNote; sourceTree = "<group>"; };
 		B1D813702D6E0C1F00A9D447 /* HomeCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeCoordinator.swift; sourceTree = "<group>"; };
 		B1D813792D768D9B00A9D447 /* AppCoordinator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppCoordinator.swift; sourceTree = "<group>"; };
-		B1DD53A52F45A85A00B60C85 /* QRIZUtils */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = QRIZUtils; sourceTree = "<group>"; };
+		B1DD53A52F45A85A00B60C85 /* QRIZUtils */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = QRIZUtils; path = Core/QRIZUtils; sourceTree = "<group>"; };
 		E211ADF92DE467A000AB24FE /* ExamResultViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExamResultViewController.swift; sourceTree = "<group>"; };
 		E211ADFB2DE467B700AB24FE /* ExamResultViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExamResultViewModel.swift; sourceTree = "<group>"; };
 		E211ADFD2DE47AED00AB24FE /* ExamResultHostingController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExamResultHostingController.swift; sourceTree = "<group>"; };
@@ -225,6 +225,30 @@
 				B13774AC2ED9D7AF001A614D /* GoogleService-Info.plist */,
 			);
 			path = SupportingFiles;
+			sourceTree = "<group>";
+		};
+		AA000CORE2F0000000CORE001 /* Core */ = {
+			isa = PBXGroup;
+			children = (
+				B1BDD0C42F4CCC5300834D57 /* DesignSystem */,
+				B18CDFE62F46F93A00CB3AB4 /* Network */,
+				B1DD53A52F45A85A00B60C85 /* QRIZUtils */,
+			);
+			name = Core;
+			sourceTree = "<group>";
+		};
+		AA000FEAT2F0000000FEAT001 /* Features */ = {
+			isa = PBXGroup;
+			children = (
+				B17C0EC22F5AA88900C8219A /* Account */,
+				B13BC2F12F56E3B500E99FA2 /* Auth */,
+				B13BC73D2F58273500E99FA2 /* Conceptbook */,
+				B1BDD3572F4E459300834D57 /* ExamKit */,
+				B1D7CE472F5EE18200E6C2CD /* MistakeNote */,
+				A1B2C3D42F60000100AAAAAA /* MyPage */,
+				B0C014955974425CB1F19F0D /* Onboarding */,
+			);
+			name = Features;
 			sourceTree = "<group>";
 		};
 		B17C0EC32F5AACD200C8219A /* Frameworks */ = {
@@ -393,19 +417,11 @@
 		E23962FC2D083B8F0092B39B = {
 			isa = PBXGroup;
 			children = (
-				B1D7CE472F5EE18200E6C2CD /* MistakeNote */,
-				A1B2C3D42F60000100AAAAAA /* MyPage */,
-				B0C014955974425CB1F19F0D /* Onboarding */,
-				B17C0EC22F5AA88900C8219A /* Account */,
+				AA000CORE2F0000000CORE001 /* Core */,
+				AA000FEAT2F0000000FEAT001 /* Features */,
 				B18729F32DB5E5FB0050811C /* PDF */,
 				E26AF7042D918F97006E3252 /* XCConfig */,
 				E23963072D083B8F0092B39B /* QRIZ */,
-				B13BC73D2F58273500E99FA2 /* Conceptbook */,
-				B1BDD3572F4E459300834D57 /* ExamKit */,
-				B18CDFE62F46F93A00CB3AB4 /* Network */,
-				B13BC2F12F56E3B500E99FA2 /* Auth */,
-				B1BDD0C42F4CCC5300834D57 /* DesignSystem */,
-				B1DD53A52F45A85A00B60C85 /* QRIZUtils */,
 				B17C0EC32F5AACD200C8219A /* Frameworks */,
 				E23963062D083B8F0092B39B /* Products */,
 			);
@@ -949,6 +965,10 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		A1B2C3D62F60000300AAAAAA /* MyPage */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = MyPage;
+		};
 		B12FEEED2F46F98200280847 /* Network */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = Network;
@@ -965,14 +985,6 @@
 			isa = XCSwiftPackageProductDependency;
 			productName = Account;
 		};
-		B1D7CE492F5EE18200E6C2CD /* MistakeNote */ = {
-			isa = XCSwiftPackageProductDependency;
-			productName = MistakeNote;
-		};
-		E9849FEE34F04512AEA4EBE2 /* Onboarding */ = {
-			isa = XCSwiftPackageProductDependency;
-			productName = Onboarding;
-		};
 		B18CDE652F45AD2A00CB3AB4 /* QRIZUtils */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = QRIZUtils;
@@ -981,18 +993,22 @@
 			isa = XCSwiftPackageProductDependency;
 			productName = DesignSystem;
 		};
+		B1D7CE492F5EE18200E6C2CD /* MistakeNote */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = MistakeNote;
+		};
 		E292211D2E05478C00B6DC0D /* FirebaseAnalyticsWithoutAdIdSupport */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = E292211C2E05478C00B6DC0D /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
 			productName = FirebaseAnalyticsWithoutAdIdSupport;
 		};
+		E9849FEE34F04512AEA4EBE2 /* Onboarding */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = Onboarding;
+		};
 		F4E578BDAC154F81A58E0781EEE6FBD1 /* ExamKit */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = ExamKit;
-		};
-		A1B2C3D62F60000300AAAAAA /* MyPage */ = {
-			isa = XCSwiftPackageProductDependency;
-			productName = MyPage;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

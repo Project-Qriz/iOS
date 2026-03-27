@@ -11,8 +11,8 @@ let package = Package(
     dependencies: [
         .package(url: "https://github.com/kakao/kakao-ios-sdk", branch: "master"),
         .package(url: "https://github.com/google/GoogleSignIn-iOS", from: "9.0.0"),
-        .package(path: "../Network"),
-        .package(path: "../QRIZUtils")
+        .package(path: "../../Core/Network"),
+        .package(path: "../../Core/QRIZUtils")
     ],
     targets: [
         .target(

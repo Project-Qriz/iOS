@@ -9,9 +9,9 @@ let package = Package(
         .library(name: "Account", targets: ["Account"]),
     ],
     dependencies: [
-        .package(path: "../Network"),
-        .package(path: "../DesignSystem"),
-        .package(path: "../QRIZUtils"),
+        .package(path: "../../Core/Network"),
+        .package(path: "../../Core/DesignSystem"),
+        .package(path: "../../Core/QRIZUtils"),
         .package(url: "https://github.com/pointfreeco/swift-snapshot-testing", from: "1.18.9")
     ],
     targets: [

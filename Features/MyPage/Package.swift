@@ -3,38 +3,44 @@
 import PackageDescription
 
 let package = Package(
-    name: "Onboarding",
+    name: "MyPage",
     platforms: [.iOS(.v17)],
     products: [
-        .library(name: "Onboarding", targets: ["Onboarding"]),
+        .library(name: "MyPage", targets: ["MyPage"]),
     ],
     dependencies: [
-        .package(path: "../Network"),
-        .package(path: "../DesignSystem"),
-        .package(path: "../QRIZUtils"),
-        .package(path: "../ExamKit"),
+        .package(path: "../../Core/Network"),
+        .package(path: "../../Core/DesignSystem"),
+        .package(path: "../../Core/QRIZUtils"),
+        .package(path: "../Auth"),
+        .package(path: "../Account"),
         .package(url: "https://github.com/pointfreeco/swift-snapshot-testing", from: "1.18.9"),
     ],
     targets: [
         .target(
-            name: "Onboarding",
+            name: "MyPage",
             dependencies: [
                 "Network",
                 "DesignSystem",
                 "QRIZUtils",
-                "ExamKit",
+                "Auth",
+                "Account",
             ],
             swiftSettings: [
                 .swiftLanguageMode(.v5)
             ]
         ),
         .testTarget(
-            name: "OnboardingTests",
+            name: "MyPageTests",
             dependencies: [
-                "Onboarding",
+                "MyPage",
                 "Network",
+                "Account",
                 "QRIZUtils",
                 .product(name: "SnapshotTesting", package: "swift-snapshot-testing"),
+            ],
+            swiftSettings: [
+                .swiftLanguageMode(.v5)
             ]
         ),
     ]
