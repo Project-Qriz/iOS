@@ -6,52 +6,80 @@
 //
 
 import SwiftUI
-import DesignSystem
 import Combine
-import QRIZUtils
+import DesignSystem
 import ExamKit
 
 struct DailyResultView: View {
 
-    @ObservedObject var resultScoresData: ResultScoresData
-    @ObservedObject var resultGradeListData: ResultGradeListData
-    @ObservedObject var resultDetailData: ResultDetailData
-    @State var dailyLearnType: DailyLearnType
+    // MARK: - Properties
 
-    private let contentsInput: PassthroughSubject<Void, Never> = .init()
-    private let footerInput: PassthroughSubject<Void, Never> = .init()
-    private let problemTapInput: PassthroughSubject<Int, Never> = .init()
+    @ObservedObject var viewModel: DailyResultViewModel
+    @StateObject private var bridge = DailyResultExamKitBridge()
 
-    var resultDetailTappedPublisher: AnyPublisher<Void, Never> {
-        contentsInput.eraseToAnyPublisher()
-    }
-    var conceptTappedPublisher: AnyPublisher<Void, Never> {
-        footerInput.eraseToAnyPublisher()
-    }
-    var problemTappedPublisher: AnyPublisher<Int, Never> {
-        problemTapInput.eraseToAnyPublisher()
-    }
-    
+    // MARK: - Body
+
     var body: some View {
         ScrollView(.vertical) {
-            LazyVStack(spacing: 0) {
-                DailyResultScoreView(resultScoresData: resultScoresData,
-                                     resultDetailData: resultDetailData,
-                                     dailyLearnType: $dailyLearnType,
-                                     input: contentsInput)
+            VStack(spacing: 0) {
+                DailyResultScoreView(
+                    resultScoresData: viewModel.resultScoresData,
+                    resultDetailData: viewModel.resultDetailData,
+                    dailyLearnType: viewModel.dailyTestType,
+                    onDetailTap: viewModel.didTapResultDetail
+                )
                 Spacer(minLength: 16)
                 TestResultGradesListView(
-                    resultGradeListData: resultGradeListData,
-                    onProblemTap: problemTapInput
+                    resultGradeListData: viewModel.resultGradeListData,
+                    onProblemTap: bridge.problemTap
                 )
-                TestResultFooterView(resultScoresData: resultScoresData, input: footerInput)
+                TestResultFooterView(
+                    resultScoresData: viewModel.resultScoresData,
+                    input: bridge.conceptTap
+                )
             }
             .background(Color.customBlue50)
         }
         .background(.white)
+        .navigationBarBackButtonHidden(true)
+        .toolbar {
+            ToolbarItem(placement: .principal) {
+                Text("시험 결과")
+                    .font(.system(size: 18, weight: .bold))
+                    .foregroundStyle(Color.coolNeutral700)
+            }
+            ToolbarItem(placement: .navigationBarLeading) {
+                Button(action: viewModel.didTapCancel) {
+                    Image(systemName: "xmark")
+                        .foregroundStyle(Color.coolNeutral800)
+                }
+            }
+        }
+        .alert("오류", isPresented: isErrorPresented) {
+            Button("확인", role: .cancel) { viewModel.errorMessage = nil }
+        } message: {
+            Text(viewModel.errorMessage ?? "")
+        }
+        .onReceive(bridge.conceptTap) { viewModel.didTapConcept() }
+        .onReceive(bridge.problemTap) { viewModel.didTapProblem(questionId: $0) }
+        .onAppear(perform: viewModel.onViewDidLoad)
     }
 }
 
-#Preview {
-    DailyResultView(resultScoresData: ResultScoresData(), resultGradeListData: ResultGradeListData(), resultDetailData: ResultDetailData(), dailyLearnType: .daily)
+// MARK: - Private
+
+private extension DailyResultView {
+    var isErrorPresented: Binding<Bool> {
+        Binding(
+            get: { viewModel.errorMessage != nil },
+            set: { if !$0 { viewModel.errorMessage = nil } }
+        )
+    }
+}
+
+// MARK: - Bridge
+
+private final class DailyResultExamKitBridge: ObservableObject {
+    let conceptTap = PassthroughSubject<Void, Never>()
+    let problemTap = PassthroughSubject<Int, Never>()
 }
