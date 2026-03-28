@@ -1,4 +1,5 @@
 import UIKit
+import SwiftUI
 import QRIZUtils
 import Network
 import ExamKit
@@ -13,6 +14,7 @@ final class DailyCoordinatorImpl: DailyNavigating, NavigationGuard {
     private let navigationController: UINavigationController
     private var dailyLearnViewController: DailyLearnViewController?
     private var dailyLearnViewModel: DailyLearnViewModel?
+    private var dailyResultViewModel: DailyResultViewModel?
     private let service: any DailyService
     private let day: Int
     private let type: DailyLearnType
@@ -70,8 +72,10 @@ final class DailyCoordinatorImpl: DailyNavigating, NavigationGuard {
     func showDailyResult() {
         guardNavigation {
             let vm = DailyResultViewModel(dailyTestType: self.type, day: self.day, dailyService: self.service)
-            let vc = DailyResultViewController(viewModel: vm)
-            vc.coordinator = self
+            vm.delegate = self
+            self.dailyResultViewModel = vm
+            let vc = UIHostingController(rootView: DailyResultView(viewModel: vm))
+            vc.hidesBottomBarWhenPushed = true
             self.navigationController.pushViewController(vc, animated: true)
         }
     }
@@ -108,6 +112,26 @@ final class DailyCoordinatorImpl: DailyNavigating, NavigationGuard {
 
     func finishDaily() {
         delegate?.didQuitDaily(self)
+    }
+}
+
+// MARK: - DailyResultViewModelDelegate
+extension DailyCoordinatorImpl: DailyResultViewModelDelegate {
+    func didRequestQuitDaily() {
+        quitDaily()
+    }
+
+    func didRequestMoveToConcept() {
+        navigationController.tabBarController?.tabBar.isHidden = false
+        delegate?.moveFromDailyToConcept(self)
+    }
+
+    func didRequestShowResultDetail(_ data: ResultDetailData) {
+        showResultDetail(resultDetailData: data)
+    }
+
+    func didRequestShowProblemDetail(questionId: Int) {
+        showProblemExplanation(questionId: questionId)
     }
 }
 
