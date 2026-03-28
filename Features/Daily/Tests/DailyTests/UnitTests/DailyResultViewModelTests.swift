@@ -24,6 +24,7 @@ struct DailyResultViewModelTests {
 
     // MARK: - TestHarness
 
+    @MainActor
     private final class TestHarness {
         let sut: DailyResultViewModel
         let delegate: MockDelegate
