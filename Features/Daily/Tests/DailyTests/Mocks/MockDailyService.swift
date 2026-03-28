@@ -1,5 +1,5 @@
 import Foundation
-@testable import Network
+import Network
 import QRIZUtils
 
 @MainActor
