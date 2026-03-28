@@ -13,12 +13,13 @@ struct DailyLearnViewModelTests {
 
     @MainActor
     private final class TestHarness {
+        private let sut: DailyLearnViewModel
         private(set) var received: [DailyLearnViewModel.Output] = []
         private let inputSubject = PassthroughSubject<DailyLearnViewModel.Input, Never>()
         private var cancellables = Set<AnyCancellable>()
 
         init(service: DailyService, type: DailyLearnType = .daily) {
-            let sut = DailyLearnViewModel(day: 1, type: type, dailyService: service)
+            self.sut = DailyLearnViewModel(day: 1, type: type, dailyService: service)
             sut.transform(input: inputSubject.eraseToAnyPublisher())
                 .sink { [weak self] in self?.received.append($0) }
                 .store(in: &cancellables)
