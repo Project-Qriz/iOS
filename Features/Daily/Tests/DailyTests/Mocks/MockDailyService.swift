@@ -35,12 +35,36 @@ final class MockDailyService: DailyService {
         fatalError("not implemented in mock")
     }
 
+    var getDailyTestResultResult: Result<DailyResultResponse, Error> = .success(
+        DailyResultResponse(
+            code: 1,
+            msg: "ok",
+            data: DailyResultResponse.DataInfo(
+                dayNumber: "1",
+                passed: false,
+                reviewDay: false,
+                comprehensiveReviewDay: false,
+                items: [],
+                subjectResultsList: [],
+                totalScore: 0
+            )
+        )
+    )
+
+    var getDailyWeeklyScoreResult: Result<DailyWeeklyScoreResponse, Error> = .success(
+        DailyWeeklyScoreResponse(
+            code: 1,
+            msg: "ok",
+            data: DailyWeeklyScoreResponse.DataInfo(subjects: [], totalScore: 0)
+        )
+    )
+
     func getDailyTestResult(dayNumber: Int) async throws -> DailyResultResponse {
-        fatalError("not implemented in mock")
+        try getDailyTestResultResult.get()
     }
 
     func getDailyWeeklyScore(dayNumber: Int) async throws -> DailyWeeklyScoreResponse {
-        fatalError("not implemented in mock")
+        try getDailyWeeklyScoreResult.get()
     }
 
     func getDailyPlan() async throws -> DailyPlanResponse {
