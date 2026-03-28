@@ -43,7 +43,6 @@ final class DailyTestTimerLabel: UILabel {
     
     // MARK: - Methods
     func updateTime(timeRemaining: Int) {
-//        timerLabel.text = formattedTime(timeRemaining: timeRemaining)
         timerLabel.text = timeRemaining.formattedTime
     }
 }

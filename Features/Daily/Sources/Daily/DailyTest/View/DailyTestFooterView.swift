@@ -58,7 +58,7 @@ final class DailyTestFooterView: UIView {
     
     private func addButtonAction() {
         nextButton.addAction(UIAction(handler: { [weak self] _ in
-            guard let self = self else { return }
+            guard let self else { return }
             self.input.send(.nextButtonClicked)
         }), for: .touchUpInside)
     }

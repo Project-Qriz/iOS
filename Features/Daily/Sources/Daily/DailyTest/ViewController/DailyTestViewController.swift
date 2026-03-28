@@ -74,7 +74,7 @@ final class DailyTestViewController: UIViewController {
         output
             .receive(on: DispatchQueue.main)
             .sink { [weak self] event in
-                guard let self = self else { return }
+                guard let self else { return }
                 switch event {
                 case .fetchFailed(let isServerError):
                     if isServerError {
@@ -139,12 +139,12 @@ final class DailyTestViewController: UIViewController {
     
     private func setAlertButtonActions() {
         let confirmAction = UIAction { [weak self] _ in
-            guard let self = self else { return }
+            guard let self else { return }
             self.input.send(.alertSubmitButtonClicked)
         }
-        
+
         let cancelAction = UIAction { [weak self] _ in
-            guard let self = self else { return }
+            guard let self else { return }
             self.input.send(.alertCancelButtonClicked)
         }
         
@@ -152,7 +152,7 @@ final class DailyTestViewController: UIViewController {
     }
 }
 
-// Auto Layout
+// MARK: - Auto Layout
 extension DailyTestViewController {
     private func addViews() {
         self.view.addSubview(progressView)
@@ -162,7 +162,6 @@ extension DailyTestViewController {
         
         progressView.translatesAutoresizingMaskIntoConstraints = false
         scrollView.translatesAutoresizingMaskIntoConstraints = false
-        contentsView.translatesAutoresizingMaskIntoConstraints = false
         contentsView.translatesAutoresizingMaskIntoConstraints = false
         footerView.translatesAutoresizingMaskIntoConstraints = false
         
