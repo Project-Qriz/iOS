@@ -6,55 +6,57 @@
 //
 
 import Foundation
-import Combine
 import QRIZUtils
 import Network
 
 @MainActor
-final class DailyResultViewModel {
-    
-    // MARK: - Input & Output
-    enum Input {
-        case viewDidLoad
-        case cancelButtonClicked
-        case moveToConceptButtonClicked
-        case resultDetailButtonClicked
-        case problemTapped(questionId: Int)
-    }
+protocol DailyResultViewModelDelegate: AnyObject {
+    func didRequestQuitDaily()
+    func didRequestMoveToConcept()
+    func didRequestShowResultDetail(_ data: ResultDetailData)
+    func didRequestShowProblemDetail(questionId: Int)
+}
 
-    enum Output {
-        case fetchFailed(isServerError: Bool)
-        case moveToDailyLearn
-        case moveToConcept
-        case moveToResultDetail
-        case showProblemDetail(questionId: Int)
+@MainActor
+final class DailyResultViewModel: ObservableObject {
+    
+    // MARK: - Enums
+    
+    private enum SubjectTitle: String {
+        case subject1 = "1과목"
+        case subject2 = "2과목"
     }
+    
+    // MARK: - Published
+    
+    @Published var errorMessage: String?
+    
+    // MARK: - Observable Data
+    
+    let resultScoresData = ResultScoresData()
+    let resultGradeListData = ResultGradeListData()
+    let resultDetailData = ResultDetailData()
     
     // MARK: - Properties
+    
+    let dailyTestType: DailyLearnType
+    weak var delegate: (any DailyResultViewModelDelegate)?
+
+    private var fetchTask: Task<Void, Never>?
     private var subjectScores: [Double] = []
-    private var subjectCount: Int = 0
+    private var subjectCount = 0
     private var gradeResultList: [GradeResult] = []
     private var subject1DetailResult: [SubjectDetailData] = []
     private var subject2DetailResult: [SubjectDetailData] = []
-    private var passed: Bool = false
-    private var numOfDataToPresent: Int = 0
-    private let nickname: String = UserInfoManager.shared.name
+    private var passed = false
+    private var numOfDataToPresent = 0
+    private let nickname = UserInfoManager.shared.name
     private let day: Int
-    let dailyTestType: DailyLearnType
-    private var dayNum: String {
-        "DAY \(day)"
-    }
-
-    var resultScoresData = ResultScoresData()
-    var resultGradeListData = ResultGradeListData()
-    var resultDetailData = ResultDetailData()
-    
-    private let output: PassthroughSubject<Output, Never> = .init()
-    private var subscriptions = Set<AnyCancellable>()
-    
+    private var dayNum: String { "DAY \(day)" }
     private let dailyService: DailyService
-    
-    // MARK: - Initializers
+
+    // MARK: - Initialization
+
     init(dailyTestType: DailyLearnType, day: Int, dailyService: DailyService) {
         self.dailyTestType = dailyTestType
         self.day = day
@@ -62,49 +64,62 @@ final class DailyResultViewModel {
     }
     
     // MARK: - Methods
-    func transform(input: AnyPublisher<Input, Never>) -> AnyPublisher<Output, Never> {
-        input.sink { [weak self] event in
-            guard let self = self else { return }
-            switch event {
-            case .viewDidLoad:
-                fetchData()
-            case .cancelButtonClicked:
-                output.send(.moveToDailyLearn)
-            case .moveToConceptButtonClicked:
-                output.send(.moveToConcept)
-            case .resultDetailButtonClicked:
-                if dailyTestType == .weekly {
-                    output.send(.moveToResultDetail)
-                }
-            case .problemTapped(let questionId):
-                output.send(.showProblemDetail(questionId: questionId))
-            }
-        }
-        .store(in: &subscriptions)
-        return output.eraseToAnyPublisher()
+
+    func onViewDidLoad() {
+        fetchTask?.cancel()
+        resetFetchState()
+        fetchTask = Task { await fetchData() }
     }
     
-    private func fetchData() {
-        Task { [weak self] in
-            guard let self = self else { return }
-            do {
-                if dailyTestType == .weekly {
-                    try await fetchWeeklyResult()
-                } else {
-                    try await fetchDailyAndComprehensiveResult()
-                }
-                updateData()
-            } catch NetworkError.serverError {
-                output.send(.fetchFailed(isServerError: true))
-            } catch {
-                output.send(.fetchFailed(isServerError: false))
+    func didTapCancel() {
+        delegate?.didRequestQuitDaily()
+    }
+
+    func didTapResultDetail() {
+        // View에서 .weekly 조건부 렌더링으로 이미 제어하지만 방어적으로 재검증
+        guard dailyTestType == .weekly else { return }
+        delegate?.didRequestShowResultDetail(resultDetailData)
+    }
+
+    func didTapConcept() {
+        delegate?.didRequestMoveToConcept()
+    }
+
+    func didTapProblem(questionId: Int) {
+        delegate?.didRequestShowProblemDetail(questionId: questionId)
+    }
+    
+    // MARK: - Private
+
+    private func resetFetchState() {
+        subjectScores = []
+        subjectCount = 0
+        gradeResultList = []
+        subject1DetailResult = []
+        subject2DetailResult = []
+        passed = false
+        numOfDataToPresent = 0
+    }
+
+    private func fetchData() async {
+        do {
+            if dailyTestType == .weekly {
+                try await fetchWeeklyResult()
+            } else {
+                try await fetchDailyAndComprehensiveResult()
             }
+            updateData()
+        } catch NetworkError.serverError {
+            errorMessage = "관리자에게 문의하세요."
+        } catch {
+            errorMessage = "잠시 후 다시 시도해주세요."
         }
     }
     
     private func updateData() {
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.50) { [weak self] in
-            guard let self = self else { return }
+        Task { @MainActor [weak self] in
+            try? await Task.sleep(nanoseconds: 500_000_000)
+            guard let self else { return }
             self.resultScoresData.nickname = self.nickname
             self.resultScoresData.subjectCount = self.subjectCount
             self.resultScoresData.passed = self.passed
@@ -116,8 +131,8 @@ final class DailyResultViewModel {
             self.resultDetailData.subject2DetailResult = self.subject2DetailResult
             self.resultDetailData.numOfDataToPresent = self.numOfDataToPresent
             
-            for i in 0...4 {
-                self.resultScoresData.subjectScores[i] = self.subjectScores[i]
+            zip(self.resultScoresData.subjectScores.indices, self.subjectScores).forEach { index, score in
+                self.resultScoresData.subjectScores[index] = score
             }
         }
     }
@@ -125,66 +140,61 @@ final class DailyResultViewModel {
     private func fetchDailyAndComprehensiveResult() async throws {
         let response = try await dailyService.getDailyTestResult(dayNumber: day)
         let items = response.data.items
-        self.subjectCount = items.count
-        self.numOfDataToPresent = items.count
+        subjectCount = items.count
+        numOfDataToPresent = items.count
         for i in 0..<subjectCount {
-            self.subjectScores.append(items[i].score)
-            self.subject1DetailResult.append(SubjectDetailData(
+            subjectScores.append(items[i].score)
+            subject1DetailResult.append(SubjectDetailData(
                 majorItem: SurveyCheckList.list[items[i].skillId - 1],
                 score: items[i].score,
-                minorItems: []))
+                minorItems: []
+            ))
         }
         addSubjectScoresPadding()
-        self.passed = response.data.passed
+        passed = response.data.passed
         updateSubjectList(subjectResultList: response.data.subjectResultsList)
     }
     
     private func fetchWeeklyResult() async throws {
         let scoreResponse = try await dailyService.getDailyWeeklyScore(dayNumber: day)
         let scoreData = scoreResponse.data
-        self.subjectCount = scoreData.subjects.reduce(0, {
-            $0 + $1.majorItems.count
-        })
-        self.numOfDataToPresent = subjectCount
+        subjectCount = scoreData.subjects.reduce(0) { $0 + $1.majorItems.count }
+        numOfDataToPresent = subjectCount
         
         try scoreData.subjects.forEach {
             switch $0.title {
-            case "1과목":
-                $0.majorItems.forEach { [weak self] item in
-                    guard let self = self else { return }
-                    self.subject1DetailResult.append(SubjectDetailData(majorItem: item.majorItem, score: item.score, minorItems: item.subItemScores.map { $0.toEntity() }))
-                    self.subjectScores.append(item.score)
+            case SubjectTitle.subject1.rawValue:
+                $0.majorItems.forEach { item in
+                    subject1DetailResult.append(SubjectDetailData(majorItem: item.majorItem, score: item.score, minorItems: item.subItemScores.map { $0.toEntity() }))
+                    subjectScores.append(item.score)
                 }
-            case "2과목":
-                $0.majorItems.forEach { [weak self] item in
-                    guard let self = self else { return }
-                    self.subject2DetailResult.append(SubjectDetailData(majorItem: item.majorItem, score: item.score, minorItems: item.subItemScores.map { $0.toEntity() }))
-                    self.subjectScores.append(item.score)
+            case SubjectTitle.subject2.rawValue:
+                $0.majorItems.forEach { item in
+                    subject2DetailResult.append(SubjectDetailData(majorItem: item.majorItem, score: item.score, minorItems: item.subItemScores.map { $0.toEntity() }))
+                    subjectScores.append(item.score)
                 }
             default:
-                print("Received Unknown Title for WeeklyScore")
                 throw NetworkError.unknownError
             }
         }
         
         addSubjectScoresPadding()
         let resultResponse = try await dailyService.getDailyTestResult(dayNumber: day)
-        self.passed = resultResponse.data.passed
+        passed = resultResponse.data.passed
         updateSubjectList(subjectResultList: resultResponse.data.subjectResultsList)
     }
     
     private func addSubjectScoresPadding() {
         if subjectCount < 5 {
             for _ in 0..<(5 - subjectCount) {
-                self.subjectScores.append(0)
+                subjectScores.append(0)
             }
         }
     }
     
     private func updateSubjectList(subjectResultList: [SubjectResult]) {
-        subjectResultList.enumerated().forEach { [weak self] in
-            guard let self = self else { return }
-            self.gradeResultList.append(GradeResult(
+        subjectResultList.enumerated().forEach {
+            gradeResultList.append(GradeResult(
                 id: $0 + 1,
                 questionId: $1.questionId,
                 skillName: $1.detailType,
