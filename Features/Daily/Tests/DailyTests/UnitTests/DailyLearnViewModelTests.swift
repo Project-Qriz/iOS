@@ -11,6 +11,7 @@ struct DailyLearnViewModelTests {
 
     // MARK: - Test Harness
 
+    @MainActor
     private final class TestHarness {
         private(set) var received: [DailyLearnViewModel.Output] = []
         private let inputSubject = PassthroughSubject<DailyLearnViewModel.Input, Never>()
