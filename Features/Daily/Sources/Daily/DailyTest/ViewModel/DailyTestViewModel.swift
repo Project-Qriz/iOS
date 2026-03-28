@@ -44,10 +44,10 @@ final class DailyTestViewModel {
     private var questionList: [QuestionData] = []
     private var submitData: [DailySubmitData] = []
     private var dailyTestList: [DailyTestInfo] = []
-    private var curNum: Int? = nil
-    private var timer: Timer? = nil
-    private var timeLimit: Int? = nil
-    private var startTime: Date? = nil
+    private var curNum: Int?
+    private var timer: Timer?
+    private var timeLimit: Int?
+    private var startTime: Date?
     private var timeRemaining: Int = 0
     private let dailyTestType: DailyLearnType
     private let day: Int
@@ -67,13 +67,12 @@ final class DailyTestViewModel {
     // MARK: - Deinitializer
     deinit {
         exitTimer()
-        print("DEINIT: DailyTestViewModel")
     }
     
     // MARK: - Methods
     func transform(input: AnyPublisher<Input, Never>) -> AnyPublisher<Output, Never> {
         input.sink { [weak self] event in
-            guard let self = self else { return }
+            guard let self else { return }
             switch event {
             case .viewDidLoad:
                 fetchData()
@@ -81,7 +80,6 @@ final class DailyTestViewModel {
                 startTimer()
             case .optionTapped(let optionIdx):
                 optionSelectHandler(optionIdx: optionIdx)
-                if let curNum = curNum, curNum == 1 { buttonStateHandler() }
             case .cancelButtonClicked:
                 exitTimer()
                 output.send(.moveToHomeView)
@@ -99,11 +97,11 @@ final class DailyTestViewModel {
     
     private func fetchData() {
         Task { [weak self] in
-            guard let self = self else { return }
+            guard let self else { return }
             do {
                 let response = try await dailyService.getDailyTestList(dayNumber: day)
                 guard let data = response.data else { throw NetworkError.unknownError }
-                if data.count == 0 { throw NetworkError.unknownError }
+                if data.isEmpty { throw NetworkError.unknownError }
                 dailyTestList = data
                 data.enumerated().forEach {
                     self.questionList.append(QuestionData(question: $1.question,
@@ -167,7 +165,7 @@ final class DailyTestViewModel {
         guard let curNum = curNum else { return }
         switch curNum {
         case 1:
-            if let _ = questionList[0].selectedOption {
+            if questionList[0].selectedOption != nil {
                 output.send(.setButtonVisibility(isVisible: true))
             } else {
                 output.send(.setButtonVisibility(isVisible: false))
@@ -199,9 +197,9 @@ final class DailyTestViewModel {
     
     private func sendSubmitData() {
         Task { [weak self] in
-            guard let self = self else { return }
+            guard let self else { return }
             do {
-                let _ = try await dailyService.submitDaily(dayNumber: day, dailySubmitData: submitData)
+                try await dailyService.submitDaily(dayNumber: day, dailySubmitData: submitData)
                 exitTimer()
                 output.send(.submitSuccess)
                 output.send(.moveToDailyResult)
@@ -222,7 +220,7 @@ extension DailyTestViewModel {
         }
     }
     
-    @objc func updateTimerPerSecond() {
+    @objc private func updateTimerPerSecond() {
         guard let timeLimit = timeLimit, let startTime = startTime else { return }
         let timeElapsed = Int(Date().timeIntervalSince(startTime))
         timeRemaining = timeLimit - timeElapsed
@@ -252,6 +250,5 @@ extension DailyTestViewModel {
     private func exitTimer() {
         timer?.invalidate()
         timer = nil
-        print("EXIT TIMER")
     }
 }
