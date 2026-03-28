@@ -9,18 +9,35 @@ import UIKit
 import DesignSystem
 
 final class StudyContentCell: UICollectionViewCell {
-    
+
+    // MARK: - Enums
+
+    private enum Metric {
+        static let titleTopOffset: CGFloat = 20
+        static let horizontalInset: CGFloat = 16
+        static let descriptionTopSpacing: CGFloat = 12
+    }
+
     // MARK: - Properties
-    static let identifier: String = "StudyContentCell"
-    
+
+    static let identifier = "StudyContentCell"
+
+    private static let descriptionParagraphStyle: NSParagraphStyle = {
+        let style = NSMutableParagraphStyle()
+        style.lineSpacing = 4
+        return style
+    }()
+
+    // MARK: - UI
+
     private let titleLabel: UILabel = {
         let label = UILabel()
         label.textColor = .coolNeutral800
-        label.numberOfLines = 1
         label.textAlignment = .left
         label.font = .systemFont(ofSize: 18, weight: .bold)
         return label
     }()
+
     private let descriptionLabel: UILabel = {
         let label = UILabel()
         label.textColor = .coolNeutral500
@@ -29,67 +46,69 @@ final class StudyContentCell: UICollectionViewCell {
         label.font = .systemFont(ofSize: 14, weight: .regular)
         return label
     }()
-    
-    // MARK: - Initializers
+
+    // MARK: - Initialization
+
     override init(frame: CGRect) {
         super.init(frame: frame)
         backgroundColor = .white
-        setBorder()
+        setupAppearance()
         addGestureRecognizer(UILongPressGestureRecognizer(target: self, action: #selector(handleLongPress)))
-        addViews()
+        addSubviews()
+        setupConstraints()
     }
-    
+
     required init?(coder: NSCoder) {
-        fatalError("no initializer for coder: StudyContentCell")
+        fatalError("init(coder:) has not been implemented")
     }
-    
+
     // MARK: - Methods
-    func setLabelText(titleText: String, descriptionText: String) {
-        titleLabel.text = titleText
-        
-        let paragraphStyle = NSMutableParagraphStyle()
-        paragraphStyle.lineSpacing = 4
-        let attributedString = NSMutableAttributedString(string: descriptionText)
-        attributedString.addAttribute(.paragraphStyle, value: paragraphStyle, range: NSRange(location: 0, length: attributedString.length))
-        
+
+    func configure(title: String, description: String) {
+        titleLabel.text = title
+
+        let attributedString = NSMutableAttributedString(string: description)
+        attributedString.addAttribute(.paragraphStyle, value: Self.descriptionParagraphStyle, range: NSRange(location: 0, length: attributedString.length))
+
         descriptionLabel.attributedText = attributedString
     }
-    
-    private func setBorder() {
-        self.layer.cornerRadius = 8
-        self.layer.shadowOpacity = 1
-        self.layer.shadowRadius = 8
-        self.layer.shadowColor = UIColor.coolNeutral100.cgColor
+
+    private func setupAppearance() {
+        layer.cornerRadius = 8
+        layer.shadowOpacity = 1
+        layer.shadowRadius = 8
+        layer.shadowColor = UIColor.coolNeutral100.cgColor
     }
-    
-    @objc private func handleLongPress(_ sender: UIGestureRecognizer) {
+
+    @objc private func handleLongPress(_ sender: UILongPressGestureRecognizer) {
         switch sender.state {
         case .began:
-            self.backgroundColor = .coolNeutral800.withAlphaComponent(0.1)
+            backgroundColor = .coolNeutral800.withAlphaComponent(0.1)
         case .cancelled, .failed, .ended:
-            self.backgroundColor = .white
+            backgroundColor = .white
         default:
             break
         }
     }
 }
 
-// MARK: - Auto Layout
+// MARK: - Layout Setup
+
 extension StudyContentCell {
-    private func addViews() {
-        addSubview(titleLabel)
-        addSubview(descriptionLabel)
-        
-        titleLabel.translatesAutoresizingMaskIntoConstraints = false
-        descriptionLabel.translatesAutoresizingMaskIntoConstraints = false
-        
+    private func addSubviews() {
+        [titleLabel, descriptionLabel].forEach(addSubview(_:))
+    }
+
+    private func setupConstraints() {
+        [titleLabel, descriptionLabel].forEach { $0.translatesAutoresizingMaskIntoConstraints = false }
+
         NSLayoutConstraint.activate([
-            titleLabel.topAnchor.constraint(equalTo: self.topAnchor, constant: 20),
-            titleLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 16),
-            
-            descriptionLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 12),
-            descriptionLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 16),
-            descriptionLabel.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -16),
+            titleLabel.topAnchor.constraint(equalTo: topAnchor, constant: Metric.titleTopOffset),
+            titleLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Metric.horizontalInset),
+
+            descriptionLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: Metric.descriptionTopSpacing),
+            descriptionLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Metric.horizontalInset),
+            descriptionLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -Metric.horizontalInset),
         ])
     }
 }
