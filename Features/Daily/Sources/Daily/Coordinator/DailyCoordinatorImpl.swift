@@ -105,6 +105,10 @@ final class DailyCoordinatorImpl: DailyNavigating, NavigationGuard {
             dailyLearnVM.reloadData()
         }
     }
+
+    func finishDaily() {
+        delegate?.didQuitDaily(self)
+    }
 }
 
 // MARK: - ProblemDetailCoordinating

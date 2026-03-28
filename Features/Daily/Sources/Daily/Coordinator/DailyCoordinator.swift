@@ -40,5 +40,6 @@ protocol DailyNavigating: DailyCoordinator {
     func showDailyResult()
     func showResultDetail(resultDetailData: ResultDetailData)
     func showProblemExplanation(questionId: Int)
-    func quitDaily()
+    func quitDaily()       // DailyTest/DailyResult → DailyLearn 복귀
+    func finishDaily()     // DailyLearn 뒤로가기 → Daily 세션 전체 종료
 }
