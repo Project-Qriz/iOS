@@ -17,7 +17,7 @@ struct DailyLearnViewModelTests {
         private let inputSubject = PassthroughSubject<DailyLearnViewModel.Input, Never>()
         private var cancellables = Set<AnyCancellable>()
 
-        init(service: DailyService = MockDailyService(), type: DailyLearnType = .daily) {
+        init(service: DailyService, type: DailyLearnType = .daily) {
             let sut = DailyLearnViewModel(day: 1, type: type, dailyService: service)
             sut.transform(input: inputSubject.eraseToAnyPublisher())
                 .sink { [weak self] in self?.received.append($0) }
@@ -208,7 +208,7 @@ struct DailyLearnViewModelTests {
 
     @Test("alertMoveClicked → dismissAlert 후 moveToDailyTest 순서로 emit")
     func alertMoveClicked_emitsDismissAlertThenMoveToDailyTest() {
-        let h = TestHarness()
+        let h = TestHarness(service: MockDailyService())
         h.send(.alertMoveClicked)
 
         guard h.received.count == 2 else {
@@ -225,7 +225,7 @@ struct DailyLearnViewModelTests {
 
     @Test("alertCancelClicked → dismissAlert emit")
     func alertCancelClicked_emitsDismissAlert() {
-        let h = TestHarness()
+        let h = TestHarness(service: MockDailyService())
         h.send(.alertCancelClicked)
 
         guard h.received.count == 1, let first = h.received.first else {
@@ -239,7 +239,7 @@ struct DailyLearnViewModelTests {
 
     @Test("backButtonClicked → moveToHome emit")
     func backButtonClicked_emitsMoveToHome() {
-        let h = TestHarness()
+        let h = TestHarness(service: MockDailyService())
         h.send(.backButtonClicked)
 
         guard h.received.count == 1, let first = h.received.first else {
@@ -253,7 +253,7 @@ struct DailyLearnViewModelTests {
 
     @Test("toConceptClicked → moveToConcept emit")
     func toConceptClicked_emitsMoveToConcept() {
-        let h = TestHarness()
+        let h = TestHarness(service: MockDailyService())
         h.send(.toConceptClicked(conceptIdx: 1))
 
         guard h.received.count == 1, let first = h.received.first else {
