@@ -11,8 +11,11 @@ import QRIZUtils
 import Network
 
 final class DailyLearnViewModel {
-    
-    // MARK: - Input & Output
+
+    // MARK: - Enums
+
+    private typealias StatusInfo = DailyDetailAndStatusResponse.DataInfo.StatusInfo
+
     enum Input {
         case viewDidLoad
         case testNavigatorButtonClicked
@@ -21,13 +24,10 @@ final class DailyLearnViewModel {
         case alertCancelClicked
         case backButtonClicked
     }
-    
+
     enum Output {
-        case fetchSuccess(state: DailyTestState,
-                          type: DailyLearnType,
-                          score: Double?
-        )
-        case updateContent(conceptArr: [(Int, String)])
+        case fetchSuccess(state: DailyTestState, type: DailyLearnType, score: Double?)
+        case updateContent(concepts: [(Int, String)])
         case fetchFailed(isServerError: Bool)
         case moveToDailyTest
         case showRetestAlert
@@ -36,27 +36,30 @@ final class DailyLearnViewModel {
         case dismissAlert
         case moveToHome
     }
-    
+
     // MARK: - Properties
+
     private let day: Int
     private let type: DailyLearnType
     private var state: DailyTestState = .unavailable
-    private var score: Double? = nil
-    private var conceptArr: [(Int, String)] = []
-    
+    private var score: Double?
+    private var concepts: [(Int, String)] = []
+
     private let output: PassthroughSubject<Output, Never> = .init()
-    private var subscriptions = Set<AnyCancellable>()
-    
+    private var cancellables = Set<AnyCancellable>()
+
     private let dailyService: DailyService
-    
-    // MARK: - Intiailizer
+
+    // MARK: - Initialization
+
     init(day: Int, type: DailyLearnType, dailyService: DailyService) {
         self.day = day
         self.type = type
         self.dailyService = dailyService
     }
-    
+
     // MARK: - Methods
+
     func transform(input: AnyPublisher<Input, Never>) -> AnyPublisher<Output, Never> {
         input.sink { [weak self] event in
             guard let self = self else { return }
@@ -66,8 +69,10 @@ final class DailyLearnViewModel {
             case .testNavigatorButtonClicked:
                 handleNavigateAction()
             case .toConceptClicked(let conceptIdx):
-                output.send(.moveToConcept(chapter: SurveyCheckList.getChapter(conceptIdx - 1),
-                                           conceptItem: SurveyCheckList.getConceptItem(conceptIdx - 1)))
+                output.send(.moveToConcept(
+                    chapter: SurveyCheckList.getChapter(conceptIdx - 1),
+                    conceptItem: SurveyCheckList.getConceptItem(conceptIdx - 1)
+                ))
             case .alertMoveClicked:
                 output.send(.dismissAlert)
                 output.send(.moveToDailyTest)
@@ -77,10 +82,10 @@ final class DailyLearnViewModel {
                 output.send(.moveToHome)
             }
         }
-        .store(in: &subscriptions)
+        .store(in: &cancellables)
         return output.eraseToAnyPublisher()
     }
-    
+
     private func fetchData() {
         Task { [weak self] in
             guard let self = self else { return }
@@ -88,16 +93,12 @@ final class DailyLearnViewModel {
                 let response = try await dailyService.getDailyDetailAndStatus(dayNumber: day)
                 let status = response.data.status
 
-                setTestState(attemptCount: status.attemptCount,
-                             passed: status.passed,
-                             retestEligible: status.retestEligible,
-                             available: status.available)
-                setTestScore(attemptCount: status.attemptCount, score: status.totalScore)
-                response.data.skills.forEach {
-                    self.conceptArr.append(($0.id, $0.description))
-                }
+                setTestState(from: status)
+                setTestScore(from: status)
+                concepts = response.data.skills.map { ($0.id, $0.description) }
+
                 output.send(.fetchSuccess(state: state, type: type, score: score))
-                output.send(.updateContent(conceptArr: conceptArr))
+                output.send(.updateContent(concepts: concepts))
             } catch NetworkError.serverError {
                 output.send(.fetchFailed(isServerError: true))
             } catch {
@@ -105,31 +106,27 @@ final class DailyLearnViewModel {
             }
         }
     }
-    
-    private func setTestState(attemptCount: Int, passed: Bool, retestEligible: Bool, available: Bool) {
-        if !available {
+
+    private func setTestState(from status: StatusInfo) {
+        if !status.available {
             state = .unavailable
             return
         }
-        if passed {
+        if status.passed {
             state = .passed
             return
         }
-        if retestEligible {
+        if status.retestEligible {
             state = .retestRequired
             return
         }
-        if attemptCount == 0 {
-            state = .zeroAttempt
-            return
-        }
-        state = .failed
+        state = status.attemptCount == 0 ? .zeroAttempt : .failed
     }
-    
-    private func setTestScore(attemptCount: Int, score: CGFloat) {
-        self.score = attemptCount > 0 ? score : nil
+
+    private func setTestScore(from status: StatusInfo) {
+        score = status.attemptCount > 0 ? status.totalScore : nil
     }
-    
+
     private func handleNavigateAction() {
         switch state {
         case .unavailable:
@@ -142,9 +139,8 @@ final class DailyLearnViewModel {
             output.send(.moveToDailyTestResult)
         }
     }
-    
+
     func reloadData() {
-        conceptArr = []
         fetchData()
     }
 }
