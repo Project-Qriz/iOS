@@ -18,7 +18,7 @@ final class DailyTestView: UIView {
         return scrollView
     }()
 
-    let progressView: UIProgressView = {
+    private let progressView: UIProgressView = {
         let view = UIProgressView()
         view.progressTintColor = .customBlue500
         view.trackTintColor = .coolNeutral200
