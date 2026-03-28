@@ -36,11 +36,13 @@ struct DailyResultViewModelTests {
             sut.delegate = delegate
         }
 
+        /// fetch 완료만 기다림 — updateData() 내부 500ms sleep 이전 상태를 검증할 때 사용
         func sendViewDidLoad() async throws {
             sut.onViewDidLoad()
             try await Task.sleep(nanoseconds: asyncSleepNanoseconds)
         }
 
+        /// fetch + updateData() 전파까지 기다림 — ObservableObject 반영 여부를 검증할 때 사용
         func sendViewDidLoadAndWaitForUpdate() async throws {
             sut.onViewDidLoad()
             try await Task.sleep(nanoseconds: updateDataSleepNanoseconds)
@@ -52,6 +54,7 @@ struct DailyResultViewModelTests {
     private func makeService(
         passed: Bool = true,
         items: [DailyResultResponse.DataInfo.ItemInfo] = [
+            // skillId는 1-based: SurveyCheckList.list[skillId - 1]로 접근하므로 반드시 1 이상이어야 함
             DailyResultResponse.DataInfo.ItemInfo(skillId: 1, score: 80.0)
         ],
         subjectResults: [SubjectResult] = [
@@ -117,6 +120,13 @@ struct DailyResultViewModelTests {
         return service
     }
 
+    /// getDailyWeeklyScore 성공 + getDailyTestResult 실패 (weekly 두 번째 API 호출 실패 시나리오)
+    private func makeWeeklyPartialFailService(_ error: Error) -> MockDailyService {
+        let service = makeService()
+        service.getDailyTestResultResult = .failure(error)
+        return service
+    }
+
     // MARK: - onViewDidLoad 에러 케이스
 
     @Test("onViewDidLoad 서버 에러 → errorMessage 서버 에러 안내 메시지 설정")
@@ -168,8 +178,24 @@ struct DailyResultViewModelTests {
     @Test("onViewDidLoad daily 성공 → errorMessage nil 유지")
     func onViewDidLoad_daily_success_errorMessageRemainsNil() async throws {
         let h = TestHarness(service: makeService())
-        try await h.sendViewDidLoad()
+        try await h.sendViewDidLoadAndWaitForUpdate()
         #expect(h.sut.errorMessage == nil)
+    }
+
+    @Test("onViewDidLoad daily 성공 → subjectScores에 점수 반영")
+    func onViewDidLoad_daily_success_updatesSubjectScores() async throws {
+        let h = TestHarness(service: makeService(items: [
+            DailyResultResponse.DataInfo.ItemInfo(skillId: 1, score: 75.0)
+        ]))
+        try await h.sendViewDidLoadAndWaitForUpdate()
+        #expect(h.sut.resultScoresData.subjectScores[0] == 75.0)
+    }
+
+    @Test("onViewDidLoad weekly getDailyTestResult 실패 → errorMessage 재시도 안내 메시지 설정")
+    func onViewDidLoad_weekly_partialFail_setsErrorMessage() async throws {
+        let h = TestHarness(service: makeWeeklyPartialFailService(URLError(.timedOut)), type: .weekly)
+        try await h.sendViewDidLoad()
+        #expect(h.sut.errorMessage == "잠시 후 다시 시도해주세요.")
     }
 
     // MARK: - 네비게이션 액션
@@ -195,11 +221,11 @@ struct DailyResultViewModelTests {
         #expect(h.delegate.showProblemDetailQuestionId == 42)
     }
 
-    @Test("didTapResultDetail + .weekly → delegate.didRequestShowResultDetail 호출")
-    func didTapResultDetail_weeklyType_callsDelegateShowResultDetail() {
+    @Test("didTapResultDetail + .weekly → delegate에 올바른 resultDetailData 인스턴스 전달")
+    func didTapResultDetail_weeklyType_passesCorrectResultDetailData() {
         let h = TestHarness(service: MockDailyService(), type: .weekly)
         h.sut.didTapResultDetail()
-        #expect(h.delegate.showResultDetailData != nil)
+        #expect(h.delegate.showResultDetailData === h.sut.resultDetailData)
     }
 
     @Test("didTapResultDetail + .daily → delegate 호출 안 함")
