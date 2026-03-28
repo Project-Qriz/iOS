@@ -29,9 +29,7 @@ final class DailyTestView: UIView {
     private let contentsView: TestContentsView = .init()
     private let timerLabel: DailyTestTimerLabel = .init()
 
-    var timerBarButtonItem: UIBarButtonItem {
-        UIBarButtonItem(customView: timerLabel)
-    }
+    private(set) lazy var timerBarButtonItem = UIBarButtonItem(customView: timerLabel)
 
     var userInputPublisher: AnyPublisher<DailyTestViewModel.Input, Never> {
         let optionTapped = contentsView.optionTappedPublisher
