@@ -10,9 +10,11 @@ import Combine
 import QRIZUtils
 import Network
 
+@MainActor
 final class DailyTestViewModel {
     
     // MARK: - Input & Output
+    
     enum Input {
         case viewDidLoad
         case viewDidAppear
@@ -49,7 +51,6 @@ final class DailyTestViewModel {
     private var timeLimit: Int?
     private var startTime: Date?
     private var timeRemaining: Int = 0
-    private let dailyTestType: DailyLearnType
     private let day: Int
     
     private let output: PassthroughSubject<Output, Never> = .init()
@@ -58,18 +59,20 @@ final class DailyTestViewModel {
     private let dailyService: DailyService
     
     // MARK: - Initializers
-    init(dailyTestType: DailyLearnType, day: Int, dailyService: DailyService) {
-        self.dailyTestType = dailyTestType
+    
+    init(day: Int, dailyService: DailyService) {
         self.day = day
         self.dailyService = dailyService
     }
     
     // MARK: - Deinitializer
+    
     deinit {
-        exitTimer()
+        timer?.invalidate()
     }
     
     // MARK: - Methods
+    
     func transform(input: AnyPublisher<Input, Never>) -> AnyPublisher<Output, Never> {
         input.sink { [weak self] event in
             guard let self else { return }
@@ -84,7 +87,7 @@ final class DailyTestViewModel {
                 exitTimer()
                 output.send(.moveToHomeView)
             case .nextButtonClicked:
-                buttonClickEventHandler()
+                handleNextButton()
             case .alertSubmitButtonClicked:
                 sendSubmitData()
             case .alertCancelButtonClicked:
@@ -103,20 +106,24 @@ final class DailyTestViewModel {
                 guard let data = response.data else { throw NetworkError.unknownError }
                 if data.isEmpty { throw NetworkError.unknownError }
                 dailyTestList = data
-                data.enumerated().forEach {
-                    self.questionList.append(QuestionData(question: $1.question,
-                                                     option1: $1.options[0].content,
-                                                     option2: $1.options[1].content,
-                                                     option3: $1.options[2].content,
-                                                     option4: $1.options[3].content,
-                                                     timeLimit: $1.timeLimit,
-                                                     questionNumber: $0 + 1,
-                                                     description: $1.description))
-                    self.submitData.append(
-                        DailySubmitData(
-                            question: SubmitQuestionData(questionId: $1.questionId, category: $1.category),
-                            questionNum: $0 + 1,
-                            optionId: nil, timeSpent: 0))
+                data.enumerated().forEach { index, item in
+                    guard item.options.count >= 4 else { return }
+                    self.questionList.append(QuestionData(
+                        question: item.question,
+                        option1: item.options[0].content,
+                        option2: item.options[1].content,
+                        option3: item.options[2].content,
+                        option4: item.options[3].content,
+                        timeLimit: item.timeLimit,
+                        questionNumber: index + 1,
+                        description: item.description
+                    ))
+                    self.submitData.append(DailySubmitData(
+                        question: SubmitQuestionData(questionId: item.questionId, category: item.category),
+                        questionNum: index + 1,
+                        optionId: nil,
+                        timeSpent: 0
+                    ))
                 }
                 curNum = 1
                 output.send(.updateTotalPage(totalPage: questionList.count))
@@ -130,7 +137,7 @@ final class DailyTestViewModel {
     }
     
     private func questionStateHandler() {
-        guard let curNum = curNum else { return }
+        guard let curNum else { return }
         if curNum > questionList.count {
             sendSubmitData()
             return
@@ -142,7 +149,8 @@ final class DailyTestViewModel {
     }
     
     private func optionSelectHandler(optionIdx: Int) {
-        guard let curNum = curNum else { return }
+        guard let curNum else { return }
+        guard optionIdx - 1 < dailyTestList[curNum - 1].options.count else { return }
         if let prevSelectedIdx = questionList[curNum - 1].selectedOption {
             questionList[curNum - 1].selectedOption = nil
             submitData[curNum - 1].optionId = nil
@@ -162,14 +170,10 @@ final class DailyTestViewModel {
     }
     
     private func buttonStateHandler() {
-        guard let curNum = curNum else { return }
+        guard let curNum else { return }
         switch curNum {
         case 1:
-            if questionList[0].selectedOption != nil {
-                output.send(.setButtonVisibility(isVisible: true))
-            } else {
-                output.send(.setButtonVisibility(isVisible: false))
-            }
+            output.send(.setButtonVisibility(isVisible: questionList[0].selectedOption != nil))
         case 2:
             output.send(.setButtonVisibility(isVisible: true))
         case questionList.count:
@@ -179,12 +183,12 @@ final class DailyTestViewModel {
         }
     }
     
-    private func buttonClickEventHandler() {
-        guard let currentNumber = curNum else { return }
-        if currentNumber >= questionList.count {
+    private func handleNextButton() {
+        guard let curNum else { return }
+        if curNum >= questionList.count {
             output.send(.popSubmitAlert)
         } else {
-            curNum = currentNumber + 1
+            self.curNum = curNum + 1
             questionStateHandler()
         }
     }
@@ -211,42 +215,47 @@ final class DailyTestViewModel {
 }
 
 // MARK: - Timer Methods
+
 extension DailyTestViewModel {
     private func startTimer() {
         startTime = Date()
-        timer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(updateTimerPerSecond), userInfo: nil, repeats: true)
-        if let timer = timer {
+        timer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { [weak self] _ in
+            MainActor.assumeIsolated {
+                self?.updateTimerPerSecond()
+            }
+        }
+        if let timer {
             RunLoop.main.add(timer, forMode: .common)
         }
     }
     
-    @objc private func updateTimerPerSecond() {
-        guard let timeLimit = timeLimit, let startTime = startTime else { return }
+    private func updateTimerPerSecond() {
+        guard let timeLimit, let startTime else { return }
         let timeElapsed = Int(Date().timeIntervalSince(startTime))
         timeRemaining = timeLimit - timeElapsed
         if timeRemaining >= 0 {
             output.send(.updateTime(timeLimit: timeLimit, timeRemaining: timeRemaining))
         } else {
-            guard let currentNumber = curNum else { return }
-            curNum = currentNumber + 1
+            guard let curNum else { return }
+            self.curNum = curNum + 1
             questionStateHandler()
         }
     }
     
     private func resetTimer() {
-        guard let curNum = curNum else { return }
+        guard let curNum else { return }
         if curNum >= 2 {
             submitData[curNum - 2].timeSpent = questionList[curNum - 2].timeLimit - timeRemaining
         }
         // 기존 타이머는 1초마다 감지하기 때문에 문제 변경 시 즉각적인 타이머 변경을 위한 로직 추가
         startTime = Date()
         timeLimit = questionList[curNum - 1].timeLimit
-        if let timeLimit = timeLimit {
+        if let timeLimit {
             timeRemaining = timeLimit
             output.send(.updateTime(timeLimit: timeLimit, timeRemaining: timeRemaining))
         }
     }
-
+    
     private func exitTimer() {
         timer?.invalidate()
         timer = nil

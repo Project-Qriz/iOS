@@ -62,7 +62,7 @@ final class DailyCoordinatorImpl: DailyNavigating, NavigationGuard {
 
     func showDailyTest() {
         guardNavigation {
-            let vm = DailyTestViewModel(dailyTestType: self.type, day: self.day, dailyService: self.service)
+            let vm = DailyTestViewModel(day: self.day, dailyService: self.service)
             let vc = DailyTestViewController(viewModel: vm)
             vc.coordinator = self
             self.navigationController.pushViewController(vc, animated: true)
