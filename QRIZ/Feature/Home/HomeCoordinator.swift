@@ -12,6 +12,7 @@ import Network
 import Conceptbook
 import Onboarding
 import Daily
+import Exam
 
 @MainActor
 protocol HomeCoordinator: Coordinator {
@@ -129,9 +130,12 @@ final class HomeCoordinatorImpl: HomeCoordinator, NavigationGuard {
     func showExam() {
         guard let navi = navigationController else { return }
         guardNavigation {
-            let exam = ExamCoordinatorImpl(navigationController: navi, examService: examTestService)
+            var exam = makeExamCoordinator(
+                navigationController: navi,
+                examService: self.examTestService
+            )
             exam.delegate = self
-            childCoordinators.append(exam)
+            self.childCoordinators.append(exam)
             _ = exam.start()
         }
     }
