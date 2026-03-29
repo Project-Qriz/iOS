@@ -56,3 +56,4 @@ Packages/*/.build/
 ### Claude Code ###
 .claude/
 CLAUDE.md
+docs/superpowers/plans/

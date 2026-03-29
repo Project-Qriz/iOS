@@ -11,6 +11,7 @@ import QRIZUtils
 import Network
 import Conceptbook
 import Onboarding
+import Daily
 
 @MainActor
 protocol HomeCoordinator: Coordinator {
@@ -138,9 +139,9 @@ final class HomeCoordinatorImpl: HomeCoordinator, NavigationGuard {
     func showDaily(day: Int, type: DailyLearnType) {
         guard let navi = navigationController else { return }
         guardNavigation {
-            let daily = DailyCoordinatorImpl(navigationController: navi, dailyService: dailyService, day: day, type: type)
+            var daily = makeDailyCoordinator(navigationController: navi, dailyService: self.dailyService, day: day, type: type)
             daily.delegate = self
-            childCoordinators.append(daily)
+            self.childCoordinators.append(daily)
             _ = daily.start()
         }
     }
@@ -237,6 +238,8 @@ extension HomeCoordinatorImpl: DailyCoordinatorDelegate {
     }
     
     func moveFromDailyToConcept(_ coordinator: any DailyCoordinator) {
+        childCoordinators.removeAll { $0 === coordinator }
+        navigationController?.popToRootViewController(animated: true)
         delegate?.moveToConcept()
     }
 }

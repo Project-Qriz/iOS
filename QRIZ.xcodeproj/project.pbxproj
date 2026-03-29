@@ -13,6 +13,7 @@
 		B13774AD2ED9D7AF001A614D /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = B13774AC2ED9D7AF001A614D /* GoogleService-Info.plist */; };
 		B13BC2F22F56E3B500E99FA2 /* Auth in Frameworks */ = {isa = PBXBuildFile; productRef = B13BC2F32F56E3B500E99FA2 /* Auth */; };
 		B13BC73E2F58273500E99FA2 /* Conceptbook in Frameworks */ = {isa = PBXBuildFile; productRef = B13BC73F2F58273500E99FA2 /* Conceptbook */; };
+		B14DF4E72F7652D1002F6177 /* Daily in Frameworks */ = {isa = PBXBuildFile; productRef = B14DF4E62F7652D1002F6177 /* Daily */; };
 		B17C0EC52F5AACD200C8219A /* Account in Frameworks */ = {isa = PBXBuildFile; productRef = B17C0EC42F5AACD200C8219A /* Account */; };
 		B18CDE662F45AD2A00CB3AB4 /* QRIZUtils in Frameworks */ = {isa = PBXBuildFile; productRef = B18CDE652F45AD2A00CB3AB4 /* QRIZUtils */; };
 		B19C4FC52D6C226500CD008A /* TabBarCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = B19C4FC42D6C226500CD008A /* TabBarCoordinator.swift */; };
@@ -28,34 +29,20 @@
 		E211AE012DE47B2900AB24FE /* ExamResultView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E211AE002DE47B2900AB24FE /* ExamResultView.swift */; };
 		E211AE032DE47D4D00AB24FE /* ExamResultScoreView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E211AE022DE47D4D00AB24FE /* ExamResultScoreView.swift */; };
 		E211AE072DE48FE700AB24FE /* ExamScoresGraphView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E211AE062DE48FE700AB24FE /* ExamScoresGraphView.swift */; };
-		E217C3622D9BEA8D0095A3D8 /* DailyTestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E217C3612D9BEA8D0095A3D8 /* DailyTestViewController.swift */; };
-		E217C3662D9BEAC50095A3D8 /* DailyTestViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E217C3652D9BEAC50095A3D8 /* DailyTestViewModel.swift */; };
-		E217C3692D9BF0B20095A3D8 /* DailyResultViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E217C3682D9BF0B20095A3D8 /* DailyResultViewModel.swift */; };
-		E217C36B2D9BF0C30095A3D8 /* DailyResultViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E217C36A2D9BF0C30095A3D8 /* DailyResultViewController.swift */; };
-		E217C3702D9BF2860095A3D8 /* DailyTestFooterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E217C36F2D9BF2860095A3D8 /* DailyTestFooterView.swift */; };
 		E22341AD2DD4C35D00A67D04 /* ExamSummaryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E22341AC2DD4C35D00A67D04 /* ExamSummaryViewController.swift */; };
 		E22341AF2DD4C5B000A67D04 /* ExamSummaryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E22341AE2DD4C5B000A67D04 /* ExamSummaryViewModel.swift */; };
 		E23963092D083B900092B39B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E23963082D083B900092B39B /* AppDelegate.swift */; };
 		E239630B2D083B900092B39B /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E239630A2D083B900092B39B /* SceneDelegate.swift */; };
-		E24907D32D619F39004D6E61 /* DailyLearnViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E24907D22D619F39004D6E61 /* DailyLearnViewModel.swift */; };
-		E24907DA2D63698C004D6E61 /* DailyLearnSectionTitleLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E24907D92D63698C004D6E61 /* DailyLearnSectionTitleLabel.swift */; };
 		E258577F2DD093A700AE174C /* ExamListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E258577E2DD093A700AE174C /* ExamListViewController.swift */; };
 		E25857862DD09ED600AE174C /* ExamListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E25857852DD09ED600AE174C /* ExamListViewModel.swift */; };
 		E258578D2DD0C7C300AE174C /* ExamListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E258578C2DD0C7C300AE174C /* ExamListCell.swift */; };
 		E258578F2DD1D22900AE174C /* ExamListFilterButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = E258578E2DD1D22900AE174C /* ExamListFilterButton.swift */; };
 		E25857912DD1DDA900AE174C /* ExamListFilterItemsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E25857902DD1DDA900AE174C /* ExamListFilterItemsView.swift */; };
-		E25F335B2DAFBA97002347D4 /* DailyResultHostingController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E25F335A2DAFBA97002347D4 /* DailyResultHostingController.swift */; };
-		E25F335D2DAFBAF8002347D4 /* DailyResultView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E25F335C2DAFBAF8002347D4 /* DailyResultView.swift */; };
-		E25F335F2DAFC222002347D4 /* DailyResultScoreView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E25F335E2DAFC222002347D4 /* DailyResultScoreView.swift */; };
 		E278431F2DDE0E4000E9AD07 /* ExamTestViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E278431E2DDE0E4000E9AD07 /* ExamTestViewModel.swift */; };
 		E27843212DDE13B600E9AD07 /* ExamTestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E27843202DDE13B600E9AD07 /* ExamTestViewController.swift */; };
 		E27843242DDE152C00E9AD07 /* ExamTestFooterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E27843232DDE152C00E9AD07 /* ExamTestFooterView.swift */; };
-		E2804CF32DFAABD800F5F05D /* DailyCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2804CF22DFAABD800F5F05D /* DailyCoordinator.swift */; };
 		E2804CF52DFAD5D500F5F05D /* ExamCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2804CF42DFAD5D500F5F05D /* ExamCoordinator.swift */; };
-		E28A93852D945F95006A15DB /* StudyContentCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E28A93842D945F94006A15DB /* StudyContentCell.swift */; };
-		E2908E602DA2C49E00B8E81B /* DailyTestTimerLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2908E5F2DA2C49E00B8E81B /* DailyTestTimerLabel.swift */; };
 		E292211E2E05478C00B6DC0D /* FirebaseAnalyticsWithoutAdIdSupport in Frameworks */ = {isa = PBXBuildFile; productRef = E292211D2E05478C00B6DC0D /* FirebaseAnalyticsWithoutAdIdSupport */; };
-		E2F18BCF2D6060E900DC6F82 /* DailyLearnViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2F18BCE2D6060E900DC6F82 /* DailyLearnViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -74,6 +61,7 @@
 		B1D7CE472F5EE18200E6C2CD /* MistakeNote */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = MistakeNote; path = Features/MistakeNote; sourceTree = "<group>"; };
 		B1D813702D6E0C1F00A9D447 /* HomeCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeCoordinator.swift; sourceTree = "<group>"; };
 		B1D813792D768D9B00A9D447 /* AppCoordinator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppCoordinator.swift; sourceTree = "<group>"; };
+		B1DB35912F76529B00FAB280 /* Daily */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = Daily; path = Features/Daily; sourceTree = "<group>"; };
 		B1DD53A52F45A85A00B60C85 /* QRIZUtils */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = QRIZUtils; path = Core/QRIZUtils; sourceTree = "<group>"; };
 		E211ADF92DE467A000AB24FE /* ExamResultViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExamResultViewController.swift; sourceTree = "<group>"; };
 		E211ADFB2DE467B700AB24FE /* ExamResultViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExamResultViewModel.swift; sourceTree = "<group>"; };
@@ -81,38 +69,24 @@
 		E211AE002DE47B2900AB24FE /* ExamResultView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExamResultView.swift; sourceTree = "<group>"; };
 		E211AE022DE47D4D00AB24FE /* ExamResultScoreView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExamResultScoreView.swift; sourceTree = "<group>"; };
 		E211AE062DE48FE700AB24FE /* ExamScoresGraphView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExamScoresGraphView.swift; sourceTree = "<group>"; };
-		E217C3612D9BEA8D0095A3D8 /* DailyTestViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyTestViewController.swift; sourceTree = "<group>"; };
-		E217C3652D9BEAC50095A3D8 /* DailyTestViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyTestViewModel.swift; sourceTree = "<group>"; };
-		E217C3682D9BF0B20095A3D8 /* DailyResultViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyResultViewModel.swift; sourceTree = "<group>"; };
-		E217C36A2D9BF0C30095A3D8 /* DailyResultViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyResultViewController.swift; sourceTree = "<group>"; };
-		E217C36F2D9BF2860095A3D8 /* DailyTestFooterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyTestFooterView.swift; sourceTree = "<group>"; };
 		E22341AC2DD4C35D00A67D04 /* ExamSummaryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExamSummaryViewController.swift; sourceTree = "<group>"; };
 		E22341AE2DD4C5B000A67D04 /* ExamSummaryViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExamSummaryViewModel.swift; sourceTree = "<group>"; };
 		E23963052D083B8F0092B39B /* QRIZ.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = QRIZ.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E23963082D083B900092B39B /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		E239630A2D083B900092B39B /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		E23963162D083B900092B39B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		E24907D22D619F39004D6E61 /* DailyLearnViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyLearnViewModel.swift; sourceTree = "<group>"; };
-		E24907D92D63698C004D6E61 /* DailyLearnSectionTitleLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyLearnSectionTitleLabel.swift; sourceTree = "<group>"; };
 		E258577E2DD093A700AE174C /* ExamListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExamListViewController.swift; sourceTree = "<group>"; };
 		E25857852DD09ED600AE174C /* ExamListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExamListViewModel.swift; sourceTree = "<group>"; };
 		E258578C2DD0C7C300AE174C /* ExamListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExamListCell.swift; sourceTree = "<group>"; };
 		E258578E2DD1D22900AE174C /* ExamListFilterButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExamListFilterButton.swift; sourceTree = "<group>"; };
 		E25857902DD1DDA900AE174C /* ExamListFilterItemsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExamListFilterItemsView.swift; sourceTree = "<group>"; };
-		E25F335A2DAFBA97002347D4 /* DailyResultHostingController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyResultHostingController.swift; sourceTree = "<group>"; };
-		E25F335C2DAFBAF8002347D4 /* DailyResultView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyResultView.swift; sourceTree = "<group>"; };
-		E25F335E2DAFC222002347D4 /* DailyResultScoreView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyResultScoreView.swift; sourceTree = "<group>"; };
 		E26AF7012D918EFC006E3252 /* Release.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Release.xcconfig; sourceTree = "<group>"; };
 		E26AF7022D918F03006E3252 /* Debug.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Debug.xcconfig; sourceTree = "<group>"; };
 		E26AF7032D918F07006E3252 /* Shared.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Shared.xcconfig; sourceTree = "<group>"; };
 		E278431E2DDE0E4000E9AD07 /* ExamTestViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExamTestViewModel.swift; sourceTree = "<group>"; };
 		E27843202DDE13B600E9AD07 /* ExamTestViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExamTestViewController.swift; sourceTree = "<group>"; };
 		E27843232DDE152C00E9AD07 /* ExamTestFooterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExamTestFooterView.swift; sourceTree = "<group>"; };
-		E2804CF22DFAABD800F5F05D /* DailyCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyCoordinator.swift; sourceTree = "<group>"; };
 		E2804CF42DFAD5D500F5F05D /* ExamCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExamCoordinator.swift; sourceTree = "<group>"; };
-		E28A93842D945F94006A15DB /* StudyContentCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StudyContentCell.swift; sourceTree = "<group>"; };
-		E2908E5F2DA2C49E00B8E81B /* DailyTestTimerLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyTestTimerLabel.swift; sourceTree = "<group>"; };
-		E2F18BCE2D6060E900DC6F82 /* DailyLearnViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyLearnViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
@@ -169,6 +143,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B14DF4E72F7652D1002F6177 /* Daily in Frameworks */,
 				B12FEEEE2F46F98200280847 /* Network in Frameworks */,
 				E292211E2E05478C00B6DC0D /* FirebaseAnalyticsWithoutAdIdSupport in Frameworks */,
 				B1BDD0C72F4D26CD00834D57 /* DesignSystem in Frameworks */,
@@ -200,7 +175,6 @@
 			children = (
 				B127B6D52DECBE1A0048401F /* Splash */,
 				B19C4FC32D6C223E00CD008A /* TabBar */,
-				E25F33572DAFBA27002347D4 /* Daily */,
 				E258577D2DD0939500AE174C /* Exam */,
 				54DB0D972D0950A500ABD458 /* Home */,
 			);
@@ -247,6 +221,7 @@
 				B1D7CE472F5EE18200E6C2CD /* MistakeNote */,
 				A1B2C3D42F60000100AAAAAA /* MyPage */,
 				B0C014955974425CB1F19F0D /* Onboarding */,
+				B1DB35912F76529B00FAB280 /* Daily */,
 			);
 			name = Features;
 			sourceTree = "<group>";
@@ -327,68 +302,6 @@
 			path = View;
 			sourceTree = "<group>";
 		};
-		E217C35F2D9BEA500095A3D8 /* DailyTest */ = {
-			isa = PBXGroup;
-			children = (
-				E217C36E2D9BF2660095A3D8 /* View */,
-				E217C3642D9BEAA40095A3D8 /* ViewModel */,
-				E217C3632D9BEA900095A3D8 /* ViewController */,
-			);
-			path = DailyTest;
-			sourceTree = "<group>";
-		};
-		E217C3632D9BEA900095A3D8 /* ViewController */ = {
-			isa = PBXGroup;
-			children = (
-				E217C3612D9BEA8D0095A3D8 /* DailyTestViewController.swift */,
-			);
-			path = ViewController;
-			sourceTree = "<group>";
-		};
-		E217C3642D9BEAA40095A3D8 /* ViewModel */ = {
-			isa = PBXGroup;
-			children = (
-				E217C3652D9BEAC50095A3D8 /* DailyTestViewModel.swift */,
-			);
-			path = ViewModel;
-			sourceTree = "<group>";
-		};
-		E217C3672D9BF0A10095A3D8 /* DailyResult */ = {
-			isa = PBXGroup;
-			children = (
-				E25F33592DAFBA82002347D4 /* HostingController */,
-				E25F33582DAFBA76002347D4 /* View */,
-				E217C36D2D9BF0CF0095A3D8 /* ViewModel */,
-				E217C36C2D9BF0C60095A3D8 /* ViewController */,
-			);
-			path = DailyResult;
-			sourceTree = "<group>";
-		};
-		E217C36C2D9BF0C60095A3D8 /* ViewController */ = {
-			isa = PBXGroup;
-			children = (
-				E217C36A2D9BF0C30095A3D8 /* DailyResultViewController.swift */,
-			);
-			path = ViewController;
-			sourceTree = "<group>";
-		};
-		E217C36D2D9BF0CF0095A3D8 /* ViewModel */ = {
-			isa = PBXGroup;
-			children = (
-				E217C3682D9BF0B20095A3D8 /* DailyResultViewModel.swift */,
-			);
-			path = ViewModel;
-			sourceTree = "<group>";
-		};
-		E217C36E2D9BF2660095A3D8 /* View */ = {
-			isa = PBXGroup;
-			children = (
-				E217C36F2D9BF2860095A3D8 /* DailyTestFooterView.swift */,
-				E2908E5F2DA2C49E00B8E81B /* DailyTestTimerLabel.swift */,
-			);
-			path = View;
-			sourceTree = "<group>";
-		};
 		E22341A92DD4C26300A67D04 /* ExamSummary */ = {
 			isa = PBXGroup;
 			children = (
@@ -448,23 +361,6 @@
 			path = QRIZ;
 			sourceTree = "<group>";
 		};
-		E24907D02D619F22004D6E61 /* ViewModel */ = {
-			isa = PBXGroup;
-			children = (
-				E24907D22D619F39004D6E61 /* DailyLearnViewModel.swift */,
-			);
-			path = ViewModel;
-			sourceTree = "<group>";
-		};
-		E24907D12D619F2C004D6E61 /* View */ = {
-			isa = PBXGroup;
-			children = (
-				E24907D92D63698C004D6E61 /* DailyLearnSectionTitleLabel.swift */,
-				E28A93842D945F94006A15DB /* StudyContentCell.swift */,
-			);
-			path = View;
-			sourceTree = "<group>";
-		};
 		E258577D2DD0939500AE174C /* Exam */ = {
 			isa = PBXGroup;
 			children = (
@@ -513,34 +409,6 @@
 			path = View;
 			sourceTree = "<group>";
 		};
-		E25F33572DAFBA27002347D4 /* Daily */ = {
-			isa = PBXGroup;
-			children = (
-				E2F18BCA2D60606A00DC6F82 /* DailyLearn */,
-				E217C35F2D9BEA500095A3D8 /* DailyTest */,
-				E217C3672D9BF0A10095A3D8 /* DailyResult */,
-				E2804CF22DFAABD800F5F05D /* DailyCoordinator.swift */,
-			);
-			path = Daily;
-			sourceTree = "<group>";
-		};
-		E25F33582DAFBA76002347D4 /* View */ = {
-			isa = PBXGroup;
-			children = (
-				E25F335C2DAFBAF8002347D4 /* DailyResultView.swift */,
-				E25F335E2DAFC222002347D4 /* DailyResultScoreView.swift */,
-			);
-			path = View;
-			sourceTree = "<group>";
-		};
-		E25F33592DAFBA82002347D4 /* HostingController */ = {
-			isa = PBXGroup;
-			children = (
-				E25F335A2DAFBA97002347D4 /* DailyResultHostingController.swift */,
-			);
-			path = HostingController;
-			sourceTree = "<group>";
-		};
 		E26AF7042D918F97006E3252 /* XCConfig */ = {
 			isa = PBXGroup;
 			children = (
@@ -585,24 +453,6 @@
 			path = View;
 			sourceTree = "<group>";
 		};
-		E2F18BCA2D60606A00DC6F82 /* DailyLearn */ = {
-			isa = PBXGroup;
-			children = (
-				E24907D12D619F2C004D6E61 /* View */,
-				E24907D02D619F22004D6E61 /* ViewModel */,
-				E2F18BCD2D6060B700DC6F82 /* ViewController */,
-			);
-			path = DailyLearn;
-			sourceTree = "<group>";
-		};
-		E2F18BCD2D6060B700DC6F82 /* ViewController */ = {
-			isa = PBXGroup;
-			children = (
-				E2F18BCE2D6060E900DC6F82 /* DailyLearnViewController.swift */,
-			);
-			path = ViewController;
-			sourceTree = "<group>";
-		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -637,6 +487,7 @@
 				B1D7CE492F5EE18200E6C2CD /* MistakeNote */,
 				A1B2C3D62F60000300AAAAAA /* MyPage */,
 				E9849FEE34F04512AEA4EBE2 /* Onboarding */,
+				B14DF4E62F7652D1002F6177 /* Daily */,
 			);
 			productName = QRIZ;
 			productReference = E23963052D083B8F0092B39B /* QRIZ.app */;
@@ -698,23 +549,17 @@
 				E258578D2DD0C7C300AE174C /* ExamListCell.swift in Sources */,
 				B1D8137A2D768D9B00A9D447 /* AppCoordinator.swift in Sources */,
 				E211ADFE2DE47AED00AB24FE /* ExamResultHostingController.swift in Sources */,
-				E25F335F2DAFC222002347D4 /* DailyResultScoreView.swift in Sources */,
 				E22341AD2DD4C35D00A67D04 /* ExamSummaryViewController.swift in Sources */,
 				E27843242DDE152C00E9AD07 /* ExamTestFooterView.swift in Sources */,
-				E2F18BCF2D6060E900DC6F82 /* DailyLearnViewController.swift in Sources */,
 				B1D813712D6E0C1F00A9D447 /* HomeCoordinator.swift in Sources */,
 				E2804CF52DFAD5D500F5F05D /* ExamCoordinator.swift in Sources */,
-				E217C3692D9BF0B20095A3D8 /* DailyResultViewModel.swift in Sources */,
 				E22341AF2DD4C5B000A67D04 /* ExamSummaryViewModel.swift in Sources */,
 				E211AE032DE47D4D00AB24FE /* ExamResultScoreView.swift in Sources */,
 				E258577F2DD093A700AE174C /* ExamListViewController.swift in Sources */,
 				E211ADFA2DE467A000AB24FE /* ExamResultViewController.swift in Sources */,
 				E278431F2DDE0E4000E9AD07 /* ExamTestViewModel.swift in Sources */,
-				E25F335B2DAFBA97002347D4 /* DailyResultHostingController.swift in Sources */,
 				E23963092D083B900092B39B /* AppDelegate.swift in Sources */,
 				E211AE072DE48FE700AB24FE /* ExamScoresGraphView.swift in Sources */,
-				E25F335D2DAFBAF8002347D4 /* DailyResultView.swift in Sources */,
-				E217C3622D9BEA8D0095A3D8 /* DailyTestViewController.swift in Sources */,
 				B19C4FC52D6C226500CD008A /* TabBarCoordinator.swift in Sources */,
 				E25857912DD1DDA900AE174C /* ExamListFilterItemsView.swift in Sources */,
 				E211ADFC2DE467B700AB24FE /* ExamResultViewModel.swift in Sources */,
@@ -722,15 +567,7 @@
 				E25857862DD09ED600AE174C /* ExamListViewModel.swift in Sources */,
 				E258578F2DD1D22900AE174C /* ExamListFilterButton.swift in Sources */,
 				E27843212DDE13B600E9AD07 /* ExamTestViewController.swift in Sources */,
-				E217C36B2D9BF0C30095A3D8 /* DailyResultViewController.swift in Sources */,
-				E24907D32D619F39004D6E61 /* DailyLearnViewModel.swift in Sources */,
 				E211AE012DE47B2900AB24FE /* ExamResultView.swift in Sources */,
-				E28A93852D945F95006A15DB /* StudyContentCell.swift in Sources */,
-				E217C3702D9BF2860095A3D8 /* DailyTestFooterView.swift in Sources */,
-				E24907DA2D63698C004D6E61 /* DailyLearnSectionTitleLabel.swift in Sources */,
-				E217C3662D9BEAC50095A3D8 /* DailyTestViewModel.swift in Sources */,
-				E2804CF32DFAABD800F5F05D /* DailyCoordinator.swift in Sources */,
-				E2908E602DA2C49E00B8E81B /* DailyTestTimerLabel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -980,6 +817,10 @@
 		B13BC73F2F58273500E99FA2 /* Conceptbook */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = Conceptbook;
+		};
+		B14DF4E62F7652D1002F6177 /* Daily */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = Daily;
 		};
 		B17C0EC42F5AACD200C8219A /* Account */ = {
 			isa = XCSwiftPackageProductDependency;
