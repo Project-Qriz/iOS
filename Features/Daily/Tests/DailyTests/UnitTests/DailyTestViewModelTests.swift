@@ -11,7 +11,7 @@ struct DailyTestViewModelTests {
     @MainActor
     final class TestHarness {
         private let sut: DailyTestViewModel
-        private(set) let service: MockDailyService
+        let service: MockDailyService
         private(set) var received: [DailyTestViewModel.Output] = []
         private let inputSubject = PassthroughSubject<DailyTestViewModel.Input, Never>()
         private var cancellables = Set<AnyCancellable>()
