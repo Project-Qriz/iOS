@@ -1,8 +1,3 @@
-//
-//  DailyTestSnapshotTests.swift
-//  QRIZ
-//
-
 import XCTest
 import SnapshotTesting
 @testable import Daily
@@ -69,13 +64,17 @@ final class DailyTestSnapshotTests: DailySnapshotTestCase {
     }
 
     func test_withNavigationBar() {
-        // DailyTestViewController를 navigation controller로 래핑해 타이머 레이블과 취소 버튼을 포함한 스냅샷
+        // navigation bar의 취소 버튼과 타이머 barButtonItem을 포함한 스냅샷.
+        // viewDidLoad()가 시작하는 fetchData Task는 VC의 .receive(on: DispatchQueue.main)을 통해
+        // 메인 큐에 비동기 dispatch되므로, 이후의 동기적 상태 설정과 assertSnapshot이 먼저 실행된다.
         let vm = DailyTestViewModel(day: 1, dailyService: MockDailyService())
         let vc = DailyTestViewController(viewModel: vm)
         let nav = inDailyNav(vc)
         vc.loadViewIfNeeded()
-        // viewDidLoad()가 startTask를 시작하기 전에 동기적으로 상태 설정
-        let contentView = vc.view as! DailyTestView
+        guard let contentView = vc.view as? DailyTestView else {
+            XCTFail("vc.view is not DailyTestView")
+            return
+        }
         contentView.updateQuestion(sampleQuestion(number: 1))
         contentView.updateTotalPage(3)
         contentView.setButtonsVisibility(isVisible: false)

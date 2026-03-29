@@ -1,8 +1,3 @@
-//
-//  DailyTestViewModelTests.swift
-//  QRIZ
-//
-
 import Testing
 import Combine
 @testable import Daily
@@ -16,12 +11,12 @@ struct DailyTestViewModelTests {
     @MainActor
     final class TestHarness {
         private let sut: DailyTestViewModel
-        let service: MockDailyService
+        private(set) let service: MockDailyService
         private(set) var received: [DailyTestViewModel.Output] = []
         private let inputSubject = PassthroughSubject<DailyTestViewModel.Input, Never>()
         private var cancellables = Set<AnyCancellable>()
 
-        init(service: MockDailyService = MockDailyService()) {
+        init(service: MockDailyService) {
             self.service = service
             sut = DailyTestViewModel(day: 1, dailyService: service)
             sut.transform(input: inputSubject.eraseToAnyPublisher())
@@ -51,7 +46,7 @@ struct DailyTestViewModelTests {
 
     @Test("viewDidLoad 성공 → updateTotalPage(3) + updateQuestion(Q1) emit")
     func fetchData_success_emitsUpdateTotalPageAndUpdateQuestion() async throws {
-        let harness = TestHarness()
+        let harness = TestHarness(service: MockDailyService())
         try await harness.sendViewDidLoad()
         #expect(harness.received.contains {
             if case .updateTotalPage(let total) = $0 { return total == 3 }
@@ -87,14 +82,14 @@ struct DailyTestViewModelTests {
         })
     }
 
-    @Test("viewDidLoad data=[] → fetchFailed emit")
+    @Test("viewDidLoad data=[] → fetchFailed(isServerError: false) emit")
     func fetchData_emptyData_emitsFetchFailed() async throws {
         let service = MockDailyService()
         service.getDailyTestListResult = .success(DailyTestListResponse(code: 1, msg: "ok", data: []))
         let harness = TestHarness(service: service)
         try await harness.sendViewDidLoad()
         #expect(harness.received.contains {
-            if case .fetchFailed = $0 { return true }
+            if case .fetchFailed(let isServerError) = $0 { return !isServerError }
             return false
         })
     }
@@ -103,7 +98,7 @@ struct DailyTestViewModelTests {
 
     @Test("Q1 옵션 첫 탭 → updateOptionState(1, true) + setButtonVisibility(true)")
     func optionTapped_Q1_firstTap_selectsOptionAndShowsButton() async throws {
-        let harness = TestHarness()
+        let harness = TestHarness(service: MockDailyService())
         try await harness.sendViewDidLoad()
         harness.resetReceived()
         harness.send(.optionTapped(optionIdx: 1))
@@ -119,7 +114,7 @@ struct DailyTestViewModelTests {
 
     @Test("Q1 같은 옵션 재탭 → 선택 해제 + setButtonVisibility(false)")
     func optionTapped_Q1_sameTap_deselectsAndHidesButton() async throws {
-        let harness = TestHarness()
+        let harness = TestHarness(service: MockDailyService())
         try await harness.sendViewDidLoad()
         harness.send(.optionTapped(optionIdx: 1))
         harness.resetReceived()
@@ -136,7 +131,7 @@ struct DailyTestViewModelTests {
 
     @Test("Q1 다른 옵션 탭 → 이전 선택 해제 + 새 옵션 선택")
     func optionTapped_Q1_differentTap_switchesSelection() async throws {
-        let harness = TestHarness()
+        let harness = TestHarness(service: MockDailyService())
         try await harness.sendViewDidLoad()
         harness.send(.optionTapped(optionIdx: 1))
         harness.resetReceived()
@@ -153,7 +148,7 @@ struct DailyTestViewModelTests {
 
     @Test("Q2에서 옵션 탭 → setButtonVisibility 미방출")
     func optionTapped_Q2_doesNotEmitSetButtonVisibility() async throws {
-        let harness = TestHarness()
+        let harness = TestHarness(service: MockDailyService())
         try await harness.sendViewDidLoad()
         harness.send(.nextButtonClicked)
         harness.resetReceived()
@@ -168,7 +163,7 @@ struct DailyTestViewModelTests {
 
     @Test("마지막 문항 아닐 때 다음 버튼 → updateQuestion(Q2)")
     func nextButton_notLastQuestion_advancesToNextQuestion() async throws {
-        let harness = TestHarness()
+        let harness = TestHarness(service: MockDailyService())
         try await harness.sendViewDidLoad()
         harness.resetReceived()
         harness.send(.nextButtonClicked)
@@ -180,7 +175,7 @@ struct DailyTestViewModelTests {
 
     @Test("마지막 문항에서 다음 버튼 → popSubmitAlert emit")
     func nextButton_lastQuestion_emitsPopSubmitAlert() async throws {
-        let harness = TestHarness()
+        let harness = TestHarness(service: MockDailyService())
         try await harness.sendViewDidLoad()
         harness.send(.nextButtonClicked)
         harness.send(.nextButtonClicked)
@@ -194,7 +189,7 @@ struct DailyTestViewModelTests {
 
     @Test("마지막 문항 진입 → alterButtonText emit")
     func lastQuestion_emitsAlterButtonText() async throws {
-        let harness = TestHarness()
+        let harness = TestHarness(service: MockDailyService())
         try await harness.sendViewDidLoad()
         harness.send(.nextButtonClicked)
         harness.resetReceived()
@@ -209,7 +204,7 @@ struct DailyTestViewModelTests {
 
     @Test("제출 성공 → submitSuccess + moveToDailyResult emit")
     func alertSubmit_success_emitsSubmitSuccessAndMoveToDailyResult() async throws {
-        let harness = TestHarness()
+        let harness = TestHarness(service: MockDailyService())
         try await harness.sendViewDidLoad()
         harness.send(.nextButtonClicked)
         harness.send(.nextButtonClicked)
@@ -245,9 +240,23 @@ struct DailyTestViewModelTests {
         })
     }
 
+    @Test("옵션 선택 후 제출 시 올바른 optionId 기록")
+    func alertSubmit_recordsCorrectOptionId() async throws {
+        let harness = TestHarness(service: MockDailyService())
+        try await harness.sendViewDidLoad()
+        // Q1 두 번째 옵션 선택: sampleTestList 기준 options[1].id = 12
+        harness.send(.optionTapped(optionIdx: 2))
+        harness.send(.nextButtonClicked) // Q2
+        harness.send(.nextButtonClicked) // Q3
+        harness.send(.nextButtonClicked) // popSubmitAlert
+        harness.send(.alertSubmitButtonClicked)
+        try? await Task.sleep(nanoseconds: asyncSleepNanoseconds)
+        #expect(harness.service.capturedSubmitData?[0].optionId == 12)
+    }
+
     @Test("얼럿 취소 버튼 → cancelAlert emit")
     func alertCancel_emitsCancelAlert() {
-        let harness = TestHarness()
+        let harness = TestHarness(service: MockDailyService())
         harness.send(.alertCancelButtonClicked)
         #expect(harness.received.contains {
             if case .cancelAlert = $0 { return true }
@@ -257,10 +266,25 @@ struct DailyTestViewModelTests {
 
     @Test("취소 버튼 → moveToHomeView emit")
     func cancelButton_emitsMoveToHomeView() {
-        let harness = TestHarness()
+        let harness = TestHarness(service: MockDailyService())
         harness.send(.cancelButtonClicked)
         #expect(harness.received.contains {
             if case .moveToHomeView = $0 { return true }
+            return false
+        })
+    }
+
+    @Test("취소 버튼 → 타이머 정지 (이후 updateTime 미방출)")
+    func cancelButton_stopsTimer() async throws {
+        let harness = TestHarness(service: MockDailyService())
+        try await harness.sendViewDidLoad()
+        harness.sendViewDidAppear() // 타이머 시작
+        harness.send(.cancelButtonClicked) // exitTimer() 호출
+        harness.resetReceived()
+        // 타이머가 살아있다면 1초 후 updateTime이 방출됨
+        try? await Task.sleep(nanoseconds: 1_100_000_000)
+        #expect(!harness.received.contains {
+            if case .updateTime = $0 { return true }
             return false
         })
     }
@@ -269,14 +293,15 @@ struct DailyTestViewModelTests {
 
     @Test("마지막 문항 타이머 만료 → 자동 제출 후 submitSuccess + moveToDailyResult")
     func timer_timeout_autoSubmitsWhenLastQuestionExpires() async throws {
-        let harness = TestHarness()
+        let harness = TestHarness(service: MockDailyService())
         try await harness.sendViewDidLoad()
         harness.send(.nextButtonClicked) // Q1 → Q2
         harness.send(.nextButtonClicked) // Q2 → Q3 (timeLimit = 1)
         harness.sendViewDidAppear()      // 타이머 시작
         harness.resetReceived()
         // timeLimit=1: t=1s → timeRemaining=0 (유지), t=2s → timeRemaining=-1 → 자동 제출
-        try? await Task.sleep(nanoseconds: 2_100_000_000)
+        // 2.5s: 2.1s 대비 400ms 여유를 두어 느린 CI에서의 flake 방지
+        try? await Task.sleep(nanoseconds: 2_500_000_000)
         #expect(harness.received.contains {
             if case .submitSuccess = $0 { return true }
             return false
@@ -289,7 +314,7 @@ struct DailyTestViewModelTests {
 
     @Test("문항 이동 시 타이머 경과 시간 기록")
     func timer_recordsTimeSpentOnQuestionAdvance() async throws {
-        let harness = TestHarness()
+        let harness = TestHarness(service: MockDailyService())
         try await harness.sendViewDidLoad()
         harness.sendViewDidAppear()
         // 타이머 1회 발화(1s) 대기: timeRemaining이 timeLimit(70)보다 1 감소함
@@ -300,6 +325,8 @@ struct DailyTestViewModelTests {
         harness.send(.nextButtonClicked) // popSubmitAlert
         harness.send(.alertSubmitButtonClicked)
         try? await Task.sleep(nanoseconds: asyncSleepNanoseconds)
-        #expect((harness.service.capturedSubmitData?[0].timeSpent ?? 0) > 0)
+        let timeSpent = harness.service.capturedSubmitData?[0].timeSpent ?? 0
+        #expect(timeSpent >= 1)
+        #expect(timeSpent < 70) // 타이머 만료 없이 문항 이동했음을 확인
     }
 }
