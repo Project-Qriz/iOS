@@ -11,14 +11,27 @@ import Combine
 import ExamKit
 
 final class DailyTestFooterView: UIView {
-    
+
+    // MARK: - enum
+
+    private enum Metric {
+        static let trailingPadding: CGFloat = 18
+        static let topPadding: CGFloat = 17
+        static let buttonWidth: CGFloat = 90
+        static let buttonHeight: CGFloat = 48
+    }
+
     // MARK: - Properties
-    private let nextButton: TestButton = TestButton(isPreviousButton: false)
-    private let pageIndicatorLabel: TestPageIndicatorLabel = .init()
     
-    let input: PassthroughSubject<DailyTestViewModel.Input, Never> = .init()
+    private let nextButton: TestButton = .init(isPreviousButton: false)
+    private let pageIndicatorLabel: TestPageIndicatorLabel = .init()
+    private let nextButtonSubject = PassthroughSubject<Void, Never>()
+    var nextButtonTappedPublisher: AnyPublisher<Void, Never> {
+        nextButtonSubject.eraseToAnyPublisher()
+    }
     
     // MARK: - Initializers
+    
     init() {
         super.init(frame: .zero)
         setupUI()
@@ -31,6 +44,7 @@ final class DailyTestFooterView: UIView {
     }
     
     // MARK: - Methods
+    
     func updateCurPage(curPage: Int) {
         pageIndicatorLabel.setCurrentPage(curPage)
     }
@@ -57,14 +71,14 @@ final class DailyTestFooterView: UIView {
     }
     
     private func addButtonAction() {
-        nextButton.addAction(UIAction(handler: { [weak self] _ in
-            guard let self else { return }
-            self.input.send(.nextButtonClicked)
-        }), for: .touchUpInside)
+        nextButton.addAction(UIAction { [weak self] _ in
+            self?.nextButtonSubject.send()
+        }, for: .touchUpInside)
     }
 }
 
 // MARK: - Auto Layout
+
 extension DailyTestFooterView {
     private func addViews() {
         addSubview(nextButton)
@@ -74,12 +88,12 @@ extension DailyTestFooterView {
         pageIndicatorLabel.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
-            nextButton.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -18),
-            nextButton.topAnchor.constraint(equalTo: self.topAnchor, constant: 17),
-            nextButton.widthAnchor.constraint(equalToConstant: 90),
-            nextButton.heightAnchor.constraint(equalToConstant: 48),
-            
-            pageIndicatorLabel.centerXAnchor.constraint(equalTo: self.centerXAnchor),
+            nextButton.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -Metric.trailingPadding),
+            nextButton.topAnchor.constraint(equalTo: topAnchor, constant: Metric.topPadding),
+            nextButton.widthAnchor.constraint(equalToConstant: Metric.buttonWidth),
+            nextButton.heightAnchor.constraint(equalToConstant: Metric.buttonHeight),
+
+            pageIndicatorLabel.centerXAnchor.constraint(equalTo: centerXAnchor),
             pageIndicatorLabel.centerYAnchor.constraint(equalTo: nextButton.centerYAnchor)
         ])
     }
