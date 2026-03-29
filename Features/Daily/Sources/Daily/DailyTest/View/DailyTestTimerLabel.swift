@@ -10,13 +10,20 @@ import DesignSystem
 
 final class DailyTestTimerLabel: UILabel {
 
+    // MARK: - enum
+
+    private enum Metric {
+        static let fontSize: CGFloat = 14
+        static let labelSpacing: CGFloat = 8
+    }
+
     // MARK: - Properties
 
     private let remainingTextLabel: UILabel = {
         let label = UILabel()
         label.text = "문제별 남은시간"
         label.textColor = .coolNeutral700
-        label.font = .systemFont(ofSize: 14, weight: .regular)
+        label.font = .systemFont(ofSize: Metric.fontSize, weight: .regular)
         label.backgroundColor = .white
         return label
     }()
@@ -24,7 +31,7 @@ final class DailyTestTimerLabel: UILabel {
     private let timerLabel: UILabel = {
         let label = UILabel()
         label.textColor = .customRed500
-        label.font = .monospacedDigitSystemFont(ofSize: 14, weight: .semibold)
+        label.font = .monospacedDigitSystemFont(ofSize: Metric.fontSize, weight: .semibold)
         label.backgroundColor = .white
         return label
     }()
@@ -33,8 +40,8 @@ final class DailyTestTimerLabel: UILabel {
 
     init() {
         super.init(frame: .zero)
-        updateTime(timeRemaining: 0)
         addViews()
+        updateTime(timeRemaining: 0)
     }
 
     required init?(coder: NSCoder) {
@@ -62,7 +69,7 @@ extension DailyTestTimerLabel {
             timerLabel.trailingAnchor.constraint(equalTo: trailingAnchor),
             timerLabel.centerYAnchor.constraint(equalTo: centerYAnchor),
 
-            remainingTextLabel.trailingAnchor.constraint(equalTo: timerLabel.leadingAnchor, constant: -8),
+            remainingTextLabel.trailingAnchor.constraint(equalTo: timerLabel.leadingAnchor, constant: -Metric.labelSpacing),
             remainingTextLabel.centerYAnchor.constraint(equalTo: centerYAnchor)
         ])
     }
