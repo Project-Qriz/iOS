@@ -31,7 +31,6 @@ final class DailyTestViewController: UIViewController {
     init(viewModel: DailyTestViewModel) {
         self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
-        self.hidesBottomBarWhenPushed = true
     }
 
     required init?(coder: NSCoder) {
