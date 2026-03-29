@@ -179,11 +179,12 @@ final class TestHarness {
 
 | # | 테스트명 | 입력 | 기대 출력 |
 |---|---------|------|----------|
-| 16 | `timer_timeout_autoAdvancesToNextQuestion` | viewDidLoad → viewDidAppear → Q3(timeLimit=1) 이동 → sleep 1.1초 | `updateQuestion(다음 문제 또는 submitSuccess)` |
-| 17 | `timer_recordsTimeSpentOnQuestionAdvance` | viewDidLoad → nextButton → (Q1에서 Q2로 이동) | submitData[0].timeSpent > 0 |
+| 16 | `timer_timeout_autoAdvancesToNextQuestion` | viewDidLoad → nextButton×2 → viewDidAppear → sleep 2.1초 | `submitSuccess` + `moveToDailyResult` |
+| 17 | `timer_recordsTimeSpentOnQuestionAdvance` | viewDidLoad → viewDidAppear → sleep 1.1초 → nextButton | `capturedSubmitData[0].timeSpent > 0` |
 
-> 16번: Q3는 timeLimit=1이므로 Q1→Q2→Q3 이동 후 viewDidAppear → sleep 1.1초 → 자동 제출 흐름 검증.
-> 17번: `timeSpent`는 ViewModel 내부 상태라 직접 접근 불가. 제출 시 서비스로 전달된 `dailySubmitData`를 MockDailyService에서 캡처해 검증.
+> 16번: Q3(timeLimit=1) 진입 후 viewDidAppear로 타이머 시작. t=1s에 timeRemaining=0(아직 유지), t=2s에 timeRemaining=-1 → 자동 제출. sleep은 `2_100_000_000` ns 필요.
+> 17번: viewDidAppear 없이 nextButton만 누르면 timeRemaining == timeLimit이라 timeSpent=0. viewDidAppear → sleep 1.1초로 타이머가 최소 1회 발화한 뒤 nextButton → timeSpent > 0 확인.
+> `timeSpent`는 ViewModel 내부 상태라 직접 접근 불가. MockDailyService의 `capturedSubmitData`로 검증.
 
 MockDailyService에 `capturedSubmitData: [DailySubmitData]?` 추가 필요.
 
