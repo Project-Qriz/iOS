@@ -112,7 +112,9 @@ extension ExamListViewController: UICollectionViewDataSource {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ExamListCell.identifier, for: indexPath) as? ExamListCell else {
             return UICollectionViewCell()
         }
-        cell.configure(examInfo: examList[indexPath.item])
+        let examInfo = examList[indexPath.item]
+        let examRound = Int(examInfo.session.replacingOccurrences(of: "회차", with: "")) ?? 0
+        cell.configure(isCompleted: examInfo.completed, examRound: examRound, score: examInfo.totalScore)
         return cell
     }
 }

@@ -7,46 +7,54 @@
 
 import UIKit
 import DesignSystem
-import Network
 
 final class ExamListCell: UICollectionViewCell {
 
     // MARK: - Properties
-    static var identifier: String = "ExamListCell"
 
-    private let testNavigatorButton: TestNavigatorButton = .init()
+    static let identifier = "ExamListCell"
 
-    // MARK: - Initializers
+    private let testNavigatorButton = TestNavigatorButton()
+
+    // MARK: - Initialization
+
     override init(frame: CGRect) {
         super.init(frame: frame)
-        setDefaultUI()
-        addViews()
+        setupAppearance()
+        addSubviews()
+        setupConstraints()
     }
 
     required init?(coder: NSCoder) {
-        fatalError("no initializer for coder: ExamListCell")
+        fatalError("init(coder:) has not been implemented")
     }
 
-    func configure(examInfo: ExamListDataInfo) {
+    // MARK: - Methods
+
+    func configure(isCompleted: Bool, examRound: Int, score: Double?) {
         testNavigatorButton.setMockExamUI(
-            isTestDone: examInfo.completed,
-            examRound: Int(examInfo.session.replacingOccurrences(of: "회차", with: "")) ?? 0,
-            score: examInfo.totalScore)
+            isTestDone: isCompleted,
+            examRound: examRound,
+            score: score
+        )
     }
 
-    private func setDefaultUI() {
-        self.backgroundColor = .white
-        self.layer.cornerRadius = 12
-        self.layer.shadowColor = UIColor.coolNeutral100.cgColor
-        self.layer.shadowOpacity = 1
+    private func setupAppearance() {
+        backgroundColor = .white
+        layer.cornerRadius = 12
+        layer.shadowColor = UIColor.coolNeutral100.cgColor
+        layer.shadowOpacity = 1
     }
 }
 
+// MARK: - Layout Setup
 
 extension ExamListCell {
-    private func addViews() {
+    private func addSubviews() {
         addSubview(testNavigatorButton)
+    }
 
+    private func setupConstraints() {
         testNavigatorButton.translatesAutoresizingMaskIntoConstraints = false
 
         NSLayoutConstraint.activate([
