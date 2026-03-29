@@ -10,31 +10,32 @@ import Combine
 import QRIZUtils
 
 @MainActor
-@Suite struct DailyTestViewModelTests {
+@Suite("DailyTestViewModel 테스트", .serialized)
+struct DailyTestViewModelTests {
 
     @MainActor
     final class TestHarness {
-        let sut: DailyTestViewModel
+        private let sut: DailyTestViewModel
         let service: MockDailyService
-        var received: [DailyTestViewModel.Output] = []
+        private(set) var received: [DailyTestViewModel.Output] = []
         private let inputSubject = PassthroughSubject<DailyTestViewModel.Input, Never>()
-        private var subscriptions = Set<AnyCancellable>()
+        private var cancellables = Set<AnyCancellable>()
 
         init(service: MockDailyService = MockDailyService()) {
             self.service = service
             sut = DailyTestViewModel(day: 1, dailyService: service)
             sut.transform(input: inputSubject.eraseToAnyPublisher())
                 .sink { [weak self] output in self?.received.append(output) }
-                .store(in: &subscriptions)
+                .store(in: &cancellables)
         }
 
         func send(_ input: DailyTestViewModel.Input) {
             inputSubject.send(input)
         }
 
-        func sendViewDidLoad() async {
+        func sendViewDidLoad() async throws {
             send(.viewDidLoad)
-            try? await Task.sleep(nanoseconds: asyncSleepNanoseconds)
+            try await Task.sleep(nanoseconds: asyncSleepNanoseconds)
         }
 
         func sendViewDidAppear() {
@@ -42,15 +43,16 @@ import QRIZUtils
         }
 
         func resetReceived() {
-            received = []
+            received.removeAll()
         }
     }
 
     // MARK: - fetchData
 
-    @Test func fetchData_success_emitsUpdateTotalPageAndUpdateQuestion() async {
+    @Test("viewDidLoad 성공 → updateTotalPage(3) + updateQuestion(Q1) emit")
+    func fetchData_success_emitsUpdateTotalPageAndUpdateQuestion() async throws {
         let harness = TestHarness()
-        await harness.sendViewDidLoad()
+        try await harness.sendViewDidLoad()
         #expect(harness.received.contains {
             if case .updateTotalPage(let total) = $0 { return total == 3 }
             return false
@@ -61,33 +63,36 @@ import QRIZUtils
         })
     }
 
-    @Test func fetchData_serverError_emitsFetchFailedIsServerError() async {
+    @Test("viewDidLoad 서버 에러 → fetchFailed(isServerError: true)")
+    func fetchData_serverError_emitsFetchFailedIsServerError() async throws {
         let service = MockDailyService()
         service.getDailyTestListResult = .failure(NetworkError.serverError)
         let harness = TestHarness(service: service)
-        await harness.sendViewDidLoad()
+        try await harness.sendViewDidLoad()
         #expect(harness.received.contains {
             if case .fetchFailed(let isServerError) = $0 { return isServerError }
             return false
         })
     }
 
-    @Test func fetchData_genericError_emitsFetchFailedNotServerError() async {
+    @Test("viewDidLoad 일반 에러 → fetchFailed(isServerError: false)")
+    func fetchData_genericError_emitsFetchFailedNotServerError() async throws {
         let service = MockDailyService()
         service.getDailyTestListResult = .failure(URLError(.timedOut))
         let harness = TestHarness(service: service)
-        await harness.sendViewDidLoad()
+        try await harness.sendViewDidLoad()
         #expect(harness.received.contains {
             if case .fetchFailed(let isServerError) = $0 { return !isServerError }
             return false
         })
     }
 
-    @Test func fetchData_emptyData_emitsFetchFailed() async {
+    @Test("viewDidLoad data=[] → fetchFailed emit")
+    func fetchData_emptyData_emitsFetchFailed() async throws {
         let service = MockDailyService()
         service.getDailyTestListResult = .success(DailyTestListResponse(code: 1, msg: "ok", data: []))
         let harness = TestHarness(service: service)
-        await harness.sendViewDidLoad()
+        try await harness.sendViewDidLoad()
         #expect(harness.received.contains {
             if case .fetchFailed = $0 { return true }
             return false
@@ -96,9 +101,10 @@ import QRIZUtils
 
     // MARK: - optionSelectHandler
 
-    @Test func optionTapped_Q1_firstTap_selectsOptionAndShowsButton() async {
+    @Test("Q1 옵션 첫 탭 → updateOptionState(1, true) + setButtonVisibility(true)")
+    func optionTapped_Q1_firstTap_selectsOptionAndShowsButton() async throws {
         let harness = TestHarness()
-        await harness.sendViewDidLoad()
+        try await harness.sendViewDidLoad()
         harness.resetReceived()
         harness.send(.optionTapped(optionIdx: 1))
         #expect(harness.received.contains {
@@ -111,9 +117,10 @@ import QRIZUtils
         })
     }
 
-    @Test func optionTapped_Q1_sameTap_deselectsAndHidesButton() async {
+    @Test("Q1 같은 옵션 재탭 → 선택 해제 + setButtonVisibility(false)")
+    func optionTapped_Q1_sameTap_deselectsAndHidesButton() async throws {
         let harness = TestHarness()
-        await harness.sendViewDidLoad()
+        try await harness.sendViewDidLoad()
         harness.send(.optionTapped(optionIdx: 1))
         harness.resetReceived()
         harness.send(.optionTapped(optionIdx: 1))
@@ -127,9 +134,10 @@ import QRIZUtils
         })
     }
 
-    @Test func optionTapped_Q1_differentTap_switchesSelection() async {
+    @Test("Q1 다른 옵션 탭 → 이전 선택 해제 + 새 옵션 선택")
+    func optionTapped_Q1_differentTap_switchesSelection() async throws {
         let harness = TestHarness()
-        await harness.sendViewDidLoad()
+        try await harness.sendViewDidLoad()
         harness.send(.optionTapped(optionIdx: 1))
         harness.resetReceived()
         harness.send(.optionTapped(optionIdx: 2))
@@ -143,9 +151,10 @@ import QRIZUtils
         })
     }
 
-    @Test func optionTapped_Q2_doesNotEmitSetButtonVisibility() async {
+    @Test("Q2에서 옵션 탭 → setButtonVisibility 미방출")
+    func optionTapped_Q2_doesNotEmitSetButtonVisibility() async throws {
         let harness = TestHarness()
-        await harness.sendViewDidLoad()
+        try await harness.sendViewDidLoad()
         harness.send(.nextButtonClicked)
         harness.resetReceived()
         harness.send(.optionTapped(optionIdx: 1))
@@ -157,9 +166,10 @@ import QRIZUtils
 
     // MARK: - handleNextButton / buttonStateHandler
 
-    @Test func nextButton_notLastQuestion_advancesToNextQuestion() async {
+    @Test("마지막 문항 아닐 때 다음 버튼 → updateQuestion(Q2)")
+    func nextButton_notLastQuestion_advancesToNextQuestion() async throws {
         let harness = TestHarness()
-        await harness.sendViewDidLoad()
+        try await harness.sendViewDidLoad()
         harness.resetReceived()
         harness.send(.nextButtonClicked)
         #expect(harness.received.contains {
@@ -168,9 +178,10 @@ import QRIZUtils
         })
     }
 
-    @Test func nextButton_lastQuestion_emitsPopSubmitAlert() async {
+    @Test("마지막 문항에서 다음 버튼 → popSubmitAlert emit")
+    func nextButton_lastQuestion_emitsPopSubmitAlert() async throws {
         let harness = TestHarness()
-        await harness.sendViewDidLoad()
+        try await harness.sendViewDidLoad()
         harness.send(.nextButtonClicked)
         harness.send(.nextButtonClicked)
         harness.resetReceived()
@@ -181,9 +192,10 @@ import QRIZUtils
         })
     }
 
-    @Test func lastQuestion_emitsAlterButtonText() async {
+    @Test("마지막 문항 진입 → alterButtonText emit")
+    func lastQuestion_emitsAlterButtonText() async throws {
         let harness = TestHarness()
-        await harness.sendViewDidLoad()
+        try await harness.sendViewDidLoad()
         harness.send(.nextButtonClicked)
         harness.resetReceived()
         harness.send(.nextButtonClicked)
@@ -195,9 +207,10 @@ import QRIZUtils
 
     // MARK: - sendSubmitData
 
-    @Test func alertSubmit_success_emitsSubmitSuccessAndMoveToDailyResult() async {
+    @Test("제출 성공 → submitSuccess + moveToDailyResult emit")
+    func alertSubmit_success_emitsSubmitSuccessAndMoveToDailyResult() async throws {
         let harness = TestHarness()
-        await harness.sendViewDidLoad()
+        try await harness.sendViewDidLoad()
         harness.send(.nextButtonClicked)
         harness.send(.nextButtonClicked)
         harness.send(.nextButtonClicked)
@@ -214,11 +227,12 @@ import QRIZUtils
         })
     }
 
-    @Test func alertSubmit_failure_emitsSubmitFailed() async {
+    @Test("제출 실패 → submitFailed emit")
+    func alertSubmit_failure_emitsSubmitFailed() async throws {
         let service = MockDailyService()
         service.submitDailyResult = .failure(URLError(.notConnectedToInternet))
         let harness = TestHarness(service: service)
-        await harness.sendViewDidLoad()
+        try await harness.sendViewDidLoad()
         harness.send(.nextButtonClicked)
         harness.send(.nextButtonClicked)
         harness.send(.nextButtonClicked)
@@ -231,7 +245,8 @@ import QRIZUtils
         })
     }
 
-    @Test func alertCancel_emitsCancelAlert() {
+    @Test("얼럿 취소 버튼 → cancelAlert emit")
+    func alertCancel_emitsCancelAlert() {
         let harness = TestHarness()
         harness.send(.alertCancelButtonClicked)
         #expect(harness.received.contains {
@@ -240,7 +255,8 @@ import QRIZUtils
         })
     }
 
-    @Test func cancelButton_emitsMoveToHomeView() {
+    @Test("취소 버튼 → moveToHomeView emit")
+    func cancelButton_emitsMoveToHomeView() {
         let harness = TestHarness()
         harness.send(.cancelButtonClicked)
         #expect(harness.received.contains {
@@ -251,9 +267,10 @@ import QRIZUtils
 
     // MARK: - Timer
 
-    @Test func timer_timeout_autoSubmitsWhenLastQuestionExpires() async {
+    @Test("마지막 문항 타이머 만료 → 자동 제출 후 submitSuccess + moveToDailyResult")
+    func timer_timeout_autoSubmitsWhenLastQuestionExpires() async throws {
         let harness = TestHarness()
-        await harness.sendViewDidLoad()
+        try await harness.sendViewDidLoad()
         harness.send(.nextButtonClicked) // Q1 → Q2
         harness.send(.nextButtonClicked) // Q2 → Q3 (timeLimit = 1)
         harness.sendViewDidAppear()      // 타이머 시작
@@ -270,9 +287,10 @@ import QRIZUtils
         })
     }
 
-    @Test func timer_recordsTimeSpentOnQuestionAdvance() async {
+    @Test("문항 이동 시 타이머 경과 시간 기록")
+    func timer_recordsTimeSpentOnQuestionAdvance() async throws {
         let harness = TestHarness()
-        await harness.sendViewDidLoad()
+        try await harness.sendViewDidLoad()
         harness.sendViewDidAppear()
         // 타이머 1회 발화(1s) 대기: timeRemaining이 timeLimit(70)보다 1 감소함
         // asyncSleepNanoseconds(100ms)는 타이머 발화 전이므로 1_100_000_000(1.1s) 사용
