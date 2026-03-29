@@ -4,13 +4,34 @@
 //
 
 import UIKit
-import DesignSystem
 import Combine
+import QRIZUtils
+import DesignSystem
 import ExamKit
 
 final class DailyTestView: UIView {
 
+    // MARK: - enum
+
+    private enum Metric {
+        static let progressBarHeight: CGFloat = 4
+        static let footerHeight: CGFloat = 132
+        static let horizontalPadding: CGFloat = 18
+    }
+
     // MARK: - Properties
+
+    var userInputPublisher: AnyPublisher<DailyTestViewModel.Input, Never> {
+        let nextButtonTapped = footerView.nextButtonTappedPublisher
+            .map { _ in DailyTestViewModel.Input.nextButtonClicked }
+        let optionTapped = contentsView.optionTappedPublisher
+            .map { DailyTestViewModel.Input.optionTapped(optionIdx: $0) }
+        return nextButtonTapped
+            .merge(with: optionTapped)
+            .eraseToAnyPublisher()
+    }
+    
+    // MARK: - UI
 
     private let scrollView: UIScrollView = {
         let scrollView = UIScrollView()
@@ -28,16 +49,7 @@ final class DailyTestView: UIView {
     private let footerView: DailyTestFooterView = .init()
     private let contentsView: TestContentsView = .init()
     private let timerLabel: DailyTestTimerLabel = .init()
-
     private(set) lazy var timerBarButtonItem = UIBarButtonItem(customView: timerLabel)
-
-    var userInputPublisher: AnyPublisher<DailyTestViewModel.Input, Never> {
-        let optionTapped = contentsView.optionTappedPublisher
-            .map { DailyTestViewModel.Input.optionTapped(optionIdx: $0) }
-        return footerView.input
-            .merge(with: optionTapped)
-            .eraseToAnyPublisher()
-    }
 
     // MARK: - Initializers
 
@@ -103,15 +115,15 @@ extension DailyTestView {
             progressView.leadingAnchor.constraint(equalTo: leadingAnchor),
             progressView.trailingAnchor.constraint(equalTo: trailingAnchor),
             progressView.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor),
-            progressView.heightAnchor.constraint(equalToConstant: 4),
+            progressView.heightAnchor.constraint(equalToConstant: Metric.progressBarHeight),
 
             footerView.leadingAnchor.constraint(equalTo: leadingAnchor),
             footerView.trailingAnchor.constraint(equalTo: trailingAnchor),
             footerView.bottomAnchor.constraint(equalTo: bottomAnchor),
-            footerView.heightAnchor.constraint(equalToConstant: 132),
+            footerView.heightAnchor.constraint(equalToConstant: Metric.footerHeight),
 
-            scrollView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 18),
-            scrollView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -18),
+            scrollView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Metric.horizontalPadding),
+            scrollView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -Metric.horizontalPadding),
             scrollView.topAnchor.constraint(equalTo: progressView.bottomAnchor),
             scrollView.bottomAnchor.constraint(equalTo: footerView.topAnchor),
 
