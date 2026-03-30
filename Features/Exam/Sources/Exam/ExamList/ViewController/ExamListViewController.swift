@@ -6,18 +6,23 @@ import Network
 final class ExamListViewController: UIViewController {
 
     // MARK: - Properties
-    private var contentView: ExamListView { view as! ExamListView }
+
+    private let examListView = ExamListView()
     private var examList: [ExamListDataInfo] = []
 
     private let viewModel: ExamListViewModel
     private let input: PassthroughSubject<ExamListViewModel.Input, Never> = .init()
-    private var subscriptions = Set<AnyCancellable>()
+    private var cancellables = Set<AnyCancellable>()
 
-    weak var coordinator: (any ExamNavigating)?
+    private weak var coordinator: (any ExamNavigating)?
 
-    // MARK: - Initializers
-    init(viewModel: ExamListViewModel) {
+    private var hasAppeared = false
+
+    // MARK: - Initialization
+
+    init(viewModel: ExamListViewModel, coordinator: any ExamNavigating) {
         self.viewModel = viewModel
+        self.coordinator = coordinator
         super.init(nibName: nil, bundle: nil)
     }
 
@@ -25,27 +30,42 @@ final class ExamListViewController: UIViewController {
         fatalError("no initializer for coder: ExamListViewController")
     }
 
-    // MARK: - Methods
+    // MARK: - Lifecycle
+
     override func loadView() {
-        view = ExamListView()
+        view = examListView
     }
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        setNavigationItems()
-        setCollectionViewDataSourceAndDelegate()
+        setupNavigationItems()
+        setupCollectionView()
         bind()
         input.send(.viewDidLoad)
         tabBarController?.tabBar.isHidden = true
     }
 
-    private func bind() {
-        let clearViewTapped = contentView.clearViewTappedPublisher.map {
-            ExamListViewModel.Input.otherAreaClicked
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        guard hasAppeared else {
+            hasAppeared = true
+            return
         }
+        input.send(.reloadList)
+    }
+
+    // MARK: - Methods
+
+    private func bind() {
+        let filterButtonTapped = examListView.examListFilterButton.tap
+            .map { ExamListViewModel.Input.filterButtonClicked }
+        let filterItemSelected = examListView.examListFilterItemsView.filterSelectionPublisher
+            .map { ExamListViewModel.Input.filterItemSelected(filterType: $0) }
+        let clearViewTapped = examListView.clearViewTappedPublisher
+            .map { ExamListViewModel.Input.otherAreaClicked }
         let mergedInput = input.merge(
-            with: contentView.examListFilterButton.input,
-            contentView.examListFilterItemsView.input,
+            with: filterButtonTapped,
+            filterItemSelected,
             clearViewTapped
         )
         let output = viewModel.transform(input: mergedInput.eraseToAnyPublisher())
@@ -56,52 +76,49 @@ final class ExamListViewController: UIViewController {
                 guard let self = self else { return }
                 switch event {
                 case .fetchFailed:
-                    showOneButtonAlert(with: "잠시 후 다시 시도해주세요.", storingIn: &subscriptions)
+                    showOneButtonAlert(with: "잠시 후 다시 시도해주세요.", storingIn: &cancellables)
                 case .setCollectionViewItem(let examList):
                     self.examList = examList
-                    contentView.collectionView.reloadData()
-                    contentView.collectionView.setContentOffset(.zero, animated: false)
+                    examListView.collectionView.reloadData()
+                    examListView.collectionView.setContentOffset(.zero, animated: false)
                 case .selectFilterItem(let filterType):
-                    contentView.selectFilterItem(filterType)
+                    examListView.selectFilterItem(filterType)
                 case .setFilterItemsVisibility(let isVisible):
-                    contentView.setFilterItemsVisibility(isVisible: isVisible)
+                    examListView.setFilterItemsVisibility(isVisible: isVisible)
                 case .moveToExamView(let examId):
                     coordinator?.showExamSummary(examId: examId)
                 case .cancelExamListView:
-                    tabBarController?.tabBar.isHidden = false
-                    if let coordinator = coordinator {
-                        coordinator.delegate?.didQuitExam(coordinator)
-                    }
+                    coordinator?.cancelExamList()
                 }
             }
-            .store(in: &subscriptions)
+            .store(in: &cancellables)
     }
 
-    private func setNavigationItems() {
+    private func setupNavigationItems() {
         let titleView = UILabel()
         titleView.text = "모의고사"
         titleView.font = .boldSystemFont(ofSize: 18)
         titleView.textAlignment = .center
         titleView.textColor = .coolNeutral700
-        self.navigationItem.titleView = titleView
+        navigationItem.titleView = titleView
 
         let xmark = UIImage(systemName: "xmark")?.withTintColor(.coolNeutral800, renderingMode: .alwaysOriginal)
-        let button = UIButton(frame: CGRectMake(0, 0, 28, 28))
+        let button = UIButton(frame: CGRect(x: 0, y: 0, width: 28, height: 28))
         button.setImage(xmark, for: .normal)
-        button.addTarget(self, action: #selector(cancelView), for: .touchUpInside)
-        self.navigationItem.leftBarButtonItem = UIBarButtonItem(customView: button)
+        button.addAction(UIAction { [weak self] _ in
+            self?.input.send(.cancelButtonClicked)
+        }, for: .touchUpInside)
+        navigationItem.leftBarButtonItem = UIBarButtonItem(customView: button)
     }
 
-    @objc private func cancelView() {
-         input.send(.cancelButtonClicked)
-    }
-
-    private func setCollectionViewDataSourceAndDelegate() {
-        contentView.collectionView.register(ExamListCell.self, forCellWithReuseIdentifier: ExamListCell.identifier)
-        contentView.collectionView.dataSource = self
-        contentView.collectionView.delegate = self
+    private func setupCollectionView() {
+        examListView.collectionView.register(ExamListCell.self, forCellWithReuseIdentifier: ExamListCell.identifier)
+        examListView.collectionView.dataSource = self
+        examListView.collectionView.delegate = self
     }
 }
+
+// MARK: - UICollectionViewDataSource
 
 extension ExamListViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -109,26 +126,42 @@ extension ExamListViewController: UICollectionViewDataSource {
     }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ExamListCell.identifier, for: indexPath) as? ExamListCell else {
+        guard
+            indexPath.item < examList.count,
+            let cell = collectionView.dequeueReusableCell(
+                withReuseIdentifier: ExamListCell.identifier,
+                for: indexPath
+            ) as? ExamListCell
+        else {
             return UICollectionViewCell()
         }
         let examInfo = examList[indexPath.item]
-        let examRound = Int(examInfo.session.replacingOccurrences(of: "회차", with: "")) ?? 0
-        cell.configure(isCompleted: examInfo.completed, examRound: examRound, score: examInfo.totalScore)
+        cell.configure(isCompleted: examInfo.completed, examRound: examInfo.examId, score: examInfo.totalScore)
         return cell
     }
 }
 
+// MARK: - UICollectionViewDelegateFlowLayout
+
 extension ExamListViewController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        input.send(.examClicked(idx: indexPath.item))
+        guard indexPath.item < examList.count else { return }
+        input.send(.examClicked(examId: examList[indexPath.item].examId))
     }
 
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: collectionView.frame.width, height: 116)
+    func collectionView(
+        _ collectionView: UICollectionView,
+        layout collectionViewLayout: UICollectionViewLayout,
+        sizeForItemAt indexPath: IndexPath
+    ) -> CGSize {
+        CGSize(width: collectionView.frame.width, height: ExamListView.Metric.cellHeight)
     }
 
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-        return 8
+    func collectionView(
+        _ collectionView: UICollectionView,
+        layout collectionViewLayout: UICollectionViewLayout,
+        minimumLineSpacingForSectionAt section: Int
+    ) -> CGFloat {
+        ExamListView.Metric.cellSpacing
     }
 }

@@ -33,5 +33,6 @@ protocol ExamNavigating: ExamCoordinator {
     func showExamResult(examId: Int)
     func showResultDetail(resultDetailData: ResultDetailData)
     func showProblemExplanation(questionId: Int)
+    func cancelExamList()
     func quitExam()
 }

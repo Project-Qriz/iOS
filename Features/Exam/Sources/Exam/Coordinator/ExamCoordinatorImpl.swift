@@ -13,7 +13,6 @@ final class ExamCoordinatorImpl: ExamNavigating, NavigationGuard {
     weak var delegate: ExamCoordinatorDelegate?
     private let navigationController: UINavigationController
     private var examListViewController: UIViewController?
-    private var examListViewModel: ExamListViewModel?
     // ExamResultView는 @ObservedObject로 ViewModel을 참조하므로 소유권이 없음.
     // 코디네이터가 강한 참조를 유지해 조기 해제를 방지함.
     private var examResultViewModel: ExamResultViewModel?
@@ -39,10 +38,8 @@ final class ExamCoordinatorImpl: ExamNavigating, NavigationGuard {
     func showExamList() {
         guardNavigation {
             let vm = ExamListViewModel(examService: self.service)
-            let vc = ExamListViewController(viewModel: vm)
-            vc.coordinator = self
+            let vc = ExamListViewController(viewModel: vm, coordinator: self)
             self.examListViewController = vc
-            self.examListViewModel = vm
             self.navigationController.pushViewController(vc, animated: true)
         }
     }
@@ -107,10 +104,14 @@ final class ExamCoordinatorImpl: ExamNavigating, NavigationGuard {
         }
     }
 
+    func cancelExamList() {
+        navigationController.tabBarController?.tabBar.isHidden = false
+        delegate?.didQuitExam(self)
+    }
+
     func quitExam() {
-        if let examListVC = examListViewController, let examListVM = examListViewModel {
+        if let examListVC = examListViewController {
             _ = self.navigationController.popToViewController(examListVC, animated: true)
-            examListVM.reloadList()
         }
     }
 }
