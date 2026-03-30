@@ -13,36 +13,46 @@ import QRIZUtils
 final class ExamListFilterItemsView: UIStackView {
 
     // MARK: - Properties
-    private var itemButtonsDic: [ExamListFilterType: UIButton] = [:]
+
     private var selectedFilter: ExamListFilterType = .total
+    private let filterSelectedSubject: PassthroughSubject<ExamListFilterType, Never> = .init()
+    
+    var filterSelectionPublisher: AnyPublisher<ExamListFilterType, Never> {
+        filterSelectedSubject.eraseToAnyPublisher()
+    }
 
-    let input: PassthroughSubject<ExamListViewModel.Input, Never> = .init()
+    // MARK: - UI
 
-    // MARK: - Initializers
+    private var itemButtonsDic: [ExamListFilterType: UIButton] = [:]
+
+    // MARK: - Initialization
+
     init() {
         super.init(frame: .zero)
-        self.backgroundColor = .white
-        setStackView()
-        appendItemLabels()
+        backgroundColor = .white
+        setupStackView()
+        setupItemButtons()
         addSubviews()
-        setLayer()
+        setupConstraints()
+        setupAppearance()
         isHidden = true
     }
 
     required init(coder: NSCoder) {
-        fatalError()
+        fatalError("init(coder:) has not been implemented")
     }
 
     // MARK: - Methods
-    func setItemSelected(selectedType: ExamListFilterType) {
-        if let newSelected = itemButtonsDic[selectedType], let oldSelected = itemButtonsDic[selectedFilter] {
-            setButtonState(button: oldSelected, isSelected: false)
-            setButtonState(button: newSelected, isSelected: true)
-            selectedFilter = selectedType
-        }
+
+    func updateSelectedItem(_ filterType: ExamListFilterType) {
+        guard let newSelected = itemButtonsDic[filterType],
+              let oldSelected = itemButtonsDic[selectedFilter] else { return }
+        updateButtonState(button: oldSelected, isSelected: false)
+        updateButtonState(button: newSelected, isSelected: true)
+        selectedFilter = filterType
     }
 
-    private func setStackView() {
+    private func setupStackView() {
         distribution = .equalSpacing
         alignment = .fill
         spacing = 0
@@ -50,35 +60,25 @@ final class ExamListFilterItemsView: UIStackView {
         axis = .vertical
     }
 
-    private func appendItemLabels() {
+    private func setupItemButtons() {
         ExamListFilterType.allCases.forEach { type in
             let button = UIButton()
             button.setTitle(type.rawValue, for: .normal)
             button.contentHorizontalAlignment = .left
-
-            let isSelected = (type == .total)
-            setButtonState(button: button, isSelected: isSelected)
-
-            button.addAction(UIAction(handler: { [weak self] _ in
-                guard let self = self else { return }
-                self.input.send(.filterItemSelected(filterType: type))
-            }), for: .touchUpInside)
-
-            self.itemButtonsDic[type] = button
+            updateButtonState(button: button, isSelected: type == .total)
+            button.addAction(UIAction { [weak self] _ in
+                self?.filterSelectedSubject.send(type)
+            }, for: .touchUpInside)
+            itemButtonsDic[type] = button
         }
     }
 
-    private func setButtonState(button: UIButton, isSelected: Bool) {
-        if isSelected {
-            button.setTitleColor(.customBlue500, for: .normal)
-            button.titleLabel?.font = .systemFont(ofSize: 14, weight: .bold)
-        } else {
-            button.setTitleColor(.coolNeutral600, for: .normal)
-            button.titleLabel?.font = .systemFont(ofSize: 14, weight: .medium)
-        }
+    private func updateButtonState(button: UIButton, isSelected: Bool) {
+        button.setTitleColor(isSelected ? .customBlue500 : .coolNeutral600, for: .normal)
+        button.titleLabel?.font = .systemFont(ofSize: 14, weight: isSelected ? .bold : .medium)
     }
 
-    private func setLayer() {
+    private func setupAppearance() {
         layer.cornerRadius = 12
         layer.masksToBounds = false
         layer.shadowColor = UIColor.customBlue100.cgColor
@@ -86,16 +86,20 @@ final class ExamListFilterItemsView: UIStackView {
     }
 }
 
+// MARK: - Layout Setup
+
 extension ExamListFilterItemsView {
     private func addSubviews() {
-        itemButtonsDic.sorted(by: {
-            $0.key < $1.key
-        }).forEach {
+        itemButtonsDic.sorted(by: { $0.key < $1.key }).forEach {
             addArrangedSubview($0.value)
-            $0.value.widthAnchor.constraint(equalToConstant: 123).isActive = true
-            $0.value.heightAnchor.constraint(equalToConstant: 34).isActive = true
         }
+    }
 
+    private func setupConstraints() {
+        itemButtonsDic.values.forEach {
+            $0.widthAnchor.constraint(equalToConstant: 123).isActive = true
+            $0.heightAnchor.constraint(equalToConstant: 34).isActive = true
+        }
         layoutMargins = UIEdgeInsets(top: 4, left: 12, bottom: 4, right: 0)
     }
 }
