@@ -10,16 +10,19 @@ import Combine
 import QRIZUtils
 import Network
 
+@MainActor
 final class ExamListViewModel {
 
-    // MARK: - Input & Output
+    // MARK: - Enums
+
     enum Input {
         case viewDidLoad
+        case reloadList
         case filterButtonClicked
         case filterItemSelected(filterType: ExamListFilterType)
         case otherAreaClicked
         case cancelButtonClicked
-        case examClicked(idx: Int)
+        case examClicked(examId: Int)
     }
 
     enum Output {
@@ -32,19 +35,24 @@ final class ExamListViewModel {
     }
 
     // MARK: - Properties
+
     private var filterSelected: ExamListFilterType = .total
     private var examList: [ExamListDataInfo] = []
     private var isFilterItemsPresented: Bool = false
 
     private let output: PassthroughSubject<Output, Never> = .init()
-    private var subscriptions = Set<AnyCancellable>()
+    private var cancellables = Set<AnyCancellable>()
+    private var fetchTask: Task<Void, Never>?
 
     private let examService: any ExamService
 
-    // MARK: - Initializers
+    // MARK: - Initialization
+
     init(examService: any ExamService) {
         self.examService = examService
     }
+
+    // MARK: - Methods
 
     func transform(input: AnyPublisher<Input, Never>) -> AnyPublisher<Output, Never> {
         input.sink { [weak self] event in
@@ -52,56 +60,60 @@ final class ExamListViewModel {
             switch event {
             case .viewDidLoad:
                 fetchData()
+            case .reloadList:
+                filterSelected = .total
+                output.send(.selectFilterItem(filterType: .total))
+                fetchData()
             case .filterButtonClicked:
-                self.isFilterItemsPresented.toggle()
-                output.send(.setFilterItemsVisibility(isVisible: self.isFilterItemsPresented))
+                handleFilterButtonClicked()
             case .filterItemSelected(let filterType):
-                filterItemSelectionHandler(filterType: filterType)
+                handleFilterItemSelected(filterType)
             case .otherAreaClicked:
-                if isFilterItemsPresented {
-                    isFilterItemsPresented = false
-                    output.send(.setFilterItemsVisibility(isVisible: false))
-                }
+                handleOtherAreaClicked()
             case .cancelButtonClicked:
                 output.send(.cancelExamListView)
-            case .examClicked(let idx):
-                setExamToPresent(clickedIdx: idx)
+            case .examClicked(let examId):
+                output.send(.moveToExamView(examId: examId))
             }
         }
-        .store(in: &subscriptions)
+        .store(in: &cancellables)
         return output.eraseToAnyPublisher()
     }
 
     private func fetchData() {
-        Task { [weak self] in
-            guard let self = self else { return }
+        let currentFilter = filterSelected
+        fetchTask?.cancel()
+        fetchTask = Task { [weak self] in
+            guard let self else { return }
             do {
-                let response = try await examService.getExamList(filterType: filterSelected)
+                let response = try await examService.getExamList(filterType: currentFilter)
+                guard !Task.isCancelled else { return }
                 examList = response.data
                 output.send(.setCollectionViewItem(examList: examList))
-                output.send(.selectFilterItem(filterType: filterSelected))
+                output.send(.selectFilterItem(filterType: currentFilter))
             } catch {
+                guard !Task.isCancelled else { return }
                 output.send(.fetchFailed)
             }
         }
     }
 
-    private func setExamToPresent(clickedIdx: Int) {
-        let sessionText = examList[clickedIdx].session
-        guard let session = Int(sessionText.replacingOccurrences(of: "회차", with: "")) else { return }
-        output.send(.moveToExamView(examId: session))
+    private func handleFilterButtonClicked() {
+        isFilterItemsPresented.toggle()
+        output.send(.setFilterItemsVisibility(isVisible: isFilterItemsPresented))
     }
 
-    private func filterItemSelectionHandler(filterType: ExamListFilterType) {
-        if self.filterSelected == filterType { return }
-        self.filterSelected = filterType
+    private func handleFilterItemSelected(_ filterType: ExamListFilterType) {
+        guard filterSelected != filterType else { return }
+        filterSelected = filterType
+        isFilterItemsPresented = false
+        output.send(.setFilterItemsVisibility(isVisible: false))
         fetchData()
-        self.isFilterItemsPresented = false
-        output.send(.setFilterItemsVisibility(isVisible: self.isFilterItemsPresented))
     }
 
-    func reloadList() {
-        self.filterSelected = .total
-        fetchData()
+    private func handleOtherAreaClicked() {
+        guard isFilterItemsPresented else { return }
+        isFilterItemsPresented = false
+        output.send(.setFilterItemsVisibility(isVisible: false))
     }
 }

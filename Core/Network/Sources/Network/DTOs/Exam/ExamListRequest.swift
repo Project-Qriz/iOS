@@ -41,4 +41,8 @@ public struct ExamListDataInfo: Decodable, Sendable {
     public let completed: Bool
     public let session: String
     public let totalScore: Double?
+
+    public var examId: Int {
+        Int(session.replacingOccurrences(of: "회차", with: "")) ?? 0
+    }
 }
