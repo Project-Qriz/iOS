@@ -1,3 +1,8 @@
+//
+//  ExamResultViewModel.swift
+//  QRIZ
+//
+
 import Foundation
 import QRIZUtils
 import Network
@@ -37,15 +42,13 @@ final class ExamResultViewModel: ObservableObject {
 
     private var fetchTask: Task<Void, Never>?
     private var subjectScores: [Double] = []
-    private var subjectCount: Int = 0
+    private var subjectCount = 0
     private var gradeResultList: [GradeResult] = []
     private var subject1DetailResult: [SubjectDetailData] = []
     private var subject2DetailResult: [SubjectDetailData] = []
     private var historicalScores: [HistoricalScoreEntity] = []
-    private var numOfDataToPresent: Int = 0
-    private var nickname: String {
-        UserInfoManager.shared.name
-    }
+    private var numOfDataToPresent = 0
+    private let nickname = UserInfoManager.shared.name
     private let examId: Int
     private let examService: any ExamService
 
@@ -60,6 +63,7 @@ final class ExamResultViewModel: ObservableObject {
 
     func onViewDidLoad() {
         fetchTask?.cancel()
+        resetFetchState()
         fetchTask = Task { await fetchData() }
     }
 
@@ -67,7 +71,7 @@ final class ExamResultViewModel: ObservableObject {
         delegate?.didRequestQuitExam()
     }
 
-    func didTapMoveToConcept() {
+    func didTapConcept() {
         delegate?.didRequestMoveToConcept()
     }
 
@@ -81,11 +85,25 @@ final class ExamResultViewModel: ObservableObject {
 
     // MARK: - Private
 
+    private func resetFetchState() {
+        subjectScores = []
+        subjectCount = 0
+        gradeResultList = []
+        subject1DetailResult = []
+        subject2DetailResult = []
+        historicalScores = []
+        numOfDataToPresent = 0
+    }
+
     private func fetchData() async {
         do {
-            try await fetchResultResponse()
-            try await fetchScoreResponse()
+            async let fetchResult: Void = fetchResultResponse()
+            async let fetchScore: Void = fetchScoreResponse()
+            try await fetchResult
+            try await fetchScore
             updateData()
+        } catch is CancellationError {
+            return
         } catch NetworkError.serverError {
             errorMessage = "관리자에게 문의하세요."
         } catch {
@@ -94,41 +112,37 @@ final class ExamResultViewModel: ObservableObject {
     }
 
     private func fetchResultResponse() async throws {
-        let resultResponse = try await examService.getExamResult(examId: examId)
-        let data = resultResponse.data
+        let response = try await examService.getExamResult(examId: examId)
+        let data = response.data
         historicalScores = data.historicalScores.map { $0.toEntity() }
-        data.problemResults.enumerated().forEach { [weak self] in
-            guard let self = self else { return }
-            self.gradeResultList.append(
-                GradeResult(id: $0 + 1,
-                            questionId: $1.questionId,
-                            skillName: $1.skillName,
-                            question: $1.question,
-                            correction: $1.correction))
+        gradeResultList = data.problemResults.enumerated().map { index, item in
+            GradeResult(
+                id: index + 1,
+                questionId: item.questionId,
+                skillName: item.skillName,
+                question: item.question,
+                correction: item.correction
+            )
         }
     }
 
     private func fetchScoreResponse() async throws {
         let scoreResponse = try await examService.getExamScore(examId: examId)
         let scoreData = scoreResponse.data
-        self.subjectCount = scoreData.reduce(0, {
-            $0 + $1.majorItems.count
-        })
-        self.numOfDataToPresent = subjectCount
+        subjectCount = scoreData.reduce(0) { $0 + $1.majorItems.count }
+        numOfDataToPresent = subjectCount
 
-        try scoreData.forEach {
-            switch $0.title {
+        for subject in scoreData {
+            switch subject.title {
             case SubjectTitle.subject1.rawValue:
-                $0.majorItems.forEach { [weak self] item in
-                    guard let self = self else { return }
-                    self.subject1DetailResult.append(SubjectDetailData(majorItem: item.majorItem, score: item.score, minorItems: item.subItemScores.map { $0.toEntity() }))
-                    self.subjectScores.append(item.score)
+                subject.majorItems.forEach {
+                    subject1DetailResult.append(SubjectDetailData(majorItem: $0.majorItem, score: $0.score, minorItems: $0.subItemScores.map { $0.toEntity() }))
+                    subjectScores.append($0.score)
                 }
             case SubjectTitle.subject2.rawValue:
-                $0.majorItems.forEach { [weak self] item in
-                    guard let self = self else { return }
-                    self.subject2DetailResult.append(SubjectDetailData(majorItem: item.majorItem, score: item.score, minorItems: item.subItemScores.map { $0.toEntity() }))
-                    self.subjectScores.append(item.score)
+                subject.majorItems.forEach {
+                    subject2DetailResult.append(SubjectDetailData(majorItem: $0.majorItem, score: $0.score, minorItems: $0.subItemScores.map { $0.toEntity() }))
+                    subjectScores.append($0.score)
                 }
             default:
                 throw NetworkError.unknownError
@@ -151,10 +165,15 @@ final class ExamResultViewModel: ObservableObject {
             self.resultDetailData.subject2DetailResult = self.subject2DetailResult
             self.resultDetailData.numOfDataToPresent = self.numOfDataToPresent
 
-            for i in 0...4 {
-                self.resultScoresData.subjectScores[i] = self.subjectScores[i]
+            zip(self.resultScoresData.subjectScores.indices, self.subjectScores).forEach { index, score in
+                self.resultScoresData.subjectScores[index] = score
             }
 
+            self.scoreGraphData.totalScores = []
+            self.scoreGraphData.subject1Scores = []
+            self.scoreGraphData.subject2Scores = []
+            self.scoreGraphData.indexedSubject1Scores = []
+            self.scoreGraphData.indexedSubject2Scores = []
             self.scoreGraphData.convertGraphScoreData(self.historicalScores.sorted())
         }
     }
@@ -162,7 +181,7 @@ final class ExamResultViewModel: ObservableObject {
     private func addSubjectScoresPadding() {
         if subjectCount < 5 {
             for _ in 0..<(5 - subjectCount) {
-                self.subjectScores.append(0)
+                subjectScores.append(0)
             }
         }
     }
