@@ -14,6 +14,13 @@ final class ExamListFilterButton: UIControl {
 
     // MARK: - Properties
 
+    var tap: AnyPublisher<Void, Never> {
+        tapSubject.eraseToAnyPublisher()
+    }
+    private let tapSubject: PassthroughSubject<Void, Never> = .init()
+
+    // MARK: - UI
+    
     private let filterLabel: UILabel = {
         let label = UILabel()
         label.text = "전체"
@@ -28,8 +35,6 @@ final class ExamListFilterButton: UIControl {
         let imageView = UIImageView(image: image)
         return imageView
     }()
-
-    let input: PassthroughSubject<ExamListViewModel.Input, Never> = .init()
 
     // MARK: - Initialization
 
@@ -61,7 +66,7 @@ final class ExamListFilterButton: UIControl {
 
     private func setupGesture() {
         addAction(UIAction { [weak self] _ in
-            self?.input.send(.filterButtonClicked)
+            self?.tapSubject.send()
         }, for: .touchUpInside)
     }
 }
