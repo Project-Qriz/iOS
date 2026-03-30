@@ -4,6 +4,13 @@ import QRIZUtils
 
 final class ExamListView: UIView {
 
+    // MARK: - Enums
+
+    enum Metric {
+        static let cellHeight: CGFloat = 116
+        static let cellSpacing: CGFloat = 8
+    }
+
     // MARK: - Views
     let examListFilterButton = ExamListFilterButton()
     let examListFilterItemsView = ExamListFilterItemsView()
@@ -53,7 +60,7 @@ final class ExamListView: UIView {
 
     // MARK: - Update Methods
     func selectFilterItem(_ filterType: ExamListFilterType) {
-        examListFilterItemsView.setItemSelected(selectedType: filterType)
+        examListFilterItemsView.updateSelectedItem(filterType)
         examListFilterButton.setText(filterType: filterType)
     }
 
