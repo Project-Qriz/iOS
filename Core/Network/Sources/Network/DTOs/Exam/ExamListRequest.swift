@@ -35,12 +35,24 @@ public struct ExamListResponse: Decodable, Sendable {
     public let code: Int
     public let msg: String
     public let data: [ExamListDataInfo]
+
+    public init(code: Int, msg: String, data: [ExamListDataInfo]) {
+        self.code = code
+        self.msg = msg
+        self.data = data
+    }
 }
 
 public struct ExamListDataInfo: Decodable, Sendable {
     public let completed: Bool
     public let session: String
     public let totalScore: Double?
+
+    public init(completed: Bool, session: String, totalScore: Double?) {
+        self.completed = completed
+        self.session = session
+        self.totalScore = totalScore
+    }
 
     public var examId: Int {
         Int(session.replacingOccurrences(of: "회차", with: "")) ?? 0

@@ -15,6 +15,7 @@ let package = Package(
         .package(path: "../ExamKit"),
         .package(path: "../Conceptbook"),
         .package(path: "../MistakeNote"),
+        .package(url: "https://github.com/pointfreeco/swift-snapshot-testing", from: "1.18.9"),
     ],
     targets: [
         .target(
@@ -26,6 +27,16 @@ let package = Package(
                 "ExamKit",
                 "Conceptbook",
                 "MistakeNote",
+            ],
+            swiftSettings: [
+                .swiftLanguageMode(.v5)
+            ]
+        ),
+        .testTarget(
+            name: "ExamTests",
+            dependencies: [
+                "Exam",
+                .product(name: "SnapshotTesting", package: "swift-snapshot-testing"),
             ],
             swiftSettings: [
                 .swiftLanguageMode(.v5)
