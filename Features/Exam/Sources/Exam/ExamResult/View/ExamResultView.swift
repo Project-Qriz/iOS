@@ -1,7 +1,11 @@
+//
+//  ExamResultView.swift
+//  QRIZ
+//
+
 import SwiftUI
-import DesignSystem
 import Combine
-import QRIZUtils
+import DesignSystem
 import ExamKit
 
 struct ExamResultView: View {
@@ -9,17 +13,17 @@ struct ExamResultView: View {
     // MARK: - Properties
 
     @ObservedObject var viewModel: ExamResultViewModel
-    @StateObject private var bridge = ExamResultBridge()
+    @StateObject private var bridge = ExamResultExamKitBridge()
 
     // MARK: - Body
 
     var body: some View {
         ScrollView(.vertical) {
-            LazyVStack(spacing: 0) {
+            VStack(spacing: 0) {
                 ExamResultScoreView(
                     resultScoresData: viewModel.resultScoresData,
                     resultDetailData: viewModel.resultDetailData,
-                    input: bridge.resultDetailTap
+                    onDetailTap: viewModel.didTapResultDetail
                 )
                 Spacer(minLength: 16)
 
@@ -59,9 +63,8 @@ struct ExamResultView: View {
         } message: {
             Text(viewModel.errorMessage ?? "")
         }
-        .onReceive(bridge.conceptTap) { viewModel.didTapMoveToConcept() }
+        .onReceive(bridge.conceptTap) { viewModel.didTapConcept() }
         .onReceive(bridge.problemTap) { viewModel.didTapProblem(questionId: $0) }
-        .onReceive(bridge.resultDetailTap) { viewModel.didTapResultDetail() }
         .onAppear(perform: viewModel.onViewDidLoad)
     }
 }
@@ -79,8 +82,7 @@ private extension ExamResultView {
 
 // MARK: - Bridge
 
-private final class ExamResultBridge: ObservableObject {
-    let resultDetailTap = PassthroughSubject<Void, Never>()
+private final class ExamResultExamKitBridge: ObservableObject {
     let conceptTap = PassthroughSubject<Void, Never>()
     let problemTap = PassthroughSubject<Int, Never>()
 }

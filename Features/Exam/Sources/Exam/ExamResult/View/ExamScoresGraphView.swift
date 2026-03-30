@@ -1,3 +1,8 @@
+//
+//  ExamScoresGraphView.swift
+//  QRIZ
+//
+
 import SwiftUI
 import DesignSystem
 import Charts
@@ -5,79 +10,23 @@ import QRIZUtils
 
 struct ExamScoresGraphView: View {
 
+    // MARK: - Properties
+
     @ObservedObject var scoreGraphData: ScoreGraphData
-    private let totalColor: Color = Color.coolNeutral600
-    private let subject1Color: Color = Color.coolNeutral600
-    private let subject2Color: Color = Color.customBlue500
-    private let highlightedColor: Color = Color.customBlue500
-    private let unHighlightedColor: Color = Color.coolNeutral600
-    private let gridColor: Color = Color.coolNeutral200
-    private let axisLabelColor: Color = Color.coolNeutral600
+
+    // MARK: - Body
 
     var body: some View {
         VStack(spacing: 8) {
-            HStack {
-                Text("점수 변동")
-                    .foregroundStyle(Color.coolNeutral800)
-                    .font(.system(size: 20, weight: .bold))
-
-                Spacer()
-
-                Menu {
-                    ForEach(ScoreGraphFilterType.allCases, id: \.self) { type in
-                        Button {
-                            scoreGraphData.filterType = type
-                        } label: {
-                            Text(type.rawValue)
-                        }
-                    }
-                } label: {
-                    HStack(spacing: 6) {
-                        Text(scoreGraphData.filterType.rawValue)
-                            .foregroundColor(Color.coolNeutral800)
-                            .font(.system(size: 14, weight: .medium))
-                        Image(systemName: "chevron.down")
-                            .resizable()
-                            .frame(width: 9, height: 5)
-                            .foregroundColor(Color.coolNeutral800)
-                    }
-                    .frame(maxWidth: .infinity, alignment: .trailing)
-                }
-            }
-
-            Spacer(minLength: 8)
-
-            HStack {
-                Text("(점수)")
-                    .foregroundStyle(Color.coolNeutral400)
-                    .font(.system(size: 12, weight: .regular))
-                Spacer()
-            }
-
+            headerRow
+            scoreUnitLabel
             if scoreGraphData.filterType == .byTotalScore {
-                totalHistoryGraphView()
+                totalHistoryChart
                     .aspectRatio(1, contentMode: .fit)
             } else {
-                subjectHistoryGraphView()
+                subjectHistoryChart
                     .aspectRatio(1, contentMode: .fit)
-            }
-
-            if scoreGraphData.filterType == .bySubject {
-                HStack(spacing: 6) {
-                    Spacer()
-
-                    ForEach([subject1Color, subject2Color].indices, id: \.self) {
-                        Circle()
-                            .frame(width: 14, height: 14)
-                            .foregroundStyle($0 == 0 ? subject1Color : subject2Color)
-
-                        Text("\($0 + 1)과목")
-                            .foregroundColor(Color.coolNeutral500)
-                            .font(.system(size: 14, weight: .regular))
-                    }
-
-                    Spacer()
-                }
+                subjectLegend
             }
         }
         .padding(EdgeInsets(top: 24, leading: 18, bottom: 24, trailing: 18))
@@ -85,20 +34,97 @@ struct ExamScoresGraphView: View {
     }
 }
 
-extension ExamScoresGraphView {
-    @ViewBuilder
-    func subjectHistoryGraphView() -> some View {
+// MARK: - Subviews
 
+private extension ExamScoresGraphView {
+
+    var headerRow: some View {
+        HStack {
+            Text("점수 변동")
+                .foregroundStyle(Color.coolNeutral800)
+                .font(.system(size: 20, weight: .bold))
+            Spacer()
+            Menu {
+                ForEach(ScoreGraphFilterType.allCases, id: \.self) { type in
+                    Button {
+                        scoreGraphData.filterType = type
+                    } label: {
+                        Text(type.rawValue)
+                    }
+                }
+            } label: {
+                HStack(spacing: 6) {
+                    Text(scoreGraphData.filterType.rawValue)
+                        .foregroundStyle(Color.coolNeutral800)
+                        .font(.system(size: 14, weight: .medium))
+                    Image(systemName: "chevron.down")
+                        .resizable()
+                        .frame(width: 9, height: 5)
+                        .foregroundStyle(Color.coolNeutral800)
+                }
+                .frame(maxWidth: .infinity, alignment: .trailing)
+            }
+        }
+    }
+
+    var scoreUnitLabel: some View {
+        HStack {
+            Text("(점수)")
+                .foregroundStyle(Color.coolNeutral400)
+                .font(.system(size: 12, weight: .regular))
+            Spacer()
+        }
+    }
+
+    var subjectLegend: some View {
+        HStack(spacing: 6) {
+            Spacer()
+            ForEach(Self.legendItems, id: \.label) { item in
+                Circle()
+                    .frame(width: 14, height: 14)
+                    .foregroundStyle(item.color)
+                Text(item.label)
+                    .foregroundStyle(Color.coolNeutral500)
+                    .font(.system(size: 14, weight: .regular))
+            }
+            Spacer()
+        }
+    }
+
+    var totalHistoryChart: some View {
+        let graphData = scoreGraphData.totalScores
+        return Chart(Array(graphData.enumerated()), id: \.element.id) { index, item in
+            let isLast = index == graphData.count - 1
+            LineMark(
+                x: .value("Index", index),
+                y: .value("Score", item.score)
+            )
+            .lineStyle(StrokeStyle(lineWidth: 4))
+            .foregroundStyle(Self.subject1Color)
+            .symbol(.circle)
+
+            PointMark(
+                x: .value("Index", index),
+                y: .value("Score", item.score)
+            )
+            .foregroundStyle(isLast ? Self.highlightedColor : .white)
+            .symbolSize(isLast ? 20 : 12)
+        }
+        .chartXAxis { totalXAxis(graphData: graphData) }
+        .chartYScale(domain: 0...100)
+        .chartYAxis { sharedYAxis }
+        .chartLegend(.hidden)
+    }
+
+    var subjectHistoryChart: some View {
         let combinedData = scoreGraphData.indexedSubject1Scores + scoreGraphData.indexedSubject2Scores
-
-        Chart(combinedData) { item in
+        return Chart(combinedData) { item in
             LineMark(
                 x: .value("Index", item.index),
                 y: .value("Score", item.score)
             )
             .lineStyle(StrokeStyle(lineWidth: 4))
-            .foregroundStyle(item.type == "1과목" ? subject1Color : subject2Color)
-            .foregroundStyle(by: .value("Type", item.type))
+            .foregroundStyle(item.type == Self.subject1TypeIdentifier ? Self.subject1Color : Self.subject2Color)
             .symbol(.circle)
 
             PointMark(
@@ -108,88 +134,71 @@ extension ExamScoresGraphView {
             .foregroundStyle(.white)
             .symbolSize(12)
         }
-        .chartXAxis {
-            AxisMarks(preset: .aligned, values: scoreGraphData.indexedSubject1Scores.map { $0.index }) { value in
-                if let idx = value.as(Int.self) {
-                    if idx < scoreGraphData.subject1Scores.count {
-                        let dateValue = scoreGraphData.subject1Scores[idx].date
-                        let isHighlighted = (
-                            dateValue == scoreGraphData.subject1Scores[scoreGraphData.subject1Scores.count - 1].date
-                        )
-                        AxisGridLine().foregroundStyle(gridColor)
-                        AxisTick().foregroundStyle(gridColor)
-                        AxisValueLabel {
-                            Text(dateValue.graphText)
-                                .foregroundStyle(isHighlighted ? highlightedColor : unHighlightedColor)
-                                .font(.system(size: 12, weight: .medium))
-                        }
-                    }
-                }
-            }
-        }
+        .chartXAxis { subjectXAxis }
         .chartYScale(domain: 0...100)
-        .chartYAxis {
-            AxisMarks(preset: .extended, position: .leading, values: .stride(by: 20)) { value in
-                AxisGridLine().foregroundStyle(gridColor)
-                AxisTick().foregroundStyle(gridColor)
-                AxisValueLabel()
-                    .foregroundStyle(axisLabelColor)
-                    .font(.system(size: 12, weight: .medium))
-            }
-        }
+        .chartYAxis { sharedYAxis }
         .chartLegend(.hidden)
     }
 
-    @ViewBuilder
-    func totalHistoryGraphView() -> some View {
-
-        let graphData = scoreGraphData.totalScores
-
-        Chart(Array(graphData.enumerated()), id: \.element.date) { index, item in
-            let isLast = index == graphData.count - 1
-
-            LineMark(
-                x: .value("Index", index),
-                y: .value("Score", item.score)
-            )
-            .lineStyle(StrokeStyle(lineWidth: 4))
-            .foregroundStyle(subject1Color)
-            .symbol(.circle)
-
-            PointMark(
-                x: .value("Index", index),
-                y: .value("Score", item.score)
-            )
-            .foregroundStyle(isLast ? highlightedColor : .white)
-            .symbolSize(isLast ? 20 : 12)
-        }
-        .chartXAxis {
-            AxisMarks(preset: .aligned, values: Array(graphData.indices)) { value in
-                if let index = value.as(Int.self) {
-                    let item = graphData[index]
-                    let isHighlighted = (
-                        index == graphData.count - 1
-                    )
-                    AxisGridLine().foregroundStyle(gridColor)
-                    AxisTick().foregroundStyle(gridColor)
-                    AxisValueLabel {
-                        Text(item.date.graphText)
-                            .foregroundStyle(isHighlighted ? highlightedColor : unHighlightedColor)
-                            .font(.system(size: 12, weight: isHighlighted ? .bold : .medium))
-                    }
+    @AxisContentBuilder
+    func totalXAxis(graphData: [GraphData]) -> some AxisContent {
+        AxisMarks(preset: .aligned, values: Array(graphData.indices)) { value in
+            if let index = value.as(Int.self) {
+                let item = graphData[index]
+                let isHighlighted = index == graphData.count - 1
+                AxisGridLine().foregroundStyle(Self.gridColor)
+                AxisTick().foregroundStyle(Self.gridColor)
+                AxisValueLabel {
+                    Text(item.date.graphText)
+                        .foregroundStyle(isHighlighted ? Self.highlightedColor : Self.unHighlightedColor)
+                        .font(.system(size: 12, weight: isHighlighted ? .bold : .medium))
                 }
             }
         }
-        .chartYScale(domain: 0...100)
-        .chartYAxis {
-            AxisMarks(preset: .extended, position: .leading, values: .stride(by: 20)) { value in
-                AxisGridLine().foregroundStyle(gridColor)
-                AxisTick().foregroundStyle(gridColor)
-                AxisValueLabel()
-                    .foregroundStyle(axisLabelColor)
-                    .font(.system(size: 12, weight: .medium))
+    }
+
+    @AxisContentBuilder
+    var subjectXAxis: some AxisContent {
+        AxisMarks(preset: .aligned, values: scoreGraphData.indexedSubject1Scores.map { $0.index }) { value in
+            if let idx = value.as(Int.self), idx < scoreGraphData.subject1Scores.count {
+                let dateValue = scoreGraphData.subject1Scores[idx].date
+                let isHighlighted = idx == scoreGraphData.indexedSubject1Scores.count - 1
+                AxisGridLine().foregroundStyle(Self.gridColor)
+                AxisTick().foregroundStyle(Self.gridColor)
+                AxisValueLabel {
+                    Text(dateValue.graphText)
+                        .foregroundStyle(isHighlighted ? Self.highlightedColor : Self.unHighlightedColor)
+                        .font(.system(size: 12, weight: isHighlighted ? .bold : .medium))
+                }
             }
         }
-        .chartLegend(.hidden)
     }
+
+    @AxisContentBuilder
+    var sharedYAxis: some AxisContent {
+        AxisMarks(preset: .extended, position: .leading, values: .stride(by: 20)) { _ in
+            AxisGridLine().foregroundStyle(Self.gridColor)
+            AxisTick().foregroundStyle(Self.gridColor)
+            AxisValueLabel()
+                .foregroundStyle(Self.axisLabelColor)
+                .font(.system(size: 12, weight: .medium))
+        }
+    }
+}
+
+// MARK: - Constants
+
+private extension ExamScoresGraphView {
+    static let subject1Color: Color = .coolNeutral600
+    static let subject2Color: Color = .customBlue500
+    static let highlightedColor: Color = .customBlue500
+    static let unHighlightedColor: Color = .coolNeutral600
+    static let gridColor: Color = .coolNeutral200
+    static let axisLabelColor: Color = .coolNeutral600
+    static let subject1TypeIdentifier = "1과목"
+    static let subject2TypeIdentifier = "2과목"
+    static let legendItems: [(color: Color, label: String)] = [
+        (subject1Color, subject1TypeIdentifier),
+        (subject2Color, subject2TypeIdentifier)
+    ]
 }
