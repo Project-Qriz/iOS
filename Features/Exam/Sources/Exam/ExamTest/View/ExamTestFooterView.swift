@@ -1,17 +1,26 @@
 import UIKit
-import DesignSystem
 import Combine
+import DesignSystem
 import ExamKit
+
+
 
 final class ExamTestFooterView: UIView {
 
-    // MARK: - Properties
-    private let prevButton: TestButton = TestButton(isPreviousButton: true)
-    private let nextButton: TestButton = TestButton(isPreviousButton: false)
-    private let pageIndicatorLabel: TestPageIndicatorLabel = .init()
+    // MARK: - Metric
 
-    private let prevButtonTappedSubject: PassthroughSubject<Void, Never> = .init()
-    private let nextButtonTappedSubject: PassthroughSubject<Void, Never> = .init()
+    private enum Metric {
+        static let top: CGFloat = 17
+        static let leading: CGFloat = 18
+        static let trailing: CGFloat = -18
+        static let width: CGFloat = 90
+        static let height: CGFloat = 48
+    }
+    
+    // MARK: - Properties
+
+    private let prevButtonTappedSubject = PassthroughSubject<Void, Never>()
+    private let nextButtonTappedSubject = PassthroughSubject<Void, Never>()
 
     var prevButtonTappedPublisher: AnyPublisher<Void, Never> {
         prevButtonTappedSubject.eraseToAnyPublisher()
@@ -21,19 +30,47 @@ final class ExamTestFooterView: UIView {
         nextButtonTappedSubject.eraseToAnyPublisher()
     }
 
-    // MARK: - Initializers
+    // MARK: - UI
+
+    private let prevButton = TestButton(isPreviousButton: true)
+    private let nextButton = TestButton(isPreviousButton: false)
+    private let pageIndicatorLabel = TestPageIndicatorLabel()
+
+    // MARK: - Initialization
+
     init() {
         super.init(frame: .zero)
+        addSubviews()
+        setupConstraints()
         setupUI()
-        addViews()
-        addButtonAction()
+        setupButtonAction()
     }
 
     required init?(coder: NSCoder) {
-        fatalError("no initializer for coder: DailyTestFooterView")
+        fatalError("init(coder:) has not been implemented")
     }
 
     // MARK: - Methods
+
+    private func setupUI() {
+        backgroundColor = .white
+        layer.shadowColor = UIColor.customBlue100.cgColor
+        layer.shadowOpacity = 1
+        layer.shadowRadius = 16
+        layer.borderColor = UIColor.customBlue100.cgColor
+        layer.borderWidth = 1
+    }
+
+    private func setupButtonAction() {
+        prevButton.addAction(UIAction { [weak self] _ in
+            self?.prevButtonTappedSubject.send()
+        }, for: .touchUpInside)
+        
+        nextButton.addAction(UIAction { [weak self] _ in
+            self?.nextButtonTappedSubject.send()
+        }, for: .touchUpInside)
+    }
+
     func updateCurPage(curPage: Int) {
         pageIndicatorLabel.setCurrentPage(curPage)
     }
@@ -48,64 +85,36 @@ final class ExamTestFooterView: UIView {
 
     func updateNextButton(isVisible: Bool, isTextSubmit: Bool) {
         nextButton.isHidden = !isVisible
-        let nextButtonText = isTextSubmit ? "제출" : "다음"
-        nextButton.updateTitle(nextButtonText)
-    }
-
-    private func setupUI() {
-        backgroundColor = .white
-        layer.shadowColor = UIColor.customBlue100.cgColor
-        layer.shadowOpacity = 1
-        layer.shadowRadius = 16
-        layer.borderColor = UIColor.customBlue100.cgColor
-        layer.borderWidth = 1
-    }
-
-    private func addButtonAction() {
-        prevButton.addAction(UIAction(handler: { [weak self] _ in
-            guard let self = self else { return }
-            prevButtonTappedSubject.send()
-        }), for: .touchUpInside)
-        nextButton.addAction(UIAction(handler: { [weak self] _ in
-            guard let self = self else { return }
-            nextButtonTappedSubject.send()
-        }), for: .touchUpInside)
+        nextButton.updateTitle(isTextSubmit ? "제출" : "다음")
     }
 }
 
-// MARK: - Auto Layout
+// MARK: - Layout Setup
+
 extension ExamTestFooterView {
 
-    private enum Layout {
-        static let top: CGFloat = 17
-        static let leading: CGFloat = 18
-        static let trailing: CGFloat = -18
-        static let width: CGFloat = 90
-        static let height: CGFloat = 48
+    private func addSubviews() {
+        [prevButton, nextButton, pageIndicatorLabel].forEach { addSubview($0) }
     }
 
-    private func addViews() {
-        addSubview(prevButton)
-        addSubview(nextButton)
-        addSubview(pageIndicatorLabel)
-
-        prevButton.translatesAutoresizingMaskIntoConstraints = false
-        nextButton.translatesAutoresizingMaskIntoConstraints = false
-        pageIndicatorLabel.translatesAutoresizingMaskIntoConstraints = false
+    private func setupConstraints() {
+        [prevButton, nextButton, pageIndicatorLabel].forEach {
+            $0.translatesAutoresizingMaskIntoConstraints = false
+        }
 
         NSLayoutConstraint.activate([
-            prevButton.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: Layout.leading),
-            prevButton.topAnchor.constraint(equalTo: self.topAnchor, constant: Layout.top),
-            prevButton.widthAnchor.constraint(equalToConstant: Layout.width),
-            prevButton.heightAnchor.constraint(equalToConstant: Layout.height),
+            prevButton.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Metric.leading),
+            prevButton.topAnchor.constraint(equalTo: topAnchor, constant: Metric.top),
+            prevButton.widthAnchor.constraint(equalToConstant: Metric.width),
+            prevButton.heightAnchor.constraint(equalToConstant: Metric.height),
 
-            nextButton.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: Layout.trailing),
-            nextButton.topAnchor.constraint(equalTo: self.topAnchor, constant: Layout.top),
-            nextButton.widthAnchor.constraint(equalToConstant: Layout.width),
-            nextButton.heightAnchor.constraint(equalToConstant: Layout.height),
+            nextButton.trailingAnchor.constraint(equalTo: trailingAnchor, constant: Metric.trailing),
+            nextButton.topAnchor.constraint(equalTo: topAnchor, constant: Metric.top),
+            nextButton.widthAnchor.constraint(equalToConstant: Metric.width),
+            nextButton.heightAnchor.constraint(equalToConstant: Metric.height),
 
-            pageIndicatorLabel.centerXAnchor.constraint(equalTo: self.centerXAnchor),
-            pageIndicatorLabel.centerYAnchor.constraint(equalTo: nextButton.centerYAnchor)
+            pageIndicatorLabel.centerXAnchor.constraint(equalTo: centerXAnchor),
+            pageIndicatorLabel.centerYAnchor.constraint(equalTo: nextButton.centerYAnchor),
         ])
     }
 }

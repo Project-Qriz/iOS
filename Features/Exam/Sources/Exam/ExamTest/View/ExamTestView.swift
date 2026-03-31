@@ -1,57 +1,88 @@
 import UIKit
+import Combine
 import DesignSystem
 import ExamKit
 import QRIZUtils
 
+
+
 final class ExamTestView: UIView {
 
-    // MARK: - Views
-    let footerView = ExamTestFooterView()
-    private(set) var contentsView: TestContentsView!
-    private(set) var progressView: UIProgressView!
-    private(set) var timeLabel: UILabel!
-    private(set) var totalTimeRemainingLabel: UILabel!
-    private(set) var scrollView: UIScrollView!
+    // MARK: - Metric
 
-    // MARK: - Initializers
-    override init(frame: CGRect) {
-        super.init(frame: frame)
-        backgroundColor = .white
-        setupSubviews()
-        addViews()
+    private enum Metric {
+        static let progressBarHeight: CGFloat = 4
+        static let footerHeight: CGFloat = 132
+        static let scrollInset: CGFloat = 18
+    }
+    
+    // MARK: - Properties
+
+    var optionTappedPublisher: AnyPublisher<Int, Never> {
+        contentsView.optionTappedPublisher
     }
 
-    required init?(coder: NSCoder) {
-        fatalError("no initializer for coder: ExamTestView")
+    var prevButtonTappedPublisher: AnyPublisher<Void, Never> {
+        footerView.prevButtonTappedPublisher
     }
 
-    // MARK: - Setup
-    private func setupSubviews() {
+    var nextButtonTappedPublisher: AnyPublisher<Void, Never> {
+        footerView.nextButtonTappedPublisher
+    }
+
+    // MARK: - UI
+
+    private let contentsView = TestContentsView()
+    private let footerView = ExamTestFooterView()
+
+    private let progressView: UIProgressView = {
         let pv = UIProgressView()
         pv.progressTintColor = .customBlue500
         pv.trackTintColor = .coolNeutral200
-        progressView = pv
+        return pv
+    }()
 
+    private let scrollView: UIScrollView = {
         let sv = UIScrollView()
         sv.backgroundColor = .white
-        scrollView = sv
+        return sv
+    }()
 
-        contentsView = TestContentsView()
+    let timeLabel: UILabel = {
+        let label = UILabel()
+        label.font = .monospacedSystemFont(ofSize: 14, weight: .semibold)
+        label.textColor = .customRed500
+        label.text = "00:00"
+        return label
+    }()
 
-        let tl = UILabel()
-        tl.font = .monospacedSystemFont(ofSize: 14, weight: .semibold)
-        tl.textColor = .customRed500
-        tl.text = "00:00"
-        timeLabel = tl
+    let totalTimeRemainingLabel: UILabel = {
+        let label = UILabel()
+        label.font = .systemFont(ofSize: 14)
+        label.text = "전체 남은 시간"
+        label.textColor = .coolNeutral800
+        return label
+    }()
 
-        let ttl = UILabel()
-        ttl.font = .systemFont(ofSize: 14)
-        ttl.text = "전체 남은 시간"
-        ttl.textColor = .coolNeutral800
-        totalTimeRemainingLabel = ttl
+    // MARK: - Initialization
+
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        addSubviews()
+        setupConstraints()
+        setupUI()
     }
 
-    // MARK: - Update Methods
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+
+    // MARK: - Methods
+
+    private func setupUI() {
+        backgroundColor = .white
+    }
+
     func updateQuestion(_ question: QuestionData) {
         contentsView.updateQuestion(question)
         footerView.updateCurPage(curPage: question.questionNumber)
@@ -80,32 +111,33 @@ final class ExamTestView: UIView {
     }
 }
 
-// MARK: - AutoLayout
-extension ExamTestView {
-    private func addViews() {
-        addSubview(progressView)
-        addSubview(scrollView)
-        scrollView.addSubview(contentsView)
-        addSubview(footerView)
+// MARK: - Layout Setup
 
-        progressView.translatesAutoresizingMaskIntoConstraints = false
-        scrollView.translatesAutoresizingMaskIntoConstraints = false
-        contentsView.translatesAutoresizingMaskIntoConstraints = false
-        footerView.translatesAutoresizingMaskIntoConstraints = false
+extension ExamTestView {
+
+    private func addSubviews() {
+        [progressView, scrollView, footerView].forEach { addSubview($0) }
+        scrollView.addSubview(contentsView)
+    }
+
+    private func setupConstraints() {
+        [progressView, scrollView, contentsView, footerView].forEach {
+            $0.translatesAutoresizingMaskIntoConstraints = false
+        }
 
         NSLayoutConstraint.activate([
             progressView.leadingAnchor.constraint(equalTo: leadingAnchor),
             progressView.trailingAnchor.constraint(equalTo: trailingAnchor),
             progressView.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor),
-            progressView.heightAnchor.constraint(equalToConstant: 4),
+            progressView.heightAnchor.constraint(equalToConstant: Metric.progressBarHeight),
 
             footerView.leadingAnchor.constraint(equalTo: leadingAnchor),
             footerView.trailingAnchor.constraint(equalTo: trailingAnchor),
             footerView.bottomAnchor.constraint(equalTo: bottomAnchor),
-            footerView.heightAnchor.constraint(equalToConstant: 132),
+            footerView.heightAnchor.constraint(equalToConstant: Metric.footerHeight),
 
-            scrollView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 18),
-            scrollView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -18),
+            scrollView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Metric.scrollInset),
+            scrollView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -Metric.scrollInset),
             scrollView.topAnchor.constraint(equalTo: progressView.bottomAnchor),
             scrollView.bottomAnchor.constraint(equalTo: footerView.topAnchor),
 
