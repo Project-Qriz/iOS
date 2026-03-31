@@ -13,8 +13,8 @@ public final class ScoreGraphData: ObservableObject {
     @Published public var totalScores: [GraphData] = []
     @Published public var indexedSubject1Scores: [IndexedGraphData] = []
     @Published public var indexedSubject2Scores: [IndexedGraphData] = []
-    public var subject1Scores: [GraphData] = []
-    public var subject2Scores: [GraphData] = []
+    @Published public var subject1Scores: [GraphData] = []
+    @Published public var subject2Scores: [GraphData] = []
 
     public init() {}
 
@@ -35,7 +35,8 @@ public final class ScoreGraphData: ObservableObject {
     }
 }
 
-public struct GraphData {
+public struct GraphData: Identifiable {
+    public let id = UUID()
     public let date: Date
     public let score: Double
     public let type: String
