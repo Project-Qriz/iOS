@@ -3,18 +3,224 @@ import Combine
 import QRIZUtils
 import Network
 
+@MainActor
 final class ExamTestViewModel {
 
-    // MARK: Input & Output
+    // MARK: - Properties
+
+    private let examId: Int
+    private let examService: any ExamService
+    private let outputSubject = PassthroughSubject<Output, Never>()
+    private var cancellables = Set<AnyCancellable>()
+
+    private var questionList: [QuestionData] = []
+    private var submitData: [TestSubmitData] = []
+    private var examQuestionList: [ExamQuestionInfo] = []
+    private var curNum: Int?
+    private var timeLimit: Int?
+    private var countdown: CountdownTimer?
+    private var isSubmitting = false
+    private var didAppear = false
+
+    // MARK: - Initialization
+
+    init(examId: Int, examService: any ExamService) {
+        self.examId = examId
+        self.examService = examService
+    }
+
+    // MARK: - Methods
+
+    func transform(input: AnyPublisher<Input, Never>) -> AnyPublisher<Output, Never> {
+        input
+            .sink { [weak self] event in
+                guard let self else { return }
+                switch event {
+                case .viewDidLoad:
+                    fetchData()
+
+                case .viewDidAppear:
+                    didAppear = true
+                    countdown?.start()
+
+                case .didTapOption(let optionIdx):
+                    handleOptionSelect(optionIdx: optionIdx)
+
+                case .didTapCancelButton:
+                    countdown?.stop()
+                    outputSubject.send(.moveToExamList)
+
+                case .didTapPrevButton:
+                    handleButtonClick(isNextButton: false)
+
+                case .didTapNextButton:
+                    handleButtonClick(isNextButton: true)
+
+                case .didTapAlertSubmit:
+                    sendSubmitData()
+
+                case .didTapAlertCancel:
+                    outputSubject.send(.cancelAlert)
+                }
+            }
+            .store(in: &cancellables)
+
+        return outputSubject.eraseToAnyPublisher()
+    }
+
+    private func fetchData() {
+        Task { [weak self] in
+            guard let self else { return }
+            do {
+                let response = try await examService.getExamQuestion(examId: examId)
+                let data = response.data
+                if data.questions.isEmpty { throw NetworkError.unknownError }
+                examQuestionList = data.questions
+                timeLimit = data.totalTimeLimit
+                for (index, question) in data.questions.enumerated() {
+                    guard question.options.count >= 4 else { throw NetworkError.unknownError }
+                    questionList.append(QuestionData(
+                        question: question.question,
+                        option1: question.options[0].content,
+                        option2: question.options[1].content,
+                        option3: question.options[2].content,
+                        option4: question.options[3].content,
+                        timeLimit: question.timeLimit,
+                        questionNumber: index + 1,
+                        description: question.description
+                    ))
+                    submitData.append(TestSubmitData(
+                        question: SubmitQuestionData(questionId: question.questionId, category: question.category),
+                        questionNum: index + 1,
+                        optionId: nil
+                    ))
+                }
+                curNum = 1
+                outputSubject.send(.updateTotalPage(totalPage: questionList.count))
+                updateQuestionState()
+                setupCountdown(totalTime: data.totalTimeLimit)
+
+            } catch NetworkError.serverError {
+                outputSubject.send(.fetchFailed(isServerError: true))
+
+            } catch {
+                outputSubject.send(.fetchFailed(isServerError: false))
+            }
+        }
+    }
+
+    private func setupCountdown(totalTime: Int) {
+        countdown = CountdownTimer(totalTime: totalTime)
+        countdown?.remainingTimePublisher
+            .sink { [weak self] remaining in
+                guard let self, let timeLimit else { return }
+                outputSubject.send(.updateTime(timeLimit: timeLimit, timeRemaining: remaining))
+                if remaining <= 0 {
+                    sendSubmitData()
+                }
+            }
+            .store(in: &cancellables)
+        if didAppear {
+            countdown?.start()
+        }
+    }
+
+    private func sendSubmitData() {
+        guard !isSubmitting else { return }
+        isSubmitting = true
+        Task { [weak self] in
+            guard let self else { return }
+            do {
+                try await examService.submitTest(examId: examId, testSubmitData: submitData)
+                countdown?.stop()
+                outputSubject.send(.submitSuccess)
+                outputSubject.send(.moveToExamResult(examId: examId))
+
+            } catch {
+                isSubmitting = false
+                outputSubject.send(.submitFailed)
+            }
+        }
+    }
+
+    private func handleOptionSelect(optionIdx: Int) {
+        guard let curNum, curNum >= 1, curNum <= questionList.count else { return }
+        let idx = curNum - 1
+
+        if let prevSelectedIdx = questionList[idx].selectedOption {
+            questionList[idx].selectedOption = nil
+            submitData[idx].optionId = nil
+            outputSubject.send(.updateOptionState(optionIdx: prevSelectedIdx, isSelected: false))
+            if prevSelectedIdx != optionIdx {
+                questionList[idx].selectedOption = optionIdx
+                submitData[idx].optionId = examQuestionList[idx].options[optionIdx - 1].id
+                outputSubject.send(.updateOptionState(optionIdx: optionIdx, isSelected: true))
+            }
+        } else {
+            questionList[idx].selectedOption = optionIdx
+            submitData[idx].optionId = examQuestionList[idx].options[optionIdx - 1].id
+            outputSubject.send(.updateOptionState(optionIdx: optionIdx, isSelected: true))
+        }
+
+        if curNum == 1 {
+            outputSubject.send(.updateNextButton(
+                isVisible: questionList[0].selectedOption != nil,
+                isTextSubmit: false
+            ))
+        }
+    }
+
+    private func handleButtonClick(isNextButton: Bool) {
+        guard let curNum, curNum >= 1, curNum <= questionList.count else { return }
+
+        if curNum == questionList.count && isNextButton {
+            outputSubject.send(.popSubmitAlert)
+            return
+        }
+
+        self.curNum = curNum + (isNextButton ? 1 : -1)
+        updateQuestionState()
+    }
+
+    private func updateQuestionState() {
+        guard let curNum, curNum >= 1, curNum <= questionList.count else { return }
+        outputSubject.send(.updateQuestion(question: questionList[curNum - 1]))
+        if let optionIdx = questionList[curNum - 1].selectedOption {
+            outputSubject.send(.updateOptionState(optionIdx: optionIdx, isSelected: true))
+        }
+        updateNavigationButtonState()
+    }
+
+    private func updateNavigationButtonState() {
+        guard let curNum, curNum >= 1, curNum <= questionList.count else { return }
+
+        switch curNum {
+        case 1:
+            outputSubject.send(.updatePrevButton(isVisible: false))
+            outputSubject.send(.updateNextButton(
+                isVisible: questionList[curNum - 1].selectedOption != nil,
+                isTextSubmit: false
+            ))
+        default:
+            outputSubject.send(.updatePrevButton(isVisible: true))
+            outputSubject.send(.updateNextButton(
+                isVisible: true,
+                isTextSubmit: curNum == questionList.count
+            ))
+        }
+    }
+}
+
+extension ExamTestViewModel {
     enum Input {
         case viewDidLoad
         case viewDidAppear
-        case optionTapped(optionIdx: Int)
-        case cancelButtonClicked
-        case prevButtonClicked
-        case nextButtonClicked
-        case alertSubmitButtonClicked
-        case alertCancelButtonClicked
+        case didTapOption(optionIdx: Int)
+        case didTapCancelButton
+        case didTapPrevButton
+        case didTapNextButton
+        case didTapAlertSubmit
+        case didTapAlertCancel
     }
 
     enum Output {
@@ -31,213 +237,5 @@ final class ExamTestViewModel {
         case cancelAlert
         case submitSuccess
         case submitFailed
-    }
-
-    // MARK: - Properties
-    private var questionList: [QuestionData] = []
-    private var submitData: [TestSubmitData] = []
-    private var examQuestionList: [ExamQuestionInfo] = []
-    private var curNum: Int? = nil
-    private var timer: Timer? = nil
-    private var timeLimit: Int? = nil
-    private var startTime: Date? = nil
-    private let examId: Int
-
-    private let output: PassthroughSubject<Output, Never> = .init()
-    private var subscriptions = Set<AnyCancellable>()
-
-    private let examService: any ExamService
-
-    // MARK: - Initializer
-    init(examId: Int, examService: any ExamService) {
-        self.examId = examId
-        self.examService = examService
-    }
-
-    // MARK: - Deinitializer
-    deinit {
-        exitTimer()
-    }
-
-    // MARK: - Methods
-    func transform(input: AnyPublisher<Input, Never>) -> AnyPublisher<Output, Never> {
-        input.sink { [weak self] event in
-            guard let self = self else { return }
-            switch event {
-            case .viewDidLoad:
-                fetchData()
-            case .viewDidAppear:
-                startTimer()
-            case .optionTapped(let optionIdx):
-                optionSelectHandler(optionIdx: optionIdx)
-            case .cancelButtonClicked:
-                exitTimer()
-                output.send(.moveToExamList)
-            case .prevButtonClicked:
-                buttonClickEventHandler(isNextButton: false)
-            case .nextButtonClicked:
-                buttonClickEventHandler(isNextButton: true)
-            case .alertSubmitButtonClicked:
-                sendSubmitData()
-            case .alertCancelButtonClicked:
-                output.send(.cancelAlert)
-            }
-        }
-        .store(in: &subscriptions)
-        return output.eraseToAnyPublisher()
-    }
-
-    private func fetchData() {
-        Task { [weak self] in
-            guard let self = self else { return }
-            do {
-                let response = try await examService.getExamQuestion(examId: examId)
-                let data = response.data
-                if data.questions.count == 0 { throw NetworkError.unknownError }
-                examQuestionList = data.questions
-                timeLimit = data.totalTimeLimit
-                data.questions.enumerated().forEach {
-                    self.questionList.append(QuestionData(question: $1.question,
-                                                     option1: $1.options[0].content,
-                                                     option2: $1.options[1].content,
-                                                     option3: $1.options[2].content,
-                                                     option4: $1.options[3].content,
-                                                     timeLimit: $1.timeLimit,
-                                                     questionNumber: $0 + 1,
-                                                     description: $1.description))
-                    self.submitData.append(
-                        TestSubmitData(question: SubmitQuestionData(questionId: $1.questionId, category: $1.category),
-                                       questionNum: $0 + 1,
-                                       optionId: nil))
-                }
-                curNum = 1
-                output.send(.updateTotalPage(totalPage: questionList.count))
-                questionStateHandler()
-            } catch NetworkError.serverError {
-                output.send(.fetchFailed(isServerError: true))
-            } catch {
-                output.send(.fetchFailed(isServerError: false))
-            }
-        }
-    }
-
-    private func sendSubmitData() {
-        Task { [weak self] in
-            guard let self = self else { return }
-            do {
-                let _ = try await examService.submitTest(examId: examId, testSubmitData: submitData)
-                exitTimer()
-                output.send(.submitSuccess)
-                output.send(.moveToExamResult(examId: examId))
-            } catch NetworkError.serverError {
-                output.send(.fetchFailed(isServerError: true))
-            } catch {
-                output.send(.fetchFailed(isServerError: false))
-            }
-        }
-    }
-
-    private func questionStateHandler() {
-        guard let curNum = curNum, curNum >= 1, curNum <= questionList.count else { return }
-        output.send(.updateQuestion(question: questionList[curNum - 1]))
-        if let optionIdx = questionList[curNum - 1].selectedOption {
-            output.send(.updateOptionState(optionIdx: optionIdx, isSelected: true))
-        }
-        questionButtonStateHandler()
-    }
-
-    private func optionSelectHandler(optionIdx: Int) {
-        guard let curNum = curNum, curNum >= 1, curNum <= questionList.count else { return }
-
-        if let prevSelectedIdx = questionList[curNum - 1].selectedOption {
-            questionList[curNum - 1].selectedOption = nil
-            submitData[curNum - 1].optionId = nil
-            output.send(.updateOptionState(optionIdx: prevSelectedIdx, isSelected: false))
-            if prevSelectedIdx != optionIdx {
-                questionList[curNum - 1].selectedOption = optionIdx
-                submitData[curNum - 1].optionId = examQuestionList[curNum - 1].options[optionIdx - 1].id
-                output.send(.updateOptionState(optionIdx: optionIdx, isSelected: true))
-            }
-        } else {
-            questionList[curNum - 1].selectedOption = optionIdx
-            submitData[curNum - 1].optionId = examQuestionList[curNum - 1].options[optionIdx - 1].id
-            output.send(.updateOptionState(optionIdx: optionIdx, isSelected: true))
-        }
-
-        optionSelectButtonStateHandler()
-    }
-
-    private func buttonClickEventHandler(isNextButton: Bool) {
-        guard let curNum = curNum, curNum >= 1, curNum <= questionList.count else { return }
-
-        if curNum == questionList.count && isNextButton {
-            output.send(.popSubmitAlert)
-            return
-        }
-
-        let diff = isNextButton ? 1 : -1
-        self.curNum = curNum + diff
-        questionStateHandler()
-    }
-
-    private func questionButtonStateHandler() {
-        guard let curNum = curNum, curNum >= 1, curNum <= questionList.count else { return }
-
-        switch curNum {
-        case 1:
-            output.send(.updatePrevButton(isVisible: false))
-            if questionList[curNum - 1].selectedOption == nil {
-                output.send(.updateNextButton(isVisible: false, isTextSubmit: false))
-            } else {
-                output.send(.updateNextButton(isVisible: true, isTextSubmit: false))
-            }
-        case questionList.count:
-            output.send(.updateNextButton(isVisible: true, isTextSubmit: true))
-        default:
-            output.send(.updatePrevButton(isVisible: true))
-            output.send(.updateNextButton(isVisible: true, isTextSubmit: false))
-        }
-    }
-
-    private func optionSelectButtonStateHandler() {
-        guard let curNum = curNum, curNum >= 1, curNum <= questionList.count else { return }
-
-        if curNum == 1 {
-            if questionList[curNum - 1].selectedOption == nil {
-                output.send(.updateNextButton(isVisible: false, isTextSubmit: false))
-            } else {
-                output.send(.updateNextButton(isVisible: true, isTextSubmit: false))
-            }
-        }
-    }
-}
-
-// MARK: - Timer Methods
-extension ExamTestViewModel {
-    private func startTimer() {
-        DispatchQueue.main.async { [weak self] in
-            guard let self = self else { return }
-            startTime = Date()
-            timer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(updateTimerPerSecond), userInfo: nil, repeats: true)
-            if let timer = timer {
-                RunLoop.main.add(timer, forMode: .common)
-            }
-        }
-    }
-
-    @objc private func updateTimerPerSecond() {
-        guard let timeLimit = timeLimit, let startTime = startTime else { return }
-        let timeElapsed = Int(Date().timeIntervalSince(startTime))
-        let timeRemaining = timeLimit - timeElapsed
-        if timeRemaining >= 0 {
-            output.send(.updateTime(timeLimit: timeLimit, timeRemaining: timeRemaining))
-        } else {
-            sendSubmitData()
-        }
-    }
-
-    private func exitTimer() {
-        timer?.invalidate()
-        timer = nil
     }
 }
