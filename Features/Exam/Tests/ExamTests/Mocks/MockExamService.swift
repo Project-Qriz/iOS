@@ -8,6 +8,8 @@ final class MockExamService: ExamService {
     var getExamListResult: Result<ExamListResponse, Error> = .success(
         ExamListResponse(code: 1, msg: "ok", data: [])
     )
+    var getExamQuestionResult: Result<ExamQuestionResponse, Error> = .success(MockExamService.makeExamQuestion())
+    var submitTestResult: Result<Void, Error> = .success(())
     var getExamResultResult: Result<ExamResultResponse, Error> = .success(MockExamService.makeExamResult())
     var getExamScoreResult: Result<ExamScoreResponse, Error> = .success(MockExamService.makeExamScore())
 
@@ -16,11 +18,11 @@ final class MockExamService: ExamService {
     }
 
     func getExamQuestion(examId: Int) async throws -> ExamQuestionResponse {
-        fatalError("not implemented")
+        try getExamQuestionResult.get()
     }
 
     func submitTest(examId: Int, testSubmitData: [TestSubmitData]) async throws {
-        fatalError("not implemented")
+        try submitTestResult.get()
     }
 
     func getExamScore(examId: Int) async throws -> ExamScoreResponse {
@@ -36,6 +38,31 @@ final class MockExamService: ExamService {
     }
 
     // MARK: - Sample Data
+
+    static func makeExamQuestion(questionCount: Int = 2, totalTimeLimit: Int = 100) -> ExamQuestionResponse {
+        let questions: [ExamQuestionInfo]
+        if questionCount > 0 {
+            questions = (1...questionCount).map { i in
+                ExamQuestionInfo(
+                    questionId: i,
+                    skillId: 1,
+                    category: 1,
+                    question: "문제 \(i)",
+                    description: nil,
+                    options: (1...4).map { j in ExamQuestionInfo.OptionInfo(id: i * 10 + j, content: "선택지 \(j)") },
+                    timeLimit: 60,
+                    difficulty: 1
+                )
+            }
+        } else {
+            questions = []
+        }
+        return ExamQuestionResponse(
+            code: 1,
+            msg: "ok",
+            data: ExamQuestionResponse.ExamTestInfo(questions: questions, totalTimeLimit: totalTimeLimit)
+        )
+    }
 
     static func makeExamList(count: Int = 3, completed: Bool = false) -> [ExamListDataInfo] {
         guard count > 0 else { return [] }
