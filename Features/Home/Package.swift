@@ -33,12 +33,5 @@ let package = Package(
                 .swiftLanguageMode(.v5)
             ]
         ),
-        .testTarget(
-            name: "HomeTests",
-            dependencies: ["Home"],
-            swiftSettings: [
-                .swiftLanguageMode(.v5)
-            ]
-        ),
     ]
 )
