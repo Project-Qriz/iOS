@@ -15,7 +15,6 @@
 		B13BC73E2F58273500E99FA2 /* Conceptbook in Frameworks */ = {isa = PBXBuildFile; productRef = B13BC73F2F58273500E99FA2 /* Conceptbook */; };
 		B1469DD72F79389B00D3BD39 /* Exam in Frameworks */ = {isa = PBXBuildFile; productRef = B1469DD62F79389B00D3BD39 /* Exam */; };
 		B14DF4E72F7652D1002F6177 /* Daily in Frameworks */ = {isa = PBXBuildFile; productRef = B14DF4E62F7652D1002F6177 /* Daily */; };
-		C1A2B3C52F79000200D3BD39 /* Home in Frameworks */ = {isa = PBXBuildFile; productRef = C1A2B3C62F79000300D3BD39 /* Home */; };
 		B17C0EC52F5AACD200C8219A /* Account in Frameworks */ = {isa = PBXBuildFile; productRef = B17C0EC42F5AACD200C8219A /* Account */; };
 		B18CDE662F45AD2A00CB3AB4 /* QRIZUtils in Frameworks */ = {isa = PBXBuildFile; productRef = B18CDE652F45AD2A00CB3AB4 /* QRIZUtils */; };
 		B19C4FC52D6C226500CD008A /* TabBarCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = B19C4FC42D6C226500CD008A /* TabBarCoordinator.swift */; };
@@ -24,6 +23,7 @@
 		B1D7CE482F5EE18200E6C2CD /* MistakeNote in Frameworks */ = {isa = PBXBuildFile; productRef = B1D7CE492F5EE18200E6C2CD /* MistakeNote */; };
 		B1D813712D6E0C1F00A9D447 /* HomeCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1D813702D6E0C1F00A9D447 /* HomeCoordinator.swift */; };
 		B1D8137A2D768D9B00A9D447 /* AppCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1D813792D768D9B00A9D447 /* AppCoordinator.swift */; };
+		C1A2B3C52F79000200D3BD39 /* Home in Frameworks */ = {isa = PBXBuildFile; productRef = C1A2B3C62F79000300D3BD39 /* Home */; };
 		D52D2E306AD846D98D4E9CDF5B15473A /* ExamKit in Frameworks */ = {isa = PBXBuildFile; productRef = F4E578BDAC154F81A58E0781EEE6FBD1 /* ExamKit */; };
 		E23963092D083B900092B39B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E23963082D083B900092B39B /* AppDelegate.swift */; };
 		E239630B2D083B900092B39B /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E239630A2D083B900092B39B /* SceneDelegate.swift */; };
@@ -48,8 +48,8 @@
 		B1D813702D6E0C1F00A9D447 /* HomeCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeCoordinator.swift; sourceTree = "<group>"; };
 		B1D813792D768D9B00A9D447 /* AppCoordinator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppCoordinator.swift; sourceTree = "<group>"; };
 		B1DB35912F76529B00FAB280 /* Daily */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = Daily; path = Features/Daily; sourceTree = "<group>"; };
-		C1A2B3C42F79000100D3BD39 /* Home */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = Home; path = Features/Home; sourceTree = "<group>"; };
 		B1DD53A52F45A85A00B60C85 /* QRIZUtils */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = QRIZUtils; path = Core/QRIZUtils; sourceTree = "<group>"; };
+		C1A2B3C42F79000100D3BD39 /* Home */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = Home; path = Features/Home; sourceTree = "<group>"; };
 		E23963052D083B8F0092B39B /* QRIZ.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = QRIZ.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E23963082D083B900092B39B /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		E239630A2D083B900092B39B /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -632,10 +632,6 @@
 			isa = XCSwiftPackageProductDependency;
 			productName = Daily;
 		};
-		C1A2B3C62F79000300D3BD39 /* Home */ = {
-			isa = XCSwiftPackageProductDependency;
-			productName = Home;
-		};
 		B17C0EC42F5AACD200C8219A /* Account */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = Account;
@@ -651,6 +647,10 @@
 		B1D7CE492F5EE18200E6C2CD /* MistakeNote */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = MistakeNote;
+		};
+		C1A2B3C62F79000300D3BD39 /* Home */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = Home;
 		};
 		E292211D2E05478C00B6DC0D /* FirebaseAnalyticsWithoutAdIdSupport */ = {
 			isa = XCSwiftPackageProductDependency;
