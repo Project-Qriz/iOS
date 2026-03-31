@@ -1,90 +1,94 @@
 import UIKit
-import DesignSystem
 import Combine
+import DesignSystem
 import QRIZUtils
 import ExamKit
 
 final class ExamTestViewController: UIViewController {
 
     // MARK: - Properties
-    private var contentView: ExamTestView { view as! ExamTestView }
 
+    weak var coordinator: (any ExamNavigating)?
+    private let rootView: ExamTestView
     private let viewModel: ExamTestViewModel
-    private let input: PassthroughSubject<ExamTestViewModel.Input, Never> = .init()
-    private var subscriptions = Set<AnyCancellable>()
+    private let inputSubject = PassthroughSubject<ExamTestViewModel.Input, Never>()
+    private var cancellables = Set<AnyCancellable>()
 
     private let submitAlertViewController = TwoButtonCustomAlertViewController(
         title: "제출하시겠습니까?",
         description: "확인 버튼을 누르면 다시 돌아올 수 없어요."
     )
 
-    weak var coordinator: (any ExamNavigating)?
+    // MARK: - Initialization
 
-    // MARK: - Initializers
     init(viewModel: ExamTestViewModel) {
+        self.rootView = ExamTestView()
         self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
     }
 
     required init?(coder: NSCoder) {
-        fatalError("no initializer for coder: ExamTestViewController")
+        fatalError("init(coder:) has not been implemented")
     }
 
-    // MARK: - Methods
+    // MARK: - Lifecycle
+
     override func loadView() {
-        view = ExamTestView()
+        self.view = rootView
     }
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        setNavigationItems()
         bind()
-        setAlertButtonActions()
-        input.send(.viewDidLoad)
+        setupNavigationItems()
+        setupAlertButtonActions()
+        inputSubject.send(.viewDidLoad)
     }
 
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        input.send(.viewDidAppear)
+        inputSubject.send(.viewDidAppear)
     }
 
-    private func bind() {
-        let optionTapped = contentView.contentsView.optionTappedPublisher.map {
-            ExamTestViewModel.Input.optionTapped(optionIdx: $0)
-        }
-        let prevTapped = contentView.footerView.prevButtonTappedPublisher.map {
-            ExamTestViewModel.Input.prevButtonClicked
-        }
-        let nextTapped = contentView.footerView.nextButtonTappedPublisher.map {
-            ExamTestViewModel.Input.nextButtonClicked
-        }
-        let mergedInput = input.merge(with: optionTapped, prevTapped, nextTapped)
+    // MARK: - Methods
 
-        let output = viewModel.transform(input: mergedInput.eraseToAnyPublisher())
+    private func bind() {
+        let optionTapped = rootView.optionTappedPublisher
+            .map { ExamTestViewModel.Input.didTapOption(optionIdx: $0) }
+        let prevTapped = rootView.prevButtonTappedPublisher
+            .map { ExamTestViewModel.Input.didTapPrevButton }
+        let nextTapped = rootView.nextButtonTappedPublisher
+            .map { ExamTestViewModel.Input.didTapNextButton }
+        let input = inputSubject
+            .merge(with: optionTapped, prevTapped, nextTapped)
+            .eraseToAnyPublisher()
+
+        let output = viewModel.transform(input: input)
+
         output
             .receive(on: DispatchQueue.main)
             .sink { [weak self] event in
-                guard let self = self else { return }
+                guard let self else { return }
                 switch event {
                 case .fetchFailed(let isServerError):
                     submitAlertViewController.dismiss(animated: true)
                     if isServerError {
-                        showOneButtonAlert(with: "Server Error", for: "관리자에게 문의하세요.", storingIn: &subscriptions)
+                        showOneButtonAlert(with: "Server Error", for: "관리자에게 문의하세요.", storingIn: &cancellables)
                     } else {
-                        showOneButtonAlert(with: "잠시 후 다시 시도해주세요.", storingIn: &subscriptions)
+                        showOneButtonAlert(with: "잠시 후 다시 시도해주세요.", storingIn: &cancellables)
                     }
                 case .updateQuestion(let question):
-                    contentView.updateQuestion(question)
+                    rootView.updateQuestion(question)
                 case .updateTotalPage(let totalPage):
-                    contentView.updateTotalPage(totalPage)
+                    rootView.updateTotalPage(totalPage)
                 case .updateTime(let timeLimit, let timeRemaining):
-                    contentView.updateProgress(timeLimit: timeLimit, timeRemaining: timeRemaining)
+                    rootView.updateProgress(timeLimit: timeLimit, timeRemaining: timeRemaining)
                 case .updateOptionState(let optionIdx, let isSelected):
-                    contentView.updateOptionState(at: optionIdx, isSelected: isSelected)
+                    rootView.updateOptionState(at: optionIdx, isSelected: isSelected)
                 case .updatePrevButton(let isVisible):
-                    contentView.updatePrevButton(isVisible: isVisible)
+                    rootView.updatePrevButton(isVisible: isVisible)
                 case .updateNextButton(let isVisible, let isTextSubmit):
-                    contentView.updateNextButton(isVisible: isVisible, isTextSubmit: isTextSubmit)
+                    rootView.updateNextButton(isVisible: isVisible, isTextSubmit: isTextSubmit)
                 case .moveToExamResult(let examId):
                     removeNavigationItems()
                     coordinator?.showExamResult(examId: examId)
@@ -99,42 +103,43 @@ final class ExamTestViewController: UIViewController {
                     submitAlertViewController.dismiss(animated: true)
                 case .submitFailed:
                     submitAlertViewController.dismiss(animated: true)
-                    showOneButtonAlert(with: "잠시 후 다시 시도해주세요.", storingIn: &subscriptions)
+                    showOneButtonAlert(with: "잠시 후 다시 시도해주세요.", storingIn: &cancellables)
                 }
             }
-            .store(in: &subscriptions)
+            .store(in: &cancellables)
     }
 
-    private func setNavigationItems() {
-        let cancelButtonItem = UIBarButtonItem(title: "취소", style: .done, target: self, action: #selector(moveToExamList))
+    private func setupNavigationItems() {
+        let cancelButtonItem = UIBarButtonItem(
+            title: "취소",
+            style: .done,
+            target: self,
+            action: #selector(didTapCancelButton)
+        )
         cancelButtonItem.tintColor = .coolNeutral800
         navigationItem.leftBarButtonItem = cancelButtonItem
         navigationItem.rightBarButtonItems = [
-            UIBarButtonItem(customView: contentView.timeLabel),
-            UIBarButtonItem(customView: contentView.totalTimeRemainingLabel)
+            UIBarButtonItem(customView: rootView.timeLabel),
+            UIBarButtonItem(customView: rootView.totalTimeRemainingLabel),
         ]
     }
 
-    @objc private func moveToExamList() {
-        input.send(.cancelButtonClicked)
+    private func setupAlertButtonActions() {
+        let confirmAction = UIAction { [weak self] _ in
+            self?.inputSubject.send(.didTapAlertSubmit)
+        }
+        let cancelAction = UIAction { [weak self] _ in
+            self?.inputSubject.send(.didTapAlertCancel)
+        }
+        submitAlertViewController.setupButtonActions(confirmAction: confirmAction, cancelAction: cancelAction)
+    }
+
+    @objc private func didTapCancelButton() {
+        inputSubject.send(.didTapCancelButton)
     }
 
     private func removeNavigationItems() {
         navigationItem.leftBarButtonItem = nil
-        navigationItem.rightBarButtonItem = nil
-    }
-
-    private func setAlertButtonActions() {
-        let confirmAction = UIAction { [weak self] _ in
-            guard let self = self else { return }
-            self.input.send(.alertSubmitButtonClicked)
-        }
-
-        let cancelAction = UIAction { [weak self] _ in
-            guard let self = self else { return }
-            self.input.send(.alertCancelButtonClicked)
-        }
-
-        submitAlertViewController.setupButtonActions(confirmAction: confirmAction, cancelAction: cancelAction)
+        navigationItem.rightBarButtonItems = nil
     }
 }
