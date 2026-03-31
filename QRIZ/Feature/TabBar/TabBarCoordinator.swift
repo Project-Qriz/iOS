@@ -10,6 +10,7 @@ import QRIZUtils
 import DesignSystem
 import Network
 import Auth
+import Home
 import Conceptbook
 import MistakeNote
 import MyPage
@@ -46,7 +47,7 @@ final class TabBarCoordinatorDependencyImpl: TabBarCoordinatorDependency {
     private let weeklyService: WeeklyRecommendService
     private let socialLoginService: SocialLoginService
     
-    private lazy var _homeCoordinator = HomeCoordinatorImpl(
+    private lazy var _homeCoordinator = makeHomeCoordinator(
         examService: examService,
         examTestService: examTestService,
         dailyService: dailyService,
@@ -118,20 +119,16 @@ final class TabBarCoordinatorImpl: TabBarCoordinator {
     var childCoordinators: [Coordinator] = []
     private let dependency: TabBarCoordinatorDependency
     private var tabBarController: UITabBarController?
-    private let homeCoordinator: HomeCoordinatorImpl
+    private var homeCoordinator: any HomeCoordinator
     private let mistakeNoteCoordinator: MistakeNoteCoordinatorImpl
 
     init(dependency: TabBarCoordinatorDependency) {
         self.dependency = dependency
+        self.homeCoordinator = dependency.homeCoordinator
 
-        guard
-            let home = dependency.homeCoordinator as? HomeCoordinatorImpl,
-            let mistakeNote = dependency.mistakeNoteCoordinator as? MistakeNoteCoordinatorImpl
-        else {
+        guard let mistakeNote = dependency.mistakeNoteCoordinator as? MistakeNoteCoordinatorImpl else {
             fatalError("TabBar 의존성 주입 오류: 예상한 Coordinator 타입이 아닙니다‼️")
         }
-
-        self.homeCoordinator = home
         self.mistakeNoteCoordinator = mistakeNote
     }
     
@@ -226,12 +223,7 @@ extension TabBarCoordinatorImpl: HomeCoordinatorDelegate {
 
 extension TabBarCoordinatorImpl: ExamSelectionDelegate {
     func didUpdateExamSchedule() {
-        if let tabBar = homeCoordinator.navigationController?.tabBarController,
-           tabBar.selectedIndex == 0 {
-            homeCoordinator.homeVM?.reloadExamSchedule()
-        } else {
-            homeCoordinator.needsRefresh = true
-        }
+        homeCoordinator.handleExamScheduleUpdate()
     }
 }
 
@@ -283,26 +275,8 @@ extension TabBarCoordinatorImpl: MyPageCoordinatorDelegate {
     }
 
     func myPageCoordinatorDidRequestExamScheduleSelection(_ coordinator: any MyPageCoordinator) {
-        let viewModel = ExamScheduleSelectionViewModel(examScheduleService: dependency.examScheduleService)
-        viewModel.delegate = self
-
-        let vc = ExamScheduleSelectionViewController(examScheduleSelectionVM: viewModel)
-        vc.modalPresentationStyle = .pageSheet
-
-        if let sheet = vc.sheetPresentationController {
-            sheet.prefersGrabberVisible = true
-            sheet.preferredCornerRadius = 20
-            let fit = UISheetPresentationController.Detent.custom(identifier: .init("fit")) { context in
-                min(540, context.maximumDetentValue)
-            }
-            sheet.detents = [fit]
-            sheet.selectedDetentIdentifier = .init("fit")
-        }
-
-        if let presentingNC = tabBarController?.selectedViewController as? UINavigationController {
-            presentingNC.present(vc, animated: true)
-        } else {
-            tabBarController?.present(vc, animated: true)
-        }
+        let presentingVC = tabBarController?.selectedViewController ?? tabBarController
+        guard let presentingVC else { return }
+        homeCoordinator.showExamScheduleSelectionSheet(from: presentingVC)
     }
 }
