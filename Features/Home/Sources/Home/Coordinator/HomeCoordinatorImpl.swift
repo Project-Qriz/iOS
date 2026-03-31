@@ -1,6 +1,7 @@
 import UIKit
 import QRIZUtils
 import Network
+import DesignSystem
 import Conceptbook
 import Onboarding
 import Daily

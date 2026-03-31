@@ -21,7 +21,7 @@
 		B1BDD0C72F4D26CD00834D57 /* DesignSystem in Frameworks */ = {isa = PBXBuildFile; productRef = B1BDD0C62F4D26CD00834D57 /* DesignSystem */; };
 		B1BDD0CA2F4D2A5200834D57 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B1BDD0C82F4D2A5200834D57 /* Assets.xcassets */; };
 		B1D7CE482F5EE18200E6C2CD /* MistakeNote in Frameworks */ = {isa = PBXBuildFile; productRef = B1D7CE492F5EE18200E6C2CD /* MistakeNote */; };
-		B1D813712D6E0C1F00A9D447 /* HomeCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1D813702D6E0C1F00A9D447 /* HomeCoordinator.swift */; };
+
 		B1D8137A2D768D9B00A9D447 /* AppCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1D813792D768D9B00A9D447 /* AppCoordinator.swift */; };
 		C1A2B3C52F79000200D3BD39 /* Home in Frameworks */ = {isa = PBXBuildFile; productRef = C1A2B3C62F79000300D3BD39 /* Home */; };
 		D52D2E306AD846D98D4E9CDF5B15473A /* ExamKit in Frameworks */ = {isa = PBXBuildFile; productRef = F4E578BDAC154F81A58E0781EEE6FBD1 /* ExamKit */; };
@@ -45,7 +45,7 @@
 		B1BDD0C82F4D2A5200834D57 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		B1BDD3572F4E459300834D57 /* ExamKit */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = ExamKit; path = Features/ExamKit; sourceTree = "<group>"; };
 		B1D7CE472F5EE18200E6C2CD /* MistakeNote */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = MistakeNote; path = Features/MistakeNote; sourceTree = "<group>"; };
-		B1D813702D6E0C1F00A9D447 /* HomeCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeCoordinator.swift; sourceTree = "<group>"; };
+
 		B1D813792D768D9B00A9D447 /* AppCoordinator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppCoordinator.swift; sourceTree = "<group>"; };
 		B1DB35912F76529B00FAB280 /* Daily */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = Daily; path = Features/Daily; sourceTree = "<group>"; };
 		B1DD53A52F45A85A00B60C85 /* QRIZUtils */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = QRIZUtils; path = Core/QRIZUtils; sourceTree = "<group>"; };
@@ -103,9 +103,7 @@
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		B127B6D52DECBE1A0048401F /* Splash */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Splash; sourceTree = "<group>"; };
 		B18729F32DB5E5FB0050811C /* PDF */ = {isa = PBXFileSystemSynchronizedRootGroup; exceptions = (B1872A172DB68F100050811C /* PBXFileSystemSynchronizedBuildFileExceptionSet */, ); explicitFileTypes = {}; explicitFolders = (); path = PDF; sourceTree = "<group>"; };
-		B190A2D92DBBC7C6008FDE86 /* View */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = View; sourceTree = "<group>"; };
-		B190A2EE2DC4EAAD008FDE86 /* ViewController */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = ViewController; sourceTree = "<group>"; };
-		B190A2EF2DC4EAC5008FDE86 /* ViewModel */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = ViewModel; sourceTree = "<group>"; };
+
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -147,20 +145,9 @@
 			children = (
 				B127B6D52DECBE1A0048401F /* Splash */,
 				B19C4FC32D6C223E00CD008A /* TabBar */,
-				54DB0D972D0950A500ABD458 /* Home */,
+
 			);
 			path = Feature;
-			sourceTree = "<group>";
-		};
-		54DB0D972D0950A500ABD458 /* Home */ = {
-			isa = PBXGroup;
-			children = (
-				B190A2D92DBBC7C6008FDE86 /* View */,
-				B190A2EE2DC4EAAD008FDE86 /* ViewController */,
-				B190A2EF2DC4EAC5008FDE86 /* ViewModel */,
-				B1D813702D6E0C1F00A9D447 /* HomeCoordinator.swift */,
-			);
-			path = Home;
 			sourceTree = "<group>";
 		};
 		54DB0DA32D09524E00ABD458 /* SupportingFiles */ = {
@@ -291,9 +278,6 @@
 			);
 			fileSystemSynchronizedGroups = (
 				B127B6D52DECBE1A0048401F /* Splash */,
-				B190A2D92DBBC7C6008FDE86 /* View */,
-				B190A2EE2DC4EAAD008FDE86 /* ViewController */,
-				B190A2EF2DC4EAC5008FDE86 /* ViewModel */,
 			);
 			name = QRIZ;
 			packageProductDependencies = (
@@ -370,7 +354,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				B1D8137A2D768D9B00A9D447 /* AppCoordinator.swift in Sources */,
-				B1D813712D6E0C1F00A9D447 /* HomeCoordinator.swift in Sources */,
+
 				E23963092D083B900092B39B /* AppDelegate.swift in Sources */,
 				B19C4FC52D6C226500CD008A /* TabBarCoordinator.swift in Sources */,
 				E239630B2D083B900092B39B /* SceneDelegate.swift in Sources */,
