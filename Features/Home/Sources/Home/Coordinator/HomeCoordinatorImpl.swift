@@ -105,7 +105,7 @@ final class HomeCoordinatorImpl: HomeCoordinator, NavigationGuard {
     func showOnboarding() {
         guard let navi = navigationController else { return }
         guardNavigation {
-            var onboarding = makeOnboardingCoordinator(
+            let onboarding = makeOnboardingCoordinator(
                 navigationController: navi,
                 onboardingService: self.onboardingService,
                 userInfoService: self.userInfoService
@@ -120,7 +120,7 @@ final class HomeCoordinatorImpl: HomeCoordinator, NavigationGuard {
     func showExam() {
         guard let navi = navigationController else { return }
         guardNavigation {
-            var exam = makeExamCoordinator(
+            let exam = makeExamCoordinator(
                 navigationController: navi,
                 examService: self.examTestService
             )
@@ -133,7 +133,7 @@ final class HomeCoordinatorImpl: HomeCoordinator, NavigationGuard {
     func showDaily(day: Int, type: DailyLearnType) {
         guard let navi = navigationController else { return }
         guardNavigation {
-            var daily = makeDailyCoordinator(
+            let daily = makeDailyCoordinator(
                 navigationController: navi,
                 dailyService: self.dailyService,
                 day: day,

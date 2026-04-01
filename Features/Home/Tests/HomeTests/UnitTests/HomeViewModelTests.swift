@@ -107,6 +107,16 @@ struct HomeViewModelTests {
         #expect(state?.examStatus == ExamStatus.none)
     }
 
+    @Test("viewDidLoad — 시험 조회 실패(non-400) → showErrorAlert emit")
+    func viewDidLoad_examFetchFails_nonClientError_emitsErrorAlert() async throws {
+        let examService = MockExamScheduleService()
+        examService.fetchAppliedExamsResult = .failure(URLError(.notConnectedToInternet))
+        let h = makeHarness(examService: examService)
+        try await h.sendViewDidLoad()
+
+        #expect(!h.errorTitles.isEmpty)
+    }
+
     @Test("viewDidLoad — dailyPlan 실패 → showErrorAlert emit")
     func viewDidLoad_dailyPlanFailure_emitsError() async throws {
         let dailyService = MockDailyService()
@@ -308,16 +318,20 @@ struct HomeViewModelTests {
 
     // MARK: - reloadExamSchedule
 
-    @Test("reloadExamSchedule → updateState emit")
+    @Test("reloadExamSchedule → updateState emit with examStatus")
     func reloadExamSchedule_updatesState() async throws {
-        let h = makeHarness()
+        let examService = MockExamScheduleService()
+        examService.fetchAppliedExamsResult = .success(.make(examDate: "2026-12-31"))
+        let h = makeHarness(examService: examService)
         try await h.sendViewDidLoad()
         h.resetReceived()
 
         h.sut.reloadExamSchedule()
         try await Task.sleep(nanoseconds: asyncSleepNanoseconds)
 
-        #expect(!h.stateOutputs.isEmpty)
+        let state = h.stateOutputs.last
+        #expect(state != nil)
+        #expect(state?.examStatus != ExamStatus.none)
     }
 
     // MARK: - reloadUserState
