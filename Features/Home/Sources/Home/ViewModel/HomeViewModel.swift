@@ -21,12 +21,12 @@ final class HomeViewModel {
     private let weeklyService: WeeklyRecommendService
     private let userInfo = UserInfoManager.shared
     private let stateSubject: CurrentValueSubject<HomeState, Never>
-    private let outputSubject: PassthroughSubject<Output, Never> = .init()
+    private let outputSubject = PassthroughSubject<Output, Never>()
     private var cancellables = Set<AnyCancellable>()
     private let logger = Logger.make(category: "HomeViewModel")
     
-    // MARK: - Initialize
-    
+    // MARK: - Initialization
+
     init(examScheduleService: ExamScheduleService,
          dailyService: DailyService,
          weeklyService: WeeklyRecommendService
@@ -41,7 +41,7 @@ final class HomeViewModel {
                 return .preview
             }
         }()
-        
+
         let initState = HomeState(userName: name,
                                   examStatus: .none,
                                   entryState: entry,
@@ -53,62 +53,63 @@ final class HomeViewModel {
         self.weeklyService = weeklyService
         self.stateSubject = .init(initState)
     }
-    
-    // MARK: - Functions
-    
+
+    // MARK: - Methods
+
     func transform(input: AnyPublisher<Input, Never>) -> AnyPublisher<Output, Never> {
         input
             .sink { [weak self] event in
-                guard let self = self else { return }
+                guard let self else { return }
                 switch event {
                 case .viewDidLoad:
-                    Task { await self.loadAllData() }
-                    
+                    Task { [self] in await self.loadAllData() }
+
                 case .entryTapped:
                     let entryState = self.stateSubject.value.entryState
-                    
+
                     switch entryState {
                     case .preview:
                         self.outputSubject.send(.navigateToOnboarding)
                     case .mock:
                         self.outputSubject.send(.navigateToExamList)
                     }
-                    
+
                 case .resetTapped:
                     self.outputSubject.send(.showResetAlert)
-                    
+
                 case .daySelected(let index):
                     self.updateState { $0.selectedIndex = index }
-                    
+
                 case .dayHeaderTapped:
-                    let state = stateSubject.value
+                    let state = self.stateSubject.value
                     let totalDays = state.dailyPlans.count
                     let selectedDay = state.selectedIndex
                     let todayIdx = state.dailyPlans.firstIndex { $0.today }
-                    
-                    outputSubject.send(.showDaySelectAlert(
+
+                    self.outputSubject.send(.showDaySelectAlert(
                         totalDays: totalDays,
                         selectedDay: selectedDay,
                         todayIndex: todayIdx
                     ))
-                    
+
                 case .didConfirmResetPlan:
-                    Task { await self.performReset() }
-                    
+                    Task { [self] in await self.performReset() }
+
                 case .ctaTapped(let dayIndex):
-                    let plan = stateSubject.value.dailyPlans[dayIndex]
-                    let learnType: DailyLearnType = plan.comprehensiveReviewDay ? .monthly :
-                    plan.reviewDay ? .weekly : .daily
+                    let plan = self.stateSubject.value.dailyPlans[dayIndex]
+                    let learnType: DailyLearnType
+                    if plan.comprehensiveReviewDay { learnType = .monthly }
+                    else if plan.reviewDay { learnType = .weekly }
+                    else { learnType = .daily }
                     self.outputSubject.send(.showDaily(day: dayIndex + 1, type: learnType))
-                    
+
                 case .weeklyConceptTapped(let index):
-                    let concept = stateSubject.value.weeklyConcepts[index]
+                    let concept = self.stateSubject.value.weeklyConcepts[index]
                     guard let chapter = concept.chapter,
                           let item = concept.conceptItem
                     else { return }
-                    
-                    self.outputSubject.send(.showConceptPDF(chapter: chapter, item: item)
-                    )
+
+                    self.outputSubject.send(.showConceptPDF(chapter: chapter, item: item))
                 }
             }
             .store(in: &cancellables)
@@ -116,7 +117,6 @@ final class HomeViewModel {
         return outputSubject.eraseToAnyPublisher()
     }
     
-    @MainActor
     private func loadAllData() async {
         async let examState = makeExamState()
         async let dailyPlans = loadDailyPlans()
@@ -131,7 +131,7 @@ final class HomeViewModel {
                 state.weeklyConcepts = weekly.concepts
             }
             
-            let firstIncomplete = state.dailyPlans.firstIndex(where: { $0.completed == false }) ?? 0
+            let firstIncomplete = state.dailyPlans.firstIndex(where: { !$0.completed }) ?? 0
             state.selectedIndex = firstIncomplete
             
             updateState { $0 = state }
@@ -141,13 +141,12 @@ final class HomeViewModel {
         }
     }
     
-    @MainActor
     private func performReset() async {
         do {
             let response = try await dailyService.resetPlan()
             outputSubject.send(.resetSucceeded(message: response.msg))
             
-        } catch let error as NetworkError  {
+        } catch let error as NetworkError {
             outputSubject.send(.showErrorAlert(title: "초기화할 수 없습니다.", description: error.errorMessage))
             logger.error("NetworkError(resetPlan): \(error.debugDescription, privacy: .public)")
             
@@ -158,6 +157,7 @@ final class HomeViewModel {
     }
     
     private func makeExamState() async throws -> HomeState {
+        // 400: 시험 미등록 상태 → 정상 케이스로 처리. 그 외 에러는 rethrow → loadAllData에서 handle
         do {
             let response = try await examScheduleService.fetchAppliedExams()
             let detail = ExamDetail(
@@ -245,16 +245,15 @@ extension HomeViewModel {
     }
 }
 
+// MARK: - Internal
+
 extension HomeViewModel {
-    @MainActor
     func reloadExamSchedule() {
-        Task { await loadAllData() }
+        Task { [weak self] in await self?.loadAllData() }
     }
-    
-    @MainActor
+
     func reloadUserState() {
         updateState { state in
-            print(state)
             switch userInfo.previewTestStatus {
             case .previewCompleted, .previewSkipped:
                 state.entryState = .mock
