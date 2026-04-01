@@ -10,6 +10,8 @@ import Exam
 @MainActor
 final class HomeCoordinatorImpl: HomeCoordinator, NavigationGuard {
 
+    // MARK: - Properties
+
     weak var delegate: HomeCoordinatorDelegate?
     weak var examDelegate: (any ExamSelectionDelegate)?
     private(set) weak var navigationController: UINavigationController?
@@ -23,8 +25,9 @@ final class HomeCoordinatorImpl: HomeCoordinator, NavigationGuard {
     var needsRefresh: Bool = false
     var childCoordinators: [Coordinator] = []
     private var onboardingCoordinator: (any OnboardingCoordinator)?
-
     var isNavigating: Bool = false
+
+    // MARK: - Initialization
 
     init(
         examService: ExamScheduleService,
@@ -42,6 +45,8 @@ final class HomeCoordinatorImpl: HomeCoordinator, NavigationGuard {
         self.weeklyService = weeklyService
     }
 
+    // MARK: - Methods
+
     func start() -> UIViewController {
         let viewModel = HomeViewModel(
             examScheduleService: examService,
@@ -49,7 +54,7 @@ final class HomeCoordinatorImpl: HomeCoordinator, NavigationGuard {
             weeklyService: weeklyService
         )
         homeVM = viewModel
-        let homeVC = HomeViewController(homeVM: viewModel)
+        let homeVC = HomeViewController(viewModel: viewModel)
         homeVC.coordinator = self
 
         let navi = UINavigationController(rootViewController: homeVC)
@@ -59,29 +64,23 @@ final class HomeCoordinatorImpl: HomeCoordinator, NavigationGuard {
 
     func showExamSelectionSheet() {
         guardNavigation {
-            let viewModel = ExamScheduleSelectionViewModel(examScheduleService: self.examService)
-            let vc = ExamScheduleSelectionViewController(examScheduleSelectionVM: viewModel)
-            viewModel.delegate = self.examDelegate ?? self
-
-            vc.modalPresentationStyle = .pageSheet
-            if let sheet = vc.sheetPresentationController {
-                sheet.prefersGrabberVisible = true
-                sheet.preferredCornerRadius = 20
-                let fit = UISheetPresentationController.Detent.custom(identifier: .init("fit")) { context in
-                    min(540, context.maximumDetentValue)
-                }
-                sheet.detents = [fit]
-                sheet.selectedDetentIdentifier = .init("fit")
-            }
+            let vc = self.makeExamScheduleSelectionViewController()
             self.navigationController?.present(vc, animated: true)
         }
     }
 
     func showExamScheduleSelectionSheet(from viewController: UIViewController) {
+        guardNavigation {
+            let vc = self.makeExamScheduleSelectionViewController()
+            viewController.present(vc, animated: true)
+        }
+    }
+
+    private func makeExamScheduleSelectionViewController() -> ExamScheduleSelectionViewController {
         let viewModel = ExamScheduleSelectionViewModel(examScheduleService: examService)
         viewModel.delegate = examDelegate ?? self
 
-        let vc = ExamScheduleSelectionViewController(examScheduleSelectionVM: viewModel)
+        let vc = ExamScheduleSelectionViewController(viewModel: viewModel)
         vc.modalPresentationStyle = .pageSheet
         if let sheet = vc.sheetPresentationController {
             sheet.prefersGrabberVisible = true
@@ -92,7 +91,7 @@ final class HomeCoordinatorImpl: HomeCoordinator, NavigationGuard {
             sheet.detents = [fit]
             sheet.selectedDetentIdentifier = .init("fit")
         }
-        viewController.present(vc, animated: true)
+        return vc
     }
 
     func handleExamScheduleUpdate() {
@@ -171,9 +170,9 @@ final class HomeCoordinatorImpl: HomeCoordinator, NavigationGuard {
 
         guard let homeVC = navigationController?.viewControllers.first as? HomeViewController else { return }
 
-        vc.onDaySelected = { [weak homeVC] day in
+        vc.onDaySelected = { [weak homeVC, weak vc] day in
             homeVC?.handleDaySelected(day)
-            vc.dismiss(animated: true)
+            vc?.dismiss(animated: true)
         }
 
         if let sheet = vc.sheetPresentationController {
@@ -207,6 +206,7 @@ extension HomeCoordinatorImpl: ExamSelectionDelegate {
 extension HomeCoordinatorImpl: OnboardingCoordinatorDelegate {
     func didFinishOnboarding(_ coordinator: any OnboardingCoordinator) {
         childCoordinators.removeAll { $0 === coordinator }
+        onboardingCoordinator = nil
         navigationController?.popToRootViewController(animated: true)
         homeVM?.reloadExamSchedule()
     }

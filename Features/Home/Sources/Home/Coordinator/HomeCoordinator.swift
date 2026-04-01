@@ -51,15 +51,3 @@ public func makeHomeCoordinator(
     )
 }
 
-// MARK: - Internal (패키지 내부 전용)
-
-@MainActor
-protocol HomeNavigating: HomeCoordinator {
-    func showExamSelectionSheet()
-    func showOnboarding()
-    func showExam()
-    func showDaily(day: Int, type: DailyLearnType)
-    func showResetAlert(confirm: @escaping () -> Void)
-    func showDaySelectAlert(totalDays: Int, selectedDay: Int, todayIndex: Int?)
-    func showConceptPDF(chapter: Chapter, conceptItem: ConceptItem)
-}
