@@ -5,80 +5,76 @@
 //  Created by 김세훈 on 7/12/25.
 //
 
-import UIKit
+import Foundation
 import Combine
 
+@MainActor
 final class DaySelectBottomSheetViewModel {
-    
-    // MARK: Properties
-    
+
+    // MARK: - Properties
+
     private let totalDays: Int
     private let todayIndex: Int?
     private var selectedDay: Int
     private var displayWeek: Int
     private let outputSubject = PassthroughSubject<Output, Never>()
     private var cancellables = Set<AnyCancellable>()
-    
-    private var currentWeek: Int {
-        displayWeek
-    }
-    
+
     init(totalDays: Int, initialSelected: Int = 0, todayIndex: Int? = nil) {
         self.totalDays = totalDays
         self.selectedDay = initialSelected
         self.todayIndex = todayIndex
         self.displayWeek = initialSelected / 7
     }
-    
-    // MARK: Functions
-    
+
+    // MARK: - Methods
+
     func transform(input: AnyPublisher<Input, Never>) -> AnyPublisher<Output, Never> {
         input
             .sink { [weak self] event in
-                guard let self = self else { return }
-                
+                guard let self else { return }
+
                 switch event {
                 case .viewDidLoad:
-                    self.pushFullState()
-                    
+                    pushFullState()
+
                 case .dayTapped(let globalIndex):
                     confirmDaySelection(globalIndex)
-                    
+
                 case .prevWeekTapped:
-                    self.moveWeek(by: -1)
-                    
+                    moveWeek(by: -1)
+
                 case .nextWeekTapped:
-                    self.moveWeek(by: +1)
-                    
+                    moveWeek(by: +1)
+
                 case .todayTapped:
                     guard let today = todayIndex else { return }
                     confirmDaySelection(today)
                 }
             }
             .store(in: &cancellables)
-        
+
         return outputSubject.eraseToAnyPublisher()
     }
-    
-    
+
     private func moveWeek(by offset: Int) {
         let maxWeek = (totalDays - 1) / 7
         displayWeek = max(0, min(displayWeek + offset, maxWeek))
         pushFullState()
     }
-    
+
     private func pushFullState() {
         outputSubject.send(
             .updateUI(
                 week: displayWeek + 1,
                 selected: selectedDay,
                 totalDays: totalDays,
-                prevEnabled: currentWeek > 0,
-                nextEnabled: (currentWeek + 1) * 7 < totalDays
+                prevEnabled: displayWeek > 0,
+                nextEnabled: (displayWeek + 1) * 7 < totalDays
             )
         )
     }
-    
+
     private func confirmDaySelection(_ day: Int) {
         selectedDay = day
         displayWeek = day / 7
@@ -95,7 +91,7 @@ extension DaySelectBottomSheetViewModel {
         case nextWeekTapped
         case todayTapped
     }
-    
+
     enum Output {
         case updateUI(
             week: Int,
