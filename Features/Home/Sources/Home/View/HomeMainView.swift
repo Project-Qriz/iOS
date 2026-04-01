@@ -13,6 +13,12 @@ import Network
 
 final class HomeMainView: UIView {
     
+    // MARK: - Enums
+
+    private enum Metric {
+        static let programmaticScrollResetDelay: TimeInterval = 0.4
+    }
+
     // MARK: - Properties
     
     private let examButtonTappedSubject = PassthroughSubject<Void, Never>()
@@ -20,7 +26,7 @@ final class HomeMainView: UIView {
     private let studyButtonTappedSubject = PassthroughSubject<Int, Never>()
     private let resetButtonTappedSubject = PassthroughSubject<Void, Never>()
     private let dayHeaderTappedSubject = PassthroughSubject<Void, Never>()
-    private let selectedIndexSubject = CurrentValueSubject<Int,Never>(0)
+    private let selectedIndexSubject = CurrentValueSubject<Int, Never>(0)
     private let programmaticScrollSubject = CurrentValueSubject<Bool, Never>(false)
     private let dayTapSubject = PassthroughSubject<Int, Never>()
     private let weeklyConceptTappedSubject = PassthroughSubject<Int, Never>()
@@ -50,7 +56,7 @@ final class HomeMainView: UIView {
         dayHeaderTappedSubject.eraseToAnyPublisher()
     }
     
-    var selectedIndexPublisher: AnyPublisher<Int,Never> {
+    var selectedIndexPublisher: AnyPublisher<Int, Never> {
         selectedIndexSubject.eraseToAnyPublisher()
     }
     
@@ -89,7 +95,8 @@ final class HomeMainView: UIView {
         guard case .entry(let state) = item else { return }
         cell.configure(state: state)
         cell.contentView.gestureRecognizers?.forEach { cell.contentView.removeGestureRecognizer($0) }
-        cell.contentView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(self?.didTapEntryCell)))
+        guard let self else { return }
+        cell.contentView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(self.didTapEntryCell)))
     }
     
     private lazy var dailyHeaderSupRegistration = UICollectionView.SupplementaryRegistration<DailyPlanHeaderView>(
@@ -150,8 +157,7 @@ final class HomeMainView: UIView {
         return cv
     }()
     
-    private lazy var weeklyRegistration = UICollectionView.CellRegistration<WeeklyConceptCell, HomeSectionItem>
-    { [weak self] cell, _, item in
+    private lazy var weeklyRegistration = UICollectionView.CellRegistration<WeeklyConceptCell, HomeSectionItem> { [weak self] cell, _, item in
         guard case let .weeklyConcept(kind, list) = item, let self else { return }
         cell.configure(kind: kind, concepts: list)
         cell.conceptTappedPublisher
@@ -164,7 +170,7 @@ final class HomeMainView: UIView {
     private lazy var dataSource: UICollectionViewDiffableDataSource<HomeSection, HomeSectionItem> = {
         let ds = UICollectionViewDiffableDataSource<HomeSection, HomeSectionItem>(
             collectionView: collectionView) { [weak self] collectionView, indexPath, item in
-                guard let self = self else { return UICollectionViewCell() }
+                guard let self else { return UICollectionViewCell() }
                 switch item {
                 case .schedule(_, .registered):
                     return collectionView.dequeueConfiguredReusableCell(using: self.registeredRegistration, for: indexPath, item: item)
@@ -190,8 +196,11 @@ final class HomeMainView: UIView {
             
             if section == .studySummary && kind == String(describing: StudyCTAView.self) {
                 let footer = collectionView.dequeueConfiguredReusableSupplementary(using: self.studyCTASupRegistration, for: indexPath)
-                
-                self.configureCTA(self.currentEntryState, selected: self.selectedIndexSubject.value)
+
+                // supplementaryViewProvider 시점에는 footer가 아직 컬렉션뷰에 배치되기 전이므로
+                // ctaFooter()가 nil을 반환함. dequeue된 footer를 직접 전달.
+                self.configureCTA(self.currentEntryState, selected: self.selectedIndexSubject.value, footer: footer)
+
                 footer.tapPublisher
                     .sink { [weak self] in
                         guard let self else { return }
@@ -206,10 +215,11 @@ final class HomeMainView: UIView {
         return ds
     }()
     
-    // MARK: - Initialize
+    // MARK: - Initialization
     
     override init(frame: CGRect) {
         super.init(frame: frame)
+        // CellRegistration은 lazy이므로 첫 dequeue 전에 미리 초기화
         _ = [
             scheduleRegistration,
             registeredRegistration,
@@ -230,7 +240,7 @@ final class HomeMainView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    // MARK: - Functions
+    // MARK: - Methods
     
     private func setupUI() {
         backgroundColor = .customBlue50
@@ -261,7 +271,7 @@ final class HomeMainView: UIView {
     
     @MainActor
     func apply(_ state: HomeState) {
-        currentEntryState  = state.entryState
+        currentEntryState = state.entryState
         currentDailyPlans = state.dailyPlans
         let previewLocked = (state.entryState == .preview)
         
@@ -280,7 +290,7 @@ final class HomeMainView: UIView {
         
         if previewLocked {
             snapshot.appendItems(
-                [.studySummary(StudySummary(id: -1, dailyPlans: []))],
+                [.studySummary(.locked)],
                 toSection: .studySummary
             )
         } else {
@@ -317,13 +327,21 @@ final class HomeMainView: UIView {
     }
     
     private func configureCTA(_ entryState: EntryCardState, selected index: Int) {
-        guard entryState != .preview else { ctaFooter()?.isHidden = true; return }
-        guard index < currentDailyPlans.count, let footer = ctaFooter() else { return }
-        
+        guard let footer = ctaFooter() else { return }
+        configureCTA(entryState, selected: index, footer: footer)
+    }
+
+    private func configureCTA(_ entryState: EntryCardState, selected index: Int, footer: StudyCTAView) {
+        guard entryState != .preview else {
+            footer.isHidden = true
+            return
+        }
+        guard index < currentDailyPlans.count else { return }
         let plan = currentDailyPlans[index]
-        let enabled = !plan.plannedSkills.isEmpty
-        let isReview = plan.reviewDay || plan.comprehensiveReviewDay
-        footer.configure(enabled: enabled, isReview: isReview)
+        footer.configure(
+            enabled: !plan.plannedSkills.isEmpty,
+            isReview: plan.reviewDay || plan.comprehensiveReviewDay
+        )
     }
     
     private func ctaFooter() -> StudyCTAView? {
@@ -373,7 +391,7 @@ final class HomeMainView: UIView {
             animated: animated
         )
         
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.4) { [weak self] in
+        DispatchQueue.main.asyncAfter(deadline: .now() + Metric.programmaticScrollResetDelay) { [weak self] in
             self?.programmaticScrollSubject.send(false)
         }
     }
