@@ -8,12 +8,6 @@
 import UIKit
 import Combine
 import QRIZUtils
-import Network
-
-struct StudySummary: Equatable, Hashable {
-    let id: Int
-    let dailyPlans: [DailyPlanEntity]
-}
 
 enum HomeSection: Int, CaseIterable {
     case examSchedule
@@ -46,6 +40,8 @@ enum HomeLayoutFactory {
         
         static let daySelectorSpacing: CGFloat = 8.0
         static let daySelectorHeightRatio: CGFloat = 0.6
+        static let daySelectorTopOffset: CGFloat = 19.0
+        static let daySelectorBottomOffset: CGFloat = 8.0
         
         static let studySummaryHeight: CGFloat = 245.0
         static let studySummaryTopOffset: CGFloat = 16.0
@@ -53,9 +49,10 @@ enum HomeLayoutFactory {
         static let ctaFooterHeight: CGFloat = 48.0
         
         static let weeklyConceptHeight: CGFloat = 252.0
+        static let programmaticScrollResetDelay: TimeInterval = 0.4
     }
     
-    // MARK: - Functions
+    // MARK: - Methods
     
     private static func examSchedule() -> NSCollectionLayoutSection {
         let itemSize = NSCollectionLayoutSize(
@@ -125,7 +122,8 @@ enum HomeLayoutFactory {
         let inset = Metric.horizontalSpacing
         let spacing = Metric.daySelectorSpacing
         let totalWidth = env.container.effectiveContentSize.width - inset * 2
-        let itemWidth = (totalWidth - spacing * 2) / 3
+        let itemCount: CGFloat = 3
+        let itemWidth = (totalWidth - spacing * (itemCount - 1)) / itemCount
         let itemHeight = itemWidth * Metric.daySelectorHeightRatio
         let itemSize = NSCollectionLayoutSize(
             widthDimension: .absolute(itemWidth),
@@ -136,7 +134,12 @@ enum HomeLayoutFactory {
         
         let section = NSCollectionLayoutSection(group: group)
         section.interGroupSpacing = spacing
-        section.contentInsets = .init(top: 19, leading: inset, bottom: 8, trailing: inset)
+        section.contentInsets = NSDirectionalEdgeInsets(
+            top: Metric.daySelectorTopOffset,
+            leading: inset,
+            bottom: Metric.daySelectorBottomOffset,
+            trailing: inset
+        )
         section.orthogonalScrollingBehavior = .groupPaging
         return section
     }
@@ -159,9 +162,7 @@ enum HomeLayoutFactory {
         let section = NSCollectionLayoutSection(group: group)
         section.interGroupSpacing = Metric.interItemSpacing
         
-        let showFooter = !isLocked
-        
-        section.contentInsets = .init(
+        section.contentInsets = NSDirectionalEdgeInsets(
             top: Metric.studySummaryTopOffset,
             leading: inset,
             bottom: Metric.studySummaryTopOffset,
@@ -182,12 +183,12 @@ enum HomeLayoutFactory {
             programmaticScroll.send(true)
             cv.scrollToItem(at: IndexPath(item: newIndex, section: HomeSection.daySelector.rawValue), at: .centeredHorizontally, animated: true)
 
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.4) {
+            DispatchQueue.main.asyncAfter(deadline: .now() + Metric.programmaticScrollResetDelay) {
                 programmaticScroll.send(false)
             }
         }
         
-        if showFooter {
+        if !isLocked {
             let footerSize = NSCollectionLayoutSize(
                 widthDimension: .fractionalWidth(1),
                 heightDimension: .estimated(Metric.ctaFooterHeight)
