@@ -29,9 +29,21 @@ public struct AppliedExamsResponse: Decodable, Sendable {
     public let msg: String
     public let data: ExamInfo
 
+    public init(code: Int, msg: String, data: ExamInfo) {
+        self.code = code
+        self.msg = msg
+        self.data = data
+    }
+
     public struct ExamInfo: Decodable, Sendable {
         public let examName: String
         public let period: String
         public let examDate: String
+
+        public init(examName: String, period: String, examDate: String) {
+            self.examName = examName
+            self.period = period
+            self.examDate = examDate
+        }
     }
 }

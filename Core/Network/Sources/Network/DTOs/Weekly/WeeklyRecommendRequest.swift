@@ -31,12 +31,23 @@ public struct WeeklyRecommendResponse: Decodable, Sendable {
     public let code: Int
     public let msg: String
     public let data: RecommendData
+
+    public init(code: Int, msg: String, data: RecommendData) {
+        self.code = code
+        self.msg = msg
+        self.data = data
+    }
 }
 
 public struct RecommendData: Decodable, Sendable {
     public let recommendationType: String
     public let recommendations: [Item]
-    
+
+    public init(recommendationType: String, recommendations: [Item]) {
+        self.recommendationType = recommendationType
+        self.recommendations = recommendations
+    }
+
     public struct Item: Decodable, Sendable {
         public let skillId: Int
         public let keyConcepts: String

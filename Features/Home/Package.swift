@@ -16,6 +16,7 @@ let package = Package(
         .package(path: "../Exam"),
         .package(path: "../Onboarding"),
         .package(path: "../Conceptbook"),
+        .package(url: "https://github.com/pointfreeco/swift-snapshot-testing", from: "1.18.9"),
     ],
     targets: [
         .target(
@@ -28,6 +29,18 @@ let package = Package(
                 "Exam",
                 "Onboarding",
                 "Conceptbook",
+            ],
+            swiftSettings: [
+                .swiftLanguageMode(.v5)
+            ]
+        ),
+        .testTarget(
+            name: "HomeTests",
+            dependencies: [
+                "Home",
+                "Network",
+                "QRIZUtils",
+                .product(name: "SnapshotTesting", package: "swift-snapshot-testing"),
             ],
             swiftSettings: [
                 .swiftLanguageMode(.v5)

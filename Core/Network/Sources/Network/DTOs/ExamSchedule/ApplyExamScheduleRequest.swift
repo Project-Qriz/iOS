@@ -37,6 +37,12 @@ public struct ApplyExamScheduleResponse: Decodable, Sendable {
     public let msg: String
     public let data: ExamInfo?
 
+    public init(code: Int, msg: String, data: ExamInfo?) {
+        self.code = code
+        self.msg = msg
+        self.data = data
+    }
+
     public struct ExamInfo: Decodable, Sendable {
         public let examName: String
         public let period: String

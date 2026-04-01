@@ -31,12 +31,24 @@ public struct ExamScheduleListResponse: Decodable, Sendable {
     public let code: Int
     public let msg: String
     public let data: ExamListData
+
+    public init(code: Int, msg: String, data: ExamListData) {
+        self.code = code
+        self.msg = msg
+        self.data = data
+    }
 }
 
 public struct ExamListData: Decodable, Sendable {
     public let registeredApplicationId: Int?
     public let registeredUserApplyId: Int?
     public let applications: [ExamInfo]
+
+    public init(registeredApplicationId: Int?, registeredUserApplyId: Int?, applications: [ExamInfo]) {
+        self.registeredApplicationId = registeredApplicationId
+        self.registeredUserApplyId = registeredUserApplyId
+        self.applications = applications
+    }
 }
 
 public struct ExamInfo: Decodable, Sendable {
@@ -46,6 +58,15 @@ public struct ExamInfo: Decodable, Sendable {
     public let period: String
     public let examDate: String
     public let releaseDate: String
+
+    public init(applicationId: Int, userApplyId: Int?, examName: String, period: String, examDate: String, releaseDate: String) {
+        self.applicationId = applicationId
+        self.userApplyId = userApplyId
+        self.examName = examName
+        self.period = period
+        self.examDate = examDate
+        self.releaseDate = releaseDate
+    }
 }
 
 extension ExamScheduleListResponse {

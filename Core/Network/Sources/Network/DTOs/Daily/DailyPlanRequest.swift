@@ -30,6 +30,12 @@ public struct DailyPlanResponse: Decodable, Sendable {
     public let code: Int
     public let msg: String
     public let data: [DailyPlan]?
+
+    public init(code: Int, msg: String, data: [DailyPlan]?) {
+        self.code = code
+        self.msg = msg
+        self.data = data
+    }
 }
 
 public struct DailyPlan: Equatable, Hashable, Decodable, Sendable {
@@ -43,6 +49,30 @@ public struct DailyPlan: Equatable, Hashable, Decodable, Sendable {
     public let comprehensiveReviewDay: Bool
     public let today: Bool
     public let lastDay: Bool
+
+    public init(
+        id: Int,
+        dayNumber: String,
+        completed: Bool,
+        planDate: String,
+        completionDate: String?,
+        plannedSkills: [PlannedSkill],
+        reviewDay: Bool,
+        comprehensiveReviewDay: Bool,
+        today: Bool,
+        lastDay: Bool
+    ) {
+        self.id = id
+        self.dayNumber = dayNumber
+        self.completed = completed
+        self.planDate = planDate
+        self.completionDate = completionDate
+        self.plannedSkills = plannedSkills
+        self.reviewDay = reviewDay
+        self.comprehensiveReviewDay = comprehensiveReviewDay
+        self.today = today
+        self.lastDay = lastDay
+    }
 
     public func toEntity() -> DailyPlanEntity {
         DailyPlanEntity(
