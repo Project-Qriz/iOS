@@ -7,6 +7,7 @@ final class MockExamScheduleService: ExamScheduleService {
 
     var fetchAppliedExamsResult: Result<AppliedExamsResponse, Error> = .success(.make())
     var fetchExamListResult: Result<ExamScheduleListResponse, Error> = .success(.make())
+    var fetchExamListResultQueue: [Result<ExamScheduleListResponse, Error>] = []
     var applyExamScheduleResult: Result<ApplyExamScheduleResponse, Error> = .success(.make())
     var updateExamScheduleResult: Result<UpdateExamScheduleResponse, Error> = .success(.make())
 
@@ -21,7 +22,10 @@ final class MockExamScheduleService: ExamScheduleService {
     }
 
     func fetchExamList() async throws -> ExamScheduleListResponse {
-        try fetchExamListResult.get()
+        if !fetchExamListResultQueue.isEmpty {
+            return try fetchExamListResultQueue.removeFirst().get()
+        }
+        return try fetchExamListResult.get()
     }
 
     func applyExamSchedule(applyId: Int) async throws -> ApplyExamScheduleResponse {

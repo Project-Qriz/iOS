@@ -55,6 +55,15 @@ public struct RecommendData: Decodable, Sendable {
         public let importanceLevel: String
         public let frequency: Int
         public let incorrectRate: Double?
+
+        public init(skillId: Int, keyConcepts: String, description: String, importanceLevel: String, frequency: Int, incorrectRate: Double?) {
+            self.skillId = skillId
+            self.keyConcepts = keyConcepts
+            self.description = description
+            self.importanceLevel = importanceLevel
+            self.frequency = frequency
+            self.incorrectRate = incorrectRate
+        }
     }
 }
 

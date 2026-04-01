@@ -20,26 +20,26 @@ final class MockDailyService: DailyService {
     }
 
     func getDailyDetailAndStatus(dayNumber: Int) async throws -> DailyDetailAndStatusResponse {
-        fatalError("not implemented")
+        throw NSError(domain: "MockDailyService", code: -1, userInfo: [NSLocalizedDescriptionKey: "not implemented"])
     }
 
     func getDailyTestList(dayNumber: Int) async throws -> DailyTestListResponse {
-        fatalError("not implemented")
+        throw NSError(domain: "MockDailyService", code: -1, userInfo: [NSLocalizedDescriptionKey: "not implemented"])
     }
 
     func submitDaily(dayNumber: Int, dailySubmitData: [DailySubmitData]) async throws {
-        fatalError("not implemented")
+        throw NSError(domain: "MockDailyService", code: -1, userInfo: [NSLocalizedDescriptionKey: "not implemented"])
     }
 
     func getDailyTestResult(dayNumber: Int) async throws -> DailyResultResponse {
-        fatalError("not implemented")
+        throw NSError(domain: "MockDailyService", code: -1, userInfo: [NSLocalizedDescriptionKey: "not implemented"])
     }
 
     func getDailyWeeklyScore(dayNumber: Int) async throws -> DailyWeeklyScoreResponse {
-        fatalError("not implemented")
+        throw NSError(domain: "MockDailyService", code: -1, userInfo: [NSLocalizedDescriptionKey: "not implemented"])
     }
 
     func getDailyResultDetail(dayNumber: Int, questionId: Int) async throws -> DailyResultDetailResponse {
-        fatalError("not implemented")
+        throw NSError(domain: "MockDailyService", code: -1, userInfo: [NSLocalizedDescriptionKey: "not implemented"])
     }
 }

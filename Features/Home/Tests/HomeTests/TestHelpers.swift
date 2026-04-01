@@ -105,11 +105,32 @@ extension ExamInfo {
 }
 
 extension WeeklyRecommendResponse {
-    static func make() -> WeeklyRecommendResponse {
+    static func make(items: [RecommendData.Item] = []) -> WeeklyRecommendResponse {
         WeeklyRecommendResponse(
             code: 1,
             msg: "ok",
-            data: RecommendData(recommendationType: "WEAK", recommendations: [])
+            data: RecommendData(recommendationType: "WEAK", recommendations: items)
+        )
+    }
+}
+
+extension RecommendData.Item {
+    /// keyConcepts 기본값 "데이터 모델의 이해" → Chapter.dataModeling에 매핑되는 유효한 개념
+    static func make(
+        skillId: Int = 1,
+        keyConcepts: String = "데이터 모델의 이해",
+        description: String = "데이터 모델 설명",
+        importanceLevel: String = "상",
+        frequency: Int = 5,
+        incorrectRate: Double? = nil
+    ) -> RecommendData.Item {
+        RecommendData.Item(
+            skillId: skillId,
+            keyConcepts: keyConcepts,
+            description: description,
+            importanceLevel: importanceLevel,
+            frequency: frequency,
+            incorrectRate: incorrectRate
         )
     }
 }

@@ -19,11 +19,12 @@ class ExamScheduleSelectionSnapshotTests: HomeSnapshotTestCase {
 
     private func makeRows(count: Int, selectedId: Int? = nil) -> [ExamRowState] {
         (1...count).map { i in
-            .make(
+            let month = String(format: "%02d", i)
+            return .make(
                 id: i,
                 examName: "2026년 \(i)회",
-                periodText: "접수기간: 2026.0\(i).01~2026.0\(i).10",
-                dateText: "시험일: 2026-0\(i)-30",
+                periodText: "접수기간: 2026.\(month).01~2026.\(month).10",
+                dateText: "시험일: 2026-\(month)-30",
                 isSelected: i == selectedId
             )
         }

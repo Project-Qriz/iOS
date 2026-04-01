@@ -287,4 +287,64 @@ struct HomeViewModelTests {
             return false
         })
     }
+
+    // MARK: - weeklyConceptTapped
+
+    @Test("weeklyConceptTapped — 유효한 개념 → showConceptPDF emit")
+    func weeklyConceptTapped_validConcept_emitsShowConceptPDF() async throws {
+        let weeklyService = MockWeeklyRecommendService()
+        weeklyService.fetchWeeklyRecommendResult = .success(.make(items: [.make()]))
+        let h = makeHarness(weeklyService: weeklyService)
+        try await h.sendViewDidLoad()
+        h.resetReceived()
+
+        h.send(.weeklyConceptTapped(0))
+
+        #expect(h.received.contains {
+            if case .showConceptPDF = $0 { return true }
+            return false
+        })
+    }
+
+    // MARK: - reloadExamSchedule
+
+    @Test("reloadExamSchedule → updateState emit")
+    func reloadExamSchedule_updatesState() async throws {
+        let h = makeHarness()
+        try await h.sendViewDidLoad()
+        h.resetReceived()
+
+        h.sut.reloadExamSchedule()
+        try await Task.sleep(nanoseconds: asyncSleepNanoseconds)
+
+        #expect(!h.stateOutputs.isEmpty)
+    }
+
+    // MARK: - reloadUserState
+
+    @Test("reloadUserState — previewCompleted → entryState .mock")
+    func reloadUserState_previewCompleted_entryStateMock() async throws {
+        UserInfoManager.shared.previewTestStatus = .notStarted
+        let h = makeHarness()
+        try await h.sendViewDidLoad()
+        h.resetReceived()
+
+        UserInfoManager.shared.previewTestStatus = .previewCompleted
+        h.sut.reloadUserState()
+
+        #expect(h.stateOutputs.last?.entryState == .mock)
+    }
+
+    @Test("reloadUserState — notStarted → entryState .preview")
+    func reloadUserState_notStarted_entryStatePreview() async throws {
+        UserInfoManager.shared.previewTestStatus = .previewCompleted
+        let h = makeHarness()
+        try await h.sendViewDidLoad()
+        h.resetReceived()
+
+        UserInfoManager.shared.previewTestStatus = .notStarted
+        h.sut.reloadUserState()
+
+        #expect(h.stateOutputs.last?.entryState == .preview)
+    }
 }

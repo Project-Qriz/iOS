@@ -159,4 +159,27 @@ struct ExamScheduleSelectionViewModelTests {
 
         #expect(!h.errorMessages.isEmpty)
     }
+
+    @Test("examTapped — apply 성공 후 동일 id 재탭 → no-op")
+    func examTapped_afterApplySuccess_sameId_doesNothing() async throws {
+        let service = MockExamScheduleService()
+        // 첫 번째 fetchExamList: 미등록 상태
+        // 두 번째 fetchExamList(apply 후 재조회): id 10이 등록된 상태
+        service.fetchExamListResultQueue = [
+            .success(.make(registeredApplicationId: nil, registeredUserApplyId: nil, applications: [.make(applicationId: 10)])),
+            .success(.make(registeredApplicationId: 10, registeredUserApplyId: 99, applications: [.make(applicationId: 10)]))
+        ]
+        let h = TestHarness(service: service)
+        try await h.sendViewDidLoad()
+
+        h.send(.examTapped(10))
+        try await Task.sleep(nanoseconds: asyncSleepNanoseconds)
+        #expect(service.applyExamScheduleCallCount == 1)
+
+        // apply 성공 후 registeredApplicationId == 10이므로 재탭 시 no-op
+        h.send(.examTapped(10))
+        try await Task.sleep(nanoseconds: asyncSleepNanoseconds)
+        #expect(service.applyExamScheduleCallCount == 1)
+        #expect(service.updateExamScheduleCallCount == 0)
+    }
 }
