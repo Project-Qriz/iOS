@@ -9,13 +9,15 @@ import UIKit
 import DesignSystem
 
 final class ConceptCardView: UIView {
-    
+
+    // MARK: - Enums
+
     private enum Metric {
         static let vInset: CGFloat = 12.0
         static let hInset: CGFloat = 16.0
         static let spacing: CGFloat = 8.0
     }
-    
+
     // MARK: - UI
     
     private let typeLabel: UILabel = {
@@ -32,7 +34,7 @@ final class ConceptCardView: UIView {
         return label
     }()
     
-    // MARK: - Initialize
+    // MARK: - Initialization
     
     init(type: String, keyConcept: String) {
         super.init(frame: .zero)
@@ -47,7 +49,7 @@ final class ConceptCardView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    // MARK: - Functions
+    // MARK: - Methods
     
     private func setupUI() {
         backgroundColor = .customBlue50
@@ -74,10 +76,12 @@ extension ConceptCardView {
         NSLayoutConstraint.activate([
             typeLabel.topAnchor.constraint(equalTo: topAnchor, constant: Metric.vInset),
             typeLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Metric.hInset),
-            
+            typeLabel.trailingAnchor.constraint(lessThanOrEqualTo: trailingAnchor, constant: -Metric.hInset),
+
             keyConceptLabel.topAnchor.constraint(equalTo: typeLabel.bottomAnchor, constant: Metric.spacing),
             keyConceptLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Metric.hInset),
-            keyConceptLabel.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -Metric.vInset)
+            keyConceptLabel.trailingAnchor.constraint(lessThanOrEqualTo: trailingAnchor, constant: -Metric.hInset),
+            keyConceptLabel.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -Metric.vInset),
         ])
     }
 }

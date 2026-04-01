@@ -101,7 +101,7 @@ final class StudySummaryCell: UICollectionViewCell {
         return ve
     }()
     
-    // MARK: - Initialize
+    // MARK: - Initialization
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -114,8 +114,8 @@ final class StudySummaryCell: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    // MARK: - Functions
-    
+    // MARK: - Methods
+
     private func setupUI() {
         backgroundColor = .white
         layer.cornerRadius = 8.0
@@ -133,10 +133,12 @@ final class StudySummaryCell: UICollectionViewCell {
             return
         }
         
-        switch plan {
-        case _ where shouldLock(plan): applyLockedUI(plan: plan)
-        case _ where plan.comprehensiveReviewDay: applyComprehensiveUI(plan)
-        default: applyStudyUI(plan: plan)
+        if shouldLock(plan) {
+            applyLockedUI(plan: plan)
+        } else if plan.comprehensiveReviewDay {
+            applyComprehensiveUI(plan)
+        } else {
+            applyStudyUI(plan: plan)
         }
     }
     
@@ -151,9 +153,11 @@ final class StudySummaryCell: UICollectionViewCell {
         lockContainer.isHidden = true
         lockVStackView.isHidden = true
         lockMessageLabel.text = nil
-        
-        titleLabel.text = nil
+        descriptionLabel.text = nil
+        descriptionLabel.isHidden = true
+
         titleLabel.attributedText = nil
+        titleLabel.text = nil
         titleLabel.textColor = .coolNeutral800
         titleLabel.alpha = 1.0
     }
@@ -173,7 +177,10 @@ final class StudySummaryCell: UICollectionViewCell {
         let subtitle = "복습해야 하는 개념 \(plan.plannedSkills.count)가지"
         let fullText = "\(header)\n\(subtitle)"
         
-        let attr = NSMutableAttributedString(string: fullText)
+        let attr = NSMutableAttributedString(
+            string: fullText,
+            attributes: [.foregroundColor: UIColor.coolNeutral800]
+        )
         attr.addAttributes([.font: UIFont.systemFont(ofSize: 18, weight: .bold)], range: (fullText as NSString).range(of: header))
         attr.addAttributes([.font: UIFont.systemFont(ofSize: 18, weight: .medium)], range: (fullText as NSString).range(of: subtitle))
         titleLabel.attributedText = attr
@@ -228,7 +235,6 @@ final class StudySummaryCell: UICollectionViewCell {
         titleLabel.text = "학습해야 하는 개념 2가지"
         let dummy = PlannedSkillEntity(id: -1, type: "SQL 기본", keyConcept: "WHERE 절", description: "")
         addCards([dummy, dummy])
-        blurOverlay.isHidden = false
     }
 }
 

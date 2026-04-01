@@ -29,7 +29,7 @@ final class DayCell: UICollectionViewCell {
         return label
     }()
     
-    // MARK: - Initialize
+    // MARK: - Initialization
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -42,27 +42,20 @@ final class DayCell: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    // MARK: - Functions
-    
+    // MARK: - Methods
+
     private func setupUI() {
-        backgroundColor = .white
+        contentView.backgroundColor = .white
         contentView.layer.cornerRadius = 8.0
         contentView.layer.borderWidth = 1.0
         contentView.layer.borderColor = UIColor.coolNeutral200.cgColor
     }
-    
+
     func configure(title: String, selected: Bool) {
         titleLabel.text = title
-        
-        if selected {
-            titleLabel.font = .systemFont(ofSize: 14, weight: .bold)
-            contentView.layer.borderWidth = 1.2
-            contentView.layer.borderColor = UIColor.coolNeutral800.cgColor
-        } else {
-            titleLabel.font = .systemFont(ofSize: 14, weight: .medium)
-            contentView.layer.borderWidth = 1.0
-            contentView.layer.borderColor = UIColor.coolNeutral200.cgColor
-        }
+        titleLabel.font = .systemFont(ofSize: 14, weight: selected ? .bold : .medium)
+        contentView.layer.borderWidth = selected ? 1.2 : 1.0
+        contentView.layer.borderColor = selected ? UIColor.coolNeutral800.cgColor : UIColor.coolNeutral200.cgColor
     }
 }
 

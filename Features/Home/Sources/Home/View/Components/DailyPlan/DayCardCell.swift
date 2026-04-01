@@ -9,30 +9,26 @@ import UIKit
 import DesignSystem
 
 final class DayCardCell: UICollectionViewCell {
-    
+
     // MARK: - Enums
-    
+
     private enum Metric {
         static let verticalSpacing: CGFloat = 8.0
         static let numberCircleTopOffset: CGFloat = 4.0
         static let circleSize: CGFloat = 24.0
+        static let goalAchievedDay: Int = 31
     }
-    
-    private enum Attributes {
-        static let titleText: String = "Day"
-        static let flag: String = "flag.fill"
-    }
-    
+
     // MARK: - UI
-    
+
     private let titleLabel: UILabel = {
         let label = UILabel()
-        label.text = Attributes.titleText
+        label.text = "Day"
         label.font = .systemFont(ofSize: 14, weight: .regular)
         label.textColor = .coolNeutral400
         return label
     }()
-    
+
     private let numberCircle: UILabel = {
         let label = UILabel()
         label.font = .systemFont(ofSize: 12, weight: .regular)
@@ -43,49 +39,48 @@ final class DayCardCell: UICollectionViewCell {
         label.layer.masksToBounds = true
         return label
     }()
-    
+
     private let flagImageView: UIImageView = {
-        let imageView = UIImageView(image: UIImage(systemName: Attributes.flag))
+        let imageView = UIImageView(image: UIImage(systemName: "flag.fill"))
         imageView.contentMode = .scaleAspectFit
         imageView.tintColor = .coolNeutral400
         imageView.isHidden = true
         return imageView
     }()
-    
-    // MARK: - Initialize
-    
+
+    // MARK: - Initialization
+
     override init(frame: CGRect) {
         super.init(frame: frame)
         addSubviews()
         setupConstraints()
         setupUI()
     }
-    
+
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
-    // MARK: - Functions
-    
+
+    // MARK: - Methods
+
     private func setupUI() {
-        backgroundColor = .customBlue100
         layer.cornerRadius = 8
-        layer.backgroundColor = UIColor.coolNeutral100.cgColor
         layer.masksToBounds = true
+        contentView.backgroundColor = .customBlue100
     }
-    
+
     func configure(day: Int, isSelected: Bool) {
-        if day == 31 {
+        if day == Metric.goalAchievedDay {
             titleLabel.text = "목표달성"
             numberCircle.isHidden = true
             flagImageView.isHidden = false
         } else {
-            titleLabel.text = Attributes.titleText
+            titleLabel.text = "Day"
             numberCircle.isHidden = false
             flagImageView.isHidden = true
             numberCircle.text = "\(day)"
         }
-        
+
         titleLabel.textColor = isSelected ? .coolNeutral800 : .coolNeutral400
         numberCircle.backgroundColor = isSelected ? .coolNeutral800 : .coolNeutral400
         contentView.backgroundColor = isSelected ? .white : .customBlue100
@@ -102,19 +97,19 @@ extension DayCardCell {
             flagImageView,
         ].forEach(contentView.addSubview(_:))
     }
-    
+
     private func setupConstraints() {
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
         numberCircle.translatesAutoresizingMaskIntoConstraints = false
         flagImageView.translatesAutoresizingMaskIntoConstraints = false
-        
+
         NSLayoutConstraint.activate([
             titleLabel.topAnchor.constraint(
                 equalTo: contentView.topAnchor,
                 constant: Metric.verticalSpacing
             ),
             titleLabel.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
-            
+
             numberCircle.topAnchor.constraint(
                 equalTo: titleLabel.bottomAnchor,
                 constant: Metric.numberCircleTopOffset
@@ -126,7 +121,7 @@ extension DayCardCell {
                 equalTo: contentView.bottomAnchor,
                 constant: -Metric.verticalSpacing
             ),
-            
+
             flagImageView.topAnchor.constraint(
                 equalTo: titleLabel.bottomAnchor,
                 constant: Metric.numberCircleTopOffset
