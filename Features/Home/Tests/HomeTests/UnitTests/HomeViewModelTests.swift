@@ -81,7 +81,7 @@ struct HomeViewModelTests {
 
     // MARK: - viewDidLoad
 
-    @Test("viewDidLoad 성공 → updateState emit")
+    @Test("viewDidLoad 성공 → updateState emit (examStatus .registered, dailyPlans 1개)")
     func viewDidLoad_success_emitsUpdateState() async throws {
         let examService = MockExamScheduleService()
         examService.fetchAppliedExamsResult = .success(.make(examDate: "2026-12-31"))
@@ -91,7 +91,12 @@ struct HomeViewModelTests {
         let h = makeHarness(examService: examService, dailyService: dailyService)
         try await h.sendViewDidLoad()
 
-        #expect(!h.stateOutputs.isEmpty)
+        let state = h.stateOutputs.last
+        #expect(state != nil)
+        #expect(state?.dailyPlans.count == 1)
+        let isRegistered: Bool
+        if case .registered = state?.examStatus { isRegistered = true } else { isRegistered = false }
+        #expect(isRegistered)
     }
 
     @Test("viewDidLoad — 시험 미등록(400) → examStatus .none")
@@ -314,6 +319,21 @@ struct HomeViewModelTests {
             if case .showConceptPDF = $0 { return true }
             return false
         })
+    }
+
+    @Test("reloadExamSchedule — 실패 → showErrorAlert emit")
+    func reloadExamSchedule_failure_emitsErrorAlert() async throws {
+        let examService = MockExamScheduleService()
+        examService.fetchAppliedExamsResult = .success(.make(examDate: "2026-12-31"))
+        let h = makeHarness(examService: examService)
+        try await h.sendViewDidLoad()
+        h.resetReceived()
+
+        examService.fetchAppliedExamsResult = .failure(URLError(.notConnectedToInternet))
+        h.sut.reloadExamSchedule()
+        try await Task.sleep(nanoseconds: asyncSleepNanoseconds)
+
+        #expect(!h.errorTitles.isEmpty)
     }
 
     // MARK: - reloadExamSchedule

@@ -75,4 +75,14 @@ class HomeMainViewSnapshotTests: HomeSnapshotTestCase {
         let view = makeView(state: state)
         assertSnapshot(of: view, as: .image)
     }
+
+    func testHomeMainView_examExpired() {
+        let detail = ExamDetail(examDateText: "2025-12-31", examName: "2025년 2회", applyPeriod: "2025.11.01~2025.11.10")
+        let state = makeState(
+            examStatus: .expired(detail: detail),
+            entryState: .mock
+        )
+        let view = makeView(state: state)
+        assertSnapshot(of: view, as: .image)
+    }
 }

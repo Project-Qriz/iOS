@@ -12,14 +12,25 @@ struct ExamScheduleSelectionViewModelTests {
     // MARK: - Test Harness
 
     @MainActor
+    private final class MockExamSelectionDelegate: ExamSelectionDelegate {
+        private(set) var didUpdateExamScheduleCallCount = 0
+
+        func didUpdateExamSchedule() {
+            didUpdateExamScheduleCallCount += 1
+        }
+    }
+
+    @MainActor
     private final class TestHarness {
         let sut: ExamScheduleSelectionViewModel
+        let mockDelegate = MockExamSelectionDelegate()
         private(set) var received: [ExamScheduleSelectionViewModel.Output] = []
         private let inputSubject = PassthroughSubject<ExamScheduleSelectionViewModel.Input, Never>()
         private var cancellables = Set<AnyCancellable>()
 
         init(service: MockExamScheduleService) {
             self.sut = ExamScheduleSelectionViewModel(examScheduleService: service)
+            sut.delegate = mockDelegate
             sut.transform(input: inputSubject.eraseToAnyPublisher())
                 .sink { [weak self] in self?.received.append($0) }
                 .store(in: &cancellables)
@@ -139,6 +150,23 @@ struct ExamScheduleSelectionViewModelTests {
         #expect(service.updateExamScheduleCallCount == 1)
         #expect(service.lastUpdateUserApplyId == 99)
         #expect(service.lastUpdateNewApplyId == 2)
+    }
+
+    @Test("examTapped — 신규 등록 성공 → delegate didUpdateExamSchedule 호출")
+    func examTapped_success_callsDelegate() async throws {
+        let service = MockExamScheduleService()
+        service.fetchExamListResult = .success(.make(
+            registeredApplicationId: nil,
+            registeredUserApplyId: nil,
+            applications: [.make(applicationId: 10)]
+        ))
+        let h = TestHarness(service: service)
+        try await h.sendViewDidLoad()
+
+        h.send(.examTapped(10))
+        try await Task.sleep(nanoseconds: asyncSleepNanoseconds)
+
+        #expect(h.mockDelegate.didUpdateExamScheduleCallCount == 1)
     }
 
     @Test("examTapped 실패 → showErrorAlert emit")

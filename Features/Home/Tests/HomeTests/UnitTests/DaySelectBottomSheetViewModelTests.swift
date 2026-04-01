@@ -64,6 +64,17 @@ struct DaySelectBottomSheetViewModelTests {
         #expect(ui.nextEnabled == true)
     }
 
+    @Test("viewDidLoad — totalDays 1 → prevEnabled/nextEnabled 모두 false")
+    func viewDidLoad_totalDays1_bothNavigationDisabled() {
+        let h = TestHarness(totalDays: 1, initialSelected: 0)
+        h.send(.viewDidLoad)
+
+        let ui = h.updateUIOutputs[0]
+        #expect(ui.prevEnabled == false)
+        #expect(ui.nextEnabled == false)
+        #expect(ui.totalDays == 1)
+    }
+
     @Test("viewDidLoad — 마지막 주 선택 → nextEnabled false")
     func viewDidLoad_lastWeek_nextDisabled() {
         let h = TestHarness(totalDays: 7, initialSelected: 6)
