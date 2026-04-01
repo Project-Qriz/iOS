@@ -125,3 +125,23 @@ extension UpdateExamScheduleResponse {
         UpdateExamScheduleResponse(code: 1, msg: "ok", data: nil)
     }
 }
+
+extension ExamRowState {
+    static func make(
+        id: Int = 1,
+        examName: String = "2026년 1회",
+        periodText: String = "접수기간: 2026.01.01~2026.01.10",
+        dateText: String = "시험일: 2026-12-31",
+        isSelected: Bool = false,
+        isExpired: Bool = false
+    ) -> ExamRowState {
+        ExamRowState(
+            id: id,
+            examName: examName,
+            periodText: periodText,
+            dateText: dateText,
+            isSelected: isSelected,
+            isExpired: isExpired
+        )
+    }
+}

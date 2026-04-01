@@ -51,15 +51,11 @@ struct ExamScheduleSelectionViewModelTests {
         }
     }
 
-    // MARK: - Factory
-
-    private func makeService() -> MockExamScheduleService { MockExamScheduleService() }
-
     // MARK: - viewDidLoad
 
     @Test("viewDidLoad 성공 → loadExamList emit")
     func viewDidLoad_success_emitsLoadExamList() async throws {
-        let service = makeService()
+        let service = MockExamScheduleService()
         service.fetchExamListResult = .success(.make(
             applications: [.make(applicationId: 1), .make(applicationId: 2)]
         ))
@@ -72,7 +68,7 @@ struct ExamScheduleSelectionViewModelTests {
 
     @Test("viewDidLoad 실패 → showErrorAlert emit")
     func viewDidLoad_failure_emitsErrorAlert() async throws {
-        let service = makeService()
+        let service = MockExamScheduleService()
         service.fetchExamListResult = .failure(URLError(.notConnectedToInternet))
         let h = TestHarness(service: service)
         try await h.sendViewDidLoad()
@@ -84,7 +80,7 @@ struct ExamScheduleSelectionViewModelTests {
 
     @Test("examTapped — 미등록 상태 → applyExamSchedule 호출 후 loadExamList emit")
     func examTapped_noExistingRegistration_callsApply() async throws {
-        let service = makeService()
+        let service = MockExamScheduleService()
         service.fetchExamListResult = .success(.make(
             registeredApplicationId: nil,
             registeredUserApplyId: nil,
@@ -104,7 +100,7 @@ struct ExamScheduleSelectionViewModelTests {
 
     @Test("examTapped — 이미 등록된 id → 아무것도 호출 안 함")
     func examTapped_sameAsRegistered_doesNothing() async throws {
-        let service = makeService()
+        let service = MockExamScheduleService()
         service.fetchExamListResult = .success(.make(
             registeredApplicationId: 5,
             registeredUserApplyId: 1,
@@ -124,7 +120,7 @@ struct ExamScheduleSelectionViewModelTests {
 
     @Test("examTapped — 기등록 상태에서 다른 id → updateExamSchedule 호출")
     func examTapped_withExistingRegistration_callsUpdate() async throws {
-        let service = makeService()
+        let service = MockExamScheduleService()
         service.fetchExamListResult = .success(.make(
             registeredApplicationId: 1,
             registeredUserApplyId: 99,
@@ -147,7 +143,7 @@ struct ExamScheduleSelectionViewModelTests {
 
     @Test("examTapped 실패 → showErrorAlert emit")
     func examTapped_failure_emitsErrorAlert() async throws {
-        let service = makeService()
+        let service = MockExamScheduleService()
         service.fetchExamListResult = .success(.make(
             registeredApplicationId: nil,
             registeredUserApplyId: nil,
