@@ -161,7 +161,6 @@ final class HomeViewModel {
     }
     
     private func makeExamState() async throws -> HomeState {
-        // 400: 시험 미등록 상태 → 정상 케이스로 처리. 그 외 에러는 rethrow → loadAllData에서 handle
         do {
             let response = try await examScheduleService.fetchAppliedExams()
             let detail = ExamDetail(
@@ -173,19 +172,24 @@ final class HomeViewModel {
             let status: ExamStatus = dDay <= 0
             ? .expired(detail: detail)
             : .registered(dDay: dDay, detail: detail)
-            
+
             return HomeState(userName: userInfo.name,
                              examStatus: status,
                              entryState: currentEntryState(),
                              dailyPlans: [],
                              selectedIndex: 0)
-            
+
         } catch let NetworkError.clientError(httpStatus, _, _) where httpStatus == 400 {
+            // 시험 미등록 상태 → 정상 케이스로 처리
             return HomeState(userName: userInfo.name,
                              examStatus: .none,
                              entryState: currentEntryState(),
                              dailyPlans: [],
                              selectedIndex: 0)
+
+        } catch {
+            // 그 외 네트워크 오류 → loadAllData에서 handle
+            throw error
         }
     }
     
