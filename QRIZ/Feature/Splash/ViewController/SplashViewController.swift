@@ -19,7 +19,7 @@ final class SplashViewController: UIViewController {
     
     var didFinish: ((Bool) -> Void)?
     
-    // MARK: - Initialize
+    // MARK: - Initialization
     
     init(viewModel: SplashViewModel) {
         self.rootView = SplashMainView()
@@ -34,7 +34,7 @@ final class SplashViewController: UIViewController {
     // MARK: - Lifecycle
     
     override func loadView() {
-        self.view = rootView
+        view = rootView
     }
     
     override func viewDidLoad() {
@@ -47,7 +47,7 @@ final class SplashViewController: UIViewController {
         inputSubject.send(.viewDidAppear)
     }
     
-    // MARK: - Functions
+    // MARK: - Methods
     
     private func bind() {
         let output = viewModel.transform(input: inputSubject.eraseToAnyPublisher())
