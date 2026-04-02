@@ -35,6 +35,7 @@ final class HomeMainView: UIView {
     private var currentDailyPlans: [DailyPlanEntity] = []
     private var currentEntryState: EntryCardState = .preview
     private var isPreviewLocked = true
+    private var lastBuiltLayoutLocked: Bool? = nil
     
     var examButtonTappedPublisher: AnyPublisher<Void, Never> {
         examButtonTappedSubject.eraseToAnyPublisher()
@@ -274,9 +275,8 @@ final class HomeMainView: UIView {
         currentEntryState = state.entryState
         currentDailyPlans = state.dailyPlans
         let previewLocked = (state.entryState == .preview)
-        
-        rebuildLayoutIfNeeded(isLocked: previewLocked)
-        
+        isPreviewLocked = previewLocked
+
         var snapshot = NSDiffableDataSourceSnapshot<HomeSection, HomeSectionItem>()
         snapshot.appendSections(HomeSection.allCases)
         snapshot.appendItems(
@@ -287,7 +287,7 @@ final class HomeMainView: UIView {
             [.entry(state.entryState)],
             toSection: .examEntry
         )
-        
+
         if previewLocked {
             snapshot.appendItems(
                 [.studySummary(.locked)],
@@ -303,17 +303,19 @@ final class HomeMainView: UIView {
                 toSection: .studySummary
             )
         }
-        
+
         snapshot.appendItems(
             [.weeklyConcept(kind: state.recommendationKind, list: state.weeklyConcepts)],
             toSection: .weeklyConcept
         )
-        
+
         dataSource.apply(snapshot, animatingDifferences: true)
-        
+
         if state.selectedIndex != selectedIndexSubject.value {
             selectedIndexSubject.send(state.selectedIndex)
         }
+
+        rebuildLayoutIfNeeded(isLocked: previewLocked)
     }
     
     private func updateDailyHeaderView(day: Int) {
@@ -352,8 +354,8 @@ final class HomeMainView: UIView {
     }
     
     private func rebuildLayoutIfNeeded(isLocked newValue: Bool) {
-        guard newValue != isPreviewLocked else { return }
-        isPreviewLocked = newValue
+        guard newValue != lastBuiltLayoutLocked else { return }
+        lastBuiltLayoutLocked = newValue
         collectionView.setCollectionViewLayout(
             HomeLayoutFactory.makeLayout(
                 for: collectionView,

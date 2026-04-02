@@ -171,6 +171,10 @@ extension DailyPlanHeaderView {
         rootVStackView.translatesAutoresizingMaskIntoConstraints = false
         resetButton.translatesAutoresizingMaskIntoConstraints = false
 
+        let lockHeight = lockImageView.heightAnchor.constraint(equalToConstant: Metric.lockImageSize)
+        lockHeight.priority = .defaultHigh
+        let lockWidth = lockImageView.widthAnchor.constraint(equalToConstant: Metric.lockImageSize)
+
         NSLayoutConstraint.activate([
             rootVStackView.topAnchor.constraint(equalTo: contentView.topAnchor),
             rootVStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
@@ -179,8 +183,8 @@ extension DailyPlanHeaderView {
 
             noticeLine.heightAnchor.constraint(equalToConstant: Metric.noticeLineHeight),
 
-            lockImageView.heightAnchor.constraint(equalToConstant: Metric.lockImageSize),
-            lockImageView.widthAnchor.constraint(equalToConstant: Metric.lockImageSize),
+            lockHeight,
+            lockWidth,
 
             resetButton.centerYAnchor.constraint(equalTo: titleLabel.centerYAnchor),
             resetButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
