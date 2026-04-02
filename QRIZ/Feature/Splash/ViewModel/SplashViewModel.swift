@@ -19,14 +19,14 @@ final class SplashViewModel {
     private let outputSubject = PassthroughSubject<Output, Never>()
     private var cancellables = Set<AnyCancellable>()
 
-    // MARK: - Initialize
+    // MARK: - Initialization
 
     init(userInfoService: UserInfoService, keychain: KeychainManager) {
         self.userInfoService = userInfoService
         self.keychain = keychain
     }
 
-    // MARK: - Functions
+    // MARK: - Methods
 
     func transform(input: AnyPublisher<Input, Never>) -> AnyPublisher<Output, Never> {
         input
@@ -34,7 +34,7 @@ final class SplashViewModel {
                 guard let self else { return }
                 switch event {
                 case .viewDidAppear:
-                    Task { await self.performInitialChecks() }
+                    Task { [self] in await self.performInitialChecks() }
                 }
             }
             .store(in: &cancellables)
@@ -53,7 +53,13 @@ final class SplashViewModel {
         do {
             let response = try await userInfoService.getUserInfo()
             let user = response.data
-            UserInfoManager.shared.update(name: user.name, userId: user.userId, email: user.email, previewTestStatus: user.previewTestStatus, provider: user.provider)
+            UserInfoManager.shared.update(
+                name: user.name,
+                userId: user.userId,
+                email: user.email,
+                previewTestStatus: user.previewTestStatus,
+                provider: user.provider
+            )
             return true
         } catch {
             keychain.deleteToken(forKey: TokenKey.accessToken.rawValue)
