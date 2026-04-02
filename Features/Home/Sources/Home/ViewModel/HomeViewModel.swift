@@ -125,17 +125,21 @@ final class HomeViewModel {
         do {
             var state = try await examState
             state.dailyPlans = try await dailyPlans
-            
-            if let weekly = try await weeklyBlock {
-                state.recommendationKind = weekly.kind
-                state.weeklyConcepts = weekly.concepts
+
+            do {
+                if let weekly = try await weeklyBlock {
+                    state.recommendationKind = weekly.kind
+                    state.weeklyConcepts = weekly.concepts
+                }
+            } catch {
+                logger.error("weekly 조회 실패: \(error.localizedDescription, privacy: .public)")
             }
-            
+
             let firstIncomplete = state.dailyPlans.firstIndex(where: { !$0.completed }) ?? 0
             state.selectedIndex = firstIncomplete
-            
+
             updateState { $0 = state }
-            
+
         } catch {
             handle(error)
         }

@@ -99,6 +99,17 @@ struct HomeViewModelTests {
         #expect(isRegistered)
     }
 
+    @Test("viewDidLoad — weekly 조회 실패 → updateState는 정상 emit (홈 화면 유지)")
+    func viewDidLoad_weeklyFails_stillEmitsUpdateState() async throws {
+        let weeklyService = MockWeeklyRecommendService()
+        weeklyService.fetchWeeklyRecommendResult = .failure(URLError(.notConnectedToInternet))
+        let h = makeHarness(weeklyService: weeklyService)
+        try await h.sendViewDidLoad()
+
+        #expect(!h.stateOutputs.isEmpty)
+        #expect(h.errorTitles.isEmpty)
+    }
+
     @Test("viewDidLoad — 시험 미등록(400) → examStatus .none")
     func viewDidLoad_examNotRegistered_examStatusNone() async throws {
         let examService = MockExamScheduleService()
