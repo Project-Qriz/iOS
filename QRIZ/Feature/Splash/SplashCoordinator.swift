@@ -7,6 +7,7 @@
 
 import UIKit
 import QRIZUtils
+import Network
 
 @MainActor
 protocol SplashCoordinator: Coordinator {
@@ -27,7 +28,7 @@ final class SplashCoordinatorImpl: SplashCoordinator {
     private let userInfoService: UserInfoService
     private let keychain: KeychainManager
 
-    // MARK: - Initialize
+    // MARK: - Initialization
 
     init(
         userInfoService: UserInfoService,
