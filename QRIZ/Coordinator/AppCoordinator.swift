@@ -124,7 +124,6 @@ final class AppCoordinatorImpl: AppCoordinator {
     
     private func showSplash() -> UIViewController {
         let splash = SplashCoordinatorImpl(
-            window: window,
             userInfoService: dependency.userInfoService,
             keychain: dependency.keychain
         )

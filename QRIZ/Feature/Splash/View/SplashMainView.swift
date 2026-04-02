@@ -38,9 +38,7 @@ final class SplashMainView: UIView {
 
 extension SplashMainView {
     private func addSubviews() {
-        [
-            logo
-        ].forEach(addSubview(_:))
+        addSubview(logo)
     }
     
     private func setupConstraints() {

@@ -7,7 +7,6 @@
 
 import UIKit
 import QRIZUtils
-import Network
 
 @MainActor
 protocol SplashCoordinator: Coordinator {
@@ -21,39 +20,34 @@ protocol SplashCoordinatorDelegate: AnyObject {
 
 @MainActor
 final class SplashCoordinatorImpl: SplashCoordinator {
-    
+
     // MARK: - Properties
-    
+
     weak var delegate: SplashCoordinatorDelegate?
-    private let window: UIWindow
     private let userInfoService: UserInfoService
     private let keychain: KeychainManager
-    
+
     // MARK: - Initialize
-    
+
     init(
-        window: UIWindow,
         userInfoService: UserInfoService,
         keychain: KeychainManager
     ) {
-        self.window = window
         self.userInfoService = userInfoService
         self.keychain = keychain
     }
-    
-    // MARK: - Functions
-    
+
+    // MARK: - Methods
+
     func start() -> UIViewController {
         let viewModel = SplashViewModel(userInfoService: userInfoService, keychain: keychain)
         let splashVC = SplashViewController(viewModel: viewModel)
-        
+
         splashVC.didFinish = { [weak self] isLoggedIn in
             guard let self else { return }
             self.delegate?.didFinishSplash(self, isLoggedIn: isLoggedIn)
         }
-        
-        window.rootViewController = splashVC
-        window.makeKeyAndVisible()
+
         return splashVC
     }
 }
