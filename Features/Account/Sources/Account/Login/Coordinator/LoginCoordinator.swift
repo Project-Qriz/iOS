@@ -24,6 +24,25 @@ public protocol LoginCoordinatorDelegate: AnyObject {
 }
 
 @MainActor
+public func makeLoginCoordinator(
+    navigationController: UINavigationController,
+    loginService: any LoginService,
+    userInfoService: any UserInfoService,
+    signUpService: any SignUpService,
+    accountRecoveryService: any AccountRecoveryService,
+    socialLoginService: any SocialLoginService
+) -> any LoginCoordinator {
+    LoginCoordinatorImpl(
+        navigationController: navigationController,
+        loginService: loginService,
+        userInfoService: userInfoService,
+        signUpService: signUpService,
+        accountRecoveryService: accountRecoveryService,
+        socialLoginService: socialLoginService
+    )
+}
+
+@MainActor
 public final class LoginCoordinatorImpl: LoginCoordinator, NavigationGuard {
 
     public weak var delegate: LoginCoordinatorDelegate?

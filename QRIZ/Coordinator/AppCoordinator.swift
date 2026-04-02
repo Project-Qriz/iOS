@@ -62,7 +62,7 @@ final class AppCoordinatorDependencyImpl: AppCoordinatorDependency {
     
     lazy var loginCoordinator: LoginCoordinator = {
         let navi = UINavigationController()
-        return LoginCoordinatorImpl(
+        return makeLoginCoordinator(
             navigationController: navi,
             loginService: loginService,
             userInfoService: userInfoService,

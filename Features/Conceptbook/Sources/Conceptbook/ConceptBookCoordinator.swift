@@ -56,6 +56,11 @@ public final class ConceptBookCoordinatorImpl: ConceptBookCoordinator, Navigatio
 }
 
 @MainActor
+public func makeConceptBookCoordinator() -> any ConceptBookCoordinator {
+    ConceptBookCoordinatorImpl()
+}
+
+@MainActor
 public func makeConceptPDFViewController(chapter: Chapter, conceptItem: ConceptItem) -> UIViewController {
     let vm = ConceptPDFViewModel(chapter: chapter, conceptItem: conceptItem)
     return ConceptPDFViewController(conceptPDFViewModel: vm)

@@ -78,6 +78,11 @@ public final class MistakeNoteCoordinatorImpl: MistakeNoteCoordinator, Navigatio
     }
 }
 
+@MainActor
+public func makeMistakeNoteCoordinator() -> any MistakeNoteCoordinator {
+    MistakeNoteCoordinatorImpl()
+}
+
 // MARK: - ProblemDetailCoordinating
 
 extension MistakeNoteCoordinatorImpl: ProblemDetailCoordinating {

@@ -60,14 +60,14 @@ final class TabBarCoordinatorDependencyImpl: TabBarCoordinatorDependency {
         _homeCoordinator
     }
     
-    private lazy var _conceptBookCoordinator = ConceptBookCoordinatorImpl()
-    
+    private lazy var _conceptBookCoordinator = makeConceptBookCoordinator()
+
     var conceptBookCoordinator: ConceptBookCoordinator {
         _conceptBookCoordinator
     }
-    
-    private lazy var _mistakeNoteCoordinator = MistakeNoteCoordinatorImpl()
-    
+
+    private lazy var _mistakeNoteCoordinator = makeMistakeNoteCoordinator()
+
     var mistakeNoteCoordinator: MistakeNoteCoordinator {
         _mistakeNoteCoordinator
     }
