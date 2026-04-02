@@ -78,6 +78,7 @@ final class HomeViewModel {
                     self.outputSubject.send(.showResetAlert)
 
                 case .daySelected(let index):
+                    guard self.state.selectedIndex != index else { return }
                     self.updateState { $0.selectedIndex = index }
 
                 case .dayHeaderTapped:
