@@ -60,7 +60,7 @@ final class AppCoordinatorDependencyImpl: AppCoordinatorDependency {
     lazy var weeklyRecommendService: WeeklyRecommendService = WeeklyRecommendServiceImpl(network: network, keychain: keychain)
     lazy var socialLoginService: SocialLoginService = SocialLoginServiceImpl()
     
-    private lazy var _loginCoordinator: LoginCoordinator = {
+    lazy var loginCoordinator: LoginCoordinator = {
         let navi = UINavigationController()
         return LoginCoordinatorImpl(
             navigationController: navi,
@@ -71,11 +71,7 @@ final class AppCoordinatorDependencyImpl: AppCoordinatorDependency {
             socialLoginService: socialLoginService
         )
     }()
-    
-    var loginCoordinator: LoginCoordinator {
-        return _loginCoordinator
-    }
-    
+
     var tabBarCoordinator: TabBarCoordinator {
         let tabBarDependency = TabBarCoordinatorDependencyImpl(
             examService: examScheduleService,
@@ -139,6 +135,7 @@ final class AppCoordinatorImpl: AppCoordinator {
         return splash.start()
     }
     
+    @discardableResult
     private func showLogin() -> UIViewController {
         let loginCoordinator = dependency.loginCoordinator
         (loginCoordinator as? LoginCoordinatorImpl)?.delegate = self
@@ -149,6 +146,7 @@ final class AppCoordinatorImpl: AppCoordinator {
         return loginVC
     }
     
+    @discardableResult
     private func showTabBar() -> UIViewController {
         let tabBarCoordinator = dependency.tabBarCoordinator
         tabBarCoordinator.delegate = self
@@ -159,8 +157,9 @@ final class AppCoordinatorImpl: AppCoordinator {
         return tabBarVC
     }
     
+    @discardableResult
     private func showOnboarding() -> UIViewController {
-        var onboardingCoordinator = dependency.onboardingCoordinator
+        let onboardingCoordinator = dependency.onboardingCoordinator
         onboardingCoordinator.delegate = self
         childCoordinators.append(onboardingCoordinator)
         
@@ -183,7 +182,7 @@ final class AppCoordinatorImpl: AppCoordinator {
     
     private func resetToLogin() {
         childCoordinators.removeAll()
-        _ = showLogin()
+        showLogin()
     }
     
     private func replaceRootViewController(
@@ -214,7 +213,7 @@ extension AppCoordinatorImpl: SplashCoordinatorDelegate {
     func didFinishSplash(_ coordinator: SplashCoordinator, isLoggedIn: Bool) {
         childCoordinators.removeAll { $0 === coordinator }
         splashCoordinator = nil
-        _ = isLoggedIn ? showTabBar() : showLogin()
+        if isLoggedIn { showTabBar() } else { showLogin() }
     }
 }
 
@@ -223,8 +222,11 @@ extension AppCoordinatorImpl: SplashCoordinatorDelegate {
 extension AppCoordinatorImpl: LoginCoordinatorDelegate {
     func didLogin(_ coordinator: LoginCoordinator) {
         childCoordinators.removeAll { $0 === coordinator }
-        _ = UserInfoManager.shared.previewTestStatus == .notStarted ?
-        showOnboarding() : showTabBar()
+        if UserInfoManager.shared.previewTestStatus == .notStarted {
+            showOnboarding()
+        } else {
+            showTabBar()
+        }
     }
 }
 
@@ -232,8 +234,8 @@ extension AppCoordinatorImpl: LoginCoordinatorDelegate {
 
 extension AppCoordinatorImpl: OnboardingCoordinatorDelegate {
     func didFinishOnboarding(_ coordinator: any OnboardingCoordinator) {
-        childCoordinators.removeAll() { $0 === coordinator }
-        _ = showTabBar()
+        childCoordinators.removeAll { $0 === coordinator }
+        showTabBar()
     }
 }
 
@@ -243,6 +245,6 @@ extension AppCoordinatorImpl: TabBarCoordinatorDelegate {
     func didLogout(_ coordinator: TabBarCoordinator) {
         childCoordinators.removeAll()
         dependency.keychain.deleteToken(forKey: TokenKey.accessToken.rawValue)
-        _ = showLogin()
+        showLogin()
     }
 }
