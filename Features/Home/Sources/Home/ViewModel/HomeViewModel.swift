@@ -20,7 +20,7 @@ final class HomeViewModel {
     private let dailyService: DailyService
     private let weeklyService: WeeklyRecommendService
     private let userInfo = UserInfoManager.shared
-    private let stateSubject: CurrentValueSubject<HomeState, Never>
+    private var state: HomeState
     private let outputSubject = PassthroughSubject<Output, Never>()
     private var cancellables = Set<AnyCancellable>()
     private let logger = Logger.make(category: "HomeViewModel")
@@ -51,7 +51,7 @@ final class HomeViewModel {
         self.examScheduleService = examScheduleService
         self.dailyService = dailyService
         self.weeklyService = weeklyService
-        self.stateSubject = .init(initState)
+        self.state = initState
     }
 
     // MARK: - Methods
@@ -65,7 +65,7 @@ final class HomeViewModel {
                     Task { [self] in await self.loadAllData() }
 
                 case .entryTapped:
-                    let entryState = self.stateSubject.value.entryState
+                    let entryState = self.state.entryState
 
                     switch entryState {
                     case .preview:
@@ -81,10 +81,9 @@ final class HomeViewModel {
                     self.updateState { $0.selectedIndex = index }
 
                 case .dayHeaderTapped:
-                    let state = self.stateSubject.value
-                    let totalDays = state.dailyPlans.count
-                    let selectedDay = state.selectedIndex
-                    let todayIdx = state.dailyPlans.firstIndex { $0.today }
+                    let totalDays = self.state.dailyPlans.count
+                    let selectedDay = self.state.selectedIndex
+                    let todayIdx = self.state.dailyPlans.firstIndex { $0.today }
 
                     self.outputSubject.send(.showDaySelectAlert(
                         totalDays: totalDays,
@@ -96,7 +95,7 @@ final class HomeViewModel {
                     Task { [self] in await self.performReset() }
 
                 case .ctaTapped(let dayIndex):
-                    let plan = self.stateSubject.value.dailyPlans[dayIndex]
+                    let plan = self.state.dailyPlans[dayIndex]
                     let learnType: DailyLearnType
                     if plan.comprehensiveReviewDay { learnType = .monthly }
                     else if plan.reviewDay { learnType = .weekly }
@@ -104,7 +103,7 @@ final class HomeViewModel {
                     self.outputSubject.send(.showDaily(day: dayIndex + 1, type: learnType))
 
                 case .weeklyConceptTapped(let index):
-                    let concept = self.stateSubject.value.weeklyConcepts[index]
+                    let concept = self.state.weeklyConcepts[index]
                     guard let chapter = concept.chapter,
                           let item = concept.conceptItem
                     else { return }
@@ -214,10 +213,8 @@ final class HomeViewModel {
     }
     
     private func updateState(_ mutate: (inout HomeState) -> Void) {
-        var newState = stateSubject.value
-        mutate(&newState)
-        stateSubject.send(newState)
-        outputSubject.send(.updateState(newState))
+        mutate(&state)
+        outputSubject.send(.updateState(state))
     }
     
     private func currentEntryState() -> EntryCardState {

@@ -94,9 +94,7 @@ struct HomeViewModelTests {
         let state = h.stateOutputs.last
         #expect(state != nil)
         #expect(state?.dailyPlans.count == 1)
-        let isRegistered: Bool
-        if case .registered = state?.examStatus { isRegistered = true } else { isRegistered = false }
-        #expect(isRegistered)
+        #expect(state?.examStatus != ExamStatus.none)
     }
 
     @Test("viewDidLoad — weekly 조회 실패 → updateState는 정상 emit (홈 화면 유지)")
