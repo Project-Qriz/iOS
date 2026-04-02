@@ -104,7 +104,6 @@ final class AppCoordinatorImpl: AppCoordinator {
     
     var window: UIWindow
     private let dependency: AppCoordinatorDependency
-    private var splashCoordinator: SplashCoordinator?
     private var childCoordinators: [Coordinator] = []
 
     // MARK: - Initialize
@@ -130,7 +129,6 @@ final class AppCoordinatorImpl: AppCoordinator {
             keychain: dependency.keychain
         )
         splash.delegate = self
-        splashCoordinator = splash
         childCoordinators.append(splash)
         return splash.start()
     }
@@ -138,7 +136,7 @@ final class AppCoordinatorImpl: AppCoordinator {
     @discardableResult
     private func showLogin() -> UIViewController {
         let loginCoordinator = dependency.loginCoordinator
-        (loginCoordinator as? LoginCoordinatorImpl)?.delegate = self
+        loginCoordinator.delegate = self
         childCoordinators.append(loginCoordinator)
         
         let loginVC = loginCoordinator.start()
@@ -162,10 +160,9 @@ final class AppCoordinatorImpl: AppCoordinator {
         let onboardingCoordinator = dependency.onboardingCoordinator
         onboardingCoordinator.delegate = self
         childCoordinators.append(onboardingCoordinator)
-        
+
         let onboardingVC = onboardingCoordinator.start()
-        window.rootViewController = onboardingVC
-        window.makeKeyAndVisible()
+        replaceRootViewController(with: onboardingVC, animated: true)
         return onboardingVC
     }
 
@@ -212,7 +209,6 @@ final class AppCoordinatorImpl: AppCoordinator {
 extension AppCoordinatorImpl: SplashCoordinatorDelegate {
     func didFinishSplash(_ coordinator: SplashCoordinator, isLoggedIn: Bool) {
         childCoordinators.removeAll { $0 === coordinator }
-        splashCoordinator = nil
         if isLoggedIn { showTabBar() } else { showLogin() }
     }
 }
