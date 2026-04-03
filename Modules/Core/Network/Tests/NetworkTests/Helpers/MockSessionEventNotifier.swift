@@ -7,7 +7,7 @@
 
 import QRIZUtils
 
-final class MockSessionEventNotifier: SessionEventNotifier {
+final class MockSessionEventNotifier: SessionEventNotifier, @unchecked Sendable {
 
     private let continuation: AsyncStream<SessionEvent>.Continuation
     let events: AsyncStream<SessionEvent>

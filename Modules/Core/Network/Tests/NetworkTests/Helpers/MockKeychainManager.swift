@@ -7,7 +7,7 @@
 
 import QRIZUtils
 
-final class MockKeychainManager: KeychainManager {
+final class MockKeychainManager: KeychainManager, @unchecked Sendable {
 
     var storage: [String: String] = [:]
     var saveCallCount = 0

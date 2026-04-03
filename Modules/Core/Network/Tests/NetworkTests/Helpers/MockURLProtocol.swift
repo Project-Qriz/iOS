@@ -7,10 +7,10 @@
 
 import Foundation
 
-final class MockURLProtocol: URLProtocol {
+final class MockURLProtocol: URLProtocol, @unchecked Sendable {
 
-    static var requestHandler: ((URLRequest) throws -> (HTTPURLResponse, Data))?
-    static var capturedRequests: [URLRequest] = []
+    nonisolated(unsafe) static var requestHandler: ((URLRequest) throws -> (HTTPURLResponse, Data))?
+    nonisolated(unsafe) static var capturedRequests: [URLRequest] = []
 
     override class func canInit(with request: URLRequest) -> Bool {
         true
