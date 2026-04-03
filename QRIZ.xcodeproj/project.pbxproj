@@ -13,6 +13,7 @@
 		B13774AD2ED9D7AF001A614D /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = B13774AC2ED9D7AF001A614D /* GoogleService-Info.plist */; };
 		B13BC2F22F56E3B500E99FA2 /* Auth in Frameworks */ = {isa = PBXBuildFile; productRef = B13BC2F32F56E3B500E99FA2 /* Auth */; };
 		B13BC73E2F58273500E99FA2 /* Conceptbook in Frameworks */ = {isa = PBXBuildFile; productRef = B13BC73F2F58273500E99FA2 /* Conceptbook */; };
+		B14441412F7FAEBE000C3292 /* QRIZ.xctestplan in Resources */ = {isa = PBXBuildFile; fileRef = B14441402F7FAEBE000C3292 /* QRIZ.xctestplan */; };
 		B1469DD72F79389B00D3BD39 /* Exam in Frameworks */ = {isa = PBXBuildFile; productRef = B1469DD62F79389B00D3BD39 /* Exam */; };
 		B14DF4E72F7652D1002F6177 /* Daily in Frameworks */ = {isa = PBXBuildFile; productRef = B14DF4E62F7652D1002F6177 /* Daily */; };
 		B17C0EC52F5AACD200C8219A /* Account in Frameworks */ = {isa = PBXBuildFile; productRef = B17C0EC42F5AACD200C8219A /* Account */; };
@@ -32,6 +33,7 @@
 /* Begin PBXFileReference section */
 		B1004A992EC77C66000E4DE2 /* QRIZ.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = QRIZ.entitlements; sourceTree = "<group>"; };
 		B13774AC2ED9D7AF001A614D /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		B14441402F7FAEBE000C3292 /* QRIZ.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = QRIZ.xctestplan; sourceTree = "<group>"; };
 		B19C4FC42D6C226500CD008A /* TabBarCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarCoordinator.swift; sourceTree = "<group>"; };
 		B1BDD0C82F4D2A5200834D57 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		B1D813792D768D9B00A9D447 /* AppCoordinator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppCoordinator.swift; sourceTree = "<group>"; };
@@ -190,6 +192,7 @@
 		E23962FC2D083B8F0092B39B = {
 			isa = PBXGroup;
 			children = (
+				B14441402F7FAEBE000C3292 /* QRIZ.xctestplan */,
 				E23963072D083B8F0092B39B /* QRIZ */,
 				B15AACE82F7F4F05009A266B /* Modules */,
 				E26AF7042D918F97006E3252 /* XCConfig */,
@@ -311,6 +314,7 @@
 			files = (
 				B13774AD2ED9D7AF001A614D /* GoogleService-Info.plist in Resources */,
 				B1BDD0CA2F4D2A5200834D57 /* Assets.xcassets in Resources */,
+				B14441412F7FAEBE000C3292 /* QRIZ.xctestplan in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
