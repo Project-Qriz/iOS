@@ -34,7 +34,7 @@ final class SplashViewModel {
                 guard let self else { return }
                 switch event {
                 case .viewDidAppear:
-                    Task { [self] in await performInitialChecks() }
+                    Task { await self.performInitialChecks() }
                 }
             }
             .store(in: &cancellables)
