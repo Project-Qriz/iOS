@@ -18,6 +18,7 @@
 		B14DF4E72F7652D1002F6177 /* Daily in Frameworks */ = {isa = PBXBuildFile; productRef = B14DF4E62F7652D1002F6177 /* Daily */; };
 		B17C0EC52F5AACD200C8219A /* Account in Frameworks */ = {isa = PBXBuildFile; productRef = B17C0EC42F5AACD200C8219A /* Account */; };
 		B18CDE662F45AD2A00CB3AB4 /* QRIZUtils in Frameworks */ = {isa = PBXBuildFile; productRef = B18CDE652F45AD2A00CB3AB4 /* QRIZUtils */; };
+		0A324B4B8A914F5EA2863B85 /* AnalyticsServiceImpl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E475CE9FBD3489798BF0A58 /* AnalyticsServiceImpl.swift */; };
 		B19C4FC52D6C226500CD008A /* TabBarCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = B19C4FC42D6C226500CD008A /* TabBarCoordinator.swift */; };
 		B1BDD0C72F4D26CD00834D57 /* DesignSystem in Frameworks */ = {isa = PBXBuildFile; productRef = B1BDD0C62F4D26CD00834D57 /* DesignSystem */; };
 		B1BDD0CA2F4D2A5200834D57 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B1BDD0C82F4D2A5200834D57 /* Assets.xcassets */; };
@@ -34,6 +35,7 @@
 		B1004A992EC77C66000E4DE2 /* QRIZ.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = QRIZ.entitlements; sourceTree = "<group>"; };
 		B13774AC2ED9D7AF001A614D /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		B14441402F7FAEBE000C3292 /* QRIZ.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = QRIZ.xctestplan; sourceTree = "<group>"; };
+		1E475CE9FBD3489798BF0A58 /* AnalyticsServiceImpl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnalyticsServiceImpl.swift; sourceTree = "<group>"; };
 		B19C4FC42D6C226500CD008A /* TabBarCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarCoordinator.swift; sourceTree = "<group>"; };
 		B1BDD0C82F4D2A5200834D57 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		B1D813792D768D9B00A9D447 /* AppCoordinator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppCoordinator.swift; sourceTree = "<group>"; };
@@ -164,6 +166,14 @@
 			path = SupportingFiles;
 			sourceTree = "<group>";
 		};
+		AD15A98404AC40C1B033C972 /* Utils */ = {
+			isa = PBXGroup;
+			children = (
+				1E475CE9FBD3489798BF0A58 /* AnalyticsServiceImpl.swift */,
+			);
+			path = Utils;
+			sourceTree = "<group>";
+		};
 		B19C4FC32D6C223E00CD008A /* TabBar */ = {
 			isa = PBXGroup;
 			children = (
@@ -215,6 +225,7 @@
 				54DB0D952D094FAA00ABD458 /* App */,
 				54DB0D962D09506C00ABD458 /* Feature */,
 				B1D813782D768D3D00A9D447 /* Coordinator */,
+				AD15A98404AC40C1B033C972 /* Utils */,
 				B1BDD0C92F4D2A5200834D57 /* Resources */,
 				54DB0DA32D09524E00ABD458 /* SupportingFiles */,
 			);
@@ -325,6 +336,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0A324B4B8A914F5EA2863B85 /* AnalyticsServiceImpl.swift in Sources */,
 				B1D8137A2D768D9B00A9D447 /* AppCoordinator.swift in Sources */,
 				E23963092D083B900092B39B /* AppDelegate.swift in Sources */,
 				B19C4FC52D6C226500CD008A /* TabBarCoordinator.swift in Sources */,

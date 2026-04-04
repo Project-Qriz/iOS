@@ -50,7 +50,9 @@ public actor NetworkImpl: Network {
                     where needsAuth && !isRefreshing && code == 3 {
             return try await refreshAndRetry(urlRequest, responseType: T.Response.self)
         } catch {
-            throw mapToNetworkError(error)
+            let networkError = mapToNetworkError(error)
+            logAPIError(networkError, request: urlRequest)
+            throw networkError
         }
     }
 }
@@ -155,7 +157,7 @@ private extension NetworkImpl {
                 message: errorResponse?.msg ?? "클라이언트 에러입니다."
             )
         case 500..<600:
-            throw NetworkError.serverError
+            throw NetworkError.serverError(httpStatus: httpResponse.statusCode)
         default:
             throw NetworkError.unknownError
         }
@@ -167,6 +169,22 @@ private extension NetworkImpl {
         catch { throw NetworkError.jsonDecodingError }
     }
     
+    /// API 에러 Analytics 로깅
+    private func logAPIError(_ error: NetworkError, request: URLRequest) {
+        let endpoint = request.url?.path ?? "unknown"
+        let event: AnalyticsEvent?
+        switch error {
+        case .clientError(let status, _, let message):
+            event = .apiError(endpoint: endpoint, statusCode: status, message: message)
+        case .serverError(let status):
+            event = .apiError(endpoint: endpoint, statusCode: status, message: "서버 에러")
+        default:
+            event = nil
+        }
+        guard let event else { return }
+        Task { @MainActor in AnalyticsManager.shared.log(event) }
+    }
+
     /// Error 매핑
     private func mapToNetworkError(_ error: Error) -> NetworkError {
         switch error {

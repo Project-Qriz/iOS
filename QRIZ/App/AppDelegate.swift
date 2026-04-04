@@ -8,12 +8,14 @@
 import UIKit
 import FirebaseCore
 import Auth
+import QRIZUtils
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         FirebaseApp.configure()
+        AnalyticsManager.shared.configure(service: AnalyticsServiceImpl())
 
         let appKey = Bundle.main.object(forInfoDictionaryKey: "KAKAO_NATIVE_APP_KEY") as? String ?? ""
         AuthSDKConfigurator.configure(kakaoAppKey: appKey)

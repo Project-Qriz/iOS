@@ -198,6 +198,7 @@ final class TabBarCoordinatorImpl: TabBarCoordinator {
     }
     
     func logout() {
+        AnalyticsManager.shared.log(.logout)
         delegate?.didLogout(self)
     }
 }

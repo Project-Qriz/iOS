@@ -42,6 +42,7 @@ final class ExamTestViewController: UIViewController {
         bind()
         setupNavigationItems()
         setupAlertButtonActions()
+        AnalyticsManager.shared.log(.screenView(.examTest))
         inputSubject.send(.viewDidLoad)
     }
 

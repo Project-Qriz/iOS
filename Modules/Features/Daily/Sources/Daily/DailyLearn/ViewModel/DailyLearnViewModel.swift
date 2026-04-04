@@ -99,7 +99,7 @@ final class DailyLearnViewModel {
 
                 output.send(.fetchSuccess(state: state, type: type, score: score))
                 output.send(.updateContent(concepts: concepts))
-            } catch NetworkError.serverError {
+            } catch NetworkError.serverError(_) {
                 output.send(.fetchFailed(isServerError: true))
             } catch {
                 output.send(.fetchFailed(isServerError: false))

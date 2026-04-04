@@ -8,6 +8,7 @@
 import UIKit
 import DesignSystem
 import SwiftUI
+import QRIZUtils
 
 @MainActor
 public final class MistakeNoteViewController: UIHostingController<MistakeNoteMainView> {
@@ -33,6 +34,7 @@ public final class MistakeNoteViewController: UIHostingController<MistakeNoteMai
     override public func viewDidLoad() {
         super.viewDidLoad()
         configureNavigationTitle()
+        AnalyticsManager.shared.log(.screenView(.mistakeNote))
     }
 
     override public func viewWillAppear(_ animated: Bool) {

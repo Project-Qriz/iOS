@@ -51,12 +51,18 @@ final class ExamResultViewModel: ObservableObject {
     private let nickname = UserInfoManager.shared.name
     private let examId: Int
     private let examService: any ExamService
+    private let analyticsService: any AnalyticsService
 
     // MARK: - Initialization
 
-    init(examId: Int, examService: any ExamService) {
+    init(
+        examId: Int,
+        examService: any ExamService,
+        analyticsService: any AnalyticsService = AnalyticsManager.shared
+    ) {
         self.examId = examId
         self.examService = examService
+        self.analyticsService = analyticsService
     }
 
     // MARK: - Methods
@@ -104,7 +110,7 @@ final class ExamResultViewModel: ObservableObject {
             updateData()
         } catch is CancellationError {
             return
-        } catch NetworkError.serverError {
+        } catch NetworkError.serverError(_) {
             errorMessage = "관리자에게 문의하세요."
         } catch {
             errorMessage = "잠시 후 다시 시도해주세요."
@@ -160,6 +166,8 @@ final class ExamResultViewModel: ObservableObject {
             self.resultScoresData.subjectCount = self.subjectCount
 
             self.resultGradeListData.gradeResultList = self.gradeResultList
+            let score = self.gradeResultList.filter { $0.correction }.count
+            self.analyticsService.log(.examComplete(score: score, total: self.gradeResultList.count))
 
             self.resultDetailData.subject1DetailResult = self.subject1DetailResult
             self.resultDetailData.subject2DetailResult = self.subject2DetailResult

@@ -31,14 +31,18 @@ final class LoginViewModel {
 
     // MARK: - Initialization
 
+    private let analyticsService: any AnalyticsService
+
     init(
         loginService: LoginService,
         userInfoService: UserInfoService,
-        socialLoginService: SocialLoginService
+        socialLoginService: SocialLoginService,
+        analyticsService: any AnalyticsService = AnalyticsManager.shared
     ) {
         self.loginService = loginService
         self.userInfoService = userInfoService
         self.socialLoginService = socialLoginService
+        self.analyticsService = analyticsService
     }
 
     // MARK: - Methods
@@ -94,6 +98,7 @@ final class LoginViewModel {
                 let response = try await loginService.login(id: id, password: password)
                 let user = response.data.user
                 UserInfoManager.shared.update(name: user.name, userId: user.userId, email: user.email, previewTestStatus: user.previewTestStatus, provider: user.provider)
+                analyticsService.log(.login(.email))
                 outputSubject.send(.loginSucceeded)
             } catch {
                 outputSubject.send(.showErrorAlert(title: "아이디 또는 비밀번호 확인", description: "아이디와 비밀번호를 정확하게 입력해 주세요."))
@@ -139,6 +144,7 @@ final class LoginViewModel {
                     previewTestStatus: user.previewTestStatus,
                     provider: user.provider
                 )
+                analyticsService.log(.login(loginMethod(from: providerName)))
                 outputSubject.send(.loginSucceeded)
             } catch let error as SocialAuthError where error == .cancelled {
                 logger.info("\(providerName) login canceled by user.")
@@ -146,6 +152,17 @@ final class LoginViewModel {
                 outputSubject.send(.showErrorAlert(title: "\(providerName) 로그인 실패", description: "잠시 후 다시 시도해 주세요."))
                 logger.error("\(providerName) social login failed: \(String(describing: error), privacy: .public)")
             }
+        }
+    }
+
+    private func loginMethod(from providerName: String) -> AnalyticsEvent.LoginMethod {
+        switch providerName {
+        case "카카오": return .kakao
+        case "구글": return .google
+        case "애플": return .apple
+        default:
+            logger.warning("알 수 없는 소셜 로그인 provider: \(providerName, privacy: .public)")
+            return .unknown
         }
     }
 }

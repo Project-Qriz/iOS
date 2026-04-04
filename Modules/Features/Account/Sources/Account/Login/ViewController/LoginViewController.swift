@@ -40,6 +40,7 @@ final class LoginViewController: UIViewController {
         super.viewDidLoad()
         bind()
         observe()
+        AnalyticsManager.shared.log(.screenView(.login))
     }
 
     // MARK: - Methods

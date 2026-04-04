@@ -18,9 +18,16 @@ final class MyPageViewModel {
 
     // MARK: - Initialization
 
-    init(userName: String, myPageService: any MyPageService) {
+    private let analyticsService: any AnalyticsService
+
+    init(
+        userName: String,
+        myPageService: any MyPageService,
+        analyticsService: any AnalyticsService = AnalyticsManager.shared
+    ) {
         self.userName = userName
         self.myPageService = myPageService
+        self.analyticsService = analyticsService
     }
 
     // MARK: - Methods
@@ -31,6 +38,7 @@ final class MyPageViewModel {
                 guard let self else { return }
                 switch event {
                 case .viewDidLoad:
+                    analyticsService.log(.screenView(.myPage))
                     self.fetchVersion()
 
                 case .didTapProfile:

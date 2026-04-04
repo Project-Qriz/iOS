@@ -27,9 +27,13 @@ final class HomeViewModel {
     
     // MARK: - Initialization
 
-    init(examScheduleService: ExamScheduleService,
-         dailyService: DailyService,
-         weeklyService: WeeklyRecommendService
+    private let analyticsService: any AnalyticsService
+
+    init(
+        examScheduleService: ExamScheduleService,
+        dailyService: DailyService,
+        weeklyService: WeeklyRecommendService,
+        analyticsService: any AnalyticsService = AnalyticsManager.shared
     ) {
         let name = UserInfoManager.shared.name
         let previewStatus = UserInfoManager.shared.previewTestStatus
@@ -51,6 +55,7 @@ final class HomeViewModel {
         self.examScheduleService = examScheduleService
         self.dailyService = dailyService
         self.weeklyService = weeklyService
+        self.analyticsService = analyticsService
         self.state = initState
     }
 
@@ -62,6 +67,7 @@ final class HomeViewModel {
                 guard let self else { return }
                 switch event {
                 case .viewDidLoad:
+                    analyticsService.log(.screenView(.home))
                     Task { [self] in await self.loadAllData() }
 
                 case .entryTapped:

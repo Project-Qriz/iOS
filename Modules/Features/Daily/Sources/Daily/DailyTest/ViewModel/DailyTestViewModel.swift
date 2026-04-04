@@ -57,12 +57,18 @@ final class DailyTestViewModel {
     private var subscriptions = Set<AnyCancellable>()
     
     private let dailyService: DailyService
-    
+    private let analyticsService: any AnalyticsService
+
     // MARK: - Initializers
-    
-    init(day: Int, dailyService: DailyService) {
+
+    init(
+        day: Int,
+        dailyService: DailyService,
+        analyticsService: any AnalyticsService = AnalyticsManager.shared
+    ) {
         self.day = day
         self.dailyService = dailyService
+        self.analyticsService = analyticsService
     }
     
     // MARK: - Deinitializer
@@ -128,7 +134,7 @@ final class DailyTestViewModel {
                 curNum = 1
                 output.send(.updateTotalPage(totalPage: questionList.count))
                 questionStateHandler()
-            } catch NetworkError.serverError {
+            } catch NetworkError.serverError(_) {
                 output.send(.fetchFailed(isServerError: true))
             } catch {
                 output.send(.fetchFailed(isServerError: false))
@@ -205,6 +211,7 @@ final class DailyTestViewModel {
             do {
                 try await dailyService.submitDaily(dayNumber: day, dailySubmitData: submitData)
                 exitTimer()
+                analyticsService.log(.dailyComplete)
                 output.send(.submitSuccess)
                 output.send(.moveToDailyResult)
             } catch {
