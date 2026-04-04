@@ -14,7 +14,7 @@ final class SplashMainView: UIView {
     
     private let logo = UIImageView(image: .splashLogo)
     
-    // MARK: - Initialize
+    // MARK: - Initialization
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -27,7 +27,7 @@ final class SplashMainView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    // MARK: - Functions
+    // MARK: - Methods
     
     private func setupUI() {
         backgroundColor = .customBlue500
@@ -38,9 +38,7 @@ final class SplashMainView: UIView {
 
 extension SplashMainView {
     private func addSubviews() {
-        [
-            logo
-        ].forEach(addSubview(_:))
+        addSubview(logo)
     }
     
     private func setupConstraints() {

@@ -1,0 +1,88 @@
+{
+  "configurations" : [
+    {
+      "id" : "3DDE2FEE-6283-42B0-B4C1-0DAD6FF01C79",
+      "name" : "Configuration 1",
+      "options" : {
+
+      }
+    }
+  ],
+  "defaultOptions" : {
+    "testTimeoutsEnabled" : true
+  },
+  "testTargets" : [
+    {
+      "target" : {
+        "containerPath" : "container:Modules\/Features\/Onboarding",
+        "identifier" : "OnboardingTests",
+        "name" : "OnboardingTests"
+      }
+    },
+    {
+      "target" : {
+        "containerPath" : "container:Modules\/Features\/MyPage",
+        "identifier" : "MyPageTests",
+        "name" : "MyPageTests"
+      }
+    },
+    {
+      "target" : {
+        "containerPath" : "container:Modules\/Features\/Daily",
+        "identifier" : "DailyTests",
+        "name" : "DailyTests"
+      }
+    },
+    {
+      "target" : {
+        "containerPath" : "container:Modules\/Features\/Account",
+        "identifier" : "AccountTests",
+        "name" : "AccountTests"
+      }
+    },
+    {
+      "target" : {
+        "containerPath" : "container:Modules\/Features\/Exam",
+        "identifier" : "ExamTests",
+        "name" : "ExamTests"
+      }
+    },
+    {
+      "enabled" : false,
+      "target" : {
+        "containerPath" : "container:Modules\/Core\/Network",
+        "identifier" : "NetworkTests",
+        "name" : "NetworkTests"
+      }
+    },
+    {
+      "target" : {
+        "containerPath" : "container:Modules\/Features\/Home",
+        "identifier" : "HomeTests",
+        "name" : "HomeTests"
+      }
+    },
+    {
+      "target" : {
+        "containerPath" : "container:Modules\/Features\/MistakeNote",
+        "identifier" : "MistakeNoteTests",
+        "name" : "MistakeNoteTests"
+      }
+    },
+    {
+      "target" : {
+        "containerPath" : "container:Modules\/Core\/ExamKit",
+        "identifier" : "ExamKitTests",
+        "name" : "ExamKitTests"
+      }
+    },
+    {
+      "target" : {
+        "containerPath" : "container:Modules\/Features\/Conceptbook",
+        "identifier" : "ConceptbookTests",
+        "name" : "ConceptbookTests"
+      }
+    }
+  ],
+  "version" : 1
+}

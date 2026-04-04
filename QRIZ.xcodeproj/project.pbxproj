@@ -13,6 +13,7 @@
 		B13774AD2ED9D7AF001A614D /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = B13774AC2ED9D7AF001A614D /* GoogleService-Info.plist */; };
 		B13BC2F22F56E3B500E99FA2 /* Auth in Frameworks */ = {isa = PBXBuildFile; productRef = B13BC2F32F56E3B500E99FA2 /* Auth */; };
 		B13BC73E2F58273500E99FA2 /* Conceptbook in Frameworks */ = {isa = PBXBuildFile; productRef = B13BC73F2F58273500E99FA2 /* Conceptbook */; };
+		B14441412F7FAEBE000C3292 /* QRIZ.xctestplan in Resources */ = {isa = PBXBuildFile; fileRef = B14441402F7FAEBE000C3292 /* QRIZ.xctestplan */; };
 		B1469DD72F79389B00D3BD39 /* Exam in Frameworks */ = {isa = PBXBuildFile; productRef = B1469DD62F79389B00D3BD39 /* Exam */; };
 		B14DF4E72F7652D1002F6177 /* Daily in Frameworks */ = {isa = PBXBuildFile; productRef = B14DF4E62F7652D1002F6177 /* Daily */; };
 		B17C0EC52F5AACD200C8219A /* Account in Frameworks */ = {isa = PBXBuildFile; productRef = B17C0EC42F5AACD200C8219A /* Account */; };
@@ -21,8 +22,8 @@
 		B1BDD0C72F4D26CD00834D57 /* DesignSystem in Frameworks */ = {isa = PBXBuildFile; productRef = B1BDD0C62F4D26CD00834D57 /* DesignSystem */; };
 		B1BDD0CA2F4D2A5200834D57 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B1BDD0C82F4D2A5200834D57 /* Assets.xcassets */; };
 		B1D7CE482F5EE18200E6C2CD /* MistakeNote in Frameworks */ = {isa = PBXBuildFile; productRef = B1D7CE492F5EE18200E6C2CD /* MistakeNote */; };
-		B1D813712D6E0C1F00A9D447 /* HomeCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1D813702D6E0C1F00A9D447 /* HomeCoordinator.swift */; };
 		B1D8137A2D768D9B00A9D447 /* AppCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1D813792D768D9B00A9D447 /* AppCoordinator.swift */; };
+		C1A2B3C52F79000200D3BD39 /* Home in Frameworks */ = {isa = PBXBuildFile; productRef = C1A2B3C62F79000300D3BD39 /* Home */; };
 		D52D2E306AD846D98D4E9CDF5B15473A /* ExamKit in Frameworks */ = {isa = PBXBuildFile; productRef = F4E578BDAC154F81A58E0781EEE6FBD1 /* ExamKit */; };
 		E23963092D083B900092B39B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E23963082D083B900092B39B /* AppDelegate.swift */; };
 		E239630B2D083B900092B39B /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E239630A2D083B900092B39B /* SceneDelegate.swift */; };
@@ -30,24 +31,12 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		A1B2C3D42F60000100AAAAAA /* MyPage */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = MyPage; path = Features/MyPage; sourceTree = "<group>"; };
-		B0C014955974425CB1F19F0D /* Onboarding */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = Onboarding; path = Features/Onboarding; sourceTree = "<group>"; };
 		B1004A992EC77C66000E4DE2 /* QRIZ.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = QRIZ.entitlements; sourceTree = "<group>"; };
 		B13774AC2ED9D7AF001A614D /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
-		B13BC2F12F56E3B500E99FA2 /* Auth */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = Auth; path = Features/Auth; sourceTree = "<group>"; };
-		B13BC73D2F58273500E99FA2 /* Conceptbook */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = Conceptbook; path = Features/Conceptbook; sourceTree = "<group>"; };
-		B1469DB02F79385E00D3BD39 /* Exam */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = Exam; path = Features/Exam; sourceTree = "<group>"; };
-		B17C0EC22F5AA88900C8219A /* Account */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = Account; path = Features/Account; sourceTree = "<group>"; };
-		B18CDFE62F46F93A00CB3AB4 /* Network */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = Network; path = Core/Network; sourceTree = "<group>"; };
+		B14441402F7FAEBE000C3292 /* QRIZ.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = QRIZ.xctestplan; sourceTree = "<group>"; };
 		B19C4FC42D6C226500CD008A /* TabBarCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarCoordinator.swift; sourceTree = "<group>"; };
-		B1BDD0C42F4CCC5300834D57 /* DesignSystem */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = DesignSystem; path = Core/DesignSystem; sourceTree = "<group>"; };
 		B1BDD0C82F4D2A5200834D57 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		B1BDD3572F4E459300834D57 /* ExamKit */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = ExamKit; path = Features/ExamKit; sourceTree = "<group>"; };
-		B1D7CE472F5EE18200E6C2CD /* MistakeNote */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = MistakeNote; path = Features/MistakeNote; sourceTree = "<group>"; };
-		B1D813702D6E0C1F00A9D447 /* HomeCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeCoordinator.swift; sourceTree = "<group>"; };
 		B1D813792D768D9B00A9D447 /* AppCoordinator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppCoordinator.swift; sourceTree = "<group>"; };
-		B1DB35912F76529B00FAB280 /* Daily */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = Daily; path = Features/Daily; sourceTree = "<group>"; };
-		B1DD53A52F45A85A00B60C85 /* QRIZUtils */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = QRIZUtils; path = Core/QRIZUtils; sourceTree = "<group>"; };
 		E23963052D083B8F0092B39B /* QRIZ.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = QRIZ.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E23963082D083B900092B39B /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		E239630A2D083B900092B39B /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -58,6 +47,25 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		B15AACE92F7F4F05009A266B /* PBXFileSystemSynchronizedBuildFileExceptionSet */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Core/Auth,
+				Core/DesignSystem,
+				Core/ExamKit,
+				Core/Network,
+				Core/QRIZUtils,
+				Features/Account,
+				Features/Conceptbook,
+				Features/Daily,
+				Features/Exam,
+				Features/Home,
+				Features/MistakeNote,
+				Features/MyPage,
+				Features/Onboarding,
+			);
+			target = E23963042D083B8F0092B39B /* QRIZ */;
+		};
 		B1872A172DB68F100050811C /* PBXFileSystemSynchronizedBuildFileExceptionSet */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
@@ -100,10 +108,8 @@
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		B127B6D52DECBE1A0048401F /* Splash */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Splash; sourceTree = "<group>"; };
+		B15AACE82F7F4F05009A266B /* Modules */ = {isa = PBXFileSystemSynchronizedRootGroup; exceptions = (B15AACE92F7F4F05009A266B /* PBXFileSystemSynchronizedBuildFileExceptionSet */, ); explicitFileTypes = {}; explicitFolders = (); path = Modules; sourceTree = "<group>"; };
 		B18729F32DB5E5FB0050811C /* PDF */ = {isa = PBXFileSystemSynchronizedRootGroup; exceptions = (B1872A172DB68F100050811C /* PBXFileSystemSynchronizedBuildFileExceptionSet */, ); explicitFileTypes = {}; explicitFolders = (); path = PDF; sourceTree = "<group>"; };
-		B190A2D92DBBC7C6008FDE86 /* View */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = View; sourceTree = "<group>"; };
-		B190A2EE2DC4EAAD008FDE86 /* ViewController */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = ViewController; sourceTree = "<group>"; };
-		B190A2EF2DC4EAC5008FDE86 /* ViewModel */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = ViewModel; sourceTree = "<group>"; };
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -112,6 +118,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				B14DF4E72F7652D1002F6177 /* Daily in Frameworks */,
+				C1A2B3C52F79000200D3BD39 /* Home in Frameworks */,
 				B12FEEEE2F46F98200280847 /* Network in Frameworks */,
 				E292211E2E05478C00B6DC0D /* FirebaseAnalyticsWithoutAdIdSupport in Frameworks */,
 				B1BDD0C72F4D26CD00834D57 /* DesignSystem in Frameworks */,
@@ -144,20 +151,8 @@
 			children = (
 				B127B6D52DECBE1A0048401F /* Splash */,
 				B19C4FC32D6C223E00CD008A /* TabBar */,
-				54DB0D972D0950A500ABD458 /* Home */,
 			);
 			path = Feature;
-			sourceTree = "<group>";
-		};
-		54DB0D972D0950A500ABD458 /* Home */ = {
-			isa = PBXGroup;
-			children = (
-				B190A2D92DBBC7C6008FDE86 /* View */,
-				B190A2EE2DC4EAAD008FDE86 /* ViewController */,
-				B190A2EF2DC4EAC5008FDE86 /* ViewModel */,
-				B1D813702D6E0C1F00A9D447 /* HomeCoordinator.swift */,
-			);
-			path = Home;
 			sourceTree = "<group>";
 		};
 		54DB0DA32D09524E00ABD458 /* SupportingFiles */ = {
@@ -167,39 +162,6 @@
 				B13774AC2ED9D7AF001A614D /* GoogleService-Info.plist */,
 			);
 			path = SupportingFiles;
-			sourceTree = "<group>";
-		};
-		AA000CORE2F0000000CORE001 /* Core */ = {
-			isa = PBXGroup;
-			children = (
-				B1BDD0C42F4CCC5300834D57 /* DesignSystem */,
-				B18CDFE62F46F93A00CB3AB4 /* Network */,
-				B1DD53A52F45A85A00B60C85 /* QRIZUtils */,
-			);
-			name = Core;
-			sourceTree = "<group>";
-		};
-		AA000FEAT2F0000000FEAT001 /* Features */ = {
-			isa = PBXGroup;
-			children = (
-				B17C0EC22F5AA88900C8219A /* Account */,
-				B13BC2F12F56E3B500E99FA2 /* Auth */,
-				B13BC73D2F58273500E99FA2 /* Conceptbook */,
-				B1BDD3572F4E459300834D57 /* ExamKit */,
-				B1D7CE472F5EE18200E6C2CD /* MistakeNote */,
-				A1B2C3D42F60000100AAAAAA /* MyPage */,
-				B0C014955974425CB1F19F0D /* Onboarding */,
-				B1DB35912F76529B00FAB280 /* Daily */,
-				B1469DB02F79385E00D3BD39 /* Exam */,
-			);
-			name = Features;
-			sourceTree = "<group>";
-		};
-		B17C0EC32F5AACD200C8219A /* Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			name = Frameworks;
 			sourceTree = "<group>";
 		};
 		B19C4FC32D6C223E00CD008A /* TabBar */ = {
@@ -214,6 +176,7 @@
 			isa = PBXGroup;
 			children = (
 				B1BDD0C82F4D2A5200834D57 /* Assets.xcassets */,
+				B18729F32DB5E5FB0050811C /* PDF */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -229,12 +192,10 @@
 		E23962FC2D083B8F0092B39B = {
 			isa = PBXGroup;
 			children = (
-				AA000CORE2F0000000CORE001 /* Core */,
-				AA000FEAT2F0000000FEAT001 /* Features */,
-				B18729F32DB5E5FB0050811C /* PDF */,
-				E26AF7042D918F97006E3252 /* XCConfig */,
+				B14441402F7FAEBE000C3292 /* QRIZ.xctestplan */,
 				E23963072D083B8F0092B39B /* QRIZ */,
-				B17C0EC32F5AACD200C8219A /* Frameworks */,
+				B15AACE82F7F4F05009A266B /* Modules */,
+				E26AF7042D918F97006E3252 /* XCConfig */,
 				E23963062D083B8F0092B39B /* Products */,
 			);
 			sourceTree = "<group>";
@@ -287,9 +248,7 @@
 			);
 			fileSystemSynchronizedGroups = (
 				B127B6D52DECBE1A0048401F /* Splash */,
-				B190A2D92DBBC7C6008FDE86 /* View */,
-				B190A2EE2DC4EAAD008FDE86 /* ViewController */,
-				B190A2EF2DC4EAC5008FDE86 /* ViewModel */,
+				B15AACE82F7F4F05009A266B /* Modules */,
 			);
 			name = QRIZ;
 			packageProductDependencies = (
@@ -305,6 +264,7 @@
 				A1B2C3D62F60000300AAAAAA /* MyPage */,
 				E9849FEE34F04512AEA4EBE2 /* Onboarding */,
 				B14DF4E62F7652D1002F6177 /* Daily */,
+				C1A2B3C62F79000300D3BD39 /* Home */,
 				B1469DD62F79389B00D3BD39 /* Exam */,
 			);
 			productName = QRIZ;
@@ -354,6 +314,7 @@
 			files = (
 				B13774AD2ED9D7AF001A614D /* GoogleService-Info.plist in Resources */,
 				B1BDD0CA2F4D2A5200834D57 /* Assets.xcassets in Resources */,
+				B14441412F7FAEBE000C3292 /* QRIZ.xctestplan in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -365,7 +326,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				B1D8137A2D768D9B00A9D447 /* AppCoordinator.swift in Sources */,
-				B1D813712D6E0C1F00A9D447 /* HomeCoordinator.swift in Sources */,
 				E23963092D083B900092B39B /* AppDelegate.swift in Sources */,
 				B19C4FC52D6C226500CD008A /* TabBarCoordinator.swift in Sources */,
 				E239630B2D083B900092B39B /* SceneDelegate.swift in Sources */,
@@ -642,6 +602,10 @@
 		B1D7CE492F5EE18200E6C2CD /* MistakeNote */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = MistakeNote;
+		};
+		C1A2B3C62F79000300D3BD39 /* Home */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = Home;
 		};
 		E292211D2E05478C00B6DC0D /* FirebaseAnalyticsWithoutAdIdSupport */ = {
 			isa = XCSwiftPackageProductDependency;
