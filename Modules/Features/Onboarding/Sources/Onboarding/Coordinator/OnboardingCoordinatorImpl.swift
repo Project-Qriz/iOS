@@ -54,6 +54,7 @@ final class OnboardingCoordinatorImpl: OnboardingNavigating, NavigationGuard {
         guardNavigation {
             let vm = BeginOnboardingViewModel(onNavigate: { [weak self] in self?.showCheckConcept() })
             let vc = UIHostingController(rootView: BeginOnboardingView(viewModel: vm))
+            vc.hidesBottomBarWhenPushed = true
             navigationController.pushViewController(vc, animated: true)
         }
     }
@@ -78,6 +79,7 @@ final class OnboardingCoordinatorImpl: OnboardingNavigating, NavigationGuard {
         guardNavigation {
             let vm = BeginPreviewTestViewModel(onNavigate: { [weak self] in self?.showPreviewTest() })
             let vc = UIHostingController(rootView: BeginPreviewTestView(viewModel: vm))
+            vc.hidesBottomBarWhenPushed = true
             navigationController.pushViewController(vc, animated: true)
         }
     }
