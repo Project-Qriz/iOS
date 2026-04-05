@@ -1,19 +1,14 @@
 import SwiftUI
 import DesignSystem
+import Network
+import QRIZUtils
 
 struct CheckConceptView: View {
 
     // MARK: - Properties
 
     @ObservedObject var viewModel: CheckConceptViewModel
-    @State private var expandedSections: Set<Int>
-
-    // MARK: - Initializer
-
-    init(viewModel: CheckConceptViewModel) {
-        self.viewModel = viewModel
-        _expandedSections = State(initialValue: Set(0..<viewModel.sections.count))
-    }
+    @State private var isExpanded: Bool = true
 
     // MARK: - Body
 
@@ -66,11 +61,11 @@ private extension CheckConceptView {
     var clearAllButton: some View {
         Button(action: { viewModel.didTapNone() }) {
             HStack {
-                Image(systemName: viewModel.selectedSet.isEmpty ? "checkmark.square.fill" : "square")
-                    .foregroundColor(viewModel.selectedSet.isEmpty ? Color.customBlue500 : Color.coolNeutral400)
-                    .font(.system(size: 20))
-                Text("전체 해제")
-                    .font(.system(size: 14))
+                Image(uiImage: viewModel.selectedSet.isEmpty ? .checkboxOnIcon : .checkboxOffIcon)
+                    .resizable()
+                    .frame(width: 24, height: 24)
+                Text("모든 개념을 처음 봐요")
+                    .font(.system(size: 16, weight: .medium))
                     .foregroundColor(Color.coolNeutral800)
                 Spacer()
             }
@@ -86,7 +81,7 @@ private extension CheckConceptView {
     var divider: some View {
         Divider()
             .background(Color.customBlue100)
-            .frame(height: 2)
+            .frame(height: 1)
             .padding(.horizontal, 18)
             .padding(.top, 16)
     }
@@ -95,63 +90,46 @@ private extension CheckConceptView {
         HStack {
             Button(action: { viewModel.didTapAll() }) {
                 HStack(spacing: 12) {
-                    Image(systemName: viewModel.isAllSelected ? "checkmark.square.fill" : "square")
-                        .foregroundColor(viewModel.isAllSelected ? Color.customBlue500 : Color.coolNeutral400)
-                        .font(.system(size: 20))
-                    Text("전체 선택")
-                        .font(.system(size: 14))
+                    Image(uiImage: viewModel.isAllSelected ? .checkboxOnIcon : (viewModel.selectedSet.isEmpty ? .checkboxOffIcon : .checkboxSomeIcon))
+                        .resizable()
+                        .frame(width: 24, height: 24)
+                    Text("전부 아는 개념이에요!")
+                        .font(.system(size: 16, weight: .medium))
                         .foregroundColor(Color.coolNeutral800)
                     Spacer()
                 }
             }
             .buttonStyle(.plain)
 
-            Button(action: { toggleAllSections() }) {
-                Image(systemName: expandedSections.isEmpty ? "chevron.down" : "chevron.up")
+            Button(action: { isExpanded.toggle() }) {
+                Image(systemName: isExpanded ? "chevron.up" : "chevron.down")
                     .foregroundColor(Color.coolNeutral600)
                     .font(.system(size: 16))
                     .frame(width: 40, height: 40)
             }
         }
-        .padding(.horizontal, 18)
+        .padding(.horizontal, 16)
         .frame(height: 60)
-        .padding(.top, 16)
+        .background(Color.white)
+        .padding(.horizontal, 18)
+        .padding(.vertical, 16)
     }
 
     var conceptList: some View {
         ScrollView {
-            LazyVStack(spacing: 0) {
-                ForEach(viewModel.sections.indices, id: \.self) { sectionIdx in
-                    let section = viewModel.sections[sectionIdx]
-                    DisclosureGroup(
-                        isExpanded: Binding(
-                            get: { expandedSections.contains(sectionIdx) },
-                            set: { expanded in
-                                if expanded { expandedSections.insert(sectionIdx) }
-                                else { expandedSections.remove(sectionIdx) }
-                            }
-                        ),
-                        content: {
-                            ForEach(section.range, id: \.self) { globalIdx in
-                                ConceptRowView(
-                                    title: viewModel.title(for: globalIdx),
-                                    isSelected: viewModel.selectedSet.contains(globalIdx),
-                                    action: { viewModel.didTapConcept(at: globalIdx) }
-                                )
-                            }
-                        },
-                        label: {
-                            Text(section.title)
-                                .font(.system(size: 14, weight: .medium))
-                                .foregroundColor(Color.coolNeutral700)
-                                .padding(.leading, 24)
-                        }
-                    )
-                    .padding(.horizontal, 18)
-                    .accentColor(Color.coolNeutral600)
+            if isExpanded {
+                LazyVStack(spacing: 0) {
+                    ForEach(viewModel.allConceptIndices, id: \.self) { idx in
+                        ConceptRowView(
+                            title: viewModel.title(for: idx),
+                            isSelected: viewModel.selectedSet.contains(idx),
+                            action: { viewModel.didTapConcept(at: idx) }
+                        )
+                    }
                 }
+                .padding(.leading, 30)
+                .padding(.bottom, 80)
             }
-            .padding(.bottom, 80)
         }
         .background(Color.customBlue50)
     }
@@ -180,15 +158,20 @@ private extension CheckConceptView {
     }
 }
 
-// MARK: - Private Methods
+// MARK: - Preview
 
-private extension CheckConceptView {
+private struct PreviewOnboardingService: OnboardingService {
+    func sendSurvey(keyConcepts: [String]) async throws {}
+    func getPreviewTestList() async throws -> PreviewTestListResponse { fatalError() }
+    func submitPreview(testSubmitDataList: [TestSubmitData]) async throws -> PreviewSubmitResponse { fatalError() }
+    func analyzePreview() async throws -> AnalyzePreviewResponse { fatalError() }
+}
 
-    func toggleAllSections() {
-        if expandedSections.isEmpty {
-            expandedSections = Set(0..<viewModel.sections.count)
-        } else {
-            expandedSections.removeAll()
-        }
-    }
+#Preview {
+    CheckConceptView(
+        viewModel: CheckConceptViewModel(
+            onboardingService: PreviewOnboardingService(),
+            onNavigate: { _ in }
+        )
+    )
 }

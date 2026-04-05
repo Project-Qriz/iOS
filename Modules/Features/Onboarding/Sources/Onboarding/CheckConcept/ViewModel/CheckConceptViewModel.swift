@@ -29,6 +29,10 @@ final class CheckConceptViewModel: ObservableObject {
         selectedSet.count == totalConceptCount
     }
 
+    var allConceptIndices: Range<Int> {
+        0..<totalConceptCount
+    }
+
     private let onNavigate: (CheckConceptNavigation) -> Void
     private let onboardingService: OnboardingService
 
