@@ -61,6 +61,16 @@ final class PreviewTestViewController: UIViewController {
         setAlertButtonActions()
         input.send(.viewDidLoad)
     }
+
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        navigationController?.setNavigationBarHidden(false, animated: animated)
+    }
+
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        navigationController?.setNavigationBarHidden(true, animated: animated)
+    }
 }
 
 // MARK: - Bind
@@ -106,7 +116,6 @@ private extension PreviewTestViewController {
     }
 
     func setNavigationItem() {
-        navigationController?.navigationBar.isHidden = false
         previewTestView.cancelButton.addAction(UIAction { [weak self] _ in
             self?.input.send(.escapeTapped)
         }, for: .touchUpInside)
