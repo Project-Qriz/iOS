@@ -8,28 +8,56 @@ import Combine
 import QRIZUtils
 import DesignSystem
 
-public final class TestContentsView: UIStackView {
+public final class TestContentsView: UIView {
 
     // MARK: - Properties
 
+    private let optionTappedSubject = PassthroughSubject<Int, Never>()
+
+    public var optionTappedPublisher: AnyPublisher<Int, Never> {
+        optionTappedSubject.eraseToAnyPublisher()
+    }
+
+    // MARK: - UI
+
+    private let outerStackView: UIStackView = {
+        let sv = UIStackView()
+        sv.axis = .vertical
+        sv.spacing = 12
+        return sv
+    }()
+
+    private let questionCardView: UIView = {
+        let view = UIView()
+        view.backgroundColor = .customBlue50
+        view.layer.cornerRadius = 16
+        return view
+    }()
+
+    private let questionStackView: UIStackView = {
+        let sv = UIStackView()
+        sv.axis = .vertical
+        return sv
+    }()
+
     private let numberLabel: UILabel = {
         let label = UILabel()
-        label.textColor = .black
-        label.font = .boldSystemFont(ofSize: 20)
+        label.textColor = .customBlue500
+        label.font = .systemFont(ofSize: 16, weight: .bold)
         return label
     }()
 
     private let titleLabel: UILabel = {
         let label = UILabel()
-        label.textAlignment = .left
         label.numberOfLines = 0
-        label.textColor = .black
-        label.font = .systemFont(ofSize: 16, weight: .medium)
+        label.textColor = .coolNeutral800
+        label.font = .systemFont(ofSize: 18, weight: .bold)
         return label
     }()
 
     private let descriptionView: UIView = {
         let view = UIView()
+        view.backgroundColor = .white
         view.layer.cornerRadius = 8
         view.layer.masksToBounds = true
         view.layer.borderWidth = 1
@@ -40,34 +68,23 @@ public final class TestContentsView: UIStackView {
     private let descriptionLabel: UILabel = {
         let label = UILabel()
         label.numberOfLines = 0
-        label.textAlignment = .left
         label.font = .systemFont(ofSize: 12, weight: .medium)
-        label.textColor = .black
+        label.textColor = .coolNeutral700
         return label
     }()
 
-    private let optionLabels: [QuestionOptionLabel] = (1...4).map {
-        let option = QuestionOptionLabel(number: $0)
-        option.tag = $0
-        return option
-    }
-
-    private let optionTappedSubject: PassthroughSubject<Int, Never> = .init()
-    public var optionTappedPublisher: AnyPublisher<Int, Never> {
-        optionTappedSubject.eraseToAnyPublisher()
-    }
+    private let optionLabels: [QuestionOptionLabel] = (1...4).map { QuestionOptionLabel(number: $0) }
 
     // MARK: - Initialization
 
     public init() {
         super.init(frame: .zero)
-        setupUI()
         addSubviews()
-        setupConstraints()
         setupOptionGestures()
+        setupConstraints()
     }
 
-    required init(coder: NSCoder) {
+    required init?(coder: NSCoder) {
         fatalError("no initializer for coder: TestContentsView")
     }
 
@@ -75,17 +92,12 @@ public final class TestContentsView: UIStackView {
 
     public func updateQuestion(_ question: QuestionData) {
         numberLabel.text = String(format: "%02d.", question.questionNumber)
-        titleLabel.attributedText = lineSpaced(question.question)
-        if let description = question.description {
-            descriptionView.isHidden = false
-            descriptionLabel.attributedText = lineSpaced(description)
-        } else {
-            descriptionView.isHidden = true
-        }
-        let options = [question.option1, question.option2, question.option3, question.option4]
-        optionLabels.forEach {
-            $0.setOptionState(isSelected: false)
-            $0.setOptionString(options[$0.tag - 1])
+        titleLabel.attributedText = NSAttributedString(text: question.question, lineSpacing: 4)
+        descriptionView.isHidden = question.description == nil
+        descriptionLabel.attributedText = question.description.map { NSAttributedString(text: $0, lineSpacing: 4) }
+        optionLabels.enumerated().forEach { index, label in
+            label.setOptionState(isSelected: false)
+            label.setOptionString(question.getOptionRawValue(option: index + 1))
         }
     }
 
@@ -93,59 +105,51 @@ public final class TestContentsView: UIStackView {
         optionLabels[index - 1].setOptionState(isSelected: isSelected)
     }
 
-    private func setupUI() {
-        axis = .vertical
-        alignment = .fill
-        isLayoutMarginsRelativeArrangement = true
-        layoutMargins = UIEdgeInsets(top: 35, left: 0, bottom: 35, right: 0)
-    }
-
-    private func lineSpaced(_ text: String) -> NSMutableAttributedString {
-        let paragraphStyle = NSMutableParagraphStyle()
-        paragraphStyle.lineSpacing = 4
-        let attributed = NSMutableAttributedString(string: text)
-        attributed.addAttribute(.paragraphStyle, value: paragraphStyle, range: NSRange(location: 0, length: attributed.length))
-        return attributed
-    }
-
     private func setupOptionGestures() {
-        optionLabels.forEach {
-            $0.isUserInteractionEnabled = true
-            $0.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(optionTapped(_:))))
+        optionLabels.enumerated().forEach { index, label in
+            label.onTap = { [weak self] in
+                self?.optionTappedSubject.send(index + 1)
+            }
         }
-    }
-
-    @objc private func optionTapped(_ sender: UITapGestureRecognizer) {
-        guard let index = sender.view?.tag else { return }
-        optionTappedSubject.send(index)
     }
 }
 
-// MARK: - Layout
+// MARK: - Layout Setup
 
 extension TestContentsView {
     private func addSubviews() {
-        addArrangedSubview(numberLabel)
-        addArrangedSubview(titleLabel)
-        addArrangedSubview(descriptionView)
+        addSubview(outerStackView)
+        outerStackView.addArrangedSubview(questionCardView)
+        questionCardView.addSubview(questionStackView)
+        [numberLabel, titleLabel, descriptionView].forEach { questionStackView.addArrangedSubview($0) }
         descriptionView.addSubview(descriptionLabel)
-        for option in optionLabels {
-            addArrangedSubview(option)
-        }
+        optionLabels.forEach { outerStackView.addArrangedSubview($0) }
+
+        questionStackView.setCustomSpacing(8, after: numberLabel)
+        questionStackView.setCustomSpacing(16, after: titleLabel)
     }
 
     private func setupConstraints() {
+        outerStackView.translatesAutoresizingMaskIntoConstraints = false
+        questionStackView.translatesAutoresizingMaskIntoConstraints = false
         descriptionLabel.translatesAutoresizingMaskIntoConstraints = false
 
         NSLayoutConstraint.activate([
+            outerStackView.topAnchor.constraint(equalTo: topAnchor),
+            outerStackView.leadingAnchor.constraint(equalTo: leadingAnchor),
+            outerStackView.trailingAnchor.constraint(equalTo: trailingAnchor),
+            outerStackView.bottomAnchor.constraint(equalTo: bottomAnchor),
+
+            questionStackView.topAnchor.constraint(equalTo: questionCardView.topAnchor, constant: 24),
+            questionStackView.leadingAnchor.constraint(equalTo: questionCardView.leadingAnchor, constant: 24),
+            questionStackView.trailingAnchor.constraint(equalTo: questionCardView.trailingAnchor, constant: -24),
+            questionStackView.bottomAnchor.constraint(equalTo: questionCardView.bottomAnchor, constant: -24),
+
+            descriptionLabel.topAnchor.constraint(equalTo: descriptionView.topAnchor, constant: 16),
             descriptionLabel.leadingAnchor.constraint(equalTo: descriptionView.leadingAnchor, constant: 16),
             descriptionLabel.trailingAnchor.constraint(equalTo: descriptionView.trailingAnchor, constant: -16),
-            descriptionLabel.topAnchor.constraint(equalTo: descriptionView.topAnchor, constant: 16),
-            descriptionLabel.bottomAnchor.constraint(equalTo: descriptionView.bottomAnchor, constant: -16)
+            descriptionLabel.bottomAnchor.constraint(equalTo: descriptionView.bottomAnchor, constant: -16),
         ])
-
-        setCustomSpacing(14, after: numberLabel)
-        setCustomSpacing(14, after: titleLabel)
-        setCustomSpacing(16, after: descriptionView)
     }
 }
+
