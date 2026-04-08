@@ -129,8 +129,8 @@ extension DailyTestView {
 
             contentsView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor),
             contentsView.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor),
-            contentsView.topAnchor.constraint(equalTo: scrollView.topAnchor),
-            contentsView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor),
+            contentsView.topAnchor.constraint(equalTo: scrollView.topAnchor, constant: 32),
+            contentsView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor, constant: -32),
             contentsView.widthAnchor.constraint(equalTo: scrollView.widthAnchor),
         ])
     }
