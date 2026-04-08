@@ -13,11 +13,11 @@ public protocol AnalyticsService: Sendable {
 @MainActor
 public final class AnalyticsManager: AnalyticsService {
 
-    public static let shared = AnalyticsManager()
+    public nonisolated static let shared = AnalyticsManager()
 
     private var service: (any AnalyticsService)?
 
-    private init() {}
+    private nonisolated init() {}
 
     public func configure(service: any AnalyticsService) {
         self.service = service
