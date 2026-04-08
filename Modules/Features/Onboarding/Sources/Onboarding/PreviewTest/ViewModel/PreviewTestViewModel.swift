@@ -26,7 +26,7 @@ final class PreviewTestViewModel {
     }
 
     enum Output {
-        case updateQuestion(question: PreviewTestListQuestion, curNum: Int, selectedOption: Int?)
+        case updateQuestion(question: QuestionData, selectedOption: Int?)
         case updateTotalNum(Int)
         case updateTime(timeLimit: Int, timeRemaining: Int)
         case updateOptionState(idx: Int, isSelected: Bool)
@@ -137,8 +137,7 @@ private extension PreviewTestViewModel {
         let selectedOption = questions[currentIndex].selectedOptionIdx
 
         output.send(.updateQuestion(
-            question: questions[currentIndex].data,
-            curNum: currentIndex + 1,
+            question: toQuestionData(from: questions[currentIndex].data, questionNumber: currentIndex + 1),
             selectedOption: selectedOption
         ))
         sendButtonStates(index: currentIndex, selectedOption: selectedOption)
@@ -164,7 +163,7 @@ private extension PreviewTestViewModel {
             questions = rawQuestions.map { PreviewQuestion(data: $0) }
 
             output.send(.updateTotalNum(rawQuestions.count))
-            output.send(.updateQuestion(question: questions[0].data, curNum: 1, selectedOption: nil))
+            output.send(.updateQuestion(question: toQuestionData(from: questions[0].data, questionNumber: 1), selectedOption: nil))
             sendButtonStates(index: 0, selectedOption: nil)
 
             let totalTimeLimit = response.data.totalTimeLimit
@@ -185,6 +184,20 @@ private extension PreviewTestViewModel {
         } catch {
             output.send(.showError("문제 불러오기 실패"))
         }
+    }
+
+    func toQuestionData(from question: PreviewTestListQuestion, questionNumber: Int) -> QuestionData {
+        QuestionData(
+            question: question.question,
+            option1: question.options[0].content,
+            option2: question.options[1].content,
+            option3: question.options[2].content,
+            option4: question.options[3].content,
+            timeLimit: question.timeLimit,
+            questionNumber: questionNumber,
+            description: question.description,
+            skillId: question.skillId
+        )
     }
 
     func submit() async {
