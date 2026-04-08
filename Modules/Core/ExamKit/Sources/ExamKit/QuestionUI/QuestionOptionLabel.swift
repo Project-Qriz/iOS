@@ -5,6 +5,7 @@
 
 import UIKit
 import DesignSystem
+import QRIZUtils
 
 public final class QuestionOptionLabel: UIView {
 
@@ -12,32 +13,33 @@ public final class QuestionOptionLabel: UIView {
 
     private let optionNumberLabel: UILabel = {
         let label = UILabel()
+        label.font = .systemFont(ofSize: 14, weight: .bold)
         label.textAlignment = .center
-        label.font = .boldSystemFont(ofSize: 16)
-        label.numberOfLines = 1
         label.layer.masksToBounds = true
-        label.layer.cornerRadius = 20
-        label.layer.borderColor = UIColor.coolNeutral700.cgColor
+        label.layer.cornerRadius = 4
         return label
     }()
 
     private let optionStringLabel: UILabel = {
         let label = UILabel()
-        label.textAlignment = .left
-        label.textColor = .coolNeutral700
         label.font = .systemFont(ofSize: 16, weight: .regular)
+        label.textColor = .coolNeutral800
         label.numberOfLines = 0
         return label
     }()
+
+    var onTap: (() -> Void)?
 
     // MARK: - Initialization
 
     public init(number: Int) {
         super.init(frame: .zero)
         optionNumberLabel.text = "\(number)"
-        setOptionState(isSelected: false)
+        setupUI()
         addSubviews()
         setupConstraints()
+        setOptionState(isSelected: false)
+        addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(handleTap)))
     }
 
     required init?(coder: NSCoder) {
@@ -46,35 +48,29 @@ public final class QuestionOptionLabel: UIView {
 
     // MARK: - Methods
 
+    private func setupUI() {
+        layer.cornerRadius = 16
+        layer.borderWidth = 1
+    }
+
     public func setOptionString(_ str: String) {
-        optionStringLabel.attributedText = formattedText(str)
+        optionStringLabel.attributedText = NSAttributedString(text: str, lineSpacing: 8)
     }
 
     public func setOptionState(isSelected: Bool) {
-        if isSelected {
-            backgroundColor = .customBlue500.withAlphaComponent(0.14)
-            optionNumberLabel.backgroundColor = .customBlue500
-            optionNumberLabel.textColor = .white
-            optionNumberLabel.layer.borderWidth = 0
-        } else {
-            backgroundColor = .white
-            optionNumberLabel.backgroundColor = .white
-            optionNumberLabel.textColor = .coolNeutral700
-            optionNumberLabel.layer.borderWidth = 1.2
-        }
+        let tint: UIColor = isSelected ? .customBlue500 : .coolNeutral100
+        backgroundColor = isSelected ? .customBlue500.withAlphaComponent(0.14) : .white
+        layer.borderColor = tint.cgColor
+        optionNumberLabel.backgroundColor = tint
+        optionNumberLabel.textColor = isSelected ? .white : .coolNeutral400
     }
 
-    private func formattedText(_ text: String) -> NSAttributedString {
-        let attributed = NSMutableAttributedString(string: text)
-        let paragraphStyle = NSMutableParagraphStyle()
-        paragraphStyle.lineBreakMode = .byTruncatingTail
-        paragraphStyle.lineSpacing = 8
-        attributed.addAttribute(.paragraphStyle, value: paragraphStyle, range: NSRange(location: 0, length: attributed.length))
-        return attributed
+    @objc private func handleTap() {
+        onTap?()
     }
 }
 
-// MARK: - Layout
+// MARK: - Layout Setup
 
 extension QuestionOptionLabel {
     private func addSubviews() {
@@ -87,15 +83,17 @@ extension QuestionOptionLabel {
         optionStringLabel.translatesAutoresizingMaskIntoConstraints = false
 
         NSLayoutConstraint.activate([
-            optionNumberLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 8),
-            optionNumberLabel.widthAnchor.constraint(equalToConstant: 40),
+            optionNumberLabel.topAnchor.constraint(equalTo: topAnchor, constant: 24),
+            optionNumberLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 24),
+            optionNumberLabel.widthAnchor.constraint(equalToConstant: 32),
             optionNumberLabel.heightAnchor.constraint(equalTo: optionNumberLabel.widthAnchor),
-            optionNumberLabel.centerYAnchor.constraint(equalTo: centerYAnchor),
 
+            optionStringLabel.topAnchor.constraint(equalTo: topAnchor, constant: 24),
             optionStringLabel.leadingAnchor.constraint(equalTo: optionNumberLabel.trailingAnchor, constant: 16),
-            optionStringLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -8),
-            optionStringLabel.topAnchor.constraint(equalTo: topAnchor, constant: 16),
-            optionStringLabel.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -16)
+            optionStringLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -24),
+            optionStringLabel.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -24),
+
+            heightAnchor.constraint(greaterThanOrEqualToConstant: 80),
         ])
     }
 }
