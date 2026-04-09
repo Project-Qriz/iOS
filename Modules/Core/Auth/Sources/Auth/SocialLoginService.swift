@@ -41,7 +41,7 @@ public final class SocialLoginServiceImpl: NSObject, SocialLoginService {
     }
 
     public func logoutKakao() async throws {
-        try await kakaoVoidCallback { UserApi.shared.logout(completion: $0) }
+        try? await kakaoVoidCallback { UserApi.shared.logout(completion: $0) }
         try await serverLogout()
     }
 
