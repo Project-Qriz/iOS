@@ -68,7 +68,6 @@ final class DeleteAccountViewModel {
     private func deleteByProvider(_ provider: SocialLogin) async throws {
         switch provider {
         case .kakao:
-            try await socialLoginService.unlinkKakao()
             _ = try await myPageService.deleteSocialAccount(socialLoginType: .kakao)
         case .google:
             _ = try await myPageService.deleteSocialAccount(socialLoginType: .google)
