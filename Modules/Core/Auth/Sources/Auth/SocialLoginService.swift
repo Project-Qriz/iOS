@@ -3,7 +3,6 @@
 //  Auth
 //
 
-import UIKit
 import KakaoSDKCommon
 import KakaoSDKAuth
 import KakaoSDKUser
