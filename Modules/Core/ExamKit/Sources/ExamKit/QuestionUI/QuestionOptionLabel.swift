@@ -54,7 +54,7 @@ public final class QuestionOptionLabel: UIView {
     }
 
     public func setOptionString(_ str: String) {
-        optionStringLabel.attributedText = NSAttributedString(text: str, lineSpacing: 8)
+        optionStringLabel.attributedText = NSAttributedString(text: str, lineSpacing: 6)
     }
 
     public func setOptionState(isSelected: Bool) {
@@ -88,7 +88,7 @@ extension QuestionOptionLabel {
             optionNumberLabel.widthAnchor.constraint(equalToConstant: 32),
             optionNumberLabel.heightAnchor.constraint(equalTo: optionNumberLabel.widthAnchor),
 
-            optionStringLabel.topAnchor.constraint(equalTo: topAnchor, constant: 24),
+            optionStringLabel.topAnchor.constraint(equalTo: optionNumberLabel.topAnchor),
             optionStringLabel.leadingAnchor.constraint(equalTo: optionNumberLabel.trailingAnchor, constant: 16),
             optionStringLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -24),
             optionStringLabel.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -24),
