@@ -42,7 +42,13 @@ final class ExamTestViewController: UIViewController {
         bind()
         setupNavigationItems()
         setupAlertButtonActions()
+        AnalyticsManager.shared.log(.screenView(.examTest))
         inputSubject.send(.viewDidLoad)
+    }
+
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        navigationController?.setNavigationBarHidden(false, animated: animated)
     }
 
     override func viewDidAppear(_ animated: Bool) {

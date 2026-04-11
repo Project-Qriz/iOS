@@ -17,7 +17,7 @@ public enum NetworkError: Error, Sendable {
     /// 클라이언트 에러
     case clientError(httpStatus: Int, serverCode: Int?, message: String)
     /// 서버 에러
-    case serverError
+    case serverError(httpStatus: Int)
     /// 알 수 없는 에러
     case unknownError
 }
@@ -33,7 +33,7 @@ extension NetworkError {
             return "접근 권한이 없습니다. detailCode: \(detail.map(String.init) ?? "nil")"
         case .clientError(let httpStatus, let serverCode, let message):
             return "HTTP \(httpStatus), 서버 코드: \(serverCode.map(String.init) ?? "nil"), 메시지: \(message)"
-        case .serverError: return "서버 에러."
+        case .serverError(let httpStatus): return "HTTP \(httpStatus) 서버 에러."
         case .unknownError: return "알 수 없는 오류입니다."
         }
     }

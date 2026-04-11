@@ -56,10 +56,14 @@ final class PreviewTestViewController: UIViewController {
         super.viewDidLoad()
         bind()
         setNavigationItem()
-        setOptionActions()
         setButtonActions()
         setAlertButtonActions()
         input.send(.viewDidLoad)
+    }
+
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        navigationController?.setNavigationBarHidden(false, animated: animated)
     }
 }
 
@@ -75,15 +79,14 @@ private extension PreviewTestViewController {
             .sink { [weak self] event in
                 guard let self else { return }
                 switch event {
-                case .updateQuestion(let question, let curNum, let selectedOption):
-                    updateQuestionUI(question: question, curNum: curNum, selectedOption: selectedOption)
+                case .updateQuestion(let question, let selectedOption):
+                    updateQuestionUI(question: question, selectedOption: selectedOption)
                 case .updateTotalNum(let num):
                     totalNum = num
                 case .updateTime(let timeLimit, let timeRemaining):
-                    previewTestView.progressView.progress = Float(timeRemaining) / Float(timeLimit)
-                    previewTestView.timeLabel.text = timeRemaining.formattedTime
+                    previewTestView.updateProgress(timeLimit: timeLimit, timeRemaining: timeRemaining)
                 case .updateOptionState(let idx, let isSelected):
-                    setOptionState(idx: idx, isSelected: isSelected)
+                    previewTestView.updateOptionState(at: idx, isSelected: isSelected)
                 case .updateButtonStates(let prevHidden, let nextHidden, let nextTitle):
                     previewTestView.previousButton.isHidden = prevHidden
                     previewTestView.nextButton.isHidden = nextHidden
@@ -103,10 +106,13 @@ private extension PreviewTestViewController {
                 }
             }
             .store(in: &cancellables)
+
+        previewTestView.optionTappedPublisher
+            .sink { [weak self] idx in self?.input.send(.optionTapped(idx)) }
+            .store(in: &cancellables)
     }
 
     func setNavigationItem() {
-        navigationController?.navigationBar.isHidden = false
         previewTestView.cancelButton.addAction(UIAction { [weak self] _ in
             self?.input.send(.escapeTapped)
         }, for: .touchUpInside)
@@ -128,53 +134,11 @@ private extension PreviewTestViewController {
         )
     }
 
-    func updateQuestionUI(question: PreviewTestListQuestion, curNum: Int, selectedOption: Int?) {
-        previewTestView.questionNumberLabel.text = String(format: "%02d.", curNum)
-        previewTestView.questionTitleLabel.attributedText = NSAttributedString(text: question.question, lineSpacing: 4)
-        setOptionsString(question.options.map(\.content))
-        resetOptionStates()
-        if let selectedOption { setOptionState(idx: selectedOption, isSelected: true) }
-        previewTestView.pageIndicatorLabel.setCurrentPage(curNum)
+    func updateQuestionUI(question: QuestionData, selectedOption: Int?) {
+        previewTestView.updateQuestion(question)
+        if let selectedOption { previewTestView.updateOptionState(at: selectedOption, isSelected: true) }
+        previewTestView.pageIndicatorLabel.setCurrentPage(question.questionNumber)
         previewTestView.pageIndicatorLabel.setTotalPage(totalNum)
-    }
-}
-
-// MARK: - Options
-
-private extension PreviewTestViewController {
-
-    func setOptionsString(_ options: [String]) {
-        zip(previewTestView.optionLabels, options).forEach { label, content in
-            label.setOptionString(content)
-        }
-    }
-
-    func resetOptionStates() {
-        previewTestView.optionLabels.forEach { $0.setOptionState(isSelected: false) }
-    }
-
-    func setOptionActions() {
-        for (index, optionLabel) in previewTestView.optionLabels.enumerated() {
-            optionLabel.isUserInteractionEnabled = true
-            optionLabel.tag = index + 1
-            optionLabel.addGestureRecognizer(
-                UITapGestureRecognizer(target: self, action: #selector(didTapOption(_:)))
-            )
-        }
-    }
-
-    @objc func didTapOption(_ sender: UITapGestureRecognizer) {
-        guard let idx = sender.view?.tag else { return }
-        input.send(.optionTapped(idx))
-    }
-
-    func setOptionState(idx: Int, isSelected: Bool) {
-        switch idx {
-        case 1...4:
-            previewTestView.optionLabels[idx - 1].setOptionState(isSelected: isSelected)
-        default:
-            assertionFailure("Invalid option index: \(idx)")
-        }
     }
 }
 

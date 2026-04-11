@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0A324B4B8A914F5EA2863B85 /* AnalyticsServiceImpl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E475CE9FBD3489798BF0A58 /* AnalyticsServiceImpl.swift */; };
 		2F7A758592D8472A94299C4B /* Onboarding in Frameworks */ = {isa = PBXBuildFile; productRef = E9849FEE34F04512AEA4EBE2 /* Onboarding */; };
 		A1B2C3D52F60000200AAAAAA /* MyPage in Frameworks */ = {isa = PBXBuildFile; productRef = A1B2C3D62F60000300AAAAAA /* MyPage */; };
 		B12FEEEE2F46F98200280847 /* Network in Frameworks */ = {isa = PBXBuildFile; productRef = B12FEEED2F46F98200280847 /* Network */; };
@@ -31,6 +32,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		1E475CE9FBD3489798BF0A58 /* AnalyticsServiceImpl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnalyticsServiceImpl.swift; sourceTree = "<group>"; };
 		B1004A992EC77C66000E4DE2 /* QRIZ.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = QRIZ.entitlements; sourceTree = "<group>"; };
 		B13774AC2ED9D7AF001A614D /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		B14441402F7FAEBE000C3292 /* QRIZ.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = QRIZ.xctestplan; sourceTree = "<group>"; };
@@ -164,6 +166,14 @@
 			path = SupportingFiles;
 			sourceTree = "<group>";
 		};
+		AD15A98404AC40C1B033C972 /* Utils */ = {
+			isa = PBXGroup;
+			children = (
+				1E475CE9FBD3489798BF0A58 /* AnalyticsServiceImpl.swift */,
+			);
+			path = Utils;
+			sourceTree = "<group>";
+		};
 		B19C4FC32D6C223E00CD008A /* TabBar */ = {
 			isa = PBXGroup;
 			children = (
@@ -215,6 +225,7 @@
 				54DB0D952D094FAA00ABD458 /* App */,
 				54DB0D962D09506C00ABD458 /* Feature */,
 				B1D813782D768D3D00A9D447 /* Coordinator */,
+				AD15A98404AC40C1B033C972 /* Utils */,
 				B1BDD0C92F4D2A5200834D57 /* Resources */,
 				54DB0DA32D09524E00ABD458 /* SupportingFiles */,
 			);
@@ -325,6 +336,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0A324B4B8A914F5EA2863B85 /* AnalyticsServiceImpl.swift in Sources */,
 				B1D8137A2D768D9B00A9D447 /* AppCoordinator.swift in Sources */,
 				E23963092D083B900092B39B /* AppDelegate.swift in Sources */,
 				B19C4FC52D6C226500CD008A /* TabBarCoordinator.swift in Sources */,

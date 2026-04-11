@@ -39,6 +39,7 @@ final class ExamCoordinatorImpl: ExamNavigating, NavigationGuard {
         guardNavigation {
             let vm = ExamListViewModel(examService: self.service)
             let vc = ExamListViewController(viewModel: vm, coordinator: self)
+            vc.hidesBottomBarWhenPushed = true
             self.examListViewController = vc
             self.navigationController.pushViewController(vc, animated: true)
         }

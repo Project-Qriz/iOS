@@ -37,8 +37,8 @@ struct ConceptRowView: View {
 private extension ConceptRowView {
 
     var checkboxIcon: some View {
-        Image(systemName: isSelected ? "checkmark.square.fill" : "square")
-            .foregroundColor(isSelected ? Color.customBlue500 : Color.coolNeutral400)
-            .font(.system(size: 20))
+        Image(uiImage: isSelected ? .checkboxOnIcon : .checkboxOffIcon)
+            .resizable()
+            .frame(width: 24, height: 24)
     }
 }

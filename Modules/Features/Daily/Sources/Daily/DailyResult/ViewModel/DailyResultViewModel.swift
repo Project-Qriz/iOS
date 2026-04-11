@@ -109,7 +109,7 @@ final class DailyResultViewModel: ObservableObject {
                 try await fetchDailyAndComprehensiveResult()
             }
             updateData()
-        } catch NetworkError.serverError {
+        } catch NetworkError.serverError(_) {
             errorMessage = "관리자에게 문의하세요."
         } catch {
             errorMessage = "잠시 후 다시 시도해주세요."

@@ -24,9 +24,16 @@ final class ExamTestViewModel {
 
     // MARK: - Initialization
 
-    init(examId: Int, examService: any ExamService) {
+    private let analyticsService: any AnalyticsService
+
+    init(
+        examId: Int,
+        examService: any ExamService,
+        analyticsService: any AnalyticsService = AnalyticsManager.shared
+    ) {
         self.examId = examId
         self.examService = examService
+        self.analyticsService = analyticsService
     }
 
     // MARK: - Methods
@@ -47,6 +54,7 @@ final class ExamTestViewModel {
                     handleOptionSelect(optionIdx: optionIdx)
 
                 case .didTapCancelButton:
+                    analyticsService.log(.examAbandon)
                     countdown?.stop()
                     outputSubject.send(.moveToExamList)
 
@@ -99,8 +107,9 @@ final class ExamTestViewModel {
                 outputSubject.send(.updateTotalPage(totalPage: questionList.count))
                 updateQuestionState()
                 setupCountdown(totalTime: data.totalTimeLimit)
+                analyticsService.log(.examStart)
 
-            } catch NetworkError.serverError {
+            } catch NetworkError.serverError(_) {
                 outputSubject.send(.fetchFailed(isServerError: true))
 
             } catch {
