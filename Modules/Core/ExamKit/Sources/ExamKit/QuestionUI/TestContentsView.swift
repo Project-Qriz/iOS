@@ -97,7 +97,8 @@ public final class TestContentsView: UIView {
         descriptionLabel.attributedText = question.description.map { NSAttributedString(text: $0, lineSpacing: 4) }
         optionLabels.enumerated().forEach { index, label in
             label.setOptionState(isSelected: false)
-            label.setOptionString(question.getOptionRawValue(option: index + 1))
+            let contentType = question.optionContentTypes.indices.contains(index) ? question.optionContentTypes[index] : "TEXT"
+            label.setOptionString(question.getOptionRawValue(option: index + 1), contentType: contentType)
         }
     }
 

@@ -22,7 +22,7 @@ public final class QuestionOptionLabel: UIView {
 
     private let optionStringLabel: UILabel = {
         let label = UILabel()
-        label.font = .systemFont(ofSize: 16, weight: .regular)
+        label.font = .monospacedSystemFont(ofSize: 16, weight: .regular)
         label.textColor = .coolNeutral800
         label.numberOfLines = 0
         return label
@@ -53,7 +53,10 @@ public final class QuestionOptionLabel: UIView {
         layer.borderWidth = 1
     }
 
-    public func setOptionString(_ str: String) {
+    public func setOptionString(_ str: String, contentType: String = "TEXT") {
+        optionStringLabel.font = contentType == "SQL"
+            ? .monospacedSystemFont(ofSize: 13, weight: .regular)
+            : .systemFont(ofSize: 16, weight: .regular)
         optionStringLabel.attributedText = NSAttributedString(text: str, lineSpacing: 6)
     }
 
