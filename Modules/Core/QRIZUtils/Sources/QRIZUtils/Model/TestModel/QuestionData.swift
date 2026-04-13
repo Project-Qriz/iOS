@@ -11,18 +11,20 @@ public struct QuestionData: Sendable {
     public var option2: String
     public var option3: String
     public var option4: String
+    public var optionContentTypes: [String]
     public var timeLimit: Int
     public var questionNumber: Int
     public var selectedOption: Int? = nil
     public var description: String? = nil
     public var skillId: Int? = nil
 
-    public init(question: String, option1: String, option2: String, option3: String, option4: String, timeLimit: Int, questionNumber: Int, selectedOption: Int? = nil, description: String? = nil, skillId: Int? = nil) {
+    public init(question: String, option1: String, option2: String, option3: String, option4: String, optionContentTypes: [String] = ["TEXT", "TEXT", "TEXT", "TEXT"], timeLimit: Int, questionNumber: Int, selectedOption: Int? = nil, description: String? = nil, skillId: Int? = nil) {
         self.question = question
         self.option1 = option1
         self.option2 = option2
         self.option3 = option3
         self.option4 = option4
+        self.optionContentTypes = optionContentTypes
         self.timeLimit = timeLimit
         self.questionNumber = questionNumber
         self.selectedOption = selectedOption

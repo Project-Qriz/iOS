@@ -47,5 +47,6 @@ public struct DailyTestInfo: Decodable, Sendable {
     public struct OptionInfo: Decodable, Sendable {
         public let id: Int
         public let content: String
+        public let contentType: String
     }
 }

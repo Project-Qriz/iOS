@@ -120,6 +120,7 @@ final class DailyTestViewModel {
                         option2: item.options[1].content,
                         option3: item.options[2].content,
                         option4: item.options[3].content,
+                        optionContentTypes: item.options.map { $0.contentType },
                         timeLimit: item.timeLimit,
                         questionNumber: index + 1,
                         description: item.description

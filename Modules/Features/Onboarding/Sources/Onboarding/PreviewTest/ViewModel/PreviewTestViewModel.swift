@@ -193,6 +193,7 @@ private extension PreviewTestViewModel {
             option2: question.options[1].content,
             option3: question.options[2].content,
             option4: question.options[3].content,
+            optionContentTypes: question.options.map { $0.contentType },
             timeLimit: question.timeLimit,
             questionNumber: questionNumber,
             description: question.description,
