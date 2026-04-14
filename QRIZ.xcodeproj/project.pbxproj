@@ -18,6 +18,7 @@
 		B1469DD72F79389B00D3BD39 /* Exam in Frameworks */ = {isa = PBXBuildFile; productRef = B1469DD62F79389B00D3BD39 /* Exam */; };
 		B14DF4E72F7652D1002F6177 /* Daily in Frameworks */ = {isa = PBXBuildFile; productRef = B14DF4E62F7652D1002F6177 /* Daily */; };
 		B17C0EC52F5AACD200C8219A /* Account in Frameworks */ = {isa = PBXBuildFile; productRef = B17C0EC42F5AACD200C8219A /* Account */; };
+		B17F20E92F8E2B0F00BAF5F1 /* GoogleMobileAds in Frameworks */ = {isa = PBXBuildFile; productRef = B17F20E82F8E2B0F00BAF5F1 /* GoogleMobileAds */; };
 		B18CDE662F45AD2A00CB3AB4 /* QRIZUtils in Frameworks */ = {isa = PBXBuildFile; productRef = B18CDE652F45AD2A00CB3AB4 /* QRIZUtils */; };
 		B19C4FC52D6C226500CD008A /* TabBarCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = B19C4FC42D6C226500CD008A /* TabBarCoordinator.swift */; };
 		B1BDD0C72F4D26CD00834D57 /* DesignSystem in Frameworks */ = {isa = PBXBuildFile; productRef = B1BDD0C62F4D26CD00834D57 /* DesignSystem */; };
@@ -131,6 +132,7 @@
 				B13BC73E2F58273500E99FA2 /* Conceptbook in Frameworks */,
 				B1469DD72F79389B00D3BD39 /* Exam in Frameworks */,
 				B1D7CE482F5EE18200E6C2CD /* MistakeNote in Frameworks */,
+				B17F20E92F8E2B0F00BAF5F1 /* GoogleMobileAds in Frameworks */,
 				A1B2C3D52F60000200AAAAAA /* MyPage in Frameworks */,
 				2F7A758592D8472A94299C4B /* Onboarding in Frameworks */,
 			);
@@ -277,6 +279,7 @@
 				B14DF4E62F7652D1002F6177 /* Daily */,
 				C1A2B3C62F79000300D3BD39 /* Home */,
 				B1469DD62F79389B00D3BD39 /* Exam */,
+				B17F20E82F8E2B0F00BAF5F1 /* GoogleMobileAds */,
 			);
 			productName = QRIZ;
 			productReference = E23963052D083B8F0092B39B /* QRIZ.app */;
@@ -308,6 +311,7 @@
 			mainGroup = E23962FC2D083B8F0092B39B;
 			packageReferences = (
 				E292211C2E05478C00B6DC0D /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
+				B17F20E72F8E2B0F00BAF5F1 /* XCRemoteSwiftPackageReference "swift-package-manager-google-mobile-ads" */,
 			);
 			productRefGroup = E23963062D083B8F0092B39B /* Products */;
 			projectDirPath = "";
@@ -564,6 +568,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		B17F20E72F8E2B0F00BAF5F1 /* XCRemoteSwiftPackageReference "swift-package-manager-google-mobile-ads" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/googleads/swift-package-manager-google-mobile-ads.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 13.2.0;
+			};
+		};
 		E292211C2E05478C00B6DC0D /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/firebase/firebase-ios-sdk";
@@ -602,6 +614,11 @@
 		B17C0EC42F5AACD200C8219A /* Account */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = Account;
+		};
+		B17F20E82F8E2B0F00BAF5F1 /* GoogleMobileAds */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = B17F20E72F8E2B0F00BAF5F1 /* XCRemoteSwiftPackageReference "swift-package-manager-google-mobile-ads" */;
+			productName = GoogleMobileAds;
 		};
 		B18CDE652F45AD2A00CB3AB4 /* QRIZUtils */ = {
 			isa = XCSwiftPackageProductDependency;
