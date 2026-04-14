@@ -66,18 +66,7 @@ public struct PreviewTestListOption: Decodable, Sendable {
     public let content: String
     public let contentType: String
 
-    public init(id: Int, content: String, contentType: String = "TEXT") {
+    public init(id: Int, content: String, contentType: String) {
         self.id = id; self.content = content; self.contentType = contentType
-    }
-
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        id = try container.decode(Int.self, forKey: .id)
-        content = try container.decode(String.self, forKey: .content)
-        contentType = try container.decodeIfPresent(String.self, forKey: .contentType) ?? "TEXT"
-    }
-
-    private enum CodingKeys: String, CodingKey {
-        case id, content, contentType
     }
 }
