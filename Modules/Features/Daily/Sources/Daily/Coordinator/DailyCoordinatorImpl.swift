@@ -21,6 +21,7 @@ final class DailyCoordinatorImpl: DailyNavigating, NavigationGuard {
     private let service: any DailyService
     private let day: Int
     private let type: DailyLearnType
+    private let adService: any AdService
 
     // MARK: - NavigationGuard
 
@@ -32,12 +33,14 @@ final class DailyCoordinatorImpl: DailyNavigating, NavigationGuard {
         navigationController: UINavigationController,
         dailyService: any DailyService,
         day: Int,
-        type: DailyLearnType
+        type: DailyLearnType,
+        adService: any AdService
     ) {
         self.navigationController = navigationController
         self.service = dailyService
         self.day = day
         self.type = type
+        self.adService = adService
     }
 
     // MARK: - Coordinator
@@ -71,6 +74,7 @@ final class DailyCoordinatorImpl: DailyNavigating, NavigationGuard {
 
     func showDailyTest() {
         guardNavigation {
+            self.adService.loadInterstitialAd()
             let vm = DailyTestViewModel(day: self.day, dailyService: self.service)
             let vc = DailyTestViewController(viewModel: vm)
             vc.coordinator = self
@@ -80,13 +84,16 @@ final class DailyCoordinatorImpl: DailyNavigating, NavigationGuard {
     }
 
     func showDailyResult() {
-        guardNavigation {
-            let vm = DailyResultViewModel(dailyTestType: self.type, day: self.day, dailyService: self.service)
-            vm.delegate = self
-            self.dailyResultViewModel = vm
-            let vc = UIHostingController(rootView: DailyResultView(viewModel: vm))
-            vc.hidesBottomBarWhenPushed = true
-            self.navigationController.pushViewController(vc, animated: true)
+        adService.showInterstitialAd(from: navigationController) { [weak self] in
+            guard let self else { return }
+            self.guardNavigation {
+                let vm = DailyResultViewModel(dailyTestType: self.type, day: self.day, dailyService: self.service)
+                vm.delegate = self
+                self.dailyResultViewModel = vm
+                let vc = UIHostingController(rootView: DailyResultView(viewModel: vm))
+                vc.hidesBottomBarWhenPushed = true
+                self.navigationController.pushViewController(vc, animated: true)
+            }
         }
     }
 

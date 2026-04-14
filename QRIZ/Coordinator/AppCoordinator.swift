@@ -59,7 +59,8 @@ final class AppCoordinatorDependencyImpl: AppCoordinatorDependency {
     lazy var onboardingService: OnboardingService = OnboardingServiceImpl(network: network, keychainManager: keychain)
     lazy var weeklyRecommendService: WeeklyRecommendService = WeeklyRecommendServiceImpl(network: network, keychain: keychain)
     lazy var socialLoginService: SocialLoginService = SocialLoginServiceImpl()
-    
+    lazy var adService: any AdService = AdServiceImpl()
+
     lazy var loginCoordinator: LoginCoordinator = {
         let navi = UINavigationController()
         return makeLoginCoordinator(
@@ -82,7 +83,8 @@ final class AppCoordinatorDependencyImpl: AppCoordinatorDependency {
             myPageService: myPageService,
             accountRecoveryService: accountRecoveryService,
             weeklyService: weeklyRecommendService,
-            socialLoginService: socialLoginService
+            socialLoginService: socialLoginService,
+            adService: adService
         )
         return TabBarCoordinatorImpl(dependency: tabBarDependency)
     }

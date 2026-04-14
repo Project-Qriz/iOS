@@ -17,15 +17,17 @@ final class ExamCoordinatorImpl: ExamNavigating, NavigationGuard {
     // 코디네이터가 강한 참조를 유지해 조기 해제를 방지함.
     private var examResultViewModel: ExamResultViewModel?
     private let service: any ExamService
+    private let adService: any AdService
     private var currentExamId: Int = 0
 
     // NavigationGuard
     var isNavigating: Bool = false
 
     // MARK: - Initializers
-    init(navigationController: UINavigationController, examService: any ExamService) {
+    init(navigationController: UINavigationController, examService: any ExamService, adService: any AdService) {
         self.navigationController = navigationController
         self.service = examService
+        self.adService = adService
     }
 
     // MARK: - Coordinator
@@ -56,6 +58,7 @@ final class ExamCoordinatorImpl: ExamNavigating, NavigationGuard {
 
     func showExamTest(examId: Int) {
         guardNavigation {
+            self.adService.loadInterstitialAd()
             let vm = ExamTestViewModel(examId: examId, examService: self.service)
             let vc = ExamTestViewController(viewModel: vm)
             vc.coordinator = self
@@ -65,13 +68,16 @@ final class ExamCoordinatorImpl: ExamNavigating, NavigationGuard {
 
     func showExamResult(examId: Int) {
         self.currentExamId = examId
-        guardNavigation {
-            let vm = ExamResultViewModel(examId: examId, examService: self.service)
-            vm.delegate = self
-            self.examResultViewModel = vm
-            let vc = UIHostingController(rootView: ExamResultView(viewModel: vm))
-            vc.hidesBottomBarWhenPushed = true
-            self.navigationController.pushViewController(vc, animated: true)
+        adService.showInterstitialAd(from: navigationController) { [weak self] in
+            guard let self else { return }
+            self.guardNavigation {
+                let vm = ExamResultViewModel(examId: examId, examService: self.service)
+                vm.delegate = self
+                self.examResultViewModel = vm
+                let vc = UIHostingController(rootView: ExamResultView(viewModel: vm))
+                vc.hidesBottomBarWhenPushed = true
+                self.navigationController.pushViewController(vc, animated: true)
+            }
         }
     }
 

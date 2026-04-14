@@ -39,7 +39,8 @@ public func makeHomeCoordinator(
     dailyService: any DailyService,
     onboardingService: any OnboardingService,
     userInfoService: any UserInfoService,
-    weeklyService: any WeeklyRecommendService
+    weeklyService: any WeeklyRecommendService,
+    adService: any AdService
 ) -> any HomeCoordinator {
     HomeCoordinatorImpl(
         examService: examService,
@@ -47,7 +48,8 @@ public func makeHomeCoordinator(
         dailyService: dailyService,
         onboardingService: onboardingService,
         userInfoService: userInfoService,
-        weeklyService: weeklyService
+        weeklyService: weeklyService,
+        adService: adService
     )
 }
 

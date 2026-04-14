@@ -20,13 +20,15 @@ public func makeDailyCoordinator(
     navigationController: UINavigationController,
     dailyService: any DailyService,
     day: Int,
-    type: DailyLearnType
+    type: DailyLearnType,
+    adService: any AdService
 ) -> any DailyCoordinator {
     DailyCoordinatorImpl(
         navigationController: navigationController,
         dailyService: dailyService,
         day: day,
-        type: type
+        type: type,
+        adService: adService
     )
 }
 
