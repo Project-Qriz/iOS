@@ -64,8 +64,9 @@ public struct PreviewTestListQuestion: Decodable, Sendable {
 public struct PreviewTestListOption: Decodable, Sendable {
     public let id: Int
     public let content: String
+    public let contentType: String
 
-    public init(id: Int, content: String) {
-        self.id = id; self.content = content
+    public init(id: Int, content: String, contentType: String) {
+        self.id = id; self.content = content; self.contentType = contentType
     }
 }
