@@ -6,6 +6,8 @@
 	<string>$(BASE_URL)</string>
 	<key>GADApplicationIdentifier</key>
 	<string>$(ADMOB_APP_ID)</string>
+	<key>GADInterstitialAdUnitID</key>
+	<string>$(ADMOB_INTERSTITIAL_ID)</string>
 	<key>CFBundleURLTypes</key>
 	<array>
 		<dict>
