@@ -97,7 +97,9 @@ final class ExamTestViewController: UIViewController {
                     rootView.updateNextButton(isVisible: isVisible, isTextSubmit: isTextSubmit)
                 case .moveToExamResult(let examId):
                     removeNavigationItems()
-                    coordinator?.showExamResult(examId: examId)
+                    submitAlertViewController.dismiss(animated: true) { [weak self] in
+                        self?.coordinator?.showExamResult(examId: examId)
+                    }
                 case .moveToExamList:
                     removeNavigationItems()
                     coordinator?.quitExam()
@@ -106,7 +108,7 @@ final class ExamTestViewController: UIViewController {
                 case .cancelAlert:
                     submitAlertViewController.dismiss(animated: true)
                 case .submitSuccess:
-                    submitAlertViewController.dismiss(animated: true)
+                    break
                 case .submitFailed:
                     submitAlertViewController.dismiss(animated: true)
                     showOneButtonAlert(with: "잠시 후 다시 시도해주세요.", storingIn: &cancellables)
