@@ -92,10 +92,10 @@ final class MockDailyService: DailyService {
             question: "다음 중 엔터티의 특징으로 옳지 않은 것은?",
             description: nil,
             options: [
-                .init(id: 11, content: "반드시 속성을 가져야 한다."),
-                .init(id: 12, content: "유일한 식별자가 있어야 한다."),
-                .init(id: 13, content: "두 개 이상의 인스턴스가 존재해야 한다."),
-                .init(id: 14, content: "업무에서 관리해야 하는 정보여야 한다."),
+                .init(id: 11, content: "반드시 속성을 가져야 한다.", contentType: "TEXT"),
+                .init(id: 12, content: "유일한 식별자가 있어야 한다.", contentType: "TEXT"),
+                .init(id: 13, content: "두 개 이상의 인스턴스가 존재해야 한다.", contentType: "TEXT"),
+                .init(id: 14, content: "업무에서 관리해야 하는 정보여야 한다.", contentType: "TEXT"),
             ],
             timeLimit: 70, difficulty: 1
         ),
@@ -104,10 +104,10 @@ final class MockDailyService: DailyService {
             question: "정규화의 목적으로 가장 적절하지 않은 것은?",
             description: nil,
             options: [
-                .init(id: 21, content: "삽입 이상 제거"),
-                .init(id: 22, content: "삭제 이상 제거"),
-                .init(id: 23, content: "갱신 이상 제거"),
-                .init(id: 24, content: "조회 성능 향상"),
+                .init(id: 21, content: "삽입 이상 제거", contentType: "TEXT"),
+                .init(id: 22, content: "삭제 이상 제거", contentType: "TEXT"),
+                .init(id: 23, content: "갱신 이상 제거", contentType: "TEXT"),
+                .init(id: 24, content: "조회 성능 향상", contentType: "TEXT"),
             ],
             timeLimit: 70, difficulty: 1
         ),
@@ -116,10 +116,10 @@ final class MockDailyService: DailyService {
             question: "다음 SQL 중 DDL에 해당하지 않는 것은?",
             description: nil,
             options: [
-                .init(id: 31, content: "CREATE"),
-                .init(id: 32, content: "ALTER"),
-                .init(id: 33, content: "DROP"),
-                .init(id: 34, content: "SELECT"),
+                .init(id: 31, content: "CREATE", contentType: "SQL"),
+                .init(id: 32, content: "ALTER", contentType: "SQL"),
+                .init(id: 33, content: "DROP", contentType: "SQL"),
+                .init(id: 34, content: "SELECT", contentType: "SQL"),
             ],
             timeLimit: 1, difficulty: 1
         ),

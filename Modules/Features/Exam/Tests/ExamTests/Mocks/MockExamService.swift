@@ -49,7 +49,7 @@ final class MockExamService: ExamService {
                     category: 1,
                     question: "문제 \(i)",
                     description: nil,
-                    options: (1...4).map { j in ExamQuestionInfo.OptionInfo(id: i * 10 + j, content: "선택지 \(j)") },
+                    options: (1...4).map { j in ExamQuestionInfo.OptionInfo(id: i * 10 + j, content: "선택지 \(j)", contentType: "TEXT") },
                     timeLimit: 60,
                     difficulty: 1
                 )
