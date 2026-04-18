@@ -18,7 +18,7 @@ struct NetworkErrorTests {
         #expect(NetworkError.jsonDecodingError.debugDescription.contains("JSON Decoding"))
         #expect(NetworkError.unAuthorizedError(detailCode: 3).debugDescription.contains("접근 권한"))
         #expect(NetworkError.clientError(httpStatus: 400, serverCode: 100, message: "에러").debugDescription.contains("HTTP 400"))
-        #expect(NetworkError.serverError.debugDescription.contains("서버 에러"))
+        #expect(NetworkError.serverError(httpStatus: 500).debugDescription.contains("서버 에러")) 
         #expect(NetworkError.unknownError.debugDescription.contains("알 수 없는"))
     }
 
@@ -30,7 +30,7 @@ struct NetworkErrorTests {
         #expect(NetworkError.unAuthorizedError(detailCode: 3).errorMessage == "세션이 만료되어 다시 시도합니다.")
         #expect(NetworkError.unAuthorizedError(detailCode: nil).errorMessage == "접근 권한이 없습니다.")
         #expect(NetworkError.clientError(httpStatus: 400, serverCode: nil, message: "테스트 에러").errorMessage == "테스트 에러")
-        #expect(NetworkError.serverError.errorMessage == "서버 에러가 발생했습니다. 잠시 후 다시 시도해 주세요.")
+        #expect(NetworkError.serverError(httpStatus: 500).errorMessage == "서버 에러가 발생했습니다. 잠시 후 다시 시도해 주세요.")
         #expect(NetworkError.unknownError.errorMessage == "알 수 없는 오류가 발생했습니다. 잠시 후 다시 시도해 주세요.")
     }
 }

@@ -50,7 +50,7 @@ struct FindIDViewModelTests {
     @Test("buttonTapped 실패 → showErrorAlert")
     func buttonTappedFailureShowsErrorAlert() async throws {
         let service = MockAccountRecoveryService()
-        service.findIDResult = .failure(NetworkError.serverError)
+        service.findIDResult = .failure(NetworkError.serverError(httpStatus: 500))
         let sut = makeSUT(service: service)
 
         let outputs = try await collectAsync(sut.output) {

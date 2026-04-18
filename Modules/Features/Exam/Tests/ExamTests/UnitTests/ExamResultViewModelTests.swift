@@ -87,7 +87,7 @@ struct ExamResultViewModelTests {
 
     @Test("onViewDidLoad 서버 에러 → errorMessage 서버 에러 안내 메시지 설정")
     func onViewDidLoad_serverError_setsServerErrorMessage() async throws {
-        let h = TestHarness(service: makeFailingService(NetworkError.serverError))
+        let h = TestHarness(service: makeFailingService(NetworkError.serverError(httpStatus: 500)))
         try await h.sendViewDidLoad()
         #expect(h.sut.errorMessage == "관리자에게 문의하세요.")
     }

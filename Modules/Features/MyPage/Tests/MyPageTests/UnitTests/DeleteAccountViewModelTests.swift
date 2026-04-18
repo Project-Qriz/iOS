@@ -147,7 +147,7 @@ struct DeleteAccountViewModelTests {
     @Test("didConfirmDelete NetworkError 실패 → showErrorAlert emit")
     func didConfirmDelete_networkError_emitsShowErrorAlert() async throws {
         let myPageService = MockMyPageService()
-        myPageService.deleteSocialAccountResult = .failure(NetworkError.serverError)
+        myPageService.deleteSocialAccountResult = .failure(NetworkError.serverError(httpStatus: 500))
         let sut = makeSUT(provider: "kakao", myPageService: myPageService)
         let inputSubject = PassthroughSubject<DeleteAccountViewModel.Input, Never>()
         var received: [DeleteAccountViewModel.Output] = []
@@ -168,7 +168,7 @@ struct DeleteAccountViewModelTests {
             Issue.record("Expected .showErrorAlert, got \(first)")
             return
         }
-        #expect(message == NetworkError.serverError.errorMessage)
+        #expect(message == NetworkError.serverError(httpStatus: 500).errorMessage)
     }
 
     @Test("didConfirmDelete 일반 Error 실패 → showErrorAlert emit")

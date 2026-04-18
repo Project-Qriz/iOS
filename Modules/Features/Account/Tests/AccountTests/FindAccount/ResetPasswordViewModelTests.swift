@@ -55,7 +55,7 @@ struct ResetPasswordViewModelTests {
     @Test("buttonTapped 네트워크 실패 → showErrorAlert")
     func buttonTappedFailureShowsErrorAlert() async throws {
         let service = MockAccountRecoveryService()
-        service.resetPasswordResult = .failure(NetworkError.serverError)
+        service.resetPasswordResult = .failure(NetworkError.serverError(httpStatus: 500))
         let sut = makeSUT(service: service)
 
         let outputs = try await collectAsync(sut.output) {

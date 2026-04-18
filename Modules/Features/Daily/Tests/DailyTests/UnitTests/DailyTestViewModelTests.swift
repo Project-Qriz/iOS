@@ -62,7 +62,7 @@ struct DailyTestViewModelTests {
     @Test("viewDidLoad 서버 에러 → fetchFailed(isServerError: true)")
     func fetchData_serverError_emitsFetchFailedIsServerError() async throws {
         let service = MockDailyService()
-        service.getDailyTestListResult = .failure(NetworkError.serverError)
+        service.getDailyTestListResult = .failure(NetworkError.serverError(httpStatus: 500))
         let harness = TestHarness(service: service)
         try await harness.sendViewDidLoad()
         #expect(harness.received.contains {
