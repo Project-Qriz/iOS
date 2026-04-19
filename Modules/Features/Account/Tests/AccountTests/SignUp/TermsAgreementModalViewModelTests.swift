@@ -95,7 +95,7 @@ struct TermsAgreementModalViewModelTests {
     @Test("signUpButtonTapped 실패 → showErrorAlert")
     func signUpButtonTappedFailureShowsErrorAlert() async throws {
         let service = MockSignUpService()
-        service.joinResult = .failure(NetworkError.serverError)
+        service.joinResult = .failure(NetworkError.serverError(httpStatus: 500))
         let sut = makeSUT(service: service)
 
         let outputs = try await collectAsync(sut.output) {

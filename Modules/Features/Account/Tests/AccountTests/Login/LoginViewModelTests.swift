@@ -75,7 +75,7 @@ struct LoginViewModelTests {
     @Test("loginButtonTapped 실패 → showErrorAlert")
     func loginFailureShowsErrorAlert() async throws {
         let loginService = MockLoginService()
-        loginService.loginResult = .failure(NetworkError.serverError)
+        loginService.loginResult = .failure(NetworkError.serverError(httpStatus: 500))
         let sut = makeSUT(loginService: loginService)
 
         let outputs = try await collectAsync(sut.output) {

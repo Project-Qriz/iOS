@@ -94,7 +94,7 @@ struct DailyLearnViewModelTests {
 
     @Test("viewDidLoad 서버 에러 → fetchFailed(isServerError: true)")
     func viewDidLoad_serverError_emitsFetchFailedServer() async throws {
-        let h = TestHarness(service: makeFailingService(NetworkError.serverError))
+        let h = TestHarness(service: makeFailingService(NetworkError.serverError(httpStatus: 500)))
         try await h.sendViewDidLoad()
 
         guard h.received.count == 1, let first = h.received.first else {

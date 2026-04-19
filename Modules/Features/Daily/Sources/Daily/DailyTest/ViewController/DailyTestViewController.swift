@@ -100,7 +100,10 @@ extension DailyTestViewController {
         case .alterButtonText:
             contentView.alterButtonText()
         case .moveToDailyResult:
-            coordinator?.showDailyResult()
+            removeNavigationItems()
+            submitAlertViewController.dismiss(animated: true) { [weak self] in
+                self?.coordinator?.showDailyResult()
+            }
         case .moveToHomeView:
             coordinator?.quitDaily()
         case .popSubmitAlert:
@@ -108,8 +111,7 @@ extension DailyTestViewController {
         case .cancelAlert:
             submitAlertViewController.dismiss(animated: true)
         case .submitSuccess:
-            submitAlertViewController.dismiss(animated: true)
-            removeNavigationItems()
+            break
         case .submitFailed:
             submitAlertViewController.dismiss(animated: true)
             showOneButtonAlert(with: "잠시 후 다시 시도해주세요.", storingIn: &subscriptions)

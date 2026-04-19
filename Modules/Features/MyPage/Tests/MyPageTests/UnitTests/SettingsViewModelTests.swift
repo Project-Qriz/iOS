@@ -222,7 +222,7 @@ struct SettingsViewModelTests {
     @Test("didConfirmLogout NetworkError 실패 → showErrorAlert emit")
     func didConfirmLogout_networkError_emitsShowErrorAlert() async throws {
         let socialLoginService = MockSocialLoginService()
-        socialLoginService.logoutKakaoResult = .failure(NetworkError.serverError)
+        socialLoginService.logoutKakaoResult = .failure(NetworkError.serverError(httpStatus: 500))
         let sut = makeSUT(provider: "kakao", socialLoginService: socialLoginService)
         let inputSubject = PassthroughSubject<SettingsViewModel.Input, Never>()
         var received: [SettingsViewModel.Output] = []

@@ -46,7 +46,7 @@ struct MyPageViewModelTests {
     @Test("viewDidLoad → fetchVersion NetworkError 실패 → setupView(fallback) emit")
     func viewDidLoad_fetchVersionNetworkError_emitsSetupViewWithFallback() async throws {
         let service = MockMyPageService()
-        service.fetchVersionResult = .failure(NetworkError.serverError)
+        service.fetchVersionResult = .failure(NetworkError.serverError(httpStatus: 500))
         let sut = makeSUT(service: service)
         let inputSubject = PassthroughSubject<MyPageViewModel.Input, Never>()
         var received: [MyPageViewModel.Output] = []
@@ -250,7 +250,7 @@ struct MyPageViewModelTests {
     @Test("didConfirmResetPlan → resetPlan NetworkError 실패 → showErrorAlert emit")
     func didConfirmResetPlan_resetPlanNetworkError_emitsShowErrorAlert() async throws {
         let service = MockMyPageService()
-        service.resetPlanResult = .failure(NetworkError.serverError)
+        service.resetPlanResult = .failure(NetworkError.serverError(httpStatus: 500))
         let sut = makeSUT(service: service)
         let inputSubject = PassthroughSubject<MyPageViewModel.Input, Never>()
         var received: [MyPageViewModel.Output] = []

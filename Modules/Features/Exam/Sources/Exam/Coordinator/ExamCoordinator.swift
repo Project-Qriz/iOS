@@ -18,9 +18,10 @@ public protocol ExamCoordinatorDelegate: AnyObject {
 @MainActor
 public func makeExamCoordinator(
     navigationController: UINavigationController,
-    examService: any ExamService
+    examService: any ExamService,
+    adService: any AdService
 ) -> any ExamCoordinator {
-    ExamCoordinatorImpl(navigationController: navigationController, examService: examService)
+    ExamCoordinatorImpl(navigationController: navigationController, examService: examService, adService: adService)
 }
 
 // MARK: - Internal (패키지 내부 전용)

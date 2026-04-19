@@ -406,6 +406,7 @@ final class HomeMainView: UIView {
     }
     
     private func scrollToDay(_ index: Int) {
+        programmaticScrollSubject.send(true)
         selectedIndexSubject.send(index)
         scrollTo(index: index, animated: true)
     }

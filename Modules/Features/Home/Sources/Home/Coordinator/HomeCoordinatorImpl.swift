@@ -21,6 +21,7 @@ final class HomeCoordinatorImpl: HomeCoordinator, NavigationGuard {
     private let onboardingService: OnboardingService
     private let userInfoService: UserInfoService
     private let weeklyService: WeeklyRecommendService
+    private let adService: any AdService
     private(set) var homeVM: HomeViewModel?
     var needsRefresh: Bool = false
     var childCoordinators: [Coordinator] = []
@@ -35,7 +36,8 @@ final class HomeCoordinatorImpl: HomeCoordinator, NavigationGuard {
         dailyService: DailyService,
         onboardingService: OnboardingService,
         userInfoService: UserInfoService,
-        weeklyService: WeeklyRecommendService
+        weeklyService: WeeklyRecommendService,
+        adService: any AdService
     ) {
         self.examService = examService
         self.examTestService = examTestService
@@ -43,6 +45,7 @@ final class HomeCoordinatorImpl: HomeCoordinator, NavigationGuard {
         self.onboardingService = onboardingService
         self.userInfoService = userInfoService
         self.weeklyService = weeklyService
+        self.adService = adService
     }
 
     // MARK: - Methods
@@ -122,7 +125,8 @@ final class HomeCoordinatorImpl: HomeCoordinator, NavigationGuard {
         guardNavigation {
             let exam = makeExamCoordinator(
                 navigationController: navi,
-                examService: self.examTestService
+                examService: self.examTestService,
+                adService: self.adService
             )
             exam.delegate = self
             self.childCoordinators.append(exam)
@@ -137,7 +141,8 @@ final class HomeCoordinatorImpl: HomeCoordinator, NavigationGuard {
                 navigationController: navi,
                 dailyService: self.dailyService,
                 day: day,
-                type: type
+                type: type,
+                adService: self.adService
             )
             daily.delegate = self
             self.childCoordinators.append(daily)

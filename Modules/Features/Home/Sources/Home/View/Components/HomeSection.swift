@@ -178,13 +178,14 @@ enum HomeLayoutFactory {
 
             let newIndex = closest.indexPath.item
             guard newIndex != selected.value else { return }
-            selected.send(newIndex)
 
             programmaticScroll.send(true)
-            cv.scrollToItem(at: IndexPath(item: newIndex, section: HomeSection.daySelector.rawValue), at: .centeredHorizontally, animated: true)
-
-            DispatchQueue.main.asyncAfter(deadline: .now() + Metric.programmaticScrollResetDelay) {
-                programmaticScroll.send(false)
+            DispatchQueue.main.async {
+                selected.send(newIndex)
+                cv.scrollToItem(at: IndexPath(item: newIndex, section: HomeSection.daySelector.rawValue), at: .centeredHorizontally, animated: true)
+                DispatchQueue.main.asyncAfter(deadline: .now() + Metric.programmaticScrollResetDelay) {
+                    programmaticScroll.send(false)
+                }
             }
         }
         

@@ -156,7 +156,7 @@ struct ExamTestViewModelTests {
 
     @Test("viewDidLoad 서버 에러 → fetchFailed(isServerError: true)")
     func viewDidLoad_serverError_emitsFetchFailed_isServerErrorTrue() async throws {
-        let h = TestHarness(service: makeFailingService(NetworkError.serverError))
+        let h = TestHarness(service: makeFailingService(NetworkError.serverError(httpStatus: 500)))
         try await h.sendViewDidLoad()
 
         guard case .fetchFailed(let isServerError) = h.received.first else {
