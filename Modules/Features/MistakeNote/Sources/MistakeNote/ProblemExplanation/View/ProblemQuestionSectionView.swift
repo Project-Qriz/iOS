@@ -93,6 +93,7 @@ extension ProblemQuestionSectionView {
 
 // MARK: - Preview
 
+#if DEBUG
 #Preview {
     ScrollView {
         ProblemQuestionSectionView(
@@ -102,3 +103,4 @@ extension ProblemQuestionSectionView {
     }
     .background(Color(.systemGroupedBackground))
 }
+#endif
