@@ -30,7 +30,8 @@
       shouldUseLaunchSchemeArgsEnv = "YES">
       <TestPlans>
          <TestPlanReference
-            reference = "container:QRIZ.xctestplan">
+            reference = "container:QRIZ.xctestplan"
+            default = "YES">
          </TestPlanReference>
       </TestPlans>
       <Testables>
@@ -117,7 +118,7 @@
       buildConfiguration = "Debug">
    </AnalyzeAction>
    <ArchiveAction
-      buildConfiguration = "Debug"
+      buildConfiguration = "Release"
       revealArchiveInOrganizer = "YES">
    </ArchiveAction>
 </Scheme>
