@@ -78,6 +78,6 @@ final class DailyTestSnapshotTests: DailySnapshotTestCase {
         contentView.updateQuestion(sampleQuestion(number: 1))
         contentView.updateTotalPage(3)
         contentView.setButtonsVisibility(isVisible: false)
-        assertSnapshot(of: nav, as: .image(size: Self.deviceSize))
+        assertSnapshot(of: nav, as: .image(on: .iPhone16Pro))
     }
 }

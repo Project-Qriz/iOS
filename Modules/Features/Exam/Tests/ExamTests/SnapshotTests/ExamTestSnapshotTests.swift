@@ -55,10 +55,7 @@ class ExamTestSnapshotTests: ExamSnapshotTestCase {
         service.getExamQuestionResult = .success(MockExamService.makeExamQuestion())
         let vm = ExamTestViewModel(examId: 1, examService: service)
         let vc = ExamTestViewController(viewModel: vm)
-        let nav = inExamNav(vc)
-        nav.view.frame = CGRect(origin: .zero, size: Self.deviceSize)
-        nav.view.layoutIfNeeded()
-        return nav
+        return inExamNav(vc)
     }
 
     // MARK: - ExamTestView 스냅샷
@@ -95,6 +92,6 @@ class ExamTestSnapshotTests: ExamSnapshotTestCase {
         let nav = makeConfiguredNav()
         try await Task.sleep(nanoseconds: asyncSleepNanoseconds)
         nav.view.layoutIfNeeded()
-        assertSnapshot(of: nav, as: .image)
+        assertSnapshot(of: nav, as: .image(on: .iPhone16Pro))
     }
 }

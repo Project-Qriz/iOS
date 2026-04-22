@@ -12,9 +12,6 @@ class ProblemDetailSnapshotTests: MistakeNoteSnapshotTestCase {
         }
         let vc = ProblemDetailViewController(viewModel: vm)
         let nav = inNav(vc)
-        nav.view.frame = CGRect(origin: .zero, size: Self.deviceSize)
-        nav.view.layoutIfNeeded()
-
-        assertSnapshot(of: nav, as: .image)
+        assertSnapshot(of: nav, as: .image(on: .iPhone16Pro))
     }
 }

@@ -13,11 +13,7 @@ class ExamSummarySnapshotTests: ExamSnapshotTestCase {
     private func makeConfiguredNav(examId: Int = 1) -> UINavigationController {
         let vm = ExamSummaryViewModel(examId: examId)
         let vc = ExamSummaryViewController(viewModel: vm)
-
-        let nav = inExamNav(vc)
-        nav.view.frame = CGRect(origin: .zero, size: Self.deviceSize)
-        nav.view.layoutIfNeeded()
-        return nav
+        return inExamNav(vc)
     }
 
     // MARK: - ExamSummaryView 스냅샷
@@ -34,6 +30,6 @@ class ExamSummarySnapshotTests: ExamSnapshotTestCase {
 
     func testExamSummaryViewController() {
         let nav = makeConfiguredNav()
-        assertSnapshot(of: nav, as: .image)
+        assertSnapshot(of: nav, as: .image(on: .iPhone16Pro))
     }
 }

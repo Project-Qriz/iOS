@@ -13,24 +13,18 @@ class FindAccountSnapshotTests: AccountSnapshotTestCase {
     func testFindIDInitialState() {
         let recoveryService = StubAccountRecoveryService()
         let vc = inNav(FindIDViewController(findIDInputVM: FindIDViewModel(accountRecoveryService: recoveryService)))
-        vc.view.frame = CGRect(origin: .zero, size: Self.deviceSize)
-        vc.view.layoutIfNeeded()
-        assertSnapshot(of: vc, as: .image)
+        assertSnapshot(of: vc, as: .image(on: .iPhone16Pro))
     }
 
     func testFindPasswordVerificationInitialState() {
         let recoveryService = StubAccountRecoveryService()
         let vc = inNav(FindPasswordVerificationViewController(findPasswordVerificationVM: FindPasswordVerificationViewModel(accountRecoveryService: recoveryService)))
-        vc.view.frame = CGRect(origin: .zero, size: Self.deviceSize)
-        vc.view.layoutIfNeeded()
-        assertSnapshot(of: vc, as: .image)
+        assertSnapshot(of: vc, as: .image(on: .iPhone16Pro))
     }
 
     func testResetPasswordInitialState() {
         let recoveryService = StubAccountRecoveryService()
         let vc = inNav(ResetPasswordViewController(resetPasswordVM: ResetPasswordViewModel(accountRecoveryService: recoveryService)))
-        vc.view.frame = CGRect(origin: .zero, size: Self.deviceSize)
-        vc.view.layoutIfNeeded()
-        assertSnapshot(of: vc, as: .image)
+        assertSnapshot(of: vc, as: .image(on: .iPhone16Pro))
     }
 }

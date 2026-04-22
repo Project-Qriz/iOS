@@ -15,11 +15,8 @@ class MyPageSnapshotTests: MyPageSnapshotTestCase {
         let vm = MyPageViewModel(userName: "테스트", myPageService: MockMyPageService())
         let vc = MyPageViewController(viewModel: vm)
         let nav = inNav(vc)
-        nav.view.frame = CGRect(origin: .zero, size: Self.deviceSize)
-        nav.view.layoutIfNeeded()
         try await Task.sleep(nanoseconds: asyncSleepNanoseconds)
-        nav.view.layoutIfNeeded()
-        assertSnapshot(of: nav, as: .image)
+        assertSnapshot(of: nav, as: .image(on: .iPhone16Pro))
     }
 
     // MARK: - 셀 컴포넌트
