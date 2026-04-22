@@ -26,7 +26,8 @@ struct HomeViewModelTests {
             self.sut = HomeViewModel(
                 examScheduleService: examService,
                 dailyService: dailyService,
-                weeklyService: weeklyService
+                weeklyService: weeklyService,
+                userInfo: .shared
             )
             sut.transform(input: inputSubject.eraseToAnyPublisher())
                 .sink { [weak self] in self?.received.append($0) }

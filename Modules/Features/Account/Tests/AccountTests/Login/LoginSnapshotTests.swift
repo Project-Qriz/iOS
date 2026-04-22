@@ -14,12 +14,10 @@ class LoginSnapshotTests: AccountSnapshotTestCase {
         let vm = LoginViewModel(
             loginService: StubLoginService(),
             userInfoService: StubUserInfoService(),
-            socialLoginService: StubSocialLoginService()
+            socialLoginService: StubSocialLoginService(),
+            userInfo: .shared
         )
         let vc = LoginViewController(loginVM: vm)
-        vc.view.frame = CGRect(origin: .zero, size: Self.deviceSize)
-        vc.view.layoutIfNeeded()
-
-        assertSnapshot(of: vc, as: .image)
+        assertSnapshot(of: vc, as: .image(on: .iPhone16Pro))
     }
 }

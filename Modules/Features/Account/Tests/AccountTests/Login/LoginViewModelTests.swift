@@ -19,7 +19,8 @@ struct LoginViewModelTests {
         LoginViewModel(
             loginService: loginService,
             userInfoService: MockUserInfoService(),
-            socialLoginService: socialService
+            socialLoginService: socialService,
+            userInfo: .shared
         )
     }
 

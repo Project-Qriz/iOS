@@ -10,42 +10,36 @@ class CheckConceptSnapshotTests: OnboardingSnapshotTestCase {
     func testInitialState() {
         let vm = CheckConceptViewModel(
             onboardingService: MockOnboardingService(),
-            onNavigate: { _ in }
+            onNavigate: { _ in },
+            userInfo: .shared
         )
         let vc = UIHostingController(rootView: CheckConceptView(viewModel: vm))
-        vc.view.frame = CGRect(origin: .zero, size: Self.deviceSize)
-        vc.view.layoutIfNeeded()
-
-        assertSnapshot(of: vc, as: .image)
+        assertSnapshot(of: vc, as: .image(on: .iPhone16Pro))
     }
 
     func testWithSomeSelected() {
         let vm = CheckConceptViewModel(
             onboardingService: MockOnboardingService(),
-            onNavigate: { _ in }
+            onNavigate: { _ in },
+            userInfo: .shared
         )
         vm.didTapConcept(at: 0)
         vm.didTapConcept(at: 5)
         vm.didTapConcept(at: 10)
 
         let vc = UIHostingController(rootView: CheckConceptView(viewModel: vm))
-        vc.view.frame = CGRect(origin: .zero, size: Self.deviceSize)
-        vc.view.layoutIfNeeded()
-
-        assertSnapshot(of: vc, as: .image)
+        assertSnapshot(of: vc, as: .image(on: .iPhone16Pro))
     }
 
     func testAllSelected() {
         let vm = CheckConceptViewModel(
             onboardingService: MockOnboardingService(),
-            onNavigate: { _ in }
+            onNavigate: { _ in },
+            userInfo: .shared
         )
         vm.didTapAll()
 
         let vc = UIHostingController(rootView: CheckConceptView(viewModel: vm))
-        vc.view.frame = CGRect(origin: .zero, size: Self.deviceSize)
-        vc.view.layoutIfNeeded()
-
-        assertSnapshot(of: vc, as: .image)
+        assertSnapshot(of: vc, as: .image(on: .iPhone16Pro))
     }
 }

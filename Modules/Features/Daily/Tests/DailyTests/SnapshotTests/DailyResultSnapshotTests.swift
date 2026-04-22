@@ -10,7 +10,7 @@ class DailyResultSnapshotTests: DailySnapshotTestCase {
     // MARK: - Helpers
 
     private func makeViewModel(type: DailyLearnType = .daily) -> DailyResultViewModel {
-        DailyResultViewModel(dailyTestType: type, day: 1, dailyService: MockDailyService())
+        DailyResultViewModel(dailyTestType: type, day: 1, dailyService: MockDailyService(), userInfo: .shared)
     }
 
     private func populate(
@@ -33,10 +33,7 @@ class DailyResultSnapshotTests: DailySnapshotTestCase {
 
     private func makeSnapshotNav(_ vm: DailyResultViewModel) -> UINavigationController {
         let hostingVC = UIHostingController(rootView: DailyResultView(viewModel: vm))
-        let nav = inDailyNav(hostingVC)
-        nav.view.frame = CGRect(origin: .zero, size: Self.deviceSize)
-        nav.view.layoutIfNeeded()
-        return nav
+        return inDailyNav(hostingVC)
     }
 
     // MARK: - Daily 타입
@@ -44,13 +41,13 @@ class DailyResultSnapshotTests: DailySnapshotTestCase {
     func testDailyResultView_daily_passed() {
         let vm = makeViewModel(type: .daily)
         populate(vm, passed: true)
-        assertSnapshot(of: makeSnapshotNav(vm), as: .image)
+        assertSnapshot(of: makeSnapshotNav(vm), as: .image(on: .iPhone16Pro))
     }
 
     func testDailyResultView_daily_failed() {
         let vm = makeViewModel(type: .daily)
         populate(vm, passed: false)
-        assertSnapshot(of: makeSnapshotNav(vm), as: .image)
+        assertSnapshot(of: makeSnapshotNav(vm), as: .image(on: .iPhone16Pro))
     }
 
     // MARK: - Weekly 타입 (상세보기 버튼 포함)
@@ -58,12 +55,12 @@ class DailyResultSnapshotTests: DailySnapshotTestCase {
     func testDailyResultView_weekly_passed() {
         let vm = makeViewModel(type: .weekly)
         populate(vm, passed: true)
-        assertSnapshot(of: makeSnapshotNav(vm), as: .image)
+        assertSnapshot(of: makeSnapshotNav(vm), as: .image(on: .iPhone16Pro))
     }
 
     func testDailyResultView_weekly_failed() {
         let vm = makeViewModel(type: .weekly)
         populate(vm, passed: false)
-        assertSnapshot(of: makeSnapshotNav(vm), as: .image)
+        assertSnapshot(of: makeSnapshotNav(vm), as: .image(on: .iPhone16Pro))
     }
 }

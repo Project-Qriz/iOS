@@ -11,12 +11,10 @@ class GreetingSnapshotTests: OnboardingSnapshotTestCase {
         // 실행되지 않으므로 타이머가 시작되지 않는다 — 초기 상태(빈 nickname) 캡처
         let vm = GreetingViewModel(
             userInfoService: MockUserInfoService(),
-            onNavigate: {}
+            onNavigate: {},
+            userInfo: .shared
         )
         let vc = UIHostingController(rootView: GreetingView(viewModel: vm))
-        vc.view.frame = CGRect(origin: .zero, size: Self.deviceSize)
-        vc.view.layoutIfNeeded()
-
-        assertSnapshot(of: vc, as: .image)
+        assertSnapshot(of: vc, as: .image(on: .iPhone16Pro))
     }
 }
