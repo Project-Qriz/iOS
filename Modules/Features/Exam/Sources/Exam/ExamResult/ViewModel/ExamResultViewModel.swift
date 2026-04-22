@@ -59,7 +59,7 @@ final class ExamResultViewModel: ObservableObject {
         examId: Int,
         examService: any ExamService,
         analyticsService: any AnalyticsService = AnalyticsManager.shared,
-        userInfo: UserInfoManager = .shared
+        userInfo: UserInfoManager
     ) {
         self.nickname = userInfo.name
         self.examId = examId

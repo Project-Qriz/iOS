@@ -39,7 +39,7 @@ final class LoginViewModel {
         userInfoService: UserInfoService,
         socialLoginService: SocialLoginService,
         analyticsService: any AnalyticsService = AnalyticsManager.shared,
-        userInfo: UserInfoManager = .shared
+        userInfo: UserInfoManager
     ) {
         self.loginService = loginService
         self.userInfoService = userInfoService

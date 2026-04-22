@@ -57,7 +57,7 @@ final class DailyResultViewModel: ObservableObject {
 
     // MARK: - Initialization
 
-    init(dailyTestType: DailyLearnType, day: Int, dailyService: DailyService, userInfo: UserInfoManager = .shared) {
+    init(dailyTestType: DailyLearnType, day: Int, dailyService: DailyService, userInfo: UserInfoManager) {
         self.nickname = userInfo.name
         self.dailyTestType = dailyTestType
         self.day = day

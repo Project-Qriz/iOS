@@ -41,7 +41,7 @@ final class SplashCoordinatorImpl: SplashCoordinator {
     // MARK: - Methods
 
     func start() -> UIViewController {
-        let viewModel = SplashViewModel(userInfoService: userInfoService, keychain: keychain)
+        let viewModel = SplashViewModel(userInfoService: userInfoService, keychain: keychain, userInfo: .shared)
         let splashVC = SplashViewController(viewModel: viewModel)
 
         splashVC.didFinish = { [weak self] isLoggedIn in

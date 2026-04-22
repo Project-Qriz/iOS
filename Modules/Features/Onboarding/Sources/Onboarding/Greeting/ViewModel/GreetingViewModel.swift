@@ -16,7 +16,7 @@ final class GreetingViewModel: ObservableObject {
 
     // MARK: - Initializer
 
-    init(userInfoService: UserInfoService, onNavigate: @escaping () -> Void, userInfo: UserInfoManager = .shared) {
+    init(userInfoService: UserInfoService, onNavigate: @escaping () -> Void, userInfo: UserInfoManager) {
         self.userInfoService = userInfoService
         self.onNavigate = onNavigate
         self.userInfo = userInfo

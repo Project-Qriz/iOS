@@ -42,7 +42,7 @@ final class CheckConceptViewModel: ObservableObject {
     init(
         onboardingService: OnboardingService,
         onNavigate: @escaping (CheckConceptNavigation) -> Void,
-        userInfo: UserInfoManager = .shared
+        userInfo: UserInfoManager
     ) {
         self.onboardingService = onboardingService
         self.onNavigate = onNavigate

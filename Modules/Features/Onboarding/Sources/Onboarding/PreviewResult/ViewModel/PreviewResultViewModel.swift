@@ -18,7 +18,7 @@ final class PreviewResultViewModel: ObservableObject {
 
     // MARK: - Initializer
 
-    init(onboardingService: OnboardingService, onNavigateToGreeting: @escaping () -> Void, userInfo: UserInfoManager = .shared) {
+    init(onboardingService: OnboardingService, onNavigateToGreeting: @escaping () -> Void, userInfo: UserInfoManager) {
         self.onboardingService = onboardingService
         self.onNavigateToGreeting = onNavigateToGreeting
         self.userInfo = userInfo

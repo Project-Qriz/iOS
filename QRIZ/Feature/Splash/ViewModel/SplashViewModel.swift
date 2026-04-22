@@ -22,7 +22,7 @@ final class SplashViewModel {
 
     // MARK: - Initialization
 
-    init(userInfoService: UserInfoService, keychain: KeychainManager, userInfo: UserInfoManager = .shared) {
+    init(userInfoService: UserInfoService, keychain: KeychainManager, userInfo: UserInfoManager) {
         self.userInfoService = userInfoService
         self.keychain = keychain
         self.userInfo = userInfo

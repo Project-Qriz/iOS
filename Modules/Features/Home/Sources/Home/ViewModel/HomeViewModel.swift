@@ -34,7 +34,7 @@ final class HomeViewModel {
         dailyService: DailyService,
         weeklyService: WeeklyRecommendService,
         analyticsService: any AnalyticsService = AnalyticsManager.shared,
-        userInfo: UserInfoManager = .shared
+        userInfo: UserInfoManager
     ) {
         let name = userInfo.name
         let previewStatus = userInfo.previewTestStatus
