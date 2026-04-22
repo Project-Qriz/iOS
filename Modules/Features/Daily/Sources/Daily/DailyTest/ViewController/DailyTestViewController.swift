@@ -17,7 +17,7 @@ final class DailyTestViewController: UIViewController {
     private var contentView: DailyTestView!
     private let viewModel: DailyTestViewModel
     private let input: PassthroughSubject<DailyTestViewModel.Input, Never> = .init()
-    private var subscriptions = Set<AnyCancellable>()
+    private var cancellables = Set<AnyCancellable>()
 
     private let submitAlertViewController = TwoButtonCustomAlertViewController(
         title: "제출하시겠습니까?",
@@ -72,7 +72,7 @@ final class DailyTestViewController: UIViewController {
                 guard let self else { return }
                 handleOutput(event)
             }
-            .store(in: &subscriptions)
+            .store(in: &cancellables)
     }
 }
 
@@ -83,9 +83,9 @@ extension DailyTestViewController {
         switch event {
         case .fetchFailed(let isServerError):
             if isServerError {
-                showOneButtonAlert(with: "Server Error", for: "관리자에게 문의하세요.", storingIn: &subscriptions)
+                showOneButtonAlert(with: "Server Error", for: "관리자에게 문의하세요.", storingIn: &cancellables)
             } else {
-                showOneButtonAlert(with: "잠시 후 다시 시도해주세요.", storingIn: &subscriptions)
+                showOneButtonAlert(with: "잠시 후 다시 시도해주세요.", storingIn: &cancellables)
             }
         case .updateQuestion(let question):
             contentView.updateQuestion(question)
@@ -114,7 +114,7 @@ extension DailyTestViewController {
             break
         case .submitFailed:
             submitAlertViewController.dismiss(animated: true)
-            showOneButtonAlert(with: "잠시 후 다시 시도해주세요.", storingIn: &subscriptions)
+            showOneButtonAlert(with: "잠시 후 다시 시도해주세요.", storingIn: &cancellables)
         }
     }
 }

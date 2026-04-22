@@ -54,7 +54,7 @@ final class DailyTestViewModel {
     private let day: Int
     
     private let output: PassthroughSubject<Output, Never> = .init()
-    private var subscriptions = Set<AnyCancellable>()
+    private var cancellables = Set<AnyCancellable>()
     
     private let dailyService: DailyService
     private let analyticsService: any AnalyticsService
@@ -100,7 +100,7 @@ final class DailyTestViewModel {
                 output.send(.cancelAlert)
             }
         }
-        .store(in: &subscriptions)
+        .store(in: &cancellables)
         return output.eraseToAnyPublisher()
     }
     
