@@ -35,15 +35,18 @@ final class CheckConceptViewModel: ObservableObject {
 
     private let onNavigate: (CheckConceptNavigation) -> Void
     private let onboardingService: OnboardingService
+    private let userInfo: UserInfoManager
 
     // MARK: - Initializer
 
     init(
         onboardingService: OnboardingService,
-        onNavigate: @escaping (CheckConceptNavigation) -> Void
+        onNavigate: @escaping (CheckConceptNavigation) -> Void,
+        userInfo: UserInfoManager = .shared
     ) {
         self.onboardingService = onboardingService
         self.onNavigate = onNavigate
+        self.userInfo = userInfo
     }
 
     // MARK: - Methods
@@ -97,7 +100,7 @@ final class CheckConceptViewModel: ObservableObject {
         do {
             let keyConcepts = selectedSet.map { title(for: $0) }
             _ = try await onboardingService.sendSurvey(keyConcepts: keyConcepts)
-            UserInfoManager.shared.previewTestStatus = .surveyCompleted
+            userInfo.previewTestStatus = .surveyCompleted
             onNavigate(destination)
         } catch {
             errorMessage = "잠시 후 다시 시도해주세요."

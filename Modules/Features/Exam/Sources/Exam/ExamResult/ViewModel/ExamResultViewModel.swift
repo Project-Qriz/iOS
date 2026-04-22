@@ -48,7 +48,7 @@ final class ExamResultViewModel: ObservableObject {
     private var subject2DetailResult: [SubjectDetailData] = []
     private var historicalScores: [HistoricalScoreEntity] = []
     private var numOfDataToPresent = 0
-    private let nickname = UserInfoManager.shared.name
+    private let nickname: String
     private let examId: Int
     private let examService: any ExamService
     private let analyticsService: any AnalyticsService
@@ -58,8 +58,10 @@ final class ExamResultViewModel: ObservableObject {
     init(
         examId: Int,
         examService: any ExamService,
-        analyticsService: any AnalyticsService = AnalyticsManager.shared
+        analyticsService: any AnalyticsService = AnalyticsManager.shared,
+        userInfo: UserInfoManager = .shared
     ) {
+        self.nickname = userInfo.name
         self.examId = examId
         self.examService = examService
         self.analyticsService = analyticsService

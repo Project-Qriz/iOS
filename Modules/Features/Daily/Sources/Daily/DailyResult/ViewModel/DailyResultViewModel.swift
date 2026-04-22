@@ -50,14 +50,15 @@ final class DailyResultViewModel: ObservableObject {
     private var subject2DetailResult: [SubjectDetailData] = []
     private var passed = false
     private var numOfDataToPresent = 0
-    private let nickname = UserInfoManager.shared.name
+    private let nickname: String
     private let day: Int
     private var dayNum: String { "DAY \(day)" }
     private let dailyService: DailyService
 
     // MARK: - Initialization
 
-    init(dailyTestType: DailyLearnType, day: Int, dailyService: DailyService) {
+    init(dailyTestType: DailyLearnType, day: Int, dailyService: DailyService, userInfo: UserInfoManager = .shared) {
+        self.nickname = userInfo.name
         self.dailyTestType = dailyTestType
         self.day = day
         self.dailyService = dailyService

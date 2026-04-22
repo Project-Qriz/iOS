@@ -19,7 +19,7 @@ final class HomeViewModel {
     private let examScheduleService: ExamScheduleService
     private let dailyService: DailyService
     private let weeklyService: WeeklyRecommendService
-    private let userInfo = UserInfoManager.shared
+    private let userInfo: UserInfoManager
     private var state: HomeState
     private let outputSubject = PassthroughSubject<Output, Never>()
     private var cancellables = Set<AnyCancellable>()
@@ -33,10 +33,11 @@ final class HomeViewModel {
         examScheduleService: ExamScheduleService,
         dailyService: DailyService,
         weeklyService: WeeklyRecommendService,
-        analyticsService: any AnalyticsService = AnalyticsManager.shared
+        analyticsService: any AnalyticsService = AnalyticsManager.shared,
+        userInfo: UserInfoManager = .shared
     ) {
-        let name = UserInfoManager.shared.name
-        let previewStatus = UserInfoManager.shared.previewTestStatus
+        let name = userInfo.name
+        let previewStatus = userInfo.previewTestStatus
         let entry: EntryCardState = {
             switch previewStatus {
             case .previewCompleted, .previewSkipped:
@@ -56,6 +57,7 @@ final class HomeViewModel {
         self.dailyService = dailyService
         self.weeklyService = weeklyService
         self.analyticsService = analyticsService
+        self.userInfo = userInfo
         self.state = initState
     }
 
