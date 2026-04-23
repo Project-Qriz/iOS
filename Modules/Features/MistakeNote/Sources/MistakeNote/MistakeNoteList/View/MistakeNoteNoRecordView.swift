@@ -14,7 +14,7 @@ public struct MistakeNoteNoRecordView: View {
 
     public var onGoToExam: (() -> Void)?
 
-    // MARK: - Initializer
+    // MARK: - Initialization
 
     public init(onGoToExam: (() -> Void)? = nil) {
         self.onGoToExam = onGoToExam

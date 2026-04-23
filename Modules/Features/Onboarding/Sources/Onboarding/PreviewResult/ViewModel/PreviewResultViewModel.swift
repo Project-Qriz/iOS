@@ -16,7 +16,7 @@ final class PreviewResultViewModel: ObservableObject {
     private let userInfo: UserInfoManager
     private var incorrectCountDataArr: [IncorrectCountData] = []
 
-    // MARK: - Initializer
+    // MARK: - Initialization
 
     init(onboardingService: OnboardingService, onNavigateToGreeting: @escaping () -> Void, userInfo: UserInfoManager) {
         self.onboardingService = onboardingService

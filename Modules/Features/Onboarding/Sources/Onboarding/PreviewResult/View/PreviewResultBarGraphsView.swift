@@ -51,7 +51,7 @@ private extension PreviewResultBarGraphsView {
     }
 }
 
-// MARK: - Private Methods
+// MARK: - Methods
 
 private extension PreviewResultBarGraphsView {
 

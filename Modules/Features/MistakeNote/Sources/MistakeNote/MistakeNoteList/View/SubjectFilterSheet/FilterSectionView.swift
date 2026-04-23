@@ -23,7 +23,7 @@ public struct FilterSectionView: View {
         return chapter.concepts.filter { normalizedAvailableConcepts.contains($0.normalizingConcept()) }
     }
 
-    // MARK: - Initializer
+    // MARK: - Initialization
 
     public init(chapter: Chapter, availableConcepts: Set<String>, selectedItems: Binding<Set<String>>) {
         self.chapter = chapter
@@ -70,7 +70,7 @@ public struct FilterSectionView: View {
         }
     }
 
-    // MARK: - Private Methods
+    // MARK: - Methods
 
     private var isAllSelected: Bool {
         let allFilteredConcepts = Set(filteredConcepts)

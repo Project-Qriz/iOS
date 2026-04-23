@@ -37,7 +37,7 @@ final class CheckConceptViewModel: ObservableObject {
     private let onboardingService: OnboardingService
     private let userInfo: UserInfoManager
 
-    // MARK: - Initializer
+    // MARK: - Initialization
 
     init(
         onboardingService: OnboardingService,

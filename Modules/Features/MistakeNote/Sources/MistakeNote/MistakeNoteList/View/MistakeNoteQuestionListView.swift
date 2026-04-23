@@ -14,7 +14,7 @@ public struct MistakeNoteQuestionListView: View {
     public let questions: [MistakeNoteQuestion]
     public var onQuestionTap: ((MistakeNoteQuestion) -> Void)?
 
-    // MARK: - Initializer
+    // MARK: - Initialization
 
     public init(questions: [MistakeNoteQuestion], onQuestionTap: ((MistakeNoteQuestion) -> Void)? = nil) {
         self.questions = questions

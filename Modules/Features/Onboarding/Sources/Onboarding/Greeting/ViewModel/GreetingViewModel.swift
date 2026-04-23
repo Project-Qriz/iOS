@@ -14,7 +14,7 @@ final class GreetingViewModel: ObservableObject {
     private let userInfo: UserInfoManager
     private var timer: Timer?
 
-    // MARK: - Initializer
+    // MARK: - Initialization
 
     init(userInfoService: UserInfoService, onNavigate: @escaping () -> Void, userInfo: UserInfoManager) {
         self.userInfoService = userInfoService
