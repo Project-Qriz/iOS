@@ -21,7 +21,7 @@ public actor NetworkImpl: Network {
     private let decoder = JSONDecoder()
     private let notifier: SessionEventNotifier
     private let authKey = HTTPHeaderField.authorization.rawValue
-    private var isRefreshing = false
+    private var refreshTask: Task<Void, Error>?
     
     // MARK: - Initialization
 
@@ -47,7 +47,7 @@ public actor NetworkImpl: Network {
             saveTokens(from: data, response: response)
             return try decode(T.Response.self, from: data)
         } catch let NetworkError.unAuthorizedError(detailCode: code)
-                    where needsAuth && !isRefreshing && code == 3 {
+                    where needsAuth && code == 3 {
             return try await refreshAndRetry(urlRequest, responseType: T.Response.self)
         } catch {
             let networkError = mapToNetworkError(error)
@@ -58,37 +58,52 @@ public actor NetworkImpl: Network {
 }
 
 private extension NetworkImpl {
-    
+
     /// Access Token 갱신 후 재요청
+    /// 동시에 여러 요청이 401을 받으면 하나의 갱신 Task를 공유하고, 나머지는 완료를 기다린 후 재시도
     func refreshAndRetry<T: Decodable>(_ request: URLRequest, responseType: T.Type) async throws -> T {
-        do {
-            try await refreshAccessToken()
-            return try await retryRequest(request, responseType: responseType)
-        } catch {
-            handleRefreshFailure()
-            throw error
+        if let ongoing = refreshTask {
+            try await ongoing.value
+        } else {
+            let task = Task<Void, Error> { try await self.refreshAccessToken() }
+            refreshTask = task
+            do {
+                try await task.value
+                refreshTask = nil
+            } catch {
+                refreshTask = nil
+                handleRefreshFailure()
+                throw error
+            }
         }
+        return try await retryRequest(request, responseType: responseType)
     }
-    
+
     /// Access Token 갱신
+    /// 무한 재귀 방지를 위해 sendWithoutRetry를 사용
     func refreshAccessToken() async throws {
         let accessToken = keychain.retrieveToken(forKey: TokenKey.accessToken.rawValue)
         let refreshToken = keychain.retrieveToken(forKey: TokenKey.refreshToken.rawValue)
-        
+
         guard let unwrappedRefreshToken = refreshToken else {
             throw NetworkError.unAuthorizedError(detailCode: nil)
         }
-        
-        isRefreshing = true
-        defer { isRefreshing = false }
-        
+
         let request = RefreshTokenRequest(accessToken: accessToken ?? "", refreshToken: unwrappedRefreshToken)
-        let response: RefreshTokenResponse = try await self.send(request)
-        
-        // 새로운 Refresh Token이 있으면 저장
+        let response: RefreshTokenResponse = try await sendWithoutRetry(request)
+
         if let newRefreshToken = response.data?.refreshToken {
             _ = keychain.save(token: newRefreshToken, forKey: TokenKey.refreshToken.rawValue)
         }
+    }
+
+    /// 재시도 로직 없이 네트워크 요청만 수행 (토큰 갱신 요청 전용)
+    func sendWithoutRetry<T: Request>(_ request: T) async throws -> T.Response {
+        let urlRequest = try RequestFactory(request: request).urlRequestRepresentation()
+        let (data, response) = try await session.data(for: urlRequest)
+        try validate(response: response, data: data)
+        saveTokens(from: data, response: response)
+        return try decode(T.Response.self, from: data)
     }
     
     /// 갱신된 Access Token으로 재요청
