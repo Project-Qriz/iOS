@@ -19,7 +19,7 @@ struct CheckConceptViewModelTests {
             previewTestStatus: .notStarted,
             provider: nil
         )
-        return CheckConceptViewModel(onboardingService: service, onNavigate: onNavigate)
+        return CheckConceptViewModel(onboardingService: service, onNavigate: onNavigate, userInfo: .shared)
     }
 
     // MARK: - 초기 상태

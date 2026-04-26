@@ -22,7 +22,7 @@ struct GreetingViewModelTests {
         service: MockUserInfoService = .init(),
         onNavigate: @escaping () -> Void = {}
     ) -> GreetingViewModel {
-        GreetingViewModel(userInfoService: service, onNavigate: onNavigate)
+        GreetingViewModel(userInfoService: service, onNavigate: onNavigate, userInfo: .shared)
     }
 
     // MARK: - nickname 즉시 세팅

@@ -28,7 +28,7 @@ final class ExamListView: UIView {
         clearViewTappedSubject.eraseToAnyPublisher()
     }
 
-    // MARK: - Initializers
+    // MARK: - Initialization
     override init(frame: CGRect) {
         super.init(frame: frame)
         backgroundColor = .customBlue50
@@ -58,7 +58,7 @@ final class ExamListView: UIView {
         clearViewTappedSubject.send()
     }
 
-    // MARK: - Update Methods
+    // MARK: - Methods
     func selectFilterItem(_ filterType: ExamListFilterType) {
         examListFilterItemsView.updateSelectedItem(filterType)
         examListFilterButton.setText(filterType: filterType)

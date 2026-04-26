@@ -13,7 +13,8 @@ struct PreviewResultViewModelTests {
     ) -> PreviewResultViewModel {
         PreviewResultViewModel(
             onboardingService: service,
-            onNavigateToGreeting: onNavigateToGreeting
+            onNavigateToGreeting: onNavigateToGreeting,
+            userInfo: .shared
         )
     }
 

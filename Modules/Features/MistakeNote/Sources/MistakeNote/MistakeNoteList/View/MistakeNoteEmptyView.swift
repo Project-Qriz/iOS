@@ -10,7 +10,7 @@ import DesignSystem
 
 public struct MistakeNoteEmptyView: View {
 
-    // MARK: - Initializer
+    // MARK: - Initialization
 
     public init() {}
 

@@ -7,7 +7,7 @@ final class BeginOnboardingViewModel: ObservableObject {
 
     private let onNavigate: () -> Void
 
-    // MARK: - Initializer
+    // MARK: - Initialization
 
     init(onNavigate: @escaping () -> Void) {
         self.onNavigate = onNavigate

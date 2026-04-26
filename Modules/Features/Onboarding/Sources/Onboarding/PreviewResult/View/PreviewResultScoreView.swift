@@ -89,7 +89,7 @@ private extension PreviewResultScoreView {
     }
 }
 
-// MARK: - Private Methods
+// MARK: - Methods
 
 private extension PreviewResultScoreView {
 

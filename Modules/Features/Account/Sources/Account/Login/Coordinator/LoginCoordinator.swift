@@ -75,7 +75,7 @@ public final class LoginCoordinatorImpl: LoginCoordinator, NavigationGuard {
     }
     
     public func start() -> UIViewController {
-        let loginVM = LoginViewModel(loginService: loginService, userInfoService: userInfoService, socialLoginService: socialLoginService)
+        let loginVM = LoginViewModel(loginService: loginService, userInfoService: userInfoService, socialLoginService: socialLoginService, userInfo: .shared)
         let loginVC = LoginViewController(loginVM: loginVM)
         loginVC.coordinator = self
         navigationController.viewControllers = [loginVC]

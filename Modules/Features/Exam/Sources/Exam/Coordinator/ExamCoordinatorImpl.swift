@@ -71,7 +71,7 @@ final class ExamCoordinatorImpl: ExamNavigating, NavigationGuard {
         adService.showInterstitialAd(from: navigationController) { [weak self] in
             guard let self else { return }
             self.guardNavigation {
-                let vm = ExamResultViewModel(examId: examId, examService: self.service)
+                let vm = ExamResultViewModel(examId: examId, examService: self.service, userInfo: .shared)
                 vm.delegate = self
                 self.examResultViewModel = vm
                 let vc = UIHostingController(rootView: ExamResultView(viewModel: vm))

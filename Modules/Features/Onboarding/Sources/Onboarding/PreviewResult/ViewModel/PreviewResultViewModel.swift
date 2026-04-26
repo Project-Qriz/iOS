@@ -13,13 +13,15 @@ final class PreviewResultViewModel: ObservableObject {
 
     private let onNavigateToGreeting: () -> Void
     private let onboardingService: OnboardingService
+    private let userInfo: UserInfoManager
     private var incorrectCountDataArr: [IncorrectCountData] = []
 
-    // MARK: - Initializer
+    // MARK: - Initialization
 
-    init(onboardingService: OnboardingService, onNavigateToGreeting: @escaping () -> Void) {
+    init(onboardingService: OnboardingService, onNavigateToGreeting: @escaping () -> Void, userInfo: UserInfoManager) {
         self.onboardingService = onboardingService
         self.onNavigateToGreeting = onNavigateToGreeting
+        self.userInfo = userInfo
     }
 
     // MARK: - Methods
@@ -44,7 +46,7 @@ final class PreviewResultViewModel: ObservableObject {
     }
 
     private func updateData(_ data: AnalyzePreviewResponse.DataInfo) {
-        previewScoresData.nickname = UserInfoManager.shared.name
+        previewScoresData.nickname = userInfo.name
         previewScoresData.expectScore = data.estimatedScore
 
         if data.topConceptsToImprove.count >= 2 {

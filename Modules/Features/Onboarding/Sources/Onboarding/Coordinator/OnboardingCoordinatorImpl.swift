@@ -68,7 +68,8 @@ final class OnboardingCoordinatorImpl: OnboardingNavigating, NavigationGuard {
                     case .previewTest: self?.showBeginPreviewTest()
                     case .greeting: self?.showGreeting()
                     }
-                }
+                },
+                userInfo: .shared
             )
             let vc = UIHostingController(rootView: CheckConceptView(viewModel: vm))
             navigationController.pushViewController(vc, animated: true)
@@ -100,7 +101,8 @@ final class OnboardingCoordinatorImpl: OnboardingNavigating, NavigationGuard {
         guardNavigation {
             let vm = PreviewResultViewModel(
                 onboardingService: onboardingService,
-                onNavigateToGreeting: { [weak self] in self?.showGreeting() }
+                onNavigateToGreeting: { [weak self] in self?.showGreeting() },
+                userInfo: .shared
             )
             let vc = UIHostingController(rootView: PreviewResultView(viewModel: vm))
             navigationController.pushViewController(vc, animated: true)
@@ -111,7 +113,8 @@ final class OnboardingCoordinatorImpl: OnboardingNavigating, NavigationGuard {
         guardNavigation {
             let vm = GreetingViewModel(
                 userInfoService: userInfoService,
-                onNavigate: { [weak self] in self?.finishOnboarding() }
+                onNavigate: { [weak self] in self?.finishOnboarding() },
+                userInfo: .shared
             )
             let vc = UIHostingController(rootView: GreetingView(viewModel: vm))
             navigationController.pushViewController(vc, animated: true)

@@ -171,7 +171,8 @@ private struct PreviewOnboardingService: OnboardingService {
     CheckConceptView(
         viewModel: CheckConceptViewModel(
             onboardingService: PreviewOnboardingService(),
-            onNavigate: { _ in }
+            onNavigate: { _ in },
+            userInfo: .shared
         )
     )
 }

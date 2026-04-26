@@ -36,7 +36,7 @@ struct ExamResultViewModelTests {
         let delegate: MockDelegate
 
         init(service: any ExamService) {
-            sut = ExamResultViewModel(examId: 1, examService: service)
+            sut = ExamResultViewModel(examId: 1, examService: service, userInfo: .shared)
             delegate = MockDelegate()
             sut.delegate = delegate
         }

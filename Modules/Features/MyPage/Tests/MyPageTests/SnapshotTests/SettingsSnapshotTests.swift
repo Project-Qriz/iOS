@@ -21,9 +21,7 @@ class SettingsSnapshotTests: MyPageSnapshotTestCase {
         )
         let vc = SettingsViewController(viewModel: vm)
         let nav = inNav(vc)
-        nav.view.frame = CGRect(origin: .zero, size: Self.deviceSize)
-        nav.view.layoutIfNeeded()
-        assertSnapshot(of: nav, as: .image)
+        assertSnapshot(of: nav, as: .image(on: .iPhone16Pro))
     }
 
     // MARK: - 뷰 컴포넌트

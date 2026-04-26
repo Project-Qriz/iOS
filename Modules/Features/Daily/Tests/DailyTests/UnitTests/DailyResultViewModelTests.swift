@@ -31,7 +31,7 @@ struct DailyResultViewModelTests {
         let delegate: MockDelegate
 
         init(service: DailyService, type: DailyLearnType = .daily) {
-            sut = DailyResultViewModel(dailyTestType: type, day: 1, dailyService: service)
+            sut = DailyResultViewModel(dailyTestType: type, day: 1, dailyService: service, userInfo: .shared)
             delegate = MockDelegate()
             sut.delegate = delegate
         }

@@ -54,7 +54,8 @@ final class HomeCoordinatorImpl: HomeCoordinator, NavigationGuard {
         let viewModel = HomeViewModel(
             examScheduleService: examService,
             dailyService: dailyService,
-            weeklyService: weeklyService
+            weeklyService: weeklyService,
+            userInfo: .shared
         )
         homeVM = viewModel
         let homeVC = HomeViewController(viewModel: viewModel)

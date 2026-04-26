@@ -22,17 +22,11 @@ class SubjectFilterSheetSnapshotTests: MistakeNoteSnapshotTestCase {
 
     func testInitialState() {
         let vc = makeVC()
-        vc.view.frame = CGRect(origin: .zero, size: Self.deviceSize)
-        vc.view.layoutIfNeeded()
-
-        assertSnapshot(of: vc, as: .image)
+        assertSnapshot(of: vc, as: .image(on: .iPhone16Pro))
     }
 
     func testWithSelectedConcepts() {
         let vc = makeVC(initialSelectedConcepts: ["엔터티", "속성"])
-        vc.view.frame = CGRect(origin: .zero, size: Self.deviceSize)
-        vc.view.layoutIfNeeded()
-
-        assertSnapshot(of: vc, as: .image)
+        assertSnapshot(of: vc, as: .image(on: .iPhone16Pro))
     }
 }

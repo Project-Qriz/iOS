@@ -10,7 +10,8 @@ class PreviewResultSnapshotTests: OnboardingSnapshotTestCase {
     func testLoadedState() {
         let vm = PreviewResultViewModel(
             onboardingService: MockOnboardingService(),
-            onNavigateToGreeting: {}
+            onNavigateToGreeting: {},
+            userInfo: .shared
         )
         // subjectScores는 [0,0,0,0,0] 5개 배열로 초기화 — 인덱스 할당으로 실제 updateData와 동일하게 재현
         vm.previewScoresData.expectScore = 72.0
@@ -28,9 +29,6 @@ class PreviewResultSnapshotTests: OnboardingSnapshotTestCase {
         ]
 
         let vc = UIHostingController(rootView: PreviewResultView(viewModel: vm))
-        vc.view.frame = CGRect(origin: .zero, size: Self.deviceSize)
-        vc.view.layoutIfNeeded()
-
-        assertSnapshot(of: vc, as: .image)
+        assertSnapshot(of: vc, as: .image(on: .iPhone16Pro))
     }
 }

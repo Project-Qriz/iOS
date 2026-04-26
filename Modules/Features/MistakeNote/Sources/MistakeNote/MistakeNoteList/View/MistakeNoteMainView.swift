@@ -19,7 +19,7 @@ public struct MistakeNoteMainView: View {
     @State private var showSubjectFilterSheet: Bool = false
     @State private var sheetSubject: QRIZUtils.Subject = .one
 
-    // MARK: - Initializer
+    // MARK: - Initialization
 
     public init(viewModel: MistakeNoteListViewModel) {
         _viewModel = StateObject(wrappedValue: viewModel)
@@ -200,7 +200,7 @@ private extension MistakeNoteMainView {
     }
 }
 
-// MARK: - Private Methods
+// MARK: - Methods
 
 private extension MistakeNoteMainView {
 

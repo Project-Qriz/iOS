@@ -87,7 +87,7 @@ final class DailyCoordinatorImpl: DailyNavigating, NavigationGuard {
         adService.showInterstitialAd(from: navigationController) { [weak self] in
             guard let self else { return }
             self.guardNavigation {
-                let vm = DailyResultViewModel(dailyTestType: self.type, day: self.day, dailyService: self.service)
+                let vm = DailyResultViewModel(dailyTestType: self.type, day: self.day, dailyService: self.service, userInfo: .shared)
                 vm.delegate = self
                 self.dailyResultViewModel = vm
                 let vc = UIHostingController(rootView: DailyResultView(viewModel: vm))

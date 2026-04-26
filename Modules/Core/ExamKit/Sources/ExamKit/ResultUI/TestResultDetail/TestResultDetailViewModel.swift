@@ -20,7 +20,7 @@ public final class TestResultDetailViewModel {
 
     public let resultDetailData: ResultDetailData
     public private(set) var resultScoresData: ResultScoresData = .init()
-    private var subscriptions = Set<AnyCancellable>()
+    private var cancellables = Set<AnyCancellable>()
 
     // MARK: - Initialization
 
@@ -41,7 +41,7 @@ public final class TestResultDetailViewModel {
                     setScoresData(selected)
                 }
             }
-            .store(in: &subscriptions)
+            .store(in: &cancellables)
     }
 
     private func setScoresData(_ selectedItem: ResultDetailMenuItems) {

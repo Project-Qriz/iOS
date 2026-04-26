@@ -24,6 +24,7 @@ final class LoginViewModel {
     private var isLoggingIn: Bool = false
     private let outputSubject: PassthroughSubject<Output, Never> = .init()
     private let logger = Logger.make(category: "LoginViewModel")
+    private let userInfo: UserInfoManager
 
     var output: AnyPublisher<Output, Never> {
         outputSubject.eraseToAnyPublisher()
@@ -37,12 +38,14 @@ final class LoginViewModel {
         loginService: LoginService,
         userInfoService: UserInfoService,
         socialLoginService: SocialLoginService,
-        analyticsService: any AnalyticsService = AnalyticsManager.shared
+        analyticsService: any AnalyticsService = AnalyticsManager.shared,
+        userInfo: UserInfoManager
     ) {
         self.loginService = loginService
         self.userInfoService = userInfoService
         self.socialLoginService = socialLoginService
         self.analyticsService = analyticsService
+        self.userInfo = userInfo
     }
 
     // MARK: - Methods
@@ -97,7 +100,7 @@ final class LoginViewModel {
             do {
                 let response = try await loginService.login(id: id, password: password)
                 let user = response.data.user
-                UserInfoManager.shared.update(name: user.name, userId: user.userId, email: user.email, previewTestStatus: user.previewTestStatus, provider: user.provider)
+                userInfo.update(name: user.name, userId: user.userId, email: user.email, previewTestStatus: user.previewTestStatus, provider: user.provider)
                 analyticsService.log(.login(.email))
                 outputSubject.send(.loginSucceeded)
             } catch {
@@ -137,7 +140,7 @@ final class LoginViewModel {
             do {
                 let response = try await action()
                 let user = response.data.user
-                UserInfoManager.shared.update(
+                userInfo.update(
                     name: user.name,
                     userId: user.userId,
                     email: user.email,

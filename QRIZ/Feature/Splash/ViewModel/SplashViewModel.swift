@@ -16,14 +16,16 @@ final class SplashViewModel {
 
     private let userInfoService: UserInfoService
     private let keychain: KeychainManager
+    private let userInfo: UserInfoManager
     private let outputSubject = PassthroughSubject<Output, Never>()
     private var cancellables = Set<AnyCancellable>()
 
     // MARK: - Initialization
 
-    init(userInfoService: UserInfoService, keychain: KeychainManager) {
+    init(userInfoService: UserInfoService, keychain: KeychainManager, userInfo: UserInfoManager) {
         self.userInfoService = userInfoService
         self.keychain = keychain
+        self.userInfo = userInfo
     }
 
     // MARK: - Methods
@@ -53,7 +55,7 @@ final class SplashViewModel {
         do {
             let response = try await userInfoService.getUserInfo()
             let user = response.data
-            UserInfoManager.shared.update(
+            userInfo.update(
                 name: user.name,
                 userId: user.userId,
                 email: user.email,

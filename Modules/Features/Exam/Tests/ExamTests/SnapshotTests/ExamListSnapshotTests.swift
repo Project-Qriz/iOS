@@ -26,37 +26,29 @@ class ExamListSnapshotTests: ExamSnapshotTestCase {
         titleLabel.font = .boldSystemFont(ofSize: 18)
         vc.navigationItem.titleView = titleLabel
 
-        let nav = inExamNav(vc)
-        nav.view.frame = CGRect(origin: .zero, size: Self.deviceSize)
-        nav.view.layoutIfNeeded()
-        return nav
+        return inExamNav(vc)
     }
 
     // MARK: - ExamListView 상태 스냅샷
 
     func testExamListView_empty() {
-        let nav = makeConfiguredNav()
-        assertSnapshot(of: nav, as: .image)
+        assertSnapshot(of: makeConfiguredNav(), as: .image(on: .iPhone16Pro))
     }
 
     func testExamListView_filterVisible() {
-        let nav = makeConfiguredNav(isFilterVisible: true)
-        assertSnapshot(of: nav, as: .image)
+        assertSnapshot(of: makeConfiguredNav(isFilterVisible: true), as: .image(on: .iPhone16Pro))
     }
 
     func testExamListView_incompleteFilter() {
-        let nav = makeConfiguredNav(filterType: .incomplete)
-        assertSnapshot(of: nav, as: .image)
+        assertSnapshot(of: makeConfiguredNav(filterType: .incomplete), as: .image(on: .iPhone16Pro))
     }
 
     func testExamListView_completedFilter() {
-        let nav = makeConfiguredNav(filterType: .completed)
-        assertSnapshot(of: nav, as: .image)
+        assertSnapshot(of: makeConfiguredNav(filterType: .completed), as: .image(on: .iPhone16Pro))
     }
 
     func testExamListView_sortByDateFilter() {
-        let nav = makeConfiguredNav(filterType: .sortByDate)
-        assertSnapshot(of: nav, as: .image)
+        assertSnapshot(of: makeConfiguredNav(filterType: .sortByDate), as: .image(on: .iPhone16Pro))
     }
 
     // MARK: - ExamListCell 스냅샷

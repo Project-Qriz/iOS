@@ -11,13 +11,15 @@ final class GreetingViewModel: ObservableObject {
 
     private let onNavigate: () -> Void
     private let userInfoService: UserInfoService
+    private let userInfo: UserInfoManager
     private var timer: Timer?
 
-    // MARK: - Initializer
+    // MARK: - Initialization
 
-    init(userInfoService: UserInfoService, onNavigate: @escaping () -> Void) {
+    init(userInfoService: UserInfoService, onNavigate: @escaping () -> Void, userInfo: UserInfoManager) {
         self.userInfoService = userInfoService
         self.onNavigate = onNavigate
+        self.userInfo = userInfo
     }
 
     deinit {
@@ -29,7 +31,7 @@ final class GreetingViewModel: ObservableObject {
     // MARK: - Methods
 
     func onAppear() {
-        nickname = UserInfoManager.shared.name
+        nickname = userInfo.name
         Task { await fetchUserInfo() }
         startTimer()
     }
@@ -48,7 +50,7 @@ final class GreetingViewModel: ObservableObject {
     private func fetchUserInfo() async {
         guard let response = try? await userInfoService.getUserInfo() else { return }
         let user = response.data
-        UserInfoManager.shared.update(
+        userInfo.update(
             name: user.name,
             userId: user.userId,
             email: user.email,

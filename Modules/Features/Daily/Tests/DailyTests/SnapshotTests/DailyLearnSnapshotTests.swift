@@ -24,49 +24,46 @@ class DailyLearnSnapshotTests: DailySnapshotTestCase {
         titleLabel.font = .boldSystemFont(ofSize: 18)
         vc.navigationItem.titleView = titleLabel
 
-        let nav = inDailyNav(vc)
-        nav.view.frame = CGRect(origin: .zero, size: Self.deviceSize)
-        nav.view.layoutIfNeeded()
-        return nav
+        return inDailyNav(vc)
     }
 
     // MARK: - DailyLearnView state 별 스냅샷
 
     func testDailyLearnView_unavailable() {
         let nav = makeConfiguredNav(state: .unavailable)
-        assertSnapshot(of: nav, as: .image)
+        assertSnapshot(of: nav, as: .image(on: .iPhone16Pro))
     }
 
     func testDailyLearnView_zeroAttempt() {
         let nav = makeConfiguredNav(state: .zeroAttempt)
-        assertSnapshot(of: nav, as: .image)
+        assertSnapshot(of: nav, as: .image(on: .iPhone16Pro))
     }
 
     func testDailyLearnView_passed() {
         let nav = makeConfiguredNav(state: .passed, score: 85.0)
-        assertSnapshot(of: nav, as: .image)
+        assertSnapshot(of: nav, as: .image(on: .iPhone16Pro))
     }
 
     func testDailyLearnView_retestRequired() {
         let nav = makeConfiguredNav(state: .retestRequired, score: 55.0)
-        assertSnapshot(of: nav, as: .image)
+        assertSnapshot(of: nav, as: .image(on: .iPhone16Pro))
     }
 
     func testDailyLearnView_failed() {
         let nav = makeConfiguredNav(state: .failed, score: 40.0)
-        assertSnapshot(of: nav, as: .image)
+        assertSnapshot(of: nav, as: .image(on: .iPhone16Pro))
     }
 
     // MARK: - DailyLearnType 별 타이틀
 
     func testDailyLearnView_weeklyType() {
         let nav = makeConfiguredNav(state: .zeroAttempt, type: .weekly)
-        assertSnapshot(of: nav, as: .image)
+        assertSnapshot(of: nav, as: .image(on: .iPhone16Pro))
     }
 
     func testDailyLearnView_monthlyType() {
         let nav = makeConfiguredNav(state: .zeroAttempt, type: .monthly)
-        assertSnapshot(of: nav, as: .image)
+        assertSnapshot(of: nav, as: .image(on: .iPhone16Pro))
     }
 
     // MARK: - StudyContentCell
