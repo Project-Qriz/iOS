@@ -6,6 +6,9 @@
   <img src="https://img.shields.io/badge/Swift-5.0-F05138?style=flat&logo=swift&logoColor=white" />
   <img src="https://img.shields.io/badge/iOS-17.0+-000000?style=flat&logo=apple&logoColor=white" />
   <img src="https://img.shields.io/badge/Xcode-16-147EFB?style=flat&logo=xcode&logoColor=white" />
+  <a href="https://apps.apple.com/kr/app/qriz/id6755752454">
+    <img src="https://img.shields.io/badge/App_Store-0D96F6?style=flat&logo=app-store&logoColor=white" alt="App Store"/>
+  </a>
 </p>
 
 <br>
