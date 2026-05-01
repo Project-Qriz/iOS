@@ -23,6 +23,8 @@ public protocol DailyService {
     
     func resetPlan() async throws -> DailyResetResponse
 
+    func selectPlan(planType: Int) async throws -> DailyPlanSelectResponse
+
     func getDailyResultDetail(dayNumber: Int, questionId: Int) async throws -> DailyResultDetailResponse
 }
 
@@ -74,6 +76,11 @@ public final class DailyServiceImpl: DailyService {
     
     public func resetPlan() async throws -> DailyResetResponse {
         let request = DailyResetRequest(accessToken: getAccessToken())
+        return try await network.send(request)
+    }
+
+    public func selectPlan(planType: Int) async throws -> DailyPlanSelectResponse {
+        let request = DailyPlanSelectRequest(accessToken: getAccessToken(), planType: planType)
         return try await network.send(request)
     }
 
