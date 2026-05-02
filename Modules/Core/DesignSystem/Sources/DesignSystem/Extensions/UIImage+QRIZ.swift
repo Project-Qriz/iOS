@@ -41,6 +41,9 @@ public extension UIImage {
 
     // MARK: - Onboarding
 
+    static let planIcon7Day = image(named: "planIcon7Day")
+    static let planIcon14Day = image(named: "planIcon14Day")
+    static let planIcon30Day = image(named: "planIcon30Day")
     static let checkboxOffIcon = image(named: "checkboxOffIcon")
     static let checkboxOnIcon = image(named: "checkboxOnIcon")
     static let checkboxSomeIcon = image(named: "checkboxSomeIcon")
