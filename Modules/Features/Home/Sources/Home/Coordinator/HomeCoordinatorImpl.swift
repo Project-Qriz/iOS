@@ -112,7 +112,8 @@ final class HomeCoordinatorImpl: HomeCoordinator, NavigationGuard {
             let onboarding = makeOnboardingCoordinator(
                 navigationController: navi,
                 onboardingService: self.onboardingService,
-                userInfoService: self.userInfoService
+                userInfoService: self.userInfoService,
+                dailyService: self.dailyService
             )
             onboarding.delegate = self
             self.onboardingCoordinator = onboarding
