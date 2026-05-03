@@ -19,6 +19,10 @@ final class MockDailyService: DailyService {
         return try resetPlanResult.get()
     }
 
+    func selectPlan(planType: Int) async throws -> DailyPlanSelectResponse {
+        throw NSError(domain: "MockDailyService", code: -1, userInfo: [NSLocalizedDescriptionKey: "not implemented"])
+    }
+
     func getDailyDetailAndStatus(dayNumber: Int) async throws -> DailyDetailAndStatusResponse {
         throw NSError(domain: "MockDailyService", code: -1, userInfo: [NSLocalizedDescriptionKey: "not implemented"])
     }
