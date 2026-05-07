@@ -18,7 +18,7 @@
 
 <br>
 
-> 📅 **개발 기간:** 2025.01 ~ 현재 &nbsp;|&nbsp;**팀 구성:** iOS 2명, Backend 1명, Design: 1명
+> 📅 **개발 기간:** 2025.01 ~ 현재 &nbsp;|&nbsp;**팀 구성:** iOS 2명, Android 2명, Backend 1명, Design: 1명
 
 <br>
 
