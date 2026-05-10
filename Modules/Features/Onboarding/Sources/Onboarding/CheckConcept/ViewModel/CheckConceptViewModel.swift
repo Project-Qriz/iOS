@@ -1,6 +1,6 @@
 import Foundation
 import QRIZUtils
-import Network
+import QRIZNetwork
 
 enum CheckConceptNavigation {
     case previewTest

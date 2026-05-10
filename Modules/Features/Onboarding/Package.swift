@@ -9,7 +9,7 @@ let package = Package(
         .library(name: "Onboarding", targets: ["Onboarding"]),
     ],
     dependencies: [
-        .package(path: "../../Core/Network"),
+        .package(path: "../../Core/QRIZNetwork"),
         .package(path: "../../Core/DesignSystem"),
         .package(path: "../../Core/QRIZUtils"),
         .package(path: "../ExamKit"),
@@ -19,7 +19,7 @@ let package = Package(
         .target(
             name: "Onboarding",
             dependencies: [
-                "Network",
+                "QRIZNetwork",
                 "DesignSystem",
                 "QRIZUtils",
                 "ExamKit",
@@ -32,7 +32,7 @@ let package = Package(
             name: "OnboardingTests",
             dependencies: [
                 "Onboarding",
-                "Network",
+                "QRIZNetwork",
                 "QRIZUtils",
                 .product(name: "SnapshotTesting", package: "swift-snapshot-testing"),
             ]

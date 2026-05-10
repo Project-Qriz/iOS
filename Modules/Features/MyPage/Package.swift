@@ -9,7 +9,7 @@ let package = Package(
         .library(name: "MyPage", targets: ["MyPage"]),
     ],
     dependencies: [
-        .package(path: "../../Core/Network"),
+        .package(path: "../../Core/QRIZNetwork"),
         .package(path: "../../Core/DesignSystem"),
         .package(path: "../../Core/QRIZUtils"),
         .package(path: "../Auth"),
@@ -20,7 +20,7 @@ let package = Package(
         .target(
             name: "MyPage",
             dependencies: [
-                "Network",
+                "QRIZNetwork",
                 "DesignSystem",
                 "QRIZUtils",
                 "Auth",
@@ -34,7 +34,7 @@ let package = Package(
             name: "MyPageTests",
             dependencies: [
                 "MyPage",
-                "Network",
+                "QRIZNetwork",
                 "Account",
                 "QRIZUtils",
                 .product(name: "SnapshotTesting", package: "swift-snapshot-testing"),

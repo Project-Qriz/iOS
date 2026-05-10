@@ -2,7 +2,7 @@ import Foundation
 import Testing
 import Combine
 @testable import Home
-import Network
+import QRIZNetwork
 import QRIZUtils
 
 @MainActor

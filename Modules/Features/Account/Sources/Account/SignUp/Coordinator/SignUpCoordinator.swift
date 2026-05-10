@@ -9,7 +9,7 @@ import UIKit
 import DesignSystem
 import Combine
 import QRIZUtils
-import Network
+import QRIZNetwork
 
 @MainActor
 public protocol SignUpCoordinator: Coordinator {

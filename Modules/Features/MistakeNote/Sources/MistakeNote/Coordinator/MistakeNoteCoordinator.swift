@@ -7,7 +7,7 @@
 
 import UIKit
 import QRIZUtils
-import Network
+import QRIZNetwork
 import Conceptbook
 
 @MainActor

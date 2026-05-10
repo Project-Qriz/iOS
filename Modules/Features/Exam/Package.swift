@@ -9,7 +9,7 @@ let package = Package(
         .library(name: "Exam", targets: ["Exam"]),
     ],
     dependencies: [
-        .package(path: "../../Core/Network"),
+        .package(path: "../../Core/QRIZNetwork"),
         .package(path: "../../Core/DesignSystem"),
         .package(path: "../../Core/QRIZUtils"),
         .package(path: "../ExamKit"),
@@ -21,7 +21,7 @@ let package = Package(
         .target(
             name: "Exam",
             dependencies: [
-                "Network",
+                "QRIZNetwork",
                 "DesignSystem",
                 "QRIZUtils",
                 "ExamKit",

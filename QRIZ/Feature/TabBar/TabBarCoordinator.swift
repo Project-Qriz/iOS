@@ -8,7 +8,7 @@
 import UIKit
 import QRIZUtils
 import DesignSystem
-import Network
+import QRIZNetwork
 import Auth
 import Home
 import Conceptbook

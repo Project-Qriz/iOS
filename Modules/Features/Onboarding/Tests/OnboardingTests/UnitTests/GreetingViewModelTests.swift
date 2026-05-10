@@ -1,7 +1,7 @@
 import Testing
 import Foundation
 import QRIZUtils
-import Network
+import QRIZNetwork
 @testable import Onboarding
 
 @MainActor

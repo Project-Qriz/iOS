@@ -1,5 +1,5 @@
 import Foundation
-import Network
+import QRIZNetwork
 import QRIZUtils
 
 // @MainActor: UserInfoService는 Sendable을 요구하며, Swift 5.7+에서 @MainActor 클래스는

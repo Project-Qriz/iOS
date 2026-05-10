@@ -1,5 +1,5 @@
 import Foundation
-import Network
+import QRIZNetwork
 
 final class StubMistakeNoteService: MistakeNoteService, @unchecked Sendable {
     func getCompletedDays() async throws -> CompletedDailyDaysResponse {

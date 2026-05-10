@@ -7,7 +7,7 @@
 
 import SwiftUI
 import DesignSystem
-import Network
+import QRIZNetwork
 import QRIZUtils
 
 public struct ProblemDetailView: View {

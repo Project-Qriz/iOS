@@ -8,7 +8,7 @@
 import Foundation
 import os
 import QRIZUtils
-import Network
+import QRIZNetwork
 
 @MainActor
 public final class ProblemDetailViewModel: ObservableObject {

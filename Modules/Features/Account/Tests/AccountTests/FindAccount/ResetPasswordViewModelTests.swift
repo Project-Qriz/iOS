@@ -6,7 +6,7 @@
 import Testing
 import Combine
 @testable import Account
-import Network
+import QRIZNetwork
 
 @MainActor
 @Suite("ResetPasswordViewModel 테스트", .serialized)

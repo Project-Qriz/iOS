@@ -9,7 +9,7 @@ import Foundation
 import Combine
 import os.log
 import QRIZUtils
-import Network
+import QRIZNetwork
 
 @MainActor
 final class HomeViewModel {

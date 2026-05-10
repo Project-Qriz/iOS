@@ -2,7 +2,7 @@ import Foundation
 import os
 import Combine
 import QRIZUtils
-import Network
+import QRIZNetwork
 
 @MainActor
 final class SettingsViewModel {

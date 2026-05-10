@@ -2,7 +2,7 @@ import Foundation
 import Testing
 import Combine
 @testable import MyPage
-import Network
+import QRIZNetwork
 
 @MainActor
 @Suite("SettingsViewModel 테스트", .serialized)

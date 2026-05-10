@@ -1,7 +1,7 @@
 import UIKit
 import DesignSystem
 import QRIZUtils
-import Network
+import QRIZNetwork
 import Account
 
 @MainActor

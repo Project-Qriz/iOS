@@ -1,6 +1,6 @@
 import UIKit
 import QRIZUtils
-import Network
+import QRIZNetwork
 
 // MARK: - Public (메인 앱에 노출)
 

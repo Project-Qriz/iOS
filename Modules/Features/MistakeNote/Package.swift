@@ -9,7 +9,7 @@ let package = Package(
         .library(name: "MistakeNote", targets: ["MistakeNote"]),
     ],
     dependencies: [
-        .package(path: "../../Core/Network"),
+        .package(path: "../../Core/QRIZNetwork"),
         .package(path: "../../Core/DesignSystem"),
         .package(path: "../../Core/QRIZUtils"),
         .package(path: "../Conceptbook"),
@@ -19,7 +19,7 @@ let package = Package(
         .target(
             name: "MistakeNote",
             dependencies: [
-                "Network",
+                "QRIZNetwork",
                 "DesignSystem",
                 "QRIZUtils",
                 "Conceptbook",
@@ -29,7 +29,7 @@ let package = Package(
             name: "MistakeNoteTests",
             dependencies: [
                 "MistakeNote",
-                "Network",
+                "QRIZNetwork",
                 "QRIZUtils",
                 .product(name: "SnapshotTesting", package: "swift-snapshot-testing"),
             ]

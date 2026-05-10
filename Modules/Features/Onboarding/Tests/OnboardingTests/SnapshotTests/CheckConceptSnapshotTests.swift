@@ -1,7 +1,7 @@
 import XCTest
 import SnapshotTesting
 import SwiftUI
-import Network
+import QRIZNetwork
 @testable import Onboarding
 
 @MainActor

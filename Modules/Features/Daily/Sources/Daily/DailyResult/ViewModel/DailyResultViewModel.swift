@@ -7,7 +7,7 @@
 
 import Foundation
 import QRIZUtils
-import Network
+import QRIZNetwork
 
 @MainActor
 protocol DailyResultViewModelDelegate: AnyObject {

@@ -1,6 +1,6 @@
 import UIKit
 import QRIZUtils
-import Network
+import QRIZNetwork
 import Daily
 import Conceptbook
 

@@ -1,6 +1,6 @@
 import UIKit
 import QRIZUtils
-import Network
+import QRIZNetwork
 import DesignSystem
 import Conceptbook
 import Onboarding

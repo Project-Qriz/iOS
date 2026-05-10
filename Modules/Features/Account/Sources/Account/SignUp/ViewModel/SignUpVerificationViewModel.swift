@@ -7,7 +7,7 @@
 
 import Foundation
 import Combine
-import Network
+import QRIZNetwork
 
 @MainActor
 final class SignUpVerificationViewModel: EmailVerificationViewModelType {

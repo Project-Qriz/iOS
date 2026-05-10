@@ -1,7 +1,7 @@
 import Testing
 import Foundation
 import Combine
-import Network
+import QRIZNetwork
 @testable import Onboarding
 
 @MainActor

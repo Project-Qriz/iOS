@@ -1,6 +1,6 @@
 import Foundation
 import UIKit
-import Network
+import QRIZNetwork
 import QRIZUtils
 
 @MainActor

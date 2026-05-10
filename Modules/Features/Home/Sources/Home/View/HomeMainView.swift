@@ -9,7 +9,7 @@ import UIKit
 import DesignSystem
 import Combine
 import QRIZUtils
-import Network
+import QRIZNetwork
 
 final class HomeMainView: UIView {
     
