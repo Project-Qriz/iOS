@@ -7,7 +7,7 @@
 
 import UIKit
 import QRIZUtils
-import Network
+import QRIZNetwork
 import Auth
 import Account
 import Onboarding

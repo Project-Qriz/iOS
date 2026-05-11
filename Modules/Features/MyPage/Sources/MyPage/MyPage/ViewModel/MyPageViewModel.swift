@@ -1,7 +1,7 @@
 import Foundation
 import Combine
 import os
-import Network
+import QRIZNetwork
 import Account
 import QRIZUtils
 

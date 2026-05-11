@@ -10,7 +10,7 @@
 		0A324B4B8A914F5EA2863B85 /* AnalyticsServiceImpl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E475CE9FBD3489798BF0A58 /* AnalyticsServiceImpl.swift */; };
 		2F7A758592D8472A94299C4B /* Onboarding in Frameworks */ = {isa = PBXBuildFile; productRef = E9849FEE34F04512AEA4EBE2 /* Onboarding */; };
 		A1B2C3D52F60000200AAAAAA /* MyPage in Frameworks */ = {isa = PBXBuildFile; productRef = A1B2C3D62F60000300AAAAAA /* MyPage */; };
-		B12FEEEE2F46F98200280847 /* Network in Frameworks */ = {isa = PBXBuildFile; productRef = B12FEEED2F46F98200280847 /* Network */; };
+		B12FEEEE2F46F98200280847 /* QRIZNetwork in Frameworks */ = {isa = PBXBuildFile; productRef = B12FEEED2F46F98200280847 /* QRIZNetwork */; };
 		B13774AD2ED9D7AF001A614D /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = B13774AC2ED9D7AF001A614D /* GoogleService-Info.plist */; };
 		B13BC2F22F56E3B500E99FA2 /* Auth in Frameworks */ = {isa = PBXBuildFile; productRef = B13BC2F32F56E3B500E99FA2 /* Auth */; };
 		B13BC73E2F58273500E99FA2 /* Conceptbook in Frameworks */ = {isa = PBXBuildFile; productRef = B13BC73F2F58273500E99FA2 /* Conceptbook */; };
@@ -58,7 +58,7 @@
 				Core/Auth,
 				Core/DesignSystem,
 				Core/ExamKit,
-				Core/Network,
+				Core/QRIZNetwork,
 				Core/QRIZUtils,
 				Features/Account,
 				Features/Conceptbook,
@@ -124,7 +124,7 @@
 			files = (
 				B14DF4E72F7652D1002F6177 /* Daily in Frameworks */,
 				C1A2B3C52F79000200D3BD39 /* Home in Frameworks */,
-				B12FEEEE2F46F98200280847 /* Network in Frameworks */,
+				B12FEEEE2F46F98200280847 /* QRIZNetwork in Frameworks */,
 				E292211E2E05478C00B6DC0D /* FirebaseAnalyticsWithoutAdIdSupport in Frameworks */,
 				B1BDD0C72F4D26CD00834D57 /* DesignSystem in Frameworks */,
 				D52D2E306AD846D98D4E9CDF5B15473A /* ExamKit in Frameworks */,
@@ -498,7 +498,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.3.1;
+				MARKETING_VERSION = 1.3.2;
 				PRODUCT_BUNDLE_IDENTIFIER = com.ksh.qriz;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -534,7 +534,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.3.1;
+				MARKETING_VERSION = 1.3.2;
 				PRODUCT_BUNDLE_IDENTIFIER = com.ksh.qriz;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -595,9 +595,9 @@
 			isa = XCSwiftPackageProductDependency;
 			productName = MyPage;
 		};
-		B12FEEED2F46F98200280847 /* Network */ = {
+		B12FEEED2F46F98200280847 /* QRIZNetwork */ = {
 			isa = XCSwiftPackageProductDependency;
-			productName = Network;
+			productName = QRIZNetwork;
 		};
 		B13BC2F32F56E3B500E99FA2 /* Auth */ = {
 			isa = XCSwiftPackageProductDependency;

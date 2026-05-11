@@ -1,6 +1,6 @@
 import SwiftUI
 import DesignSystem
-import Network
+import QRIZNetwork
 import QRIZUtils
 
 struct CheckConceptView: View {

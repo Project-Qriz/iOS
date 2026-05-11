@@ -9,7 +9,7 @@ import UIKit
 import Combine
 import os
 import QRIZUtils
-import Network
+import QRIZNetwork
 
 @MainActor
 final class LoginViewModel {

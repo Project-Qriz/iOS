@@ -1,5 +1,5 @@
 import Foundation
-import Network
+import QRIZNetwork
 import QRIZUtils
 
 // 100ms: fire-and-forget Task{ }가 완료되기에 충분한 대기 시간

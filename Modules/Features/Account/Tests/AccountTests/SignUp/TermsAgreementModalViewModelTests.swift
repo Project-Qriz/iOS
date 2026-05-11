@@ -6,7 +6,7 @@
 import Testing
 import Combine
 @testable import Account
-import Network
+import QRIZNetwork
 
 @MainActor
 @Suite("TermsAgreementModalViewModel 테스트", .serialized)

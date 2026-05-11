@@ -2,7 +2,7 @@ import UIKit
 import XCTest
 import SnapshotTesting
 @testable import Exam
-import Network
+import QRIZNetwork
 import QRIZUtils
 
 @MainActor

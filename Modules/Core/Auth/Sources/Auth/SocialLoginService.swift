@@ -9,7 +9,7 @@ import KakaoSDKUser
 import GoogleSignIn
 import AuthenticationServices
 import QRIZUtils
-import Network
+import QRIZNetwork
 
 @MainActor
 public final class SocialLoginServiceImpl: NSObject, SocialLoginService {

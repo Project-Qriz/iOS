@@ -7,7 +7,7 @@
 
 import UIKit
 import DesignSystem
-import Network
+import QRIZNetwork
 import QRIZUtils
 
 final class StudySummaryCell: UICollectionViewCell {

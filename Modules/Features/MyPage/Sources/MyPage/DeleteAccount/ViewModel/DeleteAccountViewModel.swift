@@ -2,7 +2,7 @@ import Foundation
 import Combine
 import os
 import QRIZUtils
-import Network
+import QRIZNetwork
 
 @MainActor
 final class DeleteAccountViewModel {

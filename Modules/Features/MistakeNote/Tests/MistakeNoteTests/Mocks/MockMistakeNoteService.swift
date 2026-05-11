@@ -1,5 +1,5 @@
 import Foundation
-import Network
+import QRIZNetwork
 
 final class MockMistakeNoteService: MistakeNoteService, @unchecked Sendable {
 

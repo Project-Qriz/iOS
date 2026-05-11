@@ -8,7 +8,7 @@
 import Foundation
 import Combine
 import os
-import Network
+import QRIZNetwork
 import QRIZUtils
 
 // MARK: - Protocol

@@ -9,7 +9,7 @@ let package = Package(
         .library(name: "Daily", targets: ["Daily"]),
     ],
     dependencies: [
-        .package(path: "../../Core/Network"),
+        .package(path: "../../Core/QRIZNetwork"),
         .package(path: "../../Core/DesignSystem"),
         .package(path: "../../Core/QRIZUtils"),
         .package(path: "../ExamKit"),
@@ -21,7 +21,7 @@ let package = Package(
         .target(
             name: "Daily",
             dependencies: [
-                "Network",
+                "QRIZNetwork",
                 "DesignSystem",
                 "QRIZUtils",
                 "ExamKit",
@@ -36,7 +36,7 @@ let package = Package(
             name: "DailyTests",
             dependencies: [
                 "Daily",
-                "Network",
+                "QRIZNetwork",
                 "QRIZUtils",
                 .product(name: "SnapshotTesting", package: "swift-snapshot-testing"),
             ],

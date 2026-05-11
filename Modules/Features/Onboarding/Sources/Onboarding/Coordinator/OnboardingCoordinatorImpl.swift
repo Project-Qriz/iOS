@@ -1,7 +1,7 @@
 import UIKit
 import SwiftUI
 import QRIZUtils
-import Network
+import QRIZNetwork
 
 @MainActor
 final class OnboardingCoordinatorImpl: OnboardingNavigating, NavigationGuard {

@@ -7,7 +7,7 @@
 
 import Combine
 import QRIZUtils
-import Network
+import QRIZNetwork
 
 @MainActor
 final class SplashViewModel {

@@ -5,7 +5,7 @@
 
 import Foundation
 import QRIZUtils
-import Network
+import QRIZNetwork
 
 @MainActor
 protocol ExamResultViewModelDelegate: AnyObject {

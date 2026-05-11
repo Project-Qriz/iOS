@@ -6,7 +6,7 @@
 //
 
 import Foundation
-import Network
+import QRIZNetwork
 
 @MainActor
 final class SignUpFlowViewModel {

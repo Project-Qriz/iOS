@@ -6,7 +6,7 @@
 import Foundation
 import Testing
 @testable import Exam
-import Network
+import QRIZNetwork
 import QRIZUtils
 
 @MainActor

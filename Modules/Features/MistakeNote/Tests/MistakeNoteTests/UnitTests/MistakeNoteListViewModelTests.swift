@@ -1,7 +1,7 @@
 import Testing
 import Foundation
 @testable import MistakeNote
-import Network
+import QRIZNetwork
 import QRIZUtils
 
 @MainActor

@@ -1,6 +1,6 @@
 import Foundation
 import QRIZUtils
-import Network
+import QRIZNetwork
 
 @MainActor
 final class GreetingViewModel: ObservableObject {

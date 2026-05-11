@@ -1,7 +1,7 @@
 import UIKit
 import DesignSystem
 import Combine
-import Network
+import QRIZNetwork
 import QRIZUtils
 import ExamKit
 

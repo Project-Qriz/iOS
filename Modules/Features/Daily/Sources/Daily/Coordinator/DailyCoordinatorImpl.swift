@@ -1,7 +1,7 @@
 import UIKit
 import SwiftUI
 import QRIZUtils
-import Network
+import QRIZNetwork
 import ExamKit
 import Conceptbook
 import MistakeNote
