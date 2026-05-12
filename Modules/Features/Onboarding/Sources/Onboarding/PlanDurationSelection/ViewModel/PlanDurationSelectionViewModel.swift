@@ -1,12 +1,12 @@
 import Foundation
-import Network
+import QRIZNetwork
 
 @MainActor
 final class PlanDurationSelectionViewModel: ObservableObject {
 
     // MARK: - Properties
 
-    @Published var selectedPlanType: Int? = nil
+    @Published var selectedPlanType: Int? = PlanOption.thirtyDay.planType
     @Published var isLoading: Bool = false
     @Published var errorMessage: String? = nil
 

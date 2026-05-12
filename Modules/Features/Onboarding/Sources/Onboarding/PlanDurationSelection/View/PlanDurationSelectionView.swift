@@ -1,6 +1,6 @@
 import SwiftUI
+import QRIZNetwork
 import DesignSystem
-import Network
 import QRIZUtils
 
 struct PlanDurationSelectionView: View {
