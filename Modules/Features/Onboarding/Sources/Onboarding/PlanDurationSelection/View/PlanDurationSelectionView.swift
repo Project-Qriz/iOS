@@ -49,8 +49,8 @@ private extension PlanDurationSelectionView {
             ForEach(PlanOption.allCases) { option in
                 PlanOptionCard(
                     option: option,
-                    isSelected: viewModel.selectedPlanType == option.planType,
-                    onTap: { viewModel.didSelectPlan(option.planType) }
+                    isSelected: viewModel.selectedPlan == option,
+                    onTap: { viewModel.didSelectPlan(option) }
                 )
             }
         }
@@ -63,13 +63,13 @@ private extension PlanDurationSelectionView {
         } label: {
             Text("선택한 플랜으로 시작하기")
                 .font(.system(size: 16, weight: .bold))
-                .foregroundColor(viewModel.selectedPlanType != nil ? .white : .coolNeutral500)
+                .foregroundColor(.white)
                 .frame(maxWidth: .infinity)
                 .frame(height: 48)
-                .background(viewModel.selectedPlanType != nil ? Color.customBlue500 : Color.coolNeutral200)
+                .background(Color.customBlue500)
                 .cornerRadius(8)
         }
-        .disabled(viewModel.selectedPlanType == nil || viewModel.isLoading)
+        .disabled(viewModel.isLoading)
         .padding(.horizontal, 18)
         .padding(.bottom, 16)
     }

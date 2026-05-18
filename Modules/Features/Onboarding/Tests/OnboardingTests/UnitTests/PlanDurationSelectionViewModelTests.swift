@@ -15,56 +15,45 @@ struct PlanDurationSelectionViewModelTests {
 
     // MARK: - 초기 상태
 
-    @Test("초기 상태: selectedPlanType nil, isLoading false, errorMessage nil")
+    @Test("초기 상태: selectedPlan thirtyDay, isLoading false, errorMessage nil")
     func initialState() {
         let sut = makeSUT()
-        #expect(sut.selectedPlanType == nil)
+        #expect(sut.selectedPlan == .thirtyDay)
         #expect(!sut.isLoading)
         #expect(sut.errorMessage == nil)
     }
 
     // MARK: - didSelectPlan
 
-    @Test("didSelectPlan: selectedPlanType 설정", arguments: [7, 14, 30])
-    func didSelectPlan_setsPlanType(planType: Int) {
+    @Test("didSelectPlan: selectedPlan 설정", arguments: PlanOption.allCases)
+    func didSelectPlan_setsPlan(plan: PlanOption) {
         let sut = makeSUT()
-        sut.didSelectPlan(planType)
-        #expect(sut.selectedPlanType == planType)
+        sut.didSelectPlan(plan)
+        #expect(sut.selectedPlan == plan)
     }
 
-    @Test("didSelectPlan: 다른 플랜 재선택 시 selectedPlanType 갱신")
+    @Test("didSelectPlan: 다른 플랜 재선택 시 selectedPlan 갱신")
     func didSelectPlan_updatesWhenReselected() {
         let sut = makeSUT()
-        sut.didSelectPlan(7)
-        sut.didSelectPlan(30)
-        #expect(sut.selectedPlanType == 30)
+        sut.didSelectPlan(.sevenDay)
+        sut.didSelectPlan(.thirtyDay)
+        #expect(sut.selectedPlan == .thirtyDay)
     }
 
     // MARK: - didTapConfirm 선택 없을 때
 
-    @Test("didTapConfirm: 선택 없을 때 API 호출하지 않음")
-    func didTapConfirm_withoutSelection_doesNotCallAPI() async {
-        let service = MockDailyService()
-        let sut = makeSUT(service: service)
-
-        sut.didTapConfirm()
-        try? await Task.sleep(nanoseconds: asyncSleepNanoseconds)
-
-        #expect(service.capturedPlanType == nil)
-    }
-
     // MARK: - didTapConfirm 성공
 
-    @Test("didTapConfirm: 성공 시 올바른 planType으로 API 호출", arguments: [7, 14, 30])
-    func didTapConfirm_onSuccess_callsAPIWithCorrectPlanType(planType: Int) async {
+    @Test("didTapConfirm: 성공 시 올바른 planType으로 API 호출", arguments: PlanOption.allCases)
+    func didTapConfirm_onSuccess_callsAPIWithCorrectPlanType(plan: PlanOption) async {
         let service = MockDailyService()
         let sut = makeSUT(service: service)
 
-        sut.didSelectPlan(planType)
+        sut.didSelectPlan(plan)
         sut.didTapConfirm()
         try? await Task.sleep(nanoseconds: asyncSleepNanoseconds)
 
-        #expect(service.capturedPlanType == planType)
+        #expect(service.capturedPlanType == plan.planType)
     }
 
     @Test("didTapConfirm: 성공 시 onNavigate 호출")
@@ -72,7 +61,7 @@ struct PlanDurationSelectionViewModelTests {
         var navigateCalled = false
         let sut = makeSUT(onNavigate: { navigateCalled = true })
 
-        sut.didSelectPlan(7)
+        sut.didSelectPlan(.sevenDay)
         sut.didTapConfirm()
         try? await Task.sleep(nanoseconds: asyncSleepNanoseconds)
 
@@ -83,7 +72,7 @@ struct PlanDurationSelectionViewModelTests {
     func didTapConfirm_onSuccess_setsIsLoadingFalse() async {
         let sut = makeSUT()
 
-        sut.didSelectPlan(14)
+        sut.didSelectPlan(.fourteenDay)
         sut.didTapConfirm()
         try? await Task.sleep(nanoseconds: asyncSleepNanoseconds)
 
@@ -98,7 +87,7 @@ struct PlanDurationSelectionViewModelTests {
         service.selectPlanResult = .failure(URLError(.badServerResponse))
         let sut = makeSUT(service: service)
 
-        sut.didSelectPlan(7)
+        sut.didSelectPlan(.sevenDay)
         sut.didTapConfirm()
         try? await Task.sleep(nanoseconds: asyncSleepNanoseconds)
 
@@ -112,7 +101,7 @@ struct PlanDurationSelectionViewModelTests {
         service.selectPlanResult = .failure(URLError(.badServerResponse))
         let sut = makeSUT(service: service, onNavigate: { navigateCalled = true })
 
-        sut.didSelectPlan(7)
+        sut.didSelectPlan(.sevenDay)
         sut.didTapConfirm()
         try? await Task.sleep(nanoseconds: asyncSleepNanoseconds)
 
@@ -126,7 +115,7 @@ struct PlanDurationSelectionViewModelTests {
         var navigateCount = 0
         let sut = makeSUT(onNavigate: { navigateCount += 1 })
 
-        sut.didSelectPlan(7)
+        sut.didSelectPlan(.sevenDay)
         sut.didTapConfirm()
         sut.didTapConfirm()
         try? await Task.sleep(nanoseconds: asyncSleepNanoseconds)

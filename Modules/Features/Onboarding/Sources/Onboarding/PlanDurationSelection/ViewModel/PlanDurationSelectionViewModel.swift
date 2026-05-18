@@ -6,7 +6,7 @@ final class PlanDurationSelectionViewModel: ObservableObject {
 
     // MARK: - Properties
 
-    @Published var selectedPlanType: Int? = PlanOption.thirtyDay.planType
+    @Published var selectedPlan: PlanOption = .thirtyDay
     @Published var isLoading: Bool = false
     @Published var errorMessage: String? = nil
 
@@ -25,14 +25,14 @@ final class PlanDurationSelectionViewModel: ObservableObject {
 
     // MARK: - Methods
 
-    func didSelectPlan(_ planType: Int) {
-        selectedPlanType = planType
+    func didSelectPlan(_ plan: PlanOption) {
+        selectedPlan = plan
     }
 
     func didTapConfirm() {
-        guard let planType = selectedPlanType, !isLoading else { return }
+        guard !isLoading else { return }
         isLoading = true
-        Task { await selectPlan(planType: planType) }
+        Task { await selectPlan(planType: selectedPlan.planType) }
     }
 
     // MARK: - Private
