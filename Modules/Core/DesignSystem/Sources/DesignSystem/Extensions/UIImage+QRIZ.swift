@@ -29,6 +29,7 @@ public extension UIImage {
     static let homeLogo = image(named: "homeLogo")
     static let lockIcon = image(named: "lock")
     static let mockExam = image(named: "MockExam")
+    static let pencilIcon = image(named: "pencil")
 
     // MARK: - Exam
 
