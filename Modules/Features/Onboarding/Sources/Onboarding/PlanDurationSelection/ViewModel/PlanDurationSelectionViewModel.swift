@@ -1,5 +1,6 @@
 import Foundation
 import QRIZNetwork
+import QRIZUtils
 
 @MainActor
 final class PlanDurationSelectionViewModel: ObservableObject {
