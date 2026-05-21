@@ -31,7 +31,7 @@ public struct VersionResponse: Decodable, Sendable {
 }
 
 public struct VersionData: Decodable, Sendable {
-    public let versionInfo: Float
+    public let versionInfo: String
     public let updateInfo: String
     public let date: String
 }
