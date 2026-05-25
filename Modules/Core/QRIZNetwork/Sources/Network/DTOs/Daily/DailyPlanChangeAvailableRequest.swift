@@ -22,5 +22,11 @@ public struct DailyPlanChangeAvailableRequest: Request, Sendable {
 public struct DailyPlanChangeAvailableResponse: Decodable, Sendable {
     public let code: Int
     public let msg: String
-    public let data: [Int]
+    public let data: DataInfo
+
+    public struct DataInfo: Decodable, Sendable {
+        public let currentPlanType: Int
+        public let completedDays: Int
+        public let availablePlanTypes: [Int]
+    }
 }
