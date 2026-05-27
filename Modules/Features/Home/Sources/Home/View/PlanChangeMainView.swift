@@ -174,6 +174,9 @@ final class PlanChangeMainView: UIView {
     func applyAvailablePlans(_ plans: [PlanOption]) {
         availablePlans = Set(plans)
         updateOptionViews()
+        confirmButton.configuration?.title = plans.isEmpty
+            ? "선택할 수 있는 플랜이 없습니다"
+            : "선택한 플랜으로 변경하기"
     }
 
     func applySelection(_ plan: PlanOption?) {
