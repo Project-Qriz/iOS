@@ -36,6 +36,14 @@ final class MockDailyService: DailyService {
     func resetPlan() async throws -> DailyResetResponse {
         throw NSError(domain: "MockDailyService", code: -1)
     }
+    func getChangeavailablePlans() async throws -> DailyPlanChangeAvailableResponse {
+        throw NSError(domain: "MockDailyService", code: -1)
+    }
+
+    func changePlan(planType: Int) async throws -> DailyPlanChangeResponse {
+        throw NSError(domain: "MockDailyService", code: -1)
+    }
+
     func getDailyResultDetail(dayNumber: Int, questionId: Int) async throws -> DailyResultDetailResponse {
         throw NSError(domain: "MockDailyService", code: -1)
     }

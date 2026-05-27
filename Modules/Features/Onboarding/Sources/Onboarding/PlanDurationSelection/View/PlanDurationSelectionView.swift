@@ -86,6 +86,8 @@ private struct PreviewDailyService: DailyService {
     func getDailyPlan() async throws -> DailyPlanResponse { fatalError() }
     func resetPlan() async throws -> DailyResetResponse { fatalError() }
     func selectPlan(planType: Int) async throws -> DailyPlanSelectResponse { fatalError() }
+    func getChangeavailablePlans() async throws -> DailyPlanChangeAvailableResponse { fatalError() }
+    func changePlan(planType: Int) async throws -> DailyPlanChangeResponse { fatalError() }
     func getDailyResultDetail(dayNumber: Int, questionId: Int) async throws -> DailyResultDetailResponse { fatalError() }
 }
 

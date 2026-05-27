@@ -43,6 +43,21 @@ final class MockDailyService: DailyService {
         throw NSError(domain: "MockDailyService", code: -1, userInfo: [NSLocalizedDescriptionKey: "not implemented"])
     }
 
+    var getChangeavailablePlansResult: Result<DailyPlanChangeAvailableResponse, Error> =
+        .success(.make(currentPlanType: 7, availablePlanTypes: [14, 30]))
+
+    func getChangeavailablePlans() async throws -> DailyPlanChangeAvailableResponse {
+        try getChangeavailablePlansResult.get()
+    }
+
+    var changePlanResult: Result<DailyPlanChangeResponse, Error> = .success(.make())
+    private(set) var capturedChangePlanType: Int?
+
+    func changePlan(planType: Int) async throws -> DailyPlanChangeResponse {
+        capturedChangePlanType = planType
+        return try changePlanResult.get()
+    }
+
     func getDailyResultDetail(dayNumber: Int, questionId: Int) async throws -> DailyResultDetailResponse {
         throw NSError(domain: "MockDailyService", code: -1, userInfo: [NSLocalizedDescriptionKey: "not implemented"])
     }
