@@ -30,8 +30,18 @@ public struct VerifyPasswordResetResponse: Decodable, Sendable {
     public let code: Int
     public let msg: String
     public let data: DataInfo
-    
+
+    public init(code: Int, msg: String, data: DataInfo) {
+        self.code = code
+        self.msg = msg
+        self.data = data
+    }
+
     public struct DataInfo: Decodable, Sendable {
         public let resetToken: String
+
+        public init(resetToken: String) {
+            self.resetToken = resetToken
+        }
     }
 }

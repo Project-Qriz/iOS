@@ -52,9 +52,20 @@ public struct PasswordResetResponse: Decodable, Sendable {
     public let code: Int
     public let msg: String
     public let data: DataInfo?
-    
+
+    public init(code: Int, msg: String, data: DataInfo? = nil) {
+        self.code = code
+        self.msg = msg
+        self.data = data
+    }
+
     public struct DataInfo: Decodable, Sendable {
         public let username: String
         public let password: String
+
+        public init(username: String, password: String) {
+            self.username = username
+            self.password = password
+        }
     }
 }

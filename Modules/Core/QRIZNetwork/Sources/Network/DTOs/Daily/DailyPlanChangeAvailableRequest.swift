@@ -24,9 +24,21 @@ public struct DailyPlanChangeAvailableResponse: Decodable, Sendable {
     public let msg: String
     public let data: DataInfo
 
+    public init(code: Int, msg: String, data: DataInfo) {
+        self.code = code
+        self.msg = msg
+        self.data = data
+    }
+
     public struct DataInfo: Decodable, Sendable {
         public let currentPlanType: Int
         public let completedDays: Int
         public let availablePlanTypes: [Int]
+
+        public init(currentPlanType: Int, completedDays: Int, availablePlanTypes: [Int]) {
+            self.currentPlanType = currentPlanType
+            self.completedDays = completedDays
+            self.availablePlanTypes = availablePlanTypes
+        }
     }
 }

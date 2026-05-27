@@ -106,11 +106,23 @@ public struct JoinResponseSuccess: Decodable, Sendable {
     public let code: Int
     public let msg: String
     public let data: SuccessData
-    
+
+    public init(code: Int, msg: String, data: SuccessData) {
+        self.code = code
+        self.msg = msg
+        self.data = data
+    }
+
     public struct SuccessData: Decodable, Sendable {
         public let id: Int
         public let username: String
         public let nickname: String
+
+        public init(id: Int, username: String, nickname: String) {
+            self.id = id
+            self.username = username
+            self.nickname = nickname
+        }
     }
 }
 
@@ -118,13 +130,24 @@ public struct JoinResponseFailure: Decodable, Sendable {
     public let code: Int
     public let msg: String
     public let data: FailureData?
-    
-    /// 실패 상황에 따라 data가 null이거나, 유효성 에러 정보를 담을 수 있으므로 옵셔널
+
+    public init(code: Int, msg: String, data: FailureData? = nil) {
+        self.code = code
+        self.msg = msg
+        self.data = data
+    }
+
     public struct FailureData: Decodable, Sendable {
-        // 유효성 에러일 경우 아래 필드에 구체적인 에러 메시지
         public let password: String?
         public let nickname: String?
         public let email: String?
         public let username: String?
+
+        public init(password: String? = nil, nickname: String? = nil, email: String? = nil, username: String? = nil) {
+            self.password = password
+            self.nickname = nickname
+            self.email = email
+            self.username = username
+        }
     }
 }

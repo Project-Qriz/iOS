@@ -34,7 +34,13 @@ public struct DailyResultResponse: Decodable, Sendable {
     public let code: Int
     public let msg: String
     public let data: DataInfo
-    
+
+    public init(code: Int, msg: String, data: DataInfo) {
+        self.code = code
+        self.msg = msg
+        self.data = data
+    }
+
     public struct DataInfo: Decodable, Sendable {
         public let dayNumber: String
         public let passed: Bool
@@ -44,9 +50,24 @@ public struct DailyResultResponse: Decodable, Sendable {
         public let subjectResultsList: [SubjectResult]
         public let totalScore: Double
 
+        public init(dayNumber: String, passed: Bool, reviewDay: Bool, comprehensiveReviewDay: Bool, items: [ItemInfo], subjectResultsList: [SubjectResult], totalScore: Double) {
+            self.dayNumber = dayNumber
+            self.passed = passed
+            self.reviewDay = reviewDay
+            self.comprehensiveReviewDay = comprehensiveReviewDay
+            self.items = items
+            self.subjectResultsList = subjectResultsList
+            self.totalScore = totalScore
+        }
+
         public struct ItemInfo: Decodable, Sendable {
             public let skillId: Int
             public let score: Double
+
+            public init(skillId: Int, score: Double) {
+                self.skillId = skillId
+                self.score = score
+            }
         }
     }
 }
@@ -56,4 +77,11 @@ public struct SubjectResult: Decodable, Sendable {
     public let detailType: String
     public let question: String
     public let correction: Bool
+
+    public init(questionId: Int, detailType: String, question: String, correction: Bool) {
+        self.questionId = questionId
+        self.detailType = detailType
+        self.question = question
+        self.correction = correction
+    }
 }

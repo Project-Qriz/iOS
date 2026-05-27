@@ -28,4 +28,9 @@ public struct DailyPlanChangeRequest: Request, Sendable {
 public struct DailyPlanChangeResponse: Decodable, Sendable {
     public let code: Int
     public let msg: String
+
+    public init(code: Int, msg: String) {
+        self.code = code
+        self.msg = msg
+    }
 }

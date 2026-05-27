@@ -38,10 +38,24 @@ public struct RefreshTokenResponse: Decodable, Sendable {
     public let reason: String?
     public let detailCode: Int?
     public let data: DataInfo?
-    
+
+    public init(code: Int, msg: String, reason: String? = nil, detailCode: Int? = nil, data: DataInfo? = nil) {
+        self.code = code
+        self.msg = msg
+        self.reason = reason
+        self.detailCode = detailCode
+        self.data = data
+    }
+
     public struct DataInfo: Decodable, Sendable {
-        public let rotated: Bool? // 3일 이하 true
-        public let refreshExpiry: String? // rotated == true 일 때만 존재
+        public let rotated: Bool?
+        public let refreshExpiry: String?
         public let refreshToken: String?
+
+        public init(rotated: Bool? = nil, refreshExpiry: String? = nil, refreshToken: String? = nil) {
+            self.rotated = rotated
+            self.refreshExpiry = refreshExpiry
+            self.refreshToken = refreshToken
+        }
     }
 }

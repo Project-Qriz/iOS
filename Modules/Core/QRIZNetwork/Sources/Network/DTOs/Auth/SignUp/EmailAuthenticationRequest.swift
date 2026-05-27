@@ -29,4 +29,9 @@ public struct EmailAuthenticationRequest: Request, Sendable {
 public struct EmailAuthenticationResponse: Decodable, Sendable {
     public let code: Int
     public let msg: String
+
+    public init(code: Int, msg: String) {
+        self.code = code
+        self.msg = msg
+    }
 }

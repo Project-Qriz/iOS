@@ -87,10 +87,22 @@ public struct SocialLoginResponse: Decodable, Sendable {
     public let code: Int
     public let msg: String
     public let data: DataInfo
-    
+
+    public init(code: Int, msg: String, data: DataInfo) {
+        self.code = code
+        self.msg = msg
+        self.data = data
+    }
+
     public struct DataInfo: Decodable, Sendable {
         public let refreshToken: String?
         public let refreshExpiry: String?
         public let user: UserInfo
+
+        public init(refreshToken: String?, refreshExpiry: String?, user: UserInfo) {
+            self.refreshToken = refreshToken
+            self.refreshExpiry = refreshExpiry
+            self.user = user
+        }
     }
 }
