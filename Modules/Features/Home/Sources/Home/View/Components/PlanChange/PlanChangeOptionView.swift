@@ -38,7 +38,7 @@ final class PlanChangeOptionView: UIView {
         label.backgroundColor = .coolNeutral600
         label.textAlignment = .center
         label.verticalPadding = 4
-        label.layer.cornerRadius = 11
+        label.layer.cornerRadius = 8
         label.layer.maskedCorners = [.layerMinXMaxYCorner, .layerMaxXMinYCorner]
         label.clipsToBounds = true
         label.isHidden = true
@@ -62,7 +62,7 @@ final class PlanChangeOptionView: UIView {
         addSubviews()
         setupConstraints()
         setupUI()
-        configure()
+        configureStaticContent()
         addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(handleTap)))
     }
 
@@ -78,7 +78,7 @@ final class PlanChangeOptionView: UIView {
         layer.masksToBounds = false
     }
 
-    private func configure() {
+    private func configureStaticContent() {
         iconImageView.image = option.icon
         dayLabel.text = option.dayLabel
         descriptionLabel.text = option.description
@@ -100,19 +100,43 @@ final class PlanChangeOptionView: UIView {
         }
     }
 
-    func setBadge(_ text: String?) {
-        if let text {
-            badgeLabel.text = text
+    func configure(state: PlanOptionViewState) {
+        switch state.status {
+        case .current:
+            gestureRecognizers?.forEach { $0.isEnabled = false }
+            backgroundColor = .customBlue100
+            layer.borderWidth = 0
+            layer.borderColor = UIColor.clear.cgColor
+            dayLabel.textColor = .coolNeutral500
+            descriptionLabel.textColor = .coolNeutral400
+            iconImageView.image = option.disabledIcon
+            badgeLabel.text = "현재 플랜"
+            badgeLabel.backgroundColor = .coolNeutral400
             badgeLabel.isHidden = false
-        } else {
-            badgeLabel.isHidden = true
-        }
-    }
+            applyShadow(isSelected: false)
 
-    func setSelected(_ selected: Bool) {
-        layer.borderWidth = selected ? 1 : 0
-        layer.borderColor = selected ? UIColor.customBlue500.cgColor : UIColor.clear.cgColor
-        applyShadow(isSelected: selected)
+        case .available:
+            gestureRecognizers?.forEach { $0.isEnabled = true }
+            backgroundColor = .white
+            layer.borderWidth = state.isSelected ? 1 : 0
+            layer.borderColor = state.isSelected ? UIColor.customBlue500.cgColor : UIColor.clear.cgColor
+            dayLabel.textColor = .coolNeutral800
+            descriptionLabel.textColor = .coolNeutral500
+            iconImageView.image = option.icon
+            badgeLabel.isHidden = true
+            applyShadow(isSelected: state.isSelected)
+
+        case .unavailable:
+            gestureRecognizers?.forEach { $0.isEnabled = false }
+            backgroundColor = .customBlue100
+            layer.borderWidth = 0
+            layer.borderColor = UIColor.clear.cgColor
+            dayLabel.textColor = .coolNeutral500
+            descriptionLabel.textColor = .coolNeutral400
+            iconImageView.image = option.disabledIcon
+            badgeLabel.isHidden = true
+            applyShadow(isSelected: false)
+        }
     }
 
     @objc private func handleTap() {
