@@ -59,7 +59,7 @@ final class HomeViewController: UIViewController {
     private func bind() {
         let entryTapped = rootView.entryTappedPublisher.map { HomeViewModel.Input.entryTapped }
         let pageChanged = rootView.selectedIndexPublisher.map { HomeViewModel.Input.daySelected($0) }
-        let resetTapped = rootView.resetButtonTappedPublisher.map { HomeViewModel.Input.resetTapped }
+        let resetTapped = rootView.resetButtonTappedPublisher.map { HomeViewModel.Input.planChangeTapped }
         let headerTapped = rootView.dayHeaderTappedPublisher.map { HomeViewModel.Input.dayHeaderTapped }
         let ctaTapped = rootView.studyButtonTappedPublisher.map { HomeViewModel.Input.ctaTapped(day: $0) }
         let weeklyConceptTapped = rootView.weeklyConceptTappedPublisher.map { HomeViewModel.Input.weeklyConceptTapped($0) }
@@ -102,6 +102,11 @@ final class HomeViewController: UIViewController {
                         selectedDay: selected,
                         todayIndex: today
                     )
+
+                case .showPlanChange(let totalDays):
+                    coordinator?.showPlanChange(totalDays: totalDays, onResetRequested: { [weak self] in
+                        self?.inputSubject.send(.resetTapped)
+                    })
 
                 case .showResetAlert:
                     coordinator?.showResetAlert { [weak self] in

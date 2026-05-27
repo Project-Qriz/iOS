@@ -82,6 +82,9 @@ final class HomeViewModel {
                         self.outputSubject.send(.navigateToExamList)
                     }
 
+                case .planChangeTapped:
+                    self.outputSubject.send(.showPlanChange(totalDays: self.state.dailyPlans.count))
+
                 case .resetTapped:
                     self.outputSubject.send(.showResetAlert)
 
@@ -240,6 +243,7 @@ extension HomeViewModel {
         case entryTapped
         case daySelected(Int)
         case dayHeaderTapped
+        case planChangeTapped
         case resetTapped
         case didConfirmResetPlan
         case ctaTapped(day: Int)
@@ -252,6 +256,7 @@ extension HomeViewModel {
         case navigateToOnboarding
         case navigateToExamList
         case showDaySelectAlert(totalDays: Int, selectedDay: Int, todayIndex: Int?)
+        case showPlanChange(totalDays: Int)
         case showResetAlert
         case resetSucceeded(message: String)
         case showDaily(day: Int, type: DailyLearnType)
