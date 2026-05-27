@@ -27,6 +27,7 @@ final class HomeCoordinatorImpl: HomeCoordinator, NavigationGuard {
     var childCoordinators: [Coordinator] = []
     private var onboardingCoordinator: (any OnboardingCoordinator)?
     var isNavigating: Bool = false
+    private var onPlanChangeResetRequested: (() -> Void)?
 
     // MARK: - Initialization
 
@@ -197,6 +198,38 @@ final class HomeCoordinatorImpl: HomeCoordinator, NavigationGuard {
             let conceptPDFVC = makeConceptPDFViewController(chapter: chapter, conceptItem: conceptItem)
             self.navigationController?.pushViewController(conceptPDFVC, animated: true)
         }
+    }
+
+    func showPlanChange(totalDays: Int, onResetRequested: @escaping () -> Void) {
+        guardNavigation {
+            self.onPlanChangeResetRequested = onResetRequested
+            let viewModel = PlanChangeViewModel(dailyService: self.dailyService)
+            viewModel.delegate = self
+            let vc = PlanChangeViewController(viewModel: viewModel)
+            vc.modalPresentationStyle = .fullScreen
+            self.navigationController?.present(vc, animated: true)
+        }
+    }
+}
+
+// MARK: - PlanChangeDelegate
+
+extension HomeCoordinatorImpl: PlanChangeDelegate {
+    func planChangeDidComplete() {
+        navigationController?.dismiss(animated: true) { [weak self] in
+            self?.homeVM?.reloadExamSchedule()
+        }
+    }
+
+    func planChangeDidRequestReset() {
+        navigationController?.dismiss(animated: true) { [weak self] in
+            self?.onPlanChangeResetRequested?()
+            self?.onPlanChangeResetRequested = nil
+        }
+    }
+
+    func planChangeDidDismiss() {
+        navigationController?.dismiss(animated: true)
     }
 }
 
