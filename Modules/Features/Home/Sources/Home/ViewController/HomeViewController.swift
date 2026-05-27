@@ -104,9 +104,7 @@ final class HomeViewController: UIViewController {
                     )
 
                 case .showPlanChange(let totalDays):
-                    coordinator?.showPlanChange(totalDays: totalDays, onResetRequested: { [weak self] in
-                        self?.inputSubject.send(.resetTapped)
-                    })
+                    coordinator?.showPlanChange(totalDays: totalDays)
 
                 case .showResetAlert:
                     coordinator?.showResetAlert { [weak self] in
