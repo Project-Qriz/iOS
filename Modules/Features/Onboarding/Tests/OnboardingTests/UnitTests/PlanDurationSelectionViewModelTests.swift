@@ -1,5 +1,6 @@
 import Testing
 import Foundation
+import QRIZUtils
 @testable import Onboarding
 
 @MainActor
@@ -25,11 +26,13 @@ struct PlanDurationSelectionViewModelTests {
 
     // MARK: - didSelectPlan
 
-    @Test("didSelectPlan: selectedPlan 설정", arguments: PlanOption.allCases)
-    func didSelectPlan_setsPlan(plan: PlanOption) {
-        let sut = makeSUT()
-        sut.didSelectPlan(plan)
-        #expect(sut.selectedPlan == plan)
+    @Test("didSelectPlan: selectedPlan 설정")
+    func didSelectPlan_setsPlan() {
+        for plan in PlanOption.allCases {
+            let sut = makeSUT()
+            sut.didSelectPlan(plan)
+            #expect(sut.selectedPlan == plan)
+        }
     }
 
     @Test("didSelectPlan: 다른 플랜 재선택 시 selectedPlan 갱신")
@@ -44,16 +47,18 @@ struct PlanDurationSelectionViewModelTests {
 
     // MARK: - didTapConfirm 성공
 
-    @Test("didTapConfirm: 성공 시 올바른 planType으로 API 호출", arguments: PlanOption.allCases)
-    func didTapConfirm_onSuccess_callsAPIWithCorrectPlanType(plan: PlanOption) async {
-        let service = MockDailyService()
-        let sut = makeSUT(service: service)
+    @Test("didTapConfirm: 성공 시 올바른 planType으로 API 호출")
+    func didTapConfirm_onSuccess_callsAPIWithCorrectPlanType() async {
+        for plan in PlanOption.allCases {
+            let service = MockDailyService()
+            let sut = makeSUT(service: service)
 
-        sut.didSelectPlan(plan)
-        sut.didTapConfirm()
-        try? await Task.sleep(nanoseconds: asyncSleepNanoseconds)
+            sut.didSelectPlan(plan)
+            sut.didTapConfirm()
+            try? await Task.sleep(nanoseconds: asyncSleepNanoseconds)
 
-        #expect(service.capturedPlanType == plan.planType)
+            #expect(service.capturedPlanType == plan.planType)
+        }
     }
 
     @Test("didTapConfirm: 성공 시 onNavigate 호출")

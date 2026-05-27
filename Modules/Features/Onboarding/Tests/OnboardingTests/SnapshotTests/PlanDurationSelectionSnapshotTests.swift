@@ -1,18 +1,19 @@
 import XCTest
 import SnapshotTesting
 import SwiftUI
+import QRIZUtils
 @testable import Onboarding
 
 @MainActor
 class PlanDurationSelectionSnapshotTests: OnboardingSnapshotTestCase {
 
-    private func makeSUT(selectedPlanType: Int? = nil) -> UIHostingController<PlanDurationSelectionView> {
+    private func makeSUT(selectedPlan: PlanOption? = nil) -> UIHostingController<PlanDurationSelectionView> {
         let vm = PlanDurationSelectionViewModel(
             dailyService: MockDailyService(),
             onNavigate: {}
         )
-        if let planType = selectedPlanType {
-            vm.didSelectPlan(planType)
+        if let plan = selectedPlan {
+            vm.didSelectPlan(plan)
         }
         return UIHostingController(rootView: PlanDurationSelectionView(viewModel: vm))
     }
@@ -22,14 +23,14 @@ class PlanDurationSelectionSnapshotTests: OnboardingSnapshotTestCase {
     }
 
     func testSevenDaySelected() {
-        assertSnapshot(of: makeSUT(selectedPlanType: 7), as: .image(on: .iPhone16Pro))
+        assertSnapshot(of: makeSUT(selectedPlan: .sevenDay), as: .image(on: .iPhone16Pro))
     }
 
     func testFourteenDaySelected() {
-        assertSnapshot(of: makeSUT(selectedPlanType: 14), as: .image(on: .iPhone16Pro))
+        assertSnapshot(of: makeSUT(selectedPlan: .fourteenDay), as: .image(on: .iPhone16Pro))
     }
 
     func testThirtyDaySelected() {
-        assertSnapshot(of: makeSUT(selectedPlanType: 30), as: .image(on: .iPhone16Pro))
+        assertSnapshot(of: makeSUT(selectedPlan: .thirtyDay), as: .image(on: .iPhone16Pro))
     }
 }
