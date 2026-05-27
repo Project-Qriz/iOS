@@ -1,4 +1,4 @@
-public enum PlanOption: Int, CaseIterable, Identifiable {
+public enum PlanOption: Int, CaseIterable, Identifiable, Sendable {
     case sevenDay = 7
     case fourteenDay = 14
     case thirtyDay = 30
