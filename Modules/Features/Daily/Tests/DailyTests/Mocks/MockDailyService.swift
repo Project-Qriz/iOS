@@ -86,6 +86,14 @@ final class MockDailyService: DailyService {
         fatalError("not implemented in mock")
     }
 
+    func getChangeavailablePlans() async throws -> DailyPlanChangeAvailableResponse {
+        fatalError("not implemented in mock")
+    }
+
+    func changePlan(planType: Int) async throws -> DailyPlanChangeResponse {
+        fatalError("not implemented in mock")
+    }
+
     func getDailyResultDetail(dayNumber: Int, questionId: Int) async throws -> DailyResultDetailResponse {
         fatalError("not implemented in mock")
     }
