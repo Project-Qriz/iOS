@@ -1,5 +1,5 @@
 import Foundation
-import Network
+import QRIZNetwork
 import QRIZUtils
 @testable import Onboarding
 

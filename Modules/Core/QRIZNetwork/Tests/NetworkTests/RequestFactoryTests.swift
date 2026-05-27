@@ -7,7 +7,7 @@
 
 import Testing
 import Foundation
-@testable import Network
+@testable import QRIZNetwork
 
 @Suite("RequestFactory 테스트")
 struct RequestFactoryTests {

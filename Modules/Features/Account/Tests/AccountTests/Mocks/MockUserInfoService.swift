@@ -4,7 +4,7 @@
 //
 
 import Foundation
-@testable import Network
+import QRIZNetwork
 import QRIZUtils
 
 final class MockUserInfoService: UserInfoService, @unchecked Sendable {

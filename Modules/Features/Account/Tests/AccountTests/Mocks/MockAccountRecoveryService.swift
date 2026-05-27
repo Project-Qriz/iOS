@@ -4,7 +4,7 @@
 //
 
 import Foundation
-@testable import Network
+import QRIZNetwork
 
 final class MockAccountRecoveryService: AccountRecoveryService, @unchecked Sendable {
 

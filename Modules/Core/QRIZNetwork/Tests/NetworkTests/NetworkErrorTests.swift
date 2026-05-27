@@ -6,7 +6,7 @@
 //
 
 import Testing
-@testable import Network
+@testable import QRIZNetwork
 
 @Suite("NetworkError 테스트")
 struct NetworkErrorTests {

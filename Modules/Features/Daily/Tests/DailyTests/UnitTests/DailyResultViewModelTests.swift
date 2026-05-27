@@ -1,7 +1,7 @@
 import Foundation
 import Testing
 @testable import Daily
-@testable import Network
+import QRIZNetwork
 import QRIZUtils
 
 @MainActor
