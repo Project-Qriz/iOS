@@ -1,6 +1,8 @@
 import Foundation
 import Testing
 import Combine
+import QRIZNetwork
+import QRIZUtils
 @testable import Home
 
 @MainActor
@@ -78,6 +80,17 @@ struct PlanChangeViewModelTests {
                 if case .showError(let m) = $0 { return m }
                 return nil
             }
+        }
+
+        var showAlertOutputs: [(title: String, description: String)] {
+            received.compactMap {
+                if case .showAlert(let title, let description) = $0 { return (title, description) }
+                return nil
+            }
+        }
+
+        var didEmitShowResetAlert: Bool {
+            received.contains { if case .showResetAlert = $0 { return true }; return false }
         }
     }
 
@@ -198,14 +211,59 @@ struct PlanChangeViewModelTests {
         #expect(h.mockDelegate.completedCount == 0)
     }
 
-    // MARK: - tapReset / tapDismiss
+    // MARK: - tapReset / tapResetConfirmed
 
-    @Test("tapReset → delegate.planChangeDidRequestReset()")
-    func tapReset_callsDelegate() {
+    @Test("tapReset → showResetAlert output emit (delegate 미호출)")
+    func tapReset_emitsShowResetAlert() {
         let h = TestHarness()
         h.send(.tapReset)
-        #expect(h.mockDelegate.resetCount == 1)
+
+        #expect(h.didEmitShowResetAlert == true)
+        #expect(h.mockDelegate.resetCount == 0)
     }
+
+    @Test("tapResetConfirmed — 성공 → resetPlan 호출 + delegate.planChangeDidRequestReset()")
+    func tapResetConfirmed_success_callsDelegate() async throws {
+        let h = TestHarness()
+        h.mockService.resetPlanResult = .success(.make())
+
+        h.send(.tapResetConfirmed)
+        try await Task.sleep(nanoseconds: asyncSleepNanoseconds)
+
+        #expect(h.mockService.resetPlanCallCount == 1)
+        #expect(h.mockDelegate.resetCount == 1)
+        #expect(h.errorMessages.isEmpty)
+    }
+
+    @Test("tapResetConfirmed — 400 clientError → showAlert(title:description:) emit")
+    func tapResetConfirmed_clientError_emitsShowAlert() async throws {
+        let h = TestHarness()
+        h.mockService.resetPlanResult = .failure(
+            NetworkError.clientError(httpStatus: 400, serverCode: -1, message: "최소 5일 이상 학습 후 가능합니다.")
+        )
+
+        h.send(.tapResetConfirmed)
+        try await Task.sleep(nanoseconds: asyncSleepNanoseconds)
+
+        #expect(h.mockDelegate.resetCount == 0)
+        #expect(h.showAlertOutputs.isEmpty == false)
+        #expect(h.showAlertOutputs.first?.title == "초기화할 수 없습니다.")
+        #expect(h.showAlertOutputs.first?.description == "최소 5일 이상 학습 후 가능합니다.")
+    }
+
+    @Test("tapResetConfirmed — 기타 에러 → showError emit")
+    func tapResetConfirmed_unknownError_emitsShowError() async throws {
+        let h = TestHarness()
+        h.mockService.resetPlanResult = .failure(NSError(domain: "test", code: -1))
+
+        h.send(.tapResetConfirmed)
+        try await Task.sleep(nanoseconds: asyncSleepNanoseconds)
+
+        #expect(h.mockDelegate.resetCount == 0)
+        #expect(h.errorMessages.isEmpty == false)
+    }
+
+    // MARK: - tapDismiss
 
     @Test("tapDismiss → delegate.planChangeDidDismiss()")
     func tapDismiss_callsDelegate() {
