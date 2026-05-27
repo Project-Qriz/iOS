@@ -27,7 +27,6 @@ final class HomeCoordinatorImpl: HomeCoordinator, NavigationGuard {
     var childCoordinators: [Coordinator] = []
     private var onboardingCoordinator: (any OnboardingCoordinator)?
     var isNavigating: Bool = false
-    private var onPlanChangeResetRequested: (() -> Void)?
 
     // MARK: - Initialization
 
@@ -200,9 +199,8 @@ final class HomeCoordinatorImpl: HomeCoordinator, NavigationGuard {
         }
     }
 
-    func showPlanChange(totalDays: Int, onResetRequested: @escaping () -> Void) {
+    func showPlanChange(totalDays: Int) {
         guardNavigation {
-            self.onPlanChangeResetRequested = onResetRequested
             let viewModel = PlanChangeViewModel(dailyService: self.dailyService)
             viewModel.delegate = self
             let vc = PlanChangeViewController(viewModel: viewModel)
@@ -223,8 +221,7 @@ extension HomeCoordinatorImpl: PlanChangeDelegate {
 
     func planChangeDidRequestReset() {
         navigationController?.dismiss(animated: true) { [weak self] in
-            self?.onPlanChangeResetRequested?()
-            self?.onPlanChangeResetRequested = nil
+            self?.homeVM?.reloadExamSchedule()
         }
     }
 

@@ -1,4 +1,5 @@
 import UIKit
+import DesignSystem
 import Combine
 
 @MainActor
@@ -32,6 +33,24 @@ final class PlanChangeViewController: UIViewController {
         super.viewDidLoad()
         bind()
         inputSubject.send(.viewDidLoad)
+    }
+
+    // MARK: - Methods
+
+    private func showResetAlert() {
+        let alert = TwoButtonCustomAlertViewController(
+            title: "플랜을 초기화 할까요?",
+            description: "지금까지의 플랜이 초기화되며,\nDay1부터 다시 시작됩니다.",
+            confirmAction: UIAction { [weak self] _ in
+                self?.dismiss(animated: true) {
+                    self?.inputSubject.send(.tapResetConfirmed)
+                }
+            },
+            cancelAction: UIAction { [weak self] _ in
+                self?.dismiss(animated: true)
+            }
+        )
+        present(alert, animated: true)
     }
 
     // MARK: - Binding
@@ -72,6 +91,10 @@ final class PlanChangeViewController: UIViewController {
                     rootView.setConfirmEnabled(enabled)
                 case .setLoading(let loading):
                     rootView.setLoading(loading)
+                case .showResetAlert:
+                    showResetAlert()
+                case .showAlert(let title, let description):
+                    showOneButtonAlert(with: title, for: description, storingIn: &cancellables)
                 case .showError(let message):
                     showOneButtonAlert(with: message, storingIn: &cancellables)
                 }
