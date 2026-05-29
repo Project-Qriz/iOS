@@ -40,7 +40,7 @@ struct MyPageViewModelTests {
             return
         }
         #expect(userName == "테스트")
-        #expect(version == "1.0")
+        #expect(version == "1.0.0")
     }
 
     @Test("viewDidLoad → fetchVersion NetworkError 실패 → setupView(fallback) emit")

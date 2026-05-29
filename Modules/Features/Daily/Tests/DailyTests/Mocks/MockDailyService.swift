@@ -1,5 +1,5 @@
 import Foundation
-@testable import Network
+import QRIZNetwork
 import QRIZUtils
 
 @MainActor
@@ -79,6 +79,18 @@ final class MockDailyService: DailyService {
     }
 
     func resetPlan() async throws -> DailyResetResponse {
+        fatalError("not implemented in mock")
+    }
+
+    func selectPlan(planType: Int) async throws -> DailyPlanSelectResponse {
+        fatalError("not implemented in mock")
+    }
+
+    func getChangeavailablePlans() async throws -> DailyPlanChangeAvailableResponse {
+        fatalError("not implemented in mock")
+    }
+
+    func changePlan(planType: Int) async throws -> DailyPlanChangeResponse {
         fatalError("not implemented in mock")
     }
 

@@ -18,12 +18,14 @@ public protocol OnboardingCoordinatorDelegate: AnyObject {
 public func makeOnboardingCoordinator(
     navigationController: UINavigationController,
     onboardingService: OnboardingService,
-    userInfoService: UserInfoService
+    userInfoService: UserInfoService,
+    dailyService: any DailyService
 ) -> any OnboardingCoordinator {
     OnboardingCoordinatorImpl(
         navigationController: navigationController,
         onboardingService: onboardingService,
-        userInfoService: userInfoService
+        userInfoService: userInfoService,
+        dailyService: dailyService
     )
 }
 
@@ -36,5 +38,6 @@ protocol OnboardingNavigating: OnboardingCoordinator {
     func showBeginPreviewTest()
     func showPreviewTest()
     func showPreviewResult()
+    func showPlanDurationSelection()
     func showGreeting()
 }

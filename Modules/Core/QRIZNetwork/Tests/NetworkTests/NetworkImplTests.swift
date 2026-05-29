@@ -7,7 +7,7 @@
 
 import Testing
 import Foundation
-@testable import Network
+@testable import QRIZNetwork
 
 @Suite("NetworkImpl 테스트", .serialized)
 struct NetworkImplTests {

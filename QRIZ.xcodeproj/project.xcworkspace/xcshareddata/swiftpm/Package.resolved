@@ -1,5 +1,5 @@
 {
-  "originHash" : "93c3129f77d7f78f7e7d3b8b36d266ce36053ce54b92b74de70ea4bfe8a52a4e",
+  "originHash" : "60446c3e7c2d5bd89585675cfc189411fde4a955140593ad4ff2e24fd20f02d7",
   "pins" : [
     {
       "identity" : "abseil-cpp-binary",
@@ -168,8 +168,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/pointfreeco/swift-custom-dump",
       "state" : {
-        "revision" : "2a2a938798236b8fa0bc57c453ee9de9f9ec3ab0",
-        "version" : "1.4.1"
+        "revision" : "b9b59eb58c946236d6f16305c576ad194c36444e",
+        "version" : "1.6.0"
       }
     },
     {

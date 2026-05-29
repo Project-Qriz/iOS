@@ -112,7 +112,8 @@ final class HomeCoordinatorImpl: HomeCoordinator, NavigationGuard {
             let onboarding = makeOnboardingCoordinator(
                 navigationController: navi,
                 onboardingService: self.onboardingService,
-                userInfoService: self.userInfoService
+                userInfoService: self.userInfoService,
+                dailyService: self.dailyService
             )
             onboarding.delegate = self
             self.onboardingCoordinator = onboarding
@@ -196,6 +197,36 @@ final class HomeCoordinatorImpl: HomeCoordinator, NavigationGuard {
             let conceptPDFVC = makeConceptPDFViewController(chapter: chapter, conceptItem: conceptItem)
             self.navigationController?.pushViewController(conceptPDFVC, animated: true)
         }
+    }
+
+    func showPlanChange(totalDays: Int) {
+        guardNavigation {
+            let viewModel = PlanChangeViewModel(dailyService: self.dailyService)
+            viewModel.delegate = self
+            let vc = PlanChangeViewController(viewModel: viewModel)
+            vc.modalPresentationStyle = .fullScreen
+            self.navigationController?.present(vc, animated: true)
+        }
+    }
+}
+
+// MARK: - PlanChangeDelegate
+
+extension HomeCoordinatorImpl: PlanChangeDelegate {
+    func planChangeDidComplete() {
+        navigationController?.dismiss(animated: true) { [weak self] in
+            self?.homeVM?.reloadExamSchedule()
+        }
+    }
+
+    func planChangeDidRequestReset() {
+        navigationController?.dismiss(animated: true) { [weak self] in
+            self?.homeVM?.reloadExamSchedule()
+        }
+    }
+
+    func planChangeDidDismiss() {
+        navigationController?.dismiss(animated: true)
     }
 }
 

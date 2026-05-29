@@ -29,6 +29,7 @@ public extension UIImage {
     static let homeLogo = image(named: "homeLogo")
     static let lockIcon = image(named: "lock")
     static let mockExam = image(named: "MockExam")
+    static let pencilIcon = image(named: "pencil")
 
     // MARK: - Exam
 
@@ -41,6 +42,12 @@ public extension UIImage {
 
     // MARK: - Onboarding
 
+    static let planIcon7Day = image(named: "planIcon7Day")
+    static let planIcon14Day = image(named: "planIcon14Day")
+    static let planIcon30Day = image(named: "planIcon30Day")
+    static let planIcon7DayDisabled = image(named: "planIcon7DayDisabled")
+    static let planIcon14DayDisabled = image(named: "planIcon14DayDisabled")
+    static let planIcon30DayDisabled = image(named: "planIcon30DayDisabled")
     static let checkboxOffIcon = image(named: "checkboxOffIcon")
     static let checkboxOnIcon = image(named: "checkboxOnIcon")
     static let checkboxSomeIcon = image(named: "checkboxSomeIcon")

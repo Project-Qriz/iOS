@@ -4,7 +4,7 @@
 //
 
 import Foundation
-@testable import Network
+import QRIZNetwork
 
 final class MockSignUpService: SignUpService, @unchecked Sendable {
 

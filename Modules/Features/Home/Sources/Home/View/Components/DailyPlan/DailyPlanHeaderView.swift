@@ -81,7 +81,7 @@ final class DailyPlanHeaderView: UICollectionViewCell {
 
     private lazy var resetButton: UIButton = {
         let button = UIButton()
-        button.setImage(.homeReset, for: .normal)
+        button.setImage(.pencilIcon, for: .normal)
         button.tintColor = .coolNeutral800
 
         button.addAction(UIAction { [weak self] _ in

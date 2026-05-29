@@ -69,7 +69,7 @@ final class MyPageViewModel {
         Task {
             do {
                 let version = try await myPageService.fetchVersion()
-                outputSubject.send(.setupView(userName: userName, version: "\(version.data.versionInfo)"))
+                outputSubject.send(.setupView(userName: userName, version: version.data.versionInfo))
 
             } catch let error as NetworkError {
                 outputSubject.send(.setupView(userName: userName, version: "0.0.0"))

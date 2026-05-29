@@ -12,6 +12,7 @@ final class OnboardingCoordinatorImpl: OnboardingNavigating, NavigationGuard {
     private let navigationController: UINavigationController
     private let onboardingService: OnboardingService
     private let userInfoService: UserInfoService
+    private let dailyService: any DailyService
 
     private var previewTestStatus: PreviewTestStatus {
         UserInfoManager.shared.previewTestStatus
@@ -26,11 +27,13 @@ final class OnboardingCoordinatorImpl: OnboardingNavigating, NavigationGuard {
     init(
         navigationController: UINavigationController,
         onboardingService: OnboardingService,
-        userInfoService: UserInfoService
+        userInfoService: UserInfoService,
+        dailyService: any DailyService
     ) {
         self.navigationController = navigationController
         self.onboardingService = onboardingService
         self.userInfoService = userInfoService
+        self.dailyService = dailyService
     }
 
     // MARK: - Coordinator
@@ -66,7 +69,7 @@ final class OnboardingCoordinatorImpl: OnboardingNavigating, NavigationGuard {
                 onNavigate: { [weak self] destination in
                     switch destination {
                     case .previewTest: self?.showBeginPreviewTest()
-                    case .greeting: self?.showGreeting()
+                    case .greeting: self?.showPlanDurationSelection()
                     }
                 },
                 userInfo: .shared
@@ -101,10 +104,21 @@ final class OnboardingCoordinatorImpl: OnboardingNavigating, NavigationGuard {
         guardNavigation {
             let vm = PreviewResultViewModel(
                 onboardingService: onboardingService,
-                onNavigateToGreeting: { [weak self] in self?.showGreeting() },
+                onNavigateToGreeting: { [weak self] in self?.showPlanDurationSelection() },
                 userInfo: .shared
             )
             let vc = UIHostingController(rootView: PreviewResultView(viewModel: vm))
+            navigationController.pushViewController(vc, animated: true)
+        }
+    }
+
+    func showPlanDurationSelection() {
+        guardNavigation {
+            let vm = PlanDurationSelectionViewModel(
+                dailyService: dailyService,
+                onNavigate: { [weak self] in self?.showGreeting() }
+            )
+            let vc = UIHostingController(rootView: PlanDurationSelectionView(viewModel: vm))
             navigationController.pushViewController(vc, animated: true)
         }
     }

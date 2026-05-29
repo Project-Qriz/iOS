@@ -94,7 +94,8 @@ final class AppCoordinatorDependencyImpl: AppCoordinatorDependency {
         return makeOnboardingCoordinator(
             navigationController: navi,
             onboardingService: onboardingService,
-            userInfoService: userInfoService
+            userInfoService: userInfoService,
+            dailyService: dailyService
         )
     }
 }

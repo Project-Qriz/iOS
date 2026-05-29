@@ -166,3 +166,27 @@ extension ExamRowState {
         )
     }
 }
+
+extension DailyPlanChangeAvailableResponse {
+    static func make(
+        currentPlanType: Int = 7,
+        completedDays: Int = 3,
+        availablePlanTypes: [Int] = [14, 30]
+    ) -> DailyPlanChangeAvailableResponse {
+        DailyPlanChangeAvailableResponse(
+            code: 1,
+            msg: "ok",
+            data: .init(
+                currentPlanType: currentPlanType,
+                completedDays: completedDays,
+                availablePlanTypes: availablePlanTypes
+            )
+        )
+    }
+}
+
+extension DailyPlanChangeResponse {
+    static func make() -> DailyPlanChangeResponse {
+        DailyPlanChangeResponse(code: 1, msg: "ok")
+    }
+}

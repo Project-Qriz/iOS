@@ -1,5 +1,5 @@
 import Foundation
-@testable import Network
+import QRIZNetwork
 import QRIZUtils
 
 @MainActor
@@ -9,7 +9,7 @@ final class MockMyPageService: MyPageService {
         VersionResponse(
             code: 1,
             msg: "ok",
-            data: VersionData(versionInfo: 1.0, updateInfo: "", date: "")
+            data: VersionData(versionInfo: "1.0.0", updateInfo: "", date: "")
         )
     )
 

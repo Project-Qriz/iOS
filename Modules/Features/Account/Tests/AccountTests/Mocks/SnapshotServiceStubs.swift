@@ -4,7 +4,7 @@
 //
 
 import UIKit
-@testable import Network
+import QRIZNetwork
 
 final class StubLoginService: LoginService, @unchecked Sendable {
     func login(id: String, password: String) async throws -> LoginResponse { fatalError("stub") }

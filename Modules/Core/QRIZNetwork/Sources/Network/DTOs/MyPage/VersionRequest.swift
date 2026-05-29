@@ -28,10 +28,22 @@ public struct VersionResponse: Decodable, Sendable {
     public let code: Int
     public let msg: String
     public let data: VersionData
+
+    public init(code: Int, msg: String, data: VersionData) {
+        self.code = code
+        self.msg = msg
+        self.data = data
+    }
 }
 
 public struct VersionData: Decodable, Sendable {
-    public let versionInfo: Float
+    public let versionInfo: String
     public let updateInfo: String
     public let date: String
+
+    public init(versionInfo: String, updateInfo: String, date: String) {
+        self.versionInfo = versionInfo
+        self.updateInfo = updateInfo
+        self.date = date
+    }
 }

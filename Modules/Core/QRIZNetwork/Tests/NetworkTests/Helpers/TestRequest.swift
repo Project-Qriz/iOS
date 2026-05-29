@@ -6,7 +6,7 @@
 //
 
 import Foundation
-@testable import Network
+@testable import QRIZNetwork
 
 struct TestResponse: Decodable, Sendable {
     let message: String

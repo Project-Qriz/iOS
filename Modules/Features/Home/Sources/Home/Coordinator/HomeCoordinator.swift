@@ -20,6 +20,7 @@ public protocol HomeCoordinator: Coordinator {
     func showResetAlert(confirm: @escaping () -> Void)
     func showDaySelectAlert(totalDays: Int, selectedDay: Int, todayIndex: Int?)
     func showConceptPDF(chapter: Chapter, conceptItem: ConceptItem)
+    func showPlanChange(totalDays: Int)
 }
 
 @MainActor

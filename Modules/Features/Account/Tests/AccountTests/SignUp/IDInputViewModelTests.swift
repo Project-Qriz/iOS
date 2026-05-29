@@ -6,7 +6,7 @@
 import Testing
 import Combine
 @testable import Account
-@testable import Network
+import QRIZNetwork
 
 @MainActor
 @Suite("IDInputViewModel 테스트", .serialized)
