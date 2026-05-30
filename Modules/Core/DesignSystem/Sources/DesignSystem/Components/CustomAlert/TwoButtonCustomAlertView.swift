@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import QRIZUtils
 
 final class TwoButtonCustomAlertView: UIView {
 
@@ -111,7 +112,7 @@ final class TwoButtonCustomAlertView: UIView {
             titleLabel.text = text
             titleLabel.numberOfLines = numberOfLines
         } else {
-            descriptionLabel.text = text
+            descriptionLabel.attributedText = NSAttributedString(text: text, lineSpacing: 4)
             descriptionLabel.numberOfLines = numberOfLines
         }
     }

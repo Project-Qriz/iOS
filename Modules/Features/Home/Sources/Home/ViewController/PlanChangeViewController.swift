@@ -39,8 +39,8 @@ final class PlanChangeViewController: UIViewController {
 
     private func showResetAlert() {
         let alert = TwoButtonCustomAlertViewController(
-            title: "플랜을 초기화 할까요?",
-            description: "지금까지의 플랜이 초기화되며,\nDay1부터 다시 시작됩니다.",
+            title: "플랜을 초기화 하시겠습니까?",
+            description: "'확인'버튼을 누르면 기존의 학습데이터를\n삭제한 후 플랜 선택으로 돌아가게 됩니다.",
             confirmAction: UIAction { [weak self] _ in
                 self?.dismiss(animated: true) {
                     self?.inputSubject.send(.tapResetConfirmed)
