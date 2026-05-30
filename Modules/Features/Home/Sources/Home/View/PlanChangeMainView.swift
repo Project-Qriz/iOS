@@ -96,16 +96,20 @@ final class PlanChangeMainView: UIView {
     private lazy var confirmButton: UIButton = {
         var config = UIButton.Configuration.filled()
         config.title = "선택한 플랜으로 변경하기"
-        config.baseBackgroundColor = .coolNeutral200
-        config.baseForegroundColor = .coolNeutral500
-        config.titleTextAttributesTransformer = .init { attr in
-            var a = attr
-            a.font = UIFont.systemFont(ofSize: 16, weight: .bold)
-            return a
-        }
         config.cornerStyle = .fixed
         config.background.cornerRadius = 8
         let button = UIButton(configuration: config)
+        button.configurationUpdateHandler = { button in
+            let enabled = button.isEnabled
+            let textColor: UIColor = enabled ? .white : .coolNeutral500
+            button.configuration?.baseBackgroundColor = enabled ? .customBlue500 : .coolNeutral200
+            button.configuration?.titleTextAttributesTransformer = .init { attr in
+                var a = attr
+                a.font = UIFont.systemFont(ofSize: 16, weight: .bold)
+                a.foregroundColor = textColor
+                return a
+            }
+        }
         button.addAction(UIAction { [weak self] _ in
             self?.confirmTapSubject.send()
         }, for: .touchUpInside)
@@ -186,8 +190,6 @@ final class PlanChangeMainView: UIView {
 
     func setConfirmEnabled(_ enabled: Bool) {
         confirmButton.isEnabled = enabled
-        confirmButton.configuration?.baseForegroundColor = enabled ? .white : .coolNeutral500
-        confirmButton.configuration?.baseBackgroundColor = enabled ? .customBlue500 : .coolNeutral200
     }
 
     func setLoading(_ loading: Bool) {
