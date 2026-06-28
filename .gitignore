@@ -57,3 +57,4 @@ Packages/*/.build/
 .claude/
 CLAUDE.md
 docs/superpowers/
+_workspace/
