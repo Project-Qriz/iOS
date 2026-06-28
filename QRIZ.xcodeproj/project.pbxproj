@@ -32,6 +32,7 @@
 		E239630B2D083B900092B39B /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E239630A2D083B900092B39B /* SceneDelegate.swift */; };
 		E292211E2E05478C00B6DC0D /* FirebaseAnalyticsWithoutAdIdSupport in Frameworks */ = {isa = PBXBuildFile; productRef = E292211D2E05478C00B6DC0D /* FirebaseAnalyticsWithoutAdIdSupport */; };
 		E292212E2E05478C00B6DC0D /* FirebaseCrashlytics in Frameworks */ = {isa = PBXBuildFile; productRef = E292212D2E05478C00B6DC0D /* FirebaseCrashlytics */; };
+		E292214E2E05478C00B6DC0D /* FirebasePerformance in Frameworks */ = {isa = PBXBuildFile; productRef = E292214D2E05478C00B6DC0D /* FirebasePerformance */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -128,6 +129,7 @@
 				B12FEEEE2F46F98200280847 /* QRIZNetwork in Frameworks */,
 				E292211E2E05478C00B6DC0D /* FirebaseAnalyticsWithoutAdIdSupport in Frameworks */,
 				E292212E2E05478C00B6DC0D /* FirebaseCrashlytics in Frameworks */,
+				E292214E2E05478C00B6DC0D /* FirebasePerformance in Frameworks */,
 				B1BDD0C72F4D26CD00834D57 /* DesignSystem in Frameworks */,
 				D52D2E306AD846D98D4E9CDF5B15473A /* ExamKit in Frameworks */,
 				B17C0EC52F5AACD200C8219A /* Account in Frameworks */,
@@ -273,6 +275,7 @@
 			packageProductDependencies = (
 				E292211D2E05478C00B6DC0D /* FirebaseAnalyticsWithoutAdIdSupport */,
 				E292212D2E05478C00B6DC0D /* FirebaseCrashlytics */,
+				E292214D2E05478C00B6DC0D /* FirebasePerformance */,
 				B18CDE652F45AD2A00CB3AB4 /* QRIZUtils */,
 				B12FEEED2F46F98200280847 /* QRIZNetwork */,
 				B1BDD0C62F4D26CD00834D57 /* DesignSystem */,
@@ -677,6 +680,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = E292211C2E05478C00B6DC0D /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
 			productName = FirebaseCrashlytics;
+		};
+		E292214D2E05478C00B6DC0D /* FirebasePerformance */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = E292211C2E05478C00B6DC0D /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebasePerformance;
 		};
 		E9849FEE34F04512AEA4EBE2 /* Onboarding */ = {
 			isa = XCSwiftPackageProductDependency;
