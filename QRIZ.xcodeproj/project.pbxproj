@@ -31,6 +31,7 @@
 		E23963092D083B900092B39B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E23963082D083B900092B39B /* AppDelegate.swift */; };
 		E239630B2D083B900092B39B /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E239630A2D083B900092B39B /* SceneDelegate.swift */; };
 		E292211E2E05478C00B6DC0D /* FirebaseAnalyticsWithoutAdIdSupport in Frameworks */ = {isa = PBXBuildFile; productRef = E292211D2E05478C00B6DC0D /* FirebaseAnalyticsWithoutAdIdSupport */; };
+		E292212E2E05478C00B6DC0D /* FirebaseCrashlytics in Frameworks */ = {isa = PBXBuildFile; productRef = E292212D2E05478C00B6DC0D /* FirebaseCrashlytics */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -126,6 +127,7 @@
 				C1A2B3C52F79000200D3BD39 /* Home in Frameworks */,
 				B12FEEEE2F46F98200280847 /* QRIZNetwork in Frameworks */,
 				E292211E2E05478C00B6DC0D /* FirebaseAnalyticsWithoutAdIdSupport in Frameworks */,
+				E292212E2E05478C00B6DC0D /* FirebaseCrashlytics in Frameworks */,
 				B1BDD0C72F4D26CD00834D57 /* DesignSystem in Frameworks */,
 				D52D2E306AD846D98D4E9CDF5B15473A /* ExamKit in Frameworks */,
 				B17C0EC52F5AACD200C8219A /* Account in Frameworks */,
@@ -257,6 +259,7 @@
 				E23963012D083B8F0092B39B /* Sources */,
 				E23963022D083B8F0092B39B /* Frameworks */,
 				E23963032D083B8F0092B39B /* Resources */,
+				E292213E2E05478C00B6DC0D /* Upload Crashlytics dSYM */,
 			);
 			buildRules = (
 			);
@@ -269,6 +272,7 @@
 			name = QRIZ;
 			packageProductDependencies = (
 				E292211D2E05478C00B6DC0D /* FirebaseAnalyticsWithoutAdIdSupport */,
+				E292212D2E05478C00B6DC0D /* FirebaseCrashlytics */,
 				B18CDE652F45AD2A00CB3AB4 /* QRIZUtils */,
 				B12FEEED2F46F98200280847 /* QRIZNetwork */,
 				B1BDD0C62F4D26CD00834D57 /* DesignSystem */,
@@ -353,6 +357,30 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		E292213E2E05478C00B6DC0D /* Upload Crashlytics dSYM */ = {
+			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${DWARF_DSYM_FOLDER_PATH}/${DWARF_DSYM_FILE_NAME}",
+				"$(SRCROOT)/QRIZ/SupportingFiles/GoogleService-Info.plist",
+			);
+			name = "Upload Crashlytics dSYM";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${BUILD_DIR%Build/*}SourcePackages/checkouts/firebase-ios-sdk/Crashlytics/upload-symbols\" -gsp \"${PROJECT_DIR}/QRIZ/SupportingFiles/GoogleService-Info.plist\" -p ios \"${DWARF_DSYM_FOLDER_PATH}/${DWARF_DSYM_FILE_NAME}\"\n";
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin XCBuildConfiguration section */
 		E239632D2D083B910092B39B /* Debug */ = {
@@ -644,6 +672,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = E292211C2E05478C00B6DC0D /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
 			productName = FirebaseAnalyticsWithoutAdIdSupport;
+		};
+		E292212D2E05478C00B6DC0D /* FirebaseCrashlytics */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = E292211C2E05478C00B6DC0D /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseCrashlytics;
 		};
 		E9849FEE34F04512AEA4EBE2 /* Onboarding */ = {
 			isa = XCSwiftPackageProductDependency;
