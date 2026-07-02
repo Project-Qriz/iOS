@@ -14,7 +14,6 @@ let package = Package(
         .package(path: "../../Core/QRIZUtils"),
         .package(path: "../ExamKit"),
         .package(path: "../Conceptbook"),
-        .package(path: "../MistakeNote"),
         .package(url: "https://github.com/pointfreeco/swift-snapshot-testing", from: "1.18.9"),
     ],
     targets: [
@@ -26,7 +25,6 @@ let package = Package(
                 "QRIZUtils",
                 "ExamKit",
                 "Conceptbook",
-                "MistakeNote",
             ],
             swiftSettings: [
                 .swiftLanguageMode(.v5)

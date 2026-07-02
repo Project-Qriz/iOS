@@ -10,12 +10,13 @@ let package = Package(
     ],
     dependencies: [
         .package(path: "../../Core/DesignSystem"),
-        .package(path: "../../Core/QRIZUtils")
+        .package(path: "../../Core/QRIZUtils"),
+        .package(path: "../../Core/QRIZNetwork")
     ],
     targets: [
         .target(
             name: "ExamKit",
-            dependencies: ["DesignSystem", "QRIZUtils"]
+            dependencies: ["DesignSystem", "QRIZUtils", "QRIZNetwork"]
         ),
         .testTarget(
             name: "ExamKitTests",
