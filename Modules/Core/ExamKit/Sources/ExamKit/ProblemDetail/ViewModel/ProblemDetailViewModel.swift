@@ -1,6 +1,6 @@
 //
 //  ProblemDetailViewModel.swift
-//  MistakeNote
+//  ExamKit
 //
 //  Created by Claude on 1/3/26.
 //

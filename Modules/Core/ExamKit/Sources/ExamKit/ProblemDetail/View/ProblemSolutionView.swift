@@ -1,6 +1,6 @@
 //
 //  ProblemSolutionView.swift
-//  MistakeNote
+//  ExamKit
 //
 //  Created by Claude on 12/31/25.
 //

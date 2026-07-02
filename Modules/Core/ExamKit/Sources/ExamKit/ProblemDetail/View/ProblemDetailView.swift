@@ -1,6 +1,6 @@
 //
 //  ProblemDetailView.swift
-//  MistakeNote
+//  ExamKit
 //
 //  Created by Claude on 12/30/25.
 //
@@ -123,16 +123,3 @@ private extension ProblemDetailView {
     }
 }
 
-// MARK: - Preview
-
-#Preview {
-    NavigationView {
-        ProblemDetailView(
-            viewModel: ProblemDetailViewModel {
-                let service = DailyServiceImpl()
-                let response = try await service.getDailyResultDetail(dayNumber: 1, questionId: 1)
-                return response.data.toEntity()
-            }
-        )
-    }
-}
