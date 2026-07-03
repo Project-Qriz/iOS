@@ -9,7 +9,6 @@ import UIKit
 import QRIZUtils
 import QRIZNetwork
 import ExamKit
-import Conceptbook
 
 @MainActor
 public protocol MistakeNoteCoordinator: Coordinator {
@@ -21,6 +20,7 @@ public protocol MistakeNoteCoordinator: Coordinator {
 public protocol MistakeNoteCoordinatorDelegate: AnyObject {
     func moveFromMistakeNoteToConcept(_ coordinator: MistakeNoteCoordinator)
     func moveFromMistakeNoteToExam(_ coordinator: MistakeNoteCoordinator, tab: MistakeNoteTab)
+    func conceptPDFViewController(chapter: Chapter, conceptItem: ConceptItem) -> UIViewController
 }
 
 @MainActor
@@ -72,8 +72,8 @@ public final class MistakeNoteCoordinatorImpl: MistakeNoteCoordinator, Navigatio
     }
 
     private func showConcept(chapter: Chapter, conceptItem: ConceptItem) {
+        guard let vc = delegate?.conceptPDFViewController(chapter: chapter, conceptItem: conceptItem) else { return }
         guardNavigation {
-            let vc = makeConceptPDFViewController(chapter: chapter, conceptItem: conceptItem)
             navigationController?.pushViewController(vc, animated: true)
         }
     }

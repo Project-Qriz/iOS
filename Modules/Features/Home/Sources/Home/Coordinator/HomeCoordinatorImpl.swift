@@ -262,6 +262,10 @@ extension HomeCoordinatorImpl: ExamCoordinatorDelegate {
         navigationController?.popToRootViewController(animated: true)
         delegate?.moveToConcept()
     }
+
+    func conceptPDFViewController(chapter: Chapter, conceptItem: ConceptItem) -> UIViewController {
+        makeConceptPDFViewController(chapter: chapter, conceptItem: conceptItem)
+    }
 }
 
 // MARK: - DailyCoordinatorDelegate
