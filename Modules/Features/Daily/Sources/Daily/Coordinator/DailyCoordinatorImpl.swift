@@ -3,7 +3,6 @@ import SwiftUI
 import QRIZUtils
 import QRIZNetwork
 import ExamKit
-import Conceptbook
 
 @MainActor
 final class DailyCoordinatorImpl: DailyNavigating, NavigationGuard {
@@ -65,8 +64,8 @@ final class DailyCoordinatorImpl: DailyNavigating, NavigationGuard {
     }
 
     func showConcept(chapter: Chapter, conceptItem: ConceptItem) {
+        guard let vc = delegate?.conceptPDFViewController(chapter: chapter, conceptItem: conceptItem) else { return }
         guardNavigation {
-            let vc = makeConceptPDFViewController(chapter: chapter, conceptItem: conceptItem)
             self.navigationController.pushViewController(vc, animated: true)
         }
     }

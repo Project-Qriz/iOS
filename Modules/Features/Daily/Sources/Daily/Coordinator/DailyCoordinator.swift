@@ -13,6 +13,7 @@ public protocol DailyCoordinator: Coordinator {
 public protocol DailyCoordinatorDelegate: AnyObject {
     func didQuitDaily(_ coordinator: any DailyCoordinator)
     func moveFromDailyToConcept(_ coordinator: any DailyCoordinator)
+    func conceptPDFViewController(chapter: Chapter, conceptItem: ConceptItem) -> UIViewController
 }
 
 @MainActor

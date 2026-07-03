@@ -270,6 +270,10 @@ extension TabBarCoordinatorImpl: MistakeNoteCoordinatorDelegate {
             }
         )
     }
+
+    func conceptPDFViewController(chapter: Chapter, conceptItem: ConceptItem) -> UIViewController {
+        makeConceptPDFViewController(chapter: chapter, conceptItem: conceptItem)
+    }
 }
 
 // MARK: - MyPageCoordinatorDelegate

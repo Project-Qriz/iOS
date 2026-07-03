@@ -13,6 +13,7 @@ public protocol ExamCoordinator: Coordinator {
 public protocol ExamCoordinatorDelegate: AnyObject {
     func didQuitExam(_ coordinator: any ExamCoordinator)
     func moveFromExamToConcept(_ coordinator: any ExamCoordinator)
+    func conceptPDFViewController(chapter: Chapter, conceptItem: ConceptItem) -> UIViewController
 }
 
 @MainActor
