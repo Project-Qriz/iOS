@@ -2,6 +2,7 @@ import UIKit
 import SwiftUI
 import QRIZUtils
 import QRIZNetwork
+import OnboardingInterface
 
 @MainActor
 final class OnboardingCoordinatorImpl: OnboardingNavigating, NavigationGuard {

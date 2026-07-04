@@ -1,20 +1,9 @@
 import UIKit
 import QRIZUtils
 import QRIZNetwork
+import DailyInterface
 
 // MARK: - Public (메인 앱에 노출)
-
-@MainActor
-public protocol DailyCoordinator: Coordinator {
-    var delegate: DailyCoordinatorDelegate? { get set }
-}
-
-@MainActor
-public protocol DailyCoordinatorDelegate: AnyObject {
-    func didQuitDaily(_ coordinator: any DailyCoordinator)
-    func moveFromDailyToConcept(_ coordinator: any DailyCoordinator)
-    func conceptPDFViewController(chapter: Chapter, conceptItem: ConceptItem) -> UIViewController
-}
 
 @MainActor
 public func makeDailyCoordinator(
@@ -31,6 +20,27 @@ public func makeDailyCoordinator(
         type: type,
         adService: adService
     )
+}
+
+public struct DefaultDailyCoordinatorFactory: DailyCoordinatorFactory {
+    public init() {}
+
+    @MainActor
+    public func makeDailyCoordinator(
+        navigationController: UINavigationController,
+        dailyService: any DailyService,
+        day: Int,
+        type: DailyLearnType,
+        adService: any AdService
+    ) -> any DailyCoordinator {
+        DailyCoordinatorImpl(
+            navigationController: navigationController,
+            dailyService: dailyService,
+            day: day,
+            type: type,
+            adService: adService
+        )
+    }
 }
 
 // MARK: - Internal (패키지 내부 전용)

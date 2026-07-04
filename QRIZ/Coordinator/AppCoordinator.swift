@@ -11,6 +11,7 @@ import QRIZNetwork
 import Auth
 import Account
 import Onboarding
+import OnboardingInterface
 
 @MainActor
 protocol AppCoordinator: Coordinator {

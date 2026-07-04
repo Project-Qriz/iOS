@@ -13,6 +13,7 @@ let package = Package(
         .package(path: "../../Core/DesignSystem"),
         .package(path: "../../Core/QRIZUtils"),
         .package(path: "../ExamKit"),
+        .package(path: "../DailyInterface"),
         .package(url: "https://github.com/pointfreeco/swift-snapshot-testing", from: "1.18.9"),
     ],
     targets: [
@@ -23,6 +24,7 @@ let package = Package(
                 "DesignSystem",
                 "QRIZUtils",
                 "ExamKit",
+                "DailyInterface",
             ],
             swiftSettings: [
                 .swiftLanguageMode(.v5)

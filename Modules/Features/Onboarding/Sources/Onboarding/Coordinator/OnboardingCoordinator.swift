@@ -1,18 +1,9 @@
 import UIKit
 import QRIZUtils
 import QRIZNetwork
+import OnboardingInterface
 
 // MARK: - Public (메인 앱에 노출)
-
-@MainActor
-public protocol OnboardingCoordinator: Coordinator {
-    var delegate: OnboardingCoordinatorDelegate? { get set }
-}
-
-@MainActor
-public protocol OnboardingCoordinatorDelegate: AnyObject {
-    func didFinishOnboarding(_ coordinator: any OnboardingCoordinator)
-}
 
 @MainActor
 public func makeOnboardingCoordinator(
@@ -27,6 +18,25 @@ public func makeOnboardingCoordinator(
         userInfoService: userInfoService,
         dailyService: dailyService
     )
+}
+
+public struct DefaultOnboardingCoordinatorFactory: OnboardingCoordinatorFactory {
+    public init() {}
+
+    @MainActor
+    public func makeOnboardingCoordinator(
+        navigationController: UINavigationController,
+        onboardingService: OnboardingService,
+        userInfoService: UserInfoService,
+        dailyService: any DailyService
+    ) -> any OnboardingCoordinator {
+        OnboardingCoordinatorImpl(
+            navigationController: navigationController,
+            onboardingService: onboardingService,
+            userInfoService: userInfoService,
+            dailyService: dailyService
+        )
+    }
 }
 
 // MARK: - Internal (패키지 내부 전용)

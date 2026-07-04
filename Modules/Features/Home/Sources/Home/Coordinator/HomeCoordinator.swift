@@ -1,8 +1,10 @@
 import UIKit
 import QRIZUtils
 import QRIZNetwork
-import Daily
-import Conceptbook
+import DailyInterface
+import ExamInterface
+import OnboardingInterface
+import ConceptbookInterface
 
 // MARK: - Public (메인 앱에 노출)
 
@@ -41,7 +43,11 @@ public func makeHomeCoordinator(
     onboardingService: any OnboardingService,
     userInfoService: any UserInfoService,
     weeklyService: any WeeklyRecommendService,
-    adService: any AdService
+    adService: any AdService,
+    dailyFactory: any DailyCoordinatorFactory,
+    examFactory: any ExamCoordinatorFactory,
+    onboardingFactory: any OnboardingCoordinatorFactory,
+    conceptbookFactory: any ConceptbookFactory
 ) -> any HomeCoordinator {
     HomeCoordinatorImpl(
         examService: examService,
@@ -50,7 +56,11 @@ public func makeHomeCoordinator(
         onboardingService: onboardingService,
         userInfoService: userInfoService,
         weeklyService: weeklyService,
-        adService: adService
+        adService: adService,
+        dailyFactory: dailyFactory,
+        examFactory: examFactory,
+        onboardingFactory: onboardingFactory,
+        conceptbookFactory: conceptbookFactory
     )
 }
 

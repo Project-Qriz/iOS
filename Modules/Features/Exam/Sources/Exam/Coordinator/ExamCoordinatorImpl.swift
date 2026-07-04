@@ -3,6 +3,7 @@ import SwiftUI
 import QRIZUtils
 import QRIZNetwork
 import ExamKit
+import ExamInterface
 
 @MainActor
 final class ExamCoordinatorImpl: ExamNavigating, NavigationGuard {

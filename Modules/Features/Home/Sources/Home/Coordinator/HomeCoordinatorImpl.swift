@@ -2,10 +2,10 @@ import UIKit
 import QRIZUtils
 import QRIZNetwork
 import DesignSystem
-import Conceptbook
-import Onboarding
-import Daily
-import Exam
+import DailyInterface
+import ExamInterface
+import OnboardingInterface
+import ConceptbookInterface
 
 @MainActor
 final class HomeCoordinatorImpl: HomeCoordinator, NavigationGuard {
@@ -22,6 +22,10 @@ final class HomeCoordinatorImpl: HomeCoordinator, NavigationGuard {
     private let userInfoService: UserInfoService
     private let weeklyService: WeeklyRecommendService
     private let adService: any AdService
+    private let dailyFactory: any DailyCoordinatorFactory
+    private let examFactory: any ExamCoordinatorFactory
+    private let onboardingFactory: any OnboardingCoordinatorFactory
+    private let conceptbookFactory: any ConceptbookFactory
     private(set) var homeVM: HomeViewModel?
     var needsRefresh: Bool = false
     var childCoordinators: [Coordinator] = []
@@ -37,7 +41,11 @@ final class HomeCoordinatorImpl: HomeCoordinator, NavigationGuard {
         onboardingService: OnboardingService,
         userInfoService: UserInfoService,
         weeklyService: WeeklyRecommendService,
-        adService: any AdService
+        adService: any AdService,
+        dailyFactory: any DailyCoordinatorFactory,
+        examFactory: any ExamCoordinatorFactory,
+        onboardingFactory: any OnboardingCoordinatorFactory,
+        conceptbookFactory: any ConceptbookFactory
     ) {
         self.examService = examService
         self.examTestService = examTestService
@@ -46,6 +54,10 @@ final class HomeCoordinatorImpl: HomeCoordinator, NavigationGuard {
         self.userInfoService = userInfoService
         self.weeklyService = weeklyService
         self.adService = adService
+        self.dailyFactory = dailyFactory
+        self.examFactory = examFactory
+        self.onboardingFactory = onboardingFactory
+        self.conceptbookFactory = conceptbookFactory
     }
 
     // MARK: - Methods
@@ -109,7 +121,7 @@ final class HomeCoordinatorImpl: HomeCoordinator, NavigationGuard {
     func showOnboarding() {
         guard let navi = navigationController else { return }
         guardNavigation {
-            let onboarding = makeOnboardingCoordinator(
+            let onboarding = self.onboardingFactory.makeOnboardingCoordinator(
                 navigationController: navi,
                 onboardingService: self.onboardingService,
                 userInfoService: self.userInfoService,
@@ -125,7 +137,7 @@ final class HomeCoordinatorImpl: HomeCoordinator, NavigationGuard {
     func showExam() {
         guard let navi = navigationController else { return }
         guardNavigation {
-            let exam = makeExamCoordinator(
+            let exam = self.examFactory.makeExamCoordinator(
                 navigationController: navi,
                 examService: self.examTestService,
                 adService: self.adService
@@ -139,7 +151,7 @@ final class HomeCoordinatorImpl: HomeCoordinator, NavigationGuard {
     func showDaily(day: Int, type: DailyLearnType) {
         guard let navi = navigationController else { return }
         guardNavigation {
-            let daily = makeDailyCoordinator(
+            let daily = self.dailyFactory.makeDailyCoordinator(
                 navigationController: navi,
                 dailyService: self.dailyService,
                 day: day,
@@ -194,7 +206,7 @@ final class HomeCoordinatorImpl: HomeCoordinator, NavigationGuard {
 
     func showConceptPDF(chapter: Chapter, conceptItem: ConceptItem) {
         guardNavigation {
-            let conceptPDFVC = makeConceptPDFViewController(chapter: chapter, conceptItem: conceptItem)
+            let conceptPDFVC = self.conceptbookFactory.makeConceptPDFViewController(chapter: chapter, conceptItem: conceptItem)
             self.navigationController?.pushViewController(conceptPDFVC, animated: true)
         }
     }
@@ -264,7 +276,7 @@ extension HomeCoordinatorImpl: ExamCoordinatorDelegate {
     }
 
     func conceptPDFViewController(chapter: Chapter, conceptItem: ConceptItem) -> UIViewController {
-        makeConceptPDFViewController(chapter: chapter, conceptItem: conceptItem)
+        conceptbookFactory.makeConceptPDFViewController(chapter: chapter, conceptItem: conceptItem)
     }
 }
 
