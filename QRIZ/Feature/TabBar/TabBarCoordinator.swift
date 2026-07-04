@@ -12,6 +12,9 @@ import QRIZNetwork
 import Auth
 import Home
 import Conceptbook
+import Daily
+import Exam
+import Onboarding
 import MistakeNote
 import MyPage
 
@@ -55,7 +58,11 @@ final class TabBarCoordinatorDependencyImpl: TabBarCoordinatorDependency {
         onboardingService: onboardingService,
         userInfoService: userInfoService,
         weeklyService: weeklyService,
-        adService: adService
+        adService: adService,
+        dailyFactory: DefaultDailyCoordinatorFactory(),
+        examFactory: DefaultExamCoordinatorFactory(),
+        onboardingFactory: DefaultOnboardingCoordinatorFactory(),
+        conceptbookFactory: DefaultConceptbookFactory()
     )
     
     var homeCoordinator: HomeCoordinator {

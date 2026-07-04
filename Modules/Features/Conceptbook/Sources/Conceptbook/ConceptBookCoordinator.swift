@@ -7,6 +7,7 @@
 
 import UIKit
 import QRIZUtils
+import ConceptbookInterface
 
 @MainActor
 public protocol ConceptBookCoordinator: Coordinator {
@@ -64,4 +65,14 @@ public func makeConceptBookCoordinator() -> any ConceptBookCoordinator {
 public func makeConceptPDFViewController(chapter: Chapter, conceptItem: ConceptItem) -> UIViewController {
     let vm = ConceptPDFViewModel(chapter: chapter, conceptItem: conceptItem)
     return ConceptPDFViewController(conceptPDFViewModel: vm)
+}
+
+public struct DefaultConceptbookFactory: ConceptbookFactory {
+    public init() {}
+
+    @MainActor
+    public func makeConceptPDFViewController(chapter: Chapter, conceptItem: ConceptItem) -> UIViewController {
+        let vm = ConceptPDFViewModel(chapter: chapter, conceptItem: conceptItem)
+        return ConceptPDFViewController(conceptPDFViewModel: vm)
+    }
 }

@@ -3,6 +3,7 @@ import SwiftUI
 import QRIZUtils
 import QRIZNetwork
 import ExamKit
+import DailyInterface
 
 @MainActor
 final class DailyCoordinatorImpl: DailyNavigating, NavigationGuard {
