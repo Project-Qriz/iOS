@@ -15,12 +15,15 @@ public func makeExamCoordinator(
 }
 
 public struct DefaultExamCoordinatorFactory: ExamCoordinatorFactory {
-    public init() {}
+    private let examService: any ExamService
+
+    public init(examService: any ExamService) {
+        self.examService = examService
+    }
 
     @MainActor
     public func makeExamCoordinator(
         navigationController: UINavigationController,
-        examService: any ExamService,
         adService: any AdService
     ) -> any ExamCoordinator {
         ExamCoordinatorImpl(navigationController: navigationController, examService: examService, adService: adService)

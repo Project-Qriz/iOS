@@ -21,14 +21,23 @@ public func makeOnboardingCoordinator(
 }
 
 public struct DefaultOnboardingCoordinatorFactory: OnboardingCoordinatorFactory {
-    public init() {}
+    private let onboardingService: OnboardingService
+    private let userInfoService: UserInfoService
+    private let dailyService: any DailyService
 
-    @MainActor
-    public func makeOnboardingCoordinator(
-        navigationController: UINavigationController,
+    public init(
         onboardingService: OnboardingService,
         userInfoService: UserInfoService,
         dailyService: any DailyService
+    ) {
+        self.onboardingService = onboardingService
+        self.userInfoService = userInfoService
+        self.dailyService = dailyService
+    }
+
+    @MainActor
+    public func makeOnboardingCoordinator(
+        navigationController: UINavigationController
     ) -> any OnboardingCoordinator {
         OnboardingCoordinatorImpl(
             navigationController: navigationController,

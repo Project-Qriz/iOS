@@ -38,10 +38,7 @@ public protocol HomeCoordinatorDelegate: AnyObject {
 @MainActor
 public func makeHomeCoordinator(
     examService: any ExamScheduleService,
-    examTestService: any ExamService,
     dailyService: any DailyService,
-    onboardingService: any OnboardingService,
-    userInfoService: any UserInfoService,
     weeklyService: any WeeklyRecommendService,
     adService: any AdService,
     dailyFactory: any DailyCoordinatorFactory,
@@ -51,10 +48,7 @@ public func makeHomeCoordinator(
 ) -> any HomeCoordinator {
     HomeCoordinatorImpl(
         examService: examService,
-        examTestService: examTestService,
         dailyService: dailyService,
-        onboardingService: onboardingService,
-        userInfoService: userInfoService,
         weeklyService: weeklyService,
         adService: adService,
         dailyFactory: dailyFactory,

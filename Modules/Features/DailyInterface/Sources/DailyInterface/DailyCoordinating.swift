@@ -1,6 +1,5 @@
 import UIKit
 import QRIZUtils
-import QRIZNetwork
 
 @MainActor
 public protocol DailyCoordinator: Coordinator {
@@ -18,7 +17,6 @@ public protocol DailyCoordinatorDelegate: AnyObject {
 public protocol DailyCoordinatorFactory {
     func makeDailyCoordinator(
         navigationController: UINavigationController,
-        dailyService: any DailyService,
         day: Int,
         type: DailyLearnType,
         adService: any AdService
