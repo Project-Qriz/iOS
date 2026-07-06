@@ -53,15 +53,16 @@ final class TabBarCoordinatorDependencyImpl: TabBarCoordinatorDependency {
 
     private lazy var _homeCoordinator = makeHomeCoordinator(
         examService: examService,
-        examTestService: examTestService,
         dailyService: dailyService,
-        onboardingService: onboardingService,
-        userInfoService: userInfoService,
         weeklyService: weeklyService,
         adService: adService,
-        dailyFactory: DefaultDailyCoordinatorFactory(),
-        examFactory: DefaultExamCoordinatorFactory(),
-        onboardingFactory: DefaultOnboardingCoordinatorFactory(),
+        dailyFactory: DefaultDailyCoordinatorFactory(dailyService: dailyService),
+        examFactory: DefaultExamCoordinatorFactory(examService: examTestService),
+        onboardingFactory: DefaultOnboardingCoordinatorFactory(
+            onboardingService: onboardingService,
+            userInfoService: userInfoService,
+            dailyService: dailyService
+        ),
         conceptbookFactory: DefaultConceptbookFactory()
     )
     

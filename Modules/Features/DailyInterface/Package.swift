@@ -10,12 +10,11 @@ let package = Package(
     ],
     dependencies: [
         .package(path: "../../Core/QRIZUtils"),
-        .package(path: "../../Core/QRIZNetwork"),
     ],
     targets: [
         .target(
             name: "DailyInterface",
-            dependencies: ["QRIZUtils", "QRIZNetwork"]
+            dependencies: ["QRIZUtils"]
         ),
     ]
 )

@@ -1,6 +1,5 @@
 import UIKit
 import QRIZUtils
-import QRIZNetwork
 
 @MainActor
 public protocol ExamCoordinator: Coordinator {
@@ -18,7 +17,6 @@ public protocol ExamCoordinatorDelegate: AnyObject {
 public protocol ExamCoordinatorFactory {
     func makeExamCoordinator(
         navigationController: UINavigationController,
-        examService: any ExamService,
         adService: any AdService
     ) -> any ExamCoordinator
 }

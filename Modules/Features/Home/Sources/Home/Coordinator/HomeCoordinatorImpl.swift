@@ -16,10 +16,7 @@ final class HomeCoordinatorImpl: HomeCoordinator, NavigationGuard {
     weak var examDelegate: (any ExamSelectionDelegate)?
     private(set) weak var navigationController: UINavigationController?
     private let examService: ExamScheduleService
-    private let examTestService: ExamService
     private let dailyService: DailyService
-    private let onboardingService: OnboardingService
-    private let userInfoService: UserInfoService
     private let weeklyService: WeeklyRecommendService
     private let adService: any AdService
     private let dailyFactory: any DailyCoordinatorFactory
@@ -36,10 +33,7 @@ final class HomeCoordinatorImpl: HomeCoordinator, NavigationGuard {
 
     init(
         examService: ExamScheduleService,
-        examTestService: ExamService,
         dailyService: DailyService,
-        onboardingService: OnboardingService,
-        userInfoService: UserInfoService,
         weeklyService: WeeklyRecommendService,
         adService: any AdService,
         dailyFactory: any DailyCoordinatorFactory,
@@ -48,10 +42,7 @@ final class HomeCoordinatorImpl: HomeCoordinator, NavigationGuard {
         conceptbookFactory: any ConceptbookFactory
     ) {
         self.examService = examService
-        self.examTestService = examTestService
         self.dailyService = dailyService
-        self.onboardingService = onboardingService
-        self.userInfoService = userInfoService
         self.weeklyService = weeklyService
         self.adService = adService
         self.dailyFactory = dailyFactory
@@ -122,10 +113,7 @@ final class HomeCoordinatorImpl: HomeCoordinator, NavigationGuard {
         guard let navi = navigationController else { return }
         guardNavigation {
             let onboarding = self.onboardingFactory.makeOnboardingCoordinator(
-                navigationController: navi,
-                onboardingService: self.onboardingService,
-                userInfoService: self.userInfoService,
-                dailyService: self.dailyService
+                navigationController: navi
             )
             onboarding.delegate = self
             self.onboardingCoordinator = onboarding
@@ -139,7 +127,6 @@ final class HomeCoordinatorImpl: HomeCoordinator, NavigationGuard {
         guardNavigation {
             let exam = self.examFactory.makeExamCoordinator(
                 navigationController: navi,
-                examService: self.examTestService,
                 adService: self.adService
             )
             exam.delegate = self
@@ -153,7 +140,6 @@ final class HomeCoordinatorImpl: HomeCoordinator, NavigationGuard {
         guardNavigation {
             let daily = self.dailyFactory.makeDailyCoordinator(
                 navigationController: navi,
-                dailyService: self.dailyService,
                 day: day,
                 type: type,
                 adService: self.adService

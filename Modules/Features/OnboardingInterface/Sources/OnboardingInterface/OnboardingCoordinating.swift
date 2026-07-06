@@ -1,6 +1,5 @@
 import UIKit
 import QRIZUtils
-import QRIZNetwork
 
 @MainActor
 public protocol OnboardingCoordinator: Coordinator {
@@ -15,9 +14,6 @@ public protocol OnboardingCoordinatorDelegate: AnyObject {
 @MainActor
 public protocol OnboardingCoordinatorFactory {
     func makeOnboardingCoordinator(
-        navigationController: UINavigationController,
-        onboardingService: OnboardingService,
-        userInfoService: UserInfoService,
-        dailyService: any DailyService
+        navigationController: UINavigationController
     ) -> any OnboardingCoordinator
 }

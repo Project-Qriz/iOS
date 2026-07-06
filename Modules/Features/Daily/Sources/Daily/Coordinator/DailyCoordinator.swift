@@ -23,12 +23,15 @@ public func makeDailyCoordinator(
 }
 
 public struct DefaultDailyCoordinatorFactory: DailyCoordinatorFactory {
-    public init() {}
+    private let dailyService: any DailyService
+
+    public init(dailyService: any DailyService) {
+        self.dailyService = dailyService
+    }
 
     @MainActor
     public func makeDailyCoordinator(
         navigationController: UINavigationController,
-        dailyService: any DailyService,
         day: Int,
         type: DailyLearnType,
         adService: any AdService
