@@ -31,6 +31,7 @@ let package = Package(
                 "MistakeNote",
                 "QRIZNetwork",
                 "QRIZUtils",
+                "ExamKit",
                 .product(name: "SnapshotTesting", package: "swift-snapshot-testing"),
             ]
         ),

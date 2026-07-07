@@ -1,6 +1,7 @@
 import Testing
 import Foundation
 @testable import MistakeNote
+@testable import ExamKit
 import QRIZUtils
 
 @MainActor

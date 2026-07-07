@@ -1,6 +1,7 @@
 import XCTest
 import SnapshotTesting
 @testable import MistakeNote
+@testable import ExamKit
 
 @MainActor
 class ProblemDetailSnapshotTests: MistakeNoteSnapshotTestCase {
