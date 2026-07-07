@@ -32,12 +32,14 @@ final class MockDailyService: DailyService {
     )
     var submitDailyResult: Result<Void, Error> = .success(())
     var capturedSubmitData: [DailySubmitData]?
+    var capturedSubmissionId: String?
 
     func getDailyTestList(dayNumber: Int) async throws -> DailyTestListResponse {
         try getDailyTestListResult.get()
     }
 
-    func submitDaily(dayNumber: Int, dailySubmitData: [DailySubmitData]) async throws {
+    func submitDaily(dayNumber: Int, submissionId: String, dailySubmitData: [DailySubmitData]) async throws {
+        capturedSubmissionId = submissionId
         capturedSubmitData = dailySubmitData
         try submitDailyResult.get()
     }

@@ -31,7 +31,7 @@ final class MockDailyService: DailyService {
         throw NSError(domain: "MockDailyService", code: -1, userInfo: [NSLocalizedDescriptionKey: "not implemented"])
     }
 
-    func submitDaily(dayNumber: Int, dailySubmitData: [DailySubmitData]) async throws {
+    func submitDaily(dayNumber: Int, submissionId: String, dailySubmitData: [DailySubmitData]) async throws {
         throw NSError(domain: "MockDailyService", code: -1, userInfo: [NSLocalizedDescriptionKey: "not implemented"])
     }
 
