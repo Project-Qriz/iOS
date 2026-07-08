@@ -47,6 +47,7 @@ final class DailyTestViewModel {
     private var submitData: [DailySubmitData] = []
     private var dailyTestList: [DailyTestInfo] = []
     private var curNum: Int?
+    private var submissionId: String?
     private var timer: Timer?
     private var timeLimit: Int?
     private var startTime: Date?
@@ -207,10 +208,18 @@ final class DailyTestViewModel {
     }
     
     private func sendSubmitData() {
+        if submissionId == nil {
+            submissionId = UUID().uuidString
+        }
+        guard let submissionId else { return }
         Task { [weak self] in
             guard let self else { return }
             do {
-                try await dailyService.submitDaily(dayNumber: day, dailySubmitData: submitData)
+                try await dailyService.submitDaily(
+                    dayNumber: day,
+                    submissionId: submissionId,
+                    dailySubmitData: submitData
+                )
                 exitTimer()
                 analyticsService.log(.dailyComplete)
                 output.send(.submitSuccess)

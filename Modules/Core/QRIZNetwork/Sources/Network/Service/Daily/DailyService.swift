@@ -13,7 +13,7 @@ public protocol DailyService {
     
     func getDailyTestList(dayNumber: Int) async throws -> DailyTestListResponse
     
-    func submitDaily(dayNumber: Int, dailySubmitData: [DailySubmitData]) async throws
+    func submitDaily(dayNumber: Int, submissionId: String, dailySubmitData: [DailySubmitData]) async throws
     
     func getDailyTestResult(dayNumber: Int) async throws -> DailyResultResponse
     
@@ -58,8 +58,13 @@ public final class DailyServiceImpl: DailyService {
         return try await network.send(request)
     }
     
-    public func submitDaily(dayNumber: Int, dailySubmitData: [DailySubmitData]) async throws {
-        let request = DailySubmitRequest(accessToken: getAccessToken(), dayNumber: dayNumber, dailySubmitData: dailySubmitData)
+    public func submitDaily(dayNumber: Int, submissionId: String, dailySubmitData: [DailySubmitData]) async throws {
+        let request = DailySubmitRequest(
+            accessToken: getAccessToken(),
+            dayNumber: dayNumber,
+            submissionId: submissionId,
+            dailySubmitData: dailySubmitData
+        )
         _ = try await network.send(request)
     }
     

@@ -255,6 +255,45 @@ struct DailyTestViewModelTests {
         #expect(harness.service.capturedSubmitData?[0].optionId == 12)
     }
 
+    // MARK: - submissionId
+
+    @Test("첫 제출 시 UUID가 생성되어 서비스에 전달됨")
+    func submit_firstAttempt_generatesAndPassesUUID() async throws {
+        let harness = TestHarness(service: MockDailyService())
+        try await harness.sendViewDidLoad()
+        harness.send(.nextButtonClicked)
+        harness.send(.nextButtonClicked)
+        harness.send(.nextButtonClicked) // popSubmitAlert
+        harness.send(.alertSubmitButtonClicked)
+        try? await Task.sleep(nanoseconds: asyncSleepNanoseconds)
+        let submissionId = harness.service.capturedSubmissionId
+        #expect(submissionId != nil)
+        #expect(submissionId?.isEmpty == false)
+    }
+
+    @Test("재시도 시 동일 UUID가 재사용됨")
+    func submit_retry_reusesSameUUID() async throws {
+        let service = MockDailyService()
+        service.submitDailyResult = .failure(URLError(.notConnectedToInternet))
+        let harness = TestHarness(service: service)
+        try await harness.sendViewDidLoad()
+        harness.send(.nextButtonClicked)
+        harness.send(.nextButtonClicked)
+        harness.send(.nextButtonClicked)
+
+        harness.send(.alertSubmitButtonClicked) // 1차 시도 (실패)
+        try? await Task.sleep(nanoseconds: asyncSleepNanoseconds)
+        let firstId = harness.service.capturedSubmissionId
+
+        service.submitDailyResult = .success(())
+        harness.send(.alertSubmitButtonClicked) // 2차 시도 (성공)
+        try? await Task.sleep(nanoseconds: asyncSleepNanoseconds)
+        let secondId = harness.service.capturedSubmissionId
+
+        #expect(firstId != nil)
+        #expect(firstId == secondId)
+    }
+
     @Test("얼럿 취소 버튼 → cancelAlert emit")
     func alertCancel_emitsCancelAlert() {
         let harness = TestHarness(service: MockDailyService())

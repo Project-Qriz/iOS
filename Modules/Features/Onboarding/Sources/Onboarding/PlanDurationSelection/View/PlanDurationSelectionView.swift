@@ -80,7 +80,7 @@ private extension PlanDurationSelectionView {
 private struct PreviewDailyService: DailyService {
     func getDailyDetailAndStatus(dayNumber: Int) async throws -> DailyDetailAndStatusResponse { fatalError() }
     func getDailyTestList(dayNumber: Int) async throws -> DailyTestListResponse { fatalError() }
-    func submitDaily(dayNumber: Int, dailySubmitData: [DailySubmitData]) async throws { fatalError() }
+    func submitDaily(dayNumber: Int, submissionId: String, dailySubmitData: [DailySubmitData]) async throws { fatalError() }
     func getDailyTestResult(dayNumber: Int) async throws -> DailyResultResponse { fatalError() }
     func getDailyWeeklyScore(dayNumber: Int) async throws -> DailyWeeklyScoreResponse { fatalError() }
     func getDailyPlan() async throws -> DailyPlanResponse { fatalError() }

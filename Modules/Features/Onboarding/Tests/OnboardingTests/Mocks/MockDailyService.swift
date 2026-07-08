@@ -21,7 +21,7 @@ final class MockDailyService: DailyService {
     func getDailyTestList(dayNumber: Int) async throws -> DailyTestListResponse {
         throw NSError(domain: "MockDailyService", code: -1)
     }
-    func submitDaily(dayNumber: Int, dailySubmitData: [DailySubmitData]) async throws {
+    func submitDaily(dayNumber: Int, submissionId: String, dailySubmitData: [DailySubmitData]) async throws {
         throw NSError(domain: "MockDailyService", code: -1)
     }
     func getDailyTestResult(dayNumber: Int) async throws -> DailyResultResponse {
