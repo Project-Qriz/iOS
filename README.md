@@ -1,3 +1,4 @@
+
 # QRIZ - SQLD 자격증 모의고사 앱
 <img width="1600" height="545" alt="Group 1597880808" src="https://github.com/user-attachments/assets/cf88475b-eb9a-404c-ae21-d6114c4d882a"/>
 <br>
@@ -41,16 +42,21 @@
 
 ### MVVM + Coordinator
 Coordinator가 화면 전환과 의존성 주입을 담당하고 ViewController는 UI 바인딩에 집중합니다. ViewModel은 Input/Output 패턴으로 단방향 데이터 흐름을 구성합니다.
+
+
 <img width="818" height="448" alt="image" src="https://github.com/user-attachments/assets/b683719b-2f92-40ca-91ab-d0d3b0c2b3d1" />
 
 
 ### Coordinator 계층 구조
+
+
 <img width="818" height="448" alt="image" src="https://github.com/user-attachments/assets/8c27d7c5-1c78-4a1a-b04b-43cc9077ed44" />
 
 
 ### SPM 모듈 구조
 모듈은 Feature, Core, Base 세 레이어로 분리됩니다. Base는 모든 모듈이 공통으로 의존하는 기반 레이어이며 Core는 일부 Feature 간에 공유되는 모듈입니다. 의존성은 Feature → Core → Base 방향으로만 흐릅니다.
-<img width="818" height="653" alt="image" src="https://github.com/user-attachments/assets/71eb30d6-9b82-40e6-ac9b-188b6c89d515" />
+
+<img width="818" height="914" alt="qriz_dependency_portfolio_white" src="https://github.com/user-attachments/assets/44f8873f-804e-4abe-a53e-dfc8f0419e67" src="https://github.com/user-attachments/assets/71eb30d6-9b82-40e6-ac9b-188b6c89d515" />
 
 ## 🌿 브랜치 전략
 > Git Flow 기반의 브랜치 전략을 사용합니다.
