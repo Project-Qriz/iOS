@@ -8,7 +8,7 @@
 import Foundation
 import QRIZUtils
 
-public protocol DailyService {
+public protocol DailyService: Sendable {
     func getDailyDetailAndStatus(dayNumber: Int) async throws -> DailyDetailAndStatusResponse
     
     func getDailyTestList(dayNumber: Int) async throws -> DailyTestListResponse

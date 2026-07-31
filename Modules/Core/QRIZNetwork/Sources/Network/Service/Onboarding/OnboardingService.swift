@@ -8,7 +8,7 @@
 import Foundation
 import QRIZUtils
 
-public protocol OnboardingService {
+public protocol OnboardingService: Sendable {
     func sendSurvey(keyConcepts: [String]) async throws
     
     func getPreviewTestList() async throws -> PreviewTestListResponse

@@ -8,7 +8,7 @@
 import Foundation
 import QRIZUtils
 
-public protocol WeeklyRecommendService {
+public protocol WeeklyRecommendService: Sendable {
     /// 주간 추천 개념 조회
     func fetchWeeklyRecommend() async throws -> WeeklyRecommendResponse
 }

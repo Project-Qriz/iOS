@@ -10,7 +10,7 @@ import Combine
 import os
 import QRIZNetwork
 
-public struct TermItem: Equatable {
+public struct TermItem: Equatable, Sendable {
     public let title: String
     public let pdfName: String
     public var isAgreed: Bool

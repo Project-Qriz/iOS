@@ -72,12 +72,6 @@ final class DailyTestViewModel {
         self.analyticsService = analyticsService
     }
     
-    // MARK: - Deinitializer
-    
-    deinit {
-        timer?.invalidate()
-    }
-    
     // MARK: - Methods
     
     func transform(input: AnyPublisher<Input, Never>) -> AnyPublisher<Output, Never> {

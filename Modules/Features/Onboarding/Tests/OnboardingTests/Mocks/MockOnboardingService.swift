@@ -3,7 +3,7 @@ import QRIZNetwork
 import QRIZUtils
 @testable import Onboarding
 
-// @MainActor: OnboardingService는 Sendable 요구 없음. @MainActor로 mutable 프로퍼티 안전하게 접근.
+// @MainActor: Sendable 요구를 암묵적으로 충족하면서 mutable 프로퍼티를 안전하게 접근.
 @MainActor
 final class MockOnboardingService: OnboardingService {
     var sendSurveyResult: Result<Void, Error> = .success(())
