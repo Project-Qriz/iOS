@@ -26,9 +26,6 @@ let package = Package(
                 "ExamKit",
                 "ExamInterface",
             ],
-            swiftSettings: [
-                .swiftLanguageMode(.v5)
-            ]
         ),
         .testTarget(
             name: "ExamTests",
@@ -36,9 +33,6 @@ let package = Package(
                 "Exam",
                 .product(name: "SnapshotTesting", package: "swift-snapshot-testing"),
             ],
-            swiftSettings: [
-                .swiftLanguageMode(.v5)
-            ]
         ),
     ]
 )

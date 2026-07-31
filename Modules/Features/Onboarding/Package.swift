@@ -26,9 +26,6 @@ let package = Package(
                 "ExamKit",
                 "OnboardingInterface",
             ],
-            swiftSettings: [
-                .swiftLanguageMode(.v5)
-            ]
         ),
         .testTarget(
             name: "OnboardingTests",
