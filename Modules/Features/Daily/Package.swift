@@ -25,9 +25,6 @@ let package = Package(
                 "QRIZUtils",
                 "ExamKit",
                 "DailyInterface",
-            ],
-            swiftSettings: [
-                .swiftLanguageMode(.v5)
             ]
         ),
         .testTarget(
@@ -38,9 +35,6 @@ let package = Package(
                 "QRIZUtils",
                 .product(name: "SnapshotTesting", package: "swift-snapshot-testing"),
             ],
-            swiftSettings: [
-                .swiftLanguageMode(.v5)
-            ]
         ),
     ]
 )

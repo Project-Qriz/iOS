@@ -8,7 +8,7 @@
 import Foundation
 import QRIZUtils
 
-public protocol MyPageService {
+public protocol MyPageService: Sendable {
     /// 버전 정보
     func fetchVersion() async throws -> VersionResponse
     

@@ -10,6 +10,7 @@ import Combine
 import QRIZUtils
 import QRIZNetwork
 
+@MainActor
 final class DailyLearnViewModel {
 
     // MARK: - Enums

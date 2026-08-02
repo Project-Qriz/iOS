@@ -8,7 +8,7 @@
 import Foundation
 import QRIZUtils
 
-public protocol ExamService {
+public protocol ExamService: Sendable {
     func getExamList(filterType: ExamListFilterType) async throws -> ExamListResponse
     
     func getExamQuestion(examId: Int) async throws -> ExamQuestionResponse

@@ -26,8 +26,14 @@ enum HomeSectionItem: Hashable {
     case weeklyConcept(kind: RecommendationKind, list: [WeeklyConcept])
 }
 
+@MainActor
 enum HomeLayoutFactory {
-    
+
+    // UICollectionViewCompositionalLayout의 sectionProvider와 DispatchQueue.main.async 클로저는
+    // @Sendable이지만 CurrentValueSubject/UICollectionView는 Sendable 미준수.
+    // 해당 값들은 항상 메인 스레드에서만 접근하므로 실제 데이터 레이스 위험 없음.
+    private struct UncheckedSendable<T>: @unchecked Sendable { let value: T }
+
     private enum Metric {
         static let examScheduleHeight: CGFloat = 364.0
         static let examScheduleTopOffset: CGFloat = 24.0
@@ -169,7 +175,10 @@ enum HomeLayoutFactory {
             trailing: inset
         )
         section.orthogonalScrollingBehavior = .groupPagingCentered
-        
+
+        let selectedBox = UncheckedSendable(value: selected)
+        let scrollBox = UncheckedSendable(value: programmaticScroll)
+
         section.visibleItemsInvalidationHandler = { [weak cv] visibleItems, contentOffset, _ in
             guard let cv = cv, !programmaticScroll.value else { return }
             let centerX = contentOffset.x + cv.bounds.width * 0.5
@@ -180,11 +189,11 @@ enum HomeLayoutFactory {
             guard newIndex != selected.value else { return }
 
             programmaticScroll.send(true)
-            DispatchQueue.main.async {
-                selected.send(newIndex)
-                cv.scrollToItem(at: IndexPath(item: newIndex, section: HomeSection.daySelector.rawValue), at: .centeredHorizontally, animated: true)
-                DispatchQueue.main.asyncAfter(deadline: .now() + Metric.programmaticScrollResetDelay) {
-                    programmaticScroll.send(false)
+            DispatchQueue.main.async { [selectedBox, scrollBox, weak cv] in
+                selectedBox.value.send(newIndex)
+                cv?.scrollToItem(at: IndexPath(item: newIndex, section: HomeSection.daySelector.rawValue), at: .centeredHorizontally, animated: true)
+                DispatchQueue.main.asyncAfter(deadline: .now() + Metric.programmaticScrollResetDelay) { [scrollBox] in
+                    scrollBox.value.send(false)
                 }
             }
         }
@@ -227,7 +236,11 @@ enum HomeLayoutFactory {
         programmaticScroll: CurrentValueSubject<Bool,Never>,
         isLocked: Bool
     ) -> UICollectionViewLayout {
-        UICollectionViewCompositionalLayout { index, env in
+        let cvBox = UncheckedSendable(value: cv)
+        let selectedBox = UncheckedSendable(value: selected)
+        let scrollBox = UncheckedSendable(value: programmaticScroll)
+
+        return UICollectionViewCompositionalLayout { [cvBox, selectedBox, scrollBox] index, env in
             guard let section = HomeSection(rawValue: index) else { return nil }
             switch section {
             case .examSchedule: return examSchedule()
@@ -237,9 +250,9 @@ enum HomeLayoutFactory {
             case .studySummary:
                 return studySummary(
                     env: env,
-                    cv: cv,
-                    selected: selected,
-                    programmaticScroll: programmaticScroll,
+                    cv: cvBox.value,
+                    selected: selectedBox.value,
+                    programmaticScroll: scrollBox.value,
                     isLocked: isLocked
                 )
             case .weeklyConcept: return weeklyConcept()

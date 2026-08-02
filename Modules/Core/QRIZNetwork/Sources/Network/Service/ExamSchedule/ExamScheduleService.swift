@@ -8,7 +8,7 @@
 import Foundation
 import QRIZUtils
 
-public protocol ExamScheduleService {
+public protocol ExamScheduleService: Sendable {
     /// 등록된 시험 조회
     func fetchAppliedExams() async throws -> AppliedExamsResponse
     
