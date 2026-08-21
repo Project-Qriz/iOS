@@ -113,7 +113,7 @@ struct HomeViewModelTests {
     func viewDidLoad_examNotRegistered_examStatusNone() async throws {
         let examService = MockExamScheduleService()
         examService.fetchAppliedExamsResult = .failure(
-            NetworkError.clientError(httpStatus: 400, serverCode: 0, message: "not registered")
+            NetworkError.clientError(httpStatus: 400, serverCode: 0, message: "not registered", reason: nil, detailCode: nil)
         )
         let h = makeHarness(examService: examService)
         try await h.sendViewDidLoad()

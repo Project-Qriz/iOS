@@ -190,7 +190,7 @@ final class HomeViewModel {
                              dailyPlans: [],
                              selectedIndex: 0)
 
-        } catch let NetworkError.clientError(httpStatus, _, _) where httpStatus == 400 {
+        } catch let NetworkError.clientError(httpStatus, _, _, _, _) where httpStatus == 400 {
             // 시험 미등록 상태 → 정상 케이스로 처리
             return HomeState(userName: userInfo.name,
                              examStatus: .none,

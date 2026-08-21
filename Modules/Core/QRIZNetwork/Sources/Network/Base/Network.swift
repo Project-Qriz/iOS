@@ -169,7 +169,9 @@ private extension NetworkImpl {
             throw NetworkError.clientError(
                 httpStatus: httpResponse.statusCode,
                 serverCode: errorResponse?.code,
-                message: errorResponse?.msg ?? "클라이언트 에러입니다."
+                message: errorResponse?.msg ?? "클라이언트 에러입니다.",
+                reason: errorResponse?.reason,
+                detailCode: errorResponse?.detailCode
             )
         case 500..<600:
             throw NetworkError.serverError(httpStatus: httpResponse.statusCode)
@@ -189,7 +191,7 @@ private extension NetworkImpl {
         let endpoint = request.url?.path ?? "unknown"
         let event: AnalyticsEvent?
         switch error {
-        case .clientError(let status, _, let message):
+        case .clientError(let status, _, let message, _, _):
             event = .apiError(endpoint: endpoint, statusCode: status, message: message)
         case .serverError(let status):
             event = .apiError(endpoint: endpoint, statusCode: status, message: "서버 에러")

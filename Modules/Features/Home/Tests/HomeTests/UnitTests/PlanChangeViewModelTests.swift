@@ -239,7 +239,7 @@ struct PlanChangeViewModelTests {
     func tapResetConfirmed_clientError_emitsShowAlert() async throws {
         let h = TestHarness()
         h.mockService.resetPlanResult = .failure(
-            NetworkError.clientError(httpStatus: 400, serverCode: -1, message: "최소 5일 이상 학습 후 가능합니다.")
+            NetworkError.clientError(httpStatus: 400, serverCode: -1, message: "최소 5일 이상 학습 후 가능합니다.", reason: nil, detailCode: nil)
         )
 
         h.send(.tapResetConfirmed)

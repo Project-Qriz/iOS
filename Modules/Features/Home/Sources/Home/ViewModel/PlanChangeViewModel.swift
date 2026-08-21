@@ -117,7 +117,7 @@ final class PlanChangeViewModel {
             _ = try await dailyService.resetPlan()
             delegate?.planChangeDidRequestReset()
             return
-        } catch NetworkError.clientError(_, _, let message) {
+        } catch NetworkError.clientError(_, _, let message, _, _) {
             logger.error("NetworkError(resetPlan): \(message, privacy: .public)")
             outputSubject.send(.showAlert(title: "초기화할 수 없습니다.", description: message))
         } catch let error as NetworkError {

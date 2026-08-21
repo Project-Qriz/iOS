@@ -100,7 +100,7 @@ final class TermsAgreementModalViewModel {
             } catch {
                 if let networkError = error as? NetworkError {
                     switch networkError {
-                    case .clientError(let statusCode, _, _)
+                    case .clientError(let statusCode, _, _, _, _)
                         where statusCode == 400:
                         outputSubject.send(.showErrorAlert(title: "가입 실패", description: "처음부터 다시 진행해 주세요."))
                         logger.error("Client error 400 in performJoin: \(networkError.debugDescription, privacy: .public)")

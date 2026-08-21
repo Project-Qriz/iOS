@@ -116,10 +116,10 @@ struct NetworkImplTests {
 
     // MARK: - 에러 케이스
 
-    @Test("400 응답 시 clientError 발생 및 서버 메시지 포함")
+    @Test("400 응답 시 clientError 발생 및 서버 메시지·reason·detailCode 포함")
     func clientError() async throws {
         let sut = makeSUT()
-        let errorJson = #"{"code": 400, "msg": "잘못된 요청", "reason": null, "detailCode": null}"#.data(using: .utf8)!
+        let errorJson = #"{"code": -1, "msg": "만 14세 이상만 가입할 수 있습니다.", "reason": "under_age", "detailCode": 2003}"#.data(using: .utf8)!
 
         MockURLProtocol.requestHandler = { _ in
             self.makeResponse(statusCode: 400, body: errorJson)
@@ -129,9 +129,9 @@ struct NetworkImplTests {
             _ = try await sut.send(TestRequest())
         } throws: { error in
             guard let networkError = error as? NetworkError,
-                  case .clientError(let status, _, let message) = networkError
+                  case .clientError(let status, _, let message, let reason, let detailCode) = networkError
             else { return false }
-            return status == 400 && message == "잘못된 요청"
+            return status == 400 && message == "만 14세 이상만 가입할 수 있습니다." && reason == "under_age" && detailCode == 2003
         }
     }
 
