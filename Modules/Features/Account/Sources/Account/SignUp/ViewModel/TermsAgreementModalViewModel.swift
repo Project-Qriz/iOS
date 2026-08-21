@@ -16,10 +16,8 @@ final class TermsAgreementModalViewModel {
     // MARK: - Properties
 
     private let signUpFlowViewModel: SignUpFlowViewModel
-    private var terms: [TermItem] = [
-        .init(kind: .term(id: 1), title: "서비스 이용약관", pdfName: "TermsOfService", isAgreed: false),
-        .init(kind: .term(id: 2), title: "개인정보 처리방침", pdfName: "PrivacyPolicy", isAgreed: false)
-    ]
+    private let termsService: TermsService
+    private var terms: [TermItem] = []
     private let outputSubject: PassthroughSubject<Output, Never> = .init()
     private let logger = Logger.make(category: "TermsAgreementModalViewModel")
 
@@ -29,8 +27,9 @@ final class TermsAgreementModalViewModel {
 
     // MARK: - Initialization
 
-    init(signUpFlowViewModel: SignUpFlowViewModel) {
+    init(signUpFlowViewModel: SignUpFlowViewModel, termsService: TermsService) {
         self.signUpFlowViewModel = signUpFlowViewModel
+        self.termsService = termsService
     }
 
     // MARK: - Methods
@@ -38,33 +37,25 @@ final class TermsAgreementModalViewModel {
     func send(_ input: Input) {
         switch input {
         case .viewDidLoad:
-            outputSubject.send(.initialTerms(terms))
+            Task { await loadTerms() }
 
         case .dismissButtonTapped:
             outputSubject.send(.dismissModal)
 
         case .allToggle:
             let newState = !terms.allSatisfy(\.isAgreed)
-
-            for index in terms.indices {
-                terms[index].isAgreed = newState
-            }
-
+            for index in terms.indices { terms[index].isAgreed = newState }
             outputSubject.send(.allAgreeChanged(newState))
-
             for index in terms.indices {
                 outputSubject.send(.termChanged(index: index, isAgreed: newState))
             }
-
             sendSignUpState()
 
         case .termToggle(let index):
             guard terms.indices.contains(index) else { return }
             terms[index].isAgreed.toggle()
             outputSubject.send(.termChanged(index: index, isAgreed: terms[index].isAgreed))
-
-            let allOn = terms.allSatisfy(\.isAgreed)
-            outputSubject.send(.allAgreeChanged(allOn))
+            outputSubject.send(.allAgreeChanged(terms.allSatisfy(\.isAgreed)))
             sendSignUpState()
 
         case .showDetail(let index):
@@ -75,12 +66,40 @@ final class TermsAgreementModalViewModel {
         }
     }
 
+    private func loadTerms() async {
+        do {
+            let response = try await termsService.fetchTerms()
+            let privacyPolicy = response.data.first { $0.title.contains("개인정보") }
+
+            let ageConfirmation = TermItem(
+                kind: .ageConfirmation,
+                title: "만 14세 이상",
+                documentUrl: privacyPolicy?.documentUrl,
+                isAgreed: false
+            )
+            let serverTerms = response.data.map {
+                TermItem(kind: .term(id: $0.id), title: $0.title, documentUrl: $0.documentUrl, isAgreed: false)
+            }
+
+            terms = [ageConfirmation] + serverTerms
+            outputSubject.send(.initialTerms(terms))
+        } catch {
+            outputSubject.send(.showErrorAlert(title: "약관을 불러오지 못했습니다.", description: "잠시 후 다시 시도해 주세요."))
+            logger.error("fetchTerms 실패: \(String(describing: error), privacy: .public)")
+        }
+    }
+
     private func sendSignUpState() {
-        let canSignUp = terms.allSatisfy(\.isAgreed)
-        outputSubject.send(.updateSignUpButtonState(canSignUp))
+        outputSubject.send(.updateSignUpButtonState(terms.allSatisfy(\.isAgreed)))
     }
 
     private func performJoin() {
+        let over14Confirmed = terms.first { $0.kind == .ageConfirmation }?.isAgreed ?? false
+        let agreedTermIds = terms.compactMap { $0.isAgreed ? $0.id : nil }
+
+        signUpFlowViewModel.updateOver14Confirmed(over14Confirmed)
+        signUpFlowViewModel.updateAgreedTermIds(agreedTermIds)
+
         Task {
             do {
                 _ = try await signUpFlowViewModel.join()
@@ -88,8 +107,9 @@ final class TermsAgreementModalViewModel {
             } catch {
                 if let networkError = error as? NetworkError {
                     switch networkError {
-                    case .clientError(let statusCode, _, _, _, _)
-                        where statusCode == 400:
+                    case .clientError(_, _, let message, "under_age", _):
+                        outputSubject.send(.showErrorAlert(title: message))
+                    case .clientError(let statusCode, _, _, _, _) where statusCode == 400:
                         outputSubject.send(.showErrorAlert(title: "가입 실패", description: "처음부터 다시 진행해 주세요."))
                         logger.error("Client error 400 in performJoin: \(networkError.debugDescription, privacy: .public)")
                     default:

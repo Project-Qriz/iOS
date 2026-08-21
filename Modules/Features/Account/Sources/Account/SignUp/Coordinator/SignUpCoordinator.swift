@@ -35,15 +35,17 @@ public final class SignUpCoordinatorImpl: SignUpCoordinator, NavigationGuard {
     private let navigationController: UINavigationController
     private let signUpFlowVM: SignUpFlowViewModel
     private let signUpService: SignUpService
+    private let termsService: TermsService
     private var cancellables = Set<AnyCancellable>()
 
     // NavigationGuard
     public var isNavigating: Bool = false
 
-    public init(navigationController: UINavigationController, signUpService: SignUpService) {
+    public init(navigationController: UINavigationController, signUpService: SignUpService, termsService: TermsService) {
         self.navigationController = navigationController
         self.signUpFlowVM = SignUpFlowViewModel(signUpService: signUpService)
         self.signUpService = signUpService
+        self.termsService = termsService
     }
     
     public func start() -> UIViewController {
@@ -89,7 +91,7 @@ public final class SignUpCoordinatorImpl: SignUpCoordinator, NavigationGuard {
 
     public func showTermsAgreementModal() {
         guardNavigation {
-            let viewModel = TermsAgreementModalViewModel(signUpFlowViewModel: signUpFlowVM)
+            let viewModel = TermsAgreementModalViewModel(signUpFlowViewModel: signUpFlowVM, termsService: termsService)
             let rootVC = TermsAgreementModalViewController(viewModel: viewModel)
             rootVC.coordinator = self
 

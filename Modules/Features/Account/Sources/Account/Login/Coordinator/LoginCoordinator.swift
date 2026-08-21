@@ -29,6 +29,7 @@ public func makeLoginCoordinator(
     loginService: any LoginService,
     userInfoService: any UserInfoService,
     signUpService: any SignUpService,
+    termsService: any TermsService,
     accountRecoveryService: any AccountRecoveryService,
     socialLoginService: any SocialLoginService
 ) -> any LoginCoordinator {
@@ -37,6 +38,7 @@ public func makeLoginCoordinator(
         loginService: loginService,
         userInfoService: userInfoService,
         signUpService: signUpService,
+        termsService: termsService,
         accountRecoveryService: accountRecoveryService,
         socialLoginService: socialLoginService
     )
@@ -52,6 +54,7 @@ public final class LoginCoordinatorImpl: LoginCoordinator, NavigationGuard {
     private let loginService: LoginService
     private let userInfoService: UserInfoService
     private let signUpService: SignUpService
+    private let termsService: TermsService
     private let accountRecoveryService: AccountRecoveryService
     private let socialLoginService: SocialLoginService
 
@@ -63,6 +66,7 @@ public final class LoginCoordinatorImpl: LoginCoordinator, NavigationGuard {
         loginService: LoginService,
         userInfoService: UserInfoService,
         signUpService: SignUpService,
+        termsService: TermsService,
         accountRecoveryService: AccountRecoveryService,
         socialLoginService: SocialLoginService
     ) {
@@ -70,6 +74,7 @@ public final class LoginCoordinatorImpl: LoginCoordinator, NavigationGuard {
         self.loginService = loginService
         self.userInfoService = userInfoService
         self.signUpService = signUpService
+        self.termsService = termsService
         self.accountRecoveryService = accountRecoveryService
         self.socialLoginService = socialLoginService
     }
@@ -86,7 +91,8 @@ public final class LoginCoordinatorImpl: LoginCoordinator, NavigationGuard {
         guardNavigation {
             let signUpCoordinator = SignUpCoordinatorImpl(
                 navigationController: navigationController,
-                signUpService: signUpService
+                signUpService: signUpService,
+                termsService: termsService
             )
             signUpCoordinator.delegate = self
             childCoordinators.append(signUpCoordinator)

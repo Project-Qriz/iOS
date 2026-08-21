@@ -31,6 +31,15 @@ final class StubSignUpService: SignUpService, @unchecked Sendable {
     func join(username: String, password: String, nickname: String, email: String, over14Confirmed: Bool, agreedTermIds: [Int]) async throws -> JoinResponse { fatalError("stub") }
 }
 
+final class StubTermsService: TermsService, @unchecked Sendable {
+    func fetchTerms() async throws -> TermsResponse {
+        TermsResponse(code: 1, msg: "ok", data: [
+            TermsListItem(id: 1, title: "서비스 이용약관", documentUrl: nil),
+            TermsListItem(id: 2, title: "개인정보 처리방침", documentUrl: nil)
+        ])
+    }
+}
+
 final class StubAccountRecoveryService: AccountRecoveryService, @unchecked Sendable {
     func findID(email: String) async throws -> FindIDResponse { fatalError("stub") }
     func findPassword(email: String) async throws -> FindPasswordResponse { fatalError("stub") }

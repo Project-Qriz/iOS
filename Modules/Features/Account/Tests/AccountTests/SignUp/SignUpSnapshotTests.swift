@@ -40,7 +40,7 @@ class SignUpSnapshotTests: AccountSnapshotTestCase {
 
     func testTermsAgreementInitialState() {
         let flowVM = SignUpFlowViewModel(signUpService: StubSignUpService())
-        let vm = TermsAgreementModalViewModel(signUpFlowViewModel: flowVM)
+        let vm = TermsAgreementModalViewModel(signUpFlowViewModel: flowVM, termsService: StubTermsService())
         let vc = TermsAgreementModalViewController(viewModel: vm)
         assertSnapshot(of: vc, as: .image(on: .iPhone16Pro))
     }

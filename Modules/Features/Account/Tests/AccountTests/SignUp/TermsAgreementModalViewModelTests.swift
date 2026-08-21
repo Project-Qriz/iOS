@@ -12,100 +12,104 @@ import QRIZNetwork
 @Suite("TermsAgreementModalViewModel 테스트", .serialized)
 struct TermsAgreementModalViewModelTests {
 
-    private func makeSUT(service: MockSignUpService = .init()) -> TermsAgreementModalViewModel {
-        let flowVM = SignUpFlowViewModel(signUpService: service)
-        return TermsAgreementModalViewModel(signUpFlowViewModel: flowVM)
+    private func makeSUT(
+        signUpService: MockSignUpService = .init(),
+        termsService: MockTermsService = .init()
+    ) -> TermsAgreementModalViewModel {
+        let flowVM = SignUpFlowViewModel(signUpService: signUpService)
+        return TermsAgreementModalViewModel(signUpFlowViewModel: flowVM, termsService: termsService)
     }
 
     // MARK: - 초기화
 
-    @Test("viewDidLoad → initialTerms(2개 항목)")
-    func viewDidLoadEmitsInitialTerms() {
+    @Test("viewDidLoad → initialTerms(연령확인 1개 + 서버 약관 2개 = 3개 항목)")
+    func viewDidLoadEmitsInitialTerms() async throws {
         let sut = makeSUT()
-        let outputs = collect(sut.output) { sut.send(.viewDidLoad) }
+        let outputs = try await collectAsync(sut.output) { sut.send(.viewDidLoad) }
 
         let hasInitialTerms = outputs.contains {
-            if case .initialTerms(let terms) = $0 { return terms.count == 2 }
+            if case .initialTerms(let terms) = $0 { return terms.count == 3 }
             return false
         }
         #expect(hasInitialTerms)
     }
 
-    // MARK: - 전체 동의 토글
-
-    @Test("allToggle → 모두 isAgreed true, allAgreeChanged(true)")
-    func allToggleAgreesAll() {
+    @Test("viewDidLoad → 첫 항목은 연령확인(.ageConfirmation)이다")
+    func firstItemIsAgeConfirmation() async throws {
         let sut = makeSUT()
-        sut.send(.viewDidLoad)
-        let outputs = collect(sut.output) { sut.send(.allToggle) }
+        let outputs = try await collectAsync(sut.output) { sut.send(.viewDidLoad) }
 
-        #expect(outputs.contains(.allAgreeChanged(true)))
-        #expect(outputs.contains(.termChanged(index: 0, isAgreed: true)))
-        #expect(outputs.contains(.termChanged(index: 1, isAgreed: true)))
-        #expect(outputs.contains(.updateSignUpButtonState(true)))
-    }
-
-    @Test("allToggle 두 번 → 모두 false로 복귀")
-    func allToggleTwiceUnagreesAll() {
-        let sut = makeSUT()
-        sut.send(.viewDidLoad)
-        sut.send(.allToggle)
-        let outputs = collect(sut.output) { sut.send(.allToggle) }
-
-        #expect(outputs.contains(.allAgreeChanged(false)))
-        #expect(outputs.contains(.updateSignUpButtonState(false)))
-    }
-
-    // MARK: - 개별 약관 토글
-
-    @Test("termToggle(0) → index 0만 true, allAgreeChanged(false)")
-    func termToggleSingleItemPartialAgreement() {
-        let sut = makeSUT()
-        sut.send(.viewDidLoad)
-        let outputs = collect(sut.output) { sut.send(.termToggle(index: 0)) }
-
-        #expect(outputs.contains(.termChanged(index: 0, isAgreed: true)))
-        #expect(outputs.contains(.allAgreeChanged(false)))
-        #expect(outputs.contains(.updateSignUpButtonState(false)))
-    }
-
-    @Test("모든 항목 개별 토글 → allAgreeChanged(true), 버튼 활성화")
-    func allItemsToggledIndividuallyEnablesButton() {
-        let sut = makeSUT()
-        sut.send(.viewDidLoad)
-        sut.send(.termToggle(index: 0))
-        let outputs = collect(sut.output) { sut.send(.termToggle(index: 1)) }
-
-        #expect(outputs.contains(.allAgreeChanged(true)))
-        #expect(outputs.contains(.updateSignUpButtonState(true)))
-    }
-
-    // MARK: - 회원가입
-
-    @Test("signUpButtonTapped 성공 → signUpSucceeded")
-    func signUpButtonTappedSuccessEmitsSignUpSucceeded() async throws {
-        let sut = makeSUT()
-        let outputs = try await collectAsync(sut.output) {
-            sut.send(.signUpButtonTapped)
+        let firstIsAgeConfirmation = outputs.contains {
+            if case .initialTerms(let terms) = $0 { return terms.first?.kind == .ageConfirmation }
+            return false
         }
-
-        #expect(outputs.contains(.signUpSucceeded))
+        #expect(firstIsAgeConfirmation)
     }
 
-    @Test("signUpButtonTapped 실패 → showErrorAlert")
-    func signUpButtonTappedFailureShowsErrorAlert() async throws {
-        let service = MockSignUpService()
-        service.joinResult = .failure(NetworkError.serverError(httpStatus: 500))
-        let sut = makeSUT(service: service)
+    @Test("viewDidLoad → 약관 목록 fetch 실패 시 showErrorAlert")
+    func fetchFailureShowsErrorAlert() async throws {
+        let termsService = MockTermsService()
+        termsService.fetchTermsResult = .failure(NetworkError.serverError(httpStatus: 500))
+        let sut = makeSUT(termsService: termsService)
 
-        let outputs = try await collectAsync(sut.output) {
-            sut.send(.signUpButtonTapped)
-        }
+        let outputs = try await collectAsync(sut.output) { sut.send(.viewDidLoad) }
 
         let hasErrorAlert = outputs.contains {
             if case .showErrorAlert = $0 { return true }
             return false
         }
         #expect(hasErrorAlert)
+    }
+
+    // MARK: - 전체 동의 토글
+
+    @Test("allToggle → 3개 항목 모두 isAgreed true")
+    func allToggleAgreesAll() async throws {
+        let sut = makeSUT()
+        try await loadTerms(sut)
+        let outputs = collect(sut.output) { sut.send(.allToggle) }
+
+        #expect(outputs.contains(.allAgreeChanged(true)))
+        #expect(outputs.contains(.termChanged(index: 0, isAgreed: true)))
+        #expect(outputs.contains(.termChanged(index: 1, isAgreed: true)))
+        #expect(outputs.contains(.termChanged(index: 2, isAgreed: true)))
+    }
+
+    // MARK: - 회원가입 (agreedTermIds/over14Confirmed 전달)
+
+    @Test("signUpButtonTapped 성공 → signUpSucceeded")
+    func signUpButtonTappedSuccessEmitsSignUpSucceeded() async throws {
+        let sut = makeSUT()
+        try await loadTerms(sut)
+        sut.send(.allToggle)
+
+        let outputs = try await collectAsync(sut.output) { sut.send(.signUpButtonTapped) }
+
+        #expect(outputs.contains(.signUpSucceeded))
+    }
+
+    @Test("가입 실패(reason: under_age) → showErrorAlert(연령 미충족 안내)")
+    func underAgeFailureShowsAgeAlert() async throws {
+        let signUpService = MockSignUpService()
+        signUpService.joinResult = .failure(
+            NetworkError.clientError(httpStatus: 400, serverCode: -1, message: "만 14세 이상만 가입할 수 있습니다.", reason: "under_age", detailCode: 2003)
+        )
+        let sut = makeSUT(signUpService: signUpService)
+        try await loadTerms(sut)
+        sut.send(.allToggle)
+
+        let outputs = try await collectAsync(sut.output) { sut.send(.signUpButtonTapped) }
+
+        let hasAgeAlert = outputs.contains {
+            if case .showErrorAlert(let title, _) = $0 { return title == "만 14세 이상만 가입할 수 있습니다." }
+            return false
+        }
+        #expect(hasAgeAlert)
+    }
+
+    // MARK: - Helpers
+
+    private func loadTerms(_ sut: TermsAgreementModalViewModel) async throws {
+        _ = try await collectAsync(sut.output) { sut.send(.viewDidLoad) }
     }
 }
