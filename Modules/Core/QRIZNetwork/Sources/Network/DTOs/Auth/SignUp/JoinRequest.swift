@@ -86,8 +86,8 @@ public struct JoinRequest: Request, Sendable {
         password: String,
         nickname: String,
         email: String,
-        over14Confirmed: Bool = false,
-        agreedTermIds: [Int] = []
+        over14Confirmed: Bool,
+        agreedTermIds: [Int]
     ) {
         self.username = username
         self.password = password

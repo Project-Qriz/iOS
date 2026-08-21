@@ -66,7 +66,9 @@ public final class SignUpServiceImpl: SignUpService, Sendable {
             username: username,
             password: password,
             nickname: nickname,
-            email: email
+            email: email,
+            over14Confirmed: false,
+            agreedTermIds: []
         )
         return try await network.send(request)
     }

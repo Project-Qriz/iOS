@@ -11,16 +11,7 @@ struct JoinRequestBodyTests {
             over14Confirmed: true, agreedTermIds: [1, 2]
         )
 
-        let body = JoinRequestBody(
-            username: "test",
-            password: "pw",
-            nickname: "닉네임",
-            email: "a@b.com",
-            over14Confirmed: true,
-            agreedTermIds: [1, 2]
-        )
-
-        let data = try JSONEncoder().encode(body)
+        let data = try JSONEncoder().encode(request.body! as! JoinRequestBody)
         let json = try JSONSerialization.jsonObject(with: data) as? [String: Any]
 
         #expect(json?["over14Confirmed"] as? Bool == true)
