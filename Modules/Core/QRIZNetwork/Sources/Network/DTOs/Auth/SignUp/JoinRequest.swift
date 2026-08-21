@@ -56,26 +56,55 @@ import Foundation
 
 public struct JoinRequest: Request, Sendable {
     public typealias Response = JoinResponse
-    
+
     public let path = "/api/join"
     public let method: HTTPMethod = .post
     public let username: String
     public let password: String
     public let nickname: String
     public let email: String
-    
+    public let over14Confirmed: Bool
+    public let agreedTermIds: [Int]
+
     public var body: Encodable? {
-        [
-            "username": username,
-            "password": password,
-            "nickname": nickname,
-            "email": email
-        ]
+        JoinRequestBody(
+            username: username,
+            password: password,
+            nickname: nickname,
+            email: email,
+            over14Confirmed: over14Confirmed,
+            agreedTermIds: agreedTermIds
+        )
     }
-    
+
     public var headers: HTTPHeader {
         [HTTPHeaderField.contentType.rawValue: ContentType.json.rawValue]
     }
+
+    public init(
+        username: String,
+        password: String,
+        nickname: String,
+        email: String,
+        over14Confirmed: Bool = false,
+        agreedTermIds: [Int] = []
+    ) {
+        self.username = username
+        self.password = password
+        self.nickname = nickname
+        self.email = email
+        self.over14Confirmed = over14Confirmed
+        self.agreedTermIds = agreedTermIds
+    }
+}
+
+struct JoinRequestBody: Encodable {
+    let username: String
+    let password: String
+    let nickname: String
+    let email: String
+    let over14Confirmed: Bool
+    let agreedTermIds: [Int]
 }
 
 public enum JoinResponse: Sendable {
@@ -129,11 +158,15 @@ public struct JoinResponseSuccess: Decodable, Sendable {
 public struct JoinResponseFailure: Decodable, Sendable {
     public let code: Int
     public let msg: String
+    public let reason: String?
+    public let detailCode: Int?
     public let data: FailureData?
 
-    public init(code: Int, msg: String, data: FailureData? = nil) {
+    public init(code: Int, msg: String, reason: String? = nil, detailCode: Int? = nil, data: FailureData? = nil) {
         self.code = code
         self.msg = msg
+        self.reason = reason
+        self.detailCode = detailCode
         self.data = data
     }
 
