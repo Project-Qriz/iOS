@@ -11,7 +11,8 @@ struct JoinRequestBodyTests {
             over14Confirmed: true, agreedTermIds: [1, 2]
         )
 
-        let data = try JSONEncoder().encode(request.body! as! JoinRequestBody)
+        let encoder = JSONEncoder()
+        let data = try request.body.map { try encoder.encode($0) } ?? Data()
         let json = try JSONSerialization.jsonObject(with: data) as? [String: Any]
 
         #expect(json?["over14Confirmed"] as? Bool == true)

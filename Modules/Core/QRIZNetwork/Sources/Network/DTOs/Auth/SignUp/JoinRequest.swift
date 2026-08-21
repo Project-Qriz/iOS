@@ -98,7 +98,7 @@ public struct JoinRequest: Request, Sendable {
     }
 }
 
-struct JoinRequestBody: Encodable {
+private struct JoinRequestBody: Encodable {
     let username: String
     let password: String
     let nickname: String
