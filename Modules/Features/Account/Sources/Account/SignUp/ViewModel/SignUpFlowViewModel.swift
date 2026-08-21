@@ -19,6 +19,8 @@ final class SignUpFlowViewModel {
     private var name: String = ""
     private var id: String = ""
     private var password: String = ""
+    private var over14Confirmed: Bool = false
+    private var agreedTermIds: [Int] = []
     
     // MARK: - Initialization
     
@@ -43,13 +45,23 @@ final class SignUpFlowViewModel {
     func updatePassword(_ newPassword: String) {
         self.password = newPassword
     }
-    
+
+    func updateOver14Confirmed(_ confirmed: Bool) {
+        self.over14Confirmed = confirmed
+    }
+
+    func updateAgreedTermIds(_ ids: [Int]) {
+        self.agreedTermIds = ids
+    }
+
     func join() async throws -> JoinResponse {
-        return try await signUpService.join(
+        try await signUpService.join(
             username: id,
             password: password,
             nickname: name,
-            email: email
+            email: email,
+            over14Confirmed: over14Confirmed,
+            agreedTermIds: agreedTermIds
         )
     }
 }

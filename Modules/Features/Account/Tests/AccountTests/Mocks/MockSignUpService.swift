@@ -41,7 +41,10 @@ final class MockSignUpService: SignUpService, @unchecked Sendable {
         try checkUsernameResult.get()
     }
 
-    func join(username: String, password: String, nickname: String, email: String) async throws -> JoinResponse {
+    func join(
+        username: String, password: String, nickname: String, email: String,
+        over14Confirmed: Bool, agreedTermIds: [Int]
+    ) async throws -> JoinResponse {
         try joinResult.get()
     }
 }
