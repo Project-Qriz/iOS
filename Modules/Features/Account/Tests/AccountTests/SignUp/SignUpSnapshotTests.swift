@@ -46,7 +46,7 @@ class SignUpSnapshotTests: AccountSnapshotTestCase {
     }
 
     func testTermsDetailInitialState() {
-        let termItem = TermItem(title: "이용약관", pdfName: "terms", isAgreed: false)
+        let termItem = TermItem(kind: .term(id: 1), title: "이용약관", pdfName: "terms", isAgreed: false)
         let vc = inNav(TermsDetailViewController(viewModel: TermsDetailViewModel(termItem: termItem)))
         assertSnapshot(of: vc, as: .image(on: .iPhone16Pro))
     }

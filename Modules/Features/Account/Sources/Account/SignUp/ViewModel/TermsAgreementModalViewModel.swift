@@ -10,18 +10,6 @@ import Combine
 import os
 import QRIZNetwork
 
-public struct TermItem: Equatable, Sendable {
-    public let title: String
-    public let pdfName: String
-    public var isAgreed: Bool
-
-    public init(title: String, pdfName: String, isAgreed: Bool) {
-        self.title = title
-        self.pdfName = pdfName
-        self.isAgreed = isAgreed
-    }
-}
-
 @MainActor
 final class TermsAgreementModalViewModel {
 
@@ -29,8 +17,8 @@ final class TermsAgreementModalViewModel {
 
     private let signUpFlowViewModel: SignUpFlowViewModel
     private var terms: [TermItem] = [
-        .init(title: "서비스 이용약관", pdfName: "TermsOfService", isAgreed: false),
-        .init(title: "개인정보 처리방침", pdfName: "PrivacyPolicy", isAgreed: false)
+        .init(kind: .term(id: 1), title: "서비스 이용약관", pdfName: "TermsOfService", isAgreed: false),
+        .init(kind: .term(id: 2), title: "개인정보 처리방침", pdfName: "PrivacyPolicy", isAgreed: false)
     ]
     private let outputSubject: PassthroughSubject<Output, Never> = .init()
     private let logger = Logger.make(category: "TermsAgreementModalViewModel")

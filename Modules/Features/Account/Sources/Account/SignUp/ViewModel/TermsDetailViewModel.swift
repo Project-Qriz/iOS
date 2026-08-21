@@ -42,9 +42,15 @@ public final class TermsDetailViewModel {
     }
 
     private func loadPDF() {
+        guard let pdfName = term.pdfName else {
+            logger.error("PDF name not found")
+            outputSubject.send(.showErrorAlert("문서를 찾을 수 없습니다."))
+            return
+        }
+
         guard let url = Bundle.main.url(
-            forResource: term.pdfName, withExtension: "pdf") else {
-            logger.error("PDF not found: \(self.term.pdfName, privacy: .public)")
+            forResource: pdfName, withExtension: "pdf") else {
+            logger.error("PDF not found: \(pdfName, privacy: .public)")
             outputSubject.send(.showErrorAlert("문서를 찾을 수 없습니다."))
             return
         }

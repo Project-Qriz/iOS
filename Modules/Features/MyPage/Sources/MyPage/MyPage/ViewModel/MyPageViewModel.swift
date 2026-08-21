@@ -126,11 +126,13 @@ extension MyPageViewModel {
 
 private extension TermItem {
     static let termsOfService = TermItem(
+        kind: .term(id: 1),
         title: "서비스 이용약관",
         pdfName: "TermsOfService",
         isAgreed: false
     )
     static let privacyPolicy = TermItem(
+        kind: .term(id: 2),
         title: "개인정보 처리방침",
         pdfName: "PrivacyPolicy",
         isAgreed: false
