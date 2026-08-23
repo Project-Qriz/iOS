@@ -17,7 +17,7 @@ final class SplashViewController: UIViewController {
     private let inputSubject = PassthroughSubject<SplashViewModel.Input, Never>()
     private var cancellables = Set<AnyCancellable>()
     
-    var didFinish: ((Bool) -> Void)?
+    var didFinish: ((_ isLoggedIn: Bool, _ needsConsent: Bool) -> Void)?
     
     // MARK: - Initialization
     
@@ -55,8 +55,8 @@ final class SplashViewController: UIViewController {
         output
             .sink { [weak self] event in
                 switch event {
-                case .finished(let isLoggedIn):
-                    self?.didFinish?(isLoggedIn)
+                case .finished(let isLoggedIn, let needsConsent):
+                    self?.didFinish?(isLoggedIn, needsConsent)
                 }
             }
             .store(in: &cancellables)

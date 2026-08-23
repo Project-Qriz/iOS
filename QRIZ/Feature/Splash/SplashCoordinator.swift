@@ -16,7 +16,7 @@ protocol SplashCoordinator: Coordinator {
 
 @MainActor
 protocol SplashCoordinatorDelegate: AnyObject {
-    func didFinishSplash(_ coordinator: SplashCoordinator, isLoggedIn: Bool)
+    func didFinishSplash(_ coordinator: SplashCoordinator, isLoggedIn: Bool, needsConsent: Bool)
 }
 
 @MainActor
@@ -44,9 +44,9 @@ final class SplashCoordinatorImpl: SplashCoordinator {
         let viewModel = SplashViewModel(userInfoService: userInfoService, keychain: keychain, userInfo: .shared)
         let splashVC = SplashViewController(viewModel: viewModel)
 
-        splashVC.didFinish = { [weak self] isLoggedIn in
+        splashVC.didFinish = { [weak self] isLoggedIn, needsConsent in
             guard let self else { return }
-            self.delegate?.didFinishSplash(self, isLoggedIn: isLoggedIn)
+            self.delegate?.didFinishSplash(self, isLoggedIn: isLoggedIn, needsConsent: needsConsent)
         }
 
         return splashVC

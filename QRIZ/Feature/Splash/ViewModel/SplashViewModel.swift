@@ -46,12 +46,12 @@ final class SplashViewModel {
 
     private func performInitialChecks() async {
         try? await Task.sleep(nanoseconds: 1_500_000_000)
-        let isLoggedIn = await validateSession()
-        
-        outputSubject.send(.finished(isLoggedIn: isLoggedIn))
+        let (isLoggedIn, needsConsent) = await validateSession()
+
+        outputSubject.send(.finished(isLoggedIn: isLoggedIn, needsConsent: needsConsent))
     }
 
-    private func validateSession() async -> Bool {
+    private func validateSession() async -> (isLoggedIn: Bool, needsConsent: Bool) {
         do {
             let response = try await userInfoService.getUserInfo()
             let user = response.data
@@ -62,10 +62,10 @@ final class SplashViewModel {
                 previewTestStatus: user.previewTestStatus,
                 provider: user.provider
             )
-            return true
+            return (true, user.needsConsent)
         } catch {
             keychain.deleteToken(forKey: TokenKey.accessToken.rawValue)
-            return false
+            return (false, false)
         }
     }
 }
@@ -76,6 +76,6 @@ extension SplashViewModel {
     }
 
     enum Output {
-        case finished(isLoggedIn: Bool)
+        case finished(isLoggedIn: Bool, needsConsent: Bool)
     }
 }

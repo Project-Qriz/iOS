@@ -213,7 +213,7 @@ final class AppCoordinatorImpl: AppCoordinator {
 // MARK: - SplashCoordinatorDelegate
 
 extension AppCoordinatorImpl: SplashCoordinatorDelegate {
-    func didFinishSplash(_ coordinator: SplashCoordinator, isLoggedIn: Bool) {
+    func didFinishSplash(_ coordinator: SplashCoordinator, isLoggedIn: Bool, needsConsent: Bool) {
         childCoordinators.removeAll { $0 === coordinator }
         if isLoggedIn { showTabBar() } else { showLogin() }
     }

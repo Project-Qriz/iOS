@@ -96,10 +96,22 @@ public struct UserInfo: Decodable, Sendable {
     public let email: String
     public let previewTestStatus: PreviewTestStatus
     public let provider: String?
+    public let reAgreementRequired: Bool?
+    public let ageVerificationRequired: Bool?
 
-    public init(name: String, userId: String, email: String,
-                previewTestStatus: PreviewTestStatus, provider: String?) {
+    public init(
+        name: String, userId: String, email: String,
+        previewTestStatus: PreviewTestStatus, provider: String?,
+        reAgreementRequired: Bool? = nil, ageVerificationRequired: Bool? = nil
+    ) {
         self.name = name; self.userId = userId; self.email = email
         self.previewTestStatus = previewTestStatus; self.provider = provider
+        self.reAgreementRequired = reAgreementRequired
+        self.ageVerificationRequired = ageVerificationRequired
+    }
+
+    /// 재동의 또는 연령확인 중 하나라도 필요하면 true
+    public var needsConsent: Bool {
+        (reAgreementRequired ?? false) || (ageVerificationRequired ?? false)
     }
 }
