@@ -222,7 +222,7 @@ extension AppCoordinatorImpl: SplashCoordinatorDelegate {
 // MARK: - LoginCoordinatorDelegate
 
 extension AppCoordinatorImpl: LoginCoordinatorDelegate {
-    func didLogin(_ coordinator: LoginCoordinator) {
+    func didLogin(_ coordinator: LoginCoordinator, needsConsent: Bool) {
         childCoordinators.removeAll { $0 === coordinator }
         if UserInfoManager.shared.previewTestStatus == .notStarted {
             showOnboarding()

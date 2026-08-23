@@ -20,7 +20,7 @@ public protocol LoginCoordinator: Coordinator {
 
 @MainActor
 public protocol LoginCoordinatorDelegate: AnyObject {
-    func didLogin(_ coordinator: LoginCoordinator)
+    func didLogin(_ coordinator: LoginCoordinator, needsConsent: Bool)
 }
 
 @MainActor

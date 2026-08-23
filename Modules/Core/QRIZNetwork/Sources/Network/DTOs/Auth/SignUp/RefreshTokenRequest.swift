@@ -51,11 +51,22 @@ public struct RefreshTokenResponse: Decodable, Sendable {
         public let rotated: Bool?
         public let refreshExpiry: String?
         public let refreshToken: String?
+        public let reAgreementRequired: Bool?
+        public let ageVerificationRequired: Bool?
 
-        public init(rotated: Bool? = nil, refreshExpiry: String? = nil, refreshToken: String? = nil) {
+        public init(
+            rotated: Bool? = nil, refreshExpiry: String? = nil, refreshToken: String? = nil,
+            reAgreementRequired: Bool? = nil, ageVerificationRequired: Bool? = nil
+        ) {
             self.rotated = rotated
             self.refreshExpiry = refreshExpiry
             self.refreshToken = refreshToken
+            self.reAgreementRequired = reAgreementRequired
+            self.ageVerificationRequired = ageVerificationRequired
+        }
+
+        public var needsConsent: Bool {
+            (reAgreementRequired ?? false) || (ageVerificationRequired ?? false)
         }
     }
 }

@@ -98,11 +98,23 @@ public struct SocialLoginResponse: Decodable, Sendable {
         public let refreshToken: String?
         public let refreshExpiry: String?
         public let user: UserInfo
+        public let reAgreementRequired: Bool?
+        public let ageVerificationRequired: Bool?
 
-        public init(refreshToken: String?, refreshExpiry: String?, user: UserInfo) {
+        public init(
+            refreshToken: String?, refreshExpiry: String?, user: UserInfo,
+            reAgreementRequired: Bool? = nil, ageVerificationRequired: Bool? = nil
+        ) {
             self.refreshToken = refreshToken
             self.refreshExpiry = refreshExpiry
             self.user = user
+            self.reAgreementRequired = reAgreementRequired
+            self.ageVerificationRequired = ageVerificationRequired
+        }
+
+        public var needsConsent: Bool {
+            (reAgreementRequired ?? user.reAgreementRequired ?? false)
+                || (ageVerificationRequired ?? user.ageVerificationRequired ?? false)
         }
     }
 }
