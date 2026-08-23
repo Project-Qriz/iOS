@@ -32,12 +32,14 @@ public struct MyPageUserInfo {
 public func makeMyPageCoordinator(
     userInfo: MyPageUserInfo,
     myPageService: any MyPageService,
+    termsService: any TermsService,
     accountRecoveryService: any AccountRecoveryService,
     socialLoginService: any SocialLoginService
 ) -> any MyPageCoordinator {
     MyPageCoordinatorImpl(
         userInfo: userInfo,
         myPageService: myPageService,
+        termsService: termsService,
         accountRecoveryService: accountRecoveryService,
         socialLoginService: socialLoginService
     )

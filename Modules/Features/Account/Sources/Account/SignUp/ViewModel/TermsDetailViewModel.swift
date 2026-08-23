@@ -34,7 +34,11 @@ public final class TermsDetailViewModel {
         switch input {
         case .viewDidLoad:
             outputSubject.send(.configureTitle(term.title))
-            loadPDF()
+            if let documentUrl = term.documentUrl, let url = URL(string: documentUrl) {
+                outputSubject.send(.showWebDocument(url))
+            } else {
+                loadPDF()
+            }
 
         case .dismissButtonTapped:
             outputSubject.send(.dismissModal)
@@ -42,15 +46,9 @@ public final class TermsDetailViewModel {
     }
 
     private func loadPDF() {
-        guard let pdfName = term.pdfName else {
-            logger.error("PDF name not found")
-            outputSubject.send(.showErrorAlert("문서를 찾을 수 없습니다."))
-            return
-        }
-
-        guard let url = Bundle.main.url(
-            forResource: pdfName, withExtension: "pdf") else {
-            logger.error("PDF not found: \(pdfName, privacy: .public)")
+        guard let pdfName = term.pdfName,
+              let url = Bundle.main.url(forResource: pdfName, withExtension: "pdf") else {
+            logger.error("PDF not found for term: \(self.term.title, privacy: .public)")
             outputSubject.send(.showErrorAlert("문서를 찾을 수 없습니다."))
             return
         }
@@ -72,6 +70,7 @@ extension TermsDetailViewModel {
 
     enum Output {
         case configureTitle(String)
+        case showWebDocument(URL)
         case pdfLoaded(Data)
         case showErrorAlert(String)
         case dismissModal

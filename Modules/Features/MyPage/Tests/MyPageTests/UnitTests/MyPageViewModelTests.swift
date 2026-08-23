@@ -10,9 +10,14 @@ struct MyPageViewModelTests {
 
     private func makeSUT(
         userName: String = "테스트",
-        service: MockMyPageService? = nil
+        service: MockMyPageService? = nil,
+        termsService: MockTermsService? = nil
     ) -> MyPageViewModel {
-        MyPageViewModel(userName: userName, myPageService: service ?? MockMyPageService())
+        MyPageViewModel(
+            userName: userName,
+            myPageService: service ?? MockMyPageService(),
+            termsService: termsService ?? MockTermsService()
+        )
     }
 
     // MARK: - viewDidLoad
@@ -171,7 +176,7 @@ struct MyPageViewModelTests {
     }
 
     @Test("didTapTermsOfService → showTermsDetail(서비스 이용약관) emit")
-    func didTapTermsOfService_emitsShowTermsDetailWithTermsOfService() {
+    func didTapTermsOfService_emitsShowTermsDetailWithTermsOfService() async throws {
         let sut = makeSUT()
         let inputSubject = PassthroughSubject<MyPageViewModel.Input, Never>()
         var received: [MyPageViewModel.Output] = []
@@ -182,6 +187,7 @@ struct MyPageViewModelTests {
             .store(in: &cancellables)
 
         inputSubject.send(.didTapTermsOfService)
+        try await Task.sleep(nanoseconds: asyncSleepNanoseconds)
 
         guard received.count == 1, let first = received.first else {
             Issue.record("Expected 1 output, got \(received.count): \(received)")
@@ -192,11 +198,11 @@ struct MyPageViewModelTests {
             return
         }
         #expect(termItem.title == "서비스 이용약관")
-        #expect(termItem.pdfName == "TermsOfService")
+        #expect(termItem.documentUrl == nil)
     }
 
     @Test("didTapPrivacyPolicy → showTermsDetail(개인정보 처리방침) emit")
-    func didTapPrivacyPolicy_emitsShowTermsDetailWithPrivacyPolicy() {
+    func didTapPrivacyPolicy_emitsShowTermsDetailWithPrivacyPolicy() async throws {
         let sut = makeSUT()
         let inputSubject = PassthroughSubject<MyPageViewModel.Input, Never>()
         var received: [MyPageViewModel.Output] = []
@@ -207,6 +213,7 @@ struct MyPageViewModelTests {
             .store(in: &cancellables)
 
         inputSubject.send(.didTapPrivacyPolicy)
+        try await Task.sleep(nanoseconds: asyncSleepNanoseconds)
 
         guard received.count == 1, let first = received.first else {
             Issue.record("Expected 1 output, got \(received.count): \(received)")
@@ -217,7 +224,34 @@ struct MyPageViewModelTests {
             return
         }
         #expect(termItem.title == "개인정보 처리방침")
-        #expect(termItem.pdfName == "PrivacyPolicy")
+        #expect(termItem.documentUrl == "https://example.com/privacy")
+    }
+
+    @Test("didTapTermsOfService → fetchTerms 실패 → showErrorAlert emit")
+    func didTapTermsOfService_fetchTermsFailure_emitsShowErrorAlert() async throws {
+        let termsService = MockTermsService()
+        termsService.fetchTermsResult = .failure(URLError(.notConnectedToInternet))
+        let sut = makeSUT(termsService: termsService)
+        let inputSubject = PassthroughSubject<MyPageViewModel.Input, Never>()
+        var received: [MyPageViewModel.Output] = []
+        var cancellables = Set<AnyCancellable>()
+
+        sut.transform(input: inputSubject.eraseToAnyPublisher())
+            .sink { received.append($0) }
+            .store(in: &cancellables)
+
+        inputSubject.send(.didTapTermsOfService)
+        try await Task.sleep(nanoseconds: asyncSleepNanoseconds)
+
+        guard received.count == 1, let first = received.first else {
+            Issue.record("Expected 1 output, got \(received.count): \(received)")
+            return
+        }
+        guard case .showErrorAlert(let title, _) = first else {
+            Issue.record("Expected .showErrorAlert, got \(first)")
+            return
+        }
+        #expect(title == "약관을 불러오지 못했습니다.")
     }
 
     // MARK: - didConfirmResetPlan

@@ -88,6 +88,7 @@ final class AppCoordinatorDependencyImpl: AppCoordinatorDependency {
             onboardingService: onboardingService,
             userInfoService: userInfoService,
             myPageService: myPageService,
+            termsService: termsService,
             accountRecoveryService: accountRecoveryService,
             weeklyService: weeklyRecommendService,
             socialLoginService: socialLoginService,

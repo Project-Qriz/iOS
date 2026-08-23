@@ -9,6 +9,7 @@ import UIKit
 import DesignSystem
 import Combine
 import PDFKit
+import WebKit
 
 final class TermsDetailMainView: UIView {
     
@@ -54,7 +55,13 @@ final class TermsDetailMainView: UIView {
         pdfView.backgroundColor = .white
         return pdfView
     }()
-    
+
+    private let webView: WKWebView = {
+        let webView = WKWebView(frame: .zero, configuration: WKWebViewConfiguration())
+        webView.isHidden = true
+        return webView
+    }()
+
     // MARK: - Initialization
     
     init() {
@@ -75,9 +82,17 @@ final class TermsDetailMainView: UIView {
     }
     
     func configPDF(document: PDFDocument) {
+        webView.isHidden = true
+        pdfView.isHidden = false
         pdfView.document = document
     }
-    
+
+    func loadWebDocument(url: URL) {
+        pdfView.isHidden = true
+        webView.isHidden = false
+        webView.load(URLRequest(url: url))
+    }
+
     func updateTitle(_ text: String) {
         titleLabel.text = text
     }
@@ -90,26 +105,33 @@ extension TermsDetailMainView {
         [
             dismissButton,
             titleLabel,
-            pdfView
+            pdfView,
+            webView
         ].forEach { addSubview($0) }
     }
-    
+
     private func setupConstraints() {
         dismissButton.translatesAutoresizingMaskIntoConstraints = false
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
         pdfView.translatesAutoresizingMaskIntoConstraints = false
-        
+        webView.translatesAutoresizingMaskIntoConstraints = false
+
         NSLayoutConstraint.activate([
             dismissButton.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor, constant: Metric.topMargin),
             dismissButton.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Metric.dismissButtonLeadingOffset),
-            
+
             titleLabel.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor, constant: Metric.topMargin),
             titleLabel.centerXAnchor.constraint(equalTo: centerXAnchor),
-            
+
             pdfView.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: Metric.topMargin),
             pdfView.leadingAnchor.constraint(equalTo: leadingAnchor),
             pdfView.trailingAnchor.constraint(equalTo: trailingAnchor),
             pdfView.bottomAnchor.constraint(equalTo: bottomAnchor),
+
+            webView.topAnchor.constraint(equalTo: pdfView.topAnchor),
+            webView.leadingAnchor.constraint(equalTo: pdfView.leadingAnchor),
+            webView.trailingAnchor.constraint(equalTo: pdfView.trailingAnchor),
+            webView.bottomAnchor.constraint(equalTo: pdfView.bottomAnchor),
         ])
     }
 }

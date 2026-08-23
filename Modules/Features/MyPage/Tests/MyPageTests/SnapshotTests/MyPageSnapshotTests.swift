@@ -12,7 +12,7 @@ class MyPageSnapshotTests: MyPageSnapshotTestCase {
     /// nav.view.frame 설정 → viewDidLoad 호출 → async Task 시작
     /// Task.sleep 이후 applySnapshot 완료 → 재레이아웃 후 스냅샷
     func testInitialState() async throws {
-        let vm = MyPageViewModel(userName: "테스트", myPageService: MockMyPageService())
+        let vm = MyPageViewModel(userName: "테스트", myPageService: MockMyPageService(), termsService: MockTermsService())
         let vc = MyPageViewController(viewModel: vm)
         let nav = inNav(vc)
         try await Task.sleep(nanoseconds: asyncSleepNanoseconds)
