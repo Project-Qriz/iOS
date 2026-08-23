@@ -38,10 +38,23 @@ class SignUpSnapshotTests: AccountSnapshotTestCase {
         assertSnapshot(of: vc, as: .image(on: .iPhone16Pro))
     }
 
-    func testTermsAgreementInitialState() {
+    func testTermsAgreementInitialState() async throws {
         let flowVM = SignUpFlowViewModel(signUpService: StubSignUpService())
         let vm = TermsAgreementModalViewModel(signUpFlowViewModel: flowVM, termsService: StubTermsService())
         let vc = TermsAgreementModalViewController(viewModel: vm)
+
+        // `vc.view` forces loadView()/viewDidLoad() synchronously, which calls
+        // viewModel.send(.viewDidLoad) and kicks off the unstructured Task that fetches
+        // terms from the server. We must await the resulting `.initialTerms` output
+        // before snapshotting, otherwise this races the async load (see task-6-report.md
+        // fix-round-1 notes).
+        let outputs = try await collectAsync(vm.output) { _ = vc.view }
+        let hasInitialTerms = outputs.contains {
+            if case .initialTerms = $0 { return true }
+            return false
+        }
+        XCTAssertTrue(hasInitialTerms, "expected .initialTerms output before snapshotting")
+
         assertSnapshot(of: vc, as: .image(on: .iPhone16Pro))
     }
 
