@@ -37,7 +37,9 @@ protocol AppCoordinatorDependency {
     var onboardingService: OnboardingService { get }
     var weeklyRecommendService: WeeklyRecommendService { get }
     var socialLoginService: SocialLoginService { get }
-    
+    var consentsService: ConsentsService { get }
+    var myPageService: MyPageService { get }
+
     // Utils
     var keychain: KeychainManager { get }
     var sessionNotifier: SessionEventNotifier { get }
@@ -62,6 +64,7 @@ final class AppCoordinatorDependencyImpl: AppCoordinatorDependency {
     lazy var onboardingService: OnboardingService = OnboardingServiceImpl(network: network, keychainManager: keychain)
     lazy var weeklyRecommendService: WeeklyRecommendService = WeeklyRecommendServiceImpl(network: network, keychain: keychain)
     lazy var socialLoginService: SocialLoginService = SocialLoginServiceImpl()
+    lazy var consentsService: ConsentsService = ConsentsServiceImpl(network: network)
     lazy var adService: any AdService = AdServiceImpl()
 
     lazy var loginCoordinator: LoginCoordinator = {
@@ -112,6 +115,9 @@ final class AppCoordinatorImpl: AppCoordinator {
     var window: UIWindow
     private let dependency: AppCoordinatorDependency
     private var childCoordinators: [Coordinator] = []
+
+    private enum ConsentsDestination { case tabBar, onboarding }
+    private var pendingConsentsDestination: ConsentsDestination = .tabBar
 
     // MARK: - Initialize
 
@@ -172,6 +178,27 @@ final class AppCoordinatorImpl: AppCoordinator {
         return onboardingVC
     }
 
+    @discardableResult
+    private func showConsents(reAgreementRequired: Bool, ageVerificationRequired: Bool, next: ConsentsDestination) -> UIViewController {
+        pendingConsentsDestination = next
+        let navi = UINavigationController()
+        let consentsCoordinator = ConsentsCoordinatorImpl(
+            navigationController: navi,
+            termsService: dependency.termsService,
+            consentsService: dependency.consentsService,
+            myPageService: dependency.myPageService,
+            accessTokenProvider: { [weak self] in self?.dependency.keychain.retrieveToken(forKey: TokenKey.accessToken.rawValue) },
+            reAgreementRequired: reAgreementRequired,
+            ageVerificationRequired: ageVerificationRequired
+        )
+        consentsCoordinator.delegate = self
+        childCoordinators.append(consentsCoordinator)
+
+        let vc = consentsCoordinator.start()
+        replaceRootViewController(with: vc, animated: true)
+        return vc
+    }
+
     private func observeSessionEvents() {
         Task { [weak self] in
             guard let self else { return }
@@ -213,21 +240,30 @@ final class AppCoordinatorImpl: AppCoordinator {
 // MARK: - SplashCoordinatorDelegate
 
 extension AppCoordinatorImpl: SplashCoordinatorDelegate {
-    func didFinishSplash(_ coordinator: SplashCoordinator, isLoggedIn: Bool, needsConsent: Bool) {
+    func didFinishSplash(_ coordinator: SplashCoordinator, isLoggedIn: Bool, reAgreementRequired: Bool, ageVerificationRequired: Bool) {
         childCoordinators.removeAll { $0 === coordinator }
-        if isLoggedIn { showTabBar() } else { showLogin() }
+        guard isLoggedIn else { showLogin(); return }
+        if reAgreementRequired || ageVerificationRequired {
+            showConsents(reAgreementRequired: reAgreementRequired, ageVerificationRequired: ageVerificationRequired, next: .tabBar)
+        } else {
+            showTabBar()
+        }
     }
 }
 
 // MARK: - LoginCoordinatorDelegate
 
 extension AppCoordinatorImpl: LoginCoordinatorDelegate {
-    func didLogin(_ coordinator: LoginCoordinator, needsConsent: Bool) {
+    func didLogin(_ coordinator: LoginCoordinator, reAgreementRequired: Bool, ageVerificationRequired: Bool) {
         childCoordinators.removeAll { $0 === coordinator }
-        if UserInfoManager.shared.previewTestStatus == .notStarted {
-            showOnboarding()
+        let next: ConsentsDestination = UserInfoManager.shared.previewTestStatus == .notStarted ? .onboarding : .tabBar
+        if reAgreementRequired || ageVerificationRequired {
+            showConsents(reAgreementRequired: reAgreementRequired, ageVerificationRequired: ageVerificationRequired, next: next)
         } else {
-            showTabBar()
+            switch next {
+            case .onboarding: showOnboarding()
+            case .tabBar: showTabBar()
+            }
         }
     }
 }
@@ -247,6 +283,25 @@ extension AppCoordinatorImpl: TabBarCoordinatorDelegate {
     func didLogout(_ coordinator: TabBarCoordinator) {
         childCoordinators.removeAll()
         dependency.keychain.deleteToken(forKey: TokenKey.accessToken.rawValue)
+        showLogin()
+    }
+}
+
+// MARK: - ConsentsCoordinatorDelegate
+
+extension AppCoordinatorImpl: ConsentsCoordinatorDelegate {
+    func didCompleteConsents(_ coordinator: ConsentsCoordinator) {
+        childCoordinators.removeAll { $0 === coordinator }
+        switch pendingConsentsDestination {
+        case .tabBar: showTabBar()
+        case .onboarding: showOnboarding()
+        }
+    }
+
+    func didDenyAgeConsents(_ coordinator: ConsentsCoordinator) {
+        childCoordinators.removeAll { $0 === coordinator }
+        dependency.keychain.deleteToken(forKey: TokenKey.accessToken.rawValue)
+        dependency.keychain.deleteToken(forKey: TokenKey.refreshToken.rawValue)
         showLogin()
     }
 }

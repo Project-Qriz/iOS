@@ -70,7 +70,7 @@ struct LoginViewModelTests {
             sut.send(.loginButtonTapped)
         }
 
-        #expect(outputs.contains(.loginSucceeded(needsConsent: false)))
+        #expect(outputs.contains(.loginSucceeded(reAgreementRequired: false, ageVerificationRequired: false)))
     }
 
     @Test("loginButtonTapped 실패 → showErrorAlert")

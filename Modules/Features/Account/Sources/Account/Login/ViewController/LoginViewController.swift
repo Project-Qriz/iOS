@@ -68,9 +68,9 @@ final class LoginViewController: UIViewController {
                     case .signUp: coordinator?.showSignUp()
                     }
 
-                case .loginSucceeded(let needsConsent):
+                case .loginSucceeded(let reAgreementRequired, let ageVerificationRequired):
                     if let loginCoordinator = coordinator {
-                        loginCoordinator.delegate?.didLogin(loginCoordinator, needsConsent: needsConsent)
+                        loginCoordinator.delegate?.didLogin(loginCoordinator, reAgreementRequired: reAgreementRequired, ageVerificationRequired: ageVerificationRequired)
                     }
                 }
             }
