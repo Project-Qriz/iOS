@@ -89,7 +89,13 @@ final class MyPageViewModel {
         do {
             let response = try await termsService.fetchTerms()
             guard let matched = response.data.first(where: { $0.title.contains(keyword) }) else { return }
-            let termItem = TermItem(kind: .term(id: matched.id), title: matched.title, documentUrl: matched.documentUrl, isAgreed: false)
+            let termItem = TermItem(
+                kind: .term(id: matched.id),
+                title: matched.title,
+                documentUrl: matched.documentUrl,
+                pdfName: TermItem.bundledPDFName(forTitle: matched.title),
+                isAgreed: false
+            )
             outputSubject.send(.showTermsDetail(termItem: termItem))
         } catch {
             outputSubject.send(.showErrorAlert(title: "약관을 불러오지 못했습니다."))

@@ -75,10 +75,17 @@ final class TermsAgreementModalViewModel {
                 kind: .ageConfirmation,
                 title: "만 14세 이상",
                 documentUrl: privacyPolicy?.documentUrl,
+                pdfName: privacyPolicy.flatMap { TermItem.bundledPDFName(forTitle: $0.title) },
                 isAgreed: false
             )
             let serverTerms = response.data.map {
-                TermItem(kind: .term(id: $0.id), title: $0.title, documentUrl: $0.documentUrl, isAgreed: false)
+                TermItem(
+                    kind: .term(id: $0.id),
+                    title: $0.title,
+                    documentUrl: $0.documentUrl,
+                    pdfName: TermItem.bundledPDFName(forTitle: $0.title),
+                    isAgreed: false
+                )
             }
 
             terms = [ageConfirmation] + serverTerms
