@@ -22,7 +22,8 @@ struct ConsentsSnapshotTests {
             reAgreementRequired: true,
             ageVerificationRequired: true,
             onComplete: {},
-            onAccountDestroyed: {}
+            onAccountDestroyed: {},
+            onDeclined: {}
         )
 
         // `ConsentsView`'s `.onAppear` calls `viewModel.onAppear()`, which kicks off an

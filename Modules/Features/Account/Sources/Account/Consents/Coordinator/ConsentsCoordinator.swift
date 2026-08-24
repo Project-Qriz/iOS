@@ -13,6 +13,8 @@ public protocol ConsentsCoordinatorDelegate: AnyObject {
     func didCompleteConsents(_ coordinator: ConsentsCoordinator)
     /// 연령 미충족 확정으로 계정이 파기된 경우 — 로그아웃 처리 필요
     func didDenyAgeConsents(_ coordinator: ConsentsCoordinator)
+    /// 사용자가 재동의를 거부한 경우 — 계정 파기 없이 로그아웃만 처리
+    func didDeclineConsents(_ coordinator: ConsentsCoordinator)
 }
 
 @MainActor
@@ -46,6 +48,10 @@ public final class ConsentsCoordinatorImpl: ConsentsCoordinator {
             onAccountDestroyed: { [weak self] in
                 guard let self else { return }
                 self.delegate?.didDenyAgeConsents(self)
+            },
+            onDeclined: { [weak self] in
+                guard let self else { return }
+                self.delegate?.didDeclineConsents(self)
             }
         )
         self.viewModel = vm

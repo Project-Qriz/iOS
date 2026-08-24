@@ -305,4 +305,11 @@ extension AppCoordinatorImpl: ConsentsCoordinatorDelegate {
         dependency.keychain.deleteToken(forKey: TokenKey.refreshToken.rawValue)
         showLogin()
     }
+
+    /// 재동의 거부 — 계정 파기 없이 로그아웃만 한다(`didLogout`과 동일 처리).
+    func didDeclineConsents(_ coordinator: ConsentsCoordinator) {
+        childCoordinators.removeAll { $0 === coordinator }
+        dependency.keychain.deleteToken(forKey: TokenKey.accessToken.rawValue)
+        showLogin()
+    }
 }

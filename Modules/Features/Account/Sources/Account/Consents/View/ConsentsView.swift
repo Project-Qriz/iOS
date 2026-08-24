@@ -18,7 +18,7 @@ struct ConsentsView: View {
                 )
             }
 
-            if !viewModel.terms.isEmpty {
+            if viewModel.showsTermsSection {
                 VStack(spacing: 16) {
                     AllAgreeRowView(
                         isChecked: viewModel.terms.allSatisfy(\.isAgreed),
@@ -48,6 +48,15 @@ struct ConsentsView: View {
                     .cornerRadius(8)
             }
             .disabled(!viewModel.isSubmitEnabled)
+
+            Button(action: viewModel.declineTapped) {
+                Text("동의하지 않고 로그아웃")
+                    .font(.system(size: 14, weight: .medium))
+                    .foregroundColor(Color.coolNeutral500)
+                    .underline()
+                    .frame(maxWidth: .infinity)
+                    .padding(.vertical, 8)
+            }
         }
         .padding(.horizontal, 32)
         .padding(.top, 24)
@@ -70,7 +79,10 @@ struct ConsentsView: View {
                 set: { if !$0 { viewModel.errorAlert = nil } }
             )
         ) {
-            Button("확인") { viewModel.errorAlert = nil }
+            if viewModel.errorAlert?.canRetryLoad == true {
+                Button("재시도") { viewModel.retryLoadTerms() }
+            }
+            Button("확인", role: .cancel) { viewModel.errorAlert = nil }
         } message: {
             if let description = viewModel.errorAlert?.description {
                 Text(description)
