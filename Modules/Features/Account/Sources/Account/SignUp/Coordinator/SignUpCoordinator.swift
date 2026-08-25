@@ -14,10 +14,10 @@ import QRIZNetwork
 @MainActor
 public protocol SignUpCoordinator: Coordinator {
     var delegate: SignUpCoordinatorDelegate? { get set }
+    func showEmailVerification()
     func showNameInput()
     func showIDInput()
     func showPasswordInput()
-    func showTermsAgreementModal()
     func showTermsDetail(for term: TermItem)
     func showSignUpCompleteAlert()
     func dismissView()
@@ -49,16 +49,25 @@ public final class SignUpCoordinatorImpl: SignUpCoordinator, NavigationGuard {
     }
     
     public func start() -> UIViewController {
-        let verificationVM = SignUpVerificationViewModel(
-            signUpFlowViewModel: signUpFlowVM,
-            signUpService: signUpService
-        )
-        let verificationVC = SignUpVerificationViewController(signUpVerificationVM: verificationVM)
-        verificationVC.coordinator = self
-        navigationController.pushViewController(verificationVC, animated: true)
+        let viewModel = TermsAgreementModalViewModel(signUpFlowViewModel: signUpFlowVM, termsService: termsService)
+        let rootVC = TermsAgreementModalViewController(viewModel: viewModel)
+        rootVC.coordinator = self
+        navigationController.pushViewController(rootVC, animated: true)
         return navigationController
     }
-    
+
+    public func showEmailVerification() {
+        guardNavigation {
+            let verificationVM = SignUpVerificationViewModel(
+                signUpFlowViewModel: signUpFlowVM,
+                signUpService: signUpService
+            )
+            let verificationVC = SignUpVerificationViewController(signUpVerificationVM: verificationVM)
+            verificationVC.coordinator = self
+            navigationController.pushViewController(verificationVC, animated: true)
+        }
+    }
+
     public func showNameInput() {
         guardNavigation {
             let nameInputVM = NameInputViewModel(signUpFlowViewModel: signUpFlowVM)
@@ -89,50 +98,13 @@ public final class SignUpCoordinatorImpl: SignUpCoordinator, NavigationGuard {
         }
     }
 
-    public func showTermsAgreementModal() {
-        guardNavigation {
-            let viewModel = TermsAgreementModalViewModel(signUpFlowViewModel: signUpFlowVM, termsService: termsService)
-            let rootVC = TermsAgreementModalViewController(viewModel: viewModel)
-            rootVC.coordinator = self
-
-            let sheetNavi = UINavigationController(rootViewController: rootVC)
-            sheetNavi.setNavigationBarHidden(true, animated: false)
-            sheetNavi.modalPresentationStyle = .pageSheet
-
-            if let sheet = sheetNavi.sheetPresentationController {
-                if UIScreen.main.isSESize {
-                    sheet.detents = [.medium()]
-                    sheet.selectedDetentIdentifier = .medium
-                } else if #available(iOS 16.0, *) {
-                    let halfIdentifier = UISheetPresentationController.Detent.Identifier("half")
-                    let halfDetent = UISheetPresentationController.Detent
-                        .custom(identifier: halfIdentifier) { ctx in
-                            ctx.maximumDetentValue * 0.4
-                        }
-                    sheet.detents = [halfDetent]
-                    sheet.selectedDetentIdentifier = halfIdentifier
-                } else {
-                    sheet.detents = [.medium()]
-                    sheet.selectedDetentIdentifier = .medium
-                }
-
-                sheet.preferredCornerRadius = 24
-            }
-
-            navigationController.present(sheetNavi, animated: true)
-        }
-    }
-
     public func showTermsDetail(for term: TermItem) {
         guardNavigation {
-            guard let sheetNav = navigationController.presentedViewController
-                    as? UINavigationController else { return }
-
             let viewModel = TermsDetailViewModel(termItem: term)
             let vc = TermsDetailViewController(viewModel: viewModel)
             vc.dismissDelegate = self
             vc.modalPresentationStyle = .fullScreen
-            sheetNav.present(vc, animated: true)
+            navigationController.present(vc, animated: true)
         }
     }
     
@@ -166,7 +138,9 @@ public final class SignUpCoordinatorImpl: SignUpCoordinator, NavigationGuard {
     }
     
     public func dismissView() {
-        navigationController.dismiss(animated: true)
+        // 약관동의 화면이 회원가입 플로우의 첫 화면(루트)이라, "X" 취소는 전체 회원가입을 취소하고
+        // 회원가입 시작 전 화면(로그인)으로 돌아가는 것을 의미한다.
+        navigationController.popToRootViewController(animated: true)
     }
 }
 

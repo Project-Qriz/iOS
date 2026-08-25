@@ -35,6 +35,11 @@ final class TermsAgreementModalViewController: UIViewController {
         self.view = rootView
     }
 
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        navigationController?.setNavigationBarHidden(true, animated: animated)
+    }
+
     override func viewDidLoad() {
         super.viewDidLoad()
         bind()
@@ -69,8 +74,8 @@ final class TermsAgreementModalViewController: UIViewController {
                 case .showErrorAlert(let title, let description):
                     showOneButtonAlert(with: title, for: description, storingIn: &cancellables)
 
-                case .signUpSucceeded:
-                    coordinator?.showSignUpCompleteAlert()
+                case .termsAgreed:
+                    coordinator?.showEmailVerification()
                 }
             }
             .store(in: &cancellables)

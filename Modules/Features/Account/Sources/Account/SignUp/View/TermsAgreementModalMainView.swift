@@ -65,7 +65,7 @@ final class TermsAgreementModalMainView: UIView {
     
     private func setupUI() {
         self.backgroundColor = .white
-        footerView.configure(buttonTitle: "가입하기")
+        footerView.configure(buttonTitle: "약관 동의하기")
         footerView.updateButtonState(isValid: false)
     }
     

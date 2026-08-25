@@ -6,13 +6,14 @@
 import Testing
 import Combine
 @testable import Account
+import QRIZNetwork
 
 @MainActor
 @Suite("PasswordInputViewModel 테스트", .serialized)
 struct PasswordInputViewModelTests {
 
-    private func makeSUT() -> PasswordInputViewModel {
-        let flowVM = SignUpFlowViewModel(signUpService: MockSignUpService())
+    private func makeSUT(signUpService: MockSignUpService = .init()) -> PasswordInputViewModel {
+        let flowVM = SignUpFlowViewModel(signUpService: signUpService)
         return PasswordInputViewModel(signUpFlowViewModel: flowVM)
     }
 
@@ -93,5 +94,56 @@ struct PasswordInputViewModelTests {
             return false
         }
         #expect(!hasConfirmValid)
+    }
+
+    // MARK: - 회원가입 (마지막 단계에서 join API 호출)
+
+    @Test("buttonTapped 성공 → signUpSucceeded")
+    func buttonTappedSuccessEmitsSignUpSucceeded() async throws {
+        let sut = makeSUT()
+        sut.send(.passwordTextChanged("Valid@1234"))
+        sut.send(.confirmPasswordTextChanged("Valid@1234"))
+
+        let outputs = try await collectAsync(sut.output) { sut.send(.buttonTapped) }
+
+        #expect(outputs.contains(.signUpSucceeded))
+    }
+
+    @Test("가입 실패(reason: under_age) → showErrorAlert(연령 미충족 안내)")
+    func underAgeFailureShowsAgeAlert() async throws {
+        let signUpService = MockSignUpService()
+        signUpService.joinResult = .failure(
+            NetworkError.clientError(httpStatus: 400, serverCode: -1, message: "만 14세 이상만 가입할 수 있습니다.", reason: "under_age", detailCode: 2003)
+        )
+        let sut = makeSUT(signUpService: signUpService)
+        sut.send(.passwordTextChanged("Valid@1234"))
+        sut.send(.confirmPasswordTextChanged("Valid@1234"))
+
+        let outputs = try await collectAsync(sut.output) { sut.send(.buttonTapped) }
+
+        let hasAgeAlert = outputs.contains {
+            if case .showErrorAlert(let title, _) = $0 { return title == "만 14세 이상만 가입할 수 있습니다." }
+            return false
+        }
+        #expect(hasAgeAlert)
+    }
+
+    @Test("가입 실패(일반 400) → showErrorAlert(가입 실패 안내)")
+    func generalClientErrorShowsRestartAlert() async throws {
+        let signUpService = MockSignUpService()
+        signUpService.joinResult = .failure(
+            NetworkError.clientError(httpStatus: 400, serverCode: -1, message: "잘못된 요청", reason: nil, detailCode: nil)
+        )
+        let sut = makeSUT(signUpService: signUpService)
+        sut.send(.passwordTextChanged("Valid@1234"))
+        sut.send(.confirmPasswordTextChanged("Valid@1234"))
+
+        let outputs = try await collectAsync(sut.output) { sut.send(.buttonTapped) }
+
+        let hasRestartAlert = outputs.contains {
+            if case .showErrorAlert(let title, _) = $0 { return title == "가입 실패" }
+            return false
+        }
+        #expect(hasRestartAlert)
     }
 }

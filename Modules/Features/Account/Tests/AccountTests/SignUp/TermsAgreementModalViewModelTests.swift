@@ -75,36 +75,39 @@ struct TermsAgreementModalViewModelTests {
         #expect(outputs.contains(.termChanged(index: 2, isAgreed: true)))
     }
 
-    // MARK: - 회원가입 (agreedTermIds/over14Confirmed 전달)
+    // MARK: - 약관 동의 (agreedTermIds/over14Confirmed 저장 및 다음 화면 이동)
 
-    @Test("signUpButtonTapped 성공 → signUpSucceeded")
-    func signUpButtonTappedSuccessEmitsSignUpSucceeded() async throws {
-        let sut = makeSUT()
-        try await loadTerms(sut)
-        sut.send(.allToggle)
-
-        let outputs = try await collectAsync(sut.output) { sut.send(.signUpButtonTapped) }
-
-        #expect(outputs.contains(.signUpSucceeded))
-    }
-
-    @Test("가입 실패(reason: under_age) → showErrorAlert(연령 미충족 안내)")
-    func underAgeFailureShowsAgeAlert() async throws {
+    @Test("signUpButtonTapped → termsAgreed 출력 (join API는 호출하지 않는다)")
+    func signUpButtonTappedEmitsTermsAgreed() async throws {
         let signUpService = MockSignUpService()
-        signUpService.joinResult = .failure(
-            NetworkError.clientError(httpStatus: 400, serverCode: -1, message: "만 14세 이상만 가입할 수 있습니다.", reason: "under_age", detailCode: 2003)
-        )
         let sut = makeSUT(signUpService: signUpService)
         try await loadTerms(sut)
         sut.send(.allToggle)
 
-        let outputs = try await collectAsync(sut.output) { sut.send(.signUpButtonTapped) }
+        let outputs = collect(sut.output) { sut.send(.signUpButtonTapped) }
 
-        let hasAgeAlert = outputs.contains {
-            if case .showErrorAlert(let title, _) = $0 { return title == "만 14세 이상만 가입할 수 있습니다." }
-            return false
-        }
-        #expect(hasAgeAlert)
+        #expect(outputs.contains(.termsAgreed))
+        #expect(signUpService.lastJoinOver14Confirmed == nil)
+    }
+
+    @Test("signUpButtonTapped → over14Confirmed/agreedTermIds가 SignUpFlowViewModel에 저장된다")
+    func signUpButtonTappedStoresConsentStateOnFlowViewModel() async throws {
+        let signUpService = MockSignUpService()
+        let flowVM = SignUpFlowViewModel(signUpService: signUpService)
+        let termsService = MockTermsService()
+        let sut = TermsAgreementModalViewModel(signUpFlowViewModel: flowVM, termsService: termsService)
+        try await loadTerms(sut)
+        sut.send(.allToggle)
+        _ = collect(sut.output) { sut.send(.signUpButtonTapped) }
+
+        flowVM.updateEmail("a@b.com")
+        flowVM.updateName("테스트")
+        flowVM.updateID("test1234")
+        flowVM.updatePassword("Valid@1234")
+        _ = try await flowVM.join()
+
+        #expect(signUpService.lastJoinOver14Confirmed == true)
+        #expect(signUpService.lastJoinAgreedTermIds == [1, 2])
     }
 
     // MARK: - Helpers

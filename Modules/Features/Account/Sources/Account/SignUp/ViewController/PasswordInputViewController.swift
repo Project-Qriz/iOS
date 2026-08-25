@@ -71,8 +71,11 @@ final class PasswordInputViewController: UIViewController {
                 case .updateButtonState(let canSignUp):
                     rootView.signUpFooterView.updateButtonState(isValid: canSignUp)
 
-                case .showTermsAgreementModal:
-                    coordinator?.showTermsAgreementModal()
+                case .signUpSucceeded:
+                    coordinator?.showSignUpCompleteAlert()
+
+                case .showErrorAlert(let title, let description):
+                    showOneButtonAlert(with: title, for: description, storingIn: &cancellables)
                 }
             }
             .store(in: &cancellables)
