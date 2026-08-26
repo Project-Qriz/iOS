@@ -19,14 +19,19 @@ public struct TermsResponse: Decodable, Sendable {
     }
 }
 
+public enum TermType: String, Decodable, Sendable {
+    case service = "SERVICE"
+    case privacy = "PRIVACY"
+}
+
 public struct TermsListItem: Decodable, Sendable {
     public let id: Int
-    public let title: String
+    public let type: TermType
     public let documentUrl: String?
 
-    public init(id: Int, title: String, documentUrl: String?) {
+    public init(id: Int, type: TermType, documentUrl: String?) {
         self.id = id
-        self.title = title
+        self.type = type
         self.documentUrl = documentUrl
     }
 }

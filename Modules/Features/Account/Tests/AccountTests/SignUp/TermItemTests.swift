@@ -1,5 +1,6 @@
 import Testing
 @testable import Account
+import QRIZNetwork
 
 @Suite("TermItem 테스트")
 struct TermItemTests {
@@ -15,25 +16,27 @@ struct TermItemTests {
         #expect(item.id == nil)
     }
 
-    // MARK: - bundledPDFName(forTitle:)
+    // MARK: - bundledPDFName(for:)
 
-    @Test("이용약관 제목 → 번들 PDF TermsOfService", arguments: [
-        "이용약관", "서비스 이용약관", "QRIZ 서비스 이용약관(필수)"
-    ])
-    func termsOfServiceTitleMapsToBundledPDF(title: String) {
-        #expect(TermItem.bundledPDFName(forTitle: title) == "TermsOfService")
+    @Test("SERVICE → 번들 PDF TermsOfService")
+    func serviceTypeMapsToBundledPDF() {
+        #expect(TermItem.bundledPDFName(for: .service) == "TermsOfService")
     }
 
-    @Test("개인정보 관련 제목 → 번들 PDF PrivacyPolicy", arguments: [
-        "개인정보", "개인정보 처리방침", "개인정보 수집·이용 동의(필수)"
-    ])
-    func privacyPolicyTitleMapsToBundledPDF(title: String) {
-        #expect(TermItem.bundledPDFName(forTitle: title) == "PrivacyPolicy")
+    @Test("PRIVACY → 번들 PDF PrivacyPolicy")
+    func privacyTypeMapsToBundledPDF() {
+        #expect(TermItem.bundledPDFName(for: .privacy) == "PrivacyPolicy")
     }
 
-    @Test("매칭되는 번들 PDF가 없으면 nil")
-    func unknownTitleMapsToNil() {
-        #expect(TermItem.bundledPDFName(forTitle: "마케팅 정보 수신 동의") == nil)
-        #expect(TermItem.bundledPDFName(forTitle: "") == nil)
+    // MARK: - displayTitle(for:)
+
+    @Test("SERVICE → \"서비스 이용약관\"")
+    func serviceTypeMapsToDisplayTitle() {
+        #expect(TermItem.displayTitle(for: .service) == "서비스 이용약관")
+    }
+
+    @Test("PRIVACY → \"개인정보 처리방침\"")
+    func privacyTypeMapsToDisplayTitle() {
+        #expect(TermItem.displayTitle(for: .privacy) == "개인정보 처리방침")
     }
 }

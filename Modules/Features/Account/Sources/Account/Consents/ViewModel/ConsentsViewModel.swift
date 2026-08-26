@@ -142,9 +142,9 @@ final class ConsentsViewModel: ObservableObject {
             terms = response.data.map {
                 TermItem(
                     kind: .term(id: $0.id),
-                    title: $0.title,
+                    title: TermItem.displayTitle(for: $0.type),
                     documentUrl: $0.documentUrl,
-                    pdfName: TermItem.bundledPDFName(forTitle: $0.title),
+                    pdfName: TermItem.bundledPDFName(for: $0.type),
                     // 재동의가 필요하면 사용자가 직접 체크해야 하고,
                     // 필요 없으면 이미 유효하게 동의된 상태이므로 미리 체크해 둔다.
                     isAgreed: !reAgreementRequired

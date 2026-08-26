@@ -69,21 +69,21 @@ final class TermsAgreementModalViewModel {
     private func loadTerms() async {
         do {
             let response = try await termsService.fetchTerms()
-            let privacyPolicy = response.data.first { $0.title.contains("개인정보") }
+            let privacyPolicy = response.data.first { $0.type == .privacy }
 
             let ageConfirmation = TermItem(
                 kind: .ageConfirmation,
                 title: "만 14세 이상",
                 documentUrl: privacyPolicy?.documentUrl,
-                pdfName: privacyPolicy.flatMap { TermItem.bundledPDFName(forTitle: $0.title) },
+                pdfName: TermItem.bundledPDFName(for: .privacy),
                 isAgreed: false
             )
             let serverTerms = response.data.map {
                 TermItem(
                     kind: .term(id: $0.id),
-                    title: $0.title,
+                    title: TermItem.displayTitle(for: $0.type),
                     documentUrl: $0.documentUrl,
-                    pdfName: TermItem.bundledPDFName(forTitle: $0.title),
+                    pdfName: TermItem.bundledPDFName(for: $0.type),
                     isAgreed: false
                 )
             }

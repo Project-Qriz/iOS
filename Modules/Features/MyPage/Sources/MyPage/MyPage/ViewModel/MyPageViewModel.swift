@@ -57,10 +57,10 @@ final class MyPageViewModel {
                     self.outputSubject.send(.showExamSchedule)
 
                 case .didTapTermsOfService:
-                    Task { await self.showTermsDetail(matching: "이용약관") }
+                    Task { await self.showTermsDetail(type: .service) }
 
                 case .didTapPrivacyPolicy:
-                    Task { await self.showTermsDetail(matching: "개인정보") }
+                    Task { await self.showTermsDetail(type: .privacy) }
                 }
             }
             .store(in: &cancellables)
@@ -85,15 +85,15 @@ final class MyPageViewModel {
         }
     }
 
-    private func showTermsDetail(matching keyword: String) async {
+    private func showTermsDetail(type: TermType) async {
         do {
             let response = try await termsService.fetchTerms()
-            guard let matched = response.data.first(where: { $0.title.contains(keyword) }) else { return }
+            guard let matched = response.data.first(where: { $0.type == type }) else { return }
             let termItem = TermItem(
                 kind: .term(id: matched.id),
-                title: matched.title,
+                title: TermItem.displayTitle(for: matched.type),
                 documentUrl: matched.documentUrl,
-                pdfName: TermItem.bundledPDFName(forTitle: matched.title),
+                pdfName: TermItem.bundledPDFName(for: matched.type),
                 isAgreed: false
             )
             outputSubject.send(.showTermsDetail(termItem: termItem))
