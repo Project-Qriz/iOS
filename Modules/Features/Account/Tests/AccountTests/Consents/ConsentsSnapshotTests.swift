@@ -32,7 +32,7 @@ struct ConsentsSnapshotTests {
         // not guaranteed, so we call `onAppear()` directly on the view model here, before
         // constructing the view, and await the load completing — the same pattern already
         // used throughout `ConsentsViewModelTests` — instead of racing SwiftUI's lifecycle
-        // the way the Task 6 `TermsAgreementModalViewModel` snapshot test originally did.
+        // the way the Task 6 `TermsAgreementModal` UIKit snapshot test originally did.
         viewModel.onAppear()
         try await Task.sleep(nanoseconds: 100_000_000)
 

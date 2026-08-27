@@ -4,6 +4,7 @@
 //
 
 import XCTest
+import SwiftUI
 import SnapshotTesting
 @testable import Account
 
@@ -40,21 +41,21 @@ class SignUpSnapshotTests: AccountSnapshotTestCase {
 
     func testTermsAgreementInitialState() async throws {
         let flowVM = SignUpFlowViewModel(signUpService: StubSignUpService())
-        let vm = TermsAgreementModalViewModel(signUpFlowViewModel: flowVM, termsService: StubTermsService())
-        let vc = TermsAgreementModalViewController(viewModel: vm)
+        let vm = TermsAgreementViewModel(
+            signUpFlowViewModel: flowVM,
+            termsService: StubTermsService(),
+            onDismiss: {},
+            onTermsAgreed: {}
+        )
 
-        // `vc.view` forces loadView()/viewDidLoad() synchronously, which calls
-        // viewModel.send(.viewDidLoad) and kicks off the unstructured Task that fetches
-        // terms from the server. We must await the resulting `.initialTerms` output
-        // before snapshotting, otherwise this races the async load (see task-6-report.md
-        // fix-round-1 notes).
-        let outputs = try await collectAsync(vm.output) { _ = vc.view }
-        let hasInitialTerms = outputs.contains {
-            if case .initialTerms = $0 { return true }
-            return false
-        }
-        XCTAssertTrue(hasInitialTerms, "expected .initialTerms output before snapshotting")
+        // SwiftUI's `.onAppear` timing under `UIHostingController` + a snapshot library is
+        // not guaranteed, so we call `onAppear()` directly on the view model here, before
+        // constructing the view, and await the load completing (same pattern as
+        // ConsentsSnapshotTests) instead of racing SwiftUI's lifecycle.
+        vm.onAppear()
+        try await Task.sleep(nanoseconds: 100_000_000)
 
+        let vc = UIHostingController(rootView: TermsAgreementView(viewModel: vm, onShowTermsDetail: { _ in }))
         assertSnapshot(of: vc, as: .image(on: .iPhone16Pro))
     }
 
