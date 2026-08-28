@@ -9,7 +9,7 @@ import DesignSystem
 struct TermsAgreementIntroView: View {
     var body: some View {
         VStack(spacing: 20) {
-            Image(uiImage: .loginLogo)
+            Image(uiImage: .appIconLogo)
                 .resizable()
                 .aspectRatio(contentMode: .fit)
                 .frame(width: 64, height: 64)
