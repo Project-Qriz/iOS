@@ -12,10 +12,11 @@ struct TermsAgreementView: View {
 
     var body: some View {
         VStack(spacing: 0) {
-            TermsAgreementHeaderView(onDismiss: viewModel.dismissTapped)
+            TermsAgreementHeaderView(progress: 0.2, onDismiss: viewModel.dismissTapped)
 
             TermsAgreementIntroView()
                 .padding(.top, 40)
+                .padding(.horizontal, 32)
 
             Spacer()
 
@@ -38,6 +39,7 @@ struct TermsAgreementView: View {
                     }
                 }
             }
+            .padding(.horizontal, 32)
 
             Button(action: viewModel.submitTapped) {
                 Text("약관 동의하기")
@@ -49,11 +51,10 @@ struct TermsAgreementView: View {
                     .cornerRadius(8)
             }
             .disabled(!viewModel.isSubmitEnabled)
+            .padding(.horizontal, 32)
             .padding(.top, 42)
             .padding(.bottom, 32)
         }
-        .padding(.horizontal, 32)
-        .padding(.top, 24)
         .background(Color.white)
         .onAppear { viewModel.onAppear() }
         .alert(
