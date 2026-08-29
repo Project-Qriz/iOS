@@ -15,7 +15,6 @@ struct TermsAgreementAllAgreeRowView: View {
             Image(uiImage: isChecked ? .checkboxOnIcon : .checkboxOffIcon)
                 .resizable()
                 .frame(width: 24, height: 24)
-                .onTapGesture(perform: onTap)
 
             Text("전체 동의")
                 .font(.system(size: 16, weight: .medium))
@@ -30,5 +29,7 @@ struct TermsAgreementAllAgreeRowView: View {
             RoundedRectangle(cornerRadius: 8)
                 .stroke(Color.customBlue50, lineWidth: 1)
         )
+        .contentShape(Rectangle())
+        .onTapGesture(perform: onTap)
     }
 }

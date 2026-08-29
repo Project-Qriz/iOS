@@ -19,7 +19,6 @@ struct TermsAgreementItemRowView: View {
                 .font(.system(size: 14, weight: .bold))
                 .foregroundColor(isChecked ? Color.customBlue500 : Color.coolNeutral200)
                 .frame(width: 20, height: 20)
-                .onTapGesture(perform: onToggle)
 
             Text(showsChevron ? "\(title) 동의" : title)
                 .font(.system(size: 14, weight: .medium))
@@ -38,5 +37,7 @@ struct TermsAgreementItemRowView: View {
                     .onTapGesture(perform: onDetailTap)
             }
         }
+        .contentShape(Rectangle())
+        .onTapGesture(perform: onToggle)
     }
 }
