@@ -25,11 +25,10 @@ struct TermsAgreementAllAgreeRowView: View {
         }
         .padding(.horizontal, 16)
         .padding(.vertical, 18)
-        .background(Color.white)
+        .background(Color.customBlue50)
         .overlay(
             RoundedRectangle(cornerRadius: 8)
-                .stroke(Color.coolNeutral100, lineWidth: 1)
+                .stroke(Color.customBlue50, lineWidth: 1)
         )
-        .shadow(color: Color.coolNeutral300.opacity(0.12), radius: 10, x: 0, y: 1)
     }
 }

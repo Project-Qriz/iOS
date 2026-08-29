@@ -19,13 +19,13 @@ struct TermsAgreementView: View {
 
             Spacer()
 
-            VStack(alignment: .leading, spacing: 16) {
+            VStack(alignment: .leading, spacing: 28) {
                 TermsAgreementAllAgreeRowView(
                     isChecked: viewModel.terms.allSatisfy(\.isAgreed),
                     onTap: viewModel.toggleAllTerms
                 )
 
-                VStack(alignment: .leading, spacing: 16) {
+                VStack(alignment: .leading, spacing: 28) {
                     ForEach(Array(viewModel.terms.enumerated()), id: \.offset) { index, term in
                         let isAgeConfirmation = term.kind == .ageConfirmation
                         TermsAgreementItemRowView(
