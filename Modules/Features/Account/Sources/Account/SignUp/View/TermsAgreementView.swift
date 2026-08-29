@@ -17,6 +17,8 @@ struct TermsAgreementView: View {
             TermsAgreementIntroView()
                 .padding(.top, 40)
 
+            Spacer()
+
             VStack(alignment: .leading, spacing: 16) {
                 TermsAgreementAllAgreeRowView(
                     isChecked: viewModel.terms.allSatisfy(\.isAgreed),
@@ -36,7 +38,6 @@ struct TermsAgreementView: View {
                     }
                 }
             }
-            .padding(.top, 40)
 
             Button(action: viewModel.submitTapped) {
                 Text("약관 동의하기")
@@ -48,9 +49,8 @@ struct TermsAgreementView: View {
                     .cornerRadius(8)
             }
             .disabled(!viewModel.isSubmitEnabled)
-            .padding(.top, 32)
-
-            Spacer()
+            .padding(.top, 42)
+            .padding(.bottom, 32)
         }
         .padding(.horizontal, 32)
         .padding(.top, 24)
