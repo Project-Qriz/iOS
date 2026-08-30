@@ -37,6 +37,11 @@ final class IDInputViewController: UIViewController {
         self.view = rootView
     }
 
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        navigationController?.setNavigationBarHidden(false, animated: animated)
+    }
+
     override func viewDidLoad() {
         super.viewDidLoad()
         setNavigationBarTitle(title: "회원가입", textColor: .coolNeutral800)
