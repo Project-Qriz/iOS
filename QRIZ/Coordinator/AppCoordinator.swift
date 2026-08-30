@@ -119,6 +119,8 @@ final class AppCoordinatorImpl: AppCoordinator {
 
     private enum ConsentsDestination { case tabBar, onboarding }
     private var pendingConsentsDestination: ConsentsDestination = .tabBar
+    /// 팝업이 떠 있는 동안 살아있어야 하므로 강한 참조로 보관한다.
+    private var existingUserTermsUpdatePresenter: ExistingUserTermsUpdatePresenter?
 
     // MARK: - Initialize
 
@@ -244,11 +246,25 @@ extension AppCoordinatorImpl: SplashCoordinatorDelegate {
     func didFinishSplash(_ coordinator: SplashCoordinator, isLoggedIn: Bool, reAgreementRequired: Bool, ageVerificationRequired: Bool) {
         childCoordinators.removeAll { $0 === coordinator }
         guard isLoggedIn else { showLogin(); return }
+        let tabBarVC = showTabBar()
         if reAgreementRequired || ageVerificationRequired {
-            showConsents(reAgreementRequired: reAgreementRequired, ageVerificationRequired: ageVerificationRequired, next: .tabBar)
-        } else {
-            showTabBar()
+            presentExistingUserTermsUpdate(over: tabBarVC)
         }
+    }
+
+    /// 앱 재실행(스플래시→홈) 시에는 전체화면 대신 홈 화면 위 팝업으로 약관 업데이트를 확인시킨다.
+    private func presentExistingUserTermsUpdate(over presentingVC: UIViewController) {
+        let presenter = ExistingUserTermsUpdatePresenter(
+            termsService: dependency.termsService,
+            consentsService: dependency.consentsService,
+            accessTokenProvider: { [weak self] in self?.dependency.keychain.retrieveToken(forKey: TokenKey.accessToken.rawValue) }
+        )
+        existingUserTermsUpdatePresenter = presenter
+        let vc = presenter.makeViewController { [weak self, weak vc = presentingVC] in
+            vc?.dismiss(animated: true)
+            self?.existingUserTermsUpdatePresenter = nil
+        }
+        presentingVC.present(vc, animated: true)
     }
 }
 
