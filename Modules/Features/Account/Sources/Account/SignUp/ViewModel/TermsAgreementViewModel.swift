@@ -54,8 +54,12 @@ final class TermsAgreementViewModel: ObservableObject {
         onDismiss()
     }
 
+    var allAgreed: Bool {
+        !terms.isEmpty && terms.allSatisfy(\.isAgreed)
+    }
+
     func toggleAllTerms() {
-        let newState = !terms.allSatisfy(\.isAgreed)
+        let newState = !allAgreed
         for index in terms.indices { terms[index].isAgreed = newState }
         updateSubmitState()
     }
@@ -95,6 +99,7 @@ final class TermsAgreementViewModel: ObservableObject {
             }
 
             terms = [ageConfirmation] + serverTerms
+            updateSubmitState()
         } catch {
             errorAlert = ErrorAlert(title: "약관을 불러오지 못했습니다.", description: "잠시 후 다시 시도해 주세요.")
             logger.error("fetchTerms 실패: \(String(describing: error), privacy: .public)")
@@ -102,7 +107,7 @@ final class TermsAgreementViewModel: ObservableObject {
     }
 
     private func updateSubmitState() {
-        isSubmitEnabled = terms.allSatisfy(\.isAgreed)
+        isSubmitEnabled = allAgreed
     }
 
     /// 약관/연령확인 상태를 SignUpFlowViewModel에 저장한다.

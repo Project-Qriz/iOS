@@ -29,6 +29,17 @@ struct ExistingUserTermsUpdateViewModelTests {
         #expect(sut.privacyTerm?.kind == .term(id: 2))
     }
 
+    @Test("약관이 아직 로딩 중일 때 두 체크박스를 켜도 제출 버튼이 활성화되지 않는다")
+    func togglingBeforeLoadDoesNotEnableSubmit() async throws {
+        let sut = makeSUT()
+        sut.onAppear()
+        // loadTerms()의 await가 재개되기 전(allTerms가 아직 빈 배열인 시점)에 토글한다.
+        sut.toggleAge()
+        sut.togglePrivacy()
+
+        #expect(sut.isSubmitEnabled == false)
+    }
+
     @Test("연령확인/개인정보 둘 다 체크해야 제출 버튼이 활성화된다")
     func bothChecksRequiredToEnableSubmit() async throws {
         let sut = makeSUT()

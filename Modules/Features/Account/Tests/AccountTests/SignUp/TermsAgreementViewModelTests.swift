@@ -61,6 +61,17 @@ struct TermsAgreementViewModelTests {
 
     // MARK: - 전체 동의 토글
 
+    @Test("약관 목록이 아직 로딩 중(빈 배열)일 때 전체동의를 눌러도 제출 버튼이 활성화되지 않는다")
+    func toggleAllTermsBeforeLoadDoesNotEnableSubmit() async throws {
+        let (sut, _) = makeSUT()
+        sut.onAppear()
+        // loadTerms()의 await가 재개되기 전(terms가 아직 빈 배열인 시점)에 토글한다.
+        sut.toggleAllTerms()
+
+        #expect(sut.terms.isEmpty)
+        #expect(sut.isSubmitEnabled == false)
+    }
+
     @Test("toggleAllTerms → 3개 항목 모두 isAgreed true, 제출 버튼 활성화")
     func toggleAllTermsAgreesAll() async throws {
         let (sut, _) = makeSUT()

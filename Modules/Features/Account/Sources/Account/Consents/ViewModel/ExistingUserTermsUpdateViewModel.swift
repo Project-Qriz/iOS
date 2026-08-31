@@ -87,6 +87,7 @@ final class ExistingUserTermsUpdateViewModel: ObservableObject {
                     isAgreed: false
                 )
             }
+            updateSubmitState()
         } catch {
             errorAlert = ErrorAlert(title: "약관을 불러오지 못했습니다.", description: "잠시 후 다시 시도해 주세요.")
             logger.error("fetchTerms 실패: \(String(describing: error), privacy: .public)")
@@ -94,7 +95,7 @@ final class ExistingUserTermsUpdateViewModel: ObservableObject {
     }
 
     private func updateSubmitState() {
-        isSubmitEnabled = ageConfirmed && privacyAgreed
+        isSubmitEnabled = !allTerms.isEmpty && ageConfirmed && privacyAgreed
     }
 
     /// 화면에 노출하지 않는 약관(서비스 이용약관 등)은 자동 동의로 포함하고,

@@ -22,7 +22,7 @@ struct TermsAgreementView: View {
 
             VStack(alignment: .leading, spacing: 28) {
                 TermsAgreementAllAgreeRowView(
-                    isChecked: viewModel.terms.allSatisfy(\.isAgreed),
+                    isChecked: viewModel.allAgreed,
                     onTap: viewModel.toggleAllTerms
                 )
 
