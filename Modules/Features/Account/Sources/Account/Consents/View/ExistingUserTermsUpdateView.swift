@@ -1,13 +1,14 @@
 import SwiftUI
 import DesignSystem
+import QRIZUtils
 
-/// 홈 화면 위에 dim 배경과 함께 뜨는 약관 업데이트 확인 팝업.
+/// 홈 화면 위에 dim 배경과 함께 하단에 붙는 바텀시트 스타일 약관 업데이트 확인 팝업.
 struct ExistingUserTermsUpdateView: View {
     @ObservedObject var viewModel: ExistingUserTermsUpdateViewModel
     let onShowTermsDetail: (TermItem) -> Void
 
     var body: some View {
-        ZStack {
+        ZStack(alignment: .bottom) {
             Color.black.opacity(0.5)
                 .ignoresSafeArea()
 
@@ -64,10 +65,15 @@ struct ExistingUserTermsUpdateView: View {
                 }
                 .disabled(!viewModel.isSubmitEnabled)
             }
-            .padding(24)
-            .background(Color.white)
-            .cornerRadius(16)
-            .padding(.horizontal, 32)
+            .padding(.horizontal, 24)
+            .padding(.top, 32)
+            .padding(.bottom, 24)
+            .frame(maxWidth: .infinity)
+            .background(
+                Color.white
+                    .cornerRadius(24, corners: [.topLeft, .topRight])
+                    .ignoresSafeArea(edges: .bottom)
+            )
         }
         .onAppear { viewModel.onAppear() }
         .alert(

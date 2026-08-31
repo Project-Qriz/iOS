@@ -38,7 +38,7 @@ public final class ExistingUserTermsUpdatePresenter {
         )
         let hostingController = UIHostingController(rootView: view)
         hostingController.modalPresentationStyle = .overFullScreen
-        hostingController.modalTransitionStyle = .crossDissolve
+        hostingController.modalTransitionStyle = .coverVertical
         hostingController.view.backgroundColor = .clear
         self.presentedViewController = hostingController
         return hostingController
