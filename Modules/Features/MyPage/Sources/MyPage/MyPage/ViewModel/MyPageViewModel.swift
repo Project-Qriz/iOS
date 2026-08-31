@@ -91,7 +91,8 @@ final class MyPageViewModel {
             guard let matched = response.data.first(where: { $0.type == type }) else { return }
             let termItem = TermItem(
                 kind: .term(id: matched.id),
-                title: TermItem.displayTitle(for: matched.type),
+                // type은 이 함수의 호출부(.service/.privacy 리터럴)에서만 전달되므로 displayTitle은 항상 값이 있다.
+                title: TermItem.displayTitle(for: type)!,
                 documentUrl: matched.documentUrl,
                 pdfName: TermItem.bundledPDFName(for: matched.type),
                 isAgreed: false

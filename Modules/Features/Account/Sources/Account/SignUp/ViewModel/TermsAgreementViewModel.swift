@@ -88,12 +88,14 @@ final class TermsAgreementViewModel: ObservableObject {
                 pdfName: TermItem.bundledPDFName(for: .privacy),
                 isAgreed: false
             )
-            let serverTerms = response.data.map {
-                TermItem(
-                    kind: .term(id: $0.id),
-                    title: TermItem.displayTitle(for: $0.type),
-                    documentUrl: $0.documentUrl,
-                    pdfName: TermItem.bundledPDFName(for: $0.type),
+            // 클라이언트가 아직 모르는 약관 타입은 표시할 라벨이 없으므로 목록에서 제외한다.
+            let serverTerms = response.data.compactMap { item -> TermItem? in
+                guard let title = TermItem.displayTitle(for: item.type) else { return nil }
+                return TermItem(
+                    kind: .term(id: item.id),
+                    title: title,
+                    documentUrl: item.documentUrl,
+                    pdfName: TermItem.bundledPDFName(for: item.type),
                     isAgreed: false
                 )
             }

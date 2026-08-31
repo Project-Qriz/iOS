@@ -25,8 +25,8 @@ struct TermsRequestDecodingTests {
         #expect(response.data[1].documentUrl == "https://example.com/privacy")
     }
 
-    @Test("알 수 없는 type 문자열이 오면 디코딩에 실패한다")
-    func unknownTypeFailsDecoding() {
+    @Test("알 수 없는 type 문자열이 와도 디코딩은 성공하고 .unknown으로 흡수된다")
+    func unknownTypeDecodesAsUnknown() throws {
         let json = #"""
         {
           "code": 1, "msg": "ok",
@@ -36,8 +36,30 @@ struct TermsRequestDecodingTests {
         }
         """#.data(using: .utf8)!
 
-        #expect(throws: (any Error).self) {
-            try JSONDecoder().decode(TermsResponse.self, from: json)
+        let response = try JSONDecoder().decode(TermsResponse.self, from: json)
+
+        #expect(response.data.count == 1)
+        #expect(response.data[0].type == .unknown("MARKETING"))
+    }
+
+    @Test("알 수 없는 type이 섞여 있어도 나머지 알려진 항목은 그대로 디코딩된다")
+    func unknownTypeMixedWithKnownTypesStillDecodesAll() throws {
+        let json = #"""
+        {
+          "code": 1, "msg": "ok",
+          "data": [
+            {"id": 1, "type": "SERVICE", "documentUrl": null},
+            {"id": 3, "type": "MARKETING", "documentUrl": null},
+            {"id": 2, "type": "PRIVACY", "documentUrl": null}
+          ]
         }
+        """#.data(using: .utf8)!
+
+        let response = try JSONDecoder().decode(TermsResponse.self, from: json)
+
+        #expect(response.data.count == 3)
+        #expect(response.data[0].type == .service)
+        #expect(response.data[1].type == .unknown("MARKETING"))
+        #expect(response.data[2].type == .privacy)
     }
 }

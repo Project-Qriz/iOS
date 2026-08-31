@@ -40,19 +40,22 @@ public extension TermItem {
     /// 서버(`GET /api/terms`)가 특정 약관에 `documentUrl`을 내려주지 않는 경우
     /// `TermsDetailViewModel.loadPDF()`가 이 이름으로 `Bundle.main`에서 PDF를 찾는다.
     /// 실제 번들 리소스: `QRIZ/Resources/PDF/TermsAgreement/{TermsOfService,PrivacyPolicy}.pdf`
-    static func bundledPDFName(for type: TermType) -> String {
+    static func bundledPDFName(for type: TermType) -> String? {
         switch type {
         case .service: return "TermsOfService"
         case .privacy: return "PrivacyPolicy"
+        case .unknown: return nil
         }
     }
 
     /// 서버(`GET /api/terms`)는 약관 제목을 내려주지 않으므로(`type`만 제공),
     /// 화면에 표시할 한글 라벨은 클라이언트에서 `type` 기준으로 결정한다.
-    static func displayTitle(for type: TermType) -> String {
+    /// 클라이언트가 아직 모르는 타입(`.unknown`)은 라벨이 없으므로 `nil`을 반환한다.
+    static func displayTitle(for type: TermType) -> String? {
         switch type {
         case .service: return "서비스 이용약관"
         case .privacy: return "개인정보 처리방침"
+        case .unknown: return nil
         }
     }
 }

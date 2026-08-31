@@ -81,7 +81,8 @@ final class ExistingUserTermsUpdateViewModel: ObservableObject {
             if let privacy = response.data.first(where: { $0.type == .privacy }) {
                 privacyTerm = TermItem(
                     kind: .term(id: privacy.id),
-                    title: TermItem.displayTitle(for: .privacy),
+                    // 리터럴 .privacy에 대한 displayTitle은 항상 값이 있다.
+                    title: TermItem.displayTitle(for: .privacy)!,
                     documentUrl: privacy.documentUrl,
                     pdfName: TermItem.bundledPDFName(for: .privacy),
                     isAgreed: false

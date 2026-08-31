@@ -47,6 +47,26 @@ struct TermsAgreementViewModelTests {
         #expect(sut.terms.first?.kind == .ageConfirmation)
     }
 
+    @Test("onAppear → 클라이언트가 모르는 약관 타입은 목록에서 제외되고 나머지는 정상 로드된다")
+    func onAppearSkipsUnknownTermType() async throws {
+        let termsService = MockTermsService()
+        termsService.fetchTermsResult = .success(
+            TermsResponse(code: 1, msg: "ok", data: [
+                TermsListItem(id: 1, type: .service, documentUrl: nil),
+                TermsListItem(id: 3, type: .unknown("MARKETING"), documentUrl: nil),
+                TermsListItem(id: 2, type: .privacy, documentUrl: "https://example.com/privacy")
+            ])
+        )
+        let (sut, _) = makeSUT(termsService: termsService)
+
+        sut.onAppear()
+        try await Task.sleep(nanoseconds: 100_000_000)
+
+        // 연령확인 1개 + service/privacy 2개 = 3개 (unknown 타입인 marketing은 제외)
+        #expect(sut.terms.count == 3)
+        #expect(sut.terms.contains { $0.id == 3 } == false)
+    }
+
     @Test("onAppear → 약관 목록 fetch 실패 시 errorAlert 표시")
     func fetchFailureShowsErrorAlert() async throws {
         let termsService = MockTermsService()
