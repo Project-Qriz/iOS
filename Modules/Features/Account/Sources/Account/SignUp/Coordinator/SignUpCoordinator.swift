@@ -149,7 +149,9 @@ public final class SignUpCoordinatorImpl: SignUpCoordinator, NavigationGuard {
     public func dismissView() {
         // 약관동의 화면이 회원가입 플로우의 첫 화면(루트)이라, "X" 취소는 전체 회원가입을 취소하고
         // 회원가입 시작 전 화면(로그인)으로 돌아가는 것을 의미한다.
-        navigationController.popToRootViewController(animated: true)
+        // 성공 경로(presentSignUpAlert → didFinishSignUp)와 동일하게 delegate를 통해 정리해야
+        // LoginCoordinatorImpl.childCoordinators에서도 이 코디네이터가 제거된다.
+        delegate?.didFinishSignUp(self)
     }
 }
 
