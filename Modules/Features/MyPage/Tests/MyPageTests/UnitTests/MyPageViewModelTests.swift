@@ -254,6 +254,37 @@ struct MyPageViewModelTests {
         #expect(title == "약관을 불러오지 못했습니다.")
     }
 
+    @Test("didTapTermsOfService → 응답에 SERVICE 타입이 없음 → showErrorAlert emit (조용히 무반응하지 않는다)")
+    func didTapTermsOfService_typeMissingFromResponse_emitsShowErrorAlert() async throws {
+        let termsService = MockTermsService()
+        termsService.fetchTermsResult = .success(
+            TermsResponse(code: 1, msg: "ok", data: [
+                TermsListItem(id: 2, type: .privacy, documentUrl: "https://example.com/privacy")
+            ])
+        )
+        let sut = makeSUT(termsService: termsService)
+        let inputSubject = PassthroughSubject<MyPageViewModel.Input, Never>()
+        var received: [MyPageViewModel.Output] = []
+        var cancellables = Set<AnyCancellable>()
+
+        sut.transform(input: inputSubject.eraseToAnyPublisher())
+            .sink { received.append($0) }
+            .store(in: &cancellables)
+
+        inputSubject.send(.didTapTermsOfService)
+        try await Task.sleep(nanoseconds: asyncSleepNanoseconds)
+
+        guard received.count == 1, let first = received.first else {
+            Issue.record("Expected 1 output, got \(received.count): \(received)")
+            return
+        }
+        guard case .showErrorAlert(let title, _) = first else {
+            Issue.record("Expected .showErrorAlert, got \(first)")
+            return
+        }
+        #expect(title == "약관을 불러오지 못했습니다.")
+    }
+
     // MARK: - didConfirmResetPlan
 
     @Test("didConfirmResetPlan → resetPlan 성공 → resetSucceeded emit")

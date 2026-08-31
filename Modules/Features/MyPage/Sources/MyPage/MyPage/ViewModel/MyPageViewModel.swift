@@ -88,7 +88,11 @@ final class MyPageViewModel {
     private func showTermsDetail(type: TermType) async {
         do {
             let response = try await termsService.fetchTerms()
-            guard let matched = response.data.first(where: { $0.type == type }) else { return }
+            guard let matched = response.data.first(where: { $0.type == type }) else {
+                outputSubject.send(.showErrorAlert(title: "약관을 불러오지 못했습니다."))
+                logger.error("MyPage: /api/terms 응답에 \(String(describing: type), privacy: .public) 타입이 없음")
+                return
+            }
             let termItem = TermItem(
                 kind: .term(id: matched.id),
                 // type은 이 함수의 호출부(.service/.privacy 리터럴)에서만 전달되므로 displayTitle은 항상 값이 있다.
