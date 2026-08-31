@@ -157,25 +157,29 @@ final class AppCoordinatorImpl: AppCoordinator {
         return loginVC
     }
     
+    /// - Parameter completion: 루트 전환 애니메이션이 완전히 끝난 뒤 호출된다(전환된 뷰컨트롤러 전달).
+    ///   전환 도중 그 위에 모달을 띄우면 애니메이션이 겹치므로, 후속 모달 프레젠테이션은 항상 이 completion 안에서 해야 한다.
     @discardableResult
-    private func showTabBar() -> UIViewController {
+    private func showTabBar(completion: @escaping (UIViewController) -> Void = { _ in }) -> UIViewController {
         let tabBarCoordinator = dependency.tabBarCoordinator
         tabBarCoordinator.delegate = self
         childCoordinators.append(tabBarCoordinator)
-        
+
         let tabBarVC = tabBarCoordinator.start()
-        replaceRootViewController(with: tabBarVC, animated: true)
+        replaceRootViewController(with: tabBarVC, animated: true) { completion(tabBarVC) }
         return tabBarVC
     }
-    
+
+    /// - Parameter completion: 루트 전환 애니메이션이 완전히 끝난 뒤 호출된다(전환된 뷰컨트롤러 전달).
+    ///   전환 도중 그 위에 모달을 띄우면 애니메이션이 겹치므로, 후속 모달 프레젠테이션은 항상 이 completion 안에서 해야 한다.
     @discardableResult
-    private func showOnboarding() -> UIViewController {
+    private func showOnboarding(completion: @escaping (UIViewController) -> Void = { _ in }) -> UIViewController {
         let onboardingCoordinator = dependency.onboardingCoordinator
         onboardingCoordinator.delegate = self
         childCoordinators.append(onboardingCoordinator)
 
         let onboardingVC = onboardingCoordinator.start()
-        replaceRootViewController(with: onboardingVC, animated: true)
+        replaceRootViewController(with: onboardingVC, animated: true) { completion(onboardingVC) }
         return onboardingVC
     }
 
@@ -212,7 +216,8 @@ final class AppCoordinatorImpl: AppCoordinator {
     
     private func replaceRootViewController(
         with vc: UIViewController,
-        animated: Bool = true
+        animated: Bool = true,
+        completion: @escaping () -> Void = {}
     ) {
         let win = self.window
         if animated {
@@ -223,11 +228,12 @@ final class AppCoordinatorImpl: AppCoordinator {
                 animations: {
                     win.rootViewController = vc
                 },
-                completion: nil
+                completion: { _ in completion() }
             )
         } else {
             win.rootViewController = vc
             win.makeKeyAndVisible()
+            completion()
         }
     }
 }
@@ -238,9 +244,9 @@ extension AppCoordinatorImpl: SplashCoordinatorDelegate {
     func didFinishSplash(_ coordinator: SplashCoordinator, isLoggedIn: Bool, reAgreementRequired: Bool, ageVerificationRequired: Bool) {
         childCoordinators.removeAll { $0 === coordinator }
         guard isLoggedIn else { showLogin(); return }
-        let tabBarVC = showTabBar()
-        if reAgreementRequired || ageVerificationRequired {
-            presentExistingUserTermsUpdate(over: tabBarVC)
+        showTabBar { [weak self] tabBarVC in
+            guard reAgreementRequired || ageVerificationRequired else { return }
+            self?.presentExistingUserTermsUpdate(over: tabBarVC)
         }
     }
 }
@@ -250,9 +256,14 @@ extension AppCoordinatorImpl: SplashCoordinatorDelegate {
 extension AppCoordinatorImpl: LoginCoordinatorDelegate {
     func didLogin(_ coordinator: LoginCoordinator, reAgreementRequired: Bool, ageVerificationRequired: Bool) {
         childCoordinators.removeAll { $0 === coordinator }
-        let destinationVC: UIViewController = UserInfoManager.shared.previewTestStatus == .notStarted ? showOnboarding() : showTabBar()
-        if reAgreementRequired || ageVerificationRequired {
-            presentExistingUserTermsUpdate(over: destinationVC)
+        let presentPopupIfNeeded: (UIViewController) -> Void = { [weak self] destinationVC in
+            guard reAgreementRequired || ageVerificationRequired else { return }
+            self?.presentExistingUserTermsUpdate(over: destinationVC)
+        }
+        if UserInfoManager.shared.previewTestStatus == .notStarted {
+            showOnboarding(completion: presentPopupIfNeeded)
+        } else {
+            showTabBar(completion: presentPopupIfNeeded)
         }
     }
 }
