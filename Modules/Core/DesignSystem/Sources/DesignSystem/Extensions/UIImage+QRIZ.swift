@@ -16,6 +16,7 @@ public extension UIImage {
     static let eyeSlashIcon = image(named: "eyeSlash")
     static let homeReset = image(named: "homeReset")
     static let loginLogo = image(named: "loginLogo")
+    static let appIconLogo = image(named: "appIconLogo")
 
     // MARK: - SocialLogin
 

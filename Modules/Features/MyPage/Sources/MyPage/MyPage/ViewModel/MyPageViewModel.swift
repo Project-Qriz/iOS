@@ -12,6 +12,7 @@ final class MyPageViewModel {
 
     private let userName: String
     private let myPageService: any MyPageService
+    private let termsService: any TermsService
     private let outputSubject = PassthroughSubject<Output, Never>()
     private var cancellables = Set<AnyCancellable>()
     private let logger = Logger.make(category: "MyPageViewModel")
@@ -23,10 +24,12 @@ final class MyPageViewModel {
     init(
         userName: String,
         myPageService: any MyPageService,
+        termsService: any TermsService,
         analyticsService: any AnalyticsService = AnalyticsManager.shared
     ) {
         self.userName = userName
         self.myPageService = myPageService
+        self.termsService = termsService
         self.analyticsService = analyticsService
     }
 
@@ -54,10 +57,10 @@ final class MyPageViewModel {
                     self.outputSubject.send(.showExamSchedule)
 
                 case .didTapTermsOfService:
-                    outputSubject.send(.showTermsDetail(termItem: .termsOfService))
+                    Task { await self.showTermsDetail(type: .service) }
 
                 case .didTapPrivacyPolicy:
-                    outputSubject.send(.showTermsDetail(termItem: .privacyPolicy))
+                    Task { await self.showTermsDetail(type: .privacy) }
                 }
             }
             .store(in: &cancellables)
@@ -79,6 +82,29 @@ final class MyPageViewModel {
                 outputSubject.send(.setupView(userName: userName, version: "0.0.0"))
                 logger.error("Unhandled error(fetchVersion): \(error.localizedDescription, privacy: .public)")
             }
+        }
+    }
+
+    private func showTermsDetail(type: TermType) async {
+        do {
+            let response = try await termsService.fetchTerms()
+            guard let matched = response.data.first(where: { $0.type == type }) else {
+                outputSubject.send(.showErrorAlert(title: "약관을 불러오지 못했습니다."))
+                logger.error("MyPage: /api/terms 응답에 \(String(describing: type), privacy: .public) 타입이 없음")
+                return
+            }
+            let termItem = TermItem(
+                kind: .term(id: matched.id),
+                // type은 이 함수의 호출부(.service/.privacy 리터럴)에서만 전달되므로 displayTitle은 항상 값이 있다.
+                title: TermItem.displayTitle(for: type)!,
+                documentUrl: matched.documentUrl,
+                pdfName: TermItem.bundledPDFName(for: matched.type),
+                isAgreed: false
+            )
+            outputSubject.send(.showTermsDetail(termItem: termItem))
+        } catch {
+            outputSubject.send(.showErrorAlert(title: "약관을 불러오지 못했습니다."))
+            logger.error("MyPage fetchTerms 실패: \(String(describing: error), privacy: .public)")
         }
     }
 
@@ -120,19 +146,4 @@ extension MyPageViewModel {
         case showExamSchedule
         case showTermsDetail(termItem: TermItem)
     }
-}
-
-// MARK: - TermItem Constants
-
-private extension TermItem {
-    static let termsOfService = TermItem(
-        title: "서비스 이용약관",
-        pdfName: "TermsOfService",
-        isAgreed: false
-    )
-    static let privacyPolicy = TermItem(
-        title: "개인정보 처리방침",
-        pdfName: "PrivacyPolicy",
-        isAgreed: false
-    )
 }

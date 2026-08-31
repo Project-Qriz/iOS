@@ -122,7 +122,7 @@ final class EmailVerificationCore {
     func handleSendVerificationError(_ error: Error) {
         if let networkError = error as? NetworkError {
             switch networkError {
-            case .clientError(_, let serverCode, let message):
+            case .clientError(_, let serverCode, let message, _, _):
                 if serverCode == -1 {
                     outputSubject.send(.emailVerificationDuplicate(message))
                 } else {
@@ -142,7 +142,7 @@ final class EmailVerificationCore {
     func handleVerifyCodeError(_ error: Error) {
         if let networkError = error as? NetworkError {
             switch networkError {
-            case .clientError(let statusCode, _, _) where statusCode == 400:
+            case .clientError(let statusCode, _, _, _, _) where statusCode == 400:
                 outputSubject.send(.codeVerificationFailure)
             default:
                 outputSubject.send(.showErrorAlert(title: networkError.errorMessage))

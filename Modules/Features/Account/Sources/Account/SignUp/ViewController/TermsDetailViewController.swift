@@ -57,6 +57,9 @@ public final class TermsDetailViewController: UIViewController {
                 case .configureTitle(let title):
                     rootView.updateTitle(title)
 
+                case .showWebDocument(let url):
+                    rootView.loadWebDocument(url: url)
+
                 case .pdfLoaded(let data):
                     guard let document = PDFDocument(data: data) else {
                         showOneButtonAlert(with: "문서를 불러올 수 없습니다.", storingIn: &cancellables)

@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import SwiftUI
 import DesignSystem
 import Combine
 import QRIZUtils
@@ -14,10 +15,10 @@ import QRIZNetwork
 @MainActor
 public protocol SignUpCoordinator: Coordinator {
     var delegate: SignUpCoordinatorDelegate? { get set }
+    func showEmailVerification()
     func showNameInput()
     func showIDInput()
     func showPasswordInput()
-    func showTermsAgreementModal()
     func showTermsDetail(for term: TermItem)
     func showSignUpCompleteAlert()
     func dismissView()
@@ -35,28 +36,47 @@ public final class SignUpCoordinatorImpl: SignUpCoordinator, NavigationGuard {
     private let navigationController: UINavigationController
     private let signUpFlowVM: SignUpFlowViewModel
     private let signUpService: SignUpService
+    private let termsService: TermsService
     private var cancellables = Set<AnyCancellable>()
 
     // NavigationGuard
     public var isNavigating: Bool = false
 
-    public init(navigationController: UINavigationController, signUpService: SignUpService) {
+    public init(navigationController: UINavigationController, signUpService: SignUpService, termsService: TermsService) {
         self.navigationController = navigationController
         self.signUpFlowVM = SignUpFlowViewModel(signUpService: signUpService)
         self.signUpService = signUpService
+        self.termsService = termsService
     }
     
     public func start() -> UIViewController {
-        let verificationVM = SignUpVerificationViewModel(
+        let viewModel = TermsAgreementViewModel(
             signUpFlowViewModel: signUpFlowVM,
-            signUpService: signUpService
+            termsService: termsService,
+            onDismiss: { [weak self] in self?.dismissView() },
+            onTermsAgreed: { [weak self] in self?.showEmailVerification() }
         )
-        let verificationVC = SignUpVerificationViewController(signUpVerificationVM: verificationVM)
-        verificationVC.coordinator = self
-        navigationController.pushViewController(verificationVC, animated: true)
+        let view = TermsAgreementView(
+            viewModel: viewModel,
+            onShowTermsDetail: { [weak self] term in self?.showTermsDetail(for: term) }
+        )
+        let rootVC = TermsAgreementHostingController(rootView: view)
+        navigationController.pushViewController(rootVC, animated: true)
         return navigationController
     }
-    
+
+    public func showEmailVerification() {
+        guardNavigation {
+            let verificationVM = SignUpVerificationViewModel(
+                signUpFlowViewModel: signUpFlowVM,
+                signUpService: signUpService
+            )
+            let verificationVC = SignUpVerificationViewController(signUpVerificationVM: verificationVM)
+            verificationVC.coordinator = self
+            navigationController.pushViewController(verificationVC, animated: true)
+        }
+    }
+
     public func showNameInput() {
         guardNavigation {
             let nameInputVM = NameInputViewModel(signUpFlowViewModel: signUpFlowVM)
@@ -87,50 +107,13 @@ public final class SignUpCoordinatorImpl: SignUpCoordinator, NavigationGuard {
         }
     }
 
-    public func showTermsAgreementModal() {
-        guardNavigation {
-            let viewModel = TermsAgreementModalViewModel(signUpFlowViewModel: signUpFlowVM)
-            let rootVC = TermsAgreementModalViewController(viewModel: viewModel)
-            rootVC.coordinator = self
-
-            let sheetNavi = UINavigationController(rootViewController: rootVC)
-            sheetNavi.setNavigationBarHidden(true, animated: false)
-            sheetNavi.modalPresentationStyle = .pageSheet
-
-            if let sheet = sheetNavi.sheetPresentationController {
-                if UIScreen.main.isSESize {
-                    sheet.detents = [.medium()]
-                    sheet.selectedDetentIdentifier = .medium
-                } else if #available(iOS 16.0, *) {
-                    let halfIdentifier = UISheetPresentationController.Detent.Identifier("half")
-                    let halfDetent = UISheetPresentationController.Detent
-                        .custom(identifier: halfIdentifier) { ctx in
-                            ctx.maximumDetentValue * 0.4
-                        }
-                    sheet.detents = [halfDetent]
-                    sheet.selectedDetentIdentifier = halfIdentifier
-                } else {
-                    sheet.detents = [.medium()]
-                    sheet.selectedDetentIdentifier = .medium
-                }
-
-                sheet.preferredCornerRadius = 24
-            }
-
-            navigationController.present(sheetNavi, animated: true)
-        }
-    }
-
     public func showTermsDetail(for term: TermItem) {
         guardNavigation {
-            guard let sheetNav = navigationController.presentedViewController
-                    as? UINavigationController else { return }
-
             let viewModel = TermsDetailViewModel(termItem: term)
             let vc = TermsDetailViewController(viewModel: viewModel)
             vc.dismissDelegate = self
             vc.modalPresentationStyle = .fullScreen
-            sheetNav.present(vc, animated: true)
+            navigationController.present(vc, animated: true)
         }
     }
     
@@ -164,7 +147,11 @@ public final class SignUpCoordinatorImpl: SignUpCoordinator, NavigationGuard {
     }
     
     public func dismissView() {
-        navigationController.dismiss(animated: true)
+        // 약관동의 화면이 회원가입 플로우의 첫 화면(루트)이라, "X" 취소는 전체 회원가입을 취소하고
+        // 회원가입 시작 전 화면(로그인)으로 돌아가는 것을 의미한다.
+        // 성공 경로(presentSignUpAlert → didFinishSignUp)와 동일하게 delegate를 통해 정리해야
+        // LoginCoordinatorImpl.childCoordinators에서도 이 코디네이터가 제거된다.
+        delegate?.didFinishSignUp(self)
     }
 }
 
@@ -173,5 +160,14 @@ public final class SignUpCoordinatorImpl: SignUpCoordinator, NavigationGuard {
 extension SignUpCoordinatorImpl: TermsDetailDismissible {
     public func dismissTermsDetail() {
         navigationController.dismiss(animated: true)
+    }
+}
+
+/// 약관동의 화면은 회원가입 push 스택의 첫 화면으로, 자체 헤더에 X 버튼을 두고 시스템 내비게이션 바는 숨긴다.
+/// 이후 화면(이메일 인증 등)은 기본 내비게이션 바를 그대로 사용하므로, 숨김 처리는 이 화면이 보이는 동안만 적용한다.
+private final class TermsAgreementHostingController: UIHostingController<TermsAgreementView> {
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        navigationController?.setNavigationBarHidden(true, animated: animated)
     }
 }

@@ -42,7 +42,7 @@ final class SignUpVerificationMainView: UIView {
         self.backgroundColor = .white
         signUpHeaderView.configure(
             title: "본인확인을 위해\n이메일을 인증해 주세요.",
-            progress: 0.25
+            progress: 0.4
         )
         signUpFooterView.configure(buttonTitle: "다음")
         signUpFooterView.updateButtonState(isValid: false)

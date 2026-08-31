@@ -68,7 +68,7 @@ final class IDInputViewModel {
             } catch {
                 if let networkError = error as? NetworkError {
                     switch networkError {
-                    case .clientError(_, let serverCode, let message):
+                    case .clientError(_, let serverCode, let message, _, _):
                         if serverCode == -1 {
                             outputSubject.send(.duplicateCheckResult(message: message, isAvailable: false))
                             outputSubject.send(.updateNextButtonState(false))

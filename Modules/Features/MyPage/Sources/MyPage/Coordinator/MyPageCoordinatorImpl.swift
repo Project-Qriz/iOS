@@ -13,6 +13,7 @@ final class MyPageCoordinatorImpl: MyPageNavigating, NavigationGuard {
     private weak var navigationController: UINavigationController?
     weak var delegate: MyPageCoordinatorDelegate?
     private let myPageService: any MyPageService
+    private let termsService: any TermsService
     private let accountRecoveryService: any AccountRecoveryService
     private let socialLoginService: any SocialLoginService
     var childCoordinators: [Coordinator] = []
@@ -25,11 +26,13 @@ final class MyPageCoordinatorImpl: MyPageNavigating, NavigationGuard {
     init(
         userInfo: MyPageUserInfo,
         myPageService: any MyPageService,
+        termsService: any TermsService,
         accountRecoveryService: any AccountRecoveryService,
         socialLoginService: any SocialLoginService
     ) {
         self.userInfo = userInfo
         self.myPageService = myPageService
+        self.termsService = termsService
         self.accountRecoveryService = accountRecoveryService
         self.socialLoginService = socialLoginService
     }
@@ -39,7 +42,8 @@ final class MyPageCoordinatorImpl: MyPageNavigating, NavigationGuard {
     func start() -> UIViewController {
         let viewModel = MyPageViewModel(
             userName: userInfo.name,
-            myPageService: myPageService
+            myPageService: myPageService,
+            termsService: termsService
         )
         let myPageVC = MyPageViewController(viewModel: viewModel)
         myPageVC.coordinator = self

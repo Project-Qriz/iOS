@@ -23,7 +23,9 @@ public protocol SignUpService: Sendable {
         username: String,
         password: String,
         nickname: String,
-        email: String
+        email: String,
+        over14Confirmed: Bool,
+        agreedTermIds: [Int]
     ) async throws -> JoinResponse
 }
 
@@ -60,13 +62,17 @@ public final class SignUpServiceImpl: SignUpService, Sendable {
         username: String,
         password: String,
         nickname: String,
-        email: String
+        email: String,
+        over14Confirmed: Bool,
+        agreedTermIds: [Int]
     ) async throws -> JoinResponse {
         let request = JoinRequest(
             username: username,
             password: password,
             nickname: nickname,
-            email: email
+            email: email,
+            over14Confirmed: over14Confirmed,
+            agreedTermIds: agreedTermIds
         )
         return try await network.send(request)
     }

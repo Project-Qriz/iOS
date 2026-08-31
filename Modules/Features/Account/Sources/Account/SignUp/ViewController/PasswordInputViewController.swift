@@ -36,6 +36,11 @@ final class PasswordInputViewController: UIViewController {
         self.view = rootView
     }
 
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        navigationController?.setNavigationBarHidden(false, animated: animated)
+    }
+
     override func viewDidLoad() {
         super.viewDidLoad()
         setNavigationBarTitle(title: "회원가입", textColor: .coolNeutral800)
@@ -71,8 +76,11 @@ final class PasswordInputViewController: UIViewController {
                 case .updateButtonState(let canSignUp):
                     rootView.signUpFooterView.updateButtonState(isValid: canSignUp)
 
-                case .showTermsAgreementModal:
-                    coordinator?.showTermsAgreementModal()
+                case .signUpSucceeded:
+                    coordinator?.showSignUpCompleteAlert()
+
+                case .showErrorAlert(let title, let description):
+                    showOneButtonAlert(with: title, for: description, storingIn: &cancellables)
                 }
             }
             .store(in: &cancellables)

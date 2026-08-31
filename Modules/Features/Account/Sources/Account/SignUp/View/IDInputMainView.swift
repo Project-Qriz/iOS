@@ -29,7 +29,7 @@ final class IDInputMainView: UIView {
         super.init(frame: .zero)
         setupUI(
             title: "사용할 아이디를 입력한 후\n중복확인 버튼을 눌러주세요.",
-            progressValue: 0.5,
+            progressValue: 0.8,
             buttonTitle: "다음"
         )
         addSubviews()

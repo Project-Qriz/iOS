@@ -28,7 +28,16 @@ final class StubSignUpService: SignUpService, @unchecked Sendable {
     func sendEmail(_ email: String) async throws -> EmailSendResponse { fatalError("stub") }
     func emailAuthentication(email: String, authNumber: String) async throws -> EmailAuthenticationResponse { fatalError("stub") }
     func checkUsernameDuplication(username: String) async throws -> UsernameDuplicationResponse { fatalError("stub") }
-    func join(username: String, password: String, nickname: String, email: String) async throws -> JoinResponse { fatalError("stub") }
+    func join(username: String, password: String, nickname: String, email: String, over14Confirmed: Bool, agreedTermIds: [Int]) async throws -> JoinResponse { fatalError("stub") }
+}
+
+final class StubTermsService: TermsService, @unchecked Sendable {
+    func fetchTerms() async throws -> TermsResponse {
+        TermsResponse(code: 1, msg: "ok", data: [
+            TermsListItem(id: 1, type: .service, documentUrl: nil),
+            TermsListItem(id: 2, type: .privacy, documentUrl: nil)
+        ])
+    }
 }
 
 final class StubAccountRecoveryService: AccountRecoveryService, @unchecked Sendable {

@@ -42,7 +42,7 @@ final class NameInputMainView: UIView {
         self.backgroundColor = .white
         signUpHeaderView.configure(
             title: "이름을 입력해주세요!",
-            progress: 0.5
+            progress: 0.6
         )
         signUpFooterView.configure(buttonTitle: "다음")
         signUpFooterView.updateButtonState(isValid: false)

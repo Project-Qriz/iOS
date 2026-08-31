@@ -4,6 +4,7 @@
 //
 
 import XCTest
+import SwiftUI
 import SnapshotTesting
 @testable import Account
 
@@ -38,15 +39,28 @@ class SignUpSnapshotTests: AccountSnapshotTestCase {
         assertSnapshot(of: vc, as: .image(on: .iPhone16Pro))
     }
 
-    func testTermsAgreementInitialState() {
+    func testTermsAgreementInitialState() async throws {
         let flowVM = SignUpFlowViewModel(signUpService: StubSignUpService())
-        let vm = TermsAgreementModalViewModel(signUpFlowViewModel: flowVM)
-        let vc = TermsAgreementModalViewController(viewModel: vm)
+        let vm = TermsAgreementViewModel(
+            signUpFlowViewModel: flowVM,
+            termsService: StubTermsService(),
+            onDismiss: {},
+            onTermsAgreed: {}
+        )
+
+        // SwiftUI's `.onAppear` timing under `UIHostingController` + a snapshot library is
+        // not guaranteed, so we call `onAppear()` directly on the view model here, before
+        // constructing the view, and await the load completing (same pattern as
+        // ConsentsSnapshotTests) instead of racing SwiftUI's lifecycle.
+        vm.onAppear()
+        try await Task.sleep(nanoseconds: 100_000_000)
+
+        let vc = UIHostingController(rootView: TermsAgreementView(viewModel: vm, onShowTermsDetail: { _ in }))
         assertSnapshot(of: vc, as: .image(on: .iPhone16Pro))
     }
 
     func testTermsDetailInitialState() {
-        let termItem = TermItem(title: "이용약관", pdfName: "terms", isAgreed: false)
+        let termItem = TermItem(kind: .term(id: 1), title: "이용약관", pdfName: "terms", isAgreed: false)
         let vc = inNav(TermsDetailViewController(viewModel: TermsDetailViewModel(termItem: termItem)))
         assertSnapshot(of: vc, as: .image(on: .iPhone16Pro))
     }

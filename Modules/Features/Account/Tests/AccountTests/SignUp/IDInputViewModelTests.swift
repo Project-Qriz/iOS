@@ -73,7 +73,7 @@ struct IDInputViewModelTests {
     func duplicateCheckServerCodeMinusOneShowsDuplicateMessage() async throws {
         let service = MockSignUpService()
         service.checkUsernameResult = .failure(
-            NetworkError.clientError(httpStatus: 400, serverCode: -1, message: "동일한 username이 존재합니다.")
+            NetworkError.clientError(httpStatus: 400, serverCode: -1, message: "동일한 username이 존재합니다.", reason: nil, detailCode: nil)
         )
         let sut = makeSUT(service: service)
 

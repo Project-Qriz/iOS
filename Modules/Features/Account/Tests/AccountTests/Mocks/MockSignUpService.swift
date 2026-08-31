@@ -28,6 +28,8 @@ final class MockSignUpService: SignUpService, @unchecked Sendable {
             data: .init(id: 1, username: "test", nickname: "테스트")
         ))
     )
+    private(set) var lastJoinOver14Confirmed: Bool?
+    private(set) var lastJoinAgreedTermIds: [Int]?
 
     func sendEmail(_ email: String) async throws -> EmailSendResponse {
         try sendEmailResult.get()
@@ -41,7 +43,12 @@ final class MockSignUpService: SignUpService, @unchecked Sendable {
         try checkUsernameResult.get()
     }
 
-    func join(username: String, password: String, nickname: String, email: String) async throws -> JoinResponse {
-        try joinResult.get()
+    func join(
+        username: String, password: String, nickname: String, email: String,
+        over14Confirmed: Bool, agreedTermIds: [Int]
+    ) async throws -> JoinResponse {
+        lastJoinOver14Confirmed = over14Confirmed
+        lastJoinAgreedTermIds = agreedTermIds
+        return try joinResult.get()
     }
 }

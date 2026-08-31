@@ -46,6 +46,7 @@ final class TabBarCoordinatorDependencyImpl: TabBarCoordinatorDependency {
     private let onboardingService: OnboardingService
     private let userInfoService: UserInfoService
     private let myPageService: MyPageService
+    private let termsService: TermsService
     private let accountRecoveryService: AccountRecoveryService
     private let weeklyService: WeeklyRecommendService
     private let socialLoginService: SocialLoginService
@@ -89,10 +90,11 @@ final class TabBarCoordinatorDependencyImpl: TabBarCoordinatorDependency {
             provider: UserInfoManager.shared.provider ?? ""
         ),
         myPageService: myPageService,
+        termsService: termsService,
         accountRecoveryService: accountRecoveryService,
         socialLoginService: socialLoginService
     )
-    
+
     var myPageCoordinator: MyPageCoordinator {
         _myPageCoordinator
     }
@@ -106,6 +108,7 @@ final class TabBarCoordinatorDependencyImpl: TabBarCoordinatorDependency {
         onboardingService: OnboardingService,
         userInfoService: UserInfoService,
         myPageService: MyPageService,
+        termsService: TermsService,
         accountRecoveryService: AccountRecoveryService,
         weeklyService: WeeklyRecommendService,
         socialLoginService: SocialLoginService,
@@ -117,6 +120,7 @@ final class TabBarCoordinatorDependencyImpl: TabBarCoordinatorDependency {
         self.onboardingService = onboardingService
         self.userInfoService = userInfoService
         self.myPageService = myPageService
+        self.termsService = termsService
         self.accountRecoveryService = accountRecoveryService
         self.weeklyService = weeklyService
         self.socialLoginService = socialLoginService
