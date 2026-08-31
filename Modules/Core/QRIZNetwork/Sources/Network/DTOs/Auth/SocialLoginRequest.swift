@@ -112,9 +112,17 @@ public struct SocialLoginResponse: Decodable, Sendable {
             self.ageVerificationRequired = ageVerificationRequired
         }
 
+        /// 서버가 두 플래그를 data 최상위/data.user 중 어디에 내려줄지 미확정이라 양쪽 다 방어적으로 확인한다.
+        public var resolvedReAgreementRequired: Bool {
+            reAgreementRequired ?? user.reAgreementRequired ?? false
+        }
+
+        public var resolvedAgeVerificationRequired: Bool {
+            ageVerificationRequired ?? user.ageVerificationRequired ?? false
+        }
+
         public var needsConsent: Bool {
-            (reAgreementRequired ?? user.reAgreementRequired ?? false)
-                || (ageVerificationRequired ?? user.ageVerificationRequired ?? false)
+            resolvedReAgreementRequired || resolvedAgeVerificationRequired
         }
     }
 }

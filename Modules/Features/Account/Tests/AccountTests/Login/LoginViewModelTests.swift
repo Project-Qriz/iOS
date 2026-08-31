@@ -73,6 +73,40 @@ struct LoginViewModelTests {
         #expect(outputs.contains(.loginSucceeded(reAgreementRequired: false, ageVerificationRequired: false)))
     }
 
+    @Test("loginButtonTapped 성공 → data 최상위에 플래그가 없으면 user 쪽 값으로 폴백한다")
+    func loginSucceedsFallsBackToUserLevelFlags() async throws {
+        let loginService = MockLoginService()
+        loginService.loginResult = .success(
+            LoginResponse(
+                code: 1,
+                msg: "ok",
+                data: .init(
+                    refreshToken: nil,
+                    refreshExpiry: nil,
+                    user: UserInfo(
+                        name: "테스트",
+                        userId: "test123",
+                        email: "test@test.com",
+                        previewTestStatus: .notStarted,
+                        provider: nil,
+                        reAgreementRequired: true,
+                        ageVerificationRequired: nil
+                    ),
+                    reAgreementRequired: nil,
+                    ageVerificationRequired: nil
+                )
+            )
+        )
+        let sut = makeSUT(loginService: loginService)
+        let outputs = try await collectAsync(sut.output) {
+            sut.send(.idTextChanged("hun12345"))
+            sut.send(.passwordTextChanged("Valid@123"))
+            sut.send(.loginButtonTapped)
+        }
+
+        #expect(outputs.contains(.loginSucceeded(reAgreementRequired: true, ageVerificationRequired: false)))
+    }
+
     @Test("loginButtonTapped 실패 → showErrorAlert")
     func loginFailureShowsErrorAlert() async throws {
         let loginService = MockLoginService()

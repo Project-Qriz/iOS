@@ -103,8 +103,8 @@ final class LoginViewModel {
                 userInfo.update(name: user.name, userId: user.userId, email: user.email, previewTestStatus: user.previewTestStatus, provider: user.provider)
                 analyticsService.log(.login(.email))
                 outputSubject.send(.loginSucceeded(
-                    reAgreementRequired: response.data.reAgreementRequired ?? response.data.user.reAgreementRequired ?? false,
-                    ageVerificationRequired: response.data.ageVerificationRequired ?? response.data.user.ageVerificationRequired ?? false
+                    reAgreementRequired: response.data.resolvedReAgreementRequired,
+                    ageVerificationRequired: response.data.resolvedAgeVerificationRequired
                 ))
             } catch {
                 outputSubject.send(.showErrorAlert(title: "아이디 또는 비밀번호 확인", description: "아이디와 비밀번호를 정확하게 입력해 주세요."))
@@ -152,8 +152,8 @@ final class LoginViewModel {
                 )
                 analyticsService.log(.login(loginMethod(from: providerName)))
                 outputSubject.send(.loginSucceeded(
-                    reAgreementRequired: response.data.reAgreementRequired ?? response.data.user.reAgreementRequired ?? false,
-                    ageVerificationRequired: response.data.ageVerificationRequired ?? response.data.user.ageVerificationRequired ?? false
+                    reAgreementRequired: response.data.resolvedReAgreementRequired,
+                    ageVerificationRequired: response.data.resolvedAgeVerificationRequired
                 ))
             } catch let error as SocialAuthError where error == .cancelled {
                 logger.info("\(providerName) login canceled by user.")
