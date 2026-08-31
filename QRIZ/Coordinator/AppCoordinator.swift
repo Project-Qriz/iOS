@@ -117,8 +117,6 @@ final class AppCoordinatorImpl: AppCoordinator {
     private let dependency: AppCoordinatorDependency
     private var childCoordinators: [Coordinator] = []
 
-    private enum ConsentsDestination { case tabBar, onboarding }
-    private var pendingConsentsDestination: ConsentsDestination = .tabBar
     /// 팝업이 떠 있는 동안 살아있어야 하므로 강한 참조로 보관한다.
     private var existingUserTermsUpdatePresenter: ExistingUserTermsUpdatePresenter?
 
@@ -181,25 +179,19 @@ final class AppCoordinatorImpl: AppCoordinator {
         return onboardingVC
     }
 
-    @discardableResult
-    private func showConsents(reAgreementRequired: Bool, ageVerificationRequired: Bool, next: ConsentsDestination) -> UIViewController {
-        pendingConsentsDestination = next
-        let navi = UINavigationController()
-        let consentsCoordinator = ConsentsCoordinatorImpl(
-            navigationController: navi,
+    /// 재동의/연령확인이 필요할 때 화면(홈 또는 온보딩) 위에 약관 업데이트 팝업을 띄운다.
+    private func presentExistingUserTermsUpdate(over presentingVC: UIViewController) {
+        let presenter = ExistingUserTermsUpdatePresenter(
             termsService: dependency.termsService,
             consentsService: dependency.consentsService,
-            myPageService: dependency.myPageService,
-            accessTokenProvider: { [weak self] in self?.dependency.keychain.retrieveToken(forKey: TokenKey.accessToken.rawValue) },
-            reAgreementRequired: reAgreementRequired,
-            ageVerificationRequired: ageVerificationRequired
+            accessTokenProvider: { [weak self] in self?.dependency.keychain.retrieveToken(forKey: TokenKey.accessToken.rawValue) }
         )
-        consentsCoordinator.delegate = self
-        childCoordinators.append(consentsCoordinator)
-
-        let vc = consentsCoordinator.start()
-        replaceRootViewController(with: vc, animated: true)
-        return vc
+        existingUserTermsUpdatePresenter = presenter
+        let vc = presenter.makeViewController { [weak self, weak presentingVC] in
+            presentingVC?.dismiss(animated: true)
+            self?.existingUserTermsUpdatePresenter = nil
+        }
+        presentingVC.present(vc, animated: true)
     }
 
     private func observeSessionEvents() {
@@ -251,21 +243,6 @@ extension AppCoordinatorImpl: SplashCoordinatorDelegate {
             presentExistingUserTermsUpdate(over: tabBarVC)
         }
     }
-
-    /// 앱 재실행(스플래시→홈) 시에는 전체화면 대신 홈 화면 위 팝업으로 약관 업데이트를 확인시킨다.
-    private func presentExistingUserTermsUpdate(over presentingVC: UIViewController) {
-        let presenter = ExistingUserTermsUpdatePresenter(
-            termsService: dependency.termsService,
-            consentsService: dependency.consentsService,
-            accessTokenProvider: { [weak self] in self?.dependency.keychain.retrieveToken(forKey: TokenKey.accessToken.rawValue) }
-        )
-        existingUserTermsUpdatePresenter = presenter
-        let vc = presenter.makeViewController { [weak self, weak vc = presentingVC] in
-            vc?.dismiss(animated: true)
-            self?.existingUserTermsUpdatePresenter = nil
-        }
-        presentingVC.present(vc, animated: true)
-    }
 }
 
 // MARK: - LoginCoordinatorDelegate
@@ -273,14 +250,9 @@ extension AppCoordinatorImpl: SplashCoordinatorDelegate {
 extension AppCoordinatorImpl: LoginCoordinatorDelegate {
     func didLogin(_ coordinator: LoginCoordinator, reAgreementRequired: Bool, ageVerificationRequired: Bool) {
         childCoordinators.removeAll { $0 === coordinator }
-        let next: ConsentsDestination = UserInfoManager.shared.previewTestStatus == .notStarted ? .onboarding : .tabBar
+        let destinationVC: UIViewController = UserInfoManager.shared.previewTestStatus == .notStarted ? showOnboarding() : showTabBar()
         if reAgreementRequired || ageVerificationRequired {
-            showConsents(reAgreementRequired: reAgreementRequired, ageVerificationRequired: ageVerificationRequired, next: next)
-        } else {
-            switch next {
-            case .onboarding: showOnboarding()
-            case .tabBar: showTabBar()
-            }
+            presentExistingUserTermsUpdate(over: destinationVC)
         }
     }
 }
@@ -299,32 +271,6 @@ extension AppCoordinatorImpl: OnboardingCoordinatorDelegate {
 extension AppCoordinatorImpl: TabBarCoordinatorDelegate {
     func didLogout(_ coordinator: TabBarCoordinator) {
         childCoordinators.removeAll()
-        dependency.keychain.deleteToken(forKey: TokenKey.accessToken.rawValue)
-        showLogin()
-    }
-}
-
-// MARK: - ConsentsCoordinatorDelegate
-
-extension AppCoordinatorImpl: ConsentsCoordinatorDelegate {
-    func didCompleteConsents(_ coordinator: ConsentsCoordinator) {
-        childCoordinators.removeAll { $0 === coordinator }
-        switch pendingConsentsDestination {
-        case .tabBar: showTabBar()
-        case .onboarding: showOnboarding()
-        }
-    }
-
-    func didDenyAgeConsents(_ coordinator: ConsentsCoordinator) {
-        childCoordinators.removeAll { $0 === coordinator }
-        dependency.keychain.deleteToken(forKey: TokenKey.accessToken.rawValue)
-        dependency.keychain.deleteToken(forKey: TokenKey.refreshToken.rawValue)
-        showLogin()
-    }
-
-    /// 재동의 거부 — 계정 파기 없이 로그아웃만 한다(`didLogout`과 동일 처리).
-    func didDeclineConsents(_ coordinator: ConsentsCoordinator) {
-        childCoordinators.removeAll { $0 === coordinator }
         dependency.keychain.deleteToken(forKey: TokenKey.accessToken.rawValue)
         showLogin()
     }
