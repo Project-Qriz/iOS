@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		0A324B4B8A914F5EA2863B85 /* AnalyticsServiceImpl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E475CE9FBD3489798BF0A58 /* AnalyticsServiceImpl.swift */; };
+		91F121C4233DA2A8D80EEAC0 /* CrashReportingServiceImpl.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9EDE9CB8AD97923D80F6B1F /* CrashReportingServiceImpl.swift */; };
 		2F7A758592D8472A94299C4B /* Onboarding in Frameworks */ = {isa = PBXBuildFile; productRef = E9849FEE34F04512AEA4EBE2 /* Onboarding */; };
 		A1B2C3D52F60000200AAAAAA /* MyPage in Frameworks */ = {isa = PBXBuildFile; productRef = A1B2C3D62F60000300AAAAAA /* MyPage */; };
 		B12FEEEE2F46F98200280847 /* QRIZNetwork in Frameworks */ = {isa = PBXBuildFile; productRef = B12FEEED2F46F98200280847 /* QRIZNetwork */; };
@@ -37,6 +38,7 @@
 
 /* Begin PBXFileReference section */
 		1E475CE9FBD3489798BF0A58 /* AnalyticsServiceImpl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnalyticsServiceImpl.swift; sourceTree = "<group>"; };
+		F9EDE9CB8AD97923D80F6B1F /* CrashReportingServiceImpl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CrashReportingServiceImpl.swift; sourceTree = "<group>"; };
 		B1004A992EC77C66000E4DE2 /* QRIZ.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = QRIZ.entitlements; sourceTree = "<group>"; };
 		B13774AC2ED9D7AF001A614D /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		B14441402F7FAEBE000C3292 /* QRIZ.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = QRIZ.xctestplan; sourceTree = "<group>"; };
@@ -179,6 +181,7 @@
 			children = (
 				B17F20EA2F8E2F2B00BAF5F1 /* AdServiceImpl.swift */,
 				1E475CE9FBD3489798BF0A58 /* AnalyticsServiceImpl.swift */,
+				F9EDE9CB8AD97923D80F6B1F /* CrashReportingServiceImpl.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -375,6 +378,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				0A324B4B8A914F5EA2863B85 /* AnalyticsServiceImpl.swift in Sources */,
+				91F121C4233DA2A8D80EEAC0 /* CrashReportingServiceImpl.swift in Sources */,
 				B1D8137A2D768D9B00A9D447 /* AppCoordinator.swift in Sources */,
 				E23963092D083B900092B39B /* AppDelegate.swift in Sources */,
 				B17F20EB2F8E2F2B00BAF5F1 /* AdServiceImpl.swift in Sources */,

@@ -19,6 +19,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         FirebaseApp.configure()
         MobileAds.shared.start()
         AnalyticsManager.shared.configure(service: AnalyticsServiceImpl())
+        CrashReportingManager.shared.configure(service: CrashReportingServiceImpl())
         requestTrackingAuthorization()
 
         let appKey = Bundle.main.object(forInfoDictionaryKey: "KAKAO_NATIVE_APP_KEY") as? String ?? ""

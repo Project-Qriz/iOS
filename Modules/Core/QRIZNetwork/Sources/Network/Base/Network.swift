@@ -52,6 +52,7 @@ public actor NetworkImpl: Network {
         } catch {
             let networkError = mapToNetworkError(error)
             logAPIError(networkError, request: urlRequest)
+            reportCrashIfAnomalous(networkError, request: urlRequest)
             throw networkError
         }
     }
@@ -200,6 +201,18 @@ private extension NetworkImpl {
         }
         guard let event else { return }
         Task { @MainActor in AnalyticsManager.shared.log(event) }
+    }
+
+    /// 사용자 실수(잘못된 비밀번호 등 4xx)는 정상적인 흐름이라 제외하고,
+    /// 서버/알 수 없는 에러처럼 실제 이상 상황만 비치명적(non-fatal) 이슈로 리포팅한다.
+    private func reportCrashIfAnomalous(_ error: NetworkError, request: URLRequest) {
+        let endpoint = request.url?.path ?? "unknown"
+        switch error {
+        case .serverError, .jsonDecodingError, .unknownError:
+            Task { @MainActor in CrashReportingManager.shared.record(error, context: endpoint) }
+        default:
+            break
+        }
     }
 
     /// Error 매핑
