@@ -8,8 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		0A324B4B8A914F5EA2863B85 /* AnalyticsServiceImpl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E475CE9FBD3489798BF0A58 /* AnalyticsServiceImpl.swift */; };
-		91F121C4233DA2A8D80EEAC0 /* CrashReportingServiceImpl.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9EDE9CB8AD97923D80F6B1F /* CrashReportingServiceImpl.swift */; };
 		2F7A758592D8472A94299C4B /* Onboarding in Frameworks */ = {isa = PBXBuildFile; productRef = E9849FEE34F04512AEA4EBE2 /* Onboarding */; };
+		91F121C4233DA2A8D80EEAC0 /* CrashReportingServiceImpl.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9EDE9CB8AD97923D80F6B1F /* CrashReportingServiceImpl.swift */; };
 		A1B2C3D52F60000200AAAAAA /* MyPage in Frameworks */ = {isa = PBXBuildFile; productRef = A1B2C3D62F60000300AAAAAA /* MyPage */; };
 		B12FEEEE2F46F98200280847 /* QRIZNetwork in Frameworks */ = {isa = PBXBuildFile; productRef = B12FEEED2F46F98200280847 /* QRIZNetwork */; };
 		B13774AD2ED9D7AF001A614D /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = B13774AC2ED9D7AF001A614D /* GoogleService-Info.plist */; };
@@ -38,7 +38,6 @@
 
 /* Begin PBXFileReference section */
 		1E475CE9FBD3489798BF0A58 /* AnalyticsServiceImpl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnalyticsServiceImpl.swift; sourceTree = "<group>"; };
-		F9EDE9CB8AD97923D80F6B1F /* CrashReportingServiceImpl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CrashReportingServiceImpl.swift; sourceTree = "<group>"; };
 		B1004A992EC77C66000E4DE2 /* QRIZ.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = QRIZ.entitlements; sourceTree = "<group>"; };
 		B13774AC2ED9D7AF001A614D /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		B14441402F7FAEBE000C3292 /* QRIZ.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = QRIZ.xctestplan; sourceTree = "<group>"; };
@@ -53,6 +52,7 @@
 		E26AF7012D918EFC006E3252 /* Release.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Release.xcconfig; sourceTree = "<group>"; };
 		E26AF7022D918F03006E3252 /* Debug.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Debug.xcconfig; sourceTree = "<group>"; };
 		E26AF7032D918F07006E3252 /* Shared.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Shared.xcconfig; sourceTree = "<group>"; };
+		F9EDE9CB8AD97923D80F6B1F /* CrashReportingServiceImpl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CrashReportingServiceImpl.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
@@ -536,7 +536,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.3.5;
+				MARKETING_VERSION = 1.3.6;
 				PRODUCT_BUNDLE_IDENTIFIER = com.ksh.qriz;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -571,7 +571,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.3.5;
+				MARKETING_VERSION = 1.3.6;
 				PRODUCT_BUNDLE_IDENTIFIER = com.ksh.qriz;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
