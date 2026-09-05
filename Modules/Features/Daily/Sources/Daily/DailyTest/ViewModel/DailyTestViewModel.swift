@@ -59,17 +59,20 @@ final class DailyTestViewModel {
     
     private let dailyService: DailyService
     private let analyticsService: any AnalyticsService
+    private let reviewPromptService: any ReviewPromptService
 
     // MARK: - Initializers
 
     init(
         day: Int,
         dailyService: DailyService,
-        analyticsService: any AnalyticsService = AnalyticsManager.shared
+        analyticsService: any AnalyticsService = AnalyticsManager.shared,
+        reviewPromptService: any ReviewPromptService = ReviewPromptServiceImpl()
     ) {
         self.day = day
         self.dailyService = dailyService
         self.analyticsService = analyticsService
+        self.reviewPromptService = reviewPromptService
     }
     
     // MARK: - Methods
@@ -216,6 +219,7 @@ final class DailyTestViewModel {
                 )
                 exitTimer()
                 analyticsService.log(.dailyComplete)
+                reviewPromptService.recordCompletion()
                 output.send(.submitSuccess)
                 output.send(.moveToDailyResult)
             } catch {

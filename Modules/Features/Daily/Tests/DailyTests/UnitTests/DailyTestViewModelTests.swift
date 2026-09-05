@@ -13,13 +13,15 @@ struct DailyTestViewModelTests {
     final class TestHarness {
         private let sut: DailyTestViewModel
         let service: MockDailyService
+        let reviewPromptService: MockReviewPromptService
         private(set) var received: [DailyTestViewModel.Output] = []
         private let inputSubject = PassthroughSubject<DailyTestViewModel.Input, Never>()
         private var cancellables = Set<AnyCancellable>()
 
-        init(service: MockDailyService) {
+        init(service: MockDailyService, reviewPromptService: MockReviewPromptService = MockReviewPromptService()) {
             self.service = service
-            sut = DailyTestViewModel(day: 1, dailyService: service)
+            self.reviewPromptService = reviewPromptService
+            sut = DailyTestViewModel(day: 1, dailyService: service, reviewPromptService: reviewPromptService)
             sut.transform(input: inputSubject.eraseToAnyPublisher())
                 .sink { [weak self] output in self?.received.append(output) }
                 .store(in: &cancellables)
@@ -221,6 +223,19 @@ struct DailyTestViewModelTests {
             if case .moveToDailyResult = $0 { return true }
             return false
         })
+    }
+
+    @Test("제출 성공 → reviewPromptService.recordCompletion()이 호출된다")
+    func alertSubmit_success_recordsReviewPromptCompletion() async throws {
+        let harness = TestHarness(service: MockDailyService())
+        try await harness.sendViewDidLoad()
+        harness.send(.nextButtonClicked)
+        harness.send(.nextButtonClicked)
+        harness.send(.nextButtonClicked)
+        harness.send(.alertSubmitButtonClicked)
+        try? await Task.sleep(nanoseconds: asyncSleepNanoseconds)
+
+        #expect(harness.reviewPromptService.recordCompletionCallCount == 1)
     }
 
     @Test("제출 실패 → submitFailed emit")
