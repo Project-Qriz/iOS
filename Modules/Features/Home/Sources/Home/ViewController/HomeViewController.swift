@@ -119,6 +119,9 @@ final class HomeViewController: UIViewController {
 
                 case .showConceptPDF(let chapter, let item):
                     coordinator?.showConceptPDF(chapter: chapter, conceptItem: item)
+
+                case .showReviewPrompt:
+                    coordinator?.showReviewPrompt(over: self)
                 }
             }
             .store(in: &cancellables)
