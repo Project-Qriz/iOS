@@ -47,6 +47,7 @@ final class ExamListViewController: UIViewController {
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        navigationController?.setNavigationBarHidden(false, animated: animated)
         guard hasAppeared else {
             hasAppeared = true
             return
