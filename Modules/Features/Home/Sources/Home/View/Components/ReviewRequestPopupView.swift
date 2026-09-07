@@ -14,19 +14,19 @@ struct ReviewRequestPopupView: View {
             VStack(spacing: 20) {
                 HStack(alignment: .top) {
                     HStack(spacing: 12) {
-                        // TODO: 실제 아바타 이미지로 교체
-                        Image(systemName: "person.crop.circle.fill")
+                        Image(uiImage: .developerProfile)
                             .resizable()
+                            .scaledToFill()
                             .frame(width: 44, height: 44)
-                            .foregroundColor(Color.coolNeutral200)
+                            .clipShape(Circle())
 
                         VStack(alignment: .leading, spacing: 2) {
-                            Text("김세훈")
-                                .font(.system(size: 15, weight: .bold))
+                            Text("훈")
+                                .font(.system(size: 16, weight: .medium))
                                 .foregroundColor(Color.coolNeutral800)
                             Text("개발자")
-                                .font(.system(size: 13))
-                                .foregroundColor(Color.coolNeutral500)
+                                .font(.system(size: 14, weight: .regular))
+                                .foregroundColor(Color.coolNeutral600)
                         }
                     }
 
@@ -39,15 +39,15 @@ struct ReviewRequestPopupView: View {
                 }
 
                 Text("안녕하세요! Qriz로 시험 준비, 잘 되고 계신가요?\n짧은 리뷰 한 줄이 큰 힘이 돼요!")
-                    .font(.system(size: 15))
+                    .font(.system(size: 14, weight: .regular))
                     .foregroundColor(Color.coolNeutral800)
                     .fixedSize(horizontal: false, vertical: true)
                     .frame(maxWidth: .infinity, alignment: .leading)
 
                 HStack(spacing: 8) {
                     Button(action: onPostpone) {
-                        Text("다음 기회에.")
-                            .font(.system(size: 15, weight: .medium))
+                        Text("다음 기회에")
+                            .font(.system(size: 16, weight: .medium))
                             .frame(maxWidth: .infinity)
                             .padding(.vertical, 12)
                             .foregroundColor(Color.coolNeutral800)
@@ -59,7 +59,7 @@ struct ReviewRequestPopupView: View {
 
                     Button(action: onReview) {
                         Text("쓸게요!")
-                            .font(.system(size: 15, weight: .bold))
+                            .font(.system(size: 16, weight: .medium))
                             .frame(maxWidth: .infinity)
                             .padding(.vertical, 12)
                             .background(Color.customBlue500)
