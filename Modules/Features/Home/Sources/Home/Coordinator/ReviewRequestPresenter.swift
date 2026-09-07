@@ -6,7 +6,7 @@ import QRIZUtils
 @MainActor
 final class ReviewRequestPresenter {
 
-    private static let appStoreReviewURL = URL(string: "https://apps.apple.com/app/id6755752454?action=write-review")!
+    private static let appStoreReviewURL = URL(string: "itms-apps://itunes.apple.com/app/id6755752454?action=write-review")!
 
     private let reviewPromptService: any ReviewPromptService
     private let openURL: (URL) -> Void
