@@ -6,8 +6,7 @@ import QRIZUtils
 @MainActor
 final class ReviewRequestPresenter {
 
-    // TODO: App Store ID 확정되면 실제 값으로 교체
-    private static let appStoreReviewURL = URL(string: "https://apps.apple.com/app/id0000000000?action=write-review")!
+    private static let appStoreReviewURL = URL(string: "https://apps.apple.com/app/id6755752454?action=write-review")!
 
     private let reviewPromptService: any ReviewPromptService
     private let openURL: (URL) -> Void
