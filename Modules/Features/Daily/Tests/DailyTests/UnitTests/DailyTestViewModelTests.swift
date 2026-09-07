@@ -235,7 +235,7 @@ struct DailyTestViewModelTests {
         harness.send(.alertSubmitButtonClicked)
         try? await Task.sleep(nanoseconds: asyncSleepNanoseconds)
 
-        #expect(harness.reviewPromptService.recordCompletionCallCount == 1)
+        #expect(harness.reviewPromptService.recordDailyCompletionCallCount == 1)
     }
 
     @Test("제출 실패 → submitFailed emit")

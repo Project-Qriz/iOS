@@ -173,7 +173,7 @@ final class ExamResultViewModel: ObservableObject {
             self.resultGradeListData.gradeResultList = self.gradeResultList
             let score = self.gradeResultList.filter { $0.correction }.count
             self.analyticsService.log(.examComplete(score: score, total: self.gradeResultList.count))
-            self.reviewPromptService.recordCompletion()
+            self.reviewPromptService.recordMockExamCompletion()
 
             self.resultDetailData.subject1DetailResult = self.subject1DetailResult
             self.resultDetailData.subject2DetailResult = self.subject2DetailResult

@@ -121,7 +121,7 @@ struct ExamResultViewModelTests {
     func onViewDidLoad_success_recordsReviewPromptCompletion() async throws {
         let h = TestHarness(service: makeService())
         try await h.sendViewDidLoadAndWaitForUpdate()
-        #expect(h.reviewPromptService.recordCompletionCallCount == 1)
+        #expect(h.reviewPromptService.recordMockExamCompletionCallCount == 1)
     }
 
     @Test("onViewDidLoad 성공 → gradeResultList에 문제 목록 반영")

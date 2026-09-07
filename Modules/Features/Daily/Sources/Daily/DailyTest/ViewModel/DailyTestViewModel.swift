@@ -219,7 +219,7 @@ final class DailyTestViewModel {
                 )
                 exitTimer()
                 analyticsService.log(.dailyComplete)
-                reviewPromptService.recordCompletion()
+                reviewPromptService.recordDailyCompletion()
                 output.send(.submitSuccess)
                 output.send(.moveToDailyResult)
             } catch {
