@@ -261,11 +261,13 @@ extension HomeCoordinatorImpl: OnboardingCoordinatorDelegate {
 extension HomeCoordinatorImpl: ExamCoordinatorDelegate {
     func didQuitExam(_ coordinator: any ExamCoordinator) {
         childCoordinators.removeAll { $0 === coordinator }
+        needsRefresh = true
         navigationController?.popToRootViewController(animated: true)
     }
 
     func moveFromExamToConcept(_ coordinator: any ExamCoordinator) {
         childCoordinators.removeAll { $0 === coordinator }
+        needsRefresh = true
         navigationController?.popToRootViewController(animated: true)
         delegate?.moveToConcept()
     }
@@ -280,11 +282,13 @@ extension HomeCoordinatorImpl: ExamCoordinatorDelegate {
 extension HomeCoordinatorImpl: DailyCoordinatorDelegate {
     func didQuitDaily(_ coordinator: any DailyCoordinator) {
         childCoordinators.removeAll { $0 === coordinator }
+        needsRefresh = true
         navigationController?.popToRootViewController(animated: true)
     }
 
     func moveFromDailyToConcept(_ coordinator: any DailyCoordinator) {
         childCoordinators.removeAll { $0 === coordinator }
+        needsRefresh = true
         navigationController?.popToRootViewController(animated: true)
         delegate?.moveToConcept()
     }
