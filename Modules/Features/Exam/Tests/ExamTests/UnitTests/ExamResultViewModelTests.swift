@@ -34,9 +34,11 @@ struct ExamResultViewModelTests {
     private final class TestHarness {
         let sut: ExamResultViewModel
         let delegate: MockDelegate
+        let reviewPromptService: MockReviewPromptService
 
-        init(service: any ExamService) {
-            sut = ExamResultViewModel(examId: 1, examService: service, userInfo: .shared)
+        init(service: any ExamService, reviewPromptService: MockReviewPromptService = MockReviewPromptService()) {
+            self.reviewPromptService = reviewPromptService
+            sut = ExamResultViewModel(examId: 1, examService: service, reviewPromptService: reviewPromptService, userInfo: .shared)
             delegate = MockDelegate()
             sut.delegate = delegate
         }
@@ -113,6 +115,13 @@ struct ExamResultViewModelTests {
         let h = TestHarness(service: makeService())
         try await h.sendViewDidLoadAndWaitForUpdate()
         #expect(h.sut.errorMessage == nil)
+    }
+
+    @Test("onViewDidLoad 성공 → reviewPromptService.recordCompletion()이 호출된다")
+    func onViewDidLoad_success_recordsReviewPromptCompletion() async throws {
+        let h = TestHarness(service: makeService())
+        try await h.sendViewDidLoadAndWaitForUpdate()
+        #expect(h.reviewPromptService.recordMockExamCompletionCallCount == 1)
     }
 
     @Test("onViewDidLoad 성공 → gradeResultList에 문제 목록 반영")

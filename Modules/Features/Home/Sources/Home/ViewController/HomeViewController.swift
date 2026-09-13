@@ -48,6 +48,8 @@ final class HomeViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 
+        navigationController?.setNavigationBarHidden(false, animated: animated)
+
         if coordinator?.needsRefresh == true {
             coordinator?.needsRefresh = false
             inputSubject.send(.viewDidLoad)
@@ -119,6 +121,9 @@ final class HomeViewController: UIViewController {
 
                 case .showConceptPDF(let chapter, let item):
                     coordinator?.showConceptPDF(chapter: chapter, conceptItem: item)
+
+                case .showReviewPrompt:
+                    coordinator?.showReviewPrompt(over: self)
                 }
             }
             .store(in: &cancellables)

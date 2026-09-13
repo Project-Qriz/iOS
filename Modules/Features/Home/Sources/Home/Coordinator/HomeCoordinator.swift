@@ -23,6 +23,7 @@ public protocol HomeCoordinator: Coordinator {
     func showDaySelectAlert(totalDays: Int, selectedDay: Int, todayIndex: Int?)
     func showConceptPDF(chapter: Chapter, conceptItem: ConceptItem)
     func showPlanChange(totalDays: Int)
+    func showReviewPrompt(over viewController: UIViewController)
 }
 
 @MainActor

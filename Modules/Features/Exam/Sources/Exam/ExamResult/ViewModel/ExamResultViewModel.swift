@@ -52,6 +52,7 @@ final class ExamResultViewModel: ObservableObject {
     private let examId: Int
     private let examService: any ExamService
     private let analyticsService: any AnalyticsService
+    private let reviewPromptService: any ReviewPromptService
 
     // MARK: - Initialization
 
@@ -59,12 +60,14 @@ final class ExamResultViewModel: ObservableObject {
         examId: Int,
         examService: any ExamService,
         analyticsService: any AnalyticsService = AnalyticsManager.shared,
+        reviewPromptService: any ReviewPromptService = ReviewPromptServiceImpl(),
         userInfo: UserInfoManager
     ) {
         self.nickname = userInfo.name
         self.examId = examId
         self.examService = examService
         self.analyticsService = analyticsService
+        self.reviewPromptService = reviewPromptService
     }
 
     // MARK: - Methods
@@ -170,6 +173,7 @@ final class ExamResultViewModel: ObservableObject {
             self.resultGradeListData.gradeResultList = self.gradeResultList
             let score = self.gradeResultList.filter { $0.correction }.count
             self.analyticsService.log(.examComplete(score: score, total: self.gradeResultList.count))
+            self.reviewPromptService.recordMockExamCompletion()
 
             self.resultDetailData.subject1DetailResult = self.subject1DetailResult
             self.resultDetailData.subject2DetailResult = self.subject2DetailResult

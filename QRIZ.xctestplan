@@ -82,6 +82,13 @@
         "identifier" : "ConceptbookTests",
         "name" : "ConceptbookTests"
       }
+    },
+    {
+      "target" : {
+        "containerPath" : "container:Modules\/Core\/QRIZUtils",
+        "identifier" : "QRIZUtilsTests",
+        "name" : "QRIZUtilsTests"
+      }
     }
   ],
   "version" : 1

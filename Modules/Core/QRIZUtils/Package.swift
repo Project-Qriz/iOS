@@ -15,5 +15,10 @@ let package = Package(
         .target(
             name: "QRIZUtils"
         ),
+        .testTarget(
+            name: "QRIZUtilsTests",
+            dependencies: ["QRIZUtils"],
+            path: "Tests/QRIZUtilsTests"
+        ),
     ]
 )

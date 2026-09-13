@@ -24,6 +24,8 @@ final class HomeCoordinatorImpl: HomeCoordinator, NavigationGuard {
     private let onboardingFactory: any OnboardingCoordinatorFactory
     private let conceptbookFactory: any ConceptbookFactory
     private(set) var homeVM: HomeViewModel?
+    /// 팝업이 떠 있는 동안 살아있어야 하므로 강한 참조로 보관한다.
+    private var reviewRequestPresenter: ReviewRequestPresenter?
     var needsRefresh: Bool = false
     var childCoordinators: [Coordinator] = []
     private var onboardingCoordinator: (any OnboardingCoordinator)?
@@ -81,6 +83,13 @@ final class HomeCoordinatorImpl: HomeCoordinator, NavigationGuard {
             let vc = self.makeExamScheduleSelectionViewController()
             viewController.present(vc, animated: true)
         }
+    }
+
+    func showReviewPrompt(over viewController: UIViewController) {
+        let presenter = ReviewRequestPresenter(reviewPromptService: ReviewPromptServiceImpl())
+        reviewRequestPresenter = presenter
+        let vc = presenter.makeViewController { [weak self] in self?.reviewRequestPresenter = nil }
+        viewController.present(vc, animated: true)
     }
 
     private func makeExamScheduleSelectionViewController() -> ExamScheduleSelectionViewController {
@@ -252,11 +261,13 @@ extension HomeCoordinatorImpl: OnboardingCoordinatorDelegate {
 extension HomeCoordinatorImpl: ExamCoordinatorDelegate {
     func didQuitExam(_ coordinator: any ExamCoordinator) {
         childCoordinators.removeAll { $0 === coordinator }
+        needsRefresh = true
         navigationController?.popToRootViewController(animated: true)
     }
 
     func moveFromExamToConcept(_ coordinator: any ExamCoordinator) {
         childCoordinators.removeAll { $0 === coordinator }
+        needsRefresh = true
         navigationController?.popToRootViewController(animated: true)
         delegate?.moveToConcept()
     }
@@ -271,11 +282,13 @@ extension HomeCoordinatorImpl: ExamCoordinatorDelegate {
 extension HomeCoordinatorImpl: DailyCoordinatorDelegate {
     func didQuitDaily(_ coordinator: any DailyCoordinator) {
         childCoordinators.removeAll { $0 === coordinator }
+        needsRefresh = true
         navigationController?.popToRootViewController(animated: true)
     }
 
     func moveFromDailyToConcept(_ coordinator: any DailyCoordinator) {
         childCoordinators.removeAll { $0 === coordinator }
+        needsRefresh = true
         navigationController?.popToRootViewController(animated: true)
         delegate?.moveToConcept()
     }

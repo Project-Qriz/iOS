@@ -21,12 +21,14 @@ struct HomeViewModelTests {
         init(
             examService: MockExamScheduleService,
             dailyService: MockDailyService,
-            weeklyService: MockWeeklyRecommendService
+            weeklyService: MockWeeklyRecommendService,
+            reviewPromptService: MockReviewPromptService
         ) {
             self.sut = HomeViewModel(
                 examScheduleService: examService,
                 dailyService: dailyService,
                 weeklyService: weeklyService,
+                reviewPromptService: reviewPromptService,
                 userInfo: .shared
             )
             sut.transform(input: inputSubject.eraseToAnyPublisher())
@@ -58,6 +60,13 @@ struct HomeViewModelTests {
                 return nil
             }
         }
+
+        var didReceiveShowReviewPrompt: Bool {
+            received.contains {
+                if case .showReviewPrompt = $0 { return true }
+                return false
+            }
+        }
     }
 
     // MARK: - Factory
@@ -65,12 +74,14 @@ struct HomeViewModelTests {
     private func makeHarness(
         examService: MockExamScheduleService? = nil,
         dailyService: MockDailyService? = nil,
-        weeklyService: MockWeeklyRecommendService? = nil
+        weeklyService: MockWeeklyRecommendService? = nil,
+        reviewPromptService: MockReviewPromptService? = nil
     ) -> TestHarness {
         TestHarness(
             examService: examService ?? MockExamScheduleService(),
             dailyService: dailyService ?? MockDailyService(),
-            weeklyService: weeklyService ?? MockWeeklyRecommendService()
+            weeklyService: weeklyService ?? MockWeeklyRecommendService(),
+            reviewPromptService: reviewPromptService ?? MockReviewPromptService()
         )
     }
 
@@ -96,6 +107,28 @@ struct HomeViewModelTests {
         #expect(state != nil)
         #expect(state?.dailyPlans.count == 1)
         #expect(state?.examStatus != ExamStatus.none)
+    }
+
+    @Test("viewDidLoad — reviewPromptService.shouldShowPrompt가 true면 showReviewPrompt emit")
+    func viewDidLoad_shouldShowPrompt_emitsShowReviewPrompt() async throws {
+        let reviewPromptService = MockReviewPromptService()
+        reviewPromptService.shouldShowPrompt = true
+        let h = makeHarness(reviewPromptService: reviewPromptService)
+
+        try await h.sendViewDidLoad()
+
+        #expect(h.didReceiveShowReviewPrompt)
+    }
+
+    @Test("viewDidLoad — reviewPromptService.shouldShowPrompt가 false면 showReviewPrompt를 emit하지 않는다")
+    func viewDidLoad_shouldNotShowPrompt_doesNotEmitShowReviewPrompt() async throws {
+        let reviewPromptService = MockReviewPromptService()
+        reviewPromptService.shouldShowPrompt = false
+        let h = makeHarness(reviewPromptService: reviewPromptService)
+
+        try await h.sendViewDidLoad()
+
+        #expect(!h.didReceiveShowReviewPrompt)
     }
 
     @Test("viewDidLoad — weekly 조회 실패 → updateState는 정상 emit (홈 화면 유지)")

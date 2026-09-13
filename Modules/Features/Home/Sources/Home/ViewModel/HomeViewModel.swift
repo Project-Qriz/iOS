@@ -19,6 +19,7 @@ final class HomeViewModel {
     private let examScheduleService: ExamScheduleService
     private let dailyService: DailyService
     private let weeklyService: WeeklyRecommendService
+    private let reviewPromptService: any ReviewPromptService
     private let userInfo: UserInfoManager
     private var state: HomeState
     private let outputSubject = PassthroughSubject<Output, Never>()
@@ -34,6 +35,7 @@ final class HomeViewModel {
         dailyService: DailyService,
         weeklyService: WeeklyRecommendService,
         analyticsService: any AnalyticsService = AnalyticsManager.shared,
+        reviewPromptService: any ReviewPromptService = ReviewPromptServiceImpl(),
         userInfo: UserInfoManager
     ) {
         let name = userInfo.name
@@ -57,6 +59,7 @@ final class HomeViewModel {
         self.dailyService = dailyService
         self.weeklyService = weeklyService
         self.analyticsService = analyticsService
+        self.reviewPromptService = reviewPromptService
         self.userInfo = userInfo
         self.state = initState
     }
@@ -70,6 +73,9 @@ final class HomeViewModel {
                 switch event {
                 case .viewDidLoad:
                     analyticsService.log(.screenView(.home))
+                    if reviewPromptService.shouldShowPrompt {
+                        self.outputSubject.send(.showReviewPrompt)
+                    }
                     Task { [self] in await self.loadAllData() }
 
                 case .entryTapped:
@@ -261,6 +267,7 @@ extension HomeViewModel {
         case resetSucceeded(message: String)
         case showDaily(day: Int, type: DailyLearnType)
         case showConceptPDF(chapter: Chapter, item: ConceptItem)
+        case showReviewPrompt
     }
 }
 

@@ -26,6 +26,7 @@ public extension UIImage {
 
     // MARK: - Home
 
+    static let developerProfile = image(named: "developerProfile")
     static let ellipsisIcon = image(named: "ellipsis")
     static let homeLogo = image(named: "homeLogo")
     static let lockIcon = image(named: "lock")
