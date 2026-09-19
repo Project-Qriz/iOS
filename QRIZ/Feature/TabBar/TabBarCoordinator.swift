@@ -177,13 +177,17 @@ final class TabBarCoordinatorImpl: TabBarCoordinator {
     }
     
     private func configureTabBarController(_ tabBarController: UITabBarController) {
+        tabBarController.tabBar.tintColor = .customBlue500
+        tabBarController.tabBar.unselectedItemTintColor = .coolNeutral500
+
+        // iOS 26+는 시스템 Liquid Glass 탭바를 그대로 사용한다.
+        guard !UINavigationBar.supportsSystemGlass else { return }
+
         let whiteAppearance = UITabBarAppearance()
         whiteAppearance.configureWithOpaqueBackground()
         whiteAppearance.backgroundColor = .white
         whiteAppearance.shadowColor = UIColor.customBlue100
         whiteAppearance.shadowImage = UIImage()
-        tabBarController.tabBar.tintColor = .customBlue500
-        tabBarController.tabBar.unselectedItemTintColor = .coolNeutral500
         tabBarController.tabBar.standardAppearance = whiteAppearance
         tabBarController.tabBar.scrollEdgeAppearance = whiteAppearance
     }
