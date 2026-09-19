@@ -126,6 +126,65 @@ struct LoginViewModelTests {
         #expect(hasErrorAlert)
     }
 
+    // MARK: - 소셜 로그인 실패 안내
+
+    @Test("소셜 로그인 409 email_already_exists → 이메일 중복 안내 알럿")
+    func socialLoginEmailConflictShowsDedicatedAlert() async throws {
+        let socialService = MockSocialLoginService()
+        socialService.loginResult = .failure(
+            NetworkError.clientError(
+                httpStatus: 409,
+                serverCode: -1,
+                message: "이미 가입된 이메일",
+                reason: "email_already_exists",
+                detailCode: 2002
+            )
+        )
+        let sut = makeSUT(socialService: socialService)
+
+        let outputs = try await collectAsync(sut.output) {
+            sut.send(.socialLoginSelected(.kakao, presenter: nil))
+        }
+
+        #expect(outputs.contains(.showErrorAlert(
+            title: "이미 가입된 이메일",
+            description: "이미 다른 방법으로 가입된 이메일입니다.\n기존 로그인 방식으로 로그인해 주세요."
+        )))
+    }
+
+    @Test("소셜 로그인 기타 실패 → provider 이름이 담긴 기본 알럿")
+    func socialLoginOtherFailureShowsDefaultAlert() async throws {
+        let socialService = MockSocialLoginService()
+        socialService.loginResult = .failure(NetworkError.serverError(httpStatus: 500))
+        let sut = makeSUT(socialService: socialService)
+
+        let outputs = try await collectAsync(sut.output) {
+            sut.send(.socialLoginSelected(.kakao, presenter: nil))
+        }
+
+        #expect(outputs.contains(.showErrorAlert(
+            title: "카카오 로그인 실패",
+            description: "잠시 후 다시 시도해 주세요."
+        )))
+    }
+
+    @Test("소셜 로그인 사용자 취소 → 알럿 없음")
+    func socialLoginCancelledShowsNoAlert() async throws {
+        let socialService = MockSocialLoginService()
+        socialService.loginResult = .failure(SocialAuthError.cancelled)
+        let sut = makeSUT(socialService: socialService)
+
+        let outputs = try await collectAsync(sut.output) {
+            sut.send(.socialLoginSelected(.kakao, presenter: nil))
+        }
+
+        let hasErrorAlert = outputs.contains {
+            if case .showErrorAlert = $0 { return true }
+            return false
+        }
+        #expect(!hasErrorAlert)
+    }
+
     // MARK: - 소셜 로그인 중복 탭 방지
 
     @Test("소셜 로그인 진행 중 재탭 → 두 번째 요청 무시")

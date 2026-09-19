@@ -158,7 +158,8 @@ final class LoginViewModel {
             } catch let error as SocialAuthError where error == .cancelled {
                 logger.info("\(providerName) login canceled by user.")
             } catch {
-                outputSubject.send(.showErrorAlert(title: "\(providerName) 로그인 실패", description: "잠시 후 다시 시도해 주세요."))
+                let content = SocialLoginAlertContent(error: error, providerName: providerName)
+                outputSubject.send(.showErrorAlert(title: content.title, description: content.description))
                 logger.error("\(providerName) social login failed: \(String(describing: error), privacy: .public)")
             }
         }
