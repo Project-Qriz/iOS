@@ -64,8 +64,7 @@ final class ExamSummaryViewController: UIViewController {
     }
 
     private func applyBlueNavigationAppearance() {
-        let appearance = UINavigationBar.defaultBackButtonStyle()
-        appearance.backgroundColor = .customBlue50
+        let appearance = UINavigationBar.defaultBackButtonStyle(backgroundColor: .customBlue50)
         applyNavigationAppearance(appearance)
     }
 

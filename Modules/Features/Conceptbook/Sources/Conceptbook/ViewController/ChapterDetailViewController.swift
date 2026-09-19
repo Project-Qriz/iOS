@@ -45,9 +45,10 @@ final class ChapterDetailViewController: UIViewController {
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        let appearance = UINavigationBar.defaultBackButtonStyle()
-        appearance.backgroundColor = .customBlue50
-        appearance.shadowColor = .clear
+        let appearance = UINavigationBar.defaultBackButtonStyle(
+            backgroundColor: .customBlue50,
+            hidesShadow: true
+        )
         navigationController?.navigationBar.standardAppearance = appearance
         navigationController?.navigationBar.scrollEdgeAppearance = appearance
         navigationController?.navigationBar.compactAppearance = appearance
