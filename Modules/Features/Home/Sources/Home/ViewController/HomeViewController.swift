@@ -143,6 +143,10 @@ final class HomeViewController: UIViewController {
         imageView.contentMode = .scaleAspectFit
 
         let logoItem = UIBarButtonItem(customView: imageView)
+        // iOS 26+는 바 버튼 아이템에 glass 캡슐 배경이 자동으로 붙으므로 로고는 배경 없이 노출한다.
+        if #available(iOS 26.0, *) {
+            logoItem.hidesSharedBackground = true
+        }
         navigationItem.leftBarButtonItem = logoItem
     }
     
