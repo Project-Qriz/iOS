@@ -180,9 +180,6 @@ final class TabBarCoordinatorImpl: TabBarCoordinator {
         tabBarController.tabBar.tintColor = .customBlue500
         tabBarController.tabBar.unselectedItemTintColor = .coolNeutral500
 
-        // 탭 전환 중 뒤에 비치는 컨테이너 배경. 지정하지 않으면 다크 모드에서 검정이 비쳐 깜빡인다.
-        tabBarController.view.backgroundColor = .customBlue50
-
         // iOS 26+는 시스템 Liquid Glass 탭바를 그대로 사용한다.
         guard !UINavigationBar.supportsSystemGlass else { return }
 
