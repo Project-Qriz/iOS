@@ -64,8 +64,6 @@
 			</array>
 		</dict>
 	</dict>
-	<key>UIDesignRequiresCompatibility</key>
-	<true/>
 	<key>UILaunchScreen</key>
 	<dict>
 		<key>UIImageName</key>
