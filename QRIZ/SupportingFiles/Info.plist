@@ -64,6 +64,8 @@
 			</array>
 		</dict>
 	</dict>
+	<key>UIUserInterfaceStyle</key>
+	<string>Light</string>
 	<key>UILaunchScreen</key>
 	<dict>
 		<key>UIImageName</key>
