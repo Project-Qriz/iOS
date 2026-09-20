@@ -16,6 +16,11 @@ let package = Package(
             name: "DesignSystem",
             dependencies: ["QRIZUtils"],
             resources: [.process("Resources")]
+        ),
+        .testTarget(
+            name: "DesignSystemTests",
+            dependencies: ["DesignSystem"],
+            path: "Tests/DesignSystemTests"
         )
     ]
 )

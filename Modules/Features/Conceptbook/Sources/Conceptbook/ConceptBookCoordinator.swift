@@ -7,6 +7,7 @@
 
 import UIKit
 import QRIZUtils
+import DesignSystem
 import ConceptbookInterface
 
 @MainActor
@@ -33,7 +34,7 @@ public final class ConceptBookCoordinatorImpl: ConceptBookCoordinator, Navigatio
         let conceptBookVM = ConceptBookViewModel()
         let conceptBookVC = ConceptBookViewController(conceptBookVM: conceptBookVM)
         conceptBookVC.coordinator = self
-        let nav = UINavigationController(rootViewController: conceptBookVC)
+        let nav = QRIZNavigationController(rootViewController: conceptBookVC)
         self.navigationController = nav
         return nav
     }

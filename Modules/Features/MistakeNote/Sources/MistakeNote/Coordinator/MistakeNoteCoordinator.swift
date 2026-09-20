@@ -8,6 +8,7 @@
 import UIKit
 import QRIZUtils
 import QRIZNetwork
+import DesignSystem
 import ExamKit
 
 @MainActor
@@ -54,7 +55,7 @@ public final class MistakeNoteCoordinatorImpl: MistakeNoteCoordinator, Navigatio
             }
         }
         let mistakeNoteVC = MistakeNoteViewController(viewModel: viewModel)
-        let nav = UINavigationController(rootViewController: mistakeNoteVC)
+        let nav = QRIZNavigationController(rootViewController: mistakeNoteVC)
         navigationController = nav
         return nav
     }

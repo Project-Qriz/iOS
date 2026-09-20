@@ -8,6 +8,7 @@
 import UIKit
 import QRIZUtils
 import QRIZNetwork
+import DesignSystem
 import Auth
 import Account
 import Onboarding
@@ -68,7 +69,7 @@ final class AppCoordinatorDependencyImpl: AppCoordinatorDependency {
     lazy var adService: any AdService = AdServiceImpl()
 
     lazy var loginCoordinator: LoginCoordinator = {
-        let navi = UINavigationController()
+        let navi = QRIZNavigationController()
         return makeLoginCoordinator(
             navigationController: navi,
             loginService: loginService,
@@ -98,7 +99,7 @@ final class AppCoordinatorDependencyImpl: AppCoordinatorDependency {
     }
     
     var onboardingCoordinator: any OnboardingCoordinator {
-        let navi = UINavigationController()
+        let navi = QRIZNavigationController()
         return makeOnboardingCoordinator(
             navigationController: navi,
             onboardingService: onboardingService,

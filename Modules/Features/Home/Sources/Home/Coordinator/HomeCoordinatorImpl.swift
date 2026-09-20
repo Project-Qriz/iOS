@@ -66,7 +66,7 @@ final class HomeCoordinatorImpl: HomeCoordinator, NavigationGuard {
         let homeVC = HomeViewController(viewModel: viewModel)
         homeVC.coordinator = self
 
-        let navi = UINavigationController(rootViewController: homeVC)
+        let navi = QRIZNavigationController(rootViewController: homeVC)
         navigationController = navi
         return navi
     }

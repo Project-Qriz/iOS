@@ -89,6 +89,13 @@
         "identifier" : "QRIZUtilsTests",
         "name" : "QRIZUtilsTests"
       }
+    },
+    {
+      "target" : {
+        "containerPath" : "container:Modules\/Core\/DesignSystem",
+        "identifier" : "DesignSystemTests",
+        "name" : "DesignSystemTests"
+      }
     }
   ],
   "version" : 1
