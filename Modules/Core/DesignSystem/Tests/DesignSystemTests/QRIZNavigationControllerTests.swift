@@ -192,6 +192,22 @@ struct QRIZNavigationControllerTests {
 
     // MARK: - SwiftUI 화면
 
+    @Test("SwiftUI 호스팅 화면에서도 커스텀 뒤로가기 옆에 시스템 뒤로가기가 함께 보이지 않는다")
+    func swiftUIHostedScreenDoesNotShowSystemBackAlongside() async throws {
+        let (sut, _) = makeSUT()
+        let window = UIWindow(frame: CGRect(x: 0, y: 0, width: 402, height: 874))
+        window.rootViewController = sut
+        window.makeKeyAndVisible()
+
+        let hosting = UIHostingController(rootView: Text("오답노트 상세"))
+        sut.pushViewController(hosting, animated: false)
+        try await Task.sleep(nanoseconds: 500_000_000)
+
+        #expect(installedBackItem(on: hosting) != nil)
+        // UIHostingController는 leftItemsSupplementBackButton을 true로 두어 시스템 뒤로가기를 함께 보여준다.
+        #expect(hosting.navigationItem.leftItemsSupplementBackButton == false)
+    }
+
     @Test("SwiftUI 화면이 navigationBarBackButtonHidden(true)를 쓰면 커스텀 뒤로가기가 남지 않는다")
     func swiftUIHiddenBackButtonLeavesNoInstalledItem() async throws {
         let (sut, _) = makeSUT()

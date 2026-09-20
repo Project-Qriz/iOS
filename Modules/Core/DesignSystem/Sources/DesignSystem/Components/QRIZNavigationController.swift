@@ -28,6 +28,8 @@ public final class QRIZNavigationController: UINavigationController, UIGestureRe
     final class BackBarButtonItem: UIBarButtonItem {
         /// 화면이 나중에 뒤로가기를 숨기면(예: SwiftUI `navigationBarBackButtonHidden`) 이 버튼을 치우기 위한 관찰자입니다.
         var hiddenBackButtonObservation: NSKeyValueObservation?
+        /// SwiftUI가 `leftItemsSupplementBackButton`을 다시 true로 되돌려도 false로 유지하기 위한 관찰자입니다.
+        var supplementBackButtonObservation: NSKeyValueObservation?
     }
 
     private enum Attributes {
@@ -73,6 +75,16 @@ public final class QRIZNavigationController: UINavigationController, UIGestureRe
             MainActor.assumeIsolated {
                 guard let item, navigationItem.leftBarButtonItem === item else { return }
                 navigationItem.leftBarButtonItem = nil
+            }
+        }
+        // UIHostingController(SwiftUI 화면)는 leftItemsSupplementBackButton을 true로 두어 왼쪽 버튼 옆에
+        // 시스템 뒤로가기를 함께 보여준다. 뒤로가기가 두 개 보이지 않도록 false로 유지한다.
+        navigationItem.leftItemsSupplementBackButton = false
+        item.supplementBackButtonObservation = navigationItem.observe(\.leftItemsSupplementBackButton, options: [.new]) { [weak item] navigationItem, change in
+            guard change.newValue == true else { return }
+            MainActor.assumeIsolated {
+                guard let item, navigationItem.leftBarButtonItem === item else { return }
+                navigationItem.leftItemsSupplementBackButton = false
             }
         }
         navigationItem.leftBarButtonItem = item
