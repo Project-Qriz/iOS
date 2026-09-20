@@ -57,6 +57,7 @@ struct ExamResultView: View {
                         .foregroundStyle(Color.coolNeutral800)
                 }
             }
+            .hidingSharedBackground()
         }
         .alert("오류", isPresented: isErrorPresented) {
             Button("확인", role: .cancel) { viewModel.errorMessage = nil }

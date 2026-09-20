@@ -130,7 +130,7 @@ extension DailyTestViewController {
             action: #selector(moveToHome)
         )
         cancelButtonItem.tintColor = .coolNeutral800
-        navigationItem.leftBarButtonItem = cancelButtonItem
+        navigationItem.leftBarButtonItem = cancelButtonItem.hidingSharedBackground()
         navigationItem.rightBarButtonItem = contentView.timerBarButtonItem
     }
 

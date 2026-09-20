@@ -125,7 +125,7 @@ final class ExamTestViewController: UIViewController {
             action: #selector(didTapCancelButton)
         )
         cancelButtonItem.tintColor = .coolNeutral800
-        navigationItem.leftBarButtonItem = cancelButtonItem
+        navigationItem.leftBarButtonItem = cancelButtonItem.hidingSharedBackground()
         navigationItem.rightBarButtonItems = [
             UIBarButtonItem(customView: rootView.timeLabel),
             UIBarButtonItem(customView: rootView.totalTimeRemainingLabel),

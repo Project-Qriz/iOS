@@ -2,6 +2,7 @@ import UIKit
 import DesignSystem
 import Combine
 import QRIZNetwork
+import QRIZUtils
 
 final class ExamListViewController: UIViewController {
 
@@ -109,7 +110,7 @@ final class ExamListViewController: UIViewController {
         button.addAction(UIAction { [weak self] _ in
             self?.input.send(.cancelButtonClicked)
         }, for: .touchUpInside)
-        navigationItem.leftBarButtonItem = UIBarButtonItem(customView: button)
+        navigationItem.leftBarButtonItem = UIBarButtonItem(customView: button).hidingSharedBackground()
     }
 
     private func setupCollectionView() {

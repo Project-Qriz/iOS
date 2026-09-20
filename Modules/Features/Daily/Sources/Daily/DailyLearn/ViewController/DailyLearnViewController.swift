@@ -138,7 +138,7 @@ final class DailyLearnViewController: UIViewController {
         button.addAction(UIAction { [weak self] _ in
             self?.input.send(.backButtonClicked)
         }, for: .touchUpInside)
-        navigationItem.leftBarButtonItem = UIBarButtonItem(customView: button)
+        navigationItem.leftBarButtonItem = UIBarButtonItem(customView: button).hidingSharedBackground()
     }
 }
 
