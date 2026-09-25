@@ -181,6 +181,7 @@ final class TabBarCoordinatorImpl: TabBarCoordinator {
         tabBarController.tabBar.unselectedItemTintColor = .coolNeutral500
 
         // iOS 26+는 시스템 Liquid Glass 탭바를 그대로 사용한다.
+        // Appearance를 지정하지 않으면 OS 기본 동작(최상단 투명, 스크롤 시 불투명 + 하단 헤어라인)이 적용된다.
         guard !UINavigationBar.supportsSystemGlass else { return }
 
         let whiteAppearance = UITabBarAppearance()
