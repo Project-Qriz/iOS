@@ -53,6 +53,7 @@ struct DailyResultView: View {
                     Image(systemName: "xmark")
                         .foregroundStyle(Color.coolNeutral800)
                 }
+                .glassIconButtonStyle()
             }
             .hidingSharedBackground()
         }

@@ -104,12 +104,9 @@ final class ExamListViewController: UIViewController {
         titleView.textColor = .coolNeutral700
         navigationItem.titleView = titleView
 
-        let xmark = UIImage(systemName: "xmark")?.withTintColor(.coolNeutral800, renderingMode: .alwaysOriginal)
-        let button = UIButton(frame: CGRect(x: 0, y: 0, width: 28, height: 28))
-        button.setImage(xmark, for: .normal)
-        button.addAction(UIAction { [weak self] _ in
+        let button = GlassIconButton(systemImageName: "xmark", tintColor: .coolNeutral800) { [weak self] in
             self?.input.send(.cancelButtonClicked)
-        }, for: .touchUpInside)
+        }
         navigationItem.leftBarButtonItem = UIBarButtonItem(customView: button).hidingSharedBackground()
     }
 

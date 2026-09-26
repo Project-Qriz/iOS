@@ -104,10 +104,21 @@ struct QRIZNavigationControllerTests {
         sut.pushViewController(pushed, animated: false)
 
         let item = try #require(installedBackItem(on: pushed))
-        let action = try #require(item.primaryAction)
-        action.performWithSender(nil, target: nil)
+        let button = try #require(item.customView as? GlassIconButton)
+        button.sendActions(for: .touchUpInside)
 
         #expect(sut.viewControllers == [root])
+    }
+
+    @Test("설치된 뒤로가기 버튼은 원형 glass 버튼(GlassIconButton)이다")
+    func installedBackItemIsGlassIconButton() throws {
+        let (sut, _) = makeSUT()
+        let pushed = UIViewController()
+
+        sut.pushViewController(pushed, animated: false)
+
+        let item = try #require(installedBackItem(on: pushed))
+        #expect(item.customView is GlassIconButton)
     }
 
     @Test("설치된 뒤로가기 버튼에는 접근성 라벨이 있다")

@@ -35,10 +35,6 @@ public final class QRIZNavigationController: UINavigationController, UIGestureRe
     private enum Attributes {
         static let defaultImageName = "chevron.left"
         static let accessibilityLabel = "뒤로"
-        /// 시스템 뒤로가기 화살표(약 11.3 x 15.7pt)와 같은 크기/굵기로 맞춘다.
-        static let symbolConfiguration = UIImage.SymbolConfiguration(pointSize: 15, weight: .regular)
-        /// 바 버튼 아이템의 기본 여백 때문에 시스템 뒤로가기보다 오른쪽에 놓이는 것을 보정한다.
-        static let imageAlignmentInsets = UIEdgeInsets(top: 0, left: 6, bottom: 0, right: -6)
     }
 
     // MARK: - Lifecycle
@@ -91,15 +87,10 @@ public final class QRIZNavigationController: UINavigationController, UIGestureRe
     }
 
     private func makeBackItem(imageName: String) -> BackBarButtonItem {
-        let image = UIImage(systemName: imageName, withConfiguration: Attributes.symbolConfiguration)?
-            .withAlignmentRectInsets(Attributes.imageAlignmentInsets)
-        let item = BackBarButtonItem(
-            image: image,
-            primaryAction: UIAction { [weak self] _ in
-                self?.popViewController(animated: true)
-            }
-        )
-        item.tintColor = .black
+        let button = GlassIconButton(systemImageName: imageName, tintColor: .black) { [weak self] in
+            self?.popViewController(animated: true)
+        }
+        let item = BackBarButtonItem(customView: button)
         item.accessibilityLabel = Attributes.accessibilityLabel
         item.hidingSharedBackground(usesSystemGlass: true)
         return item
