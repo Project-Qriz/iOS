@@ -12,9 +12,11 @@ import QRIZUtils
 /// `ExamResultView`를 실제 프로덕션과 동일하게 `QRIZNavigationController`에 push했을 때,
 /// 뒤로가기(원형 glass)와 화면 자체의 X 버튼이 함께 보이지 않는지 검증한다.
 ///
-/// 배경: SwiftUI가 비동기 데이터 로딩 등으로 재렌더링되면 `leftItemsSupplementBackButton`을
-/// 다시 true로 되돌릴 수 있는데, 이를 계속 감시해 꺼주지 못하면 시스템이 X 옆에 뒤로가기를
-/// 자동으로 함께 그린다.
+/// 배경: `leftBarButtonItem`을 설정하면 iOS 16+ `leadingItemGroups`에도 그룹으로 미러링되는데,
+/// SwiftUI의 `.toolbar { ToolbarItem(placement: .navigationBarLeading) { ... } }`는 이 배열을
+/// 교체가 아니라 "추가"하는 방식으로 동작한다. 그래서 화면이 자기 왼쪽 버튼(X)을 넣어도 우리가 설치한
+/// 뒤로가기 그룹이 배열에 그대로 남아 함께 보일 수 있다. 게다가 이 시점부터는 `leftBarButtonItem`이
+/// 항상 nil을 반환해, `leftBarButtonItem`만 비교하는 검사로는 이 문제를 절대 잡아낼 수 없다.
 @MainActor
 @Suite("ExamResultView 내비게이션 테스트", .serialized)
 struct ExamResultNavigationTests {
@@ -26,6 +28,16 @@ struct ExamResultNavigationTests {
             reviewPromptService: MockReviewPromptService(),
             userInfo: .shared
         )
+    }
+
+    /// `leftBarButtonItem`을 설정하면 iOS 16+ `leadingItemGroups`에도 미러링되는데, 화면이 SwiftUI
+    /// `.toolbar`로 자기 왼쪽 아이템을 추가하면 그 순간부터 `leftBarButtonItem`은 항상 nil을 반환한다.
+    /// 그래서 뒤로가기가 실제로 남아있는지는 leadingItemGroups까지 확인해야 정확히 알 수 있다.
+    private func hasGlassBackButtonInstalled(_ item: UINavigationItem) -> Bool {
+        if item.leftBarButtonItem?.customView is GlassIconButton { return true }
+        return item.leadingItemGroups
+            .flatMap(\.barButtonItems)
+            .contains { $0.customView is GlassIconButton }
     }
 
     @Test("초기 렌더링 이후 재렌더링되어도 뒤로가기가 X 옆에 함께 보이지 않는다")
@@ -47,6 +59,7 @@ struct ExamResultNavigationTests {
         try await Task.sleep(nanoseconds: 200_000_000)
 
         #expect(hosting.navigationItem.leftItemsSupplementBackButton == false)
+        #expect(!hasGlassBackButtonInstalled(hosting.navigationItem))
     }
 
     /// `ExamTestViewController`가 결과 화면으로 넘어가기 직전에 실제로 거치는 순서를 그대로 재현한다:
@@ -101,5 +114,6 @@ struct ExamResultNavigationTests {
         try await Task.sleep(nanoseconds: 200_000_000)
 
         #expect(hosting.navigationItem.leftItemsSupplementBackButton == false)
+        #expect(!hasGlassBackButtonInstalled(hosting.navigationItem))
     }
 }

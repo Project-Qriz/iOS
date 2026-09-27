@@ -87,10 +87,9 @@ public final class QRIZNavigationController: UINavigationController, UIGestureRe
         // 화면이 나중에 뒤로가기를 숨기려 할 때(true로 변경) 그 변화를 감지할 수 있어야 하기 때문이다.
         let item = makeBackItem(imageName: backButtonImageName(for: viewController))
         let hiddenBackButtonObservation = navigationItem.observe(\.hidesBackButton, options: [.new]) { [weak item] navigationItem, change in
-            guard change.newValue == true else { return }
+            guard change.newValue == true, let item else { return }
             MainActor.assumeIsolated {
-                guard let item, navigationItem.leftBarButtonItem === item else { return }
-                navigationItem.leftBarButtonItem = nil
+                Self.removeItem(item, from: navigationItem)
             }
         }
         // UIHostingController(SwiftUI 화면)는 leftItemsSupplementBackButton을 true로 두어 왼쪽 버튼 옆에
@@ -103,8 +102,33 @@ public final class QRIZNavigationController: UINavigationController, UIGestureRe
                 navigationItem.leftItemsSupplementBackButton = false
             }
         }
-        ObservationBox.attach([hiddenBackButtonObservation, supplementBackButtonObservation], to: viewController)
+        // `leftBarButtonItem`을 설정하면 내부적으로 iOS 16+ `leadingItemGroups`에도 그룹으로 미러링된다.
+        // SwiftUI의 `.toolbar { ToolbarItem(placement: .navigationBarLeading) { ... } }`는 이 배열을
+        // 교체가 아니라 "추가"하는 방식으로 동작해서, 화면이 자기 왼쪽 버튼을 넣어도 우리 그룹이 그대로
+        // 남아 뒤로가기와 화면의 버튼이 함께 보일 수 있다. (이 시점부터는 `leftBarButtonItem`이 항상 nil을
+        // 반환해 위 관찰자의 identity 비교가 무력화되므로, leadingItemGroups도 별도로 계속 감시해야 한다.)
+        let leadingItemGroupsObservation = navigationItem.observe(\.leadingItemGroups, options: [.new]) { [weak item] navigationItem, _ in
+            guard let item, navigationItem.hidesBackButton else { return }
+            MainActor.assumeIsolated {
+                Self.removeItem(item, from: navigationItem)
+            }
+        }
+        ObservationBox.attach(
+            [hiddenBackButtonObservation, supplementBackButtonObservation, leadingItemGroupsObservation],
+            to: viewController
+        )
         navigationItem.leftBarButtonItem = item
+    }
+
+    /// 우리가 설치한 뒤로가기 아이템을 `leftBarButtonItem`과 `leadingItemGroups` 양쪽에서 제거한다.
+    private static func removeItem(_ item: UIBarButtonItem, from navigationItem: UINavigationItem) {
+        if navigationItem.leftBarButtonItem === item {
+            navigationItem.leftBarButtonItem = nil
+        }
+        let groups = navigationItem.leadingItemGroups
+        if groups.contains(where: { $0.barButtonItems.contains(item) }) {
+            navigationItem.leadingItemGroups = groups.filter { !$0.barButtonItems.contains(item) }
+        }
     }
 
     private func makeBackItem(imageName: String) -> BackBarButtonItem {

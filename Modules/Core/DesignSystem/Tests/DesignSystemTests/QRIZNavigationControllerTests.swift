@@ -17,8 +17,16 @@ struct QRIZNavigationControllerTests {
         return (sut, root)
     }
 
+    /// `leftBarButtonItem`을 설정하면 iOS 16+ `leadingItemGroups`에도 미러링되는데, 화면이 SwiftUI
+    /// `.toolbar`로 자기 왼쪽 아이템을 추가하면 그 순간부터 `leftBarButtonItem`은 항상 nil을 반환한다.
+    /// 그래서 실제로 우리 버튼이 남아있는지는 `leadingItemGroups`까지 확인해야 정확히 알 수 있다.
     private func installedBackItem(on vc: UIViewController) -> UIBarButtonItem? {
-        vc.navigationItem.leftBarButtonItem.flatMap { $0 is QRIZNavigationController.BackBarButtonItem ? $0 : nil }
+        if let item = vc.navigationItem.leftBarButtonItem, item is QRIZNavigationController.BackBarButtonItem {
+            return item
+        }
+        return vc.navigationItem.leadingItemGroups
+            .flatMap(\.barButtonItems)
+            .first { $0 is QRIZNavigationController.BackBarButtonItem }
     }
 
     // MARK: - 뒤로가기 버튼 설치
