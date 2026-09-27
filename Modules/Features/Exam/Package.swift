@@ -31,6 +31,7 @@ let package = Package(
             name: "ExamTests",
             dependencies: [
                 "Exam",
+                "DesignSystem",
                 .product(name: "SnapshotTesting", package: "swift-snapshot-testing"),
             ],
         ),
