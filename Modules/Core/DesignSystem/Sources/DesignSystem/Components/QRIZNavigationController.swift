@@ -4,6 +4,7 @@
 //
 
 import UIKit
+import ObjectiveC
 import QRIZUtils
 
 /// 뒤로가기 버튼의 아이콘을 직접 지정하고 싶은 화면이 채택합니다. (기본값은 `chevron.left`)
@@ -25,11 +26,30 @@ public final class QRIZNavigationController: UINavigationController, UIGestureRe
     public var usesSystemGlass: Bool = UINavigationBar.supportsSystemGlass
 
     /// 이 컨트롤러가 설치한 뒤로가기 버튼을 식별하기 위한 타입입니다.
-    final class BackBarButtonItem: UIBarButtonItem {
-        /// 화면이 나중에 뒤로가기를 숨기면(예: SwiftUI `navigationBarBackButtonHidden`) 이 버튼을 치우기 위한 관찰자입니다.
-        var hiddenBackButtonObservation: NSKeyValueObservation?
-        /// SwiftUI가 `leftItemsSupplementBackButton`을 다시 true로 되돌려도 false로 유지하기 위한 관찰자입니다.
-        var supplementBackButtonObservation: NSKeyValueObservation?
+    final class BackBarButtonItem: UIBarButtonItem {}
+
+    /// KVO 관찰자를 붙들고 있기 위한 상자입니다.
+    ///
+    /// 관찰자를 뒤로가기 버튼(`BackBarButtonItem`)에 저장하면, SwiftUI가 나중에 자신의 바 버튼으로
+    /// 이 아이템을 교체할 때 버튼이 해제되며 관찰도 함께 끊깁니다. 그러면 SwiftUI가 재렌더링(예: 비동기
+    /// 데이터 로딩 완료) 시점에 `leftItemsSupplementBackButton`을 다시 true로 되돌려도 아무도 고치지
+    /// 못해, 시스템 뒤로가기와 SwiftUI 자체 버튼이 함께 보이는 문제가 생긴다. 그래서 관찰자는 버튼이
+    /// 아니라 화면(`UIViewController`) 자체에 연결해 화면이 살아있는 동안 계속 감시하게 한다.
+    private final class ObservationBox {
+        private let observations: [NSKeyValueObservation]
+        fileprivate init(_ observations: [NSKeyValueObservation]) { self.observations = observations }
+
+        // 값 자체는 쓰지 않고 안정적인 메모리 주소만 연결 키로 사용하므로 동시 접근에 안전하다.
+        nonisolated(unsafe) private static var associationKey: UInt8 = 0
+
+        static func attach(_ observations: [NSKeyValueObservation], to viewController: UIViewController) {
+            objc_setAssociatedObject(
+                viewController,
+                &associationKey,
+                ObservationBox(observations),
+                .OBJC_ASSOCIATION_RETAIN_NONATOMIC
+            )
+        }
     }
 
     private enum Attributes {
@@ -66,7 +86,7 @@ public final class QRIZNavigationController: UINavigationController, UIGestureRe
         // hidesBackButton은 건드리지 않는다. 커스텀 왼쪽 버튼이 있으면 시스템 뒤로가기는 자동으로 대체되고,
         // 화면이 나중에 뒤로가기를 숨기려 할 때(true로 변경) 그 변화를 감지할 수 있어야 하기 때문이다.
         let item = makeBackItem(imageName: backButtonImageName(for: viewController))
-        item.hiddenBackButtonObservation = navigationItem.observe(\.hidesBackButton, options: [.new]) { [weak item] navigationItem, change in
+        let hiddenBackButtonObservation = navigationItem.observe(\.hidesBackButton, options: [.new]) { [weak item] navigationItem, change in
             guard change.newValue == true else { return }
             MainActor.assumeIsolated {
                 guard let item, navigationItem.leftBarButtonItem === item else { return }
@@ -74,15 +94,16 @@ public final class QRIZNavigationController: UINavigationController, UIGestureRe
             }
         }
         // UIHostingController(SwiftUI 화면)는 leftItemsSupplementBackButton을 true로 두어 왼쪽 버튼 옆에
-        // 시스템 뒤로가기를 함께 보여준다. 뒤로가기가 두 개 보이지 않도록 false로 유지한다.
+        // 시스템 뒤로가기를 함께 보여준다. 뒤로가기가 두 개 보이지 않도록 계속 false로 유지한다.
+        // (SwiftUI가 재렌더링 때마다 이 값을 되돌릴 수 있어, 화면이 살아있는 동안 계속 감시해야 한다.)
         navigationItem.leftItemsSupplementBackButton = false
-        item.supplementBackButtonObservation = navigationItem.observe(\.leftItemsSupplementBackButton, options: [.new]) { [weak item] navigationItem, change in
+        let supplementBackButtonObservation = navigationItem.observe(\.leftItemsSupplementBackButton, options: [.new]) { navigationItem, change in
             guard change.newValue == true else { return }
             MainActor.assumeIsolated {
-                guard let item, navigationItem.leftBarButtonItem === item else { return }
                 navigationItem.leftItemsSupplementBackButton = false
             }
         }
+        ObservationBox.attach([hiddenBackButtonObservation, supplementBackButtonObservation], to: viewController)
         navigationItem.leftBarButtonItem = item
     }
 

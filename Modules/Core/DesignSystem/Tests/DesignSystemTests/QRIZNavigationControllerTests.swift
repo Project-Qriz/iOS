@@ -219,6 +219,63 @@ struct QRIZNavigationControllerTests {
         #expect(hosting.navigationItem.leftItemsSupplementBackButton == false)
     }
 
+    @Test("자체 툴바 왼쪽 버튼(X 등)을 가진 SwiftUI 화면에서 뒤로가기와 X가 함께 보이지 않는다")
+    func swiftUIScreenWithOwnToolbarLeadingItemDoesNotShowBothButtons() async throws {
+        let (sut, _) = makeSUT()
+        let window = UIWindow(frame: CGRect(x: 0, y: 0, width: 402, height: 874))
+        window.rootViewController = sut
+        window.makeKeyAndVisible()
+
+        // DailyResultView/ExamResultView와 동일한 패턴: 뒤로가기 숨김 + 자체 leading 툴바 아이템(X)
+        struct ResultLikeView: View {
+            var body: some View {
+                Text("시험 결과")
+                    .navigationBarBackButtonHidden(true)
+                    .toolbar {
+                        ToolbarItem(placement: .navigationBarLeading) {
+                            Button("닫기") {}
+                        }
+                    }
+            }
+        }
+        // 실제 DailyResult/ExamResult처럼 NavigationStack 없이 호스팅하고, 바깥 UIKit 내비게이션에 얹는다.
+        let hosting = UIHostingController(rootView: ResultLikeView())
+        sut.pushViewController(hosting, animated: false)
+        try await Task.sleep(nanoseconds: 500_000_000)
+
+        #expect(installedBackItem(on: hosting) == nil)
+    }
+
+    @Test("우리 버튼이 SwiftUI 자체 버튼으로 교체된 뒤에도, SwiftUI가 재렌더링으로 보조 뒤로가기 표시를 되돌리면 다시 꺼준다")
+    func keepsSuppressingSupplementBackButtonAfterOwnItemIsReplaced() async throws {
+        let (sut, _) = makeSUT()
+        let window = UIWindow(frame: CGRect(x: 0, y: 0, width: 402, height: 874))
+        window.rootViewController = sut
+        window.makeKeyAndVisible()
+
+        struct ResultLikeView: View {
+            var body: some View {
+                Text("시험 결과")
+                    .navigationBarBackButtonHidden(true)
+                    .toolbar {
+                        ToolbarItem(placement: .navigationBarLeading) {
+                            Button("닫기") {}
+                        }
+                    }
+            }
+        }
+        let hosting = UIHostingController(rootView: ResultLikeView())
+        sut.pushViewController(hosting, animated: false)
+        try await Task.sleep(nanoseconds: 500_000_000)
+        // 우리 버튼이 SwiftUI의 X 버튼으로 이미 교체된 상태여야 한다.
+        #expect(installedBackItem(on: hosting) == nil)
+
+        // 비동기로 데이터가 로드되어 SwiftUI가 다시 렌더링되면서 플래그를 되돌리는 상황을 재현한다.
+        hosting.navigationItem.leftItemsSupplementBackButton = true
+
+        #expect(hosting.navigationItem.leftItemsSupplementBackButton == false)
+    }
+
     @Test("SwiftUI 화면이 navigationBarBackButtonHidden(true)를 쓰면 커스텀 뒤로가기가 남지 않는다")
     func swiftUIHiddenBackButtonLeavesNoInstalledItem() async throws {
         let (sut, _) = makeSUT()
