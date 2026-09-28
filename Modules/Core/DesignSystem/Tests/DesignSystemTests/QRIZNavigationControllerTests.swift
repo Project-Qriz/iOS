@@ -31,14 +31,15 @@ struct QRIZNavigationControllerTests {
 
     // MARK: - 뒤로가기 버튼 설치
 
-    @Test("glass 사용 시 push된 화면에 커스텀 뒤로가기 버튼이 설치된다")
-    func installsBackItemOnPushedScreen() {
+    @Test("glass 사용 시 push된 화면에 원형 glass 뒤로가기 버튼(GlassIconButton)이 설치된다")
+    func installsBackItemOnPushedScreen() throws {
         let (sut, _) = makeSUT()
         let pushed = UIViewController()
 
         sut.pushViewController(pushed, animated: false)
 
-        #expect(installedBackItem(on: pushed) != nil)
+        let item = try #require(installedBackItem(on: pushed))
+        #expect(item.customView is GlassIconButton)
     }
 
     @Test("설치해도 화면의 hidesBackButton은 건드리지 않는다 (화면이 나중에 숨기는 것을 감지하기 위함)")
@@ -116,17 +117,6 @@ struct QRIZNavigationControllerTests {
         button.sendActions(for: .touchUpInside)
 
         #expect(sut.viewControllers == [root])
-    }
-
-    @Test("설치된 뒤로가기 버튼은 원형 glass 버튼(GlassIconButton)이다")
-    func installedBackItemIsGlassIconButton() throws {
-        let (sut, _) = makeSUT()
-        let pushed = UIViewController()
-
-        sut.pushViewController(pushed, animated: false)
-
-        let item = try #require(installedBackItem(on: pushed))
-        #expect(item.customView is GlassIconButton)
     }
 
     @Test("설치된 뒤로가기 버튼에는 접근성 라벨이 있다")

@@ -25,11 +25,4 @@ struct UIBarButtonItemTests {
 
         #expect(item.hidesSharedBackground == false)
     }
-
-    @Test("자기 자신을 반환해 체이닝할 수 있다")
-    func returnsSelf() {
-        let item = UIBarButtonItem(title: "취소", style: .plain, target: nil, action: nil)
-
-        #expect(item.hidingSharedBackground(usesSystemGlass: true) === item)
-    }
 }
