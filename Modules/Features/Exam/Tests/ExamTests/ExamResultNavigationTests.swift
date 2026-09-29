@@ -48,7 +48,7 @@ struct ExamResultNavigationTests {
         window.makeKeyAndVisible()
 
         let viewModel = makeViewModel()
-        let hosting = UIHostingController(rootView: ExamResultView(viewModel: viewModel))
+        let hosting = ExamResultHostingController(rootView: ExamResultView(viewModel: viewModel))
         nav.pushViewController(hosting, animated: false)
         try await Task.sleep(nanoseconds: 500_000_000)
 

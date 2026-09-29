@@ -89,7 +89,7 @@ final class DailyCoordinatorImpl: DailyNavigating, NavigationGuard {
                 let vm = DailyResultViewModel(dailyTestType: self.type, day: self.day, dailyService: self.service, userInfo: .shared)
                 vm.delegate = self
                 self.dailyResultViewModel = vm
-                let vc = UIHostingController(rootView: DailyResultView(viewModel: vm))
+                let vc = DailyResultHostingController(rootView: DailyResultView(viewModel: vm))
                 vc.hidesBottomBarWhenPushed = true
                 self.navigationController.pushViewController(vc, animated: true)
             }
