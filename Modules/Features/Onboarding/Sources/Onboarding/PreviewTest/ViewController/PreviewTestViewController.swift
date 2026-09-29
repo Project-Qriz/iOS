@@ -5,7 +5,7 @@ import QRIZNetwork
 import QRIZUtils
 import ExamKit
 
-final class PreviewTestViewController: UIViewController {
+final class PreviewTestViewController: UIViewController, ManagesOwnLeadingBarItem {
 
     // MARK: - Properties
 

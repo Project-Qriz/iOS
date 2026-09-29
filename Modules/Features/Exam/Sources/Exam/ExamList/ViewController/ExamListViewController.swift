@@ -4,7 +4,7 @@ import Combine
 import QRIZNetwork
 import QRIZUtils
 
-final class ExamListViewController: UIViewController {
+final class ExamListViewController: UIViewController, ManagesOwnLeadingBarItem {
 
     // MARK: - Properties
 

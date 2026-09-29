@@ -17,18 +17,6 @@ struct QRIZNavigationControllerTests {
         return (sut, root)
     }
 
-    /// `leftBarButtonItem`을 설정하면 iOS 16+ `leadingItemGroups`에도 미러링되는데, 화면이 SwiftUI
-    /// `.toolbar`로 자기 왼쪽 아이템을 추가하면 그 순간부터 `leftBarButtonItem`은 항상 nil을 반환한다.
-    /// 그래서 실제로 우리 버튼이 남아있는지는 `leadingItemGroups`까지 확인해야 정확히 알 수 있다.
-    private func installedBackItem(on vc: UIViewController) -> UIBarButtonItem? {
-        if let item = vc.navigationItem.leftBarButtonItem, item is QRIZNavigationController.BackBarButtonItem {
-            return item
-        }
-        return vc.navigationItem.leadingItemGroups
-            .flatMap(\.barButtonItems)
-            .first { $0 is QRIZNavigationController.BackBarButtonItem }
-    }
-
     // MARK: - 뒤로가기 버튼 설치
 
     @Test("glass 사용 시 push된 화면에 원형 glass 뒤로가기 버튼(GlassIconButton)이 설치된다")
@@ -38,37 +26,24 @@ struct QRIZNavigationControllerTests {
 
         sut.pushViewController(pushed, animated: false)
 
-        let item = try #require(installedBackItem(on: pushed))
+        let item = try #require(pushed.navigationItem.leftBarButtonItem)
         #expect(item.customView is GlassIconButton)
     }
 
-    @Test("설치해도 화면의 hidesBackButton은 건드리지 않는다 (화면이 나중에 숨기는 것을 감지하기 위함)")
-    func doesNotTouchHidesBackButton() {
+    @Test("설치 시 leftItemsSupplementBackButton을 false로 맞춘다")
+    func setsSupplementBackButtonToFalseOnInstall() {
         let (sut, _) = makeSUT()
         let pushed = UIViewController()
 
         sut.pushViewController(pushed, animated: false)
 
-        #expect(pushed.navigationItem.hidesBackButton == false)
-    }
-
-    @Test("설치 후 화면이 뒤로가기를 숨기면 설치한 버튼을 치운다")
-    func removesInstalledItemWhenScreenHidesBackButtonLater() {
-        let (sut, _) = makeSUT()
-        let pushed = UIViewController()
-        sut.pushViewController(pushed, animated: false)
-        #expect(installedBackItem(on: pushed) != nil)
-
-        pushed.navigationItem.hidesBackButton = true
-
-        #expect(pushed.navigationItem.leftBarButtonItem == nil)
+        #expect(pushed.navigationItem.leftItemsSupplementBackButton == false)
     }
 
     @Test("루트 화면에는 설치되지 않는다")
     func doesNotInstallOnRoot() {
         let (_, root) = makeSUT()
 
-        #expect(installedBackItem(on: root) == nil)
         #expect(root.navigationItem.leftBarButtonItem == nil)
     }
 
@@ -80,30 +55,52 @@ struct QRIZNavigationControllerTests {
         sut.pushViewController(pushed, animated: false)
 
         #expect(pushed.navigationItem.leftBarButtonItem == nil)
-        #expect(pushed.navigationItem.hidesBackButton == false)
     }
 
-    @Test("화면이 자기 왼쪽 버튼을 이미 가지고 있으면 덮어쓰지 않는다")
-    func keepsExistingLeftItem() {
+    @Test("ManagesOwnLeadingBarItem을 채택한 화면에는 뒤로가기 버튼을 설치하지 않는다")
+    func doesNotInstallOnScreenManagingItsOwnLeadingItem() {
+        final class CancelScreen: UIViewController, ManagesOwnLeadingBarItem {}
         let (sut, _) = makeSUT()
-        let pushed = UIViewController()
-        let cancel = UIBarButtonItem(title: "취소", style: .plain, target: nil, action: nil)
-        pushed.navigationItem.leftBarButtonItem = cancel
+        let pushed = CancelScreen()
+        pushed.navigationItem.leftBarButtonItem = UIBarButtonItem(title: "취소", style: .plain, target: nil, action: nil)
 
         sut.pushViewController(pushed, animated: false)
 
-        #expect(pushed.navigationItem.leftBarButtonItem === cancel)
+        #expect(pushed.navigationItem.leftBarButtonItem?.title == "취소")
     }
 
-    @Test("화면이 뒤로가기를 숨겼다면 설치하지 않는다")
-    func respectsHiddenBackButton() {
+    @Test("ManagesOwnLeadingBarItem을 채택한 화면도 시스템 보조 뒤로가기 표시는 꺼진다")
+    func suppressesSupplementBackButtonEvenOnScreenManagingItsOwnLeadingItem() {
+        final class CancelScreen: UIViewController, ManagesOwnLeadingBarItem {}
+        let (sut, _) = makeSUT()
+        let pushed = CancelScreen()
+
+        sut.pushViewController(pushed, animated: false)
+
+        #expect(pushed.navigationItem.leftItemsSupplementBackButton == false)
+    }
+
+    @Test("방어적으로: 채택하지 않은 화면도 이미 왼쪽 버튼이 있으면 덮어쓰지 않는다")
+    func keepsExistingLeftItemEvenWithoutOptOut() {
+        let (sut, _) = makeSUT()
+        let pushed = UIViewController()
+        let existing = UIBarButtonItem(title: "취소", style: .plain, target: nil, action: nil)
+        pushed.navigationItem.leftBarButtonItem = existing
+
+        sut.pushViewController(pushed, animated: false)
+
+        #expect(pushed.navigationItem.leftBarButtonItem === existing)
+    }
+
+    @Test("방어적으로: 채택하지 않은 화면도 뒤로가기를 숨겼다면 설치하지 않는다")
+    func respectsHiddenBackButtonEvenWithoutOptOut() {
         let (sut, _) = makeSUT()
         let pushed = UIViewController()
         pushed.navigationItem.hidesBackButton = true
 
         sut.pushViewController(pushed, animated: false)
 
-        #expect(installedBackItem(on: pushed) == nil)
+        #expect(pushed.navigationItem.leftBarButtonItem == nil)
     }
 
     @Test("설치된 뒤로가기 버튼을 누르면 pop된다")
@@ -112,7 +109,7 @@ struct QRIZNavigationControllerTests {
         let pushed = UIViewController()
         sut.pushViewController(pushed, animated: false)
 
-        let item = try #require(installedBackItem(on: pushed))
+        let item = try #require(pushed.navigationItem.leftBarButtonItem)
         let button = try #require(item.customView as? GlassIconButton)
         button.sendActions(for: .touchUpInside)
 
@@ -125,9 +122,7 @@ struct QRIZNavigationControllerTests {
         let pushed = UIViewController()
         sut.pushViewController(pushed, animated: false)
 
-        let item = try #require(installedBackItem(on: pushed))
-
-        #expect(item.accessibilityLabel == "뒤로")
+        #expect(pushed.navigationItem.leftBarButtonItem?.accessibilityLabel == "뒤로")
     }
 
     // MARK: - 아이콘 지정
@@ -168,23 +163,11 @@ struct QRIZNavigationControllerTests {
         #expect(sut.gestureRecognizerShouldBegin(gesture) == false)
     }
 
-    @Test("자체 왼쪽 버튼(취소 등)이 있는 화면은 스와이프 뒤로가기를 계속 막는다")
-    func swipeBackBlockedOnCustomLeftItem() throws {
+    @Test("ManagesOwnLeadingBarItem을 채택한 화면은 스와이프 뒤로가기를 막는다")
+    func swipeBackBlockedOnScreenManagingItsOwnLeadingItem() throws {
+        final class CancelScreen: UIViewController, ManagesOwnLeadingBarItem {}
         let (sut, _) = makeSUT()
-        let exam = UIViewController()
-        exam.navigationItem.leftBarButtonItem = UIBarButtonItem(title: "취소", style: .plain, target: nil, action: nil)
-        sut.pushViewController(exam, animated: false)
-        let gesture = try #require(sut.interactivePopGestureRecognizer)
-
-        #expect(sut.gestureRecognizerShouldBegin(gesture) == false)
-    }
-
-    @Test("뒤로가기를 숨긴 화면은 스와이프 뒤로가기를 계속 막는다")
-    func swipeBackBlockedOnHiddenBackButton() throws {
-        let (sut, _) = makeSUT()
-        let hidden = UIViewController()
-        hidden.navigationItem.hidesBackButton = true
-        sut.pushViewController(hidden, animated: false)
+        sut.pushViewController(CancelScreen(), animated: false)
         let gesture = try #require(sut.interactivePopGestureRecognizer)
 
         #expect(sut.gestureRecognizerShouldBegin(gesture) == false)
@@ -199,35 +182,28 @@ struct QRIZNavigationControllerTests {
         #expect(sut.gestureRecognizerShouldBegin(gesture) == true)
     }
 
-    // MARK: - SwiftUI 화면
+    // MARK: - SwiftUI 화면 (진단)
 
-    @Test("SwiftUI 호스팅 화면에서도 커스텀 뒤로가기 옆에 시스템 뒤로가기가 함께 보이지 않는다")
-    func swiftUIHostedScreenDoesNotShowSystemBackAlongside() async throws {
+    /// DailyResultView/ExamResultView와 동일한 패턴: ManagesOwnLeadingBarItem을 채택해 자체 X 버튼을
+    /// 관리하는 SwiftUI 화면도, 비동기 데이터 로딩 등으로 재렌더링되면 시스템 보조 뒤로가기 표시를
+    /// 다시 true로 되돌릴 수 있다. 이 화면은 왼쪽 버튼 자체는 우리가 건드리지 않지만, 보조 표시만큼은
+    /// 계속 꺼져 있어야 한다.
+    @Test("ManagesOwnLeadingBarItem을 채택한 SwiftUI 화면도 재렌더링 후 보조 뒤로가기가 다시 보이지 않는다")
+    func managedSwiftUIScreenStaysSuppressedAfterRerender() async throws {
+        final class ResultLikeHost<Content: View>: UIHostingController<Content>, ManagesOwnLeadingBarItem {}
+
         let (sut, _) = makeSUT()
         let window = UIWindow(frame: CGRect(x: 0, y: 0, width: 402, height: 874))
         window.rootViewController = sut
         window.makeKeyAndVisible()
 
-        let hosting = UIHostingController(rootView: Text("오답노트 상세"))
-        sut.pushViewController(hosting, animated: false)
-        try await Task.sleep(nanoseconds: 500_000_000)
-
-        #expect(installedBackItem(on: hosting) != nil)
-        // UIHostingController는 leftItemsSupplementBackButton을 true로 두어 시스템 뒤로가기를 함께 보여준다.
-        #expect(hosting.navigationItem.leftItemsSupplementBackButton == false)
-    }
-
-    @Test("자체 툴바 왼쪽 버튼(X 등)을 가진 SwiftUI 화면에서 뒤로가기와 X가 함께 보이지 않는다")
-    func swiftUIScreenWithOwnToolbarLeadingItemDoesNotShowBothButtons() async throws {
-        let (sut, _) = makeSUT()
-        let window = UIWindow(frame: CGRect(x: 0, y: 0, width: 402, height: 874))
-        window.rootViewController = sut
-        window.makeKeyAndVisible()
-
-        // DailyResultView/ExamResultView와 동일한 패턴: 뒤로가기 숨김 + 자체 leading 툴바 아이템(X)
+        final class ViewModel: ObservableObject {
+            @Published var text = "초기"
+        }
         struct ResultLikeView: View {
+            @ObservedObject var viewModel: ViewModel
             var body: some View {
-                Text("시험 결과")
+                Text(viewModel.text)
                     .navigationBarBackButtonHidden(true)
                     .toolbar {
                         ToolbarItem(placement: .navigationBarLeading) {
@@ -236,55 +212,44 @@ struct QRIZNavigationControllerTests {
                     }
             }
         }
-        // 실제 DailyResult/ExamResult처럼 NavigationStack 없이 호스팅하고, 바깥 UIKit 내비게이션에 얹는다.
-        let hosting = UIHostingController(rootView: ResultLikeView())
+        let viewModel = ViewModel()
+        let hosting = ResultLikeHost(rootView: ResultLikeView(viewModel: viewModel))
         sut.pushViewController(hosting, animated: false)
         try await Task.sleep(nanoseconds: 500_000_000)
 
-        #expect(installedBackItem(on: hosting) == nil)
-    }
-
-    @Test("우리 버튼이 SwiftUI 자체 버튼으로 교체된 뒤에도, SwiftUI가 재렌더링으로 보조 뒤로가기 표시를 되돌리면 다시 꺼준다")
-    func keepsSuppressingSupplementBackButtonAfterOwnItemIsReplaced() async throws {
-        let (sut, _) = makeSUT()
-        let window = UIWindow(frame: CGRect(x: 0, y: 0, width: 402, height: 874))
-        window.rootViewController = sut
-        window.makeKeyAndVisible()
-
-        struct ResultLikeView: View {
-            var body: some View {
-                Text("시험 결과")
-                    .navigationBarBackButtonHidden(true)
-                    .toolbar {
-                        ToolbarItem(placement: .navigationBarLeading) {
-                            Button("닫기") {}
-                        }
-                    }
-            }
-        }
-        let hosting = UIHostingController(rootView: ResultLikeView())
-        sut.pushViewController(hosting, animated: false)
-        try await Task.sleep(nanoseconds: 500_000_000)
-        // 우리 버튼이 SwiftUI의 X 버튼으로 이미 교체된 상태여야 한다.
-        #expect(installedBackItem(on: hosting) == nil)
-
-        // 비동기로 데이터가 로드되어 SwiftUI가 다시 렌더링되면서 플래그를 되돌리는 상황을 재현한다.
-        hosting.navigationItem.leftItemsSupplementBackButton = true
+        // 비동기 데이터 도착으로 인한 재렌더링을 재현한다.
+        viewModel.text = "재렌더링"
+        try await Task.sleep(nanoseconds: 300_000_000)
 
         #expect(hosting.navigationItem.leftItemsSupplementBackButton == false)
     }
 
-    @Test("SwiftUI 화면이 navigationBarBackButtonHidden(true)를 쓰면 커스텀 뒤로가기가 남지 않는다")
-    func swiftUIHiddenBackButtonLeavesNoInstalledItem() async throws {
+    /// ManagesOwnLeadingBarItem을 채택하지 않은 "평범한" SwiftUI 화면(자체 toolbar 없음)에서,
+    /// 설치 시 한 번만 false로 맞춘 leftItemsSupplementBackButton이 이후 재렌더링에도 유지되는지 확인한다.
+    @Test("자체 toolbar가 없는 SwiftUI 화면은 재렌더링 후에도 뒤로가기가 하나만 보인다")
+    func plainSwiftUIScreenStaysSingleButtonAfterRerender() async throws {
         let (sut, _) = makeSUT()
         let window = UIWindow(frame: CGRect(x: 0, y: 0, width: 402, height: 874))
         window.rootViewController = sut
         window.makeKeyAndVisible()
 
-        let hosting = UIHostingController(rootView: Text("결과").navigationBarBackButtonHidden(true))
+        final class ViewModel: ObservableObject {
+            @Published var text = "초기"
+        }
+        struct PlainView: View {
+            @ObservedObject var viewModel: ViewModel
+            var body: some View { Text(viewModel.text) }
+        }
+        let viewModel = ViewModel()
+        let hosting = UIHostingController(rootView: PlainView(viewModel: viewModel))
         sut.pushViewController(hosting, animated: false)
         try await Task.sleep(nanoseconds: 500_000_000)
 
-        #expect(installedBackItem(on: hosting) == nil)
+        // 비동기 데이터 도착 등으로 SwiftUI가 재렌더링되는 상황을 재현한다.
+        viewModel.text = "재렌더링"
+        try await Task.sleep(nanoseconds: 300_000_000)
+
+        #expect(hosting.navigationItem.leftItemsSupplementBackButton == false)
+        #expect(hosting.navigationItem.leftBarButtonItem?.customView is GlassIconButton)
     }
 }

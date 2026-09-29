@@ -4,7 +4,7 @@ import DesignSystem
 import QRIZUtils
 import ExamKit
 
-final class ExamTestViewController: UIViewController {
+final class ExamTestViewController: UIViewController, ManagesOwnLeadingBarItem {
 
     // MARK: - Properties
 

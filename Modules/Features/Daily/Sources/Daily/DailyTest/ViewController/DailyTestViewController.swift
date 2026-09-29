@@ -10,7 +10,7 @@ import DesignSystem
 import Combine
 import QRIZUtils
 
-final class DailyTestViewController: UIViewController {
+final class DailyTestViewController: UIViewController, ManagesOwnLeadingBarItem {
 
     // MARK: - Properties
 

@@ -88,3 +88,8 @@ private final class ExamResultExamKitBridge: ObservableObject {
     let conceptTap = PassthroughSubject<Void, Never>()
     let problemTap = PassthroughSubject<Int, Never>()
 }
+
+// MARK: - ManagesOwnLeadingBarItem
+
+/// 이 화면은 `.toolbar`로 X 버튼을 직접 관리하므로 QRIZNavigationController가 관여하지 않는다.
+extension UIHostingController: ManagesOwnLeadingBarItem where Content == ExamResultView {}

@@ -10,7 +10,7 @@ import DesignSystem
 import Combine
 import QRIZUtils
 
-final class DailyLearnViewController: UIViewController {
+final class DailyLearnViewController: UIViewController, ManagesOwnLeadingBarItem {
 
     // MARK: - Enums
 
