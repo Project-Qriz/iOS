@@ -41,6 +41,7 @@ protocol TabBarCoordinatorDependency {
 final class TabBarCoordinatorDependencyImpl: TabBarCoordinatorDependency {
     
     private let examService: ExamScheduleService
+    private let examScheduleRepository: any ExamScheduleRepository
     private let examTestService: ExamService
     private let dailyService: DailyService
     private let onboardingService: OnboardingService
@@ -53,10 +54,7 @@ final class TabBarCoordinatorDependencyImpl: TabBarCoordinatorDependency {
     private let adService: any AdService
 
     private lazy var _homeCoordinator = makeHomeCoordinator(
-        examScheduleRepository: ExamScheduleRepositoryImpl(
-            service: examService,
-            cacheStore: ExamScheduleCacheStoreImpl()
-        ),
+        examScheduleRepository: examScheduleRepository,
         examService: examService,
         dailyService: dailyService,
         weeklyService: weeklyService,
@@ -107,6 +105,7 @@ final class TabBarCoordinatorDependencyImpl: TabBarCoordinatorDependency {
 
     init(
         examService: ExamScheduleService,
+        examScheduleRepository: any ExamScheduleRepository,
         examTestService: ExamService,
         dailyService: DailyService,
         onboardingService: OnboardingService,
@@ -119,6 +118,7 @@ final class TabBarCoordinatorDependencyImpl: TabBarCoordinatorDependency {
         adService: any AdService
     ) {
         self.examService = examService
+        self.examScheduleRepository = examScheduleRepository
         self.examTestService = examTestService
         self.dailyService = dailyService
         self.onboardingService = onboardingService
