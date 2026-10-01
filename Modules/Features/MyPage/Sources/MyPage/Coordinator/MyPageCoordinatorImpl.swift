@@ -48,7 +48,7 @@ final class MyPageCoordinatorImpl: MyPageNavigating, NavigationGuard {
         let myPageVC = MyPageViewController(viewModel: viewModel)
         myPageVC.coordinator = self
 
-        let navi = UINavigationController(rootViewController: myPageVC)
+        let navi = QRIZNavigationController(rootViewController: myPageVC)
         self.navigationController = navi
         return navi
     }

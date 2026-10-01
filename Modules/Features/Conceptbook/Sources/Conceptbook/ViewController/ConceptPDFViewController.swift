@@ -11,9 +11,12 @@ import Combine
 import PDFKit
 import QRIZUtils
 
-final class ConceptPDFViewController: UIViewController {
+final class ConceptPDFViewController: UIViewController, BackButtonImageProviding {
 
     // MARK: - Properties
+
+    /// 이 화면은 뒤로가기 대신 닫기(X) 아이콘을 사용한다.
+    var backButtonSystemImageName: String { "xmark" }
 
     private let rootView: ConceptPDFMainView
     private let conceptPDFVM: ConceptPDFViewModel

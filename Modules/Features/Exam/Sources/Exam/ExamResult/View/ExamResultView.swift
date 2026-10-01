@@ -56,7 +56,9 @@ struct ExamResultView: View {
                     Image(systemName: "xmark")
                         .foregroundStyle(Color.coolNeutral800)
                 }
+                .glassIconButtonStyle()
             }
+            .hidingSharedBackground()
         }
         .alert("오류", isPresented: isErrorPresented) {
             Button("확인", role: .cancel) { viewModel.errorMessage = nil }
@@ -86,3 +88,12 @@ private final class ExamResultExamKitBridge: ObservableObject {
     let conceptTap = PassthroughSubject<Void, Never>()
     let problemTap = PassthroughSubject<Int, Never>()
 }
+
+// MARK: - Hosting Controller
+
+/// 이 화면은 `.toolbar`로 X 버튼을 직접 관리하므로 QRIZNavigationController가 관여하지 않는다.
+///
+/// `UIHostingController`(SwiftUI 타입)에 직접 조건부 확장으로 채택하면, DesignSystem도 SwiftUI도
+/// 아닌 제3의 모듈(Exam)에서 선언하는 "retroactive conformance"가 되어 컴파일러 경고가 뜬다.
+/// 대신 이 모듈 소유의 서브클래스에 채택한다.
+final class ExamResultHostingController: UIHostingController<ExamResultView>, ManagesOwnLeadingBarItem {}

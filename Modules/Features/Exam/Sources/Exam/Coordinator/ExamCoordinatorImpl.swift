@@ -73,7 +73,7 @@ final class ExamCoordinatorImpl: ExamNavigating, NavigationGuard {
                 let vm = ExamResultViewModel(examId: examId, examService: self.service, userInfo: .shared)
                 vm.delegate = self
                 self.examResultViewModel = vm
-                let vc = UIHostingController(rootView: ExamResultView(viewModel: vm))
+                let vc = ExamResultHostingController(rootView: ExamResultView(viewModel: vm))
                 vc.hidesBottomBarWhenPushed = true
                 self.navigationController.pushViewController(vc, animated: true)
             }

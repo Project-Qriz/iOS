@@ -8,14 +8,33 @@
 import UIKit
 
 public extension UINavigationBar {
+    /// 시스템 Liquid Glass(iOS 26+)를 사용할 수 있는지 여부입니다.
+    static var supportsSystemGlass: Bool {
+        if #available(iOS 26, *) { true } else { false }
+    }
+
     /// `커스텀 뒤로가기 버튼이 적용된 UINavigationBarAppearance를 생성하여 반환합니다.`
+    ///
+    /// 시스템 glass를 사용하는 경우 `backgroundColor`, `hidesShadow`는 무시되며
+    /// 배경과 경계 표현은 시스템에 맡깁니다.
     static func defaultBackButtonStyle(
         systemImageName: String = "chevron.left",
-        tintColor: UIColor = .black
+        tintColor: UIColor = .black,
+        backgroundColor: UIColor = .white,
+        hidesShadow: Bool = false,
+        usesSystemGlass: Bool = UINavigationBar.supportsSystemGlass
     ) -> UINavigationBarAppearance {
         let appearance = UINavigationBarAppearance()
-        appearance.configureWithOpaqueBackground()
-        appearance.backgroundColor = .white
+
+        if usesSystemGlass {
+            appearance.configureWithDefaultBackground()
+        } else {
+            appearance.configureWithOpaqueBackground()
+            appearance.backgroundColor = backgroundColor
+            if hidesShadow {
+                appearance.shadowColor = .clear
+            }
+        }
 
         appearance.backButtonAppearance.normal.titleTextAttributes = [
             .foregroundColor: UIColor.clear,

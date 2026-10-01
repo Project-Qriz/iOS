@@ -5,7 +5,7 @@ import QRIZNetwork
 import QRIZUtils
 import ExamKit
 
-final class PreviewTestViewController: UIViewController {
+final class PreviewTestViewController: UIViewController, ManagesOwnLeadingBarItem {
 
     // MARK: - Properties
 
@@ -117,6 +117,7 @@ private extension PreviewTestViewController {
             self?.input.send(.escapeTapped)
         }, for: .touchUpInside)
         navigationItem.leftBarButtonItem = UIBarButtonItem(customView: previewTestView.cancelButton)
+            .hidingSharedBackground()
         navigationItem.rightBarButtonItems = [
             UIBarButtonItem(customView: previewTestView.timeLabel),
             UIBarButtonItem(customView: previewTestView.totalTimeRemainingLabel)

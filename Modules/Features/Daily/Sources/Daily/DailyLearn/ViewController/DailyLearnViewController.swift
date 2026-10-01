@@ -10,7 +10,7 @@ import DesignSystem
 import Combine
 import QRIZUtils
 
-final class DailyLearnViewController: UIViewController {
+final class DailyLearnViewController: UIViewController, ManagesOwnLeadingBarItem {
 
     // MARK: - Enums
 
@@ -132,13 +132,10 @@ final class DailyLearnViewController: UIViewController {
         titleView.textColor = .coolNeutral700
         navigationItem.titleView = titleView
 
-        let backImage = UIImage(systemName: "chevron.left")?.withTintColor(.coolNeutral800, renderingMode: .alwaysOriginal)
-        let button = UIButton(frame: CGRect(x: 0, y: 0, width: 28, height: 28))
-        button.setImage(backImage, for: .normal)
-        button.addAction(UIAction { [weak self] _ in
+        let button = GlassIconButton(systemImageName: "chevron.left", tintColor: .coolNeutral800) { [weak self] in
             self?.input.send(.backButtonClicked)
-        }, for: .touchUpInside)
-        navigationItem.leftBarButtonItem = UIBarButtonItem(customView: button)
+        }
+        navigationItem.leftBarButtonItem = UIBarButtonItem(customView: button).hidingSharedBackground()
     }
 }
 
