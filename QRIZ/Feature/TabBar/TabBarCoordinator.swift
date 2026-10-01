@@ -53,6 +53,10 @@ final class TabBarCoordinatorDependencyImpl: TabBarCoordinatorDependency {
     private let adService: any AdService
 
     private lazy var _homeCoordinator = makeHomeCoordinator(
+        examScheduleRepository: ExamScheduleRepositoryImpl(
+            service: examService,
+            cacheStore: ExamScheduleCacheStoreImpl()
+        ),
         examService: examService,
         dailyService: dailyService,
         weeklyService: weeklyService,
