@@ -4,7 +4,7 @@ import Foundation
 import QRIZUtils
 
 @MainActor
-@Suite("ExamScheduleRepository 테스트")
+@Suite("ExamScheduleRepository 테스트", .serialized)
 struct ExamScheduleRepositoryTests {
 
     private func makeSUT(service: MockExamScheduleService) -> (ExamScheduleRepositoryImpl, ExamScheduleCacheStoreImpl) {
