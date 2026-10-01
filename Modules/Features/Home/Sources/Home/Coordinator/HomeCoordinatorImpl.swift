@@ -96,7 +96,10 @@ final class HomeCoordinatorImpl: HomeCoordinator, NavigationGuard {
     }
 
     private func makeExamScheduleSelectionViewController() -> ExamScheduleSelectionViewController {
-        let viewModel = ExamScheduleSelectionViewModel(examScheduleService: examService)
+        let viewModel = ExamScheduleSelectionViewModel(
+            examScheduleService: examService,
+            examScheduleRepository: examScheduleRepository
+        )
         viewModel.delegate = examDelegate ?? self
 
         let vc = ExamScheduleSelectionViewController(viewModel: viewModel)
