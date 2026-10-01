@@ -36,14 +36,15 @@ public final class ExamScheduleRepositoryImpl: ExamScheduleRepository {
     }
 
     public func currentExamState() async throws -> CachedExamValue {
-        if let cached = cacheStore.load(userId: userInfo.userId) {
+        let userId = userInfo.userId
+        if let cached = cacheStore.load(userId: userId) {
             return cached.value
         }
         if let inFlightTask {
             return try await inFlightTask.value
         }
 
-        let task = Task { try await self.fetchAndCache() }
+        let task = Task { try await self.fetchAndCache(userId: userId) }
         inFlightTask = task
         defer { inFlightTask = nil }
         return try await task.value
@@ -55,9 +56,10 @@ public final class ExamScheduleRepositoryImpl: ExamScheduleRepository {
 
     public func clearCache() {
         cacheStore.clear(userId: userInfo.userId)
+        inFlightTask = nil
     }
 
-    private func fetchAndCache() async throws -> CachedExamValue {
+    private func fetchAndCache(userId: String) async throws -> CachedExamValue {
         do {
             let response = try await service.fetchAppliedExams()
             let detail = ExamDetail(
@@ -66,13 +68,13 @@ public final class ExamScheduleRepositoryImpl: ExamScheduleRepository {
                 applyPeriod: response.data.period
             )
             let value = CachedExamValue.registered(detail)
-            cacheStore.save(CachedExamState(value: value, fetchedAt: Date()), userId: userInfo.userId)
+            cacheStore.save(CachedExamState(value: value, fetchedAt: Date()), userId: userId)
             return value
 
         } catch let NetworkError.clientError(httpStatus, _, _, _, _) where httpStatus == 400 {
             // 시험 미등록 상태 → 정상 케이스로 캐시한다
             let value = CachedExamValue.unregistered
-            cacheStore.save(CachedExamState(value: value, fetchedAt: Date()), userId: userInfo.userId)
+            cacheStore.save(CachedExamState(value: value, fetchedAt: Date()), userId: userId)
             return value
         }
     }
