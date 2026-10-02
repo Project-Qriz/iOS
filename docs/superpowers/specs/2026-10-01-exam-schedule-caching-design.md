@@ -79,13 +79,19 @@ ExamScheduleCacheStore   ExamScheduleService (기존, 변경 없음)
 | `ExamScheduleSelectionViewModel.swift` | 수정 — 낙관적 반영 + `reconciling` 분기 추가 |
 | `AppCoordinatorImpl.swift` (`didLogout`) | 수정 — refreshToken 삭제 누락, `UserInfoManager.reset()` 미호출 확인됨. 캐시 삭제와 함께 한 곳에서 정리하도록 보강 (이 설계가 의존하는 선행 수정) |
 
+> **구현 시 변경 (`HomeCoordinatorImpl.swift` / `HomeViewModel.swift`)** — 위 표의 8개 트리거 호출 지점은 **의도적으로 그대로 두었다.** 모든 시험 등록 정보 읽기가 캐시 우선 Repository를 경유하게 되면서, 8곳 전부에서 시험 일정 네트워크 호출이 투명하게(호출 코드를 건드리지 않고) 사라지기 때문이다. 즉 트리거 자체를 제거하거나 직접 캐시 갱신으로 바꿀 필요가 없었고, `reloadExamSchedule()`을 Daily·Weekly에서 분리하는 작업도 하지 않았다.
+>
+> 따라서 같은 8개 트리거에서 `getDailyPlan` · `fetchWeeklyRecommend`가 여전히 매번 재조회되는 것은 **이 기능과 무관하며, 의도적으로 범위 밖**이다(아래 "범위 밖" 참고).
+
 ## 기대 효과 (예제 가정 — 실측 아님)
+
+아래 수치는 **시험 등록 정보 엔드포인트(`fetchAppliedExams`) 한 곳에만 적용된다.** `getDailyPlan` · `fetchWeeklyRecommend`는 이 기능의 범위가 아니며, 기존과 동일하게 8개 트리거마다 재조회된다 — 전체 Home 트래픽이 99% 줄어든다는 뜻이 아니다.
 
 준비 기간 60일, 하루 실행 1.5회, 실행당 Home 재진입 3회, 등록·변경 준비기간 중 1.5회로 가정.
 
 - 지금 방식: `60 * 1.5 * 3 = 270회` / 준비기간 (1인)
 - 새 방식: `최초 1 + 등록·변경 1.5 = 2.5회` / 준비기간 (1인)
-- 절감 ≈ 99%, 전송량도 같은 비율로 감소
+- `fetchAppliedExams` 호출 절감 ≈ 99%, 해당 엔드포인트 전송량도 같은 비율로 감소
 
 실제 DAU는 Firebase Analytics 값으로 대체해 검증 가능하며, 캐시 히트/미스를 `AnalyticsService`에 이벤트로 남기면 추정치를 실측으로 바꿀 수 있다(이번 범위에는 포함하지 않음).
 
@@ -107,3 +113,7 @@ ExamScheduleCacheStore   ExamScheduleService (기존, 변경 없음)
 - TTL(24h) 기반 백그라운드 재검증 안을 전체 폐기하고, 쓰기 이벤트 기반으로 대체 — "이 앱 안에서만 바뀐다"는 전제하에 타이머가 풀 문제가 애초에 없었음
 - 저장소: UserDefaults / 파일(JSON) / Keychain / SwiftData 비교 후 UserDefaults로 확정
 - 쓰기 타임아웃: 즉시 롤백 대신 reconciling(재조회 후 확정) 도입으로 확정
+
+## 구현 완료
+
+`docs/superpowers/plans/2026-10-01-exam-schedule-caching.md`에 따라 구현 완료 (2026-10-02).
