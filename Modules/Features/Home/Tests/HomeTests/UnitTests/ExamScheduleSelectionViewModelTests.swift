@@ -317,4 +317,26 @@ struct ExamScheduleSelectionViewModelTests {
         #expect(repository.clearCacheCallCount == 1)
         #expect(h.mockDelegate.didUpdateExamScheduleCallCount == 0)
     }
+
+    @Test("examTapped — 완전한 오프라인 에러는 reconcile하지 않고 즉시 롤백한다")
+    func examTapped_notConnectedToInternet_rollsBackImmediately() async throws {
+        let service = MockExamScheduleService()
+        service.fetchExamListResult = .success(.make(
+            registeredApplicationId: nil,
+            registeredUserApplyId: nil,
+            applications: [.make(applicationId: 3)]
+        ))
+        service.applyExamScheduleResult = .failure(URLError(.notConnectedToInternet))
+        let h = TestHarness(service: service)
+        try await h.sendViewDidLoad()
+        h.resetReceived()
+
+        h.send(.examTapped(3))
+        try await Task.sleep(nanoseconds: asyncSleepNanoseconds)
+
+        // reconcile용 재조회가 일어나지 않는다 (viewDidLoad 1회뿐)
+        #expect(service.fetchExamListCallCount == 1)
+        #expect(!h.errorMessages.isEmpty)
+        #expect(h.loadedRows.last?.first(where: { $0.id == 3 })?.isSelected == false)
+    }
 }

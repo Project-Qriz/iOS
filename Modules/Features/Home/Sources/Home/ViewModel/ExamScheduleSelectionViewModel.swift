@@ -169,7 +169,10 @@ final class ExamScheduleSelectionViewModel {
 
     private static func isTransportTimeout(_ error: URLError) -> Bool {
         switch error.code {
-        case .timedOut, .networkConnectionLost, .notConnectedToInternet, .cannotConnectToHost, .cannotFindHost, .dnsLookupFailed:
+        // 요청이 서버에 닿았는지 알 수 없는(= reconcile이 필요한) 경우만 포함한다.
+        // `.notConnectedToInternet` · `.cannotFindHost` · `.dnsLookupFailed`처럼
+        // 요청이 서버에 닿지 않았음이 명확한 에러는 일반 catch로 넘겨 즉시 롤백시킨다.
+        case .timedOut, .networkConnectionLost, .cannotConnectToHost:
             return true
         default:
             return false
