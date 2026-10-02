@@ -269,4 +269,52 @@ struct ExamScheduleSelectionViewModelTests {
         // 타임아웃을 실패로 보고하지 않는다 (서버 상태 확인으로 끝남)
         #expect(h.errorMessages.isEmpty)
     }
+
+    @Test("examTapped — 쓰기 성공 후 재조회가 실패하면 캐시를 무효화한다 (낡은 값을 쓰지 않는다)")
+    func examTapped_writeSucceedsButReconcileFails_clearsCacheInsteadOfWriting() async throws {
+        let service = MockExamScheduleService()
+        service.fetchExamListResultQueue = [
+            // viewDidLoad: 미등록 상태
+            .success(.make(registeredApplicationId: nil, registeredUserApplyId: nil, applications: [.make(applicationId: 10)])),
+            // 쓰기 성공 직후의 재조회가 실패한다
+            .failure(URLError(.timedOut))
+        ]
+        let repository = MockExamScheduleRepository()
+        let h = TestHarness(service: service, repository: repository)
+        try await h.sendViewDidLoad()
+        h.resetReceived()
+
+        h.send(.examTapped(10))
+        try await Task.sleep(nanoseconds: asyncSleepNanoseconds)
+
+        // 쓰기 자체는 성공했다
+        #expect(service.applyExamScheduleCallCount == 1)
+        // 재조회가 실패했으므로 낡은 상태를 캐시에 쓰지 않는다
+        #expect(repository.appliedWriteResults.isEmpty)
+        // 대신 캐시를 비워 다음 읽기에서 실제 서버 상태를 받게 한다
+        #expect(repository.clearCacheCallCount == 1)
+        // Home이 다시 읽도록 알린다 (빈 캐시 → 정상 fetch)
+        #expect(h.mockDelegate.didUpdateExamScheduleCallCount == 1)
+    }
+
+    @Test("examTapped — 타임아웃 reconcile의 재조회까지 실패하면 캐시만 비우고 성공 신호를 보내지 않는다")
+    func examTapped_timeoutAndReconcileFails_clearsCacheWithoutNotifying() async throws {
+        let service = MockExamScheduleService()
+        service.fetchExamListResultQueue = [
+            .success(.make(registeredApplicationId: nil, registeredUserApplyId: nil, applications: [.make(applicationId: 7)])),
+            .failure(URLError(.timedOut))
+        ]
+        service.applyExamScheduleResult = .failure(URLError(.timedOut))
+        let repository = MockExamScheduleRepository()
+        let h = TestHarness(service: service, repository: repository)
+        try await h.sendViewDidLoad()
+        h.resetReceived()
+
+        h.send(.examTapped(7))
+        try await Task.sleep(nanoseconds: asyncSleepNanoseconds)
+
+        #expect(repository.appliedWriteResults.isEmpty)
+        #expect(repository.clearCacheCallCount == 1)
+        #expect(h.mockDelegate.didUpdateExamScheduleCallCount == 0)
+    }
 }
