@@ -56,6 +56,8 @@ public final class ExamScheduleRepositoryImpl: ExamScheduleRepository {
 
     public func clearCache() {
         cacheStore.clear(userId: userInfo.userId)
+        // 참조만 버리면 진행 중인 fetch가 끝나면서 캐시를 되살린다 → 반드시 취소한다
+        inFlightTask?.cancel()
         inFlightTask = nil
     }
 
@@ -68,12 +70,16 @@ public final class ExamScheduleRepositoryImpl: ExamScheduleRepository {
                 applyPeriod: response.data.period
             )
             let value = CachedExamValue.registered(detail)
+            // 취소됐다면(로그아웃 등) 캐시를 되살리지 않는다
+            guard !Task.isCancelled else { return value }
             cacheStore.save(CachedExamState(value: value, fetchedAt: Date()), userId: userId)
             return value
 
         } catch let NetworkError.clientError(httpStatus, _, _, _, _) where httpStatus == 400 {
             // 시험 미등록 상태 → 정상 케이스로 캐시한다
             let value = CachedExamValue.unregistered
+            // 취소됐다면(로그아웃 등) 캐시를 되살리지 않는다
+            guard !Task.isCancelled else { return value }
             cacheStore.save(CachedExamState(value: value, fetchedAt: Date()), userId: userId)
             return value
         }
