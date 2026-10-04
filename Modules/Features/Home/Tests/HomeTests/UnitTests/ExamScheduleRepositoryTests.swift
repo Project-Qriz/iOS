@@ -47,11 +47,11 @@ struct ExamScheduleRepositoryTests {
         #expect(service.fetchAppliedExamsCallCount == 0)
     }
 
-    @Test("400 응답은 .unregistered로 캐시된다")
-    func currentExamState_on400_cachesUnregistered() async throws {
+    @Test("'등록된 일정 없음'(serverCode -1) 400 응답은 .unregistered로 캐시된다")
+    func currentExamState_onUnregistered400_cachesUnregistered() async throws {
         let service = MockExamScheduleService()
         service.fetchAppliedExamsResult = .failure(
-            NetworkError.clientError(httpStatus: 400, serverCode: 0, message: "not registered", reason: nil, detailCode: nil)
+            NetworkError.clientError(httpStatus: 400, serverCode: -1, message: "등록된 일정이 없어요", reason: nil, detailCode: nil)
         )
         let (sut, cacheStore) = makeSUT(service: service)
 
@@ -59,6 +59,20 @@ struct ExamScheduleRepositoryTests {
 
         #expect(value == .unregistered)
         #expect(cacheStore.load(userId: "user-1")?.value == .unregistered)
+    }
+
+    @Test("미등록 코드가 아닌 400 응답은 캐시하지 않고 그대로 던진다")
+    func currentExamState_onOther400_throwsWithoutCaching() async throws {
+        let service = MockExamScheduleService()
+        service.fetchAppliedExamsResult = .failure(
+            NetworkError.clientError(httpStatus: 400, serverCode: 0, message: "요청이 잘못됐어요", reason: nil, detailCode: nil)
+        )
+        let (sut, cacheStore) = makeSUT(service: service)
+
+        await #expect(throws: (any Error).self) {
+            _ = try await sut.currentExamState()
+        }
+        #expect(cacheStore.load(userId: "user-1") == nil)
     }
 
     @Test("400이 아닌 에러는 캐시하지 않고 그대로 던진다")
