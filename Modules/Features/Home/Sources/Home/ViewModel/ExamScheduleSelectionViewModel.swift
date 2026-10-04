@@ -155,9 +155,13 @@ final class ExamScheduleSelectionViewModel {
     }
 
     /// 재조회로 확인된 등록 상태를 Repository 캐시에 직접 반영한다 (다시 fetch하지 않는다).
+    /// 재조회 결과에서 등록 상태를 특정할 수 없으면 낡은 값을 남기지 않도록 캐시를 비운다.
     private func syncRepositoryCache() {
         guard let registeredId = registeredApplicationId,
-              let matched = latestApplications.first(where: { $0.applicationId == registeredId }) else { return }
+              let matched = latestApplications.first(where: { $0.applicationId == registeredId }) else {
+            examScheduleRepository.clearCache()
+            return
+        }
 
         let detail = ExamDetail(
             examDateText: matched.examDate,

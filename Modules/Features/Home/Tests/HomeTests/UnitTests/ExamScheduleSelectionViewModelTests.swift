@@ -297,6 +297,28 @@ struct ExamScheduleSelectionViewModelTests {
         #expect(h.mockDelegate.didUpdateExamScheduleCallCount == 1)
     }
 
+    @Test("examTapped — 쓰기·재조회는 성공했지만 재조회 결과에 등록 상태가 없으면 캐시를 비운다")
+    func examTapped_writeSucceedsButRefreshDoesNotConfirmRegistration_clearsCache() async throws {
+        let service = MockExamScheduleService()
+        service.fetchExamListResultQueue = [
+            // viewDidLoad: 미등록 상태
+            .success(.make(registeredApplicationId: nil, registeredUserApplyId: nil, applications: [.make(applicationId: 10)])),
+            // 쓰기 후 재조회: 서버가 등록을 확인해주지 않는다 (registeredApplicationId == nil)
+            .success(.make(registeredApplicationId: nil, registeredUserApplyId: nil, applications: [.make(applicationId: 10)]))
+        ]
+        let repository = MockExamScheduleRepository()
+        let h = TestHarness(service: service, repository: repository)
+        try await h.sendViewDidLoad()
+        h.resetReceived()
+
+        h.send(.examTapped(10))
+        try await Task.sleep(nanoseconds: asyncSleepNanoseconds)
+
+        // 확인되지 않은 상태를 캐시에 쓰지 않고, 캐시를 비워 다음 읽기에서 서버 상태를 받게 한다
+        #expect(repository.appliedWriteResults.isEmpty)
+        #expect(repository.clearCacheCallCount == 1)
+    }
+
     @Test("examTapped — 타임아웃 reconcile의 재조회까지 실패하면 캐시만 비우고 성공 신호를 보내지 않는다")
     func examTapped_timeoutAndReconcileFails_clearsCacheWithoutNotifying() async throws {
         let service = MockExamScheduleService()
