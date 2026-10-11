@@ -21,7 +21,7 @@
 import QRIZUtils
 
 public struct SocialLoginRequest: Request, Sendable {
-    public typealias Response = SocialLoginResponse
+    public typealias Response = SocialLoginResult
     
     public let method: HTTPMethod = .post
     public let provider: SocialLogin
@@ -80,6 +80,45 @@ public struct SocialLoginRequest: Request, Sendable {
         self.idToken = nil
         self.name = nil
         self.email = nil
+    }
+}
+
+/// 소셜 로그인 응답.
+///
+/// 엄격 모드(`signup.age-check.strict=true`)에서는 신규 회원을 바로 만들지 않고
+/// 온보딩 토큰만 내려준다. 이 경우 약관 동의 후 `/api/auth/social/join`으로 가입을 완료해야 한다.
+public enum SocialLoginResult: Decodable, Sendable {
+    case loggedIn(SocialLoginResponse)
+    case onboardingRequired(SocialOnboarding)
+
+    private enum CodingKeys: String, CodingKey {
+        case data
+    }
+
+    private struct OnboardingFlag: Decodable {
+        let onboardingRequired: Bool?
+    }
+
+    public init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        let flag = try container.decode(OnboardingFlag.self, forKey: .data)
+        if flag.onboardingRequired == true {
+            self = .onboardingRequired(try container.decode(SocialOnboarding.self, forKey: .data))
+        } else {
+            self = .loggedIn(try SocialLoginResponse(from: decoder))
+        }
+    }
+}
+
+/// 엄격 모드 신규 소셜 회원에게 발급되는 온보딩 정보. 토큰은 `ROLE_ONBOARDING` 권한으로 가입 API에만 쓸 수 있다.
+public struct SocialOnboarding: Decodable, Equatable, Sendable {
+    public let onboardingToken: String
+    /// 토큰 수명(초)
+    public let expiresIn: Int?
+
+    public init(onboardingToken: String, expiresIn: Int?) {
+        self.onboardingToken = onboardingToken
+        self.expiresIn = expiresIn
     }
 }
 
