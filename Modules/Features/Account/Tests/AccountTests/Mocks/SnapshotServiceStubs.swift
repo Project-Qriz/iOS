@@ -15,12 +15,12 @@ final class StubUserInfoService: UserInfoService, @unchecked Sendable {
 }
 
 final class StubSocialLoginService: SocialLoginService, @unchecked Sendable {
-    func loginWithKakao() async throws -> SocialLoginResponse { fatalError("stub") }
+    func loginWithKakao() async throws -> SocialLoginResult { fatalError("stub") }
     func logoutKakao() async throws {}
     func unlinkKakao() async throws {}
-    func loginWithGoogle(presenting: UIViewController) async throws -> SocialLoginResponse { fatalError("stub") }
+    func loginWithGoogle(presenting: UIViewController) async throws -> SocialLoginResult { fatalError("stub") }
     func logoutGoogle() async throws {}
-    func loginWithApple(presenting: UIViewController) async throws -> SocialLoginResponse { fatalError("stub") }
+    func loginWithApple(presenting: UIViewController) async throws -> SocialLoginResult { fatalError("stub") }
     func logoutApple() async throws {}
 }
 

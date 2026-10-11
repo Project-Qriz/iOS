@@ -32,7 +32,7 @@ public final class SocialLoginServiceImpl: NSObject, SocialLoginService {
 
     // MARK: - Methods
 
-    public func loginWithKakao() async throws -> SocialLoginResponse {
+    public func loginWithKakao() async throws -> SocialLoginResult {
         try await performLogin {
             let token = try await self.kakaoAccessToken()
             return SocialLoginRequest(provider: .kakao, token: token)
@@ -50,7 +50,7 @@ public final class SocialLoginServiceImpl: NSObject, SocialLoginService {
 
     // MARK: - Google
 
-    public func loginWithGoogle(presenting: UIViewController) async throws -> SocialLoginResponse {
+    public func loginWithGoogle(presenting: UIViewController) async throws -> SocialLoginResult {
         try await performLogin {
             try await self.ensureGoogleConfigured()
             let code = try await self.googleToken(presenting: presenting)
@@ -65,7 +65,7 @@ public final class SocialLoginServiceImpl: NSObject, SocialLoginService {
 
     // MARK: - Apple
 
-    public func loginWithApple(presenting: UIViewController) async throws -> SocialLoginResponse {
+    public func loginWithApple(presenting: UIViewController) async throws -> SocialLoginResult {
         try await performLogin {
             let apple = try await self.performAppleLogin(presenting: presenting)
             return SocialLoginRequest(
@@ -88,7 +88,7 @@ public final class SocialLoginServiceImpl: NSObject, SocialLoginService {
 private extension SocialLoginServiceImpl {
 
     /// 로그인 요청 빌드 → 전송 → 에러 매핑을 한 곳에서 처리
-    func performLogin(_ buildRequest: () async throws -> SocialLoginRequest) async throws -> SocialLoginResponse {
+    func performLogin(_ buildRequest: () async throws -> SocialLoginRequest) async throws -> SocialLoginResult {
         do {
             return try await network.send(buildRequest())
         } catch {

@@ -15,6 +15,7 @@ public protocol LoginCoordinator: Coordinator {
     func showSignUp()
     func showFindId()
     func showFindPassword()
+    func showSocialSignUp(with onboarding: SocialOnboarding)
     func popToRootViewController()
 }
 
@@ -31,7 +32,8 @@ public func makeLoginCoordinator(
     signUpService: any SignUpService,
     termsService: any TermsService,
     accountRecoveryService: any AccountRecoveryService,
-    socialLoginService: any SocialLoginService
+    socialLoginService: any SocialLoginService,
+    socialJoinService: any SocialJoinService
 ) -> any LoginCoordinator {
     LoginCoordinatorImpl(
         navigationController: navigationController,
@@ -40,7 +42,8 @@ public func makeLoginCoordinator(
         signUpService: signUpService,
         termsService: termsService,
         accountRecoveryService: accountRecoveryService,
-        socialLoginService: socialLoginService
+        socialLoginService: socialLoginService,
+        socialJoinService: socialJoinService
     )
 }
 
@@ -57,6 +60,7 @@ public final class LoginCoordinatorImpl: LoginCoordinator, NavigationGuard {
     private let termsService: TermsService
     private let accountRecoveryService: AccountRecoveryService
     private let socialLoginService: SocialLoginService
+    private let socialJoinService: SocialJoinService
 
     // NavigationGuard
     public var isNavigating: Bool = false
@@ -68,7 +72,8 @@ public final class LoginCoordinatorImpl: LoginCoordinator, NavigationGuard {
         signUpService: SignUpService,
         termsService: TermsService,
         accountRecoveryService: AccountRecoveryService,
-        socialLoginService: SocialLoginService
+        socialLoginService: SocialLoginService,
+        socialJoinService: SocialJoinService
     ) {
         self.navigationController = navigationController
         self.loginService = loginService
@@ -77,6 +82,7 @@ public final class LoginCoordinatorImpl: LoginCoordinator, NavigationGuard {
         self.termsService = termsService
         self.accountRecoveryService = accountRecoveryService
         self.socialLoginService = socialLoginService
+        self.socialJoinService = socialJoinService
     }
     
     public func start() -> UIViewController {
@@ -121,6 +127,45 @@ public final class LoginCoordinatorImpl: LoginCoordinator, NavigationGuard {
         }
     }
     
+    /// 엄격 모드 신규 소셜 회원: 약관 동의 화면을 띄우고, 동의하면 가입을 완료한 뒤 로그인 성공으로 이어간다.
+    /// 서버에 회원이 아직 없으므로 X로 닫으면 로그인 화면으로 돌아가기만 한다.
+    public func showSocialSignUp(with onboarding: SocialOnboarding) {
+        guardNavigation {
+            let submitter = SocialJoinTermsSubmitter(
+                onboarding: onboarding,
+                socialJoinService: socialJoinService,
+                userInfo: .shared,
+                onJoined: { [weak self] response in
+                    guard let self else { return }
+                    delegate?.didLogin(
+                        self,
+                        reAgreementRequired: response.data.resolvedReAgreementRequired,
+                        ageVerificationRequired: response.data.resolvedAgeVerificationRequired
+                    )
+                }
+            )
+            let viewModel = TermsAgreementViewModel(
+                termsService: termsService,
+                submitter: submitter,
+                onDismiss: { [weak self] in self?.popToRootViewController() }
+            )
+            let view = TermsAgreementView(
+                viewModel: viewModel,
+                progress: nil,
+                onShowTermsDetail: { [weak self] term in self?.showTermsDetail(for: term) }
+            )
+            navigationController.pushViewController(TermsAgreementHostingController(rootView: view), animated: true)
+        }
+    }
+
+    private func showTermsDetail(for term: TermItem) {
+        let viewModel = TermsDetailViewModel(termItem: term)
+        let vc = TermsDetailViewController(viewModel: viewModel)
+        vc.dismissDelegate = self
+        vc.modalPresentationStyle = .fullScreen
+        navigationController.present(vc, animated: true)
+    }
+
     public func popToRootViewController() {
         navigationController.popToRootViewController(animated: true)
     }
@@ -141,5 +186,13 @@ extension LoginCoordinatorImpl: AccountRecoveryCoordinatorDelegate {
     public func didFinishPasswordReset(_ coordinator: AccountRecoveryCoordinator) {
         childCoordinators.removeAll { $0 === coordinator }
         navigationController.popToRootViewController(animated: true)
+    }
+}
+
+// MARK: - TermsDetailDismissible
+
+extension LoginCoordinatorImpl: TermsDetailDismissible {
+    public func dismissTermsDetail() {
+        navigationController.dismiss(animated: true)
     }
 }

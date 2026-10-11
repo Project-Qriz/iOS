@@ -133,7 +133,7 @@ final class LoginViewModel {
 
     private func performSocialLogin(
         providerName: String,
-        action: @escaping () async throws -> SocialLoginResponse
+        action: @escaping () async throws -> SocialLoginResult
     ) {
         guard !isLoggingIn else { return }
         isLoggingIn = true
@@ -141,7 +141,14 @@ final class LoginViewModel {
         Task {
             defer { isLoggingIn = false }
             do {
-                let response = try await action()
+                let response: SocialLoginResponse
+                switch try await action() {
+                case .loggedIn(let loggedIn):
+                    response = loggedIn
+                case .onboardingRequired(let onboarding):
+                    outputSubject.send(.socialSignUpRequired(onboarding))
+                    return
+                }
                 let user = response.data.user
                 userInfo.update(
                     name: user.name,
@@ -191,6 +198,8 @@ extension LoginViewModel {
         case showErrorAlert(title: String, description: String? = nil)
         case navigateToAccountAction(AccountAction)
         case loginSucceeded(reAgreementRequired: Bool, ageVerificationRequired: Bool)
+        /// 엄격 모드 신규 소셜 회원: 약관 동의 후 가입을 완료해야 한다.
+        case socialSignUpRequired(SocialOnboarding)
     }
 
     enum AccountAction: String {

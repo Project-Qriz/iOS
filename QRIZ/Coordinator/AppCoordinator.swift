@@ -39,6 +39,7 @@ protocol AppCoordinatorDependency {
     var weeklyRecommendService: WeeklyRecommendService { get }
     var socialLoginService: SocialLoginService { get }
     var consentsService: ConsentsService { get }
+    var socialJoinService: SocialJoinService { get }
     var myPageService: MyPageService { get }
 
     // Utils
@@ -66,6 +67,7 @@ final class AppCoordinatorDependencyImpl: AppCoordinatorDependency {
     lazy var weeklyRecommendService: WeeklyRecommendService = WeeklyRecommendServiceImpl(network: network, keychain: keychain)
     lazy var socialLoginService: SocialLoginService = SocialLoginServiceImpl()
     lazy var consentsService: ConsentsService = ConsentsServiceImpl(network: network)
+    lazy var socialJoinService: SocialJoinService = SocialJoinServiceImpl(network: network)
     lazy var adService: any AdService = AdServiceImpl()
 
     lazy var loginCoordinator: LoginCoordinator = {
@@ -77,7 +79,8 @@ final class AppCoordinatorDependencyImpl: AppCoordinatorDependency {
             signUpService: signUpService,
             termsService: termsService,
             accountRecoveryService: accountRecoveryService,
-            socialLoginService: socialLoginService
+            socialLoginService: socialLoginService,
+            socialJoinService: socialJoinService
         )
     }()
 
