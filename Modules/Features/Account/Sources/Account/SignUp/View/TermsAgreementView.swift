@@ -8,11 +8,13 @@ import DesignSystem
 
 struct TermsAgreementView: View {
     @ObservedObject var viewModel: TermsAgreementViewModel
+    /// 가입 단계 진행률. nil이면 진행 바를 숨긴다(소셜 가입처럼 단계가 하나뿐인 경우).
+    var progress: Double? = 0.2
     let onShowTermsDetail: (TermItem) -> Void
 
     var body: some View {
         VStack(spacing: 0) {
-            TermsAgreementHeaderView(progress: 0.2, onDismiss: viewModel.dismissTapped)
+            TermsAgreementHeaderView(progress: progress, onDismiss: viewModel.dismissTapped)
 
             TermsAgreementIntroView()
                 .padding(.top, 40)
@@ -64,7 +66,7 @@ struct TermsAgreementView: View {
                 set: { if !$0 { viewModel.errorAlert = nil } }
             )
         ) {
-            Button("확인", role: .cancel) { viewModel.errorAlert = nil }
+            Button("확인", role: .cancel) { viewModel.errorAlertConfirmed() }
         } message: {
             if let description = viewModel.errorAlert?.description {
                 Text(description)

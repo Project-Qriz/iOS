@@ -20,28 +20,28 @@ final class TermsAgreementViewModel: ObservableObject {
         let id = UUID()
         let title: String
         let description: String?
+        /// 확인 시 약관 화면을 닫아야 하는지 여부
+        var endsFlow: Bool = false
     }
 
     // MARK: - Properties
 
-    private let signUpFlowViewModel: SignUpFlowViewModel
     private let termsService: TermsService
+    private let submitter: TermsAgreementSubmitter
     private let onDismiss: () -> Void
-    private let onTermsAgreed: () -> Void
+    private var isSubmitting = false
     private let logger = Logger.make(category: "TermsAgreementViewModel")
 
     // MARK: - Initialization
 
     init(
-        signUpFlowViewModel: SignUpFlowViewModel,
         termsService: TermsService,
-        onDismiss: @escaping () -> Void,
-        onTermsAgreed: @escaping () -> Void
+        submitter: TermsAgreementSubmitter,
+        onDismiss: @escaping () -> Void
     ) {
-        self.signUpFlowViewModel = signUpFlowViewModel
         self.termsService = termsService
+        self.submitter = submitter
         self.onDismiss = onDismiss
-        self.onTermsAgreed = onTermsAgreed
     }
 
     // MARK: - Methods
@@ -71,7 +71,14 @@ final class TermsAgreementViewModel: ObservableObject {
     }
 
     func submitTapped() {
-        agreeToTerms()
+        guard isSubmitEnabled else { return }
+        Task { await agreeToTerms() }
+    }
+
+    func errorAlertConfirmed() {
+        let endsFlow = errorAlert?.endsFlow ?? false
+        errorAlert = nil
+        if endsFlow { onDismiss() }
     }
 
     // MARK: - Private
@@ -109,18 +116,30 @@ final class TermsAgreementViewModel: ObservableObject {
     }
 
     private func updateSubmitState() {
-        isSubmitEnabled = allAgreed
+        isSubmitEnabled = allAgreed && !isSubmitting
     }
 
-    /// 약관/연령확인 상태를 SignUpFlowViewModel에 저장한다.
-    /// 실제 회원가입 API 호출은 플로우 마지막 단계(PasswordInputViewModel)에서 이루어진다.
-    private func agreeToTerms() {
-        let over14Confirmed = terms.first { $0.kind == .ageConfirmation }?.isAgreed ?? false
-        let agreedTermIds = terms.compactMap { $0.isAgreed ? $0.id : nil }
+    /// 동의 내용을 제출 전략(이메일/소셜 가입)에 넘긴다. 제출 중에는 버튼을 막아 중복 요청을 방지한다.
+    private func agreeToTerms() async {
+        let agreement = TermsAgreement(
+            over14Confirmed: terms.first { $0.kind == .ageConfirmation }?.isAgreed ?? false,
+            agreedTermIds: terms.compactMap { $0.isAgreed ? $0.id : nil }
+        )
 
-        signUpFlowViewModel.updateOver14Confirmed(over14Confirmed)
-        signUpFlowViewModel.updateAgreedTermIds(agreedTermIds)
+        isSubmitting = true
+        updateSubmitState()
+        defer {
+            isSubmitting = false
+            updateSubmitState()
+        }
 
-        onTermsAgreed()
+        do {
+            try await submitter.submit(agreement)
+        } catch let error as TermsAgreementSubmissionError {
+            errorAlert = ErrorAlert(title: error.title, description: error.description, endsFlow: error.endsFlow)
+        } catch {
+            errorAlert = ErrorAlert(title: "약관 동의에 실패했습니다.", description: "잠시 후 다시 시도해 주세요.")
+            logger.error("약관 동의 제출 실패: \(String(describing: error), privacy: .public)")
+        }
     }
 }
