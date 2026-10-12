@@ -26,6 +26,9 @@ public final class ExamScheduleRepositoryImpl: ExamScheduleRepository {
     private var inFlightTask: Task<CachedExamValue, Error>?
     /// 조회 API가 "등록된 일정 없음"을 나타낼 때 내려주는 서버 코드 (400 응답의 code)
     private static let unregisteredServerCode = -1
+    /// serverCode만으로는 다른 400과 겹칠 위험이 있어, 메시지까지 같이 확인한다.
+    /// 둘 중 하나라도 안 맞으면 캐시하지 않고 그대로 던진다 (미등록으로 잘못 캐시하는 것보다 안전함).
+    private static let unregisteredMessage = "등록된 일정이 없어요"
 
     public init(
         service: ExamScheduleService,
@@ -77,9 +80,11 @@ public final class ExamScheduleRepositoryImpl: ExamScheduleRepository {
             cacheStore.save(CachedExamState(value: value, fetchedAt: Date()), userId: userId)
             return value
 
-        } catch let NetworkError.clientError(httpStatus, serverCode, _, _, _)
-            where httpStatus == 400 && serverCode == Self.unregisteredServerCode {
-            // 서버가 "등록된 일정이 없음"을 명시한 경우에만 미등록으로 캐시한다.
+        } catch let NetworkError.clientError(httpStatus, serverCode, message, _, _)
+            where httpStatus == 400
+                && serverCode == Self.unregisteredServerCode
+                && message == Self.unregisteredMessage {
+            // 서버가 "등록된 일정이 없음"을 코드와 메시지로 모두 확인해준 경우에만 미등록으로 캐시한다.
             // 그 외 400은 일시적/무관한 실패일 수 있으므로 캐시하지 않고 그대로 던진다.
             let value = CachedExamValue.unregistered
             // 취소됐다면(로그아웃 등) 캐시를 되살리지 않는다

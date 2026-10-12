@@ -61,6 +61,20 @@ struct ExamScheduleRepositoryTests {
         #expect(cacheStore.load(userId: "user-1")?.value == .unregistered)
     }
 
+    @Test("serverCode는 -1이지만 메시지가 다르면 캐시하지 않고 그대로 던진다")
+    func currentExamState_onDashOneWithDifferentMessage_throwsWithoutCaching() async throws {
+        let service = MockExamScheduleService()
+        service.fetchAppliedExamsResult = .failure(
+            NetworkError.clientError(httpStatus: 400, serverCode: -1, message: "알 수 없는 오류예요", reason: nil, detailCode: nil)
+        )
+        let (sut, cacheStore) = makeSUT(service: service)
+
+        await #expect(throws: (any Error).self) {
+            _ = try await sut.currentExamState()
+        }
+        #expect(cacheStore.load(userId: "user-1") == nil)
+    }
+
     @Test("미등록 코드가 아닌 400 응답은 캐시하지 않고 그대로 던진다")
     func currentExamState_onOther400_throwsWithoutCaching() async throws {
         let service = MockExamScheduleService()
