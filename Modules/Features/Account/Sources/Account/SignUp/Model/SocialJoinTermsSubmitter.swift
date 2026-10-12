@@ -12,6 +12,7 @@ struct SocialJoinTermsSubmitter: TermsAgreementSubmitter {
     let onboarding: SocialOnboarding
     let socialJoinService: SocialJoinService
     let userInfo: UserInfoManager
+    var analyticsService: any AnalyticsService = AnalyticsManager.shared
     let onJoined: (SocialLoginResponse) -> Void
 
     func submit(_ agreement: TermsAgreement) async throws {
@@ -27,13 +28,11 @@ struct SocialJoinTermsSubmitter: TermsAgreementSubmitter {
         }
 
         let user = response.data.user
-        userInfo.update(
-            name: user.name,
-            userId: user.userId,
-            email: user.email,
-            previewTestStatus: user.previewTestStatus,
-            provider: user.provider
-        )
+        userInfo.update(from: user)
+        // 가입 완료와 동시에 로그인 상태가 되므로, 관대 모드 신규 가입(로그인 이벤트만 기록)과 지표를 맞추기 위해 둘 다 남긴다.
+        let method = AnalyticsEvent.LoginMethod(provider: user.provider)
+        analyticsService.log(.signUp(method))
+        analyticsService.log(.login(method))
         onJoined(response)
     }
 

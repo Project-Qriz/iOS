@@ -14,6 +14,7 @@ public enum AnalyticsEvent: Sendable {
     // MARK: - Auth
 
     case login(LoginMethod)
+    case signUp(LoginMethod)
     case logout
 
     // MARK: - Exam
@@ -54,5 +55,10 @@ public extension AnalyticsEvent {
         case google
         case apple
         case unknown
+
+        /// 서버가 내려주는 provider 값("KAKAO", "GOOGLE", "APPLE")으로 생성한다. 알 수 없는 값은 `.unknown`.
+        public init(provider: String?) {
+            self = provider.flatMap { LoginMethod(rawValue: $0.lowercased()) } ?? .unknown
+        }
     }
 }

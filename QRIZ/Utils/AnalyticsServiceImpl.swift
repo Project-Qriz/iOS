@@ -22,6 +22,11 @@ final class AnalyticsServiceImpl: AnalyticsService, @unchecked Sendable {
                 AnalyticsParameterMethod: method.rawValue
             ])
 
+        case .signUp(let method):
+            Analytics.logEvent(AnalyticsEventSignUp, parameters: [
+                AnalyticsParameterMethod: method.rawValue
+            ])
+
         case .logout:
             Analytics.logEvent("logout", parameters: nil)
 

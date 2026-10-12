@@ -16,12 +16,14 @@ struct SocialJoinTermsSubmitterTests {
 
     private func makeSUT(
         service: MockSocialJoinService,
+        analytics: SpyAnalyticsService = .init(),
         onJoined: @escaping (SocialLoginResponse) -> Void = { _ in }
     ) -> SocialJoinTermsSubmitter {
         SocialJoinTermsSubmitter(
             onboarding: SocialOnboarding(onboardingToken: "onboarding-token", expiresIn: 1200),
             socialJoinService: service,
             userInfo: .shared,
+            analyticsService: analytics,
             onJoined: onJoined
         )
     }
@@ -41,6 +43,19 @@ struct SocialJoinTermsSubmitterTests {
         #expect(UserInfoManager.shared.userId == "social-new")
     }
 
+    @Test("가입 성공 → provider 기준으로 sign_up, login 이벤트를 순서대로 기록")
+    func joinLogsSignUpAndLogin() async throws {
+        let analytics = SpyAnalyticsService()
+        let sut = makeSUT(service: MockSocialJoinService(), analytics: analytics)
+
+        try await sut.submit(agreement)
+
+        #expect(analytics.loggedEvents == [
+            String(describing: AnalyticsEvent.signUp(.kakao)),
+            String(describing: AnalyticsEvent.login(.kakao))
+        ])
+    }
+
     @Test("409 under_age → 재시도 불가 알럿(endsFlow), onJoined 호출 안 함")
     func underAgeEndsFlow() async {
         let service = MockSocialJoinService()
@@ -48,7 +63,8 @@ struct SocialJoinTermsSubmitterTests {
             httpStatus: 409, serverCode: -1, message: "under age", reason: "under_age", detailCode: 2003
         ))
         var joinedCalled = false
-        let sut = makeSUT(service: service, onJoined: { _ in joinedCalled = true })
+        let analytics = SpyAnalyticsService()
+        let sut = makeSUT(service: service, analytics: analytics, onJoined: { _ in joinedCalled = true })
 
         await #expect(throws: TermsAgreementSubmissionError(
             title: "가입할 수 없어요",
@@ -58,6 +74,7 @@ struct SocialJoinTermsSubmitterTests {
             try await sut.submit(agreement)
         }
         #expect(!joinedCalled)
+        #expect(analytics.loggedEvents.isEmpty)
     }
 
     @Test("401 온보딩 토큰 만료 → 다시 로그인 안내(endsFlow)")
