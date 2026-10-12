@@ -61,31 +61,33 @@ struct ExamScheduleRepositoryTests {
         #expect(cacheStore.load(userId: "user-1")?.value == .unregistered)
     }
 
-    @Test("serverCode는 -1이지만 메시지가 다르면 캐시하지 않고 그대로 던진다")
-    func currentExamState_onDashOneWithDifferentMessage_throwsWithoutCaching() async throws {
+    @Test("serverCode는 -1이지만 메시지가 다르면 화면엔 미등록으로 보이지만 캐시엔 안 남는다")
+    func currentExamState_onDashOneWithDifferentMessage_returnsUnregisteredWithoutCaching() async throws {
         let service = MockExamScheduleService()
         service.fetchAppliedExamsResult = .failure(
             NetworkError.clientError(httpStatus: 400, serverCode: -1, message: "알 수 없는 오류예요", reason: nil, detailCode: nil)
         )
         let (sut, cacheStore) = makeSUT(service: service)
 
-        await #expect(throws: (any Error).self) {
-            _ = try await sut.currentExamState()
-        }
+        // 에러 알럿으로 이어지지 않는다 — 던지지 않고 .unregistered를 반환한다
+        let value = try await sut.currentExamState()
+
+        #expect(value == .unregistered)
+        // 신호가 예상과 다르므로 캐시에는 남기지 않는다 (다음 읽기에서 다시 확인)
         #expect(cacheStore.load(userId: "user-1") == nil)
     }
 
-    @Test("미등록 코드가 아닌 400 응답은 캐시하지 않고 그대로 던진다")
-    func currentExamState_onOther400_throwsWithoutCaching() async throws {
+    @Test("미등록 코드가 아닌 400도 화면엔 미등록으로 보이지만 캐시엔 안 남는다")
+    func currentExamState_onOther400_returnsUnregisteredWithoutCaching() async throws {
         let service = MockExamScheduleService()
         service.fetchAppliedExamsResult = .failure(
             NetworkError.clientError(httpStatus: 400, serverCode: 0, message: "요청이 잘못됐어요", reason: nil, detailCode: nil)
         )
         let (sut, cacheStore) = makeSUT(service: service)
 
-        await #expect(throws: (any Error).self) {
-            _ = try await sut.currentExamState()
-        }
+        let value = try await sut.currentExamState()
+
+        #expect(value == .unregistered)
         #expect(cacheStore.load(userId: "user-1") == nil)
     }
 
