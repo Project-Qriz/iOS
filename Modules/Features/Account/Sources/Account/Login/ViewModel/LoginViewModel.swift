@@ -99,8 +99,7 @@ final class LoginViewModel {
         Task {
             do {
                 let response = try await loginService.login(id: id, password: password)
-                let user = response.data.user
-                userInfo.update(name: user.name, userId: user.userId, email: user.email, previewTestStatus: user.previewTestStatus, provider: user.provider)
+                userInfo.update(from: response.data.user)
                 analyticsService.log(.login(.email))
                 outputSubject.send(.loginSucceeded(
                     reAgreementRequired: response.data.resolvedReAgreementRequired,
@@ -149,14 +148,7 @@ final class LoginViewModel {
                     outputSubject.send(.socialSignUpRequired(onboarding))
                     return
                 }
-                let user = response.data.user
-                userInfo.update(
-                    name: user.name,
-                    userId: user.userId,
-                    email: user.email,
-                    previewTestStatus: user.previewTestStatus,
-                    provider: user.provider
-                )
+                userInfo.update(from: response.data.user)
                 analyticsService.log(.login(loginMethod(from: providerName)))
                 outputSubject.send(.loginSucceeded(
                     reAgreementRequired: response.data.resolvedReAgreementRequired,

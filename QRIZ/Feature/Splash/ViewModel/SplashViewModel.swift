@@ -54,13 +54,7 @@ final class SplashViewModel {
         do {
             let response = try await userInfoService.getUserInfo()
             let user = response.data
-            userInfo.update(
-                name: user.name,
-                userId: user.userId,
-                email: user.email,
-                previewTestStatus: user.previewTestStatus,
-                provider: user.provider
-            )
+            userInfo.update(from: user)
             return (true, user.reAgreementRequired ?? false, user.ageVerificationRequired ?? false)
         } catch {
             keychain.deleteToken(forKey: TokenKey.accessToken.rawValue)
