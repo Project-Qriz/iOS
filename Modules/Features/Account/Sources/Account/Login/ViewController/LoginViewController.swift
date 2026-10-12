@@ -72,6 +72,9 @@ final class LoginViewController: UIViewController {
                     if let loginCoordinator = coordinator {
                         loginCoordinator.delegate?.didLogin(loginCoordinator, reAgreementRequired: reAgreementRequired, ageVerificationRequired: ageVerificationRequired)
                     }
+
+                case .socialSignUpRequired(let onboarding):
+                    coordinator?.showSocialSignUp(with: onboarding)
                 }
             }
             .store(in: &cancellables)

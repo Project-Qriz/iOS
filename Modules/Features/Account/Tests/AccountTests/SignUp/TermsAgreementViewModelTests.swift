@@ -19,10 +19,9 @@ struct TermsAgreementViewModelTests {
     ) -> (sut: TermsAgreementViewModel, flowVM: SignUpFlowViewModel) {
         let flowVM = SignUpFlowViewModel(signUpService: signUpService)
         let sut = TermsAgreementViewModel(
-            signUpFlowViewModel: flowVM,
             termsService: termsService,
-            onDismiss: onDismiss,
-            onTermsAgreed: onTermsAgreed
+            submitter: SignUpFlowTermsSubmitter(signUpFlowViewModel: flowVM, onTermsAgreed: onTermsAgreed),
+            onDismiss: onDismiss
         )
         return (sut, flowVM)
     }
@@ -117,6 +116,7 @@ struct TermsAgreementViewModelTests {
         sut.toggleAllTerms()
 
         sut.submitTapped()
+        try await Task.sleep(nanoseconds: 100_000_000)
 
         #expect(termsAgreedCalled == true)
         #expect(signUpService.lastJoinOver14Confirmed == nil)
@@ -130,6 +130,7 @@ struct TermsAgreementViewModelTests {
         try await Task.sleep(nanoseconds: 100_000_000)
         sut.toggleAllTerms()
         sut.submitTapped()
+        try await Task.sleep(nanoseconds: 100_000_000)
 
         flowVM.updateEmail("a@b.com")
         flowVM.updateName("테스트")
@@ -151,5 +152,59 @@ struct TermsAgreementViewModelTests {
         sut.dismissTapped()
 
         #expect(dismissed == true)
+    }
+
+    // MARK: - 제출 실패
+
+    @Test("제출 실패(endsFlow) → 알럿 노출, 확인 시 onDismiss 호출")
+    func submissionFailureEndingFlowDismissesOnConfirm() async throws {
+        let error = TermsAgreementSubmissionError(title: "가입할 수 없어요", description: nil, endsFlow: true)
+        var dismissed = false
+        let sut = TermsAgreementViewModel(
+            termsService: MockTermsService(),
+            submitter: FailingTermsSubmitter(error: error),
+            onDismiss: { dismissed = true }
+        )
+        sut.onAppear()
+        try await Task.sleep(nanoseconds: 100_000_000)
+        sut.toggleAllTerms()
+
+        sut.submitTapped()
+        try await Task.sleep(nanoseconds: 100_000_000)
+
+        #expect(sut.errorAlert?.title == "가입할 수 없어요")
+        #expect(sut.isSubmitEnabled == true)
+        sut.errorAlertConfirmed()
+        #expect(sut.errorAlert == nil)
+        #expect(dismissed)
+    }
+
+    @Test("제출 실패(재시도 가능) → 확인해도 화면을 닫지 않는다")
+    func retryableSubmissionFailureKeepsScreen() async throws {
+        let error = TermsAgreementSubmissionError(title: "가입에 실패했습니다.", description: nil, endsFlow: false)
+        var dismissed = false
+        let sut = TermsAgreementViewModel(
+            termsService: MockTermsService(),
+            submitter: FailingTermsSubmitter(error: error),
+            onDismiss: { dismissed = true }
+        )
+        sut.onAppear()
+        try await Task.sleep(nanoseconds: 100_000_000)
+        sut.toggleAllTerms()
+
+        sut.submitTapped()
+        try await Task.sleep(nanoseconds: 100_000_000)
+        sut.errorAlertConfirmed()
+
+        #expect(!dismissed)
+    }
+}
+
+@MainActor
+private struct FailingTermsSubmitter: TermsAgreementSubmitter {
+    let error: TermsAgreementSubmissionError
+
+    func submit(_ agreement: TermsAgreement) async throws {
+        throw error
     }
 }

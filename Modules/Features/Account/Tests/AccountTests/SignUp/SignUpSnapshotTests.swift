@@ -42,10 +42,9 @@ class SignUpSnapshotTests: AccountSnapshotTestCase {
     func testTermsAgreementInitialState() async throws {
         let flowVM = SignUpFlowViewModel(signUpService: StubSignUpService())
         let vm = TermsAgreementViewModel(
-            signUpFlowViewModel: flowVM,
             termsService: StubTermsService(),
-            onDismiss: {},
-            onTermsAgreed: {}
+            submitter: SignUpFlowTermsSubmitter(signUpFlowViewModel: flowVM, onTermsAgreed: {}),
+            onDismiss: {}
         )
 
         // SwiftUI's `.onAppear` timing under `UIHostingController` + a snapshot library is

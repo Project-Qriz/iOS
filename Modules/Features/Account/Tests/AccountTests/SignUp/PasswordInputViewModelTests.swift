@@ -7,14 +7,18 @@ import Testing
 import Combine
 @testable import Account
 import QRIZNetwork
+import QRIZUtils
 
 @MainActor
 @Suite("PasswordInputViewModel 테스트", .serialized)
 struct PasswordInputViewModelTests {
 
-    private func makeSUT(signUpService: MockSignUpService = .init()) -> PasswordInputViewModel {
+    private func makeSUT(
+        signUpService: MockSignUpService = .init(),
+        analytics: SpyAnalyticsService = .init()
+    ) -> PasswordInputViewModel {
         let flowVM = SignUpFlowViewModel(signUpService: signUpService)
-        return PasswordInputViewModel(signUpFlowViewModel: flowVM)
+        return PasswordInputViewModel(signUpFlowViewModel: flowVM, analyticsService: analytics)
     }
 
     // MARK: - 비밀번호 유효성 검사
@@ -107,6 +111,32 @@ struct PasswordInputViewModelTests {
         let outputs = try await collectAsync(sut.output) { sut.send(.buttonTapped) }
 
         #expect(outputs.contains(.signUpSucceeded))
+    }
+
+    @Test("가입 성공 → sign_up(email) 이벤트 기록")
+    func joinSuccessLogsSignUp() async throws {
+        let analytics = SpyAnalyticsService()
+        let sut = makeSUT(analytics: analytics)
+        sut.send(.passwordTextChanged("Valid@1234"))
+        sut.send(.confirmPasswordTextChanged("Valid@1234"))
+
+        _ = try await collectAsync(sut.output) { sut.send(.buttonTapped) }
+
+        #expect(analytics.loggedEvents == [String(describing: AnalyticsEvent.signUp(.email))])
+    }
+
+    @Test("가입 실패 → 애널리틱스 이벤트 없음")
+    func joinFailureLogsNothing() async throws {
+        let signUpService = MockSignUpService()
+        signUpService.joinResult = .failure(NetworkError.serverError(httpStatus: 500))
+        let analytics = SpyAnalyticsService()
+        let sut = makeSUT(signUpService: signUpService, analytics: analytics)
+        sut.send(.passwordTextChanged("Valid@1234"))
+        sut.send(.confirmPasswordTextChanged("Valid@1234"))
+
+        _ = try await collectAsync(sut.output) { sut.send(.buttonTapped) }
+
+        #expect(analytics.loggedEvents.isEmpty)
     }
 
     @Test("가입 실패(reason: under_age) → showErrorAlert(연령 미충족 안내)")

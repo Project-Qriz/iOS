@@ -7,7 +7,7 @@ import SwiftUI
 import DesignSystem
 
 struct TermsAgreementHeaderView: View {
-    let progress: Double
+    let progress: Double?
     let onDismiss: () -> Void
 
     var body: some View {
@@ -29,16 +29,18 @@ struct TermsAgreementHeaderView: View {
             .padding(.horizontal, 32)
             .padding(.top, 24)
 
-            GeometryReader { geometry in
-                ZStack(alignment: .leading) {
-                    Rectangle().fill(Color.coolNeutral100)
-                    Rectangle()
-                        .fill(Color.customBlue500)
-                        .frame(width: geometry.size.width * max(0, min(progress, 1)))
+            if let progress {
+                GeometryReader { geometry in
+                    ZStack(alignment: .leading) {
+                        Rectangle().fill(Color.coolNeutral100)
+                        Rectangle()
+                            .fill(Color.customBlue500)
+                            .frame(width: geometry.size.width * max(0, min(progress, 1)))
+                    }
                 }
+                .frame(height: 4)
+                .padding(.top, 16)
             }
-            .frame(height: 4)
-            .padding(.top, 16)
         }
     }
 }

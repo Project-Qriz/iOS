@@ -50,13 +50,7 @@ final class GreetingViewModel: ObservableObject {
     private func fetchUserInfo() async {
         guard let response = try? await userInfoService.getUserInfo() else { return }
         let user = response.data
-        userInfo.update(
-            name: user.name,
-            userId: user.userId,
-            email: user.email,
-            previewTestStatus: user.previewTestStatus,
-            provider: user.provider
-        )
+        userInfo.update(from: user)
         nickname = user.name
     }
 }

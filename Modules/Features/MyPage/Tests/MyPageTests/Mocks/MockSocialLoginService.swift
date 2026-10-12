@@ -14,9 +14,9 @@ final class MockSocialLoginService: SocialLoginService {
     var unlinkKakaoResult:  Result<Void, Error> = .success(())
     private(set) var unlinkKakaoCallCount = 0
 
-    func loginWithKakao() async throws -> SocialLoginResponse { throw MockError.notExpected }
-    func loginWithGoogle(presenting: UIViewController) async throws -> SocialLoginResponse { throw MockError.notExpected }
-    func loginWithApple(presenting: UIViewController) async throws -> SocialLoginResponse { throw MockError.notExpected }
+    func loginWithKakao() async throws -> SocialLoginResult { throw MockError.notExpected }
+    func loginWithGoogle(presenting: UIViewController) async throws -> SocialLoginResult { throw MockError.notExpected }
+    func loginWithApple(presenting: UIViewController) async throws -> SocialLoginResult { throw MockError.notExpected }
 
     func logoutKakao() async throws  { try logoutKakaoResult.get() }
     func logoutGoogle() async throws { try logoutGoogleResult.get() }

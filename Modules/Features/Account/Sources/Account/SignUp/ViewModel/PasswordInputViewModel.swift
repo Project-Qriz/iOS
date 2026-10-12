@@ -9,6 +9,7 @@ import Foundation
 import Combine
 import os
 import QRIZNetwork
+import QRIZUtils
 
 @MainActor
 final class PasswordInputViewModel {
@@ -16,6 +17,7 @@ final class PasswordInputViewModel {
     // MARK: - Properties
 
     private let signUpFlowViewModel: SignUpFlowViewModel
+    private let analyticsService: any AnalyticsService
     private var password: String = ""
     private var confirmPassword: String = ""
     private var confirmPasswordDidEdit: Bool = false
@@ -28,8 +30,12 @@ final class PasswordInputViewModel {
 
     // MARK: - Initialization
 
-    init(signUpFlowViewModel: SignUpFlowViewModel) {
+    init(
+        signUpFlowViewModel: SignUpFlowViewModel,
+        analyticsService: any AnalyticsService = AnalyticsManager.shared
+    ) {
         self.signUpFlowViewModel = signUpFlowViewModel
+        self.analyticsService = analyticsService
     }
 
     // MARK: - Methods
@@ -55,6 +61,8 @@ final class PasswordInputViewModel {
         Task {
             do {
                 _ = try await signUpFlowViewModel.join()
+                // 이메일 가입은 완료 후 로그인 화면으로 돌아가 직접 로그인하므로 sign_up만 기록한다.
+                analyticsService.log(.signUp(.email))
                 outputSubject.send(.signUpSucceeded)
             } catch {
                 if let networkError = error as? NetworkError {

@@ -10,7 +10,7 @@ import QRIZUtils
 
 final class MockSocialLoginService: SocialLoginService, @unchecked Sendable {
 
-    var loginResult: Result<SocialLoginResponse, Error> = .success(
+    var loginResult: Result<SocialLoginResult, Error> = .success(.loggedIn(
         SocialLoginResponse(
             code: 1,
             msg: "ok",
@@ -26,23 +26,23 @@ final class MockSocialLoginService: SocialLoginService, @unchecked Sendable {
                 )
             )
         )
-    )
+    ))
     var loginDelay: UInt64 = 0
     private(set) var loginCallCount = 0
 
-    func loginWithKakao() async throws -> SocialLoginResponse {
+    func loginWithKakao() async throws -> SocialLoginResult {
         loginCallCount += 1
         if loginDelay > 0 { try await Task.sleep(nanoseconds: loginDelay) }
         return try loginResult.get()
     }
 
-    func loginWithGoogle(presenting: UIViewController) async throws -> SocialLoginResponse {
+    func loginWithGoogle(presenting: UIViewController) async throws -> SocialLoginResult {
         loginCallCount += 1
         if loginDelay > 0 { try await Task.sleep(nanoseconds: loginDelay) }
         return try loginResult.get()
     }
 
-    func loginWithApple(presenting: UIViewController) async throws -> SocialLoginResponse {
+    func loginWithApple(presenting: UIViewController) async throws -> SocialLoginResult {
         loginCallCount += 1
         return try loginResult.get()
     }

@@ -168,6 +168,25 @@ struct LoginViewModelTests {
         )))
     }
 
+    @Test("엄격 모드 신규 소셜 회원(onboardingRequired) → 로그인 대신 소셜 가입 약관 화면으로 보낸다")
+    func socialLoginOnboardingRequiredRoutesToSocialSignUp() async throws {
+        let socialService = MockSocialLoginService()
+        let onboarding = SocialOnboarding(onboardingToken: "onboarding-token", expiresIn: 1200)
+        socialService.loginResult = .success(.onboardingRequired(onboarding))
+        let sut = makeSUT(socialService: socialService)
+
+        let outputs = try await collectAsync(sut.output) {
+            sut.send(.socialLoginSelected(.kakao, presenter: nil))
+        }
+
+        #expect(outputs.contains(.socialSignUpRequired(onboarding)))
+        let hasLoginSucceeded = outputs.contains {
+            if case .loginSucceeded = $0 { return true }
+            return false
+        }
+        #expect(!hasLoginSucceeded)
+    }
+
     @Test("소셜 로그인 사용자 취소 → 알럿 없음")
     func socialLoginCancelledShowsNoAlert() async throws {
         let socialService = MockSocialLoginService()
