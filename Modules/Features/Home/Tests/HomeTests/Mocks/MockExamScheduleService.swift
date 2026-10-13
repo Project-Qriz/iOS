@@ -11,6 +11,8 @@ final class MockExamScheduleService: ExamScheduleService {
     var applyExamScheduleResult: Result<ApplyExamScheduleResponse, Error> = .success(.make())
     var updateExamScheduleResult: Result<UpdateExamScheduleResponse, Error> = .success(.make())
 
+    private(set) var fetchAppliedExamsCallCount = 0
+    private(set) var fetchExamListCallCount = 0
     private(set) var applyExamScheduleCallCount = 0
     private(set) var updateExamScheduleCallCount = 0
     private(set) var lastApplyId: Int?
@@ -18,10 +20,12 @@ final class MockExamScheduleService: ExamScheduleService {
     private(set) var lastUpdateNewApplyId: Int?
 
     func fetchAppliedExams() async throws -> AppliedExamsResponse {
-        try fetchAppliedExamsResult.get()
+        fetchAppliedExamsCallCount += 1
+        return try fetchAppliedExamsResult.get()
     }
 
     func fetchExamList() async throws -> ExamScheduleListResponse {
+        fetchExamListCallCount += 1
         if !fetchExamListResultQueue.isEmpty {
             return try fetchExamListResultQueue.removeFirst().get()
         }

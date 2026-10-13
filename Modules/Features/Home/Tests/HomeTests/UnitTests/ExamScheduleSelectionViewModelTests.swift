@@ -24,12 +24,14 @@ struct ExamScheduleSelectionViewModelTests {
     private final class TestHarness {
         let sut: ExamScheduleSelectionViewModel
         let mockDelegate = MockExamSelectionDelegate()
+        let repository: MockExamScheduleRepository
         private(set) var received: [ExamScheduleSelectionViewModel.Output] = []
         private let inputSubject = PassthroughSubject<ExamScheduleSelectionViewModel.Input, Never>()
         private var cancellables = Set<AnyCancellable>()
 
-        init(service: MockExamScheduleService) {
-            self.sut = ExamScheduleSelectionViewModel(examScheduleService: service)
+        init(service: MockExamScheduleService, repository: MockExamScheduleRepository = MockExamScheduleRepository()) {
+            self.repository = repository
+            self.sut = ExamScheduleSelectionViewModel(examScheduleService: service, examScheduleRepository: repository)
             sut.delegate = mockDelegate
             sut.transform(input: inputSubject.eraseToAnyPublisher())
                 .sink { [weak self] in self?.received.append($0) }
@@ -169,15 +171,17 @@ struct ExamScheduleSelectionViewModelTests {
         #expect(h.mockDelegate.didUpdateExamScheduleCallCount == 1)
     }
 
-    @Test("examTapped 실패 → showErrorAlert emit")
-    func examTapped_failure_emitsErrorAlert() async throws {
+    @Test("examTapped 명확한 실패(4xx) → 롤백 + showErrorAlert emit")
+    func examTapped_clientError_rollsBackAndEmitsErrorAlert() async throws {
         let service = MockExamScheduleService()
         service.fetchExamListResult = .success(.make(
             registeredApplicationId: nil,
             registeredUserApplyId: nil,
             applications: [.make(applicationId: 3)]
         ))
-        service.applyExamScheduleResult = .failure(URLError(.notConnectedToInternet))
+        service.applyExamScheduleResult = .failure(
+            NetworkError.clientError(httpStatus: 409, serverCode: 0, message: "이미 접수가 마감됐어요.", reason: nil, detailCode: nil)
+        )
         let h = TestHarness(service: service)
         try await h.sendViewDidLoad()
         h.resetReceived()
@@ -186,6 +190,9 @@ struct ExamScheduleSelectionViewModelTests {
         try await Task.sleep(nanoseconds: asyncSleepNanoseconds)
 
         #expect(!h.errorMessages.isEmpty)
+        // 롤백: 마지막으로 emit된 rows에서 3번은 선택되지 않은 채여야 한다
+        let lastRows = h.loadedRows.last
+        #expect(lastRows?.first(where: { $0.id == 3 })?.isSelected == false)
     }
 
     @Test("examTapped — apply 성공 후 동일 id 재탭 → no-op")
@@ -209,5 +216,149 @@ struct ExamScheduleSelectionViewModelTests {
         try await Task.sleep(nanoseconds: asyncSleepNanoseconds)
         #expect(service.applyExamScheduleCallCount == 1)
         #expect(service.updateExamScheduleCallCount == 0)
+    }
+
+    // MARK: - 낙관적 반영 / reconciling
+
+    @Test("examTapped — 탭 직후 네트워크 응답 전에 낙관적으로 선택 상태를 먼저 반영한다")
+    func examTapped_beforeNetworkResolves_emitsOptimisticSelection() async throws {
+        let service = MockExamScheduleService()
+        service.fetchExamListResult = .success(.make(
+            registeredApplicationId: nil,
+            registeredUserApplyId: nil,
+            applications: [.make(applicationId: 10)]
+        ))
+        let h = TestHarness(service: service)
+        try await h.sendViewDidLoad()
+        h.resetReceived()
+
+        h.send(.examTapped(10))
+        // MockExamScheduleService는 인위적 지연이 없고 Combine은 순서대로 전달되므로
+        // loadedRows.first는 항상 낙관적 emit이다 (재조회 결과는 그 뒤에만 쌓인다) —
+        // 표준 asyncSleepNanoseconds로도 레이스 없이 검증 가능하다
+        try await Task.sleep(nanoseconds: asyncSleepNanoseconds)
+
+        let optimisticRows = h.loadedRows.first
+        #expect(optimisticRows?.first(where: { $0.id == 10 })?.isSelected == true)
+    }
+
+    @Test("examTapped — 타임아웃이면 롤백하지 않고 목록을 재조회해 서버 상태로 동기화한다")
+    func examTapped_timeout_reconcilesInsteadOfRollingBack() async throws {
+        let service = MockExamScheduleService()
+        service.fetchExamListResultQueue = [
+            .success(.make(registeredApplicationId: nil, registeredUserApplyId: nil, applications: [.make(applicationId: 7)])),
+            .success(.make(registeredApplicationId: 7, registeredUserApplyId: 42, applications: [.make(applicationId: 7)]))
+        ]
+        service.applyExamScheduleResult = .failure(URLError(.timedOut))
+        let repository = MockExamScheduleRepository()
+        let h = TestHarness(service: service, repository: repository)
+        try await h.sendViewDidLoad()
+        h.resetReceived()
+
+        h.send(.examTapped(7))
+        try await Task.sleep(nanoseconds: asyncSleepNanoseconds)
+
+        // 목록 재조회가 한 번 더 일어났다 (최초 viewDidLoad 1회 + reconcile 1회)
+        #expect(service.fetchExamListCallCount == 2)
+        // 재조회 결과 서버가 실제로 등록했음을 확인했으므로 캐시에 직접 반영된다
+        #expect(repository.appliedWriteResults.count == 1)
+        // 캐시에 쓰인 내용이 재조회된 ExamInfo와 정확히 일치해야 한다 (필드 매핑 검증)
+        #expect(repository.appliedWriteResults.first?.examName == "2026년 1회")
+        #expect(repository.appliedWriteResults.first?.applyPeriod == "2026.01.01~2026.01.10")
+        #expect(repository.appliedWriteResults.first?.examDateText == "2026-12-31")
+        // 타임아웃을 실패로 보고하지 않는다 (서버 상태 확인으로 끝남)
+        #expect(h.errorMessages.isEmpty)
+    }
+
+    @Test("examTapped — 쓰기 성공 후 재조회가 실패하면 캐시를 무효화한다 (낡은 값을 쓰지 않는다)")
+    func examTapped_writeSucceedsButReconcileFails_clearsCacheInsteadOfWriting() async throws {
+        let service = MockExamScheduleService()
+        service.fetchExamListResultQueue = [
+            // viewDidLoad: 미등록 상태
+            .success(.make(registeredApplicationId: nil, registeredUserApplyId: nil, applications: [.make(applicationId: 10)])),
+            // 쓰기 성공 직후의 재조회가 실패한다
+            .failure(URLError(.timedOut))
+        ]
+        let repository = MockExamScheduleRepository()
+        let h = TestHarness(service: service, repository: repository)
+        try await h.sendViewDidLoad()
+        h.resetReceived()
+
+        h.send(.examTapped(10))
+        try await Task.sleep(nanoseconds: asyncSleepNanoseconds)
+
+        // 쓰기 자체는 성공했다
+        #expect(service.applyExamScheduleCallCount == 1)
+        // 재조회가 실패했으므로 낡은 상태를 캐시에 쓰지 않는다
+        #expect(repository.appliedWriteResults.isEmpty)
+        // 대신 캐시를 비워 다음 읽기에서 실제 서버 상태를 받게 한다
+        #expect(repository.clearCacheCallCount == 1)
+        // Home이 다시 읽도록 알린다 (빈 캐시 → 정상 fetch)
+        #expect(h.mockDelegate.didUpdateExamScheduleCallCount == 1)
+    }
+
+    @Test("examTapped — 쓰기·재조회는 성공했지만 재조회 결과에 등록 상태가 없으면 캐시를 비운다")
+    func examTapped_writeSucceedsButRefreshDoesNotConfirmRegistration_clearsCache() async throws {
+        let service = MockExamScheduleService()
+        service.fetchExamListResultQueue = [
+            // viewDidLoad: 미등록 상태
+            .success(.make(registeredApplicationId: nil, registeredUserApplyId: nil, applications: [.make(applicationId: 10)])),
+            // 쓰기 후 재조회: 서버가 등록을 확인해주지 않는다 (registeredApplicationId == nil)
+            .success(.make(registeredApplicationId: nil, registeredUserApplyId: nil, applications: [.make(applicationId: 10)]))
+        ]
+        let repository = MockExamScheduleRepository()
+        let h = TestHarness(service: service, repository: repository)
+        try await h.sendViewDidLoad()
+        h.resetReceived()
+
+        h.send(.examTapped(10))
+        try await Task.sleep(nanoseconds: asyncSleepNanoseconds)
+
+        // 확인되지 않은 상태를 캐시에 쓰지 않고, 캐시를 비워 다음 읽기에서 서버 상태를 받게 한다
+        #expect(repository.appliedWriteResults.isEmpty)
+        #expect(repository.clearCacheCallCount == 1)
+    }
+
+    @Test("examTapped — 타임아웃 reconcile의 재조회까지 실패하면 캐시만 비우고 성공 신호를 보내지 않는다")
+    func examTapped_timeoutAndReconcileFails_clearsCacheWithoutNotifying() async throws {
+        let service = MockExamScheduleService()
+        service.fetchExamListResultQueue = [
+            .success(.make(registeredApplicationId: nil, registeredUserApplyId: nil, applications: [.make(applicationId: 7)])),
+            .failure(URLError(.timedOut))
+        ]
+        service.applyExamScheduleResult = .failure(URLError(.timedOut))
+        let repository = MockExamScheduleRepository()
+        let h = TestHarness(service: service, repository: repository)
+        try await h.sendViewDidLoad()
+        h.resetReceived()
+
+        h.send(.examTapped(7))
+        try await Task.sleep(nanoseconds: asyncSleepNanoseconds)
+
+        #expect(repository.appliedWriteResults.isEmpty)
+        #expect(repository.clearCacheCallCount == 1)
+        #expect(h.mockDelegate.didUpdateExamScheduleCallCount == 0)
+    }
+
+    @Test("examTapped — 완전한 오프라인 에러는 reconcile하지 않고 즉시 롤백한다")
+    func examTapped_notConnectedToInternet_rollsBackImmediately() async throws {
+        let service = MockExamScheduleService()
+        service.fetchExamListResult = .success(.make(
+            registeredApplicationId: nil,
+            registeredUserApplyId: nil,
+            applications: [.make(applicationId: 3)]
+        ))
+        service.applyExamScheduleResult = .failure(URLError(.notConnectedToInternet))
+        let h = TestHarness(service: service)
+        try await h.sendViewDidLoad()
+        h.resetReceived()
+
+        h.send(.examTapped(3))
+        try await Task.sleep(nanoseconds: asyncSleepNanoseconds)
+
+        // reconcile용 재조회가 일어나지 않는다 (viewDidLoad 1회뿐)
+        #expect(service.fetchExamListCallCount == 1)
+        #expect(!h.errorMessages.isEmpty)
+        #expect(h.loadedRows.last?.first(where: { $0.id == 3 })?.isSelected == false)
     }
 }

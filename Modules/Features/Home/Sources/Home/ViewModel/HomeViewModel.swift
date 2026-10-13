@@ -16,7 +16,7 @@ final class HomeViewModel {
     
     // MARK: - Properties
     
-    private let examScheduleService: ExamScheduleService
+    private let examScheduleRepository: any ExamScheduleRepository
     private let dailyService: DailyService
     private let weeklyService: WeeklyRecommendService
     private let reviewPromptService: any ReviewPromptService
@@ -31,7 +31,7 @@ final class HomeViewModel {
     private let analyticsService: any AnalyticsService
 
     init(
-        examScheduleService: ExamScheduleService,
+        examScheduleRepository: any ExamScheduleRepository,
         dailyService: DailyService,
         weeklyService: WeeklyRecommendService,
         analyticsService: any AnalyticsService = AnalyticsManager.shared,
@@ -55,7 +55,7 @@ final class HomeViewModel {
                                   dailyPlans: [],
                                   selectedIndex: 0
         )
-        self.examScheduleService = examScheduleService
+        self.examScheduleRepository = examScheduleRepository
         self.dailyService = dailyService
         self.weeklyService = weeklyService
         self.analyticsService = analyticsService
@@ -178,36 +178,22 @@ final class HomeViewModel {
     }
     
     private func makeExamState() async throws -> HomeState {
-        do {
-            let response = try await examScheduleService.fetchAppliedExams()
-            let detail = ExamDetail(
-                examDateText: response.data.examDate,
-                examName: response.data.examName,
-                applyPeriod: response.data.period
-            )
-            let dDay = response.data.examDate.dDay
-            let status: ExamStatus = dDay <= 0
-            ? .expired(detail: detail)
-            : .registered(dDay: dDay, detail: detail)
+        let value = try await examScheduleRepository.currentExamState()
 
-            return HomeState(userName: userInfo.name,
-                             examStatus: status,
-                             entryState: currentEntryState(),
-                             dailyPlans: [],
-                             selectedIndex: 0)
-
-        } catch let NetworkError.clientError(httpStatus, _, _, _, _) where httpStatus == 400 {
-            // 시험 미등록 상태 → 정상 케이스로 처리
-            return HomeState(userName: userInfo.name,
-                             examStatus: .none,
-                             entryState: currentEntryState(),
-                             dailyPlans: [],
-                             selectedIndex: 0)
-
-        } catch {
-            // 그 외 네트워크 오류 → loadAllData에서 handle
-            throw error
+        let status: ExamStatus
+        switch value {
+        case .unregistered:
+            status = .none
+        case .registered(let detail):
+            let dDay = detail.examDateText.dDay
+            status = dDay <= 0 ? .expired(detail: detail) : .registered(dDay: dDay, detail: detail)
         }
+
+        return HomeState(userName: userInfo.name,
+                         examStatus: status,
+                         entryState: currentEntryState(),
+                         dailyPlans: [],
+                         selectedIndex: 0)
     }
     
     private func loadDailyPlans() async throws -> [DailyPlanEntity] {

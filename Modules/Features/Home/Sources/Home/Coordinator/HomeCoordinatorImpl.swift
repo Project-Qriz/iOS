@@ -15,6 +15,7 @@ final class HomeCoordinatorImpl: HomeCoordinator, NavigationGuard {
     weak var delegate: HomeCoordinatorDelegate?
     weak var examDelegate: (any ExamSelectionDelegate)?
     private(set) weak var navigationController: UINavigationController?
+    private let examScheduleRepository: any ExamScheduleRepository
     private let examService: ExamScheduleService
     private let dailyService: DailyService
     private let weeklyService: WeeklyRecommendService
@@ -34,6 +35,7 @@ final class HomeCoordinatorImpl: HomeCoordinator, NavigationGuard {
     // MARK: - Initialization
 
     init(
+        examScheduleRepository: any ExamScheduleRepository,
         examService: ExamScheduleService,
         dailyService: DailyService,
         weeklyService: WeeklyRecommendService,
@@ -43,6 +45,7 @@ final class HomeCoordinatorImpl: HomeCoordinator, NavigationGuard {
         onboardingFactory: any OnboardingCoordinatorFactory,
         conceptbookFactory: any ConceptbookFactory
     ) {
+        self.examScheduleRepository = examScheduleRepository
         self.examService = examService
         self.dailyService = dailyService
         self.weeklyService = weeklyService
@@ -57,7 +60,7 @@ final class HomeCoordinatorImpl: HomeCoordinator, NavigationGuard {
 
     func start() -> UIViewController {
         let viewModel = HomeViewModel(
-            examScheduleService: examService,
+            examScheduleRepository: examScheduleRepository,
             dailyService: dailyService,
             weeklyService: weeklyService,
             userInfo: .shared
@@ -93,7 +96,10 @@ final class HomeCoordinatorImpl: HomeCoordinator, NavigationGuard {
     }
 
     private func makeExamScheduleSelectionViewController() -> ExamScheduleSelectionViewController {
-        let viewModel = ExamScheduleSelectionViewModel(examScheduleService: examService)
+        let viewModel = ExamScheduleSelectionViewModel(
+            examScheduleService: examService,
+            examScheduleRepository: examScheduleRepository
+        )
         viewModel.delegate = examDelegate ?? self
 
         let vc = ExamScheduleSelectionViewController(viewModel: viewModel)

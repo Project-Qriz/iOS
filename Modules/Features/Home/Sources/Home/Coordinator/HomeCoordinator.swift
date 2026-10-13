@@ -38,6 +38,7 @@ public protocol HomeCoordinatorDelegate: AnyObject {
 
 @MainActor
 public func makeHomeCoordinator(
+    examScheduleRepository: any ExamScheduleRepository,
     examService: any ExamScheduleService,
     dailyService: any DailyService,
     weeklyService: any WeeklyRecommendService,
@@ -48,6 +49,7 @@ public func makeHomeCoordinator(
     conceptbookFactory: any ConceptbookFactory
 ) -> any HomeCoordinator {
     HomeCoordinatorImpl(
+        examScheduleRepository: examScheduleRepository,
         examService: examService,
         dailyService: dailyService,
         weeklyService: weeklyService,
