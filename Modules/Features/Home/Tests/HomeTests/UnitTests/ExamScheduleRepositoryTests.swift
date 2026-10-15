@@ -129,6 +129,26 @@ struct ExamScheduleRepositoryTests {
         #expect(cacheStore.load(userId: "user-1")?.value == .registered(detail))
     }
 
+    @Test("조회 중에 쓰기 결과가 반영되면, 늦게 도착한 조회 응답이 캐시를 덮어쓰지 않는다")
+    func applyWriteResult_whileFetchInFlight_staleResponseDoesNotOverwrite() async throws {
+        let service = MockExamScheduleService()
+        service.fetchAppliedExamsResult = .failure(
+            NetworkError.clientError(httpStatus: 400, serverCode: -1, message: "등록된 일정이 없어요", reason: nil, detailCode: nil)
+        )
+        service.holdsFetchAppliedExams = true
+        let (sut, cacheStore) = makeSUT(service: service)
+        let detail = ExamDetail(examDateText: "2026-11-30", examName: "2026년 2회", applyPeriod: "2026.02.01~2026.02.10")
+
+        let staleRead = Task { try await sut.currentExamState() }
+        while service.fetchAppliedExamsCallCount == 0 { await Task.yield() }
+
+        sut.applyWriteResult(detail)
+        service.resumeFetchAppliedExams()
+        _ = try? await staleRead.value
+
+        #expect(cacheStore.load(userId: "user-1")?.value == .registered(detail))
+    }
+
     @Test("clearCache 후에는 다시 캐시가 없는 상태로 돌아간다")
     func clearCache_removesStoredValue() async throws {
         let service = MockExamScheduleService()

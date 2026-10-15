@@ -61,6 +61,9 @@ public final class ExamScheduleRepositoryImpl: ExamScheduleRepository {
     }
 
     public func applyWriteResult(_ detail: ExamDetail) {
+        // 진행 중인 fetch는 쓰기 이전 값이라 취소
+        inFlightTask?.cancel()
+        inFlightTask = nil
         cacheStore.save(CachedExamState(value: .registered(detail), fetchedAt: Date()), userId: userInfo.userId)
     }
 

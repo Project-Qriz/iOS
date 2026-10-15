@@ -19,9 +19,21 @@ final class MockExamScheduleService: ExamScheduleService {
     private(set) var lastUpdateUserApplyId: Int?
     private(set) var lastUpdateNewApplyId: Int?
 
+    /// true면 `resumeFetchAppliedExams()` 전까지 응답을 보류
+    var holdsFetchAppliedExams = false
+    private var heldFetchAppliedExams: CheckedContinuation<Void, Never>?
+
     func fetchAppliedExams() async throws -> AppliedExamsResponse {
         fetchAppliedExamsCallCount += 1
+        if holdsFetchAppliedExams {
+            await withCheckedContinuation { heldFetchAppliedExams = $0 }
+        }
         return try fetchAppliedExamsResult.get()
+    }
+
+    func resumeFetchAppliedExams() {
+        heldFetchAppliedExams?.resume()
+        heldFetchAppliedExams = nil
     }
 
     func fetchExamList() async throws -> ExamScheduleListResponse {
