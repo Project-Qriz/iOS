@@ -54,10 +54,7 @@ final class ExamScheduleSelectionViewModel {
         return outputSubject.eraseToAnyPublisher()
     }
 
-    /// 목록을 재조회해 내부 상태(`registeredApplicationId` 등)를 서버 기준으로 갱신한다.
-    /// - Returns: 성공 여부. 실패하면 내부 상태가 갱신되지 않았음을 뜻하므로,
-    ///            호출자는 이 값을 캐시 동기화 여부 판단에 반드시 사용해야 한다.
-    ///            (`@discardableResult`를 붙이지 않아 무시하면 경고가 난다)
+    /// - Returns: 성공 여부 (실패 시 내부 상태가 갱신되지 않았으므로 캐시 동기화 금지)
     private func loadExamList() async -> Bool {
         do {
             let response = try await examScheduleService.fetchExamList()
@@ -98,9 +95,7 @@ final class ExamScheduleSelectionViewModel {
                 _ = try await examScheduleService.applyExamSchedule(applyId: id)
             }
 
-            // 쓰기는 성공했으나 재조회가 실패하면 내부 상태가 서버와 어긋난 채로 남는다.
-            // 그 상태를 캐시에 쓰면 영구히 오염되므로(TTL 없음), 캐시를 비워 다음 읽기에서
-            // 정상 fetch가 일어나게 한다.
+            // 재조회 실패 시 서버 상태를 모르므로 캐시를 비움
             if await loadExamList() {
                 syncRepositoryCache()
             } else {
@@ -109,15 +104,14 @@ final class ExamScheduleSelectionViewModel {
             delegate?.didUpdateExamSchedule()
 
         } catch let urlError as URLError where Self.isTransportTimeout(urlError) {
-            // 결과 불명: 롤백하지 않고 서버 상태를 다시 받아 동기화한다
+            // 결과 불명 → 롤백 대신 서버 상태로 확정
             if await loadExamList() {
                 syncRepositoryCache()
                 if registeredApplicationId == id {
                     delegate?.didUpdateExamSchedule()
                 }
             } else {
-                // 쓰기 결과도, 서버 상태도 모르는 상태. 캐시를 비워 다음 읽기에서
-                // 실제 서버 상태를 받게 하고, 성공 신호(delegate)는 보내지 않는다.
+                // 서버 상태를 모르므로 캐시만 비우고 delegate는 호출하지 않음
                 examScheduleRepository.clearCache()
             }
 
@@ -133,7 +127,7 @@ final class ExamScheduleSelectionViewModel {
         }
     }
 
-    /// 쓰기 요청을 보내기 전에, 방금 탭한 항목이 선택된 것처럼 화면을 먼저 갱신한다.
+    /// 응답 전에 탭한 항목을 선택 상태로 먼저 표시
     private func showOptimisticSelection(for id: Int) {
         let optimisticRows = latestRows.map { row in
             ExamRowState(
@@ -154,8 +148,7 @@ final class ExamScheduleSelectionViewModel {
         outputSubject.send(.loadExamList(rows: rows))
     }
 
-    /// 재조회로 확인된 등록 상태를 Repository 캐시에 직접 반영한다 (다시 fetch하지 않는다).
-    /// 재조회 결과에서 등록 상태를 특정할 수 없으면 낡은 값을 남기지 않도록 캐시를 비운다.
+    /// 재조회한 등록 상태를 캐시에 반영 (특정할 수 없으면 캐시를 비움)
     private func syncRepositoryCache() {
         guard let registeredId = registeredApplicationId,
               let matched = latestApplications.first(where: { $0.applicationId == registeredId }) else {
@@ -173,9 +166,7 @@ final class ExamScheduleSelectionViewModel {
 
     private static func isTransportTimeout(_ error: URLError) -> Bool {
         switch error.code {
-        // 요청이 서버에 닿았는지 알 수 없는(= reconcile이 필요한) 경우만 포함한다.
-        // `.notConnectedToInternet` · `.cannotFindHost` · `.dnsLookupFailed`처럼
-        // 요청이 서버에 닿지 않았음이 명확한 에러는 일반 catch로 넘겨 즉시 롤백시킨다.
+        // 요청이 서버에 닿았는지 알 수 없는 경우만 (오프라인 등은 즉시 롤백)
         case .timedOut, .networkConnectionLost, .cannotConnectToHost:
             return true
         default:

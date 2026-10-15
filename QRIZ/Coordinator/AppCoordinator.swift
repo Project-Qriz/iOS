@@ -223,7 +223,7 @@ final class AppCoordinatorImpl: AppCoordinator {
         showLogin()
     }
 
-    /// 로그아웃 · 세션 만료 공통 정리: 토큰, 사용자 정보, 시험 일정 캐시를 모두 비운다.
+    /// 로그아웃 · 세션 만료 공통 정리 (캐시 키가 userId라 reset 전에 캐시 삭제)
     private func clearUserSession() {
         dependency.keychain.deleteToken(forKey: TokenKey.accessToken.rawValue)
         dependency.keychain.deleteToken(forKey: TokenKey.refreshToken.rawValue)
