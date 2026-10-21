@@ -19,13 +19,13 @@ struct HomeViewModelTests {
         private var cancellables = Set<AnyCancellable>()
 
         init(
-            examService: MockExamScheduleService,
+            examScheduleRepository: MockExamScheduleRepository,
             dailyService: MockDailyService,
             weeklyService: MockWeeklyRecommendService,
             reviewPromptService: MockReviewPromptService
         ) {
             self.sut = HomeViewModel(
-                examScheduleService: examService,
+                examScheduleRepository: examScheduleRepository,
                 dailyService: dailyService,
                 weeklyService: weeklyService,
                 reviewPromptService: reviewPromptService,
@@ -72,13 +72,13 @@ struct HomeViewModelTests {
     // MARK: - Factory
 
     private func makeHarness(
-        examService: MockExamScheduleService? = nil,
+        examScheduleRepository: MockExamScheduleRepository? = nil,
         dailyService: MockDailyService? = nil,
         weeklyService: MockWeeklyRecommendService? = nil,
         reviewPromptService: MockReviewPromptService? = nil
     ) -> TestHarness {
         TestHarness(
-            examService: examService ?? MockExamScheduleService(),
+            examScheduleRepository: examScheduleRepository ?? MockExamScheduleRepository(),
             dailyService: dailyService ?? MockDailyService(),
             weeklyService: weeklyService ?? MockWeeklyRecommendService(),
             reviewPromptService: reviewPromptService ?? MockReviewPromptService()
@@ -95,12 +95,12 @@ struct HomeViewModelTests {
 
     @Test("viewDidLoad 성공 → updateState emit (examStatus .registered, dailyPlans 1개)")
     func viewDidLoad_success_emitsUpdateState() async throws {
-        let examService = MockExamScheduleService()
-        examService.fetchAppliedExamsResult = .success(.make(examDate: "2026-12-31"))
+        let examScheduleRepository = MockExamScheduleRepository()
+        examScheduleRepository.currentExamStateResult = .success(.registered(.make(examDateText: "2026-12-31")))
         let dailyService = MockDailyService()
         dailyService.getDailyPlanResult = .success(.make(plans: [.make(completed: false)]))
 
-        let h = makeHarness(examService: examService, dailyService: dailyService)
+        let h = makeHarness(examScheduleRepository: examScheduleRepository, dailyService: dailyService)
         try await h.sendViewDidLoad()
 
         let state = h.stateOutputs.last
@@ -144,11 +144,9 @@ struct HomeViewModelTests {
 
     @Test("viewDidLoad — 시험 미등록(400) → examStatus .none")
     func viewDidLoad_examNotRegistered_examStatusNone() async throws {
-        let examService = MockExamScheduleService()
-        examService.fetchAppliedExamsResult = .failure(
-            NetworkError.clientError(httpStatus: 400, serverCode: 0, message: "not registered", reason: nil, detailCode: nil)
-        )
-        let h = makeHarness(examService: examService)
+        let examScheduleRepository = MockExamScheduleRepository()
+        examScheduleRepository.currentExamStateResult = .success(.unregistered)
+        let h = makeHarness(examScheduleRepository: examScheduleRepository)
         try await h.sendViewDidLoad()
 
         let state = h.stateOutputs.last
@@ -157,9 +155,9 @@ struct HomeViewModelTests {
 
     @Test("viewDidLoad — 시험 조회 실패(non-400) → showErrorAlert emit")
     func viewDidLoad_examFetchFails_nonClientError_emitsErrorAlert() async throws {
-        let examService = MockExamScheduleService()
-        examService.fetchAppliedExamsResult = .failure(URLError(.notConnectedToInternet))
-        let h = makeHarness(examService: examService)
+        let examScheduleRepository = MockExamScheduleRepository()
+        examScheduleRepository.currentExamStateResult = .failure(URLError(.notConnectedToInternet))
+        let h = makeHarness(examScheduleRepository: examScheduleRepository)
         try await h.sendViewDidLoad()
 
         #expect(!h.errorTitles.isEmpty)
@@ -366,13 +364,13 @@ struct HomeViewModelTests {
 
     @Test("reloadExamSchedule — 실패 → showErrorAlert emit")
     func reloadExamSchedule_failure_emitsErrorAlert() async throws {
-        let examService = MockExamScheduleService()
-        examService.fetchAppliedExamsResult = .success(.make(examDate: "2026-12-31"))
-        let h = makeHarness(examService: examService)
+        let examScheduleRepository = MockExamScheduleRepository()
+        examScheduleRepository.currentExamStateResult = .success(.registered(.make(examDateText: "2026-12-31")))
+        let h = makeHarness(examScheduleRepository: examScheduleRepository)
         try await h.sendViewDidLoad()
         h.resetReceived()
 
-        examService.fetchAppliedExamsResult = .failure(URLError(.notConnectedToInternet))
+        examScheduleRepository.currentExamStateResult = .failure(URLError(.notConnectedToInternet))
         h.sut.reloadExamSchedule()
         try await Task.sleep(nanoseconds: asyncSleepNanoseconds)
 
@@ -383,9 +381,9 @@ struct HomeViewModelTests {
 
     @Test("reloadExamSchedule → updateState emit with examStatus")
     func reloadExamSchedule_updatesState() async throws {
-        let examService = MockExamScheduleService()
-        examService.fetchAppliedExamsResult = .success(.make(examDate: "2026-12-31"))
-        let h = makeHarness(examService: examService)
+        let examScheduleRepository = MockExamScheduleRepository()
+        examScheduleRepository.currentExamStateResult = .success(.registered(.make(examDateText: "2026-12-31")))
+        let h = makeHarness(examScheduleRepository: examScheduleRepository)
         try await h.sendViewDidLoad()
         h.resetReceived()
 

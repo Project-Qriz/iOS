@@ -66,6 +66,16 @@ extension AppliedExamsResponse {
     }
 }
 
+extension ExamDetail {
+    static func make(
+        examDateText: String = "2026-12-31",
+        examName: String = "2026년 1회",
+        applyPeriod: String = "2026.01.01~2026.01.10"
+    ) -> ExamDetail {
+        ExamDetail(examDateText: examDateText, examName: examName, applyPeriod: applyPeriod)
+    }
+}
+
 extension ExamScheduleListResponse {
     static func make(
         registeredApplicationId: Int? = nil,

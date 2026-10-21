@@ -32,6 +32,7 @@ protocol AppCoordinatorDependency {
     var termsService: TermsService { get }
     var accountRecoveryService: AccountRecoveryService { get }
     var examScheduleService: ExamScheduleService { get }
+    var examScheduleRepository: any ExamScheduleRepository { get }
     var examTestService: ExamService { get }
     var dailyService: DailyService { get }
     var userInfoService: UserInfoService { get }
@@ -59,6 +60,11 @@ final class AppCoordinatorDependencyImpl: AppCoordinatorDependency {
     lazy var termsService: TermsService = TermsServiceImpl(network: network)
     lazy var accountRecoveryService: AccountRecoveryService = AccountRecoveryServiceImpl(network: network)
     lazy var examScheduleService: ExamScheduleService = ExamScheduleServiceImpl(network: network, keychain: keychain)
+    lazy var examScheduleCacheStore: ExamScheduleCacheStore = ExamScheduleCacheStoreImpl()
+    lazy var examScheduleRepository: any ExamScheduleRepository = ExamScheduleRepositoryImpl(
+        service: examScheduleService,
+        cacheStore: examScheduleCacheStore
+    )
     lazy var examTestService: ExamService = ExamServiceImpl(network: network, keychainManager: keychain)
     lazy var dailyService: DailyService = DailyServiceImpl(network: network, keychainManager: keychain)
     lazy var myPageService: MyPageService = MyPageServiceImpl(network: network, keychain: keychain)
@@ -87,6 +93,7 @@ final class AppCoordinatorDependencyImpl: AppCoordinatorDependency {
     var tabBarCoordinator: TabBarCoordinator {
         let tabBarDependency = TabBarCoordinatorDependencyImpl(
             examService: examScheduleService,
+            examScheduleRepository: examScheduleRepository,
             examTestService: examTestService,
             dailyService: dailyService,
             onboardingService: onboardingService,
@@ -215,7 +222,16 @@ final class AppCoordinatorImpl: AppCoordinator {
     
     private func resetToLogin() {
         childCoordinators.removeAll()
+        clearUserSession()
         showLogin()
+    }
+
+    /// 로그아웃 · 세션 만료 공통 정리: 토큰, 사용자 정보, 시험 일정 캐시를 모두 비운다.
+    private func clearUserSession() {
+        dependency.keychain.deleteToken(forKey: TokenKey.accessToken.rawValue)
+        dependency.keychain.deleteToken(forKey: TokenKey.refreshToken.rawValue)
+        dependency.examScheduleRepository.clearCache()
+        UserInfoManager.shared.reset()
     }
     
     private func replaceRootViewController(
@@ -286,7 +302,7 @@ extension AppCoordinatorImpl: OnboardingCoordinatorDelegate {
 extension AppCoordinatorImpl: TabBarCoordinatorDelegate {
     func didLogout(_ coordinator: TabBarCoordinator) {
         childCoordinators.removeAll()
-        dependency.keychain.deleteToken(forKey: TokenKey.accessToken.rawValue)
+        clearUserSession()
         showLogin()
     }
 }

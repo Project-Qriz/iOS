@@ -11,7 +11,7 @@ public enum ExamStatus: Equatable, Hashable, Sendable {
     case registered(dDay: Int, detail: ExamDetail)
 }
 
-public struct ExamDetail: Equatable, Hashable, Sendable {
+public struct ExamDetail: Equatable, Hashable, Codable, Sendable {
     public let examDateText: String
     public let examName: String
     public let applyPeriod: String
