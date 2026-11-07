@@ -48,14 +48,6 @@ struct DailyResultView: View {
                     .font(.system(size: 18, weight: .bold))
                     .foregroundStyle(Color.coolNeutral700)
             }
-            ToolbarItem(placement: .navigationBarLeading) {
-                Button(action: viewModel.didTapCancel) {
-                    Image(systemName: "xmark")
-                        .foregroundStyle(Color.coolNeutral800)
-                }
-                .glassIconButtonStyle()
-            }
-            .hidingSharedBackground()
         }
         .alert("오류", isPresented: isErrorPresented) {
             Button("확인", role: .cancel) { viewModel.errorMessage = nil }
@@ -88,9 +80,21 @@ private final class DailyResultExamKitBridge: ObservableObject {
 
 // MARK: - Hosting Controller
 
-/// 이 화면은 `.toolbar`로 X 버튼을 직접 관리하므로 QRIZNavigationController가 관여하지 않는다.
+/// 이 화면은 X 버튼을 직접 관리하므로 QRIZNavigationController가 관여하지 않는다.
+///
+/// X 버튼은 SwiftUI `.toolbar`가 아니라 UIKit `navigationItem`에 설치한다.
+/// 공유 glass 배경을 숨기는 `ToolbarContent` 확장은 `#available` 분기 때문에
+/// Release 아카이브에서 링크 오류(`buildLimitedAvailability`)를 일으킨다.
 ///
 /// `UIHostingController`(SwiftUI 타입)에 직접 조건부 확장으로 채택하면, DesignSystem도 SwiftUI도
 /// 아닌 제3의 모듈(Daily)에서 선언하는 "retroactive conformance"가 되어 컴파일러 경고가 뜬다.
 /// 대신 이 모듈 소유의 서브클래스에 채택한다.
-final class DailyResultHostingController: UIHostingController<DailyResultView>, ManagesOwnLeadingBarItem {}
+final class DailyResultHostingController: UIHostingController<DailyResultView>, ManagesOwnLeadingBarItem {
+
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        navigationItem.setGlassCloseButton(tintColor: .coolNeutral800) { [weak self] in
+            self?.rootView.viewModel.didTapCancel()
+        }
+    }
+}

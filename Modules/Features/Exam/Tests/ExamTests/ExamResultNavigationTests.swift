@@ -10,13 +10,13 @@ import DesignSystem
 import QRIZUtils
 
 /// `ExamResultView`를 실제 프로덕션과 동일하게 `QRIZNavigationController`에 push했을 때,
-/// 뒤로가기(원형 glass)와 화면 자체의 X 버튼이 함께 보이지 않는지 검증한다.
+/// 뒤로가기(원형 glass)는 설치되지 않고 화면 자체의 X 버튼만 남는지 검증한다.
 ///
-/// 배경: `leftBarButtonItem`을 설정하면 iOS 16+ `leadingItemGroups`에도 그룹으로 미러링되는데,
-/// SwiftUI의 `.toolbar { ToolbarItem(placement: .navigationBarLeading) { ... } }`는 이 배열을
-/// 교체가 아니라 "추가"하는 방식으로 동작한다. 그래서 화면이 자기 왼쪽 버튼(X)을 넣어도 우리가 설치한
-/// 뒤로가기 그룹이 배열에 그대로 남아 함께 보일 수 있다. 게다가 이 시점부터는 `leftBarButtonItem`이
-/// 항상 nil을 반환해, `leftBarButtonItem`만 비교하는 검사로는 이 문제를 절대 잡아낼 수 없다.
+/// 배경: `leftBarButtonItem`을 설정하면 iOS 16+ `leadingItemGroups`에도 그룹으로 미러링된다.
+/// SwiftUI `.toolbar`의 leading 아이템은 이 배열을 교체가 아니라 "추가"하므로, 화면이 SwiftUI로
+/// 자기 왼쪽 버튼을 넣으면 우리가 설치한 뒤로가기 그룹이 남아 함께 보일 수 있다.
+/// X 버튼은 UIKit `navigationItem`에 설치하고 SwiftUI `.toolbar`에는 제목만 두므로,
+/// 재렌더링 이후에도 왼쪽에는 X 하나만 있어야 한다.
 @MainActor
 @Suite("ExamResultView 내비게이션 테스트", .serialized)
 struct ExamResultNavigationTests {
@@ -30,18 +30,19 @@ struct ExamResultNavigationTests {
         )
     }
 
-    /// `leftBarButtonItem`을 설정하면 iOS 16+ `leadingItemGroups`에도 미러링되는데, 화면이 SwiftUI
-    /// `.toolbar`로 자기 왼쪽 아이템을 추가하면 그 순간부터 `leftBarButtonItem`은 항상 nil을 반환한다.
-    /// 그래서 뒤로가기가 실제로 남아있는지는 leadingItemGroups까지 확인해야 정확히 알 수 있다.
-    private func hasGlassBackButtonInstalled(_ item: UINavigationItem) -> Bool {
-        if item.leftBarButtonItem?.customView is GlassIconButton { return true }
-        return item.leadingItemGroups
-            .flatMap(\.barButtonItems)
-            .contains { $0.customView is GlassIconButton }
+    /// 왼쪽 영역의 모든 glass 버튼 아이템의 접근성 라벨을 모은다.
+    /// `leftBarButtonItem`과 `leadingItemGroups`(iOS 16+ 미러링)를 모두 확인한다.
+    private func glassButtonLabels(_ item: UINavigationItem) -> [String] {
+        var items: [UIBarButtonItem] = []
+        if let left = item.leftBarButtonItem { items.append(left) }
+        items += item.leadingItemGroups.flatMap(\.barButtonItems)
+        return items
+            .filter { $0.customView is GlassIconButton }
+            .compactMap(\.accessibilityLabel)
     }
 
-    @Test("초기 렌더링 이후 재렌더링되어도 뒤로가기가 X 옆에 함께 보이지 않는다")
-    func doesNotShowBackButtonAlongsideCloseButtonAfterRerender() async throws {
+    @Test("초기 렌더링 이후 재렌더링되어도 왼쪽에는 X 버튼 하나만 있고 뒤로가기는 보이지 않는다")
+    func showsOnlyCloseButtonAfterRerender() async throws {
         let window = UIWindow(frame: CGRect(x: 0, y: 0, width: 402, height: 874))
         let nav = QRIZNavigationController(rootViewController: UIViewController())
         window.rootViewController = nav
@@ -59,6 +60,6 @@ struct ExamResultNavigationTests {
         try await Task.sleep(nanoseconds: 200_000_000)
 
         #expect(hosting.navigationItem.leftItemsSupplementBackButton == false)
-        #expect(!hasGlassBackButtonInstalled(hosting.navigationItem))
+        #expect(glassButtonLabels(hosting.navigationItem) == ["닫기"])
     }
 }
