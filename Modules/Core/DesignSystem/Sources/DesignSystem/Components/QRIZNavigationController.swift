@@ -16,7 +16,7 @@ public protocol BackButtonImageProviding: AnyObject {
 /// 왼쪽 상단 바 버튼(취소, X 등)을 직접 관리하는 화면이 채택합니다.
 ///
 /// 채택하면 `QRIZNavigationController`가 원형 glass 뒤로가기 버튼을 설치하지 않습니다.
-/// 자체 취소 버튼을 쓰는 시험 화면, SwiftUI `.toolbar`로 자기 X 버튼을 넣는 결과 화면 등에 사용하세요.
+/// 자체 취소 버튼을 쓰는 시험 화면, `UIHostingController`가 UIKit `navigationItem`으로 자기 X 버튼을 넣는 결과 화면 등에 사용하세요.
 @MainActor
 public protocol ManagesOwnLeadingBarItem: AnyObject {}
 
