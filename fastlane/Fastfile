@@ -1,0 +1,62 @@
+default_platform(:ios)
+
+platform :ios do
+  desc "App Store Connect API 키 로드"
+  private_lane :asc_api_key do
+    app_store_connect_api_key(
+      key_id: ENV.fetch("ASC_KEY_ID"),
+      issuer_id: ENV.fetch("ASC_ISSUER_ID"),
+      key_filepath: File.expand_path(ENV.fetch("ASC_KEY_PATH"), File.dirname(Dir.pwd)),
+      in_house: false
+    )
+  end
+
+  desc "빌드 번호 증가 → 아카이브 → TestFlight 업로드"
+  lane :beta do
+    api_key = asc_api_key
+    build_number = latest_testflight_build_number(api_key: api_key, app_identifier: "com.ksh.qriz") + 1
+
+    build_app(
+      project: "../QRIZ.xcodeproj",
+      scheme: "QRIZ-Release",
+      configuration: "Release",
+      export_method: "app-store",
+      output_directory: "../build",
+      clean: true,
+      xcargs: "-allowProvisioningUpdates CURRENT_PROJECT_VERSION=#{build_number}",
+      export_xcargs: "-allowProvisioningUpdates",
+      export_options: { signingStyle: "automatic", teamID: "7G8HP2JBMK" }
+    )
+
+    upload_to_testflight(
+      api_key: api_key,
+      skip_waiting_for_build_processing: true
+    )
+  end
+
+  desc "TestFlight에 올라간 최신 빌드를 App Store 심사에 제출 (메타데이터/스크린샷은 건드리지 않음)"
+  lane :release do
+    api_key = asc_api_key
+    build_number = latest_testflight_build_number(api_key: api_key, app_identifier: "com.ksh.qriz")
+
+    deliver(
+      api_key: api_key,
+      build_number: build_number.to_s,
+      skip_binary_upload: true,
+      skip_metadata: true,
+      skip_screenshots: true,
+      force: true,
+      submit_for_review: true,
+      automatic_release: false,
+      precheck_include_in_app_purchases: false,
+      submission_information: {
+        add_id_info_uses_idfa: true,
+        add_id_info_serves_ads: true,
+        add_id_info_tracks_install: true,
+        add_id_info_tracks_action: true,
+        add_id_info_limits_tracking: true,
+        export_compliance_uses_encryption: false
+      }
+    )
+  end
+end

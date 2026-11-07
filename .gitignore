@@ -59,3 +59,11 @@ CLAUDE.md
 docs/superpowers/
 .superpowers/
 _workspace/
+
+### Fastlane ###
+fastlane/.env
+fastlane/*.p8
+fastlane/report.xml
+fastlane/README.md
+fastlane/test_output/
+build/
