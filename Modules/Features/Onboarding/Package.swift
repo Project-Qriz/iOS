@@ -31,6 +31,7 @@ let package = Package(
             name: "OnboardingTests",
             dependencies: [
                 "Onboarding",
+                "DesignSystem",
                 "QRIZNetwork",
                 "QRIZUtils",
                 .product(name: "SnapshotTesting", package: "swift-snapshot-testing"),

@@ -108,7 +108,7 @@ final class OnboardingCoordinatorImpl: OnboardingNavigating, NavigationGuard {
                 onNavigateToGreeting: { [weak self] in self?.showPlanDurationSelection() },
                 userInfo: .shared
             )
-            let vc = UIHostingController(rootView: PreviewResultView(viewModel: vm))
+            let vc = PreviewResultHostingController(rootView: PreviewResultView(viewModel: vm))
             navigationController.pushViewController(vc, animated: true)
         }
     }
