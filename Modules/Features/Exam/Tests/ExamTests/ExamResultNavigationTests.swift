@@ -9,14 +9,7 @@ import SwiftUI
 import DesignSystem
 import QRIZUtils
 
-/// `ExamResultView`를 실제 프로덕션과 동일하게 `QRIZNavigationController`에 push했을 때,
-/// 뒤로가기(원형 glass)는 설치되지 않고 화면 자체의 X 버튼만 남는지 검증한다.
-///
-/// 배경: `leftBarButtonItem`을 설정하면 iOS 16+ `leadingItemGroups`에도 그룹으로 미러링된다.
-/// SwiftUI `.toolbar`의 leading 아이템은 이 배열을 교체가 아니라 "추가"하므로, 화면이 SwiftUI로
-/// 자기 왼쪽 버튼을 넣으면 우리가 설치한 뒤로가기 그룹이 남아 함께 보일 수 있다.
-/// X 버튼은 UIKit `navigationItem`에 설치하고 SwiftUI `.toolbar`에는 제목만 두므로,
-/// 재렌더링 이후에도 왼쪽에는 X 하나만 있어야 한다.
+/// `QRIZNavigationController`에 push해도 왼쪽에 X 버튼만 남고 뒤로가기는 보이지 않는지 검증한다.
 @MainActor
 @Suite("ExamResultView 내비게이션 테스트", .serialized)
 struct ExamResultNavigationTests {
@@ -30,8 +23,7 @@ struct ExamResultNavigationTests {
         )
     }
 
-    /// 왼쪽 영역의 모든 glass 버튼 아이템의 접근성 라벨을 모은다.
-    /// `leftBarButtonItem`과 `leadingItemGroups`(iOS 16+ 미러링)를 모두 확인한다.
+    /// `leftBarButtonItem`과 `leadingItemGroups`의 glass 버튼 접근성 라벨을 모은다.
     private func glassButtonLabels(_ item: UINavigationItem) -> [String] {
         var items: [UIBarButtonItem] = []
         if let left = item.leftBarButtonItem { items.append(left) }
