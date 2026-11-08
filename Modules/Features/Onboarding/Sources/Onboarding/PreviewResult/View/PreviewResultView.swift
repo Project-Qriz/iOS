@@ -21,12 +21,6 @@ struct PreviewResultView: View {
                     .font(.system(size: 18, weight: .bold))
                     .foregroundStyle(Color.coolNeutral700)
             }
-            ToolbarItem(placement: .navigationBarLeading) {
-                Button { viewModel.didTapClose() } label: {
-                    Image(systemName: "xmark")
-                        .foregroundStyle(Color.coolNeutral800)
-                }
-            }
         }
         .alert("오류", isPresented: isErrorPresented) {
             Button("확인", role: .cancel) { viewModel.errorMessage = nil }
@@ -61,5 +55,18 @@ private extension PreviewResultView {
             get: { viewModel.errorMessage != nil },
             set: { if !$0 { viewModel.errorMessage = nil } }
         )
+    }
+}
+
+// MARK: - Hosting Controller
+
+/// X 버튼을 직접 관리하므로 QRIZNavigationController가 뒤로가기를 설치하지 않는다. (retroactive conformance 회피용 서브클래스)
+final class PreviewResultHostingController: UIHostingController<PreviewResultView>, ManagesOwnLeadingBarItem {
+
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        navigationItem.setGlassCloseButton(tintColor: .coolNeutral800) { [weak self] in
+            self?.rootView.viewModel.didTapClose()
+        }
     }
 }
