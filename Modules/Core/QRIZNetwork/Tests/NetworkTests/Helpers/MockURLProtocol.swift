@@ -10,7 +10,15 @@ import Foundation
 final class MockURLProtocol: URLProtocol, @unchecked Sendable {
 
     nonisolated(unsafe) static var requestHandler: ((URLRequest) throws -> (HTTPURLResponse, Data))?
-    nonisolated(unsafe) static var capturedRequests: [URLRequest] = []
+
+    /// 동시 요청 테스트에서 여러 로딩 스레드가 동시에 append하므로 락으로 보호한다.
+    private static let lock = NSLock()
+    nonisolated(unsafe) private static var _capturedRequests: [URLRequest] = []
+
+    static var capturedRequests: [URLRequest] {
+        get { lock.withLock { _capturedRequests } }
+        set { lock.withLock { _capturedRequests = newValue } }
+    }
 
     override class func canInit(with request: URLRequest) -> Bool {
         true
@@ -21,7 +29,7 @@ final class MockURLProtocol: URLProtocol, @unchecked Sendable {
     }
 
     override func startLoading() {
-        Self.capturedRequests.append(request)
+        Self.lock.withLock { Self._capturedRequests.append(request) }
 
         guard let handler = Self.requestHandler else {
             client?.urlProtocolDidFinishLoading(self)

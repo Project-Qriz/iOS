@@ -48,11 +48,10 @@
       }
     },
     {
-      "enabled" : false,
       "target" : {
-        "containerPath" : "container:Modules\/Core\/Network",
-        "identifier" : "NetworkTests",
-        "name" : "NetworkTests"
+        "containerPath" : "container:Modules\/Core\/QRIZNetwork",
+        "identifier" : "QRIZNetworkTests",
+        "name" : "QRIZNetworkTests"
       }
     },
     {

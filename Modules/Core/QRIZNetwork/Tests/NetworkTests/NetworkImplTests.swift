@@ -298,6 +298,59 @@ struct NetworkImplTests {
         #expect(mockNotifier.notifiedEvents == [.expired])
     }
 
+    // MARK: - 동시 401
+
+    @Test("동시에 여러 요청이 401을 받으면 갱신은 1회만 하고 모든 요청이 재시도된다")
+    func concurrent401SharesSingleRefresh() async throws {
+        let sut = makeSUT()
+        mockKeychain.storage["accessToken"] = "old-token"
+        mockKeychain.storage["refreshToken"] = "valid-refresh"
+
+        let expiredJson = #"{"code": 401, "msg": "만료", "reason": null, "detailCode": 3}"#.data(using: .utf8)!
+        let refreshJson = #"{"code": 200, "msg": "ok", "reason": null, "detailCode": null, "data": {"rotated": false, "refreshExpiry": null, "refreshToken": null}}"#.data(using: .utf8)!
+        let retriedJson = #"{"message": "retried"}"#.data(using: .utf8)!
+
+        MockURLProtocol.requestHandler = { request in
+            if request.url?.path.contains("token/refresh") == true {
+                // 갱신이 진행되는 동안 나머지 요청의 401이 도착하도록 갱신 응답을 늦춘다
+                Thread.sleep(forTimeInterval: 0.3)
+                return self.makeResponse(
+                    url: request.url!,
+                    statusCode: 200,
+                    headers: ["Authorization": "refreshed-token"],
+                    body: refreshJson
+                )
+            }
+            if request.value(forHTTPHeaderField: "Authorization") == "refreshed-token" {
+                return self.makeResponse(statusCode: 200, body: retriedJson)
+            }
+            return self.makeResponse(statusCode: 401, body: expiredJson)
+        }
+
+        let concurrentCount = 3
+        let successCount = await withTaskGroup(of: Bool.self) { group in
+            for _ in 0..<concurrentCount {
+                group.addTask {
+                    let response = try? await sut.send(AuthenticatedTestRequest())
+                    return response?.message == "retried"
+                }
+            }
+            return await group.reduce(0) { $0 + ($1 ? 1 : 0) }
+        }
+
+        // 후속 요청도 갱신 완료를 기다린 뒤 재시도에 성공해야 한다
+        #expect(successCount == concurrentCount)
+
+        // 갱신 API는 한 번만 호출되어야 한다
+        let refreshCalls = MockURLProtocol.capturedRequests.filter {
+            $0.url?.path.contains("token/refresh") == true
+        }
+        #expect(refreshCalls.count == 1)
+
+        // 갱신이 성공했으므로 세션 만료 알림은 없어야 한다
+        #expect(mockNotifier.notifiedEvents.isEmpty)
+    }
+
     @Test("refreshToken이 없으면 갱신 시도 시 바로 에러")
     func noRefreshTokenAvailable() async throws {
         let sut = makeSUT()
