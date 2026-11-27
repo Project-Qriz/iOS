@@ -74,7 +74,9 @@ final class ExistingUserTermsUpdateViewModel: ObservableObject {
 
     // MARK: - Private
 
-    private func loadTerms() async {
+    /// - Returns: 조회 성공 여부
+    @discardableResult
+    private func loadTerms() async -> Bool {
         do {
             let response = try await termsService.fetchTerms()
             allTerms = response.data
@@ -89,9 +91,11 @@ final class ExistingUserTermsUpdateViewModel: ObservableObject {
                 )
             }
             updateSubmitState()
+            return true
         } catch {
             errorAlert = ErrorAlert(title: "약관을 불러오지 못했습니다.", description: "잠시 후 다시 시도해 주세요.")
             logger.error("fetchTerms 실패: \(String(describing: error), privacy: .public)")
+            return false
         }
     }
 
@@ -117,9 +121,23 @@ final class ExistingUserTermsUpdateViewModel: ObservableObject {
                 agreedTermIds: agreedTermIds
             )
             onComplete()
+        } catch NetworkError.clientError(httpStatus: 400, _, _, _, _) {
+            // 팝업을 띄워둔 사이 약관이 개정되어 보유한 id가 구버전이 된 경우.
+            logger.error("submitConsents 400 — 약관 목록을 재조회합니다.")
+            await refreshTermsAfterRevision()
         } catch {
             errorAlert = ErrorAlert(title: "제출에 실패했습니다.", description: "잠시 후 다시 시도해 주세요.")
             logger.error("submitConsents 실패: \(String(describing: error), privacy: .public)")
         }
+    }
+
+    /// 최신 약관 목록으로 갱신하고, 바뀐 처리방침을 다시 확인하도록 개인정보 동의만 해제한다.
+    /// 연령확인은 약관 버전과 무관하므로 유지한다.
+    private func refreshTermsAfterRevision() async {
+        privacyAgreed = false
+        updateSubmitState()
+        // 재조회 실패 시에는 loadTerms가 띄운 알림을 그대로 둔다.
+        guard await loadTerms() else { return }
+        errorAlert = ErrorAlert(title: "약관이 업데이트되었습니다.", description: "변경된 내용을 확인한 뒤 다시 동의해 주세요.")
     }
 }
