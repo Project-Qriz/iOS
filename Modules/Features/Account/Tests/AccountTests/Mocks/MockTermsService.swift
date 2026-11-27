@@ -15,8 +15,10 @@ final class MockTermsService: TermsService, @unchecked Sendable {
     )
 
     var fetchTermsResult: Result<TermsResponse, Error> = MockTermsService.defaultResult
+    private(set) var fetchTermsCallCount = 0
 
     func fetchTerms() async throws -> TermsResponse {
-        try fetchTermsResult.get()
+        fetchTermsCallCount += 1
+        return try fetchTermsResult.get()
     }
 }

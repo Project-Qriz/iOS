@@ -112,6 +112,64 @@ struct ExistingUserTermsUpdateViewModelTests {
         #expect(completed == true)
     }
 
+    @Test("제출이 400으로 실패하면 약관을 재조회하고, 재제출 시 새 약관 id로 보낸다")
+    func submitBadRequestRefetchesTerms() async throws {
+        let termsService = MockTermsService()
+        let consentsService = MockConsentsService()
+        consentsService.submitResult = .failure(Self.badRequest)
+        let sut = makeSUT(termsService: termsService, consentsService: consentsService)
+        sut.onAppear()
+        try await Task.sleep(nanoseconds: 100_000_000)
+        sut.toggleAge()
+        sut.togglePrivacy()
+
+        // 팝업을 띄워둔 사이 처리방침이 개정되어 id가 2 → 3으로 바뀐 상황
+        termsService.fetchTermsResult = .success(TermsResponse(code: 1, msg: "ok", data: [
+            TermsListItem(id: 1, type: .service, documentUrl: nil),
+            TermsListItem(id: 3, type: .privacy, documentUrl: "https://example.com/privacy-v1.1")
+        ]))
+        sut.submitTapped()
+        try await Task.sleep(nanoseconds: 100_000_000)
+
+        #expect(termsService.fetchTermsCallCount == 2)
+        #expect(sut.privacyTerm?.kind == .term(id: 3))
+        #expect(sut.errorAlert != nil)
+        // 바뀐 처리방침을 다시 확인하도록 개인정보 동의만 해제하고, 연령확인은 유지한다.
+        #expect(sut.privacyAgreed == false)
+        #expect(sut.ageConfirmed == true)
+        #expect(sut.isSubmitEnabled == false)
+
+        consentsService.submitResult = MockConsentsService().submitResult
+        sut.togglePrivacy()
+        sut.submitTapped()
+        try await Task.sleep(nanoseconds: 100_000_000)
+
+        #expect(consentsService.lastAgreedTermIds == [1, 3])
+    }
+
+    @Test("제출이 400이 아닌 에러로 실패하면 약관을 재조회하지 않는다")
+    func submitServerErrorDoesNotRefetch() async throws {
+        let termsService = MockTermsService()
+        let consentsService = MockConsentsService()
+        consentsService.submitResult = .failure(NetworkError.serverError(httpStatus: 500))
+        let sut = makeSUT(termsService: termsService, consentsService: consentsService)
+        sut.onAppear()
+        try await Task.sleep(nanoseconds: 100_000_000)
+        sut.toggleAge()
+        sut.togglePrivacy()
+
+        sut.submitTapped()
+        try await Task.sleep(nanoseconds: 100_000_000)
+
+        #expect(termsService.fetchTermsCallCount == 1)
+        #expect(sut.privacyAgreed == true)
+        #expect(sut.errorAlert != nil)
+    }
+
+    private static let badRequest = NetworkError.clientError(
+        httpStatus: 400, serverCode: -1, message: "유효하지 않은 약관입니다.", reason: nil, detailCode: nil
+    )
+
     @Test("액세스 토큰이 없으면 제출하지 않고 errorAlert를 표시한다")
     func submitWithoutAccessTokenShowsErrorAlert() async throws {
         let consentsService = MockConsentsService()
